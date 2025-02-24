@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { validateSignupInput } from "../validators/ValidateSignupInput";
-import { supabase } from "@/lib/supabase";
+import { SignupController } from "../controllers/SignupController";
 
 export const SignupForm = () => {
   const [email, setEmail] = useState("");
@@ -29,12 +29,16 @@ export const SignupForm = () => {
         return;
       }
 
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-      });
+      const result = await SignupController.handleSignup({ email, password });
 
-      if (error) throw error;
+      if (!result.success) {
+        toast({
+          variant: "destructive",
+          title: "Hata",
+          description: result.error,
+        });
+        return;
+      }
 
       toast({
         title: "Başarılı",

@@ -1,113 +1,75 @@
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { supabase } from "@/lib/supabase";
-import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
-
-const loginSchema = z.object({
-  email: z.string().email("Geçerli bir e-posta adresi giriniz"),
-  password: z.string().min(6, "Şifre en az 6 karakter olmalıdır"),
-});
-
-type LoginFormValues = z.infer<typeof loginSchema>;
+import { LoginController } from "../controllers/LoginController";
 
 export const LoginForm = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const form = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  const onSubmit = async (values: LoginFormValues) => {
-    setIsLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email: values.email,
-        password: values.password,
-      });
+      setLoading(true);
 
-      if (error) {
-        throw error;
+      const result = await LoginController.handleLogin({ email, password });
+
+      if (!result.success) {
+        toast({
+          variant: "destructive",
+          title: "Hata",
+          description: result.error,
+        });
+        return;
       }
 
       toast({
-        title: "Giriş Başarılı",
-        description: "Hoş geldiniz!",
+        title: "Başarılı",
+        description: "Giriş başarılı. Yönlendiriliyorsunuz...",
       });
-      navigate("/");
+
+      setTimeout(() => navigate("/"), 2000);
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "Giriş Başarısız",
-        description: "E-posta veya şifre hatalı",
+        title: "Hata",
+        description: error instanceof Error ? error.message : "Giriş işlemi sırasında bir hata oluştu.",
       });
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>E-posta</FormLabel>
-              <FormControl>
-                <Input
-                  type="email"
-                  placeholder="ornek@email.com"
-                  {...field}
-                  disabled={isLoading}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+    <form onSubmit={handleSubmit} className="mx-auto space-y-6">
+      <div className="space-y-4">
+        <Input
+          type="email"
+          placeholder="E-posta"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="w-full"
+          disabled={loading}
         />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Şifre</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  placeholder="******"
-                  {...field}
-                  disabled={isLoading}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+        <Input
+          type="password"
+          placeholder="Şifre"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-full"
+          disabled={loading}
         />
-        <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? "Giriş yapılıyor..." : "Giriş Yap"}
-        </Button>
-      </form>
-    </Form>
+      </div>
+      <Button type="submit" className="w-full" disabled={loading}>
+        {loading ? "Giriş yapılıyor..." : "Giriş Yap"}
+      </Button>
+    </form>
   );
 };

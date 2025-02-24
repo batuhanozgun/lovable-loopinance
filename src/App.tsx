@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { SignUp } from "@/modules/UserManagement/Signup/views/SignupView";
 import { Login } from "@/modules/UserManagement/Login/views/LoginView";
 import { useState, useEffect } from "react";
-import { supabase } from "./lib/supabase";
+import { AuthService } from "@/modules/UserManagement/common/services/AuthService";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
@@ -15,9 +15,10 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event, session) => {
-      setIsAuthenticated(!!session);
-    });
+    const subscription = AuthService.onAuthStateChange(setIsAuthenticated);
+    return () => {
+      subscription.data?.subscription.unsubscribe();
+    };
   }, []);
 
   if (isAuthenticated === null) {
