@@ -1,23 +1,21 @@
 
 import { useState } from "react";
-import { useSignUp } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { validateSignupInput } from "../validators/ValidateSignupInput";
+import { supabase } from "@/lib/supabase";
 
 export const SignupForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { isLoaded, signUp } = useSignUp();
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isLoaded) return;
 
     try {
       setLoading(true);
@@ -31,10 +29,12 @@ export const SignupForm = () => {
         return;
       }
 
-      await signUp.create({
-        emailAddress: email,
+      const { error } = await supabase.auth.signUp({
+        email,
         password,
       });
+
+      if (error) throw error;
 
       toast({
         title: "Başarılı",
@@ -46,7 +46,7 @@ export const SignupForm = () => {
       toast({
         variant: "destructive",
         title: "Hata",
-        description: "Kayıt işlemi sırasında bir hata oluştu.",
+        description: error instanceof Error ? error.message : "Kayıt işlemi sırasında bir hata oluştu.",
       });
     } finally {
       setLoading(false);
