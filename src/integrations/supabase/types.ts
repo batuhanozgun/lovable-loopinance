@@ -9,41 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      categories: {
-        Row: {
-          createdAt: string
-          description: string | null
-          id: string
-          name: string
-          updatedAt: string
-          userId: string
-        }
-        Insert: {
-          createdAt?: string
-          description?: string | null
-          id?: string
-          name: string
-          updatedAt?: string
-          userId: string
-        }
-        Update: {
-          createdAt?: string
-          description?: string | null
-          id?: string
-          name?: string
-          updatedAt?: string
-          userId?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "categories_user_id_fkey"
-            columns: ["userId"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       profiles: {
         Row: {
           avatarUrl: string | null
@@ -68,68 +33,6 @@ export type Database = {
           id?: string
           lastName?: string | null
           updatedAt?: string
-        }
-        Relationships: []
-      }
-      subcategories: {
-        Row: {
-          categoryId: string
-          createdAt: string
-          description: string | null
-          id: string
-          name: string
-          updatedAt: string
-        }
-        Insert: {
-          categoryId: string
-          createdAt?: string
-          description?: string | null
-          id?: string
-          name: string
-          updatedAt?: string
-        }
-        Update: {
-          categoryId?: string
-          createdAt?: string
-          description?: string | null
-          id?: string
-          name?: string
-          updatedAt?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "subcategories_category_id_fkey"
-            columns: ["categoryId"]
-            isOneToOne: false
-            referencedRelation: "categories"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      user_registrations: {
-        Row: {
-          created_at: string
-          email: string
-          id: string
-          name: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          email: string
-          id?: string
-          name: string
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          email?: string
-          id?: string
-          name?: string
-          updated_at?: string
-          user_id?: string
         }
         Relationships: []
       }
