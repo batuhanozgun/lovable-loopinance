@@ -3,6 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { SignUp } from "@/modules/UserManagement/Signup/views/SignupView";
+import { Login } from "@/modules/UserManagement/Login/views/LoginView";
 import { useState, useEffect } from "react";
 import { supabase } from "./lib/supabase";
 import Index from "./pages/Index";
@@ -38,7 +39,7 @@ const App = () => {
           />
           <Route
             path="/login"
-            element={!isAuthenticated ? <SignUp /> : <Navigate to="/" />}
+            element={!isAuthenticated ? <Login /> : <Navigate to="/" />}
           />
           <Route path="*" element={<NotFound />} />
         </Routes>
