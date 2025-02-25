@@ -15,15 +15,6 @@ export class SignupController {
         };
       }
 
-      const existingUserResult = await SignupService.checkExistingUser(formData.email);
-      
-      if (existingUserResult.exists) {
-        return {
-          success: false,
-          error: "Bu e-posta adresi ile daha önce kayıt olunmuş / This email is already registered",
-        };
-      }
-
       const signupResult = await SignupService.signUp(
         formData.email,
         formData.password,

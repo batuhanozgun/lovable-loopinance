@@ -1,27 +1,10 @@
 
 import { supabase } from "@/integrations/supabase/client";
-import { User } from "@supabase/supabase-js";
+import { LoggerService } from "@/modules/Logging/services/LoggerService";
+
+const logger = LoggerService.getInstance();
 
 export class SignupService {
-  static async checkExistingUser(email: string) {
-    const { data, error } = await supabase.auth.admin.listUsers({
-      page: 1,
-      perPage: 1000 // We'll get all users and filter on our side since the API doesn't support direct filtering
-    });
-
-    if (error) {
-      console.error("Error checking existing user:", error);
-      throw error;
-    }
-
-    // Filter users by email on the client side
-    const userExists = data.users.some((user: User) => user.email === email);
-
-    return {
-      exists: userExists,
-    };
-  }
-
   static async signUp(email: string, password: string, firstName: string, lastName: string) {
     try {
       const { data, error } = await supabase.auth.signUp({
@@ -36,7 +19,16 @@ export class SignupService {
       });
 
       if (error) {
-        console.error("Signup error:", error);
+        logger.error("Signup error:", error);
+        
+        // Email already registered error
+        if (error.message?.toLowerCase().includes('email already registered')) {
+          return {
+            success: false,
+            error: "Bu e-posta adresi ile daha önce kayıt olunmuş / This email is already registered",
+          };
+        }
+
         return {
           success: false,
           error: error.message,
@@ -48,7 +40,7 @@ export class SignupService {
         user: data.user,
       };
     } catch (error) {
-      console.error("SignupService error:", error);
+      logger.error("SignupService error:", error);
       return {
         success: false,
         error: "Servis hatası / Service error",
@@ -56,4 +48,3 @@ export class SignupService {
     }
   }
 }
-
