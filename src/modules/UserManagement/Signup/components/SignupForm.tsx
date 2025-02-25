@@ -1,9 +1,10 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { validateSignupInput } from "../validators/ValidateSignupInput";
 import { SignupController } from "../controllers/SignupController";
 
@@ -15,6 +16,7 @@ export const SignupForm = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,7 +27,7 @@ export const SignupForm = () => {
       if (!validationResult.success) {
         toast({
           variant: "destructive",
-          title: "Hata",
+          title: t("common.error"),
           description: validationResult.error.message,
         });
         return;
@@ -37,25 +39,24 @@ export const SignupForm = () => {
         console.error("Signup failed:", result.error);
         toast({
           variant: "destructive",
-          title: "Kayıt Başarısız",
+          title: t("auth.signup.failed"),
           description: result.error,
         });
         return;
       }
 
       toast({
-        title: "Başarılı",
-        description: "Hesabınız oluşturuldu ve e-posta doğrulaması gönderildi.",
+        title: t("common.success"),
+        description: t("auth.signup.success"),
       });
 
-      // Kullanıcıyı login sayfasına yönlendir
       setTimeout(() => navigate("/login"), 2000);
     } catch (error) {
       console.error("Signup error:", error);
       toast({
         variant: "destructive",
-        title: "Hata",
-        description: error instanceof Error ? error.message : "Kayıt işlemi sırasında bir hata oluştu.",
+        title: t("common.error"),
+        description: error instanceof Error ? error.message : t("errors.signupFailed"),
       });
     } finally {
       setLoading(false);
@@ -67,7 +68,7 @@ export const SignupForm = () => {
       <div className="space-y-2">
         <Input
           type="text"
-          placeholder="Ad"
+          placeholder={t("auth.signup.firstName")}
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
           className="w-full"
@@ -77,7 +78,7 @@ export const SignupForm = () => {
       <div className="space-y-2">
         <Input
           type="text"
-          placeholder="Soyad"
+          placeholder={t("auth.signup.lastName")}
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
           className="w-full"
@@ -87,7 +88,7 @@ export const SignupForm = () => {
       <div className="space-y-2">
         <Input
           type="email"
-          placeholder="E-posta"
+          placeholder={t("auth.signup.email")}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="w-full"
@@ -97,7 +98,7 @@ export const SignupForm = () => {
       <div className="space-y-2">
         <Input
           type="password"
-          placeholder="Şifre"
+          placeholder={t("auth.signup.password")}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="w-full"
@@ -105,7 +106,7 @@ export const SignupForm = () => {
         />
       </div>
       <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? "Kaydediliyor..." : "Kayıt Ol"}
+        {loading ? t("auth.signup.loading") : t("auth.signup.submit")}
       </Button>
     </form>
   );

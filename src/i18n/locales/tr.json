@@ -16,10 +16,14 @@
       "subtitle": "E-posta ve şifrenizle hesap oluşturun",
       "email": "E-posta",
       "password": "Şifre",
+      "firstName": "Ad",
+      "lastName": "Soyad",
       "submit": "Kayıt Ol",
       "loading": "Kaydediliyor...",
       "haveAccount": "Zaten hesabınız var mı?",
-      "login": "Giriş yapın"
+      "login": "Giriş yapın",
+      "failed": "Kayıt Başarısız",
+      "success": "Hesabınız başarıyla oluşturuldu. Giriş sayfasına yönlendiriliyorsunuz."
     }
   },
   "common": {
