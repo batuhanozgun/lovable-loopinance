@@ -1,0 +1,37 @@
+
+{
+  "auth": {
+    "login": {
+      "title": "Sign in to your account",
+      "subtitle": "Sign in with your email and password",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign In",
+      "loading": "Signing in...",
+      "noAccount": "Don't have an account?",
+      "createAccount": "Create an account"
+    },
+    "signup": {
+      "title": "Create Account",
+      "subtitle": "Create an account with your email and password",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign Up",
+      "loading": "Signing up...",
+      "haveAccount": "Already have an account?",
+      "login": "Sign in"
+    }
+  },
+  "common": {
+    "error": "Error",
+    "success": "Success",
+    "brandName": "Loopinance",
+    "welcome": "Welcome to Loopinance",
+    "description": "Simplify your financial tracking",
+    "logout": "Sign Out"
+  },
+  "errors": {
+    "loginFailed": "An error occurred during login.",
+    "signupFailed": "An error occurred during signup."
+  }
+}

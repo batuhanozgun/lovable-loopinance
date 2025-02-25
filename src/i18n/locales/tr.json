@@ -1,0 +1,37 @@
+
+{
+  "auth": {
+    "login": {
+      "title": "Hesabınıza giriş yapın",
+      "subtitle": "E-posta ve şifrenizle giriş yapın",
+      "email": "E-posta",
+      "password": "Şifre",
+      "submit": "Giriş Yap",
+      "loading": "Giriş yapılıyor...",
+      "noAccount": "Hesabınız yok mu?",
+      "createAccount": "Hesap oluşturun"
+    },
+    "signup": {
+      "title": "Hesap Oluştur",
+      "subtitle": "E-posta ve şifrenizle hesap oluşturun",
+      "email": "E-posta",
+      "password": "Şifre",
+      "submit": "Kayıt Ol",
+      "loading": "Kaydediliyor...",
+      "haveAccount": "Zaten hesabınız var mı?",
+      "login": "Giriş yapın"
+    }
+  },
+  "common": {
+    "error": "Hata",
+    "success": "Başarılı",
+    "brandName": "Loopinance",
+    "welcome": "Loopinance'e Hoş Geldiniz",
+    "description": "Finansal takibinizi kolaylaştırın",
+    "logout": "Çıkış Yap"
+  },
+  "errors": {
+    "loginFailed": "Giriş işlemi sırasında bir hata oluştu.",
+    "signupFailed": "Kayıt işlemi sırasında bir hata oluştu."
+  }
+}

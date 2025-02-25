@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { AuthService } from "@/modules/UserManagement/common/services/AuthService";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import "@/i18n/config";
 
 const queryClient = new QueryClient();
 
