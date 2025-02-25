@@ -5,7 +5,14 @@ export class SignupService {
   static async signUp(email: string, password: string, firstName: string, lastName: string) {
     try {
       // Önce kullanıcının var olup olmadığını kontrol edelim
-      const { data: existingUser } = await supabase.auth.admin.getUserByEmail(email);
+      const { data: users, error: usersError } = await supabase.auth.admin.listUsers();
+      
+      if (usersError) {
+        console.error("User list error:", usersError);
+        throw usersError;
+      }
+
+      const existingUser = users?.users?.find(user => user.email === email);
       
       if (existingUser) {
         return {
