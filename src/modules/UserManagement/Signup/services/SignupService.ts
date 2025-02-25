@@ -3,19 +3,21 @@ import { supabase } from "@/integrations/supabase/client";
 
 export class SignupService {
   static async checkExistingUser(email: string) {
-    const { data: users, error } = await supabase
-      .from("profiles")
-      .select("id")
-      .eq("email", email)
-      .single();
+    const { data, error } = await supabase.auth.admin.listUsers({
+      page: 1,
+      perPage: 1,
+      filters: {
+        email: email
+      }
+    });
 
-    if (error && error.code !== "PGRST116") {
+    if (error) {
       console.error("Error checking existing user:", error);
       throw error;
     }
 
     return {
-      exists: !!users,
+      exists: data.users.length > 0,
     };
   }
 
@@ -53,3 +55,4 @@ export class SignupService {
     }
   }
 }
+
