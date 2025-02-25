@@ -26,6 +26,7 @@ export class SignupController {
         user: data.user,
       };
     } catch (error) {
+      console.error("SignupController error:", error);
       return {
         success: false,
         error: error instanceof Error ? error.message : "Kayıt işlemi sırasında bir hata oluştu.",
