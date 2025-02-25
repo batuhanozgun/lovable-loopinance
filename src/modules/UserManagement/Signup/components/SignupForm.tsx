@@ -20,43 +20,48 @@ export const SignupForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
-      setLoading(true);
       const validationResult = validateSignupInput({ email, password, firstName, lastName });
+      
       if (!validationResult.success) {
         toast({
           variant: "destructive",
           title: t("common.error"),
           description: validationResult.error.message,
+          className: "bg-red-500",
         });
+        setLoading(false);
         return;
       }
 
       const result = await SignupController.handleSignup({ email, password, firstName, lastName });
 
       if (!result.success) {
-        console.error("Signup failed:", result.error);
         toast({
           variant: "destructive",
           title: t("auth.signup.failed"),
           description: result.error,
+          className: "bg-red-500",
         });
+        setLoading(false);
         return;
       }
 
       toast({
         title: t("common.success"),
         description: t("auth.signup.success"),
+        className: "bg-green-500 text-white",
       });
 
       setTimeout(() => navigate("/login"), 2000);
     } catch (error) {
-      console.error("Signup error:", error);
       toast({
         variant: "destructive",
         title: t("common.error"),
         description: error instanceof Error ? error.message : t("errors.signupFailed"),
+        className: "bg-red-500",
       });
     } finally {
       setLoading(false);
@@ -64,7 +69,7 @@ export const SignupForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-sm">
+    <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-sm mx-auto">
       <div className="space-y-2">
         <Input
           type="text"
@@ -105,7 +110,11 @@ export const SignupForm = () => {
           disabled={loading}
         />
       </div>
-      <Button type="submit" className="w-full" disabled={loading}>
+      <Button 
+        type="submit" 
+        className="w-full bg-primary hover:bg-primary/90" 
+        disabled={loading}
+      >
         {loading ? t("auth.signup.loading") : t("auth.signup.submit")}
       </Button>
     </form>
