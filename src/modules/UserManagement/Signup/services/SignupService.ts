@@ -24,8 +24,8 @@ export class SignupService {
       if (error) {
         logger.error("Signup failed", error, { email });
         
-        // Email already registered error - Supabase spesifik hata kontrolü
-        if (error.message?.toLowerCase().includes('user already registered')) {
+        // "User already registered" veya "Email already registered" kontrolü
+        if (error.message?.toLowerCase().includes('already registered')) {
           return {
             success: false,
             error: i18next.t("auth.signup.validation.emailExists"),
@@ -36,6 +36,15 @@ export class SignupService {
         return {
           success: false,
           error: i18next.t("errors.signupFailed"),
+        };
+      }
+
+      // Sign up başarılı oldu ama user null ise, bu da bir email already exists durumu olabilir
+      if (!data.user) {
+        logger.warn("Sign up succeeded but no user returned - possible existing email", { email });
+        return {
+          success: false,
+          error: i18next.t("auth.signup.validation.emailExists"),
         };
       }
 
@@ -53,4 +62,3 @@ export class SignupService {
     }
   }
 }
-
