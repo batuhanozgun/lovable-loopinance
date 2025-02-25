@@ -1,5 +1,6 @@
 
 import { supabase } from "@/integrations/supabase/client";
+import { User } from "@supabase/supabase-js";
 
 export class SignupService {
   static async checkExistingUser(email: string) {
@@ -14,7 +15,7 @@ export class SignupService {
     }
 
     // Filter users by email on the client side
-    const userExists = data.users.some(user => user.email === email);
+    const userExists = data.users.some((user: User) => user.email === email);
 
     return {
       exists: userExists,
@@ -55,3 +56,4 @@ export class SignupService {
     }
   }
 }
+
