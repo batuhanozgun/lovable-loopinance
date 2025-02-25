@@ -3,9 +3,9 @@ import { SignupService } from "../services/SignupService";
 import { ISignupForm } from "../interfaces/ISignupForm";
 
 export class SignupController {
-  static async handleSignup({ email, password }: ISignupForm) {
+  static async handleSignup({ email, password, firstName, lastName }: ISignupForm) {
     try {
-      const { data, error } = await SignupService.signUp(email, password);
+      const { data, error } = await SignupService.signUp(email, password, firstName, lastName);
       
       if (error) {
         return {

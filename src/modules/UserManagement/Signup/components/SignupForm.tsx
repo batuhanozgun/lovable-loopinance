@@ -10,6 +10,8 @@ import { SignupController } from "../controllers/SignupController";
 export const SignupForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -19,7 +21,7 @@ export const SignupForm = () => {
 
     try {
       setLoading(true);
-      const validationResult = validateSignupInput({ email, password });
+      const validationResult = validateSignupInput({ email, password, firstName, lastName });
       if (!validationResult.success) {
         toast({
           variant: "destructive",
@@ -29,7 +31,7 @@ export const SignupForm = () => {
         return;
       }
 
-      const result = await SignupController.handleSignup({ email, password });
+      const result = await SignupController.handleSignup({ email, password, firstName, lastName });
 
       if (!result.success) {
         console.error("Signup failed:", result.error);
@@ -62,6 +64,26 @@ export const SignupForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-sm">
+      <div className="space-y-2">
+        <Input
+          type="text"
+          placeholder="Ad"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          className="w-full"
+          disabled={loading}
+        />
+      </div>
+      <div className="space-y-2">
+        <Input
+          type="text"
+          placeholder="Soyad"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          className="w-full"
+          disabled={loading}
+        />
+      </div>
       <div className="space-y-2">
         <Input
           type="email"

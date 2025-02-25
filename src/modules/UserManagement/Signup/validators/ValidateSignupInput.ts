@@ -2,6 +2,8 @@
 import { z } from "zod";
 
 const signupSchema = z.object({
+  firstName: z.string().min(2, "Ad en az 2 karakter olmalıdır"),
+  lastName: z.string().min(2, "Soyad en az 2 karakter olmalıdır"),
   email: z.string().email("Geçerli bir e-posta adresi giriniz"),
   password: z
     .string()
@@ -11,6 +13,6 @@ const signupSchema = z.object({
     .regex(/[0-9]/, "Şifre en az bir rakam içermelidir"),
 });
 
-export const validateSignupInput = (data: { email: string; password: string }) => {
+export const validateSignupInput = (data: { email: string; password: string; firstName: string; lastName: string }) => {
   return signupSchema.safeParse(data);
 };
