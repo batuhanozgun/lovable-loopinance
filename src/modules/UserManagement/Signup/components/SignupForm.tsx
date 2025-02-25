@@ -32,9 +32,10 @@ export const SignupForm = () => {
       const result = await SignupController.handleSignup({ email, password });
 
       if (!result.success) {
+        console.error("Signup failed:", result.error);
         toast({
           variant: "destructive",
-          title: "Hata",
+          title: "Kayıt Başarısız",
           description: result.error,
         });
         return;
@@ -42,11 +43,13 @@ export const SignupForm = () => {
 
       toast({
         title: "Başarılı",
-        description: "Hesabınız oluşturuldu. Yönlendiriliyorsunuz...",
+        description: "Hesabınız oluşturuldu ve e-posta doğrulaması gönderildi.",
       });
 
-      setTimeout(() => navigate("/"), 2000);
+      // Kullanıcıyı login sayfasına yönlendir
+      setTimeout(() => navigate("/login"), 2000);
     } catch (error) {
+      console.error("Signup error:", error);
       toast({
         variant: "destructive",
         title: "Hata",

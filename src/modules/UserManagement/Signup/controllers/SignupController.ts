@@ -5,8 +5,26 @@ import { ISignupForm } from "../interfaces/ISignupForm";
 export class SignupController {
   static async handleSignup({ email, password }: ISignupForm) {
     try {
-      await SignupService.signUp(email, password);
-      return { success: true };
+      const { data, error } = await SignupService.signUp(email, password);
+      
+      if (error) {
+        return {
+          success: false,
+          error: error.message,
+        };
+      }
+
+      if (!data?.user) {
+        return {
+          success: false,
+          error: "Kullanıcı oluşturulamadı. Lütfen daha sonra tekrar deneyin.",
+        };
+      }
+
+      return {
+        success: true,
+        user: data.user,
+      };
     } catch (error) {
       return {
         success: false,
