@@ -5,10 +5,7 @@ export class SignupService {
   static async checkExistingUser(email: string) {
     const { data, error } = await supabase.auth.admin.listUsers({
       page: 1,
-      perPage: 1,
-      filters: {
-        email: email
-      }
+      perPage: 1000 // We'll get all users and filter on our side since the API doesn't support direct filtering
     });
 
     if (error) {
@@ -16,8 +13,11 @@ export class SignupService {
       throw error;
     }
 
+    // Filter users by email on the client side
+    const userExists = data.users.some(user => user.email === email);
+
     return {
-      exists: data.users.length > 0,
+      exists: userExists,
     };
   }
 
@@ -55,4 +55,3 @@ export class SignupService {
     }
   }
 }
-
