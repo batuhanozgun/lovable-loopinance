@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { validateSignupInput } from "../validators/ValidateSignupInput";
 import { SignupController } from "../controllers/SignupController";
 
 export const SignupForm = () => {
@@ -20,47 +19,34 @@ export const SignupForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
-    try {
-      setLoading(true);
-      const validationResult = validateSignupInput({ email, password, firstName, lastName });
-      if (!validationResult.success) {
-        toast({
-          variant: "destructive",
-          title: t("common.error"),
-          description: validationResult.error.message,
-        });
-        return;
-      }
+    const result = await SignupController.handleSignup({
+      email,
+      password,
+      firstName,
+      lastName,
+    });
 
-      const result = await SignupController.handleSignup({ email, password, firstName, lastName });
-
-      if (!result.success) {
-        console.error("Signup failed:", result.error);
-        toast({
-          variant: "destructive",
-          title: t("auth.signup.failed"),
-          description: result.error,
-        });
-        return;
-      }
-
-      toast({
-        title: t("common.success"),
-        description: t("auth.signup.success"),
-      });
-
-      setTimeout(() => navigate("/login"), 2000);
-    } catch (error) {
-      console.error("Signup error:", error);
+    if (!result.success) {
       toast({
         variant: "destructive",
         title: t("common.error"),
-        description: error instanceof Error ? error.message : t("errors.signupFailed"),
+        description: result.error,
+        duration: 5000,
       });
-    } finally {
       setLoading(false);
+      return;
     }
+
+    toast({
+      title: t("common.success"),
+      description: t("auth.signup.success"),
+      duration: 3000,
+    });
+
+    setTimeout(() => navigate("/login"), 2000);
+    setLoading(false);
   };
 
   return (
@@ -73,6 +59,7 @@ export const SignupForm = () => {
           onChange={(e) => setFirstName(e.target.value)}
           className="w-full"
           disabled={loading}
+          required
         />
       </div>
       <div className="space-y-2">
@@ -83,6 +70,7 @@ export const SignupForm = () => {
           onChange={(e) => setLastName(e.target.value)}
           className="w-full"
           disabled={loading}
+          required
         />
       </div>
       <div className="space-y-2">
@@ -93,6 +81,7 @@ export const SignupForm = () => {
           onChange={(e) => setEmail(e.target.value)}
           className="w-full"
           disabled={loading}
+          required
         />
       </div>
       <div className="space-y-2">
@@ -103,6 +92,7 @@ export const SignupForm = () => {
           onChange={(e) => setPassword(e.target.value)}
           className="w-full"
           disabled={loading}
+          required
         />
       </div>
       <Button type="submit" className="w-full" disabled={loading}>

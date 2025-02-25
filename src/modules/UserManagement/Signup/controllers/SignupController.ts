@@ -4,60 +4,48 @@ import { ISignupForm } from "../interfaces/ISignupForm";
 import { SignupValidator } from "../validators/SignupValidator";
 
 export class SignupController {
-  static async handleSignup({ email, password, firstName, lastName }: ISignupForm) {
+  static async handleSignup(formData: ISignupForm) {
     try {
-      // Önce validasyon yapalım
-      const validationResult = SignupValidator.validateSignupInput({ 
-        email, 
-        password, 
-        firstName, 
-        lastName 
-      });
+      const validationResult = SignupValidator.validateSignupInput(formData);
 
       if (!validationResult.success) {
         return {
           success: false,
-          error: validationResult.error.message,
+          error: validationResult.error.issues[0].message,
         };
       }
 
-      // E-posta kontrolü yapalım
-      const existingUser = await SignupService.checkExistingUser(email);
+      const existingUserResult = await SignupService.checkExistingUser(formData.email);
       
-      if (existingUser) {
+      if (existingUserResult.exists) {
         return {
           success: false,
-          error: "Bu e-posta adresi ile daha önce kayıt olunmuş.",
+          error: "Bu e-posta adresi ile daha önce kayıt olunmuş / This email is already registered",
         };
       }
 
-      // Kullanıcı kaydını yapalım
-      const { data, error } = await SignupService.signUp(email, password, firstName, lastName);
-      
-      if (error) {
-        console.error("Signup error:", error);
-        return {
-          success: false,
-          error: error.message,
-        };
-      }
+      const signupResult = await SignupService.signUp(
+        formData.email,
+        formData.password,
+        formData.firstName,
+        formData.lastName
+      );
 
-      if (!data?.user) {
+      if (!signupResult.success) {
         return {
           success: false,
-          error: "Kullanıcı oluşturulamadı. Lütfen daha sonra tekrar deneyin.",
+          error: signupResult.error || "Kayıt işlemi sırasında bir hata oluştu / An error occurred during signup",
         };
       }
 
       return {
         success: true,
-        user: data.user,
       };
     } catch (error) {
       console.error("SignupController error:", error);
       return {
         success: false,
-        error: error instanceof Error ? error.message : "Kayıt işlemi sırasında bir hata oluştu.",
+        error: "Beklenmeyen bir hata oluştu / An unexpected error occurred",
       };
     }
   }
