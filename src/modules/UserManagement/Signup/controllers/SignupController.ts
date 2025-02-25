@@ -22,16 +22,7 @@ export class SignupController {
         formData.lastName
       );
 
-      if (!signupResult.success) {
-        return {
-          success: false,
-          error: signupResult.error || "Kayıt işlemi sırasında bir hata oluştu / An error occurred during signup",
-        };
-      }
-
-      return {
-        success: true,
-      };
+      return signupResult;
     } catch (error) {
       console.error("SignupController error:", error);
       return {

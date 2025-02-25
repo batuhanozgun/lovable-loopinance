@@ -1,6 +1,7 @@
 
 import { supabase } from "@/integrations/supabase/client";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
+import i18next from "i18next";
 
 const logger = LoggerService.getInstance();
 
@@ -25,13 +26,13 @@ export class SignupService {
         if (error.message?.toLowerCase().includes('email already registered')) {
           return {
             success: false,
-            error: "Bu e-posta adresi ile daha önce kayıt olunmuş / This email is already registered",
+            error: i18next.t("auth.signup.validation.emailExists"),
           };
         }
 
         return {
           success: false,
-          error: error.message,
+          error: i18next.t("errors.signupFailed"),
         };
       }
 
@@ -43,7 +44,7 @@ export class SignupService {
       logger.error("SignupService error:", error);
       return {
         success: false,
-        error: "Servis hatası / Service error",
+        error: i18next.t("errors.signupFailed"),
       };
     }
   }
