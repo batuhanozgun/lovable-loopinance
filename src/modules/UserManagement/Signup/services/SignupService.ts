@@ -21,6 +21,7 @@ export class SignupService {
         },
       });
 
+      // Önce error kontrolü yapalım
       if (error) {
         logger.error("Signup failed", error, { email });
         
@@ -39,16 +40,18 @@ export class SignupService {
         };
       }
 
-      // Sign up başarılı oldu ama user null ise, bu da bir email already exists durumu olabilir
+      // Supabase bazen error dönmese bile data.user null olabiliyor
+      // Bu durumda büyük ihtimalle kullanıcı zaten kayıtlı
       if (!data.user) {
-        logger.warn("Sign up succeeded but no user returned - possible existing email", { email });
+        logger.warn("Sign up failed - no user data returned", { email });
         return {
           success: false,
           error: i18next.t("auth.signup.validation.emailExists"),
         };
       }
 
-      logger.info("User signed up successfully", { userId: data.user?.id });
+      // Eğer buraya kadar geldiyse, gerçekten başarılı bir kayıt olmuştur
+      logger.info("User signed up successfully", { userId: data.user.id });
       return {
         success: true,
         user: data.user,
@@ -62,3 +65,4 @@ export class SignupService {
     }
   }
 }
+
