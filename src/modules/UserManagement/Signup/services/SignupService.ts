@@ -10,6 +10,20 @@ export class SignupService {
     try {
       logger.debug("Attempting to sign up user", { email, firstName, lastName });
 
+      const { data: existingUser } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('id', email)
+        .single();
+
+      if (existingUser) {
+        logger.warn("Signup attempt for existing user", { email });
+        return {
+          success: false,
+          error: i18next.t("auth.signup.validation.emailExists"),
+        };
+      }
+
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -21,11 +35,15 @@ export class SignupService {
         },
       });
 
-      // Önce error kontrolü yapalım
+      logger.debug("Supabase signup response received", { 
+        hasError: !!error, 
+        hasUser: !!data?.user,
+        errorMessage: error?.message
+      });
+
       if (error) {
-        logger.error("Signup failed", error, { email });
+        logger.error("Signup error from Supabase", error, { email });
         
-        // "User already registered" veya "Email already registered" kontrolü
         if (error.message?.toLowerCase().includes('already registered')) {
           return {
             success: false,
@@ -33,25 +51,33 @@ export class SignupService {
           };
         }
 
-        // Diğer hata durumları için genel mesaj
         return {
           success: false,
           error: i18next.t("errors.signupFailed"),
         };
       }
 
-      // Supabase bazen error dönmese bile data.user null olabiliyor
-      // Bu durumda büyük ihtimalle kullanıcı zaten kayıtlı
       if (!data.user) {
-        logger.warn("Sign up failed - no user data returned", { email });
+        logger.warn("Signup failed - no user returned from Supabase", { email });
         return {
           success: false,
           error: i18next.t("auth.signup.validation.emailExists"),
         };
       }
 
-      // Eğer buraya kadar geldiyse, gerçekten başarılı bir kayıt olmuştur
-      logger.info("User signed up successfully", { userId: data.user.id });
+      if (data.user.identities?.length === 0) {
+        logger.warn("Signup failed - user exists (identities check)", { email });
+        return {
+          success: false,
+          error: i18next.t("auth.signup.validation.emailExists"),
+        };
+      }
+
+      logger.info("User signup successful", { 
+        userId: data.user.id,
+        email: data.user.email 
+      });
+
       return {
         success: true,
         user: data.user,
@@ -65,4 +91,3 @@ export class SignupService {
     }
   }
 }
-
