@@ -23,7 +23,17 @@
       "haveAccount": "Already have an account?",
       "login": "Sign in",
       "failed": "Sign Up Failed",
-      "success": "Your account has been created successfully. Redirecting to login page."
+      "success": "Your account has been created successfully. Redirecting to login page.",
+      "validation": {
+        "firstNameMin": "First name must be at least 2 characters",
+        "lastNameMin": "Last name must be at least 2 characters",
+        "emailInvalid": "Please enter a valid email address",
+        "passwordMin": "Password must be at least 8 characters",
+        "passwordUppercase": "Password must contain at least one uppercase letter",
+        "passwordLowercase": "Password must contain at least one lowercase letter",
+        "passwordNumber": "Password must contain at least one number",
+        "emailExists": "This email is already registered"
+      }
     }
   },
   "common": {
@@ -39,3 +49,4 @@
     "signupFailed": "An error occurred during signup."
   }
 }
+
