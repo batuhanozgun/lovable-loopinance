@@ -50,24 +50,30 @@ export const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto space-y-6">
+    <form onSubmit={handleSubmit} className="mx-auto w-full max-w-sm space-y-6">
       <div className="space-y-4">
-        <Input
-          type="email"
-          placeholder={t("auth:login.email")}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full"
-          disabled={loading}
-        />
-        <Input
-          type="password"
-          placeholder={t("auth:login.password")}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full"
-          disabled={loading}
-        />
+        <div className="space-y-2">
+          <Input
+            type="email"
+            placeholder={t("auth:login.email")}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full"
+            disabled={loading}
+            required
+          />
+        </div>
+        <div className="space-y-2">
+          <Input
+            type="password"
+            placeholder={t("auth:login.password")}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full"
+            disabled={loading}
+            required
+          />
+        </div>
       </div>
       <Button type="submit" className="w-full" disabled={loading}>
         {loading ? t("auth:login.loading") : t("auth:login.submit")}

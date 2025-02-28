@@ -63,61 +63,71 @@ export const SignUp = () => {
   };
   
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-sm mx-auto space-y-6">
+      <div className="space-y-4">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Input
+              id="firstName"
+              placeholder={t("auth:signup.firstName")}
+              {...register("firstName")}
+              className="w-full"
+              disabled={loading}
+            />
+            {errors.firstName && (
+              <p className="text-sm text-destructive">
+                {errors.firstName.message?.toString() || t("errors:fieldRequired")}
+              </p>
+            )}
+          </div>
+          
+          <div className="space-y-2">
+            <Input
+              id="lastName"
+              placeholder={t("auth:signup.lastName")}
+              {...register("lastName")}
+              className="w-full"
+              disabled={loading}
+            />
+            {errors.lastName && (
+              <p className="text-sm text-destructive">
+                {errors.lastName.message?.toString() || t("errors:fieldRequired")}
+              </p>
+            )}
+          </div>
+        </div>
+        
         <div className="space-y-2">
           <Input
-            id="firstName"
-            placeholder={t("auth:signup.firstName")}
-            {...register("firstName")}
+            id="email"
+            type="email"
+            placeholder={t("auth:signup.email")}
+            {...register("email")}
+            className="w-full"
+            disabled={loading}
           />
-          {errors.firstName && (
+          {errors.email && (
             <p className="text-sm text-destructive">
-              {errors.firstName.message?.toString() || t("errors:fieldRequired")}
+              {errors.email.message?.toString() || t("errors:invalidEmail")}
             </p>
           )}
         </div>
         
         <div className="space-y-2">
           <Input
-            id="lastName"
-            placeholder={t("auth:signup.lastName")}
-            {...register("lastName")}
+            id="password"
+            type="password"
+            placeholder={t("auth:signup.password")}
+            {...register("password")}
+            className="w-full"
+            disabled={loading}
           />
-          {errors.lastName && (
+          {errors.password && (
             <p className="text-sm text-destructive">
-              {errors.lastName.message?.toString() || t("errors:fieldRequired")}
+              {errors.password.message?.toString() || t("errors:passwordTooShort")}
             </p>
           )}
         </div>
-      </div>
-      
-      <div className="space-y-2">
-        <Input
-          id="email"
-          type="email"
-          placeholder={t("auth:signup.email")}
-          {...register("email")}
-        />
-        {errors.email && (
-          <p className="text-sm text-destructive">
-            {errors.email.message?.toString() || t("errors:invalidEmail")}
-          </p>
-        )}
-      </div>
-      
-      <div className="space-y-2">
-        <Input
-          id="password"
-          type="password"
-          placeholder={t("auth:signup.password")}
-          {...register("password")}
-        />
-        {errors.password && (
-          <p className="text-sm text-destructive">
-            {errors.password.message?.toString() || t("errors:passwordTooShort")}
-          </p>
-        )}
       </div>
       
       <Button type="submit" className="w-full" disabled={loading}>
