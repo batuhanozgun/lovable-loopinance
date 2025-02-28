@@ -21,6 +21,14 @@ import enUserManagementErrors from "./locales/en/modules/UserManagement/errors.j
 import trUserManagementAuth from "./locales/tr/modules/UserManagement/auth.json";
 import trUserManagementErrors from "./locales/tr/modules/UserManagement/errors.json";
 
+// Subscription modülü çevirileri
+import enSubscriptionCommon from "./locales/en/modules/Subscription/common.json";
+import enSubscriptionPlans from "./locales/en/modules/Subscription/plans.json";
+import enSubscriptionNotifications from "./locales/en/modules/Subscription/notifications.json";
+import trSubscriptionCommon from "./locales/tr/modules/Subscription/common.json";
+import trSubscriptionPlans from "./locales/tr/modules/Subscription/plans.json";
+import trSubscriptionNotifications from "./locales/tr/modules/Subscription/notifications.json";
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -34,6 +42,11 @@ i18n
         userManagement: {
           auth: trUserManagementAuth,
           errors: trUserManagementErrors
+        },
+        subscription: {
+          common: trSubscriptionCommon,
+          plans: trSubscriptionPlans,
+          notifications: trSubscriptionNotifications
         }
       },
       en: {
@@ -44,11 +57,16 @@ i18n
         userManagement: {
           auth: enUserManagementAuth,
           errors: enUserManagementErrors
+        },
+        subscription: {
+          common: enSubscriptionCommon,
+          plans: enSubscriptionPlans,
+          notifications: enSubscriptionNotifications
         }
       },
     },
     fallbackLng: "tr",
-    ns: ["common", "errors", "auth", "landing", "userManagement"],
+    ns: ["common", "errors", "auth", "landing", "userManagement", "subscription"],
     defaultNS: "common",
     interpolation: {
       escapeValue: false,

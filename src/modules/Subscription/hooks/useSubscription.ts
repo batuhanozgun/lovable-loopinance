@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import { SubscriptionService } from "../services/SubscriptionService";
 import { ISubscription } from "../interfaces/ISubscription";
+import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 
 type SubscriptionStatus = "loading" | "trial" | "premium" | "expired" | "error";
 
@@ -24,6 +26,8 @@ export const useSubscription = (): UseSubscriptionReturn => {
   const [remainingDays, setRemainingDays] = useState<number | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { toast } = useToast();
+  const { t } = useTranslation(["subscription"]);
 
   const fetchSubscription = async () => {
     setIsLoading(true);
@@ -53,11 +57,27 @@ export const useSubscription = (): UseSubscriptionReturn => {
           // Kalan gün sayısını getir
           const days = await SubscriptionService.getRemainingTrialDays();
           setRemainingDays(days);
+          
+          // Kalan gün sayısı 7 veya daha az ise uyarı bildirimi göster
+          if (days <= 7 && days > 0) {
+            toast({
+              title: t("trialEnding.title", { ns: "subscription.notifications" }),
+              description: days <= 3 
+                ? t("trialEnding.days.3", { ns: "subscription.notifications" })
+                : t("trialEnding.days.7", { ns: "subscription.notifications" }),
+              variant: "default",
+            });
+          }
         }
       }
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err : new Error("Bilinmeyen bir hata oluştu"));
+      toast({
+        title: t("errors:general.title", { ns: "errors" }),
+        description: t("errors:general.description", { ns: "errors" }),
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }

@@ -1,0 +1,15 @@
+
+{
+  "comparison": {
+    "title": "Plan Comparison",
+    "description": "All features are available in both plans",
+    "features": "Features",
+    "duration": "Usage period",
+    "fullAccess": "Full Access",
+    "unlimitedUsage": "Unlimited usage",
+    "dataVisualization": "Data visualization",
+    "reports": "Reports",
+    "analytics": "Analytics",
+    "allFeatures": "All features"
+  }
+}

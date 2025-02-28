@@ -1,0 +1,28 @@
+
+{
+  "trial": {
+    "title": "Trial",
+    "status": "Trial Period",
+    "remaining": "Remaining time: {{days}} days",
+    "expired": "Trial period has ended"
+  },
+  "premium": {
+    "title": "Premium",
+    "status": "Premium Membership",
+    "unlimited": "Unlimited Access"
+  },
+  "features": {
+    "allFeatures": "All features",
+    "duration": {
+      "trial": "3 months",
+      "premium": "Unlimited"
+    }
+  },
+  "currentPlan": "Current Plan",
+  "planStatus": "Plan Status",
+  "upgradeButton": "Upgrade to Premium",
+  "upgradeProcessing": "Processing...",
+  "trialEndsAt": "Trial ends at",
+  "viewOnly": "View-only mode",
+  "loading": "Loading..."
+}

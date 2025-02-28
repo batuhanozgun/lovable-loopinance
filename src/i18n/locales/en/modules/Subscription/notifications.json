@@ -1,0 +1,17 @@
+
+{
+  "trialEnding": {
+    "title": "Your Trial is Ending",
+    "days": {
+      "14": "2 weeks remaining in your trial period",
+      "7": "Last week",
+      "3": "Last 3 days"
+    },
+    "cta": "Upgrade to Premium for uninterrupted access"
+  },
+  "trialEnded": {
+    "title": "Your Trial Has Ended",
+    "description": "Your data is preserved, you can continue where you left off anytime",
+    "cta": "Upgrade to Premium for unlimited access to all features"
+  }
+}

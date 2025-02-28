@@ -1,21 +1,35 @@
 
 import React from "react";
-import { AlertCircle, Sparkles } from "lucide-react";
+import { AlertCircle, Sparkles, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SubscriptionController } from "../controllers/SubscriptionController";
 import { useSubscription } from "../hooks/useSubscription";
+import { useTranslation } from "react-i18next";
+import { useToast } from "@/hooks/use-toast";
 
 export const TrialBanner: React.FC = () => {
   const { status, remainingDays, isLoading } = useSubscription();
   const [isUpgrading, setIsUpgrading] = React.useState(false);
+  const { t } = useTranslation(["subscription"]);
+  const { toast } = useToast();
   
   // Yükseltme işlemi
   const handleUpgrade = async () => {
     setIsUpgrading(true);
     try {
       await SubscriptionController.handleUpgradeToPremium();
+      toast({
+        title: t("premium.status", { ns: "subscription.common" }),
+        description: t("premium.unlimited", { ns: "subscription.common" }),
+        variant: "default",
+      });
     } catch (error) {
       console.error("Premium yükseltme hatası:", error);
+      toast({
+        title: t("errors:general.title", { ns: "errors" }),
+        description: t("errors:general.description", { ns: "errors" }),
+        variant: "destructive",
+      });
     } finally {
       setIsUpgrading(false);
     }
@@ -40,21 +54,23 @@ export const TrialBanner: React.FC = () => {
     if (remainingDays && remainingDays <= 7) {
       return <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400" />;
     }
-    return <Sparkles className="h-5 w-5 text-blue-600 dark:text-blue-400" />;
+    return <Clock className="h-5 w-5 text-blue-600 dark:text-blue-400" />;
   };
   
   const getMessage = () => {
-    if (isLoading) return "Abonelik bilgileriniz yükleniyor...";
-    if (status === "premium") return "Premium hesaba sahipsiniz. Tüm özelliklere erişebilirsiniz.";
-    if (status === "expired") return "Deneme süreniz sona erdi. Premium'a geçerek kullanmaya devam edin.";
-    if (remainingDays === null) return "Abonelik bilgileriniz alınamadı.";
+    if (isLoading) return t("loading", { ns: "subscription.common" });
+    if (status === "premium") return t("premium.status", { ns: "subscription.common" });
+    if (status === "expired") return t("trialEnded.cta", { ns: "subscription.notifications" });
+    if (remainingDays === null) return t("loading", { ns: "subscription.common" });
     
     if (remainingDays <= 3) {
-      return `Dikkat! Deneme sürenizin bitmesine sadece ${remainingDays} gün kaldı.`;
+      return t("trialEnding.days.3", { ns: "subscription.notifications" });
     } else if (remainingDays <= 7) {
-      return `Deneme sürenizin bitmesine ${remainingDays} gün kaldı.`;
+      return t("trialEnding.days.7", { ns: "subscription.notifications" });
+    } else if (remainingDays <= 14) {
+      return t("trialEnding.days.14", { ns: "subscription.notifications" });
     } else {
-      return `Deneme sürenizdeki kalan gün: ${remainingDays} gün`;
+      return t("trial.remaining", { days: remainingDays, ns: "subscription.common" });
     }
   };
   
@@ -75,7 +91,10 @@ export const TrialBanner: React.FC = () => {
           className="bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600"
         >
           <Sparkles className="mr-1 h-3 w-3" />
-          {isUpgrading ? "İşleniyor..." : "Premium'a Geç"}
+          {isUpgrading 
+            ? t("upgradeProcessing", { ns: "subscription.common" }) 
+            : t("upgradeButton", { ns: "subscription.common" })
+          }
         </Button>
       )}
     </div>

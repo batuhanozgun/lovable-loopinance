@@ -10,3 +10,18 @@ export interface ISubscription {
   created_at: string;
   updated_at: string;
 }
+
+// Yeni eklenecek interface'ler
+export interface SubscriptionFeature {
+  id: string;
+  name: string;
+  description: string;
+  available_in_trial: boolean;
+  available_in_premium: boolean;
+}
+
+export interface SubscriptionPlan {
+  type: SubscriptionType;
+  duration: string;
+  features: string[];
+}
