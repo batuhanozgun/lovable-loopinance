@@ -28,12 +28,11 @@ export const SignUp = () => {
     setLoading(true);
     
     try {
-      const controller = new SignupController();
-      const result = await controller.handleSignup({
+      const result = await SignupController.handleSignup({
         email: data.email,
         password: data.password,
-        first_name: data.first_name,
-        last_name: data.last_name
+        firstName: data.firstName,
+        lastName: data.lastName
       });
       
       if (!result.success) {
@@ -68,26 +67,26 @@ export const SignUp = () => {
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Input
-            id="first_name"
+            id="firstName"
             placeholder={t("auth:signup.firstName")}
-            {...register("first_name")}
+            {...register("firstName")}
           />
-          {errors.first_name && (
+          {errors.firstName && (
             <p className="text-sm text-destructive">
-              {errors.first_name.message?.toString() || t("errors:fieldRequired")}
+              {errors.firstName.message?.toString() || t("errors:fieldRequired")}
             </p>
           )}
         </div>
         
         <div className="space-y-2">
           <Input
-            id="last_name"
+            id="lastName"
             placeholder={t("auth:signup.lastName")}
-            {...register("last_name")}
+            {...register("lastName")}
           />
-          {errors.last_name && (
+          {errors.lastName && (
             <p className="text-sm text-destructive">
-              {errors.last_name.message?.toString() || t("errors:fieldRequired")}
+              {errors.lastName.message?.toString() || t("errors:fieldRequired")}
             </p>
           )}
         </div>
