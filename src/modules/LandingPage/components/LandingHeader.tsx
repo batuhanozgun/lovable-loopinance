@@ -1,13 +1,15 @@
+
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { ThemeToggle } from "@/components/ThemeToggle";
+
 export const LandingHeader = () => {
-  const {
-    t
-  } = useTranslation("landing");
-  return <header className="fixed top-0 left-0 w-full bg-background/80 backdrop-blur-sm py-4 px-6 flex items-center justify-between shadow-sm border-b z-50">
+  const { t } = useTranslation("landing");
+  
+  return (
+    <header className="fixed top-0 left-0 w-full bg-background/80 backdrop-blur-sm py-4 px-6 flex items-center justify-between shadow-sm border-b z-50">
       <div className="flex items-center">
         <span className="text-xl font-bold bg-gradient-to-r from-[rgba(84,85,89,1)] via-[rgba(108,154,229,1)] to-[rgba(0,140,158,1)] dark:from-[hsla(210,13%,40%,1)] dark:via-[hsla(185,94%,7%,1)] dark:to-[hsla(185,100%,15%,1)] bg-clip-text text-transparent">{t("common:brandName")}</span>
       </div>
@@ -32,5 +34,6 @@ export const LandingHeader = () => {
           <Link to="/signup">{t("nav.signup")}</Link>
         </Button>
       </div>
-    </header>;
+    </header>
+  );
 };

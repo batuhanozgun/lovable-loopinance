@@ -37,7 +37,7 @@ export const LoginForm = () => {
       if (result.success) {
         toast({
           title: t("common:success"),
-          description: t("auth:login.success")
+          description: t("login.success")
         });
         
         // Wait for toast to be visible before redirect
@@ -61,7 +61,7 @@ export const LoginForm = () => {
           <Input
             id="email"
             type="email"
-            placeholder={t("auth:login.email")}
+            placeholder={t("login.email")}
             {...register("email", { required: true })}
             className="w-full"
             disabled={loading}
@@ -77,7 +77,7 @@ export const LoginForm = () => {
           <Input
             id="password"
             type="password"
-            placeholder={t("auth:login.password")}
+            placeholder={t("login.password")}
             {...register("password", { required: true })}
             className="w-full"
             disabled={loading}
@@ -91,7 +91,7 @@ export const LoginForm = () => {
       </div>
       
       <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? t("auth:login.loading") : t("auth:login.submit")}
+        {loading ? t("login.loading") : t("login.submit")}
       </Button>
     </form>
   );
