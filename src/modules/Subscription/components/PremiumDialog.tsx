@@ -3,19 +3,23 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { SubscriptionController } from "../controllers/SubscriptionController";
-import { Sparkles, Clock, Eye, Check } from "lucide-react";
+import { Sparkles, Clock, Eye, Check, LogOut } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/lib/supabase";
+import { useNavigate } from "react-router-dom";
 
 interface PremiumDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  forceOpen?: boolean;
 }
 
-export const PremiumDialog: React.FC<PremiumDialogProps> = ({ open, onOpenChange }) => {
+export const PremiumDialog: React.FC<PremiumDialogProps> = ({ open, onOpenChange, forceOpen = false }) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const { t } = useTranslation(["subscription.common", "subscription.notifications", "subscription.plans", "common"]);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handlePremiumUpgrade = async () => {
     setIsLoading(true);
@@ -39,8 +43,26 @@ export const PremiumDialog: React.FC<PremiumDialogProps> = ({ open, onOpenChange
     }
   };
 
+  const handleSignOut = async () => {
+    try {
+      await supabase.auth.signOut();
+      toast({
+        title: t("common:success"),
+        description: t("common:loggedOut", { defaultValue: "Başarıyla çıkış yapıldı" }),
+      });
+      navigate("/");
+    } catch (error) {
+      console.error("Çıkış yapılırken hata oluştu:", error);
+      toast({
+        title: t("common:error"),
+        description: t("common:logoutError", { defaultValue: "Çıkış yapılırken bir hata oluştu" }),
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={forceOpen ? true : open} onOpenChange={forceOpen ? () => {} : onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
@@ -71,13 +93,15 @@ export const PremiumDialog: React.FC<PremiumDialogProps> = ({ open, onOpenChange
           </div>
         </div>
         <DialogFooter className="flex flex-col gap-2 sm:flex-row">
-          <Button
-            variant="outline"
-            onClick={() => onOpenChange(false)}
-            className="sm:w-auto w-full"
-          >
-            {t("later", { ns: "common", defaultValue: "Daha Sonra" })}
-          </Button>
+          {!forceOpen && (
+            <Button
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+              className="sm:w-auto w-full"
+            >
+              {t("later", { ns: "common", defaultValue: "Daha Sonra" })}
+            </Button>
+          )}
           <Button 
             onClick={handlePremiumUpgrade} 
             className="sm:w-auto w-full"
@@ -87,6 +111,14 @@ export const PremiumDialog: React.FC<PremiumDialogProps> = ({ open, onOpenChange
               ? t("upgradeProcessing") 
               : t("upgradeButton")
             }
+          </Button>
+          <Button
+            variant="outline"
+            onClick={handleSignOut}
+            className="sm:w-auto w-full flex items-center gap-2 text-destructive hover:text-destructive hover:bg-destructive/10"
+          >
+            <LogOut size={16} />
+            {t("logout", { ns: "common", defaultValue: "Çıkış Yap" })}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -40,41 +40,16 @@ export function withSubscriptionProtection<P extends object>(
       return <div className="flex justify-center items-center h-screen">Yükleniyor...</div>;
     }
 
-    // Premium dialogu kapatıldıysa ve erişim yoksa, salt görüntüleme modunda göster
-    if (!hasAccess && !showPremiumDialog && status === "expired") {
-      // Salt görüntüleme modunda Component'i render et
-      return (
-        <>
-          <Component {...props} />
-          <div 
-            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-            onClick={() => setShowPremiumDialog(true)}
-          >
-            <div 
-              className="bg-white dark:bg-gray-800 p-8 rounded-lg max-w-md text-center"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <h2 className="text-2xl font-bold mb-4">Premium'a Geçiş Zamanı</h2>
-              <p className="mb-6">Deneme süreniz sona erdi. Tüm özelliklere erişmek için Premium'a geçin.</p>
-              <button 
-                className="px-4 py-2 bg-primary text-white rounded-md"
-                onClick={() => setShowPremiumDialog(true)}
-              >
-                Premium'a Geç
-              </button>
-            </div>
-          </div>
-        </>
-      );
-    }
-
     return (
       <>
         <Component {...props} />
-        <PremiumDialog 
-          open={showPremiumDialog} 
-          onOpenChange={setShowPremiumDialog} 
-        />
+        {status === "expired" && (
+          <PremiumDialog 
+            open={showPremiumDialog} 
+            onOpenChange={setShowPremiumDialog} 
+            forceOpen={true} 
+          />
+        )}
       </>
     );
   };
