@@ -10,7 +10,7 @@ export const HeroSection = () => {
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         <div className="space-y-6">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground">{t("hero.title")}</h1>
-          <p className="text-lg text-muted-foreground">{t("hero.subtitle")}</p>
+          <p className="text-lg text-gray-700 dark:text-gray-300 mb-8 max-w-2xl mx-auto">{t("hero.subtitle")}</p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Button size="lg" asChild>
               <Link to="/signup">
