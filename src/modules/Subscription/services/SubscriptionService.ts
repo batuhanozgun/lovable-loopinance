@@ -20,10 +20,13 @@ export class SubscriptionService {
         return null;
       }
       
+      // session.user.id kullanarak kullanıcının kendi verilerine erişim
+      const userId = session.user.id;
+      
       const { data, error } = await supabase
         .from("subscriptions")
         .select("*")
-        .eq("user_id", session.user.id)
+        .eq("user_id", userId)
         .maybeSingle();
       
       if (error) {
@@ -73,7 +76,7 @@ export class SubscriptionService {
       return now > trialEndsAt;
     } catch (error) {
       this.logger.error("Deneme süresi kontrolü yapılırken hata oluştu", error);
-      return false;
+      return true; // Hata durumunda deneme süresinin bittiğini varsay (güvenli yaklaşım)
     }
   }
 
@@ -116,20 +119,22 @@ export class SubscriptionService {
         return false;
       }
       
+      const userId = session.user.id;
+      
       const { error } = await supabase
         .from("subscriptions")
         .update({
           type: 'premium',
           updated_at: new Date().toISOString()
         })
-        .eq("user_id", session.user.id);
+        .eq("user_id", userId);
       
       if (error) {
         this.logger.error("Premium aboneliğe geçiş başarısız oldu", error);
         throw error;
       }
       
-      this.logger.info("Kullanıcı premium aboneliğe geçti", { userId: session.user.id });
+      this.logger.info("Kullanıcı premium aboneliğe geçti", { userId });
       return true;
     } catch (error) {
       this.logger.error("Premium aboneliğe geçiş yapılırken hata oluştu", error);

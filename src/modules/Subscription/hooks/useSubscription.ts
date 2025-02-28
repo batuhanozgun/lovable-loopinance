@@ -5,7 +5,7 @@ import { ISubscription } from "../interfaces/ISubscription";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
 
-type SubscriptionStatus = "loading" | "trial" | "premium" | "expired" | "error";
+type SubscriptionStatus = "loading" | "trial" | "premium" | "expired" | "error" | "unauthenticated";
 
 interface UseSubscriptionReturn {
   subscription: ISubscription | null;
@@ -27,13 +27,21 @@ export const useSubscription = (): UseSubscriptionReturn => {
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { toast } = useToast();
-  const { t } = useTranslation(["subscription.notifications"]);
+  const { t } = useTranslation(["subscription.notifications", "errors"]);
 
   const fetchSubscription = async () => {
     setIsLoading(true);
     try {
       // Abonelik bilgilerini getir
       const subscriptionData = await SubscriptionService.getCurrentSubscription();
+      
+      // Oturum yoksa (kullanıcı giriş yapmamışsa)
+      if (subscriptionData === null) {
+        setStatus("unauthenticated");
+        setIsLoading(false);
+        return;
+      }
+      
       setSubscription(subscriptionData);
 
       // Premium durumunu kontrol et
@@ -73,9 +81,10 @@ export const useSubscription = (): UseSubscriptionReturn => {
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err : new Error("Bilinmeyen bir hata oluştu"));
+      console.error("Subscription error:", err);
       toast({
-        title: t("errors:general.title", { ns: "errors" }),
-        description: t("errors:general.description", { ns: "errors" }),
+        title: t("general.title", { ns: "errors" }),
+        description: t("general.description", { ns: "errors" }),
         variant: "destructive",
       });
     } finally {
