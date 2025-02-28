@@ -1,3 +1,4 @@
+
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -13,7 +14,7 @@ export const CtaSection = () => {
           {t("cta.description")}
         </p>
         <Button size="lg" asChild>
-          <Link to="/signup" className="bg-gradient-to-r from-[rgba(84,85,89,1)] via-[rgba(108,154,229,1)] to-[rgba(0,140,158,1)] dark:from-[hsla(210,13%,40%,1)] dark:via-[hsla(185,94%,7%,1)] dark:to-[hsla(185,100%,15%,1)] ">
+          <Link to="/signup">
             {t("cta.button")} <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </Button>
