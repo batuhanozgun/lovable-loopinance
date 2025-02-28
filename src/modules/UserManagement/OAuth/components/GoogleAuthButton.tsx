@@ -3,18 +3,24 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { OAuthController } from "../controllers/OAuthController";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
 interface GoogleAuthButtonProps {
   className?: string;
-  text?: string;
+  customText?: string;
 }
 
 export const GoogleAuthButton = ({ 
   className = "", 
-  text 
+  customText 
 }: GoogleAuthButtonProps) => {
   const { t } = useTranslation(["auth", "common"]);
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  
+  // Bulunduğumuz sayfaya göre login mi signup mı olduğunu belirleme
+  const isSignup = location.pathname.includes("signup");
+  const textKey = isSignup ? "auth:oauth.signup.google" : "auth:oauth.login.google";
 
   const handleGoogleSignIn = async () => {
     setLoading(true);
@@ -50,7 +56,7 @@ export const GoogleAuthButton = ({
           <path d="M8.00006 3.08614C9.44172 3.08614 10.4163 3.7201 10.9769 4.24314L13.0289 2.25798C11.7349 1.07606 10.0334 0.400879 8.00006 0.400879C5.0086 0.400879 2.42616 2.19975 1.30371 4.84618L3.66997 6.12305C4.30388 4.37521 5.99343 3.08614 8.00006 3.08614Z" fill="#EB4335"/>
         </svg>
       )}
-      <span>{text || t("auth:oauth.google")}</span>
+      <span>{customText || t(textKey)}</span>
     </Button>
   );
 };

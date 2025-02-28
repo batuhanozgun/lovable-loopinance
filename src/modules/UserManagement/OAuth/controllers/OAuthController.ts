@@ -4,6 +4,7 @@ import { LoggerService } from "@/modules/Logging/services/LoggerService";
 import { IOAuthConfig } from "../interfaces/IOAuthConfig";
 import { toast } from "@/hooks/use-toast";
 import i18next from "i18next";
+import { useLocation } from "react-router-dom";
 
 export class OAuthController {
   private static logger = LoggerService.getInstance("OAuthController");
@@ -27,15 +28,19 @@ export class OAuthController {
     } catch (error) {
       this.logger.error("Google oturum açma işlemi başarısız oldu", error);
       
+      // Hata mesajı için sayfaya göre doğru çeviriyi seçme
+      const isSignupPage = window.location.pathname.includes('signup');
+      const errorKey = isSignupPage ? "oauth.error.signup" : "oauth.error.login";
+      
       toast({
         variant: "destructive",
         title: i18next.t("common:error"),
-        description: error instanceof Error ? error.message : i18next.t("errors:loginFailed"),
+        description: error instanceof Error ? error.message : i18next.t(`auth:${errorKey}`),
       });
       
       return {
         success: false,
-        error: error instanceof Error ? error.message : i18next.t("errors:loginFailed"),
+        error: error instanceof Error ? error.message : i18next.t(`auth:${errorKey}`),
       };
     }
   }
