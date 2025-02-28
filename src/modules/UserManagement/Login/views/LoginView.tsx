@@ -1,13 +1,21 @@
+
 import { LoginForm } from "../components/LoginForm";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { Typewriter } from "@/components/Typewriter";
+
 export const Login = () => {
-  const {
-    t
-  } = useTranslation();
-  return <div className="container relative min-h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+  const { t } = useTranslation();
+
+  const typewriterTexts = [
+    t("userManagement.auth:login.typewriter.text1"),
+    t("userManagement.auth:login.typewriter.text2")
+  ];
+
+  return (
+    <div className="container relative min-h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
         <LanguageSelector />
         <ThemeToggle />
@@ -20,25 +28,32 @@ export const Login = () => {
           </svg>
           {t("common:brandName")}
         </Link>
+        <div className="relative z-20 mt-auto">
+          <Typewriter 
+            texts={typewriterTexts} 
+            className="font-light text-white dark:text-zinc-100 text-shadow" 
+          />
+        </div>
       </div>
       <div className="lg:p-8">
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight">
-              {t("auth:login.title")}
+              {t("userManagement.auth:login.title")}
             </h1>
             <p className="text-sm text-muted-foreground">
-              {t("auth:login.subtitle")}
+              {t("userManagement.auth:login.subtitle")}
             </p>
           </div>
           <LoginForm />
           <p className="px-8 text-center text-sm text-muted-foreground">
-            {t("auth:login.noAccount")}{" "}
+            {t("userManagement.auth:login.noAccount")}{" "}
             <Link to="/signup" className="underline underline-offset-4 hover:text-primary">
-              {t("auth:login.createAccount")}
+              {t("userManagement.auth:login.createAccount")}
             </Link>
           </p>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
