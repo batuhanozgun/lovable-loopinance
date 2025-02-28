@@ -13,6 +13,12 @@ import trCommon from "./locales/tr/common.json";
 import trErrors from "./locales/tr/errors.json";
 import trAuth from "./locales/tr/auth.json";
 
+// UserManagement modülü çevirileri
+import enUserManagementAuth from "./locales/en/modules/UserManagement/auth.json";
+import enUserManagementErrors from "./locales/en/modules/UserManagement/errors.json";
+import trUserManagementAuth from "./locales/tr/modules/UserManagement/auth.json";
+import trUserManagementErrors from "./locales/tr/modules/UserManagement/errors.json";
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -21,16 +27,24 @@ i18n
       tr: {
         common: trCommon,
         errors: trErrors,
-        auth: trAuth
+        auth: trAuth,
+        userManagement: {
+          auth: trUserManagementAuth,
+          errors: trUserManagementErrors
+        }
       },
       en: {
         common: enCommon,
         errors: enErrors,
-        auth: enAuth
+        auth: enAuth,
+        userManagement: {
+          auth: enUserManagementAuth,
+          errors: enUserManagementErrors
+        }
       },
     },
     fallbackLng: "tr",
-    ns: ["common", "errors", "auth"],
+    ns: ["common", "errors", "auth", "userManagement"],
     defaultNS: "common",
     interpolation: {
       escapeValue: false,

@@ -33,7 +33,7 @@ export class SignupService {
         logger.warn("Email already registered", { email, error: error.message });
         return {
           success: false,
-          error: i18next.t("errors:emailAlreadyExists"),
+          error: i18next.t("userManagement:errors.emailAlreadyExists"),
         };
       }
 
@@ -42,7 +42,7 @@ export class SignupService {
         logger.warn("Rate limit exceeded during signup", { email, error: error.message });
         return {
           success: false,
-          error: i18next.t("errors:rateLimitExceeded"),
+          error: i18next.t("userManagement:errors.rateLimitExceeded"),
         };
       }
 
@@ -51,7 +51,7 @@ export class SignupService {
         logger.error("Signup error from Supabase", error, { email });
         return {
           success: false,
-          error: i18next.t("errors:signupFailed"),
+          error: i18next.t("userManagement:errors.signupFailed"),
         };
       }
 
@@ -60,7 +60,7 @@ export class SignupService {
         logger.warn("Signup failed - no user returned from Supabase", { email });
         return {
           success: false,
-          error: i18next.t("errors:signupFailed"),
+          error: i18next.t("userManagement:errors.signupFailed"),
         };
       }
 
@@ -77,7 +77,7 @@ export class SignupService {
       logger.error("Unexpected error during signup", error);
       return {
         success: false,
-        error: i18next.t("errors:signupFailed"),
+        error: i18next.t("userManagement:errors.signupFailed"),
       };
     }
   }

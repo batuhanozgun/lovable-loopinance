@@ -1,0 +1,13 @@
+
+{
+  "loginFailed": "Login failed. Please check your credentials and try again.",
+  "signupFailed": "Signup failed. Please try again later.",
+  "emailAlreadyExists": "This email is already registered. Please try another one or login.",
+  "invalidCredentials": "Invalid email or password. Please try again.",
+  "fieldRequired": "This field is required",
+  "invalidEmail": "Please enter a valid email address",
+  "passwordTooShort": "Password must be at least 6 characters",
+  "unauthorized": "You are not authorized to perform this action",
+  "emailCheckFailed": "Failed to check if email exists. Please try again later.",
+  "rateLimitExceeded": "Too many requests. Please wait a moment and try again."
+}
