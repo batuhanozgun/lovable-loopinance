@@ -9,7 +9,7 @@ export const LandingHeader = () => {
   } = useTranslation("landing");
   return <header className="fixed top-0 left-0 w-full bg-background/80 backdrop-blur-sm py-4 px-6 flex items-center justify-between shadow-sm border-b z-50">
       <div className="flex items-center">
-        <span className="text-xl font-bold bg-gradient-to-r from-[rgba(192,130,130,1)] via-[rgba(224,255,224,1)] to-[rgba(0,38,77,1)] dark:from-[hsla(0,15%,14%,1)] dark:via-[hsla(228,54%,16%,1)] dark:to-[hsla(211,27%,35%,1)] bg-clip-text text-transparent">{t("common:brandName")}</span>
+        <span className="text-xl font-bold bg-gradient-to-r from-[rgba(250,250,250,1)] via-[rgba(108,154,229,1)] to-[rgba(0,140,158,1)] dark:from-[hsla(210,13%,40%,1)] dark:via-[hsla(185,94%,7%,1)] dark:to-[hsla(0,100%,4%,1)] bg-clip-text text-transparent">{t("common:brandName")}</span>
       </div>
       <nav className="hidden md:flex items-center space-x-6">
         <Link to="/" className="text-foreground hover:text-primary transition-colors">
