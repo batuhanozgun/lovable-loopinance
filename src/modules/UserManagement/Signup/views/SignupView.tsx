@@ -1,8 +1,12 @@
 
 import { SignupForm } from "../components/SignupForm";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { LanguageSelector } from "@/components/LanguageSelector";
 
 export const SignUp = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="container relative min-h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
@@ -20,31 +24,32 @@ export const SignUp = () => {
           >
             <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
           </svg>
-          Loopinance
+          {t("common:brandName")}
         </div>
       </div>
       <div className="lg:p-8">
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight">
-              Hesap Oluştur
+              {t("auth:signup.title")}
             </h1>
             <p className="text-sm text-muted-foreground">
-              E-posta ve şifrenizle hesap oluşturun
+              {t("auth:signup.subtitle")}
             </p>
           </div>
           <SignupForm />
           <p className="px-8 text-center text-sm text-muted-foreground">
-            Zaten hesabınız var mı?{" "}
+            {t("auth:signup.haveAccount")}{" "}
             <Link
               to="/login"
               className="underline underline-offset-4 hover:text-primary"
             >
-              Giriş yapın
+              {t("auth:signup.login")}
             </Link>
           </p>
         </div>
       </div>
+      <LanguageSelector />
     </div>
   );
 };
