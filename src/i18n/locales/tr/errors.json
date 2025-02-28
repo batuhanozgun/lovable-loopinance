@@ -9,5 +9,7 @@
   "passwordTooShort": "Şifre en az 6 karakter olmalıdır",
   "networkError": "Ağ hatası. Lütfen bağlantınızı kontrol edip tekrar deneyin.",
   "unauthorized": "Bu işlemi gerçekleştirmeye yetkiniz yok",
-  "serverError": "Sunucu hatası. Lütfen daha sonra tekrar deneyin."
+  "serverError": "Sunucu hatası. Lütfen daha sonra tekrar deneyin.",
+  "emailCheckFailed": "E-posta kontrolü başarısız oldu. Lütfen daha sonra tekrar deneyin.",
+  "rateLimitExceeded": "Çok fazla istek. Lütfen bir süre bekleyip tekrar deneyin."
 }

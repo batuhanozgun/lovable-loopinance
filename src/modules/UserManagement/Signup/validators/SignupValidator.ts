@@ -40,12 +40,12 @@ export class SignupValidator {
     return SignupSchema.safeParse(data);
   }
 
-  // E-posta kontrolü metodu - geliştirildi ve daha ayrıntılı hata mesajları eklendi
-  static async checkEmailExists(email: string): Promise<{ exists: boolean; message?: string }> {
+  // Geliştirilmiş e-posta kontrolü metodu
+  static async checkEmailExists(email: string): Promise<{ exists: boolean; message?: string; rateLimited?: boolean }> {
     try {
       logger.debug("Checking if email already exists", { email });
 
-      // Supabase üzerinden e-posta kontrolü yapma
+      // Supabase üzerinden e-posta kontrolü - sadece varlık kontrolü için OTP kullanıyoruz
       const { data, error } = await supabase.auth.signInWithOtp({
         email,
         options: {
@@ -53,7 +53,17 @@ export class SignupValidator {
         }
       });
 
-      // Cevabı kontrol et
+      // Rate limiting hatası kontrolü
+      if (error && error.message.includes("rate limit")) {
+        logger.warn("Rate limit exceeded when checking email", { email, error: error.message });
+        return { 
+          exists: false, 
+          rateLimited: true,
+          message: i18next.t("errors:rateLimitExceeded") 
+        };
+      }
+
+      // Diğer hatalar için kontrol
       if (error) {
         if (error.message.includes("Email not confirmed")) {
           // E-posta kayıtlı ama onaylanmamış
@@ -70,19 +80,26 @@ export class SignupValidator {
             message: i18next.t("errors:emailAlreadyExists")
           };
         } else {
-          // Bilinmeyen bir hata oluştu
+          // Bilinmeyen bir hata oluştu, güvenlik için genel hata mesajı döndür
           logger.warn("Unknown error checking email existence", { error: error.message });
-          return { exists: false };
+          return { 
+            exists: false,
+            message: i18next.t("errors:emailCheckFailed") 
+          };
         }
       }
 
-      // Cevap data içeriyorsa, e-posta kayıtlı değil
+      // Cevap data içeriyorsa ve hata yoksa, e-posta kayıtlı değil
       logger.debug("Email is available for signup", { email });
       return { exists: false };
       
     } catch (error) {
+      // Beklenmeyen hatalar için
       logger.error("Unexpected error while checking email existence", error);
-      return { exists: false };
+      return { 
+        exists: false,
+        message: i18next.t("errors:emailCheckFailed") 
+      };
     }
   }
 }

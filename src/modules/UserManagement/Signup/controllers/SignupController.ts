@@ -34,9 +34,26 @@ export class SignupController {
 
       logger.debug("Input validation successful, checking if email exists");
       
-      // E-posta kontrolü yap - artık SignupValidator'da
+      // E-posta kontrolü yap
       const emailCheck = await SignupValidator.checkEmailExists(formData.email);
       
+      // Rate limit hatası kontrolü
+      if (emailCheck.rateLimited) {
+        logger.warn("Rate limit exceeded when checking email", { email: formData.email });
+        
+        toast({
+          variant: "destructive",
+          title: i18next.t("common:error"),
+          description: emailCheck.message,
+        });
+
+        return {
+          success: false,
+          error: emailCheck.message,
+        };
+      }
+      
+      // E-posta zaten kayıtlı mı kontrolü
       if (emailCheck.exists) {
         logger.warn("Email already exists", { email: formData.email });
         
@@ -62,13 +79,18 @@ export class SignupController {
         formData.lastName
       );
 
+      // Kayıt sonucunu bildiren toast göster
       if (!signupResult.success) {
+        logger.warn("Signup failed", { error: signupResult.error, email: formData.email });
+        
         toast({
           variant: "destructive",
           title: i18next.t("auth:signup.failed"),
           description: signupResult.error,
         });
       } else {
+        logger.info("Signup successful", { email: formData.email });
+        
         toast({
           title: i18next.t("common:success"),
           description: i18next.t("auth:signup.success"),

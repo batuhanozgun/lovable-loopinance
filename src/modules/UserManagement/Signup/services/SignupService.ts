@@ -28,7 +28,25 @@ export class SignupService {
         errorMessage: error?.message
       });
 
-      // Hata kontrolü
+      // E-posta zaten kayıtlı hata kontrolü
+      if (error && error.message.includes("already registered")) {
+        logger.warn("Email already registered", { email, error: error.message });
+        return {
+          success: false,
+          error: i18next.t("errors:emailAlreadyExists"),
+        };
+      }
+
+      // Rate limiting hatası kontrolü
+      if (error && error.message.includes("rate limit")) {
+        logger.warn("Rate limit exceeded during signup", { email, error: error.message });
+        return {
+          success: false,
+          error: i18next.t("errors:rateLimitExceeded"),
+        };
+      }
+
+      // Diğer hata türleri için kontrol
       if (error) {
         logger.error("Signup error from Supabase", error, { email });
         return {
