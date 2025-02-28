@@ -4,9 +4,16 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { Typewriter } from "@/components/Typewriter";
 
 export const SignUp = () => {
   const { t } = useTranslation();
+
+  const typewriterTexts = [
+    t("auth:signup.typewriter.text1"),
+    t("auth:signup.typewriter.text2"),
+    t("auth:signup.typewriter.text3")
+  ];
 
   return (
     <div className="container relative min-h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
@@ -15,7 +22,7 @@ export const SignUp = () => {
         <ThemeToggle />
       </div>
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
-        <div className="absolute inset-0 bg-zinc-900" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[rgba(250,250,250,1)] via-[rgba(108,154,229,0.7)] to-[rgba(0,140,158,1)] dark:from-[hsla(210,13%,40%,1)] dark:via-[hsla(185,94%,7%,1)] dark:to-[hsla(0,100%,4%,1)]" />
         <Link 
           to="/" 
           className="relative z-20 flex items-center text-lg font-medium transition-opacity hover:opacity-80 cursor-pointer"
@@ -34,6 +41,12 @@ export const SignUp = () => {
           </svg>
           {t("common:brandName")}
         </Link>
+        <div className="relative z-20 mt-auto">
+          <Typewriter 
+            texts={typewriterTexts} 
+            className="font-light text-white dark:text-zinc-100 text-shadow" 
+          />
+        </div>
       </div>
       <div className="lg:p-8">
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
