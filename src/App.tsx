@@ -7,6 +7,7 @@ import { Login } from "@/modules/UserManagement/Login/views/LoginView";
 import { useState, useEffect } from "react";
 import { AuthService } from "@/modules/UserManagement/common/services/AuthService";
 import Index from "./pages/Index";
+import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
 import "@/i18n/config";
 
@@ -33,15 +34,25 @@ const App = () => {
         <Routes>
           <Route
             path="/"
+            element={
+              isAuthenticated ? (
+                <Index />
+              ) : (
+                <Landing />
+              )
+            }
+          />
+          <Route
+            path="/dashboard"
             element={isAuthenticated ? <Index /> : <Navigate to="/login" />}
           />
           <Route
             path="/signup"
-            element={!isAuthenticated ? <SignUp /> : <Navigate to="/" />}
+            element={!isAuthenticated ? <SignUp /> : <Navigate to="/dashboard" />}
           />
           <Route
             path="/login"
-            element={!isAuthenticated ? <Login /> : <Navigate to="/" />}
+            element={!isAuthenticated ? <Login /> : <Navigate to="/dashboard" />}
           />
           <Route path="*" element={<NotFound />} />
         </Routes>

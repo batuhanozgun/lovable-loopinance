@@ -7,11 +7,13 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import enCommon from "./locales/en/common.json";
 import enErrors from "./locales/en/errors.json";
 import enAuth from "./locales/en/auth.json";
+import enLanding from "./locales/en/landing.json";
 
 // Türkçe çeviriler
 import trCommon from "./locales/tr/common.json";
 import trErrors from "./locales/tr/errors.json";
 import trAuth from "./locales/tr/auth.json";
+import trLanding from "./locales/tr/landing.json";
 
 // UserManagement modülü çevirileri
 import enUserManagementAuth from "./locales/en/modules/UserManagement/auth.json";
@@ -28,6 +30,7 @@ i18n
         common: trCommon,
         errors: trErrors,
         auth: trAuth,
+        landing: trLanding,
         userManagement: {
           auth: trUserManagementAuth,
           errors: trUserManagementErrors
@@ -37,6 +40,7 @@ i18n
         common: enCommon,
         errors: enErrors,
         auth: enAuth,
+        landing: enLanding,
         userManagement: {
           auth: enUserManagementAuth,
           errors: enUserManagementErrors
@@ -44,7 +48,7 @@ i18n
       },
     },
     fallbackLng: "tr",
-    ns: ["common", "errors", "auth", "userManagement"],
+    ns: ["common", "errors", "auth", "landing", "userManagement"],
     defaultNS: "common",
     interpolation: {
       escapeValue: false,

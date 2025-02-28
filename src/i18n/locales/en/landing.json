@@ -1,0 +1,67 @@
+
+{
+  "nav": {
+    "home": "Home",
+    "features": "Features",
+    "about": "About",
+    "login": "Log in",
+    "signup": "Sign up"
+  },
+  "hero": {
+    "title": "Take Control of Your Finances",
+    "subtitle": "Loopinance helps you track expenses, manage accounts, and achieve your financial goals with ease.",
+    "cta": {
+      "primary": "Get Started",
+      "secondary": "Explore Features"
+    },
+    "image": {
+      "alt": "Financial dashboard visualization"
+    }
+  },
+  "features": {
+    "title": "Powerful Financial Tools",
+    "subtitle": "Everything you need to manage your finances in one place",
+    "tracking": {
+      "title": "Expense Tracking",
+      "description": "Easily record and categorize all your expenses to keep track of where your money is going."
+    },
+    "sync": {
+      "title": "Multi-device Sync",
+      "description": "Access your financial data from any device with real-time synchronization."
+    },
+    "insights": {
+      "title": "Financial Insights",
+      "description": "Get detailed reports and analytics to help you make better financial decisions."
+    },
+    "security": {
+      "title": "Bank-level Security",
+      "description": "Your financial data is protected with the highest security standards."
+    }
+  },
+  "cta": {
+    "title": "Ready to Transform Your Financial Life?",
+    "description": "Join thousands of users who are already managing their finances better with Loopinance.",
+    "button": "Create Free Account"
+  },
+  "footer": {
+    "tagline": "Simplify your financial tracking and management.",
+    "product": {
+      "title": "Product",
+      "features": "Features",
+      "pricing": "Pricing",
+      "faq": "FAQ"
+    },
+    "company": {
+      "title": "Company",
+      "about": "About Us",
+      "team": "Team",
+      "contact": "Contact"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service"
+    },
+    "copyright": "All rights reserved."
+  }
+}
