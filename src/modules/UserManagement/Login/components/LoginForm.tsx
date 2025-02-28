@@ -1,80 +1,95 @@
 
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { LoginController } from "../controllers/LoginController";
 import { useTranslation } from "react-i18next";
 
+interface LoginFormData {
+  email: string;
+  password: string;
+}
+
 export const LoginForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { t } = useTranslation(["auth", "common", "errors"]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { t } = useTranslation(["auth", "common", "errors"]);
+  
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<LoginFormData>();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = async (data: LoginFormData) => {
+    setLoading(true);
+    
     try {
-      setLoading(true);
-
-      const result = await LoginController.handleLogin({ email, password });
-
-      if (!result.success) {
-        toast({
-          variant: "destructive",
-          title: t("common:error"),
-          description: result.error,
-        });
-        return;
-      }
-
-      toast({
-        title: t("common:success"),
-        description: t("auth:login.success"),
+      const result = await LoginController.handleLogin({
+        email: data.email,
+        password: data.password
       });
-
-      setTimeout(() => navigate("/"), 2000);
+      
+      if (result.success) {
+        toast({
+          title: t("common:success"),
+          description: t("auth:login.success")
+        });
+        
+        // Wait for toast to be visible before redirect
+        setTimeout(() => navigate("/"), 2000);
+      }
     } catch (error) {
       toast({
         variant: "destructive",
         title: t("common:error"),
-        description: error instanceof Error ? error.message : t("errors:loginFailed"),
+        description: error instanceof Error ? error.message : t("errors:loginFailed")
       });
     } finally {
       setLoading(false);
     }
   };
-
+  
   return (
-    <form onSubmit={handleSubmit} className="mx-auto w-full max-w-sm space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-sm mx-auto space-y-6">
       <div className="space-y-4">
         <div className="space-y-2">
           <Input
+            id="email"
             type="email"
             placeholder={t("auth:login.email")}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            {...register("email", { required: true })}
             className="w-full"
             disabled={loading}
-            required
           />
+          {errors.email && (
+            <p className="text-sm text-destructive">
+              {t("errors:emailRequired")}
+            </p>
+          )}
         </div>
+        
         <div className="space-y-2">
           <Input
+            id="password"
             type="password"
             placeholder={t("auth:login.password")}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            {...register("password", { required: true })}
             className="w-full"
             disabled={loading}
-            required
           />
+          {errors.password && (
+            <p className="text-sm text-destructive">
+              {t("errors:passwordRequired")}
+            </p>
+          )}
         </div>
       </div>
+      
       <Button type="submit" className="w-full" disabled={loading}>
         {loading ? t("auth:login.loading") : t("auth:login.submit")}
       </Button>
