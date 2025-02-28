@@ -1,43 +1,105 @@
 
 import { z } from "zod";
-import { AuthService } from "../../common/services/AuthService";
+import { ISignupForm } from "../interfaces/ISignupForm";
 import i18next from "i18next";
+import { supabase } from "@/integrations/supabase/client";
+import { LoggerService } from "@/modules/Logging/services/LoggerService";
 
-export const SignupValidator = z.object({
-  firstName: z
-    .string()
-    .min(2, { message: "auth:signup.validation.firstNameMin" }),
-  lastName: z
-    .string()
-    .min(2, { message: "auth:signup.validation.lastNameMin" }),
-  email: z
-    .string()
-    .email({ message: "errors:invalidEmail" })
-    .refine(
-      async (email) => {
-        try {
-          const exists = await AuthService.checkIfEmailExists(email);
-          return !exists;
-        } catch (error) {
-          throw new Error(i18next.t("errors:emailCheckFailed"));
-        }
-      },
-      {
-        message: "errors:emailAlreadyExists",
-      }
-    ),
+const logger = LoggerService.getInstance("SignupValidator");
+
+export const SignupSchema = z.object({
+  firstName: z.string().min(2, {
+    message: i18next.t("auth:signup.validation.firstNameMin")
+  }),
+  lastName: z.string().min(2, {
+    message: i18next.t("auth:signup.validation.lastNameMin")
+  }),
+  email: z.string().email({
+    message: i18next.t("errors:invalidEmail")
+  }),
   password: z
     .string()
-    .min(8, { message: "auth:signup.validation.passwordMin" })
-    .refine((password) => /[A-Z]/.test(password), {
-      message: "auth:signup.validation.passwordUppercase",
+    .min(8, {
+      message: i18next.t("auth:signup.validation.passwordMin")
     })
-    .refine((password) => /[a-z]/.test(password), {
-      message: "auth:signup.validation.passwordLowercase",
+    .regex(/[A-Z]/, {
+      message: i18next.t("auth:signup.validation.passwordUppercase")
     })
-    .refine((password) => /[0-9]/.test(password), {
-      message: "auth:signup.validation.passwordNumber",
+    .regex(/[a-z]/, {
+      message: i18next.t("auth:signup.validation.passwordLowercase")
+    })
+    .regex(/[0-9]/, {
+      message: i18next.t("auth:signup.validation.passwordNumber")
     }),
 });
 
-export type SignupFormData = z.infer<typeof SignupValidator>;
+export class SignupValidator {
+  // Form girdilerini doğrulama metodu
+  static validateSignupInput(data: ISignupForm) {
+    logger.debug("Validating signup input", { email: data.email });
+    return SignupSchema.safeParse(data);
+  }
+
+  // Geliştirilmiş e-posta kontrolü metodu
+  static async checkEmailExists(email: string): Promise<{ exists: boolean; message?: string; rateLimited?: boolean }> {
+    try {
+      logger.debug("Checking if email already exists", { email });
+
+      // Supabase üzerinden e-posta kontrolü - sadece varlık kontrolü için OTP kullanıyoruz
+      const { data, error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          shouldCreateUser: false // Yeni kullanıcı oluşturulmasını önler
+        }
+      });
+
+      // Rate limiting hatası kontrolü
+      if (error && error.message.includes("rate limit")) {
+        logger.warn("Rate limit exceeded when checking email", { email, error: error.message });
+        return { 
+          exists: false, 
+          rateLimited: true,
+          message: i18next.t("errors:rateLimitExceeded") 
+        };
+      }
+
+      // Diğer hatalar için kontrol
+      if (error) {
+        if (error.message.includes("Email not confirmed")) {
+          // E-posta kayıtlı ama onaylanmamış
+          logger.debug("Email exists but not confirmed", { email });
+          return { 
+            exists: true, 
+            message: i18next.t("auth:signup.validation.emailExistsNotConfirmed")
+          };
+        } else if (error.message.includes("Invalid login credentials")) {
+          // E-posta kayıtlı ve aktif
+          logger.debug("Email exists and confirmed", { email });
+          return { 
+            exists: true, 
+            message: i18next.t("errors:emailAlreadyExists")
+          };
+        } else {
+          // Bilinmeyen bir hata oluştu, güvenlik için genel hata mesajı döndür
+          logger.warn("Unknown error checking email existence", { error: error.message });
+          return { 
+            exists: false,
+            message: i18next.t("errors:emailCheckFailed") 
+          };
+        }
+      }
+
+      // Cevap data içeriyorsa ve hata yoksa, e-posta kayıtlı değil
+      logger.debug("Email is available for signup", { email });
+      return { exists: false };
+      
+    } catch (error) {
+      // Beklenmeyen hatalar için
+      logger.error("Unexpected error while checking email existence", error);
+      return { 
+        exists: false,
+        message: i18next.t("errors:emailCheckFailed") 
+      };
+    }
+  }
+}
