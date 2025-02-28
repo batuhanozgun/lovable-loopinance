@@ -10,8 +10,9 @@ export const Login = () => {
   const { t } = useTranslation();
 
   const typewriterTexts = [
-    t("userManagement.auth:login.typewriter.text1"),
-    t("userManagement.auth:login.typewriter.text2")
+    t("userManagement.auth.login.typewriter.text1"),
+    t("userManagement.auth.login.typewriter.text2"),
+    t("userManagement.auth.login.typewriter.text3")
   ];
 
   return (
@@ -39,17 +40,17 @@ export const Login = () => {
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight">
-              {t("userManagement.auth:login.title")}
+              {t("userManagement.auth.login.title")}
             </h1>
             <p className="text-sm text-muted-foreground">
-              {t("userManagement.auth:login.subtitle")}
+              {t("userManagement.auth.login.subtitle")}
             </p>
           </div>
           <LoginForm />
           <p className="px-8 text-center text-sm text-muted-foreground">
-            {t("userManagement.auth:login.noAccount")}{" "}
+            {t("userManagement.auth.login.noAccount")}{" "}
             <Link to="/signup" className="underline underline-offset-4 hover:text-primary">
-              {t("userManagement.auth:login.createAccount")}
+              {t("userManagement.auth.login.createAccount")}
             </Link>
           </p>
         </div>
