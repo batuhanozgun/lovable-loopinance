@@ -13,6 +13,7 @@ export class SignupController {
     try {
       logger.debug("Starting signup process", { email: formData.email });
       
+      // Form verilerini doğrula
       const validationResult = SignupValidator.validateSignupInput(formData);
 
       if (!validationResult.success) {
@@ -31,8 +32,29 @@ export class SignupController {
         };
       }
 
-      logger.debug("Input validation successful, attempting signup");
+      logger.debug("Input validation successful, checking if email exists");
       
+      // E-posta kontrolü yap
+      const emailCheck = await SignupValidator.checkEmailExists(formData.email);
+      
+      if (emailCheck.exists) {
+        logger.warn("Email already exists", { email: formData.email });
+        
+        toast({
+          variant: "destructive",
+          title: i18next.t("common:error"),
+          description: emailCheck.message || i18next.t("auth:signup.validation.emailExists"),
+        });
+
+        return {
+          success: false,
+          error: emailCheck.message || i18next.t("auth:signup.validation.emailExists"),
+        };
+      }
+
+      logger.debug("Email check successful, attempting signup");
+      
+      // Kayıt işlemini gerçekleştir
       const signupResult = await SignupService.signUp(
         formData.email,
         formData.password,

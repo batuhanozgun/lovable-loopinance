@@ -2,6 +2,10 @@
 import { z } from "zod";
 import { ISignupForm } from "../interfaces/ISignupForm";
 import i18next from "i18next";
+import { supabase } from "@/integrations/supabase/client";
+import { LoggerService } from "@/modules/Logging/services/LoggerService";
+
+const logger = LoggerService.getInstance("SignupValidator");
 
 export const SignupSchema = z.object({
   firstName: z.string().min(2, {
@@ -30,7 +34,55 @@ export const SignupSchema = z.object({
 });
 
 export class SignupValidator {
+  // Mevcut doğrulama metodu
   static validateSignupInput(data: ISignupForm) {
     return SignupSchema.safeParse(data);
+  }
+
+  // Yeni eklenen e-posta kontrol metodu
+  static async checkEmailExists(email: string): Promise<{ exists: boolean; message?: string }> {
+    try {
+      logger.debug("Checking if email already exists", { email });
+
+      // Supabase üzerinden e-posta kontrolü yapma
+      const { data, error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          shouldCreateUser: false // Yeni kullanıcı oluşturulmasını önler
+        }
+      });
+
+      // Cevabı kontrol et
+      if (error) {
+        // Supabase error mesajları kontrol edilir
+        if (error.message.includes("Email not confirmed")) {
+          // E-posta kayıtlı ama onaylanmamış
+          logger.debug("Email exists but not confirmed", { email });
+          return { 
+            exists: true, 
+            message: i18next.t("auth:signup.validation.emailExistsNotConfirmed")
+          };
+        } else if (error.message.includes("Invalid login credentials")) {
+          // E-posta kayıtlı ve aktif
+          logger.debug("Email exists and confirmed", { email });
+          return { 
+            exists: true, 
+            message: i18next.t("auth:signup.validation.emailExists")
+          };
+        } else {
+          // Başka bir hata oluştu
+          logger.warn("Error checking email existence", { error: error.message });
+          return { exists: false };
+        }
+      }
+
+      // Cevap data içeriyorsa, e-posta kayıtlı değil
+      logger.debug("Email does not exist", { email });
+      return { exists: false };
+      
+    } catch (error) {
+      logger.error("Unexpected error while checking email existence", error);
+      return { exists: false };
+    }
   }
 }
