@@ -15,7 +15,7 @@ export const SignupForm = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { t } = useTranslation();
+  const { t } = useTranslation(["auth", "common"]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,7 +31,7 @@ export const SignupForm = () => {
     if (!result.success) {
       toast({
         variant: "destructive",
-        title: t("common.error"),
+        title: t("common:error"),
         description: result.error,
         duration: 5000,
       });
@@ -40,8 +40,8 @@ export const SignupForm = () => {
     }
 
     toast({
-      title: t("common.success"),
-      description: t("auth.signup.success"),
+      title: t("common:success"),
+      description: t("auth:signup.success"),
       duration: 3000,
     });
 
@@ -54,7 +54,7 @@ export const SignupForm = () => {
       <div className="space-y-2">
         <Input
           type="text"
-          placeholder={t("auth.signup.firstName")}
+          placeholder={t("auth:signup.firstName")}
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
           className="w-full"
@@ -65,7 +65,7 @@ export const SignupForm = () => {
       <div className="space-y-2">
         <Input
           type="text"
-          placeholder={t("auth.signup.lastName")}
+          placeholder={t("auth:signup.lastName")}
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
           className="w-full"
@@ -76,7 +76,7 @@ export const SignupForm = () => {
       <div className="space-y-2">
         <Input
           type="email"
-          placeholder={t("auth.signup.email")}
+          placeholder={t("auth:signup.email")}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="w-full"
@@ -87,7 +87,7 @@ export const SignupForm = () => {
       <div className="space-y-2">
         <Input
           type="password"
-          placeholder={t("auth.signup.password")}
+          placeholder={t("auth:signup.password")}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="w-full"
@@ -96,7 +96,7 @@ export const SignupForm = () => {
         />
       </div>
       <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? t("auth.signup.loading") : t("auth.signup.submit")}
+        {loading ? t("auth:signup.loading") : t("auth:signup.submit")}
       </Button>
     </form>
   );

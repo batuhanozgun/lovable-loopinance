@@ -21,7 +21,7 @@ export class SignupController {
         
         toast({
           variant: "destructive",
-          title: i18next.t("common.error"),
+          title: i18next.t("common:error"),
           description: validationError.message,
         });
 
@@ -43,13 +43,13 @@ export class SignupController {
       if (!signupResult.success) {
         toast({
           variant: "destructive",
-          title: i18next.t("auth.signup.failed"),
+          title: i18next.t("auth:signup.failed"),
           description: signupResult.error,
         });
       } else {
         toast({
-          title: i18next.t("common.success"),
-          description: i18next.t("auth.signup.success"),
+          title: i18next.t("common:success"),
+          description: i18next.t("auth:signup.success"),
         });
       }
 
@@ -59,13 +59,13 @@ export class SignupController {
       
       toast({
         variant: "destructive",
-        title: i18next.t("common.error"),
-        description: i18next.t("errors.signupFailed"),
+        title: i18next.t("common:error"),
+        description: i18next.t("errors:signupFailed"),
       });
 
       return {
         success: false,
-        error: i18next.t("errors.signupFailed"),
+        error: i18next.t("errors:signupFailed"),
       };
     }
   }

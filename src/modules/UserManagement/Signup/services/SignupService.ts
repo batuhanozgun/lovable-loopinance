@@ -36,13 +36,13 @@ export class SignupService {
         if (error.message?.toLowerCase().includes('already registered')) {
           return {
             success: false,
-            error: i18next.t("auth.signup.validation.emailExists"),
+            error: i18next.t("auth:signup.validation.emailExists"),
           };
         }
 
         return {
           success: false,
-          error: i18next.t("errors.signupFailed"),
+          error: i18next.t("errors:signupFailed"),
         };
       }
 
@@ -51,7 +51,7 @@ export class SignupService {
         logger.warn("Signup failed - no user returned from Supabase", { email });
         return {
           success: false,
-          error: i18next.t("errors.signupFailed"),
+          error: i18next.t("errors:signupFailed"),
         };
       }
 
@@ -60,7 +60,7 @@ export class SignupService {
         logger.warn("Signup failed - user exists (identities check)", { email });
         return {
           success: false,
-          error: i18next.t("auth.signup.validation.emailExists"),
+          error: i18next.t("auth:signup.validation.emailExists"),
         };
       }
 
@@ -77,7 +77,7 @@ export class SignupService {
       logger.error("Unexpected error during signup", error);
       return {
         success: false,
-        error: i18next.t("errors.signupFailed"),
+        error: i18next.t("errors:signupFailed"),
       };
     }
   }

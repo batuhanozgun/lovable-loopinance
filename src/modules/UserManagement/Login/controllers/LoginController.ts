@@ -17,8 +17,8 @@ export class LoginController {
       this.logger.info("User logged in successfully", { email });
       
       toast({
-        title: i18next.t("common.success"),
-        description: i18next.t("auth.login.success"),
+        title: i18next.t("common:success"),
+        description: i18next.t("auth:login.success"),
       });
       
       return { success: true };
@@ -27,13 +27,13 @@ export class LoginController {
       
       toast({
         variant: "destructive",
-        title: i18next.t("common.error"),
-        description: error instanceof Error ? error.message : i18next.t("errors.loginFailed"),
+        title: i18next.t("common:error"),
+        description: error instanceof Error ? error.message : i18next.t("errors:loginFailed"),
       });
       
       return {
         success: false,
-        error: error instanceof Error ? error.message : i18next.t("errors.loginFailed"),
+        error: error instanceof Error ? error.message : i18next.t("errors:loginFailed"),
       };
     }
   }
