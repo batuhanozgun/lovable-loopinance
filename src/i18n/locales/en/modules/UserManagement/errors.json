@@ -9,5 +9,7 @@
   "passwordTooShort": "Password must be at least 6 characters",
   "unauthorized": "You are not authorized to perform this action",
   "emailCheckFailed": "Failed to check if email exists. Please try again later.",
-  "rateLimitExceeded": "Too many requests. Please wait a moment and try again."
+  "rateLimitExceeded": "Too many requests. Please wait a moment and try again.",
+  "emailNotAvailable": "This email is already in use. Please try another email address.",
+  "signupSuccessful": "Account created successfully! Please check your email to verify your account."
 }

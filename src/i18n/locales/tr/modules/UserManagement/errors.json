@@ -9,5 +9,7 @@
   "passwordTooShort": "Şifre en az 6 karakter olmalıdır",
   "unauthorized": "Bu işlemi gerçekleştirmeye yetkiniz yok",
   "emailCheckFailed": "E-posta kontrolü başarısız oldu. Lütfen daha sonra tekrar deneyin.",
-  "rateLimitExceeded": "Çok fazla istek. Lütfen bir süre bekleyip tekrar deneyin."
+  "rateLimitExceeded": "Çok fazla istek. Lütfen bir süre bekleyip tekrar deneyin.",
+  "emailNotAvailable": "Bu e-posta adresi zaten kullanımda. Lütfen başka bir e-posta adresi deneyin.",
+  "signupSuccessful": "Hesap başarıyla oluşturuldu! Lütfen hesabınızı doğrulamak için e-postanızı kontrol edin."
 }

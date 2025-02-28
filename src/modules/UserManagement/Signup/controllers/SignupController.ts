@@ -88,16 +88,18 @@ export class SignupController {
           title: i18next.t("auth:signup.failed"),
           description: signupResult.error,
         });
+        
+        return signupResult;
       } else {
         logger.info("Signup successful", { email: formData.email });
         
         toast({
           title: i18next.t("common:success"),
-          description: i18next.t("auth:signup.success"),
+          description: i18next.t("errors:signupSuccessful"),
         });
+        
+        return signupResult;
       }
-
-      return signupResult;
     } catch (error) {
       logger.error("Unexpected error in signup controller", error);
       

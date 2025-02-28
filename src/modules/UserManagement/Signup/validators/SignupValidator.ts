@@ -63,34 +63,34 @@ export class SignupValidator {
         };
       }
 
-      // Diğer hatalar için kontrol
+      // E-posta zaten kayıtlı mı kontrolü - Başarılı OTP yanıtına rağmen kullanıcı kaydı mevcut olabilir
+      if (!error && data) {
+        // Supabase başarılı bir yanıt verdiğinde, e-posta kayıtlı değil demektir
+        logger.debug("Email check successful - email is available", { email });
+        return { exists: false };
+      }
+
+      // Hata varsa, hatanın türüne göre değerlendirme yapalım
       if (error) {
-        if (error.message.includes("Email not confirmed")) {
-          // E-posta kayıtlı ama onaylanmamış
-          logger.debug("Email exists but not confirmed", { email });
-          return { 
-            exists: true, 
-            message: i18next.t("auth:signup.validation.emailExistsNotConfirmed")
-          };
-        } else if (error.message.includes("Invalid login credentials")) {
-          // E-posta kayıtlı ve aktif
-          logger.debug("Email exists and confirmed", { email });
+        // "Invalid login credentials" hatası, kullanıcının mevcut olduğunu gösterir
+        if (error.message.includes("Email not confirmed") || 
+            error.message.includes("Invalid login credentials")) {
+          logger.debug("Email already exists", { email, errorMessage: error.message });
           return { 
             exists: true, 
             message: i18next.t("errors:emailAlreadyExists")
           };
-        } else {
-          // Bilinmeyen bir hata oluştu, güvenlik için genel hata mesajı döndür
-          logger.warn("Unknown error checking email existence", { error: error.message });
-          return { 
-            exists: false,
-            message: i18next.t("errors:emailCheckFailed") 
-          };
         }
+
+        // Diğer hata türleri için
+        logger.warn("Unknown error during email check", { email, errorMessage: error.message });
+        return { 
+          exists: false,
+          message: i18next.t("errors:emailCheckFailed") 
+        };
       }
 
-      // Cevap data içeriyorsa ve hata yoksa, e-posta kayıtlı değil
-      logger.debug("Email is available for signup", { email });
+      // Varsayılan olarak, hata yoksa e-posta kullanılabilir olarak kabul edilir
       return { exists: false };
       
     } catch (error) {
