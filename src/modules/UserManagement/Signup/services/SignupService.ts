@@ -28,9 +28,7 @@ export class SignupService {
         errorMessage: error?.message
       });
 
-      // Önemli: Tekrarlanan kayıt durumu için kontrol
-      // auth_event.action === "user_repeated_signup" olduğu durumlar
-      // Supabase bu durumda hata dönmez, ancak response içinde ipuçları vardır
+      // Tekrarlanan kayıt veya hata durumları için kontrol
       
       // 1. Kullanıcı yoksa veya identities dizisi boşsa, bu bir ipucudur
       if (data?.user && (!data.user.identities || data.user.identities.length === 0)) {
@@ -41,14 +39,8 @@ export class SignupService {
         };
       }
       
-      // 2. Kullanıcı verisi var ama session oluşmadıysa, bu kullanıcı zaten var demektir
-      if (data?.user && !data.session) {
-        logger.warn("Possible repeated signup detected - no session created", { email, userId: data.user.id });
-        return {
-          success: false,
-          error: i18next.t("userManagement:errors.emailAlreadyExists"),
-        };
-      }
+      // Not: "Kullanıcı verisi var ama session oluşmadı" kontrolünü kaldırdık
+      // Çünkü yeni kullanıcılar e-posta doğrulaması yapmadan session oluşturmaz
 
       // E-posta zaten kayıtlı hata kontrolü
       if (error && error.message.includes("already registered")) {

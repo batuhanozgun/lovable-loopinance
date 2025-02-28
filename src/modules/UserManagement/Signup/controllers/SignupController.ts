@@ -34,42 +34,11 @@ export class SignupController {
 
       logger.debug("Input validation successful, checking if email exists");
       
-      // E-posta kontrolü yap
-      const emailCheck = await SignupValidator.checkEmailExists(formData.email);
-      
-      // Rate limit hatası kontrolü
-      if (emailCheck.rateLimited) {
-        logger.warn("Rate limit exceeded when checking email", { email: formData.email });
-        
-        toast({
-          variant: "destructive",
-          title: i18next.t("common:error"),
-          description: emailCheck.message,
-        });
+      // Doğrudan kayıt işlemine geçiyoruz
+      // Önceki e-posta kontrolünü kaldırdık çünkü SignupService.signUp metodu
+      // zaten e-posta varlığını kontrol edecek
 
-        return {
-          success: false,
-          error: emailCheck.message,
-        };
-      }
-      
-      // E-posta zaten kayıtlı mı kontrolü
-      if (emailCheck.exists) {
-        logger.warn("Email already exists", { email: formData.email });
-        
-        toast({
-          variant: "destructive",
-          title: i18next.t("common:error"),
-          description: emailCheck.message || i18next.t("errors:emailAlreadyExists"),
-        });
-
-        return {
-          success: false,
-          error: emailCheck.message || i18next.t("errors:emailAlreadyExists"),
-        };
-      }
-
-      logger.debug("Email check successful, attempting signup");
+      logger.debug("Proceeding to signup directly");
       
       // Kayıt işlemini gerçekleştir
       const signupResult = await SignupService.signUp(
@@ -95,7 +64,7 @@ export class SignupController {
         
         toast({
           title: i18next.t("common:success"),
-          description: i18next.t("errors:signupSuccessful"),
+          description: i18next.t("userManagement:errors.signupSuccessful"),
         });
         
         return signupResult;

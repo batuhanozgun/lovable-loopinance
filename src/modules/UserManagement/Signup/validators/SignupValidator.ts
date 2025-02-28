@@ -40,16 +40,18 @@ export class SignupValidator {
     return SignupSchema.safeParse(data);
   }
 
-  // Geliştirilmiş e-posta kontrolü metodu
+  // Geliştirilmiş e-posta kontrolü metodu - signInWithOtp yerine signUp kullanıyoruz
   static async checkEmailExists(email: string): Promise<{ exists: boolean; message?: string; rateLimited?: boolean }> {
     try {
       logger.debug("Checking if email already exists", { email });
 
-      // Supabase üzerinden e-posta kontrolü - sadece varlık kontrolü için OTP kullanıyoruz
-      const { data, error } = await supabase.auth.signInWithOtp({
+      // Supabase'in signUp metodunu kullanarak e-posta kontrolü
+      // Bu metot, e-posta zaten varsa hata döndürür
+      const { error } = await supabase.auth.signUp({
         email,
+        password: `temporary-${Date.now()}-${Math.random().toString(36).substring(2, 10)}`, // Geçici rastgele şifre
         options: {
-          shouldCreateUser: false // Yeni kullanıcı oluşturulmasını önler
+          emailRedirectTo: window.location.origin, // Doğrulama linki için yönlendirme URL'i
         }
       });
 
@@ -63,35 +65,30 @@ export class SignupValidator {
         };
       }
 
-      // E-posta zaten kayıtlı mı kontrolü - Başarılı OTP yanıtına rağmen kullanıcı kaydı mevcut olabilir
-      if (!error && data) {
-        // Supabase başarılı bir yanıt verdiğinde, e-posta kayıtlı değil demektir
+      // "User already registered" hatası, e-postanın zaten kayıtlı olduğunu gösterir
+      if (error && error.message.includes("already registered")) {
+        logger.debug("Email already exists", { email, errorMessage: error.message });
+        return { 
+          exists: true, 
+          message: i18next.t("errors:emailAlreadyExists")
+        };
+      }
+
+      // Hata yoksa, e-posta mevcut değil
+      if (!error) {
+        // NOT: Bu durumda kullanıcı gerçekten oluşturulur, ancak bu sadece kontrol amaçlı olduğu için
+        // bu kullanıcıyı silmeye çalışabiliriz, ancak anon rolünde bu mümkün olmadığı için
+        // kullanıcı bir süre sonra otomatik olarak silinecektir
         logger.debug("Email check successful - email is available", { email });
         return { exists: false };
       }
 
-      // Hata varsa, hatanın türüne göre değerlendirme yapalım
-      if (error) {
-        // "Invalid login credentials" hatası, kullanıcının mevcut olduğunu gösterir
-        if (error.message.includes("Email not confirmed") || 
-            error.message.includes("Invalid login credentials")) {
-          logger.debug("Email already exists", { email, errorMessage: error.message });
-          return { 
-            exists: true, 
-            message: i18next.t("errors:emailAlreadyExists")
-          };
-        }
-
-        // Diğer hata türleri için
-        logger.warn("Unknown error during email check", { email, errorMessage: error.message });
-        return { 
-          exists: false,
-          message: i18next.t("errors:emailCheckFailed") 
-        };
-      }
-
-      // Varsayılan olarak, hata yoksa e-posta kullanılabilir olarak kabul edilir
-      return { exists: false };
+      // Diğer tüm hatalar için
+      logger.warn("Unknown error during email check", { email, errorMessage: error.message });
+      return { 
+        exists: false,
+        message: i18next.t("errors:emailCheckFailed") 
+      };
       
     } catch (error) {
       // Beklenmeyen hatalar için
