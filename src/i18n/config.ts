@@ -10,6 +10,8 @@ import * as errorsEN from './locales/en/errors.json';
 import * as errorsTR from './locales/tr/errors.json';
 import * as authEN from './locales/en/modules/UserManagement/auth.json';
 import * as authTR from './locales/tr/modules/UserManagement/auth.json';
+import * as userErrorsEN from './locales/en/modules/UserManagement/errors.json';
+import * as userErrorsTR from './locales/tr/modules/UserManagement/errors.json';
 import * as subscriptionCommonEN from './locales/en/modules/Subscription/common.json';
 import * as subscriptionCommonTR from './locales/tr/modules/Subscription/common.json';
 import * as subscriptionNotificationsEN from './locales/en/modules/Subscription/notifications.json';
@@ -32,7 +34,8 @@ i18n
       en: {
         common: commonEN,
         errors: errorsEN,
-        auth: authEN, // Changed from separate signup and login to combined auth
+        'UserManagement.auth': authEN,
+        'UserManagement.errors': userErrorsEN,
         'subscription.common': subscriptionCommonEN,
         'subscription.notifications': subscriptionNotificationsEN,
         'subscription.plans': subscriptionPlansEN,
@@ -41,7 +44,8 @@ i18n
       tr: {
         common: commonTR,
         errors: errorsTR,
-        auth: authTR, // Changed from separate signup and login to combined auth
+        'UserManagement.auth': authTR,
+        'UserManagement.errors': userErrorsTR,
         'subscription.common': subscriptionCommonTR,
         'subscription.notifications': subscriptionNotificationsTR,
         'subscription.plans': subscriptionPlansTR,

@@ -11,7 +11,7 @@ import { SignupSchema } from "../validators/SignupValidator";
 import { useTranslation } from "react-i18next";
 
 export const SignUp = () => {
-  const { t } = useTranslation(["auth", "common", "errors"]);
+  const { t } = useTranslation(["UserManagement.auth", "common", "errors", "UserManagement.errors"]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -57,7 +57,7 @@ export const SignUp = () => {
           <div className="space-y-2">
             <Input
               id="firstName"
-              placeholder={t("auth:signup.firstName")}
+              placeholder={t("UserManagement.auth:signup.firstName")}
               {...register("firstName")}
               className="w-full"
               disabled={loading}
@@ -72,7 +72,7 @@ export const SignUp = () => {
           <div className="space-y-2">
             <Input
               id="lastName"
-              placeholder={t("auth:signup.lastName")}
+              placeholder={t("UserManagement.auth:signup.lastName")}
               {...register("lastName")}
               className="w-full"
               disabled={loading}
@@ -89,7 +89,7 @@ export const SignUp = () => {
           <Input
             id="email"
             type="email"
-            placeholder={t("auth:signup.email")}
+            placeholder={t("UserManagement.auth:signup.email")}
             {...register("email")}
             className="w-full"
             disabled={loading}
@@ -105,7 +105,7 @@ export const SignUp = () => {
           <Input
             id="password"
             type="password"
-            placeholder={t("auth:signup.password")}
+            placeholder={t("UserManagement.auth:signup.password")}
             {...register("password")}
             className="w-full"
             disabled={loading}
@@ -119,7 +119,7 @@ export const SignUp = () => {
       </div>
       
       <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? t("auth:signup.loading") : t("auth:signup.submit")}
+        {loading ? t("UserManagement.auth:signup.loading") : t("UserManagement.auth:signup.submit")}
       </Button>
     </form>
   );

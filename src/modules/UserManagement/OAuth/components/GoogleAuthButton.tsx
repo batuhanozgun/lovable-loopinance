@@ -14,13 +14,13 @@ export const GoogleAuthButton = ({
   className = "", 
   customText 
 }: GoogleAuthButtonProps) => {
-  const { t } = useTranslation(["auth", "common"]);
+  const { t } = useTranslation(["UserManagement.auth", "common"]);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   
   // Bulunduğumuz sayfaya göre login mi signup mı olduğunu belirleme
   const isSignup = location.pathname.includes("signup");
-  const textKey = isSignup ? "auth:oauth.signup.google" : "auth:oauth.login.google";
+  const textKey = isSignup ? "UserManagement.auth:oauth.signup.google" : "UserManagement.auth:oauth.login.google";
 
   const handleGoogleSignIn = async () => {
     setLoading(true);

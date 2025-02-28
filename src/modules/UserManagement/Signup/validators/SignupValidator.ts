@@ -9,10 +9,10 @@ const logger = LoggerService.getInstance("SignupValidator");
 
 export const SignupSchema = z.object({
   firstName: z.string().min(2, {
-    message: i18next.t("auth:signup.validation.firstNameMin")
+    message: i18next.t("UserManagement.auth:signup.validation.firstNameMin")
   }),
   lastName: z.string().min(2, {
-    message: i18next.t("auth:signup.validation.lastNameMin")
+    message: i18next.t("UserManagement.auth:signup.validation.lastNameMin")
   }),
   email: z.string().email({
     message: i18next.t("errors:invalidEmail")
@@ -20,16 +20,16 @@ export const SignupSchema = z.object({
   password: z
     .string()
     .min(8, {
-      message: i18next.t("auth:signup.validation.passwordMin")
+      message: i18next.t("UserManagement.auth:signup.validation.passwordMin")
     })
     .regex(/[A-Z]/, {
-      message: i18next.t("auth:signup.validation.passwordUppercase")
+      message: i18next.t("UserManagement.auth:signup.validation.passwordUppercase")
     })
     .regex(/[a-z]/, {
-      message: i18next.t("auth:signup.validation.passwordLowercase")
+      message: i18next.t("UserManagement.auth:signup.validation.passwordLowercase")
     })
     .regex(/[0-9]/, {
-      message: i18next.t("auth:signup.validation.passwordNumber")
+      message: i18next.t("UserManagement.auth:signup.validation.passwordNumber")
     }),
 });
 
@@ -61,7 +61,7 @@ export class SignupValidator {
         return { 
           exists: false, 
           rateLimited: true,
-          message: i18next.t("errors:rateLimitExceeded") 
+          message: i18next.t("UserManagement.errors:rateLimitExceeded") 
         };
       }
 
@@ -70,7 +70,7 @@ export class SignupValidator {
         logger.debug("Email already exists", { email, errorMessage: error.message });
         return { 
           exists: true, 
-          message: i18next.t("errors:emailAlreadyExists")
+          message: i18next.t("UserManagement.errors:emailAlreadyExists")
         };
       }
 
@@ -87,7 +87,7 @@ export class SignupValidator {
       logger.warn("Unknown error during email check", { email, errorMessage: error.message });
       return { 
         exists: false,
-        message: i18next.t("errors:emailCheckFailed") 
+        message: i18next.t("UserManagement.errors:emailCheckFailed") 
       };
       
     } catch (error) {
@@ -95,7 +95,7 @@ export class SignupValidator {
       logger.error("Unexpected error while checking email existence", error);
       return { 
         exists: false,
-        message: i18next.t("errors:emailCheckFailed") 
+        message: i18next.t("UserManagement.errors:emailCheckFailed") 
       };
     }
   }

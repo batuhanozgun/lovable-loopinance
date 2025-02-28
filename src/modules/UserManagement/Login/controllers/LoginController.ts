@@ -18,7 +18,7 @@ export class LoginController {
       
       toast({
         title: i18next.t("common:success"),
-        description: i18next.t("auth:login.success"),
+        description: i18next.t("UserManagement.auth:login.success"),
       });
       
       return { success: true };

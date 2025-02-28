@@ -14,7 +14,7 @@ interface LoginFormData {
 }
 
 export const LoginForm = () => {
-  const { t } = useTranslation(["auth", "common", "errors"]);
+  const { t } = useTranslation(["UserManagement.auth", "common", "errors"]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -37,7 +37,7 @@ export const LoginForm = () => {
       if (result.success) {
         toast({
           title: t("common:success"),
-          description: t("login.success")
+          description: t("UserManagement.auth:login.success")
         });
         
         // Wait for toast to be visible before redirect
@@ -61,14 +61,14 @@ export const LoginForm = () => {
           <Input
             id="email"
             type="email"
-            placeholder={t("login.email")}
+            placeholder={t("UserManagement.auth:login.email")}
             {...register("email", { required: true })}
             className="w-full"
             disabled={loading}
           />
           {errors.email && (
             <p className="text-sm text-destructive">
-              {t("errors:emailRequired")}
+              {t("errors:fieldRequired")}
             </p>
           )}
         </div>
@@ -77,21 +77,21 @@ export const LoginForm = () => {
           <Input
             id="password"
             type="password"
-            placeholder={t("login.password")}
+            placeholder={t("UserManagement.auth:login.password")}
             {...register("password", { required: true })}
             className="w-full"
             disabled={loading}
           />
           {errors.password && (
             <p className="text-sm text-destructive">
-              {t("errors:passwordRequired")}
+              {t("errors:fieldRequired")}
             </p>
           )}
         </div>
       </div>
       
       <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? t("login.loading") : t("login.submit")}
+        {loading ? t("UserManagement.auth:login.loading") : t("UserManagement.auth:login.submit")}
       </Button>
     </form>
   );

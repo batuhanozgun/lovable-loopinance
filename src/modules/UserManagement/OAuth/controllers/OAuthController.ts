@@ -35,12 +35,12 @@ export class OAuthController {
       toast({
         variant: "destructive",
         title: i18next.t("common:error"),
-        description: error instanceof Error ? error.message : i18next.t(`auth:${errorKey}`),
+        description: error instanceof Error ? error.message : i18next.t(`UserManagement.auth:${errorKey}`),
       });
       
       return {
         success: false,
-        error: error instanceof Error ? error.message : i18next.t(`auth:${errorKey}`),
+        error: error instanceof Error ? error.message : i18next.t(`UserManagement.auth:${errorKey}`),
       };
     }
   }

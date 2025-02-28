@@ -8,7 +8,7 @@ import { Typewriter } from "@/components/Typewriter";
 import { GoogleAuthButton } from "../../OAuth/components/GoogleAuthButton";
 
 export const Login = () => {
-  const { t } = useTranslation("auth"); // Changed from empty array to "auth" namespace
+  const { t } = useTranslation("UserManagement.auth");
 
   const typewriterTexts = [
     t("login.typewriter.text1"),
