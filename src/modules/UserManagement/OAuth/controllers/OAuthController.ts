@@ -11,36 +11,36 @@ export class OAuthController {
 
   static async handleGoogleSignIn() {
     try {
-      this.logger.debug("Google oturum açma işlemi başlatılıyor");
+      this.logger.debug("Google sign in process started");
       
       const result = await AuthService.signInWithGoogle();
       
       if (!result || !result.url) {
-        throw new Error("Google oturum açma URL'si alınamadı");
+        throw new Error(i18next.t("modules:UserManagement.oauth.errors.noUrl"));
       }
       
-      this.logger.debug("Google oturum açma URL'si alındı, yönlendiriliyor", { url: result.url });
+      this.logger.debug("Google sign in URL obtained, redirecting", { url: result.url });
       
       // URL'ye yönlendirme yapılıyor
       window.location.href = result.url;
       
       return { success: true };
     } catch (error) {
-      this.logger.error("Google oturum açma işlemi başarısız oldu", error);
+      this.logger.error("Google sign in process failed", error);
       
-      // Hata mesajı için sayfaya göre doğru çeviriyi seçme
+      // Determine if we're on signup or login page for correct error message
       const isSignupPage = window.location.pathname.includes('signup');
-      const errorKey = isSignupPage ? "oauth.error.signup" : "oauth.error.login";
+      const errorKey = isSignupPage ? "modules:UserManagement.oauth.errors.signup" : "modules:UserManagement.oauth.errors.login";
       
       toast({
         variant: "destructive",
         title: i18next.t("common:error"),
-        description: error instanceof Error ? error.message : i18next.t(`UserManagement.auth:${errorKey}`),
+        description: error instanceof Error ? error.message : i18next.t(errorKey),
       });
       
       return {
         success: false,
-        error: error instanceof Error ? error.message : i18next.t(`UserManagement.auth:${errorKey}`),
+        error: error instanceof Error ? error.message : i18next.t(errorKey),
       };
     }
   }

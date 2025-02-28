@@ -1,0 +1,13 @@
+
+{
+  "loginFailed": "Giriş başarısız. Lütfen bilgilerinizi kontrol edip tekrar deneyin.",
+  "signupFailed": "Kayıt başarısız. Lütfen daha sonra tekrar deneyin.",
+  "emailAlreadyExists": "Bu e-posta adresi zaten kayıtlı. Lütfen başka bir e-posta adresi deneyin veya giriş yapın.",
+  "invalidCredentials": "Geçersiz e-posta veya şifre. Lütfen tekrar deneyin.",
+  "fieldRequired": "Bu alan zorunludur",
+  "invalidEmail": "Lütfen geçerli bir e-posta adresi girin",
+  "passwordTooShort": "Şifre en az 6 karakter olmalıdır",
+  "networkError": "Ağ hatası. Lütfen bağlantınızı kontrol edip tekrar deneyin.",
+  "unauthorized": "Bu işlemi gerçekleştirmeye yetkiniz yok",
+  "serverError": "Sunucu hatası. Lütfen daha sonra tekrar deneyin."
+}

@@ -1,0 +1,39 @@
+
+{
+  "form": {
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Create Account",
+    "loading": "Creating account..."
+  },
+  "labels": {
+    "title": "Create an Account",
+    "subtitle": "Enter your information to create your account"
+  },
+  "links": {
+    "hasAccount": "Already have an account?",
+    "loginAccount": "Sign in"
+  },
+  "messages": {
+    "success": "Account created successfully!"
+  },
+  "errors": {
+    "failed": "Signup failed"
+  },
+  "validation": {
+    "firstNameMin": "First name must be at least 2 characters",
+    "lastNameMin": "Last name must be at least 2 characters",
+    "passwordMin": "Password must be at least 8 characters",
+    "passwordUppercase": "Password must contain at least one uppercase letter",
+    "passwordLowercase": "Password must contain at least one lowercase letter",
+    "passwordNumber": "Password must contain at least one number",
+    "emailExistsNotConfirmed": "This email is registered but not confirmed yet. Please check your inbox or request a new confirmation email."
+  },
+  "typewriter": {
+    "text1": "Create an account to start managing your finances with ease.",
+    "text2": "Join our community of smart finance managers today.",
+    "text3": "Take control of your financial future with Loopinance."
+  }
+}

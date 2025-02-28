@@ -18,7 +18,7 @@ export class LoginController {
       
       toast({
         title: i18next.t("common:success"),
-        description: i18next.t("UserManagement.auth:login.success"),
+        description: i18next.t("modules:UserManagement.login.messages.success"),
       });
       
       return { success: true };
@@ -28,12 +28,12 @@ export class LoginController {
       toast({
         variant: "destructive",
         title: i18next.t("common:error"),
-        description: error instanceof Error ? error.message : i18next.t("errors:loginFailed"),
+        description: error instanceof Error ? error.message : i18next.t("modules:UserManagement.login.errors.failed"),
       });
       
       return {
         success: false,
-        error: error instanceof Error ? error.message : i18next.t("errors:loginFailed"),
+        error: error instanceof Error ? error.message : i18next.t("modules:UserManagement.login.errors.failed"),
       };
     }
   }

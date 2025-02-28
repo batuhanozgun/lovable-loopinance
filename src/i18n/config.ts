@@ -3,21 +3,31 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-// Import translation files
+// Common translations
 import * as commonEN from './locales/en/common.json';
 import * as commonTR from './locales/tr/common.json';
-import * as errorsEN from './locales/en/errors.json';
-import * as errorsTR from './locales/tr/errors.json';
-import * as authEN from './locales/en/modules/UserManagement/auth.json';
-import * as authTR from './locales/tr/modules/UserManagement/auth.json';
-import * as userErrorsEN from './locales/en/modules/UserManagement/errors.json';
-import * as userErrorsTR from './locales/tr/modules/UserManagement/errors.json';
+
+// Shared translations
+import * as sharedErrorsEN from './locales/en/shared/errors.json';
+import * as sharedErrorsTR from './locales/tr/shared/errors.json';
+
+// UserManagement module translations
+import * as loginEN from './locales/en/modules/UserManagement/login.json';
+import * as loginTR from './locales/tr/modules/UserManagement/login.json';
+import * as signupEN from './locales/en/modules/UserManagement/signup.json';
+import * as signupTR from './locales/tr/modules/UserManagement/signup.json';
+import * as oauthEN from './locales/en/modules/UserManagement/oauth.json';
+import * as oauthTR from './locales/tr/modules/UserManagement/oauth.json';
+
+// Subscription module translations
 import * as subscriptionCommonEN from './locales/en/modules/Subscription/common.json';
 import * as subscriptionCommonTR from './locales/tr/modules/Subscription/common.json';
 import * as subscriptionNotificationsEN from './locales/en/modules/Subscription/notifications.json';
 import * as subscriptionNotificationsTR from './locales/tr/modules/Subscription/notifications.json';
 import * as subscriptionPlansEN from './locales/en/modules/Subscription/plans.json';
 import * as subscriptionPlansTR from './locales/tr/modules/Subscription/plans.json';
+
+// Landing page translations
 import * as landingEN from './locales/en/landing.json';
 import * as landingTR from './locales/tr/landing.json';
 
@@ -33,22 +43,24 @@ i18n
     resources: {
       en: {
         common: commonEN,
-        errors: errorsEN,
-        'UserManagement.auth': authEN,
-        'UserManagement.errors': userErrorsEN,
-        'subscription.common': subscriptionCommonEN,
-        'subscription.notifications': subscriptionNotificationsEN,
-        'subscription.plans': subscriptionPlansEN,
+        'shared:errors': sharedErrorsEN,
+        'modules:UserManagement.login': loginEN,
+        'modules:UserManagement.signup': signupEN,
+        'modules:UserManagement.oauth': oauthEN,
+        'modules:Subscription.common': subscriptionCommonEN,
+        'modules:Subscription.notifications': subscriptionNotificationsEN,
+        'modules:Subscription.plans': subscriptionPlansEN,
         landing: landingEN,
       },
       tr: {
         common: commonTR,
-        errors: errorsTR,
-        'UserManagement.auth': authTR,
-        'UserManagement.errors': userErrorsTR,
-        'subscription.common': subscriptionCommonTR,
-        'subscription.notifications': subscriptionNotificationsTR,
-        'subscription.plans': subscriptionPlansTR,
+        'shared:errors': sharedErrorsTR,
+        'modules:UserManagement.login': loginTR,
+        'modules:UserManagement.signup': signupTR,
+        'modules:UserManagement.oauth': oauthTR,
+        'modules:Subscription.common': subscriptionCommonTR,
+        'modules:Subscription.notifications': subscriptionNotificationsTR,
+        'modules:Subscription.plans': subscriptionPlansTR,
         landing: landingTR,
       },
     },

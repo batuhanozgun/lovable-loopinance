@@ -1,0 +1,28 @@
+
+{
+  "form": {
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign In",
+    "loading": "Signing in..."
+  },
+  "labels": {
+    "title": "Login",
+    "subtitle": "Enter your credentials to access your account"
+  },
+  "links": {
+    "noAccount": "Don't have an account?",
+    "createAccount": "Sign up for free"
+  },
+  "messages": {
+    "success": "Successfully logged in!"
+  },
+  "errors": {
+    "failed": "Login failed. Please check your credentials and try again."
+  },
+  "typewriter": {
+    "text1": "Loopinance helps you track expenses, manage accounts, and achieve your financial goals with ease.",
+    "text2": "Join thousands of users who are already managing their finances better with Loopinance.",
+    "text3": "Everything you need to manage your finances in one place"
+  }
+}

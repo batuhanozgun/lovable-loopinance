@@ -14,7 +14,7 @@ interface LoginFormData {
 }
 
 export const LoginForm = () => {
-  const { t } = useTranslation(["UserManagement.auth", "common", "errors"]);
+  const { t } = useTranslation(["modules:UserManagement.login", "common", "shared:errors"]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -37,7 +37,7 @@ export const LoginForm = () => {
       if (result.success) {
         toast({
           title: t("common:success"),
-          description: t("UserManagement.auth:login.success")
+          description: t("messages.success")
         });
         
         // Wait for toast to be visible before redirect
@@ -47,7 +47,7 @@ export const LoginForm = () => {
       toast({
         variant: "destructive",
         title: t("common:error"),
-        description: error instanceof Error ? error.message : t("errors:loginFailed")
+        description: error instanceof Error ? error.message : t("errors.failed")
       });
     } finally {
       setLoading(false);
@@ -61,14 +61,14 @@ export const LoginForm = () => {
           <Input
             id="email"
             type="email"
-            placeholder={t("UserManagement.auth:login.email")}
+            placeholder={t("form.email")}
             {...register("email", { required: true })}
             className="w-full"
             disabled={loading}
           />
           {errors.email && (
             <p className="text-sm text-destructive">
-              {t("errors:fieldRequired")}
+              {t("shared:errors.fieldRequired")}
             </p>
           )}
         </div>
@@ -77,21 +77,21 @@ export const LoginForm = () => {
           <Input
             id="password"
             type="password"
-            placeholder={t("UserManagement.auth:login.password")}
+            placeholder={t("form.password")}
             {...register("password", { required: true })}
             className="w-full"
             disabled={loading}
           />
           {errors.password && (
             <p className="text-sm text-destructive">
-              {t("errors:fieldRequired")}
+              {t("shared:errors.fieldRequired")}
             </p>
           )}
         </div>
       </div>
       
       <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? t("UserManagement.auth:login.loading") : t("UserManagement.auth:login.submit")}
+        {loading ? t("form.loading") : t("form.submit")}
       </Button>
     </form>
   );

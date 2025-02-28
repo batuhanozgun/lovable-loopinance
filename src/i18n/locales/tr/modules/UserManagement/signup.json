@@ -1,0 +1,39 @@
+
+{
+  "form": {
+    "firstName": "Ad",
+    "lastName": "Soyad",
+    "email": "E-posta",
+    "password": "Şifre",
+    "submit": "Hesap Oluştur",
+    "loading": "Hesap oluşturuluyor..."
+  },
+  "labels": {
+    "title": "Hesap Oluştur",
+    "subtitle": "Hesabınızı oluşturmak için bilgilerinizi girin"
+  },
+  "links": {
+    "hasAccount": "Zaten hesabınız var mı?",
+    "loginAccount": "Giriş yap"
+  },
+  "messages": {
+    "success": "Hesap başarıyla oluşturuldu!"
+  },
+  "errors": {
+    "failed": "Kayıt başarısız"
+  },
+  "validation": {
+    "firstNameMin": "Ad en az 2 karakter olmalıdır",
+    "lastNameMin": "Soyad en az 2 karakter olmalıdır",
+    "passwordMin": "Şifre en az 8 karakter olmalıdır",
+    "passwordUppercase": "Şifre en az bir büyük harf içermelidir",
+    "passwordLowercase": "Şifre en az bir küçük harf içermelidir",
+    "passwordNumber": "Şifre en az bir rakam içermelidir",
+    "emailExistsNotConfirmed": "Bu e-posta adresi kayıtlı ancak henüz onaylanmamış. Lütfen gelen kutunuzu kontrol edin veya yeni bir onay e-postası isteyin."
+  },
+  "typewriter": {
+    "text1": "Finanslarınızı kolayca yönetmeye başlamak için hesap oluşturun.",
+    "text2": "Akıllı finans yöneticileri topluluğumuza bugün katılın.",
+    "text3": "Loopinance ile finansal geleceğinizin kontrolünü elinize alın."
+  }
+}
