@@ -16,6 +16,19 @@ const queryClient = new QueryClient();
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
+  // Initialize theme from localStorage or system preference
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    
+    if (storedTheme) {
+      document.documentElement.classList.toggle("dark", storedTheme === "dark");
+    } else {
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.classList.toggle("dark", prefersDark);
+      localStorage.setItem("theme", prefersDark ? "dark" : "light");
+    }
+  }, []);
+
   useEffect(() => {
     const subscription = AuthService.onAuthStateChange(setIsAuthenticated);
     return () => {

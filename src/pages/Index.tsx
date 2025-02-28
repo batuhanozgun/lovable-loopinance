@@ -3,6 +3,7 @@ import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { LanguageSelector } from "@/components/LanguageSelector";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { BarChart3, Home, LogOut, Settings, User } from "lucide-react";
 
 const Index = () => {
@@ -39,6 +40,7 @@ const Index = () => {
         </nav>
         <div className="p-4 border-t border-sidebar-border flex flex-col gap-2">
           <LanguageSelector className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground" />
+          <ThemeToggle className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground" />
           <Button 
             variant="outline" 
             className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground gap-2" 
