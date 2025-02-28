@@ -40,4 +40,23 @@ export class AuthService {
       callback(!!session);
     });
   }
+
+  static async signInWithGoogle() {
+    this.logger.debug("Google ile giriş işlemi başlatıldı");
+    
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin
+      }
+    });
+    
+    if (error) {
+      this.logger.error("Google ile giriş başarısız oldu", error);
+      throw error;
+    }
+    
+    this.logger.info("Google ile giriş işlemi başlatıldı, yönlendirme bekleniyor");
+    return data;
+  }
 }

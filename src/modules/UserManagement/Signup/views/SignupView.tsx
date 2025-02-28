@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Typewriter } from "@/components/Typewriter";
+import { GoogleAuthButton } from "../../OAuth/components/GoogleAuthButton";
+import { Separator } from "@/components/ui/separator";
 
 export const SignUp = () => {
   const { t } = useTranslation();
@@ -58,6 +60,20 @@ export const SignUp = () => {
               {t("auth:signup.subtitle")}
             </p>
           </div>
+          
+          <GoogleAuthButton />
+          
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">
+                {t("auth:oauth.or")}
+              </span>
+            </div>
+          </div>
+          
           <SignUpForm />
           <p className="px-8 text-center text-sm text-muted-foreground">
             {t("auth:signup.hasAccount")}{" "}
