@@ -9,7 +9,8 @@
       "submit": "Sign In",
       "loading": "Signing in...",
       "noAccount": "Don't have an account?",
-      "createAccount": "Create an account"
+      "createAccount": "Create an account",
+      "success": "Successfully signed in. Redirecting..."
     },
     "signup": {
       "title": "Create Account",

@@ -4,6 +4,7 @@ import { ISignupForm } from "../interfaces/ISignupForm";
 import { SignupValidator } from "../validators/SignupValidator";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
 import { toast } from "@/hooks/use-toast";
+import i18next from "i18next";
 
 const logger = LoggerService.getInstance("SignupController");
 
@@ -20,7 +21,7 @@ export class SignupController {
         
         toast({
           variant: "destructive",
-          title: "Validation Error",
+          title: i18next.t("common.error"),
           description: validationError.message,
         });
 
@@ -42,13 +43,13 @@ export class SignupController {
       if (!signupResult.success) {
         toast({
           variant: "destructive",
-          title: "Signup Failed",
+          title: i18next.t("auth.signup.failed"),
           description: signupResult.error,
         });
       } else {
         toast({
-          title: "Success",
-          description: "Your account has been created successfully.",
+          title: i18next.t("common.success"),
+          description: i18next.t("auth.signup.success"),
         });
       }
 
@@ -58,13 +59,13 @@ export class SignupController {
       
       toast({
         variant: "destructive",
-        title: "Error",
-        description: "An unexpected error occurred during signup.",
+        title: i18next.t("common.error"),
+        description: i18next.t("errors.signupFailed"),
       });
 
       return {
         success: false,
-        error: "Beklenmeyen bir hata oluştu / An unexpected error occurred",
+        error: i18next.t("errors.signupFailed"),
       };
     }
   }

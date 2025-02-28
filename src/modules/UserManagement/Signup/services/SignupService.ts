@@ -10,20 +10,7 @@ export class SignupService {
     try {
       logger.debug("Attempting to sign up user", { email, firstName, lastName });
 
-      const { data: existingUser } = await supabase
-        .from('profiles')
-        .select('id')
-        .eq('id', email)
-        .single();
-
-      if (existingUser) {
-        logger.warn("Signup attempt for existing user", { email });
-        return {
-          success: false,
-          error: i18next.t("auth.signup.validation.emailExists"),
-        };
-      }
-
+      // Önce kayıt işlemini deneyelim
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -38,9 +25,11 @@ export class SignupService {
       logger.debug("Supabase signup response received", { 
         hasError: !!error, 
         hasUser: !!data?.user,
-        errorMessage: error?.message
+        errorMessage: error?.message,
+        identities: data?.user?.identities?.length
       });
 
+      // Hata kontrolü
       if (error) {
         logger.error("Signup error from Supabase", error, { email });
         
@@ -57,14 +46,16 @@ export class SignupService {
         };
       }
 
+      // Kullanıcı verisi kontrolü
       if (!data.user) {
         logger.warn("Signup failed - no user returned from Supabase", { email });
         return {
           success: false,
-          error: i18next.t("auth.signup.validation.emailExists"),
+          error: i18next.t("errors.signupFailed"),
         };
       }
 
+      // Mevcut kullanıcı kontrolü (identities dizisi boş ise, kullanıcı zaten vardır)
       if (data.user.identities?.length === 0) {
         logger.warn("Signup failed - user exists (identities check)", { email });
         return {

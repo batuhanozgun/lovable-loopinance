@@ -9,7 +9,8 @@
       "submit": "Giriş Yap",
       "loading": "Giriş yapılıyor...",
       "noAccount": "Hesabınız yok mu?",
-      "createAccount": "Hesap oluşturun"
+      "createAccount": "Hesap oluşturun",
+      "success": "Başarıyla giriş yapıldı. Yönlendiriliyor..."
     },
     "signup": {
       "title": "Hesap Oluştur",

@@ -2,21 +2,38 @@
 import { LoginService } from "../services/LoginService";
 import { ILoginForm } from "../interfaces/ILoginForm";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
+import { toast } from "@/hooks/use-toast";
+import i18next from "i18next";
 
 export class LoginController {
-  private static logger = LoggerService.getInstance();
+  private static logger = LoggerService.getInstance("LoginController");
 
   static async handleLogin({ email, password }: ILoginForm) {
     try {
-      this.logger.debug("Giriş denemesi başlatıldı", { email });
+      this.logger.debug("Login attempt started", { email });
+      
       await LoginService.login(email, password);
-      this.logger.info("Kullanıcı başarıyla giriş yaptı", { email });
+      
+      this.logger.info("User logged in successfully", { email });
+      
+      toast({
+        title: i18next.t("common.success"),
+        description: i18next.t("auth.login.success"),
+      });
+      
       return { success: true };
     } catch (error) {
-      this.logger.error("Giriş işlemi başarısız oldu", error, { email });
+      this.logger.error("Login failed", error, { email });
+      
+      toast({
+        variant: "destructive",
+        title: i18next.t("common.error"),
+        description: error instanceof Error ? error.message : i18next.t("errors.loginFailed"),
+      });
+      
       return {
         success: false,
-        error: error instanceof Error ? error.message : "Giriş işlemi sırasında bir hata oluştu.",
+        error: error instanceof Error ? error.message : i18next.t("errors.loginFailed"),
       };
     }
   }
