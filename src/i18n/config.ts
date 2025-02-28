@@ -16,6 +16,8 @@ import * as subscriptionNotificationsEN from './locales/en/modules/Subscription/
 import * as subscriptionNotificationsTR from './locales/tr/modules/Subscription/notifications.json';
 import * as subscriptionPlansEN from './locales/en/modules/Subscription/plans.json';
 import * as subscriptionPlansTR from './locales/tr/modules/Subscription/plans.json';
+import * as landingEN from './locales/en/landing.json';
+import * as landingTR from './locales/tr/landing.json';
 
 i18n
   .use(initReactI18next)
@@ -34,6 +36,7 @@ i18n
         'subscription.common': subscriptionCommonEN,
         'subscription.notifications': subscriptionNotificationsEN,
         'subscription.plans': subscriptionPlansEN,
+        landing: landingEN,
       },
       tr: {
         common: commonTR,
@@ -42,6 +45,7 @@ i18n
         'subscription.common': subscriptionCommonTR,
         'subscription.notifications': subscriptionNotificationsTR,
         'subscription.plans': subscriptionPlansTR,
+        landing: landingTR,
       },
     },
   });
