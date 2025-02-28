@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { SignupController } from "../controllers/SignupController";
 import { SignupSchema } from "../validators/SignupValidator";
 import { useTranslation } from "react-i18next";
@@ -35,22 +35,10 @@ export const SignUp = () => {
         lastName: data.lastName
       });
       
-      if (!result.success) {
-        toast({
-          variant: "destructive",
-          title: t("common:error"),
-          description: result.error
-        });
-        return;
+      if (result.success) {
+        // Wait for toast to be visible before redirect
+        setTimeout(() => navigate("/"), 2000);
       }
-      
-      toast({
-        title: t("common:success"),
-        description: t("auth:signup.success")
-      });
-      
-      // Wait for toast to be visible before redirect
-      setTimeout(() => navigate("/"), 2000);
     } catch (error) {
       toast({
         variant: "destructive",

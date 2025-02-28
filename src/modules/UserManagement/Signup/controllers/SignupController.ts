@@ -34,7 +34,7 @@ export class SignupController {
 
       logger.debug("Input validation successful, checking if email exists");
       
-      // E-posta kontrolü yap
+      // E-posta kontrolü yap - artık SignupValidator'da
       const emailCheck = await SignupValidator.checkEmailExists(formData.email);
       
       if (emailCheck.exists) {
@@ -43,12 +43,12 @@ export class SignupController {
         toast({
           variant: "destructive",
           title: i18next.t("common:error"),
-          description: emailCheck.message || i18next.t("auth:signup.validation.emailExists"),
+          description: emailCheck.message || i18next.t("errors:emailAlreadyExists"),
         });
 
         return {
           success: false,
-          error: emailCheck.message || i18next.t("auth:signup.validation.emailExists"),
+          error: emailCheck.message || i18next.t("errors:emailAlreadyExists"),
         };
       }
 

@@ -34,12 +34,13 @@ export const SignupSchema = z.object({
 });
 
 export class SignupValidator {
-  // Mevcut doğrulama metodu
+  // Form girdilerini doğrulama metodu
   static validateSignupInput(data: ISignupForm) {
+    logger.debug("Validating signup input", { email: data.email });
     return SignupSchema.safeParse(data);
   }
 
-  // Yeni eklenen e-posta kontrol metodu
+  // E-posta kontrolü metodu - geliştirildi ve daha ayrıntılı hata mesajları eklendi
   static async checkEmailExists(email: string): Promise<{ exists: boolean; message?: string }> {
     try {
       logger.debug("Checking if email already exists", { email });
@@ -54,7 +55,6 @@ export class SignupValidator {
 
       // Cevabı kontrol et
       if (error) {
-        // Supabase error mesajları kontrol edilir
         if (error.message.includes("Email not confirmed")) {
           // E-posta kayıtlı ama onaylanmamış
           logger.debug("Email exists but not confirmed", { email });
@@ -67,17 +67,17 @@ export class SignupValidator {
           logger.debug("Email exists and confirmed", { email });
           return { 
             exists: true, 
-            message: i18next.t("auth:signup.validation.emailExists")
+            message: i18next.t("errors:emailAlreadyExists")
           };
         } else {
-          // Başka bir hata oluştu
-          logger.warn("Error checking email existence", { error: error.message });
+          // Bilinmeyen bir hata oluştu
+          logger.warn("Unknown error checking email existence", { error: error.message });
           return { exists: false };
         }
       }
 
       // Cevap data içeriyorsa, e-posta kayıtlı değil
-      logger.debug("Email does not exist", { email });
+      logger.debug("Email is available for signup", { email });
       return { exists: false };
       
     } catch (error) {

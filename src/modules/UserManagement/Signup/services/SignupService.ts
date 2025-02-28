@@ -25,8 +25,7 @@ export class SignupService {
       logger.debug("Supabase signup response received", { 
         hasError: !!error, 
         hasUser: !!data?.user,
-        errorMessage: error?.message,
-        identities: data?.user?.identities?.length
+        errorMessage: error?.message
       });
 
       // Hata kontrolü
