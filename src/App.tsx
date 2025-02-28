@@ -10,8 +10,14 @@ import Index from "./pages/Index";
 import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
 import "@/i18n/config";
+import { TrialBanner } from "./modules/Subscription/components/TrialBanner";
+import ManageSubscriptionView from "./modules/Subscription/views/ManageSubscriptionView";
+import { withSubscriptionProtection } from "./modules/Subscription/hooks/withSubscriptionProtection";
 
 const queryClient = new QueryClient();
+
+// Abonelik Ayarları sayfasını subscription korumasıyla sarma
+const ProtectedManageSubscriptionView = withSubscriptionProtection(ManageSubscriptionView);
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -44,6 +50,7 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <Toaster />
       <BrowserRouter>
+        {isAuthenticated && <TrialBanner />}
         <Routes>
           <Route
             path="/"
@@ -58,6 +65,10 @@ const App = () => {
           <Route
             path="/dashboard"
             element={isAuthenticated ? <Index /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/subscription"
+            element={isAuthenticated ? <ProtectedManageSubscriptionView /> : <Navigate to="/login" />}
           />
           <Route
             path="/signup"

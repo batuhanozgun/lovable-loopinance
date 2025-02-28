@@ -1,0 +1,83 @@
+
+import React from "react";
+import { AlertCircle, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { SubscriptionController } from "../controllers/SubscriptionController";
+import { useSubscription } from "../hooks/useSubscription";
+
+export const TrialBanner: React.FC = () => {
+  const { status, remainingDays, isLoading } = useSubscription();
+  const [isUpgrading, setIsUpgrading] = React.useState(false);
+  
+  // Yükseltme işlemi
+  const handleUpgrade = async () => {
+    setIsUpgrading(true);
+    try {
+      await SubscriptionController.handleUpgradeToPremium();
+    } catch (error) {
+      console.error("Premium yükseltme hatası:", error);
+    } finally {
+      setIsUpgrading(false);
+    }
+  };
+  
+  // Banner'ın arka plan rengi ve mesajı için durum bazlı değişkenler
+  const getBannerClass = () => {
+    if (status === "premium") return "bg-green-100 dark:bg-green-900/20 border-green-200 dark:border-green-900";
+    if (status === "expired") return "bg-red-100 dark:bg-red-900/20 border-red-200 dark:border-red-900";
+    
+    // Trial durumuna göre farklı arka planlar
+    if (remainingDays && remainingDays <= 7) {
+      return "bg-amber-100 dark:bg-amber-900/20 border-amber-200 dark:border-amber-900";
+    }
+    
+    return "bg-blue-100 dark:bg-blue-900/20 border-blue-200 dark:border-blue-900";
+  };
+  
+  const getIcon = () => {
+    if (status === "premium") return <Sparkles className="h-5 w-5 text-green-600 dark:text-green-400" />;
+    if (status === "expired") return <AlertCircle className="h-5 w-5 text-red-600 dark:text-red-400" />;
+    if (remainingDays && remainingDays <= 7) {
+      return <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400" />;
+    }
+    return <Sparkles className="h-5 w-5 text-blue-600 dark:text-blue-400" />;
+  };
+  
+  const getMessage = () => {
+    if (isLoading) return "Abonelik bilgileriniz yükleniyor...";
+    if (status === "premium") return "Premium hesaba sahipsiniz. Tüm özelliklere erişebilirsiniz.";
+    if (status === "expired") return "Deneme süreniz sona erdi. Premium'a geçerek kullanmaya devam edin.";
+    if (remainingDays === null) return "Abonelik bilgileriniz alınamadı.";
+    
+    if (remainingDays <= 3) {
+      return `Dikkat! Deneme sürenizin bitmesine sadece ${remainingDays} gün kaldı.`;
+    } else if (remainingDays <= 7) {
+      return `Deneme sürenizin bitmesine ${remainingDays} gün kaldı.`;
+    } else {
+      return `Deneme sürenizdeki kalan gün: ${remainingDays} gün`;
+    }
+  };
+  
+  if (isLoading) return null;
+  
+  return (
+    <div className={`px-4 py-2 rounded-md border ${getBannerClass()} flex items-center justify-between mt-2 mx-2`}>
+      <div className="flex items-center gap-2">
+        {getIcon()}
+        <span className="text-sm font-medium">{getMessage()}</span>
+      </div>
+      
+      {status !== "premium" && (
+        <Button 
+          size="sm" 
+          onClick={handleUpgrade}
+          disabled={isUpgrading}
+          className="bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600"
+        >
+          <Sparkles className="mr-1 h-3 w-3" />
+          {isUpgrading ? "İşleniyor..." : "Premium'a Geç"}
+        </Button>
+      )}
+    </div>
+  );
+};

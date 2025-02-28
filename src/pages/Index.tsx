@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { BarChart3, Home, LogOut, Settings, User } from "lucide-react";
+import { BarChart3, CreditCard, Home, LogOut, Settings, User } from "lucide-react";
+import { withSubscriptionProtection } from "@/modules/Subscription/hooks/withSubscriptionProtection";
+import { Link } from "react-router-dom";
 
-const Index = () => {
+const IndexPage = () => {
   const { t } = useTranslation();
   
   const handleSignOut = async () => {
@@ -21,14 +23,18 @@ const Index = () => {
           <h1 className="text-xl font-bold text-sidebar-foreground">{t("common:brandName")}</h1>
         </div>
         <nav className="p-4 space-y-2">
-          <a href="#" className="flex items-center gap-3 text-sidebar-foreground hover:bg-sidebar-accent rounded-md px-3 py-2">
+          <Link to="/dashboard" className="flex items-center gap-3 text-sidebar-foreground hover:bg-sidebar-accent rounded-md px-3 py-2">
             <Home size={18} />
             <span>Dashboard</span>
-          </a>
+          </Link>
           <a href="#" className="flex items-center gap-3 text-sidebar-foreground hover:bg-sidebar-accent rounded-md px-3 py-2">
             <BarChart3 size={18} />
             <span>Analytics</span>
           </a>
+          <Link to="/subscription" className="flex items-center gap-3 text-sidebar-foreground hover:bg-sidebar-accent rounded-md px-3 py-2">
+            <CreditCard size={18} />
+            <span>Abonelik</span>
+          </Link>
           <a href="#" className="flex items-center gap-3 text-sidebar-foreground hover:bg-sidebar-accent rounded-md px-3 py-2">
             <Settings size={18} />
             <span>Settings</span>
@@ -76,4 +82,6 @@ const Index = () => {
   );
 };
 
+// Subscription koruma katmanı ile sarma
+const Index = withSubscriptionProtection(IndexPage);
 export default Index;
