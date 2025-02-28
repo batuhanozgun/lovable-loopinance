@@ -6,7 +6,7 @@ export const HeroSection = () => {
   const {
     t
   } = useTranslation("landing");
-  return <section className="py-20 px-6 bg-gradient-to-r from-[rgba(153,224,255,1)] via-[rgba(192,130,130,1)] to-[rgba(244,248,252,1)] dark:from-[hsla(0,15%,14%,1)] dark:via-[hsla(209,33%,29%,1)] dark:to-[hsla(213,93%,11%,1)]">
+  return <section className="py-20 px-6 bg-gradient-to-r from-[rgba(192,130,130,1)] via-[rgba(224,255,224,1)] to-[rgba(244,248,252,1)] dark:from-[hsla(0,15%,14%,1)] dark:via-[hsla(228,54%,16%,1)] dark:to-[hsla(209,33%,29%,1)]">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         <div className="space-y-6">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground">{t("hero.title")}</h1>
