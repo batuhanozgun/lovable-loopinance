@@ -2,6 +2,7 @@
 import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
+import { LanguageSelector } from "@/components/LanguageSelector";
 import { BarChart3, Home, LogOut, Settings, User } from "lucide-react";
 
 const Index = () => {
@@ -50,6 +51,7 @@ const Index = () => {
 
       {/* Main content */}
       <main className="flex-1 bg-background">
+        <LanguageSelector />
         <div className="p-8">
           <h1 className="text-3xl font-bold mb-6">{t("common:welcome")}</h1>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

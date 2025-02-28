@@ -2,7 +2,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
-import { LanguageSelector } from "@/components/LanguageSelector";
 
 export const LandingHeader = () => {
   const { t } = useTranslation("landing");
@@ -24,7 +23,6 @@ export const LandingHeader = () => {
         </Link>
       </nav>
       <div className="flex items-center space-x-4">
-        <LanguageSelector />
         <Button variant="ghost" size="sm" asChild>
           <Link to="/login">{t("nav.login")}</Link>
         </Button>
