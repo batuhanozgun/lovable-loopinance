@@ -1,84 +1,35 @@
 
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
+import { SignupFormData } from "../validators/SignupValidator";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
-import i18next from "i18next";
-
-const logger = LoggerService.getInstance("SignupService");
 
 export class SignupService {
-  static async signUp(email: string, password: string, firstName: string, lastName: string) {
-    try {
-      logger.debug("Attempting to sign up user", { email, firstName, lastName });
+  private static logger = LoggerService.getInstance("SignupService");
 
-      // Kayıt işlemini gerçekleştir
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            first_name: firstName,
-            last_name: lastName,
-          },
+  static async register(userData: SignupFormData) {
+    this.logger.debug("Kayıt işlemi başlatılıyor", { email: userData.email });
+
+    const { data, error } = await supabase.auth.signUp({
+      email: userData.email,
+      password: userData.password,
+      options: {
+        data: {
+          first_name: userData.firstName,
+          last_name: userData.lastName,
         },
-      });
+      },
+    });
 
-      logger.debug("Supabase signup response received", { 
-        hasError: !!error, 
-        hasUser: !!data?.user,
-        errorMessage: error?.message
-      });
-
-      // E-posta zaten kayıtlı hata kontrolü
-      if (error && error.message.includes("already registered")) {
-        logger.warn("Email already registered", { email, error: error.message });
-        return {
-          success: false,
-          error: i18next.t("errors:emailAlreadyExists"),
-        };
-      }
-
-      // Rate limiting hatası kontrolü
-      if (error && error.message.includes("rate limit")) {
-        logger.warn("Rate limit exceeded during signup", { email, error: error.message });
-        return {
-          success: false,
-          error: i18next.t("errors:rateLimitExceeded"),
-        };
-      }
-
-      // Diğer hata türleri için kontrol
-      if (error) {
-        logger.error("Signup error from Supabase", error, { email });
-        return {
-          success: false,
-          error: i18next.t("errors:signupFailed"),
-        };
-      }
-
-      // Kullanıcı verisi kontrolü
-      if (!data.user) {
-        logger.warn("Signup failed - no user returned from Supabase", { email });
-        return {
-          success: false,
-          error: i18next.t("errors:signupFailed"),
-        };
-      }
-
-      logger.info("User signup successful", { 
-        userId: data.user.id,
-        email: data.user.email 
-      });
-
-      return {
-        success: true,
-        user: data.user,
-      };
-    } catch (error) {
-      logger.error("Unexpected error during signup", error);
-      return {
-        success: false,
-        error: i18next.t("errors:signupFailed"),
-      };
+    if (error) {
+      this.logger.error("Supabase kayıt hatası", error, { email: userData.email });
+      throw error;
     }
+
+    this.logger.info("Kullanıcı başarıyla oluşturuldu", {
+      email: userData.email,
+      userId: data.user?.id,
+    });
+
+    return data;
   }
 }

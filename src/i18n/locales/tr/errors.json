@@ -11,5 +11,6 @@
   "unauthorized": "Bu işlemi gerçekleştirmeye yetkiniz yok",
   "serverError": "Sunucu hatası. Lütfen daha sonra tekrar deneyin.",
   "emailCheckFailed": "E-posta kontrolü başarısız oldu. Lütfen daha sonra tekrar deneyin.",
-  "rateLimitExceeded": "Çok fazla istek. Lütfen bir süre bekleyip tekrar deneyin."
+  "rateLimitExceeded": "Çok fazla istek. Lütfen bir süre bekleyip tekrar deneyin.",
+  "passwordValidationFailed": "Şifre gereklilikleri karşılamıyor"
 }
