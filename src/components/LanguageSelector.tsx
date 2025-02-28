@@ -1,8 +1,13 @@
 
-import { Button } from "@/components/ui/button";
+import { Button, ButtonProps } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
+import { cn } from "@/lib/utils";
 
-export const LanguageSelector = () => {
+interface LanguageSelectorProps extends Omit<ButtonProps, "onClick"> {
+  className?: string;
+}
+
+export const LanguageSelector = ({ className, ...props }: LanguageSelectorProps) => {
   const { i18n } = useTranslation();
 
   const toggleLanguage = () => {
@@ -16,7 +21,8 @@ export const LanguageSelector = () => {
       variant="ghost"
       size="sm"
       onClick={toggleLanguage}
-      className="fixed top-4 right-4"
+      className={cn(className)}
+      {...props}
     >
       {i18n.language === "tr" ? "EN" : "TR"}
     </Button>

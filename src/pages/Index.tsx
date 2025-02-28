@@ -37,7 +37,8 @@ const Index = () => {
             <span>Profile</span>
           </a>
         </nav>
-        <div className="p-4 mt-auto border-t border-sidebar-border">
+        <div className="p-4 border-t border-sidebar-border flex flex-col gap-2">
+          <LanguageSelector className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground" />
           <Button 
             variant="outline" 
             className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground gap-2" 
@@ -51,7 +52,6 @@ const Index = () => {
 
       {/* Main content */}
       <main className="flex-1 bg-background">
-        <LanguageSelector />
         <div className="p-8">
           <h1 className="text-3xl font-bold mb-6">{t("common:welcome")}</h1>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
