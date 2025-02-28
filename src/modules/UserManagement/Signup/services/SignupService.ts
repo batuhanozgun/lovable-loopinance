@@ -1,5 +1,5 @@
 
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
 import i18next from "i18next";
 

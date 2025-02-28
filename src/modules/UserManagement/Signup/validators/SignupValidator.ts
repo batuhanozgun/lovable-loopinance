@@ -2,7 +2,7 @@
 import { z } from "zod";
 import { ISignupForm } from "../interfaces/ISignupForm";
 import i18next from "i18next";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
 
 const logger = LoggerService.getInstance("SignupValidator");
