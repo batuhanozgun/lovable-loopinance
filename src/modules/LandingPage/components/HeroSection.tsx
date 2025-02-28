@@ -1,14 +1,12 @@
-
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-
 export const HeroSection = () => {
-  const { t } = useTranslation("landing");
-
-  return (
-    <section className="py-20 px-6 bg-gradient-to-r from-[#dfeaf7] via-[#e8f0f8] to-[#f4f8fc] dark:from-[hsla(221,45%,73%,1)] dark:via-[hsla(220,60%,50%,1)] dark:to-[hsla(220,78%,29%,1)]">
+  const {
+    t
+  } = useTranslation("landing");
+  return <section className="py-20 px-6 bg-gradient-to-r from-[rgba(77,136,209,1)] via-[rgba(192,130,130,1)] to-[rgba(244,248,252,1)] dark:from-[hsla(0,15%,14%,1)] dark:via-[hsla(209,33%,29%,1)] dark:to-[hsla(213,93%,11%,1)]">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         <div className="space-y-6">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground">{t("hero.title")}</h1>
@@ -30,6 +28,5 @@ export const HeroSection = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
