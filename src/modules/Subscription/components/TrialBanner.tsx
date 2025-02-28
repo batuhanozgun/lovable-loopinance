@@ -60,7 +60,7 @@ export const TrialBanner: React.FC = () => {
   const getMessage = () => {
     if (isLoading) return t("loading");
     if (status === "premium") return t("premium.status");
-    if (status === "expired") return t("trialEnded.cta", { ns: "subscription.notifications" });
+    if (status === "expired") return t("trialEnding.cta", { ns: "subscription.notifications" });
     if (remainingDays === null) return t("loading");
     
     if (remainingDays <= 3) {

@@ -1,15 +1,19 @@
 
 {
   "loginFailed": "Login failed. Please check your credentials and try again.",
-  "signupFailed": "Signup failed. Please try again later.",
-  "emailAlreadyExists": "This email is already registered. Please try another one or login.",
+  "signupFailed": "Registration failed. Please try again later.",
+  "emailAlreadyExists": "This email is already registered. Please use a different email or sign in.",
   "invalidCredentials": "Invalid email or password. Please try again.",
   "fieldRequired": "This field is required",
   "invalidEmail": "Please enter a valid email address",
-  "passwordTooShort": "Password must be at least 6 characters",
+  "passwordTooShort": "Password must be at least 6 characters long",
   "unauthorized": "You are not authorized to perform this action",
-  "emailCheckFailed": "Failed to check if email exists. Please try again later.",
+  "emailCheckFailed": "Email check failed. Please try again later.",
   "rateLimitExceeded": "Too many requests. Please wait a moment and try again.",
-  "emailNotAvailable": "This email is already in use. Please try another email address.",
-  "signupSuccessful": "Account created successfully! Please check your email to verify your account."
+  "emailNotAvailable": "This email is already in use. Please try a different email address.",
+  "signupSuccessful": "Account successfully created! Please check your email to verify your account.",
+  "general": {
+    "title": "An error occurred",
+    "description": "An unexpected error occurred during the operation. Please try again later."
+  }
 }
