@@ -25,27 +25,27 @@ export const Login = () => {
           >
             <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
           </svg>
-          {t("common.brandName")}
+          {t("common:brandName")}
         </div>
       </div>
       <div className="lg:p-8">
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight">
-              {t("auth.login.title")}
+              {t("auth:login.title")}
             </h1>
             <p className="text-sm text-muted-foreground">
-              {t("auth.login.subtitle")}
+              {t("auth:login.subtitle")}
             </p>
           </div>
           <LoginForm />
           <p className="px-8 text-center text-sm text-muted-foreground">
-            {t("auth.login.noAccount")}{" "}
+            {t("auth:login.noAccount")}{" "}
             <Link
               to="/signup"
               className="underline underline-offset-4 hover:text-primary"
             >
-              {t("auth.login.createAccount")}
+              {t("auth:login.createAccount")}
             </Link>
           </p>
         </div>

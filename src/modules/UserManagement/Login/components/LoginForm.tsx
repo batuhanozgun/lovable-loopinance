@@ -13,7 +13,7 @@ export const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { t } = useTranslation();
+  const { t } = useTranslation(["auth", "common", "errors"]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,23 +26,23 @@ export const LoginForm = () => {
       if (!result.success) {
         toast({
           variant: "destructive",
-          title: t("common.error"),
+          title: t("common:error"),
           description: result.error,
         });
         return;
       }
 
       toast({
-        title: t("common.success"),
-        description: t("auth.login.success"),
+        title: t("common:success"),
+        description: t("auth:login.success"),
       });
 
       setTimeout(() => navigate("/"), 2000);
     } catch (error) {
       toast({
         variant: "destructive",
-        title: t("common.error"),
-        description: error instanceof Error ? error.message : t("errors.loginFailed"),
+        title: t("common:error"),
+        description: error instanceof Error ? error.message : t("errors:loginFailed"),
       });
     } finally {
       setLoading(false);
@@ -54,7 +54,7 @@ export const LoginForm = () => {
       <div className="space-y-4">
         <Input
           type="email"
-          placeholder={t("auth.login.email")}
+          placeholder={t("auth:login.email")}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="w-full"
@@ -62,7 +62,7 @@ export const LoginForm = () => {
         />
         <Input
           type="password"
-          placeholder={t("auth.login.password")}
+          placeholder={t("auth:login.password")}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="w-full"
@@ -70,7 +70,7 @@ export const LoginForm = () => {
         />
       </div>
       <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? t("auth.login.loading") : t("auth.login.submit")}
+        {loading ? t("auth:login.loading") : t("auth:login.submit")}
       </Button>
     </form>
   );

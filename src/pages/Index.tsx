@@ -16,12 +16,12 @@ const Index = () => {
       <LanguageSelector />
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold text-gray-900">
-          {t("common.welcome")}
+          {t("common:welcome")}
         </h1>
         <p className="text-xl text-gray-600">
-          {t("common.description")}
+          {t("common:description")}
         </p>
-        <Button onClick={handleSignOut}>{t("common.logout")}</Button>
+        <Button onClick={handleSignOut}>{t("common:logout")}</Button>
       </div>
     </div>
   );
