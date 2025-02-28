@@ -9,7 +9,7 @@ export const LandingHeader = () => {
   const { t } = useTranslation("landing");
 
   return (
-    <header className="bg-background py-4 px-6 flex items-center justify-between shadow-sm">
+    <header className="fixed top-0 left-0 w-full bg-background/80 backdrop-blur-sm py-4 px-6 flex items-center justify-between shadow-sm border-b z-50">
       <div className="flex items-center">
         <span className="text-xl font-bold text-primary">{t("common:brandName")}</span>
       </div>
