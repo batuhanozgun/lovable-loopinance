@@ -1,0 +1,10 @@
+
+{
+  "success": {
+    "login": "Başarıyla giriş yapıldı!"
+  },
+  "error": {
+    "invalidCredentials": "Geçersiz e-posta veya şifre. Lütfen tekrar deneyin.",
+    "loginFailed": "Giriş başarısız. Lütfen bilgilerinizi kontrol edip tekrar deneyin."
+  }
+}

@@ -6,5 +6,14 @@
   "welcome": "Welcome to Loopinance",
   "description": "Simplify your financial tracking",
   "logout": "Logout",
-  "later": "Later"
+  "later": "Later",
+  "loading": "Loading...",
+  "save": "Save",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "edit": "Edit",
+  "search": "Search",
+  "filter": "Filter",
+  "add": "Add",
+  "remove": "Remove"
 }

@@ -1,0 +1,17 @@
+
+{
+  "buttons": {
+    "login": {
+      "google": "Google ile Giriş Yap",
+      "facebook": "Facebook ile Giriş Yap",
+      "github": "GitHub ile Giriş Yap"
+    },
+    "signup": {
+      "google": "Google ile Devam Et",
+      "facebook": "Facebook ile Devam Et",
+      "github": "GitHub ile Devam Et"
+    }
+  },
+  "loading": "Bağlanıyor...",
+  "or": "veya"
+}

@@ -1,0 +1,11 @@
+
+{
+  "form": {
+    "firstName": "Ad",
+    "lastName": "Soyad",
+    "email": "E-posta",
+    "password": "Şifre",
+    "submit": "Hesap Oluştur",
+    "loading": "Hesap oluşturuluyor..."
+  }
+}

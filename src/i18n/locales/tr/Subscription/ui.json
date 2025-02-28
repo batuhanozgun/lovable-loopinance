@@ -1,0 +1,21 @@
+
+{
+  "buttons": {
+    "subscribe": "Abone Ol",
+    "upgrade": "Yükselt",
+    "downgrade": "Düşür",
+    "cancel": "Aboneliği İptal Et",
+    "manageBilling": "Faturalandırmayı Yönet"
+  },
+  "labels": {
+    "currentPlan": "Mevcut Plan",
+    "nextBilling": "Sonraki Fatura Tarihi",
+    "paymentMethod": "Ödeme Yöntemi",
+    "billingHistory": "Fatura Geçmişi"
+  },
+  "trial": {
+    "daysLeft": "Deneme sürenizde {{days}} gün kaldı",
+    "expired": "Deneme süreniz sona erdi",
+    "subscribe": "Devam etmek için şimdi abone olun"
+  }
+}

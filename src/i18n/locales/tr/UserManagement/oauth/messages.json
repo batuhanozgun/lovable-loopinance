@@ -1,0 +1,13 @@
+
+{
+  "success": {
+    "login": "Google hesabınızla başarıyla giriş yapıldı!",
+    "signup": "Google hesabınızla başarıyla kayıt oldunuz!"
+  },
+  "error": {
+    "general": "OAuth işlemi sırasında bir hata oluştu. Lütfen tekrar deneyin.",
+    "login": "Google ile giriş yapma işlemi başarısız oldu.",
+    "signup": "Google ile hesap oluşturma işlemi başarısız oldu.",
+    "noUrl": "Google giriş URL'si alınamadı"
+  }
+}

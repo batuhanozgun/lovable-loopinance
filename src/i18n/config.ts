@@ -3,33 +3,48 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-// Common translations
+// Import common translations
 import * as commonEN from './locales/en/common.json';
 import * as commonTR from './locales/tr/common.json';
 
-// Shared translations
-import * as sharedErrorsEN from './locales/en/shared/errors.json';
-import * as sharedErrorsTR from './locales/tr/shared/errors.json';
+// Import error translations
+import * as errorsEN from './locales/en/errors.json';
+import * as errorsTR from './locales/tr/errors.json';
 
-// UserManagement module translations
-import * as loginEN from './locales/en/modules/UserManagement/login.json';
-import * as loginTR from './locales/tr/modules/UserManagement/login.json';
-import * as signupEN from './locales/en/modules/UserManagement/signup.json';
-import * as signupTR from './locales/tr/modules/UserManagement/signup.json';
-import * as oauthEN from './locales/en/modules/UserManagement/oauth.json';
-import * as oauthTR from './locales/tr/modules/UserManagement/oauth.json';
+// Import UserManagement module translations
+// Login
+import * as loginUIEN from './locales/en/UserManagement/login/ui.json';
+import * as loginMessagesEN from './locales/en/UserManagement/login/messages.json';
+import * as loginContentEN from './locales/en/UserManagement/login/content.json';
+import * as loginUITR from './locales/tr/UserManagement/login/ui.json';
+import * as loginMessagesTR from './locales/tr/UserManagement/login/messages.json';
+import * as loginContentTR from './locales/tr/UserManagement/login/content.json';
 
-// Subscription module translations
-import * as subscriptionCommonEN from './locales/en/modules/Subscription/common.json';
-import * as subscriptionCommonTR from './locales/tr/modules/Subscription/common.json';
-import * as subscriptionNotificationsEN from './locales/en/modules/Subscription/notifications.json';
-import * as subscriptionNotificationsTR from './locales/tr/modules/Subscription/notifications.json';
-import * as subscriptionPlansEN from './locales/en/modules/Subscription/plans.json';
-import * as subscriptionPlansTR from './locales/tr/modules/Subscription/plans.json';
+// Signup
+import * as signupUIEN from './locales/en/UserManagement/signup/ui.json';
+import * as signupMessagesEN from './locales/en/UserManagement/signup/messages.json';
+import * as signupValidationEN from './locales/en/UserManagement/signup/validation.json';
+import * as signupContentEN from './locales/en/UserManagement/signup/content.json';
+import * as signupUITR from './locales/tr/UserManagement/signup/ui.json';
+import * as signupMessagesTR from './locales/tr/UserManagement/signup/messages.json';
+import * as signupValidationTR from './locales/tr/UserManagement/signup/validation.json';
+import * as signupContentTR from './locales/tr/UserManagement/signup/content.json';
 
-// Landing page translations
-import * as landingEN from './locales/en/landing.json';
-import * as landingTR from './locales/tr/landing.json';
+// OAuth
+import * as oauthUIEN from './locales/en/UserManagement/oauth/ui.json';
+import * as oauthMessagesEN from './locales/en/UserManagement/oauth/messages.json';
+import * as oauthUITR from './locales/tr/UserManagement/oauth/ui.json';
+import * as oauthMessagesTR from './locales/tr/UserManagement/oauth/messages.json';
+
+// Import Subscription module translations
+import * as subscriptionUIEN from './locales/en/Subscription/ui.json';
+import * as subscriptionNotificationsEN from './locales/en/Subscription/notifications.json';
+import * as subscriptionPlansUIEN from './locales/en/Subscription/plans/ui.json';
+import * as subscriptionPlansPricingEN from './locales/en/Subscription/plans/pricing.json';
+import * as subscriptionUITR from './locales/tr/Subscription/ui.json';
+import * as subscriptionNotificationsTR from './locales/tr/Subscription/notifications.json';
+import * as subscriptionPlansUITR from './locales/tr/Subscription/plans/ui.json';
+import * as subscriptionPlansPricingTR from './locales/tr/Subscription/plans/pricing.json';
 
 i18n
   .use(initReactI18next)
@@ -42,27 +57,53 @@ i18n
     },
     resources: {
       en: {
+        // Common translations
         common: commonEN,
-        'shared:errors': sharedErrorsEN,
-        'modules:UserManagement.login': loginEN,
-        'modules:UserManagement.signup': signupEN,
-        'modules:UserManagement.oauth': oauthEN,
-        'modules:Subscription.common': subscriptionCommonEN,
-        'modules:Subscription.notifications': subscriptionNotificationsEN,
-        'modules:Subscription.plans': subscriptionPlansEN,
-        landing: landingEN,
+        errors: errorsEN,
+        
+        // UserManagement module translations
+        'UserManagement.login.ui': loginUIEN,
+        'UserManagement.login.messages': loginMessagesEN,
+        'UserManagement.login.content': loginContentEN,
+        
+        'UserManagement.signup.ui': signupUIEN,
+        'UserManagement.signup.messages': signupMessagesEN,
+        'UserManagement.signup.validation': signupValidationEN,
+        'UserManagement.signup.content': signupContentEN,
+        
+        'UserManagement.oauth.ui': oauthUIEN,
+        'UserManagement.oauth.messages': oauthMessagesEN,
+        
+        // Subscription module translations
+        'Subscription.ui': subscriptionUIEN,
+        'Subscription.notifications': subscriptionNotificationsEN,
+        'Subscription.plans.ui': subscriptionPlansUIEN,
+        'Subscription.plans.pricing': subscriptionPlansPricingEN
       },
       tr: {
+        // Common translations
         common: commonTR,
-        'shared:errors': sharedErrorsTR,
-        'modules:UserManagement.login': loginTR,
-        'modules:UserManagement.signup': signupTR,
-        'modules:UserManagement.oauth': oauthTR,
-        'modules:Subscription.common': subscriptionCommonTR,
-        'modules:Subscription.notifications': subscriptionNotificationsTR,
-        'modules:Subscription.plans': subscriptionPlansTR,
-        landing: landingTR,
-      },
+        errors: errorsTR,
+        
+        // UserManagement module translations
+        'UserManagement.login.ui': loginUITR,
+        'UserManagement.login.messages': loginMessagesTR,
+        'UserManagement.login.content': loginContentTR,
+        
+        'UserManagement.signup.ui': signupUITR,
+        'UserManagement.signup.messages': signupMessagesTR,
+        'UserManagement.signup.validation': signupValidationTR,
+        'UserManagement.signup.content': signupContentTR,
+        
+        'UserManagement.oauth.ui': oauthUITR,
+        'UserManagement.oauth.messages': oauthMessagesTR,
+        
+        // Subscription module translations
+        'Subscription.ui': subscriptionUITR,
+        'Subscription.notifications': subscriptionNotificationsTR,
+        'Subscription.plans.ui': subscriptionPlansUITR,
+        'Subscription.plans.pricing': subscriptionPlansPricingTR
+      }
     },
   });
 

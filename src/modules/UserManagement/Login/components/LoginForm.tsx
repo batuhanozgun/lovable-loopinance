@@ -14,7 +14,7 @@ interface LoginFormData {
 }
 
 export const LoginForm = () => {
-  const { t } = useTranslation(["modules:UserManagement.login", "common", "shared:errors"]);
+  const { t } = useTranslation(["UserManagement.login.ui", "UserManagement.login.messages", "common", "errors"]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -37,7 +37,7 @@ export const LoginForm = () => {
       if (result.success) {
         toast({
           title: t("common:success"),
-          description: t("messages.success")
+          description: t("UserManagement.login.messages:success.login")
         });
         
         // Wait for toast to be visible before redirect
@@ -47,7 +47,7 @@ export const LoginForm = () => {
       toast({
         variant: "destructive",
         title: t("common:error"),
-        description: error instanceof Error ? error.message : t("errors.failed")
+        description: error instanceof Error ? error.message : t("UserManagement.login.messages:error.loginFailed")
       });
     } finally {
       setLoading(false);
@@ -68,7 +68,7 @@ export const LoginForm = () => {
           />
           {errors.email && (
             <p className="text-sm text-destructive">
-              {t("shared:errors.fieldRequired")}
+              {t("errors:validation.required")}
             </p>
           )}
         </div>
@@ -84,7 +84,7 @@ export const LoginForm = () => {
           />
           {errors.password && (
             <p className="text-sm text-destructive">
-              {t("shared:errors.fieldRequired")}
+              {t("errors:validation.required")}
             </p>
           )}
         </div>

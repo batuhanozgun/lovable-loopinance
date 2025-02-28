@@ -1,0 +1,12 @@
+
+{
+  "title": "Hesap Oluştur",
+  "subtitle": "Hesabınızı oluşturmak için bilgilerinizi girin",
+  "hasAccount": "Zaten hesabınız var mı?",
+  "loginAccount": "Giriş yap",
+  "typewriter": {
+    "text1": "Finanslarınızı kolayca yönetmeye başlamak için hesap oluşturun.",
+    "text2": "Akıllı finans yöneticileri topluluğumuza bugün katılın.",
+    "text3": "Loopinance ile finansal geleceğinizin kontrolünü elinize alın."
+  }
+}

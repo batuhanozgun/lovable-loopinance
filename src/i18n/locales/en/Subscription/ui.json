@@ -1,0 +1,21 @@
+
+{
+  "buttons": {
+    "subscribe": "Subscribe",
+    "upgrade": "Upgrade",
+    "downgrade": "Downgrade",
+    "cancel": "Cancel Subscription",
+    "manageBilling": "Manage Billing"
+  },
+  "labels": {
+    "currentPlan": "Current Plan",
+    "nextBilling": "Next Billing Date",
+    "paymentMethod": "Payment Method",
+    "billingHistory": "Billing History"
+  },
+  "trial": {
+    "daysLeft": "{{days}} days left in your trial",
+    "expired": "Your trial has expired",
+    "subscribe": "Subscribe now to continue"
+  }
+}

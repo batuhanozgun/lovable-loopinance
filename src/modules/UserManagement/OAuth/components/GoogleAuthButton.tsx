@@ -14,13 +14,13 @@ export const GoogleAuthButton = ({
   className = "", 
   customText 
 }: GoogleAuthButtonProps) => {
-  const { t } = useTranslation(["modules:UserManagement.oauth", "common"]);
+  const { t } = useTranslation(["UserManagement.oauth.ui", "UserManagement.oauth.messages", "common"]);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   
   // Bulunduğumuz sayfaya göre login mi signup mı olduğunu belirleme
   const isSignup = location.pathname.includes("signup");
-  const textKey = isSignup ? "buttons.signup.google" : "buttons.login.google";
+  const buttonKey = isSignup ? "buttons.signup.google" : "buttons.login.google";
 
   const handleGoogleSignIn = async () => {
     setLoading(true);
@@ -56,7 +56,7 @@ export const GoogleAuthButton = ({
           <path d="M8.00006 3.08614C9.44172 3.08614 10.4163 3.7201 10.9769 4.24314L13.0289 2.25798C11.7349 1.07606 10.0334 0.400879 8.00006 0.400879C5.0086 0.400879 2.42616 2.19975 1.30371 4.84618L3.66997 6.12305C4.30388 4.37521 5.99343 3.08614 8.00006 3.08614Z" fill="#EB4335"/>
         </svg>
       )}
-      <span>{customText || t(textKey)}</span>
+      <span>{customText || t(buttonKey)}</span>
     </Button>
   );
 };

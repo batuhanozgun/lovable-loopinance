@@ -1,0 +1,14 @@
+
+{
+  "success": {
+    "subscribed": "{{plan}} planına başarıyla abone oldunuz!",
+    "cancelled": "Aboneliğiniz iptal edildi. Fatura döneminizin sonuna kadar premium özelliklere erişiminiz olacak.",
+    "upgraded": "Aboneliğiniz {{plan}} planına yükseltildi!",
+    "downgraded": "Aboneliğiniz {{plan}} planına düşürüldü!"
+  },
+  "error": {
+    "paymentFailed": "Ödeme başarısız. Lütfen ödeme bilgilerinizi kontrol edip tekrar deneyin.",
+    "alreadySubscribed": "Zaten bu plana abonesiniz.",
+    "subscriptionFailed": "Abonelik tamamlanamadı. Lütfen daha sonra tekrar deneyin."
+  }
+}

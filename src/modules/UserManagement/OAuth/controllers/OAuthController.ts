@@ -1,7 +1,6 @@
 
 import { AuthService } from "../../common/services/AuthService";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
-import { IOAuthConfig } from "../interfaces/IOAuthConfig";
 import { toast } from "@/hooks/use-toast";
 import i18next from "i18next";
 import { useLocation } from "react-router-dom";
@@ -16,7 +15,7 @@ export class OAuthController {
       const result = await AuthService.signInWithGoogle();
       
       if (!result || !result.url) {
-        throw new Error(i18next.t("modules:UserManagement.oauth.errors.noUrl"));
+        throw new Error(i18next.t("UserManagement.oauth.messages:error.noUrl"));
       }
       
       this.logger.debug("Google sign in URL obtained, redirecting", { url: result.url });
@@ -30,7 +29,7 @@ export class OAuthController {
       
       // Determine if we're on signup or login page for correct error message
       const isSignupPage = window.location.pathname.includes('signup');
-      const errorKey = isSignupPage ? "modules:UserManagement.oauth.errors.signup" : "modules:UserManagement.oauth.errors.login";
+      const errorKey = isSignupPage ? "UserManagement.oauth.messages:error.signup" : "UserManagement.oauth.messages:error.login";
       
       toast({
         variant: "destructive",

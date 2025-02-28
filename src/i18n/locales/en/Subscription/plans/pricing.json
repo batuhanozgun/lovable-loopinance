@@ -1,0 +1,19 @@
+
+{
+  "monthly": {
+    "free": "0",
+    "premium": "9.99",
+    "business": "29.99"
+  },
+  "yearly": {
+    "free": "0",
+    "premium": "99.99",
+    "business": "299.99"
+  },
+  "currency": "USD",
+  "perMonth": "/ month",
+  "perYear": "/ year",
+  "billedMonthly": "Billed monthly",
+  "billedYearly": "Billed yearly",
+  "savePercent": "Save 16%"
+}

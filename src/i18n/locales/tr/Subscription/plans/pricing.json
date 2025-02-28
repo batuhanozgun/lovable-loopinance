@@ -1,0 +1,19 @@
+
+{
+  "monthly": {
+    "free": "0",
+    "premium": "9.99",
+    "business": "29.99"
+  },
+  "yearly": {
+    "free": "0",
+    "premium": "99.99",
+    "business": "299.99"
+  },
+  "currency": "USD",
+  "perMonth": "/ ay",
+  "perYear": "/ yıl",
+  "billedMonthly": "Aylık faturalandırma",
+  "billedYearly": "Yıllık faturalandırma",
+  "savePercent": "%16 tasarruf"
+}

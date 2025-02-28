@@ -11,7 +11,13 @@ import { SignupSchema } from "../validators/SignupValidator";
 import { useTranslation } from "react-i18next";
 
 export const SignUp = () => {
-  const { t } = useTranslation(["UserManagement.auth", "common", "errors", "UserManagement.errors"]);
+  const { t } = useTranslation([
+    "UserManagement.signup.ui", 
+    "UserManagement.signup.messages", 
+    "UserManagement.signup.validation",
+    "common", 
+    "errors"
+  ]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -43,7 +49,7 @@ export const SignUp = () => {
       toast({
         variant: "destructive",
         title: t("common:error"),
-        description: error instanceof Error ? error.message : t("errors:signupFailed")
+        description: error instanceof Error ? error.message : t("UserManagement.signup.messages:error.signupFailed")
       });
     } finally {
       setLoading(false);
@@ -57,14 +63,14 @@ export const SignUp = () => {
           <div className="space-y-2">
             <Input
               id="firstName"
-              placeholder={t("UserManagement.auth:signup.firstName")}
+              placeholder={t("form.firstName")}
               {...register("firstName")}
               className="w-full"
               disabled={loading}
             />
             {errors.firstName && (
               <p className="text-sm text-destructive">
-                {errors.firstName.message?.toString() || t("errors:fieldRequired")}
+                {errors.firstName.message?.toString() || t("errors:validation.required")}
               </p>
             )}
           </div>
@@ -72,14 +78,14 @@ export const SignUp = () => {
           <div className="space-y-2">
             <Input
               id="lastName"
-              placeholder={t("UserManagement.auth:signup.lastName")}
+              placeholder={t("form.lastName")}
               {...register("lastName")}
               className="w-full"
               disabled={loading}
             />
             {errors.lastName && (
               <p className="text-sm text-destructive">
-                {errors.lastName.message?.toString() || t("errors:fieldRequired")}
+                {errors.lastName.message?.toString() || t("errors:validation.required")}
               </p>
             )}
           </div>
@@ -89,14 +95,14 @@ export const SignUp = () => {
           <Input
             id="email"
             type="email"
-            placeholder={t("UserManagement.auth:signup.email")}
+            placeholder={t("form.email")}
             {...register("email")}
             className="w-full"
             disabled={loading}
           />
           {errors.email && (
             <p className="text-sm text-destructive">
-              {errors.email.message?.toString() || t("errors:invalidEmail")}
+              {errors.email.message?.toString() || t("errors:validation.invalidEmail")}
             </p>
           )}
         </div>
@@ -105,21 +111,21 @@ export const SignUp = () => {
           <Input
             id="password"
             type="password"
-            placeholder={t("UserManagement.auth:signup.password")}
+            placeholder={t("form.password")}
             {...register("password")}
             className="w-full"
             disabled={loading}
           />
           {errors.password && (
             <p className="text-sm text-destructive">
-              {errors.password.message?.toString() || t("errors:passwordTooShort")}
+              {errors.password.message?.toString() || t("errors:validation.passwordTooShort")}
             </p>
           )}
         </div>
       </div>
       
       <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? t("UserManagement.auth:signup.loading") : t("UserManagement.auth:signup.submit")}
+        {loading ? t("form.loading") : t("form.submit")}
       </Button>
     </form>
   );

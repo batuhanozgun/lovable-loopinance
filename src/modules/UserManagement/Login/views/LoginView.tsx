@@ -8,7 +8,7 @@ import { Typewriter } from "@/components/Typewriter";
 import { GoogleAuthButton } from "../../OAuth/components/GoogleAuthButton";
 
 export const Login = () => {
-  const { t } = useTranslation(["modules:UserManagement.login", "common"]);
+  const { t } = useTranslation(["UserManagement.login.content", "common", "UserManagement.oauth.ui"]);
 
   const typewriterTexts = [
     t("typewriter.text1"),
@@ -53,10 +53,10 @@ export const Login = () => {
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight">
-              {t("labels.title")}
+              {t("title")}
             </h1>
             <p className="text-sm text-muted-foreground">
-              {t("labels.subtitle")}
+              {t("subtitle")}
             </p>
           </div>
           
@@ -68,19 +68,19 @@ export const Login = () => {
             </div>
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-background px-2 text-muted-foreground">
-                {t("modules:UserManagement.oauth.general.or")}
+                {t("UserManagement.oauth.ui:or")}
               </span>
             </div>
           </div>
           
           <LoginForm />
           <p className="px-8 text-center text-sm text-muted-foreground">
-            {t("links.noAccount")}{" "}
+            {t("noAccount")}{" "}
             <Link
               to="/signup"
               className="underline underline-offset-4 hover:text-primary"
             >
-              {t("links.createAccount")}
+              {t("createAccount")}
             </Link>
           </p>
         </div>

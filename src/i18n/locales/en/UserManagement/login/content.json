@@ -1,0 +1,12 @@
+
+{
+  "title": "Login",
+  "subtitle": "Enter your credentials to access your account",
+  "noAccount": "Don't have an account?",
+  "createAccount": "Sign up for free",
+  "typewriter": {
+    "text1": "Loopinance helps you track expenses, manage accounts, and achieve your financial goals with ease.",
+    "text2": "Join thousands of users who are already managing their finances better with Loopinance.",
+    "text3": "Everything you need to manage your finances in one place"
+  }
+}

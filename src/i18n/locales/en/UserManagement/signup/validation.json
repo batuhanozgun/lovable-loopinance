@@ -1,0 +1,12 @@
+
+{
+  "firstNameMin": "First name must be at least 2 characters",
+  "lastNameMin": "Last name must be at least 2 characters",
+  "passwordMin": "Password must be at least 8 characters",
+  "passwordUppercase": "Password must contain at least one uppercase letter",
+  "passwordLowercase": "Password must contain at least one lowercase letter",
+  "passwordNumber": "Password must contain at least one number",
+  "required": "This field is required",
+  "invalidEmail": "Please enter a valid email address",
+  "emailExistsNotConfirmed": "This email is registered but not confirmed yet. Please check your inbox or request a new confirmation email."
+}

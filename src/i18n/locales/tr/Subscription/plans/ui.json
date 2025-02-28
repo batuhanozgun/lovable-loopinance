@@ -1,0 +1,19 @@
+
+{
+  "titles": {
+    "free": "Ücretsiz",
+    "premium": "Premium",
+    "business": "Kurumsal"
+  },
+  "features": {
+    "basicTracking": "Temel gider takibi",
+    "limitedAccounts": "2 hesaba kadar",
+    "basicReports": "Temel raporlar",
+    "unlimitedAccounts": "Sınırsız hesap",
+    "advancedReports": "Gelişmiş raporlar ve analizler",
+    "budgeting": "Bütçe araçları",
+    "teamAccess": "Takım erişimi",
+    "apiAccess": "API erişimi",
+    "dedicatedSupport": "Özel destek"
+  }
+}
