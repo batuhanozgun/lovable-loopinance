@@ -11,7 +11,7 @@ export const LandingHeader = () => {
   return (
     <header className="fixed top-0 left-0 w-full bg-background/80 backdrop-blur-sm py-4 px-6 flex items-center justify-between shadow-sm border-b z-50">
       <div className="flex items-center">
-        <span className="text-xl font-bold text-primary">{t("common:brandName")}</span>
+        <span className="text-xl font-bold bg-gradient-to-r from-[rgba(192,130,130,1)] via-[rgba(224,255,224,1)] to-[rgba(244,248,252,1)] dark:from-[hsla(0,15%,14%,1)] dark:via-[hsla(228,54%,16%,1)] dark:to-[hsla(209,33%,29%,1)] bg-clip-text text-transparent">{t("common:brandName")}</span>
       </div>
       <nav className="hidden md:flex items-center space-x-6">
         <Link to="/" className="text-foreground hover:text-primary transition-colors">
