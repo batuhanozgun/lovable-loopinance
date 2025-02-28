@@ -10,7 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 export const TrialBanner: React.FC = () => {
   const { status, remainingDays, isLoading } = useSubscription();
   const [isUpgrading, setIsUpgrading] = React.useState(false);
-  const { t } = useTranslation(["subscription"]);
+  const { t } = useTranslation(["subscription.common", "subscription.notifications"]);
   const { toast } = useToast();
   
   // Yükseltme işlemi
@@ -19,8 +19,8 @@ export const TrialBanner: React.FC = () => {
     try {
       await SubscriptionController.handleUpgradeToPremium();
       toast({
-        title: t("premium.status", { ns: "subscription.common" }),
-        description: t("premium.unlimited", { ns: "subscription.common" }),
+        title: t("premium.status"),
+        description: t("premium.unlimited"),
         variant: "default",
       });
     } catch (error) {
@@ -58,10 +58,10 @@ export const TrialBanner: React.FC = () => {
   };
   
   const getMessage = () => {
-    if (isLoading) return t("loading", { ns: "subscription.common" });
-    if (status === "premium") return t("premium.status", { ns: "subscription.common" });
+    if (isLoading) return t("loading");
+    if (status === "premium") return t("premium.status");
     if (status === "expired") return t("trialEnded.cta", { ns: "subscription.notifications" });
-    if (remainingDays === null) return t("loading", { ns: "subscription.common" });
+    if (remainingDays === null) return t("loading");
     
     if (remainingDays <= 3) {
       return t("trialEnding.days.3", { ns: "subscription.notifications" });
@@ -70,7 +70,7 @@ export const TrialBanner: React.FC = () => {
     } else if (remainingDays <= 14) {
       return t("trialEnding.days.14", { ns: "subscription.notifications" });
     } else {
-      return t("trial.remaining", { days: remainingDays, ns: "subscription.common" });
+      return t("trial.remaining", { days: remainingDays });
     }
   };
   
@@ -92,8 +92,8 @@ export const TrialBanner: React.FC = () => {
         >
           <Sparkles className="mr-1 h-3 w-3" />
           {isUpgrading 
-            ? t("upgradeProcessing", { ns: "subscription.common" }) 
-            : t("upgradeButton", { ns: "subscription.common" })
+            ? t("upgradeProcessing") 
+            : t("upgradeButton")
           }
         </Button>
       )}

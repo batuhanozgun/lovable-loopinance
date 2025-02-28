@@ -1,75 +1,51 @@
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
 
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
-
-// İngilizce çeviriler
-import enCommon from "./locales/en/common.json";
-import enErrors from "./locales/en/errors.json";
-import enAuth from "./locales/en/auth.json";
-import enLanding from "./locales/en/landing.json";
-
-// Türkçe çeviriler
-import trCommon from "./locales/tr/common.json";
-import trErrors from "./locales/tr/errors.json";
-import trAuth from "./locales/tr/auth.json";
-import trLanding from "./locales/tr/landing.json";
-
-// UserManagement modülü çevirileri
-import enUserManagementAuth from "./locales/en/modules/UserManagement/auth.json";
-import enUserManagementErrors from "./locales/en/modules/UserManagement/errors.json";
-import trUserManagementAuth from "./locales/tr/modules/UserManagement/auth.json";
-import trUserManagementErrors from "./locales/tr/modules/UserManagement/errors.json";
-
-// Subscription modülü çevirileri
-import enSubscriptionCommon from "./locales/en/modules/Subscription/common.json";
-import enSubscriptionPlans from "./locales/en/modules/Subscription/plans.json";
-import enSubscriptionNotifications from "./locales/en/modules/Subscription/notifications.json";
-import trSubscriptionCommon from "./locales/tr/modules/Subscription/common.json";
-import trSubscriptionPlans from "./locales/tr/modules/Subscription/plans.json";
-import trSubscriptionNotifications from "./locales/tr/modules/Subscription/notifications.json";
+// Import translation files
+import * as commonEN from './locales/en/common.json';
+import * as commonTR from './locales/tr/common.json';
+import * as errorsEN from './locales/en/errors.json';
+import * as errorsTR from './locales/tr/errors.json';
+import * as signupEN from './locales/en/modules/UserManagement/Signup/signup.json';
+import * as signupTR from './locales/tr/modules/UserManagement/Signup/signup.json';
+import * as loginEN from './locales/en/modules/UserManagement/Login/login.json';
+import * as loginTR from './locales/tr/modules/UserManagement/Login/login.json';
+import * as subscriptionCommonEN from './locales/en/modules/Subscription/common.json';
+import * as subscriptionCommonTR from './locales/tr/modules/Subscription/common.json';
+import * as subscriptionNotificationsEN from './locales/en/modules/Subscription/notifications.json';
+import * as subscriptionNotificationsTR from './locales/tr/modules/Subscription/notifications.json';
+import * as subscriptionPlansEN from './locales/en/modules/Subscription/plans.json';
+import * as subscriptionPlansTR from './locales/tr/modules/Subscription/plans.json';
 
 i18n
-  .use(LanguageDetector)
   .use(initReactI18next)
+  .use(LanguageDetector)
   .init({
-    resources: {
-      tr: {
-        common: trCommon,
-        errors: trErrors,
-        auth: trAuth,
-        landing: trLanding,
-        userManagement: {
-          auth: trUserManagementAuth,
-          errors: trUserManagementErrors
-        },
-        subscription: {
-          common: trSubscriptionCommon,
-          plans: trSubscriptionPlans,
-          notifications: trSubscriptionNotifications
-        }
-      },
-      en: {
-        common: enCommon,
-        errors: enErrors,
-        auth: enAuth,
-        landing: enLanding,
-        userManagement: {
-          auth: enUserManagementAuth,
-          errors: enUserManagementErrors
-        },
-        subscription: {
-          common: enSubscriptionCommon,
-          plans: enSubscriptionPlans,
-          notifications: enSubscriptionNotifications
-        }
-      },
-    },
-    fallbackLng: "tr",
-    ns: ["common", "errors", "auth", "landing", "userManagement", "subscription"],
-    defaultNS: "common",
+    debug: process.env.NODE_ENV === 'development',
+    fallbackLng: 'en',
     interpolation: {
       escapeValue: false,
+    },
+    resources: {
+      en: {
+        common: commonEN,
+        errors: errorsEN,
+        signup: signupEN,
+        login: loginEN,
+        'subscription.common': subscriptionCommonEN,
+        'subscription.notifications': subscriptionNotificationsEN,
+        'subscription.plans': subscriptionPlansEN,
+      },
+      tr: {
+        common: commonTR,
+        errors: errorsTR,
+        signup: signupTR,
+        login: loginTR,
+        'subscription.common': subscriptionCommonTR,
+        'subscription.notifications': subscriptionNotificationsTR,
+        'subscription.plans': subscriptionPlansTR,
+      },
     },
   });
 

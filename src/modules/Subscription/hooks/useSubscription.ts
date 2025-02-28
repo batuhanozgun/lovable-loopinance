@@ -27,7 +27,7 @@ export const useSubscription = (): UseSubscriptionReturn => {
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { toast } = useToast();
-  const { t } = useTranslation(["subscription"]);
+  const { t } = useTranslation(["subscription.notifications"]);
 
   const fetchSubscription = async () => {
     setIsLoading(true);
@@ -59,12 +59,12 @@ export const useSubscription = (): UseSubscriptionReturn => {
           setRemainingDays(days);
           
           // Kalan gün sayısı 7 veya daha az ise uyarı bildirimi göster
-          if (days <= 7 && days > 0) {
+          if (days !== null && days <= 7 && days > 0) {
             toast({
-              title: t("trialEnding.title", { ns: "subscription.notifications" }),
+              title: t("trialEnding.title"),
               description: days <= 3 
-                ? t("trialEnding.days.3", { ns: "subscription.notifications" })
-                : t("trialEnding.days.7", { ns: "subscription.notifications" }),
+                ? t("trialEnding.days.3")
+                : t("trialEnding.days.7"),
               variant: "default",
             });
           }

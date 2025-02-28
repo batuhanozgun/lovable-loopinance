@@ -14,7 +14,7 @@ interface PremiumDialogProps {
 
 export const PremiumDialog: React.FC<PremiumDialogProps> = ({ open, onOpenChange }) => {
   const [isLoading, setIsLoading] = React.useState(false);
-  const { t } = useTranslation(["subscription"]);
+  const { t } = useTranslation(["subscription.common", "subscription.notifications", "subscription.plans", "common"]);
   const { toast } = useToast();
 
   const handlePremiumUpgrade = async () => {
@@ -23,8 +23,8 @@ export const PremiumDialog: React.FC<PremiumDialogProps> = ({ open, onOpenChange
       await SubscriptionController.handleUpgradeToPremium();
       onOpenChange(false);
       toast({
-        title: t("premium.status", { ns: "subscription.common" }),
-        description: t("premium.unlimited", { ns: "subscription.common" }),
+        title: t("premium.status"),
+        description: t("premium.unlimited"),
         variant: "default",
       });
     } catch (error) {
@@ -53,7 +53,7 @@ export const PremiumDialog: React.FC<PremiumDialogProps> = ({ open, onOpenChange
         </DialogHeader>
         <div className="space-y-4 py-4">
           <div className="rounded-lg bg-muted p-4">
-            <h4 className="mb-2 font-medium">{t("premium.unlimited", { ns: "subscription.common" })}</h4>
+            <h4 className="mb-2 font-medium">{t("premium.unlimited")}</h4>
             <ul className="space-y-2 text-sm">
               <li className="flex items-start gap-2">
                 <Check className="h-4 w-4 text-green-500" />
@@ -61,11 +61,11 @@ export const PremiumDialog: React.FC<PremiumDialogProps> = ({ open, onOpenChange
               </li>
               <li className="flex items-start gap-2">
                 <Clock className="h-4 w-4 text-blue-500" />
-                <span>{t("features.duration.premium", { ns: "subscription.common" })}</span>
+                <span>{t("features.duration.premium")}</span>
               </li>
               <li className="flex items-start gap-2">
                 <Eye className="h-4 w-4 text-purple-500" />
-                <span>{t("viewOnly", { ns: "subscription.common" })}</span>
+                <span>{t("viewOnly")}</span>
               </li>
             </ul>
           </div>
@@ -76,7 +76,7 @@ export const PremiumDialog: React.FC<PremiumDialogProps> = ({ open, onOpenChange
             onClick={() => onOpenChange(false)}
             className="sm:w-auto w-full"
           >
-            {t("common:later", { ns: "common", defaultValue: "Daha Sonra" })}
+            {t("later", { ns: "common", defaultValue: "Daha Sonra" })}
           </Button>
           <Button 
             onClick={handlePremiumUpgrade} 
@@ -84,8 +84,8 @@ export const PremiumDialog: React.FC<PremiumDialogProps> = ({ open, onOpenChange
             disabled={isLoading}
           >
             {isLoading 
-              ? t("upgradeProcessing", { ns: "subscription.common" }) 
-              : t("upgradeButton", { ns: "subscription.common" })
+              ? t("upgradeProcessing") 
+              : t("upgradeButton")
             }
           </Button>
         </DialogFooter>

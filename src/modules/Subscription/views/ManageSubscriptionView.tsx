@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useToast } from "@/hooks/use-toast";
 
 const ManageSubscriptionView: React.FC = () => {
-  const { t, i18n } = useTranslation(["subscription"]);
+  const { t, i18n } = useTranslation(["subscription.common", "subscription.plans"]);
   const { subscription, status, remainingDays, isLoading, refetch } = useSubscription();
   const [isUpgrading, setIsUpgrading] = React.useState(false);
   const { toast } = useToast();
@@ -51,28 +51,28 @@ const ManageSubscriptionView: React.FC = () => {
   
   return (
     <div className="container py-10 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">{t("currentPlan", { ns: "subscription.common" })}</h1>
+      <h1 className="text-3xl font-bold mb-8">{t("currentPlan")}</h1>
       
       <div className="grid gap-6 md:grid-cols-2">
         {/* Mevcut Plan */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
-              <span>{t("currentPlan", { ns: "subscription.common" })}</span>
+              <span>{t("currentPlan")}</span>
               {status === "premium" ? (
-                <Badge variant="default" className="bg-green-500">{t("premium.title", { ns: "subscription.common" })}</Badge>
+                <Badge variant="default" className="bg-green-500">{t("premium.title")}</Badge>
               ) : status === "expired" ? (
-                <Badge variant="destructive">{t("trial.expired", { ns: "subscription.common" })}</Badge>
+                <Badge variant="destructive">{t("trial.expired")}</Badge>
               ) : (
-                <Badge variant="outline">{t("trial.title", { ns: "subscription.common" })}</Badge>
+                <Badge variant="outline">{t("trial.title")}</Badge>
               )}
             </CardTitle>
             <CardDescription>
               {status === "premium" 
-                ? t("premium.status", { ns: "subscription.common" })
+                ? t("premium.status")
                 : status === "expired" 
-                  ? t("trial.expired", { ns: "subscription.common" })
-                  : t("trial.remaining", { days: remainingDays, ns: "subscription.common" })
+                  ? t("trial.expired")
+                  : t("trial.remaining", { days: remainingDays })
               }
             </CardDescription>
           </CardHeader>
@@ -80,20 +80,20 @@ const ManageSubscriptionView: React.FC = () => {
             <div className="space-y-4">
               {subscription && subscription.trial_ends_at && status !== "premium" && (
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">{t("trialEndsAt", { ns: "subscription.common" })}</span>
+                  <span className="text-muted-foreground">{t("trialEndsAt")}</span>
                   <span className="font-medium">
                     {format(new Date(subscription.trial_ends_at), "PPP", { locale: dateLocale })}
                   </span>
                 </div>
               )}
               <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">{t("planStatus", { ns: "subscription.common" })}</span>
+                <span className="text-muted-foreground">{t("planStatus")}</span>
                 <span className="font-medium">
                   {status === "premium" 
-                    ? t("premium.status", { ns: "subscription.common" }) 
+                    ? t("premium.status") 
                     : status === "expired" 
-                      ? t("trial.expired", { ns: "subscription.common" }) 
-                      : t("trial.status", { ns: "subscription.common" })
+                      ? t("trial.expired") 
+                      : t("trial.status")
                   }
                 </span>
               </div>
@@ -108,8 +108,8 @@ const ManageSubscriptionView: React.FC = () => {
               >
                 <Sparkles className="mr-2 h-4 w-4" />
                 {isUpgrading 
-                  ? t("upgradeProcessing", { ns: "subscription.common" }) 
-                  : t("upgradeButton", { ns: "subscription.common" })
+                  ? t("upgradeProcessing") 
+                  : t("upgradeButton")
                 }
               </Button>
             )}
@@ -128,8 +128,8 @@ const ManageSubscriptionView: React.FC = () => {
             <div className="space-y-4">
               <div className="grid grid-cols-3 gap-2 text-sm">
                 <div className="font-medium">{t("comparison.features", { ns: "subscription.plans" })}</div>
-                <div className="font-medium text-center">{t("trial.title", { ns: "subscription.common" })}</div>
-                <div className="font-medium text-center">{t("premium.title", { ns: "subscription.common" })}</div>
+                <div className="font-medium text-center">{t("trial.title")}</div>
+                <div className="font-medium text-center">{t("premium.title")}</div>
               </div>
               
               {/* Tüm özellikler için tek bir satır */}
@@ -142,15 +142,15 @@ const ManageSubscriptionView: React.FC = () => {
               {/* Kullanım süresi - Ana Fark */}
               <div className="grid grid-cols-3 gap-2 text-sm border-t pt-2 font-medium">
                 <div className="text-muted-foreground">{t("comparison.duration", { ns: "subscription.plans" })}</div>
-                <div className="text-center">{t("features.duration.trial", { ns: "subscription.common" })}</div>
-                <div className="text-center">{t("features.duration.premium", { ns: "subscription.common" })}</div>
+                <div className="text-center">{t("features.duration.trial")}</div>
+                <div className="text-center">{t("features.duration.premium")}</div>
               </div>
               
               {/* İşlevsel açıklama - salt görüntüleme */}
               <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-950/20 rounded-md border border-amber-100 dark:border-amber-900/30">
                 <p className="text-sm text-amber-800 dark:text-amber-300">
                   <AlertCircle className="inline-block mr-2 h-4 w-4" />
-                  {t("trial.expired", { ns: "subscription.common" })} → {t("viewOnly", { ns: "subscription.common" })}
+                  {t("trial.expired")} → {t("viewOnly")}
                 </p>
               </div>
             </div>
