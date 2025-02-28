@@ -15,7 +15,7 @@ export const Login = () => {
         <ThemeToggle />
       </div>
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
-        <div className="absolute inset-0 bg-zinc-900" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[rgba(84,85,89,1)] via-[rgba(108,154,229,1)] to-[rgba(0,140,158,1)] dark:from-[hsla(210,13%,40%,1)] dark:via-[hsla(185,94%,7%,1)] dark:to-[hsla(185,100%,15%,1)]" />
         <Link 
           to="/" 
           className="relative z-20 flex items-center text-lg font-medium transition-opacity hover:opacity-80 cursor-pointer"
