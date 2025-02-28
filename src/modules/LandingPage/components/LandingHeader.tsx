@@ -4,7 +4,13 @@ import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 
 export const LandingHeader = () => {
-  const { t } = useTranslation("landing");
+  const { t, i18n } = useTranslation("landing");
+
+  const toggleLanguage = () => {
+    const newLang = i18n.language === "tr" ? "en" : "tr";
+    i18n.changeLanguage(newLang);
+    localStorage.setItem("preferredLanguage", newLang);
+  };
 
   return (
     <header className="bg-background py-4 px-6 flex items-center justify-between shadow-sm">
@@ -23,6 +29,13 @@ export const LandingHeader = () => {
         </Link>
       </nav>
       <div className="flex items-center space-x-4">
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          onClick={toggleLanguage}
+        >
+          {i18n.language === "tr" ? "EN" : "TR"}
+        </Button>
         <Button variant="ghost" size="sm" asChild>
           <Link to="/login">{t("nav.login")}</Link>
         </Button>
