@@ -11,9 +11,10 @@ import * as commonTR from './locales/tr/common.json';
 import * as errorsEN from './locales/en/errors.json';
 import * as errorsTR from './locales/tr/errors.json';
 
-// Signup ve Login modüllerini içe aktar (bunlar kendi i18n yapılarını yönetirler)
+// Modül çevirilerini içe aktar
 import { initSignupTranslations } from '@/modules/UserManagement/Signup/i18n';
 import { initLoginTranslations } from '@/modules/UserManagement/Login/i18n';
+import { initOAuthTranslations } from '@/modules/UserManagement/OAuth/i18n';
 
 i18n
   .use(initReactI18next)
@@ -41,5 +42,6 @@ i18n
 // i18n başlatıldıktan sonra modül çevirilerini yükle
 initSignupTranslations();
 initLoginTranslations();
+initOAuthTranslations();
 
 export default i18n;

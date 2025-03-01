@@ -1,0 +1,16 @@
+
+{
+  "success": {
+    "title": "Success",
+    "login": "Successfully signed in with Google!",
+    "signup": "Successfully registered with Google!"
+  },
+  "error": {
+    "title": "Error",
+    "general": "An error occurred during the OAuth process. Please try again.",
+    "login": "Failed to sign in with Google.",
+    "signup": "Failed to create account with Google.",
+    "noUrl": "Could not get Google login URL",
+    "fallback": "An unexpected error occurred. Please try again."
+  }
+}

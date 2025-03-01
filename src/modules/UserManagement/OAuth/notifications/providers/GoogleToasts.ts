@@ -5,10 +5,10 @@ import i18next from "i18next";
 export class GoogleToasts {
   static showSignInSuccess(isSignup = false): void {
     toast({
-      title: i18next.t("UserManagement.oauth.notifications:success.title"),
+      title: i18next.t("OAuth.notifications:success.title"),
       description: i18next.t(isSignup 
-        ? "UserManagement.oauth.notifications:success.signup"
-        : "UserManagement.oauth.notifications:success.login"),
+        ? "OAuth.notifications:success.signup"
+        : "OAuth.notifications:success.login"),
     });
   }
   
@@ -17,22 +17,22 @@ export class GoogleToasts {
       ? error
       : error instanceof Error 
         ? error.message 
-        : i18next.t("UserManagement.oauth.notifications:error.fallback");
+        : i18next.t("OAuth.notifications:error.fallback");
     
     toast({
       variant: "destructive",
-      title: i18next.t("UserManagement.oauth.notifications:error.title"),
+      title: i18next.t("OAuth.notifications:error.title"),
       description: errorMessage || i18next.t(isSignup
-        ? "UserManagement.oauth.notifications:error.signup"
-        : "UserManagement.oauth.notifications:error.login"),
+        ? "OAuth.notifications:error.signup"
+        : "OAuth.notifications:error.login"),
     });
   }
   
   static showNoUrlError(): void {
     toast({
       variant: "destructive",
-      title: i18next.t("UserManagement.oauth.notifications:error.title"),
-      description: i18next.t("UserManagement.oauth.notifications:error.noUrl"),
+      title: i18next.t("OAuth.notifications:error.title"),
+      description: i18next.t("OAuth.notifications:error.noUrl"),
     });
   }
 }

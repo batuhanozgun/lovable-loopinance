@@ -15,7 +15,7 @@ export const GoogleAuthButton = ({
   className = "", 
   customText 
 }: GoogleAuthButtonProps) => {
-  const { t } = useTranslation(["UserManagement.oauth.ui", "UserManagement.oauth.messages", "common"]);
+  const { t } = useTranslation(["OAuth.ui", "OAuth.messages", "common"]);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   
