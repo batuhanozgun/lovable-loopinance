@@ -1,6 +1,27 @@
 
+import React from "react";
 import { toast } from "@/hooks/use-toast";
 import i18next from "i18next";
+import { ToastActionElement } from "@/components/ui/toast";
+
+// Trial süresi bitimine yaklaşan kullanıcılar için Action butonu bileşeni
+const TrialActionButton: React.FC<{ onUpgrade: () => void, label: string }> = ({ 
+  onUpgrade, 
+  label 
+}) => (
+  <div className="mt-2">
+    <button 
+      onClick={() => {
+        onUpgrade();
+        // Yönlendirme işlemi
+        window.location.href = "/subscription/manage";
+      }} 
+      className="px-3 py-1 text-xs font-semibold rounded bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors"
+    >
+      {label}
+    </button>
+  </div>
+);
 
 /**
  * Abonelik işlemleri için toast bildirimlerini yönetir
@@ -121,22 +142,23 @@ export const showSubscriptionToast = {
       variant = "default";
     }
     
-    const action = (
-      <div className="mt-2">
-        <button 
-          onClick={() => window.location.href = "/subscription/manage"} 
-          className="px-3 py-1 text-xs font-semibold rounded bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors"
-        >
-          {i18next.t("Subscription.notifications.trialEnded.cta", { defaultValue: "Premium'a Geç" })}
-        </button>
-      </div>
-    );
+    // Action component'ini sadece belirli durumlarda göster
+    let action: ToastActionElement | undefined = undefined;
+    
+    if (remainingDays <= 7) {
+      action = (
+        <TrialActionButton
+          onUpgrade={() => console.log("Premium'a geçiliyor...")}
+          label={i18next.t("Subscription.notifications.trialEnded.cta", { defaultValue: "Premium'a Geç" })}
+        />
+      );
+    }
     
     toast({
       title,
       description,
       variant,
-      action: remainingDays <= 7 ? action : undefined
+      action
     });
   },
   
@@ -145,14 +167,10 @@ export const showSubscriptionToast = {
    */
   trialEnded: () => {
     const action = (
-      <div className="mt-2">
-        <button 
-          onClick={() => window.location.href = "/subscription/manage"} 
-          className="px-3 py-1 text-xs font-semibold rounded bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors"
-        >
-          {i18next.t("Subscription.notifications.trialEnded.cta", { defaultValue: "Premium'a Geç" })}
-        </button>
-      </div>
+      <TrialActionButton
+        onUpgrade={() => console.log("Premium'a geçiliyor...")}
+        label={i18next.t("Subscription.notifications.trialEnded.cta", { defaultValue: "Premium'a Geç" })}
+      />
     );
     
     toast({
