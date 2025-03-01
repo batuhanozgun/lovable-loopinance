@@ -38,8 +38,6 @@ export type Database = {
       }
       subscription_features: {
         Row: {
-          available_in_basic: boolean
-          available_in_business: boolean
           available_in_premium: boolean
           available_in_trial: boolean
           created_at: string
@@ -49,8 +47,6 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          available_in_basic?: boolean
-          available_in_business?: boolean
           available_in_premium?: boolean
           available_in_trial?: boolean
           created_at?: string
@@ -60,8 +56,6 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          available_in_basic?: boolean
-          available_in_business?: boolean
           available_in_premium?: boolean
           available_in_trial?: boolean
           created_at?: string

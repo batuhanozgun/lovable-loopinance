@@ -1,6 +1,6 @@
 
-export type SubscriptionType = 'trial' | 'premium' | 'basic' | 'business';
-export type SubscriptionStatus = 'loading' | 'trial' | 'premium' | 'basic' | 'business' | 'expired' | 'error' | 'unauthenticated';
+export type SubscriptionType = 'trial' | 'premium';
+export type SubscriptionStatus = 'loading' | 'trial' | 'premium' | 'expired' | 'error' | 'unauthenticated';
 export type SubscriptionInterval = 'monthly' | 'yearly';
 
 export interface ISubscription {
@@ -32,8 +32,6 @@ export interface SubscriptionFeature {
   description: string;
   available_in_trial: boolean;
   available_in_premium: boolean;
-  available_in_basic: boolean;
-  available_in_business: boolean;
 }
 
 export interface SubscriptionPlan {

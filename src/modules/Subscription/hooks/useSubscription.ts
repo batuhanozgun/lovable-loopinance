@@ -41,7 +41,7 @@ export const useSubscription = (): SubscriptionReturnType => {
 
       // Status'u belirle
       if (premiumStatus) {
-        setStatus(subscriptionData.type as SubscriptionStatus);
+        setStatus("premium");
         setRemainingDays(null);
       } else if (trialExpired || subscriptionData.status === 'expired') {
         setStatus("expired");

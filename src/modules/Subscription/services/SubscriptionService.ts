@@ -120,8 +120,7 @@ export class SubscriptionService {
       }
       
       // Premium durumu
-      const isPremium = subscription.type === 'premium' || 
-                        subscription.type === 'business';
+      const isPremium = subscription.type === 'premium';
       
       // Trial durumu
       let isTrialExpired = true;

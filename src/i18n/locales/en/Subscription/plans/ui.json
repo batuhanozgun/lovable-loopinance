@@ -2,8 +2,7 @@
 {
   "titles": {
     "free": "Free",
-    "premium": "Premium",
-    "business": "Business"
+    "premium": "Premium"
   },
   "features": {
     "basicTracking": "Basic expense tracking",
@@ -12,8 +11,6 @@
     "unlimitedAccounts": "Unlimited accounts",
     "advancedReports": "Advanced reports & analytics",
     "budgeting": "Budgeting tools",
-    "teamAccess": "Team access",
-    "apiAccess": "API access",
-    "dedicatedSupport": "Dedicated support"
+    "apiAccess": "API access"
   }
 }

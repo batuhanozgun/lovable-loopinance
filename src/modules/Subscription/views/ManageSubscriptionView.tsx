@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { SubscriptionController } from "../controllers/SubscriptionController";
@@ -50,7 +51,7 @@ const ManageSubscriptionView: React.FC = () => {
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               <span>{t("currentPlan")}</span>
-              {status === "premium" || status === "business" ? (
+              {status === "premium" ? (
                 <Badge variant="default" className="bg-green-500">{plan?.name || t("premium.title")}</Badge>
               ) : status === "expired" ? (
                 <Badge variant="destructive">{t("trial.expired")}</Badge>
@@ -59,7 +60,7 @@ const ManageSubscriptionView: React.FC = () => {
               )}
             </CardTitle>
             <CardDescription>
-              {status === "premium" || status === "business"
+              {status === "premium"
                 ? plan?.description || t("premium.status")
                 : status === "expired" 
                   ? t("trial.expired")
@@ -69,7 +70,7 @@ const ManageSubscriptionView: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {subscription && subscription.trial_ends_at && status !== "premium" && status !== "business" && (
+              {subscription && subscription.trial_ends_at && status !== "premium" && (
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">{t("trialEndsAt")}</span>
                   <span className="font-medium">
@@ -80,7 +81,7 @@ const ManageSubscriptionView: React.FC = () => {
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground">{t("planStatus")}</span>
                 <span className="font-medium">
-                  {status === "premium" || status === "business"
+                  {status === "premium"
                     ? plan?.name || t("premium.status") 
                     : status === "expired" 
                       ? t("trial.expired") 
@@ -89,7 +90,7 @@ const ManageSubscriptionView: React.FC = () => {
                 </span>
               </div>
               
-              {(status === "premium" || status === "business") && plan && (
+              {(status === "premium") && plan && (
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">{t("plans:pricing.billedMonthly", { ns: "subscription.plans.pricing" })}</span>
                   <span className="font-medium">
@@ -104,7 +105,7 @@ const ManageSubscriptionView: React.FC = () => {
             </div>
           </CardContent>
           <CardFooter>
-            {(status !== "premium" && status !== "business") && (
+            {(status !== "premium") && (
               <Button 
                 onClick={handleUpgrade} 
                 disabled={isUpgrading} 
@@ -159,7 +160,7 @@ const ManageSubscriptionView: React.FC = () => {
       </div>
       
       <h2 className="text-2xl font-bold mt-12 mb-6">{t("plans:pricing.title", { ns: "subscription.plans", defaultValue: "Abonelik Planları" })}</h2>
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2">
         {plans.filter(p => p.type !== "trial").map((plan) => (
           <Card key={plan.id} className={status === plan.type ? "border-primary" : ""}>
             <CardHeader>
@@ -193,11 +194,7 @@ const ManageSubscriptionView: React.FC = () => {
               >
                 {status === plan.type 
                   ? t("buttons.current", { ns: "subscription.ui", defaultValue: "Mevcut Plan" })
-                  : status === "premium" || status === "business"
-                    ? plan.type === "premium" || plan.type === "business"
-                      ? t("buttons.switch", { ns: "subscription.ui", defaultValue: "Bu Plana Geç" })
-                      : t("buttons.downgrade", { ns: "subscription.ui", defaultValue: "Düşür" })
-                    : t("buttons.upgrade", { ns: "subscription.ui", defaultValue: "Yükselt" })
+                  : t("buttons.upgrade", { ns: "subscription.ui", defaultValue: "Yükselt" })
                 }
               </Button>
             </CardFooter>

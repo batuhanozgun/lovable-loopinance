@@ -6,9 +6,7 @@ const logger = LoggerService.getInstance("planConstants");
 
 export const SUBSCRIPTION_PLAN_TYPES = {
   TRIAL: 'trial',
-  PREMIUM: 'premium',
-  BASIC: 'basic',
-  BUSINESS: 'business'
+  PREMIUM: 'premium'
 };
 
 export const SUBSCRIPTION_PLAN_INTERVALS = {
@@ -43,15 +41,6 @@ export const DEFAULT_SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
     interval: "yearly",
     features: ["unlimited-accounts", "advanced-reports", "budgeting", "api-access"],
     description: "Tam özellikli premium paket (yıllık fatura %16 tasarruf)"
-  },
-  {
-    id: "business-monthly",
-    type: "business",
-    name: "Kurumsal",
-    price: 29.99,
-    interval: "monthly",
-    features: ["unlimited-accounts", "advanced-reports", "budgeting", "api-access", "team-access", "dedicated-support"],
-    description: "Şirketler için kurumsal çözüm"
   }
 ];
 

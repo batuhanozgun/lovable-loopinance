@@ -2,13 +2,11 @@
 {
   "monthly": {
     "free": "0",
-    "premium": "9.99",
-    "business": "29.99"
+    "premium": "9.99"
   },
   "yearly": {
     "free": "0",
-    "premium": "99.99",
-    "business": "299.99"
+    "premium": "99.99"
   },
   "currency": "USD",
   "perMonth": "/ month",
