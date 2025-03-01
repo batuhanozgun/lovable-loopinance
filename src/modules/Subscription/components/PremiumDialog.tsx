@@ -1,11 +1,10 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { SubscriptionController } from "../controllers/SubscriptionController";
 import { Sparkles, Clock, Eye, Check, LogOut } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useToast } from "@/hooks/use-toast";
+import { showSubscriptionToast } from "../helpers/toastHelper";
 import { supabase } from "@/lib/supabase";
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +17,6 @@ interface PremiumDialogProps {
 export const PremiumDialog: React.FC<PremiumDialogProps> = ({ open, onOpenChange, forceOpen = false }) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const { t } = useTranslation(["subscription.common", "subscription.notifications", "subscription.plans", "common"]);
-  const { toast } = useToast();
   const navigate = useNavigate();
 
   const handlePremiumUpgrade = async () => {
@@ -26,18 +24,9 @@ export const PremiumDialog: React.FC<PremiumDialogProps> = ({ open, onOpenChange
     try {
       await SubscriptionController.handleUpgradeToPremium();
       onOpenChange(false);
-      toast({
-        title: t("premium.status"),
-        description: t("premium.unlimited"),
-        variant: "default",
-      });
     } catch (error) {
       console.error("Premium yükseltme hatası:", error);
-      toast({
-        title: t("errors:general.title", { ns: "errors" }),
-        description: t("errors:general.description", { ns: "errors" }),
-        variant: "destructive",
-      });
+      showSubscriptionToast.error(error instanceof Error ? error : undefined);
     } finally {
       setIsLoading(false);
     }
@@ -46,18 +35,11 @@ export const PremiumDialog: React.FC<PremiumDialogProps> = ({ open, onOpenChange
   const handleSignOut = async () => {
     try {
       await supabase.auth.signOut();
-      toast({
-        title: t("common:success"),
-        description: t("common:loggedOut", { defaultValue: "Başarıyla çıkış yapıldı" }),
-      });
+      showSubscriptionToast.success('cancelled');
       navigate("/");
     } catch (error) {
       console.error("Çıkış yapılırken hata oluştu:", error);
-      toast({
-        title: t("common:error"),
-        description: t("common:logoutError", { defaultValue: "Çıkış yapılırken bir hata oluştu" }),
-        variant: "destructive",
-      });
+      showSubscriptionToast.error(error instanceof Error ? error : undefined);
     }
   };
 

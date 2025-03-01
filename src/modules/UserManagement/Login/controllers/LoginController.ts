@@ -2,8 +2,7 @@
 import { LoginService } from "../services/LoginService";
 import { ILoginForm } from "../interfaces/ILoginForm";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
-import { toast } from "@/hooks/use-toast";
-import i18next from "i18next";
+import { showLoginToast } from "../helpers/toastHelper";
 
 export class LoginController {
   private static logger = LoggerService.getInstance("LoginController");
@@ -16,24 +15,17 @@ export class LoginController {
       
       this.logger.info("User logged in successfully", { email });
       
-      toast({
-        title: i18next.t("common:success"),
-        description: i18next.t("modules:UserManagement.login.messages.success"),
-      });
+      showLoginToast.success();
       
       return { success: true };
     } catch (error) {
       this.logger.error("Login failed", error, { email });
       
-      toast({
-        variant: "destructive",
-        title: i18next.t("common:error"),
-        description: error instanceof Error ? error.message : i18next.t("modules:UserManagement.login.errors.failed"),
-      });
+      showLoginToast.error(error instanceof Error ? error : new Error("Login failed"));
       
       return {
         success: false,
-        error: error instanceof Error ? error.message : i18next.t("modules:UserManagement.login.errors.failed"),
+        error: error instanceof Error ? error.message : "Login failed",
       };
     }
   }

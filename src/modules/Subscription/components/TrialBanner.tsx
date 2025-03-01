@@ -5,31 +5,21 @@ import { Button } from "@/components/ui/button";
 import { SubscriptionController } from "../controllers/SubscriptionController";
 import { useSubscription } from "../hooks/useSubscription";
 import { useTranslation } from "react-i18next";
-import { useToast } from "@/hooks/use-toast";
+import { showSubscriptionToast } from "../helpers/toastHelper";
 
 export const TrialBanner: React.FC = () => {
   const { status, remainingDays, isLoading } = useSubscription();
   const [isUpgrading, setIsUpgrading] = React.useState(false);
   const { t } = useTranslation(["subscription.common", "subscription.notifications"]);
-  const { toast } = useToast();
   
   // Yükseltme işlemi
   const handleUpgrade = async () => {
     setIsUpgrading(true);
     try {
       await SubscriptionController.handleUpgradeToPremium();
-      toast({
-        title: t("premium.status"),
-        description: t("premium.unlimited"),
-        variant: "default",
-      });
     } catch (error) {
       console.error("Premium yükseltme hatası:", error);
-      toast({
-        title: t("errors:general.title", { ns: "errors" }),
-        description: t("errors:general.description", { ns: "errors" }),
-        variant: "destructive",
-      });
+      showSubscriptionToast.error(error instanceof Error ? error : undefined);
     } finally {
       setIsUpgrading(false);
     }

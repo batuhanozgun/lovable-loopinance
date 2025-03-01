@@ -1,0 +1,13 @@
+
+{
+  "success": {
+    "title": "Success",
+    "signup": "Account created successfully!"
+  },
+  "error": {
+    "title": "Error",
+    "signupFailed": "Signup failed. Please try again later.",
+    "emailAlreadyExists": "This email is already registered. Please try another one or login.",
+    "fallback": "An error occurred during signup. Please try again later."
+  }
+}

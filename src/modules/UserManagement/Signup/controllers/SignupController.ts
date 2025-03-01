@@ -3,8 +3,7 @@ import { SignupService } from "../services/SignupService";
 import { ISignupForm } from "../interfaces/ISignupForm";
 import { SignupValidator } from "../validators/SignupValidator";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
-import { toast } from "@/hooks/use-toast";
-import i18next from "i18next";
+import { showSignupToast } from "../helpers/toastHelper";
 
 const logger = LoggerService.getInstance("SignupController");
 
@@ -20,11 +19,7 @@ export class SignupController {
         const validationError = validationResult.error.issues[0];
         logger.warn("Signup validation failed", { error: validationError });
         
-        toast({
-          variant: "destructive",
-          title: i18next.t("common:error"),
-          description: validationError.message,
-        });
+        showSignupToast.error(new Error(validationError.message));
 
         return {
           success: false,
@@ -32,13 +27,7 @@ export class SignupController {
         };
       }
 
-      logger.debug("Input validation successful, checking if email exists");
-      
-      // Doğrudan kayıt işlemine geçiyoruz
-      // Önceki e-posta kontrolünü kaldırdık çünkü SignupService.signUp metodu
-      // zaten e-posta varlığını kontrol edecek
-
-      logger.debug("Proceeding to signup directly");
+      logger.debug("Input validation successful, proceeding to signup");
       
       // Kayıt işlemini gerçekleştir
       const signupResult = await SignupService.signUp(
@@ -52,35 +41,24 @@ export class SignupController {
       if (!signupResult.success) {
         logger.warn("Signup failed", { error: signupResult.error, email: formData.email });
         
-        toast({
-          variant: "destructive",
-          title: i18next.t("auth:signup.failed"),
-          description: signupResult.error,
-        });
+        showSignupToast.error(new Error(signupResult.error));
         
         return signupResult;
       } else {
         logger.info("Signup successful", { email: formData.email });
         
-        toast({
-          title: i18next.t("common:success"),
-          description: i18next.t("userManagement:errors.signupSuccessful"),
-        });
+        showSignupToast.success();
         
         return signupResult;
       }
     } catch (error) {
       logger.error("Unexpected error in signup controller", error);
       
-      toast({
-        variant: "destructive",
-        title: i18next.t("common:error"),
-        description: i18next.t("errors:signupFailed"),
-      });
+      showSignupToast.error(error instanceof Error ? error : new Error("Signup failed"));
 
       return {
         success: false,
-        error: i18next.t("errors:signupFailed"),
+        error: error instanceof Error ? error.message : "Signup failed",
       };
     }
   }

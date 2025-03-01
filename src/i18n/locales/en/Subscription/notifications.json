@@ -1,14 +1,27 @@
 
 {
   "success": {
+    "title": "Success",
     "subscribed": "Successfully subscribed to the {{plan}} plan!",
     "cancelled": "Your subscription has been cancelled. You will have access to premium features until the end of your billing period.",
     "upgraded": "Your subscription has been upgraded to the {{plan}} plan!",
     "downgraded": "Your subscription has been downgraded to the {{plan}} plan!"
   },
   "error": {
+    "title": "Error",
     "paymentFailed": "Payment failed. Please check your payment details and try again.",
     "alreadySubscribed": "You are already subscribed to this plan.",
-    "subscriptionFailed": "Failed to complete subscription. Please try again later."
+    "subscriptionFailed": "Failed to complete subscription. Please try again later.",
+    "fallback": "An error occurred while processing your subscription. Please try again later."
+  },
+  "premium": {
+    "title": "Premium Subscription",
+    "status": "You have a premium subscription.",
+    "unlimited": "Enjoy unlimited access to all features!"
+  },
+  "trial": {
+    "title": "Trial Status",
+    "remaining": "You have {{days}} days remaining in your trial period.",
+    "ended": "Your trial period has ended."
   }
 }

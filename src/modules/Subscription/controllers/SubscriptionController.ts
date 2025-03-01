@@ -1,7 +1,7 @@
 
 import { SubscriptionService } from "../services/SubscriptionService";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
-import { toast } from "@/hooks/use-toast";
+import { showSubscriptionToast } from "../helpers/toastHelper";
 
 export class SubscriptionController {
   private static logger = LoggerService.getInstance("SubscriptionController");
@@ -16,11 +16,7 @@ export class SubscriptionController {
       const success = await SubscriptionService.upgradeToPremium();
       
       if (success) {
-        toast({
-          title: "Tebrikler!",
-          description: "Premium aboneliğe başarıyla geçtiniz.",
-          variant: "default"
-        });
+        showSubscriptionToast.premium();
         
         // Sayfayı yenile
         window.location.reload();
@@ -32,11 +28,7 @@ export class SubscriptionController {
     } catch (error) {
       this.logger.error("Premium aboneliğe geçiş başarısız oldu", error);
       
-      toast({
-        title: "Hata",
-        description: "Premium aboneliğe geçiş sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyin.",
-        variant: "destructive"
-      });
+      showSubscriptionToast.error(error instanceof Error ? error : undefined);
       
       return {
         success: false,
