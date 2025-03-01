@@ -1,5 +1,5 @@
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.10.1'
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -7,147 +7,108 @@ const corsHeaders = {
 }
 
 Deno.serve(async (req) => {
-  // Handle CORS preflight requests
+  // CORS için OPTIONS isteğini işle
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+    return new Response(null, { headers: corsHeaders })
   }
 
-  console.log("Trial süresi kontrolü başlatılıyor...");
-
   try {
-    // Supabase Client başlatma
-    const supabaseUrl = Deno.env.get('SUPABASE_URL');
-    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
-
-    if (!supabaseUrl || !supabaseServiceKey) {
-      throw new Error("Gerekli ortam değişkenleri bulunamadı: SUPABASE_URL veya SUPABASE_SERVICE_ROLE_KEY");
-    }
-
+    // Supabase bağlantısını kur
     const supabaseClient = createClient(
-      supabaseUrl,
-      supabaseServiceKey,
-      { auth: { persistSession: false } }
-    );
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+    )
 
-    console.log("Supabase istemcisi başlatıldı");
+    console.log('Checking for expired trials...')
 
-    // 1. SQL fonksiyonunu çağır - süresi dolmuş abonelikleri güncelle
-    console.log("update_expired_trials() fonksiyonu çağrılıyor...");
-    const { data: updateResult, error: updateError } = await supabaseClient.rpc('update_expired_trials');
+    // Veritabanında update_expired_trials() fonksiyonunu çağır
+    const { error: dbError } = await supabaseClient.rpc('update_expired_trials')
 
-    if (updateError) {
-      console.error('Süresi dolmuş abonelikleri güncelleme hatası:', updateError);
-      throw updateError;
+    if (dbError) {
+      console.error('Database function error:', dbError)
+      throw new Error(`Database function error: ${dbError.message}`)
     }
 
-    console.log("Süresi dolmuş abonelikler güncellendi");
-
-    // 2. Süresi dolmuş ve bildirim gönderilmemiş abonelikleri getir
-    const { data: expiredSubscriptions, error: queryError } = await supabaseClient
+    // Bildirim gönderilmesi gereken abonelikleri al
+    const { data: pendingNotifications, error: queryError } = await supabaseClient
       .from('subscriptions')
-      .select('id, user_id, type, trial_ends_at, updated_at, last_notification_date, notification_count')
-      .eq('status', 'expired')
+      .select('*')
+      .eq('type', 'trial')
+      .eq('status', 'active')
       .is('is_trial_notified', false)
-      .lt('trial_ends_at', new Date().toISOString());
+      .lte('next_notification_date', new Date().toISOString())
 
     if (queryError) {
-      console.error('Süresi dolmuş abonelikleri alma hatası:', queryError);
-      throw queryError;
+      console.error('Error fetching pending notifications:', queryError)
+      throw new Error(`Query error: ${queryError.message}`)
     }
 
-    console.log(`${expiredSubscriptions?.length || 0} adet süresi dolmuş abonelik bulundu`);
+    console.log(`Found ${pendingNotifications?.length || 0} subscriptions that need notifications`)
 
-    // 3. Yaklaşan bitiş tarihleri için bildirim gerekenleri getir
-    const { data: upcomingExpirations, error: upcomingError } = await supabaseClient
-      .from('subscriptions')
-      .select('id, user_id, type, trial_ends_at, updated_at')
-      .eq('status', 'active')
-      .eq('type', 'trial')
-      .gt('trial_ends_at', new Date().toISOString())
-      .lt('trial_ends_at', new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString()); // 14 gün içinde bitecekler
-
-    if (upcomingError) {
-      console.error('Yaklaşan süresi dolacak abonelikleri alma hatası:', upcomingError);
-      throw upcomingError;
-    }
-
-    console.log(`${upcomingExpirations?.length || 0} adet yakında süresi dolacak abonelik bulundu`);
-
-    // 4. Bildirim gönderildiğini işaretle
-    if (expiredSubscriptions && expiredSubscriptions.length > 0) {
-      const updatePromises = expiredSubscriptions.map(subscription => 
-        supabaseClient
-          .from('subscriptions')
-          .update({ 
-            is_trial_notified: true,
-            last_notification_date: new Date().toISOString(),
-            notification_count: (subscription.notification_count || 0) + 1
-          })
-          .eq('id', subscription.id)
-      );
-      
-      console.log("Bildirim gönderildi işaretleniyor...");
-      await Promise.all(updatePromises);
-      console.log("Bildirim işaretlemeleri tamamlandı");
-    }
-
-    // 5. Yaklaşan bitiş tarihleri için next_notification_date güncelle
-    if (upcomingExpirations && upcomingExpirations.length > 0) {
-      for (const subscription of upcomingExpirations) {
-        const trialEndDate = new Date(subscription.trial_ends_at);
-        const now = new Date();
-        const daysUntilExpiration = Math.ceil((trialEndDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+    // Her bir bildirim gerektiren aboneliği işle
+    if (pendingNotifications && pendingNotifications.length > 0) {
+      for (const subscription of pendingNotifications) {
+        // Kalan gün hesapla
+        const trialEndsAt = new Date(subscription.trial_ends_at)
+        const now = new Date()
+        const remainingDays = Math.ceil((trialEndsAt.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
         
-        // Kalan süreye göre bir sonraki bildirim tarihini belirle
-        let nextNotificationDate: Date | null = null;
-        
-        if (daysUntilExpiration <= 3) {
-          // Son 3 gün: Günlük bildirim
-          nextNotificationDate = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 1 gün sonra
-        } else if (daysUntilExpiration <= 7) {
-          // 4-7 gün: 2 günde bir bildirim
-          nextNotificationDate = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000); // 2 gün sonra
-        } else if (daysUntilExpiration <= 14) {
-          // 8-14 gün: 3 günde bir bildirim
-          nextNotificationDate = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000); // 3 gün sonra
-        }
+        console.log(`Processing subscription ${subscription.id}, days remaining: ${remainingDays}`)
 
-        if (nextNotificationDate) {
-          await supabaseClient
+        // Kullanıcının notification_settings'ine göre bildirim tercihleri kontrolü
+        const sendNotification = subscription.notification_settings?.trialEndWarning !== false
+        
+        // Bildirim gönderildi olarak işaretle
+        if (sendNotification) {
+          const { error: updateError } = await supabaseClient
             .from('subscriptions')
-            .update({ 
-              next_notification_date: nextNotificationDate.toISOString() 
+            .update({
+              is_trial_notified: true,
+              last_notification_date: new Date().toISOString(),
+              notification_count: (subscription.notification_count || 0) + 1,
+              // Bir sonraki bildirim tarihini güncelle
+              next_notification_date: remainingDays <= 3 
+                ? new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() // 1 gün sonra
+                : remainingDays <= 7 
+                  ? new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString() // 2 gün sonra 
+                  : new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString() // 3 gün sonra
             })
-            .eq('id', subscription.id);
+            .eq('id', subscription.id)
+
+          if (updateError) {
+            console.error(`Error updating subscription ${subscription.id}:`, updateError)
+          } else {
+            console.log(`Successfully updated notification status for subscription ${subscription.id}`)
+          }
+        } else {
+          console.log(`Skipping notification for subscription ${subscription.id} based on user preferences`)
         }
       }
-      console.log("Yaklaşan bitiş tarihleri için bildirim planlaması güncellendi");
     }
 
     return new Response(
-      JSON.stringify({
-        success: true,
-        message: 'Süresi dolmuş abonelikler güncellendi',
-        expired_count: expiredSubscriptions?.length || 0,
-        upcoming_count: upcomingExpirations?.length || 0
+      JSON.stringify({ 
+        success: true, 
+        message: 'Trial status check completed',
+        processed: pendingNotifications?.length || 0
       }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 200,
-      }
-    );
+      },
+    )
   } catch (error) {
-    console.error('Function error:', error);
+    console.error('Error in update-expired-trials function:', error)
     
     return new Response(
-      JSON.stringify({
-        success: false,
-        error: error.message || 'Bilinmeyen bir hata oluştu'
+      JSON.stringify({ 
+        success: false, 
+        error: error.message || 'Unknown error occurred'
       }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 500,
-      }
-    );
+      },
+    )
   }
-});
+})

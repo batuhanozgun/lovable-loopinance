@@ -101,24 +101,42 @@ export const showSubscriptionToast = {
   trialEnding: (remainingDays: number) => {
     let description = '';
     let title = i18next.t("Subscription.notifications.trial.title", { defaultValue: "Deneme Süresi" });
+    let variant: "default" | "destructive" = "default";
     
     if (remainingDays <= 0) {
       description = i18next.t("Subscription.notifications.trial.ended", { defaultValue: "Deneme süreniz sona erdi." });
       title = i18next.t("Subscription.notifications.trialEnded.title", { defaultValue: "Deneme Süresi Sona Erdi" });
+      variant = "destructive";
     } else if (remainingDays <= 3) {
       description = i18next.t("Subscription.notifications.trialEnding.days.3", { defaultValue: "Son 3 gün" });
+      variant = "destructive";
     } else if (remainingDays <= 7) {
       description = i18next.t("Subscription.notifications.trialEnding.days.7", { defaultValue: "Son 1 hafta" });
+      variant = "default";
     } else if (remainingDays <= 14) {
       description = i18next.t("Subscription.notifications.trialEnding.days.14", { defaultValue: "Deneme sürenizin bitmesine 2 hafta kaldı" });
+      variant = "default";
     } else {
       description = i18next.t("Subscription.notifications.trial.remaining", { days: remainingDays, defaultValue: `Deneme sürenizin bitmesine ${remainingDays} gün kaldı.` });
+      variant = "default";
     }
+    
+    const action = (
+      <div className="mt-2">
+        <button 
+          onClick={() => window.location.href = "/subscription/manage"} 
+          className="px-3 py-1 text-xs font-semibold rounded bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors"
+        >
+          {i18next.t("Subscription.notifications.trialEnded.cta", { defaultValue: "Premium'a Geç" })}
+        </button>
+      </div>
+    );
     
     toast({
       title,
       description,
-      variant: remainingDays <= 3 ? "destructive" : "default"
+      variant,
+      action: remainingDays <= 7 ? action : undefined
     });
   },
   
@@ -126,10 +144,22 @@ export const showSubscriptionToast = {
    * Trial süresi bittiğinde bildirim
    */
   trialEnded: () => {
+    const action = (
+      <div className="mt-2">
+        <button 
+          onClick={() => window.location.href = "/subscription/manage"} 
+          className="px-3 py-1 text-xs font-semibold rounded bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors"
+        >
+          {i18next.t("Subscription.notifications.trialEnded.cta", { defaultValue: "Premium'a Geç" })}
+        </button>
+      </div>
+    );
+    
     toast({
       title: i18next.t("Subscription.notifications.trialEnded.title", { defaultValue: "Deneme Süreniz Sona Erdi" }),
       description: i18next.t("Subscription.notifications.trialEnded.description", { defaultValue: "Verileriniz korunuyor, dilediğiniz zaman kaldığınız yerden devam edebilirsiniz" }),
-      variant: "destructive"
+      variant: "destructive",
+      action
     });
   }
 };
