@@ -2,6 +2,7 @@
 import { SubscriptionService } from "../services/SubscriptionService";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
 import { showSubscriptionToast } from "../helpers/toastHelper";
+import { SubscriptionStatus } from "../interfaces/ISubscription";
 
 export class SubscriptionController {
   private static logger = LoggerService.getInstance("SubscriptionController");
@@ -40,10 +41,18 @@ export class SubscriptionController {
   /**
    * Kullanıcının deneme süresine göre hesap durumunu kontrol eder
    */
-  static async checkSubscriptionStatus() {
+  static async checkSubscriptionStatus(): Promise<{
+    status: SubscriptionStatus;
+    hasAccess: boolean;
+    remainingDays?: number | null;
+    error?: string;
+  }> {
     try {
-      const isTrialExpired = await SubscriptionService.isTrialExpired();
-      const isPremium = await SubscriptionService.isPremium();
+      const { 
+        isPremium, 
+        isTrialExpired, 
+        remainingDays 
+      } = await SubscriptionService.getSubscriptionStatus();
       
       // Premium hesap ise sorun yok
       if (isPremium) {
@@ -62,8 +71,6 @@ export class SubscriptionController {
       }
       
       // Trial süresi devam ediyor
-      const remainingDays = await SubscriptionService.getRemainingTrialDays();
-      
       return {
         status: "trial",
         hasAccess: true,
@@ -76,6 +83,36 @@ export class SubscriptionController {
       return {
         status: "error",
         hasAccess: true,
+        error: error instanceof Error ? error.message : "Bilinmeyen bir hata oluştu"
+      };
+    }
+  }
+
+  /**
+   * Kullanıcıya ait abonelik planı özelliklerini döndürür
+   */
+  static async getUserSubscriptionFeatures() {
+    try {
+      const { subscription } = await SubscriptionService.getSubscriptionStatus();
+      
+      if (!subscription) {
+        return {
+          features: [],
+          hasAccess: false
+        };
+      }
+      
+      const plan = SubscriptionService.getSubscriptionPlanByType(subscription.type);
+      
+      return {
+        features: plan?.features || [],
+        hasAccess: subscription.type !== 'trial' || !await SubscriptionService.isTrialExpired()
+      };
+    } catch (error) {
+      this.logger.error("Kullanıcı abonelik özellikleri alınırken hata oluştu", error);
+      return {
+        features: [],
+        hasAccess: false,
         error: error instanceof Error ? error.message : "Bilinmeyen bir hata oluştu"
       };
     }

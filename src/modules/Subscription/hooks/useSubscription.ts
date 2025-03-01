@@ -1,24 +1,11 @@
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { SubscriptionService } from "../services/SubscriptionService";
-import { ISubscription } from "../interfaces/ISubscription";
+import { ISubscription, SubscriptionPlan, SubscriptionReturnType, SubscriptionStatus } from "../interfaces/ISubscription";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
 
-type SubscriptionStatus = "loading" | "trial" | "premium" | "expired" | "error" | "unauthenticated";
-
-interface UseSubscriptionReturn {
-  subscription: ISubscription | null;
-  status: SubscriptionStatus;
-  isLoading: boolean;
-  isTrialExpired: boolean;
-  isPremium: boolean;
-  remainingDays: number | null;
-  error: Error | null;
-  refetch: () => Promise<void>;
-}
-
-export const useSubscription = (): UseSubscriptionReturn => {
+export const useSubscription = (): SubscriptionReturnType => {
   const [subscription, setSubscription] = useState<ISubscription | null>(null);
   const [status, setStatus] = useState<SubscriptionStatus>("loading");
   const [isTrialExpired, setIsTrialExpired] = useState<boolean>(false);
@@ -26,14 +13,20 @@ export const useSubscription = (): UseSubscriptionReturn => {
   const [remainingDays, setRemainingDays] = useState<number | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [plan, setPlan] = useState<SubscriptionPlan | null>(null);
   const { toast } = useToast();
   const { t } = useTranslation(["subscription.notifications", "errors"]);
 
-  const fetchSubscription = async () => {
+  const fetchSubscription = useCallback(async () => {
     setIsLoading(true);
     try {
-      // Abonelik bilgilerini getir
-      const subscriptionData = await SubscriptionService.getCurrentSubscription();
+      // Tüm abonelik verilerini tek seferde getir
+      const { 
+        subscription: subscriptionData, 
+        isPremium: premiumStatus, 
+        isTrialExpired: trialExpired, 
+        remainingDays: days 
+      } = await SubscriptionService.getSubscriptionStatus();
       
       // Oturum yoksa (kullanıcı giriş yapmamışsa)
       if (subscriptionData === null) {
@@ -43,40 +36,40 @@ export const useSubscription = (): UseSubscriptionReturn => {
       }
       
       setSubscription(subscriptionData);
-
-      // Premium durumunu kontrol et
-      const premiumStatus = await SubscriptionService.isPremium();
       setIsPremium(premiumStatus);
+      setIsTrialExpired(trialExpired);
 
+      // Status'u belirle
       if (premiumStatus) {
-        setStatus("premium");
-        setIsTrialExpired(false);
+        setStatus(subscriptionData.type as SubscriptionStatus);
         setRemainingDays(null);
+      } else if (trialExpired) {
+        setStatus("expired");
+        setRemainingDays(0);
       } else {
-        // Trial durumunu kontrol et
-        const trialExpired = await SubscriptionService.isTrialExpired();
-        setIsTrialExpired(trialExpired);
-
-        if (trialExpired) {
-          setStatus("expired");
-          setRemainingDays(0);
-        } else {
-          setStatus("trial");
-          // Kalan gün sayısını getir
-          const days = await SubscriptionService.getRemainingTrialDays();
-          setRemainingDays(days);
-          
-          // Kalan gün sayısı 7 veya daha az ise uyarı bildirimi göster
-          if (days !== null && days <= 7 && days > 0) {
-            toast({
-              title: t("trialEnding.title"),
-              description: days <= 3 
-                ? t("trialEnding.days.3")
-                : t("trialEnding.days.7"),
-              variant: "default",
-            });
-          }
+        setStatus("trial");
+        setRemainingDays(days);
+        
+        // Kalan gün sayısı 7 veya daha az ise uyarı bildirimi göster
+        if (days !== null && days <= 7 && days > 0) {
+          toast({
+            title: t("trialEnding.title"),
+            description: days <= 3 
+              ? t("trialEnding.days.3")
+              : t("trialEnding.days.7"),
+            variant: "default",
+          });
         }
+      }
+
+      // Abonelik planını belirle
+      if (subscriptionData) {
+        const currentPlan = SubscriptionService.getSubscriptionPlanByType(
+          subscriptionData.type,
+          // Eğer plan_id varsa ve "-yearly" içeriyorsa yıllık plan
+          subscriptionData.plan_id?.includes("-yearly") ? "yearly" : "monthly"
+        );
+        setPlan(currentPlan);
       }
     } catch (err) {
       setStatus("error");
@@ -90,15 +83,16 @@ export const useSubscription = (): UseSubscriptionReturn => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [toast, t]);
 
   useEffect(() => {
     fetchSubscription();
-  }, []);
+  }, [fetchSubscription]);
 
   return {
     subscription,
     status,
+    plan,
     isLoading,
     isTrialExpired,
     isPremium,

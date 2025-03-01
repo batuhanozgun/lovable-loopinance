@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { showSubscriptionToast } from "../helpers/toastHelper";
 
 export const TrialBanner: React.FC = () => {
-  const { status, remainingDays, isLoading } = useSubscription();
+  const { status, remainingDays, isLoading, plan } = useSubscription();
   const [isUpgrading, setIsUpgrading] = React.useState(false);
   const { t } = useTranslation(["subscription.common", "subscription.notifications"]);
   
@@ -27,7 +27,7 @@ export const TrialBanner: React.FC = () => {
   
   // Banner'ın arka plan rengi ve mesajı için durum bazlı değişkenler
   const getBannerClass = () => {
-    if (status === "premium") return "bg-green-100 dark:bg-green-900/20 border-green-200 dark:border-green-900";
+    if (status === "premium" || status === "business") return "bg-green-100 dark:bg-green-900/20 border-green-200 dark:border-green-900";
     if (status === "expired") return "bg-red-100 dark:bg-red-900/20 border-red-200 dark:border-red-900";
     
     // Trial durumuna göre farklı arka planlar
@@ -39,7 +39,7 @@ export const TrialBanner: React.FC = () => {
   };
   
   const getIcon = () => {
-    if (status === "premium") return <Sparkles className="h-5 w-5 text-green-600 dark:text-green-400" />;
+    if (status === "premium" || status === "business") return <Sparkles className="h-5 w-5 text-green-600 dark:text-green-400" />;
     if (status === "expired") return <AlertCircle className="h-5 w-5 text-red-600 dark:text-red-400" />;
     if (remainingDays && remainingDays <= 7) {
       return <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400" />;
@@ -49,7 +49,9 @@ export const TrialBanner: React.FC = () => {
   
   const getMessage = () => {
     if (isLoading) return t("loading");
-    if (status === "premium") return t("premium.status");
+    if (status === "premium" || status === "business") {
+      return plan ? `${plan.name} ${t("premium.status")}` : t("premium.status");
+    }
     if (status === "expired") return t("trialEnding.cta", { ns: "subscription.notifications" });
     if (remainingDays === null) return t("loading");
     
@@ -73,7 +75,7 @@ export const TrialBanner: React.FC = () => {
         <span className="text-sm font-medium">{getMessage()}</span>
       </div>
       
-      {status !== "premium" && (
+      {(status !== "premium" && status !== "business") && (
         <Button 
           size="sm" 
           onClick={handleUpgrade}

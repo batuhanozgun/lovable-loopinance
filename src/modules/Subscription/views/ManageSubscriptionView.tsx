@@ -10,11 +10,13 @@ import { format } from "date-fns";
 import { tr, enUS } from "date-fns/locale";
 import { useTranslation } from "react-i18next";
 import { useToast } from "@/hooks/use-toast";
+import { SubscriptionService } from "../services/SubscriptionService";
 
 const ManageSubscriptionView: React.FC = () => {
   const { t, i18n } = useTranslation(["subscription.common", "subscription.plans"]);
-  const { subscription, status, remainingDays, isLoading, refetch } = useSubscription();
+  const { subscription, status, plan, remainingDays, isLoading, refetch } = useSubscription();
   const [isUpgrading, setIsUpgrading] = React.useState(false);
+  const [plans, setPlans] = React.useState(SubscriptionService.getSubscriptionPlans());
   const { toast } = useToast();
   
   const dateLocale = i18n.language === "tr" ? tr : enUS;
@@ -59,8 +61,8 @@ const ManageSubscriptionView: React.FC = () => {
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               <span>{t("currentPlan")}</span>
-              {status === "premium" ? (
-                <Badge variant="default" className="bg-green-500">{t("premium.title")}</Badge>
+              {status === "premium" || status === "business" ? (
+                <Badge variant="default" className="bg-green-500">{plan?.name || t("premium.title")}</Badge>
               ) : status === "expired" ? (
                 <Badge variant="destructive">{t("trial.expired")}</Badge>
               ) : (
@@ -68,8 +70,8 @@ const ManageSubscriptionView: React.FC = () => {
               )}
             </CardTitle>
             <CardDescription>
-              {status === "premium" 
-                ? t("premium.status")
+              {status === "premium" || status === "business"
+                ? plan?.description || t("premium.status")
                 : status === "expired" 
                   ? t("trial.expired")
                   : t("trial.remaining", { days: remainingDays })
@@ -78,7 +80,7 @@ const ManageSubscriptionView: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {subscription && subscription.trial_ends_at && status !== "premium" && (
+              {subscription && subscription.trial_ends_at && status !== "premium" && status !== "business" && (
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">{t("trialEndsAt")}</span>
                   <span className="font-medium">
@@ -89,18 +91,31 @@ const ManageSubscriptionView: React.FC = () => {
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground">{t("planStatus")}</span>
                 <span className="font-medium">
-                  {status === "premium" 
-                    ? t("premium.status") 
+                  {status === "premium" || status === "business"
+                    ? plan?.name || t("premium.status") 
                     : status === "expired" 
                       ? t("trial.expired") 
                       : t("trial.status")
                   }
                 </span>
               </div>
+              
+              {(status === "premium" || status === "business") && plan && (
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">{t("plans:pricing.billedMonthly", { ns: "subscription.plans.pricing" })}</span>
+                  <span className="font-medium">
+                    {plan.price} {t("plans:pricing.currency", { ns: "subscription.plans.pricing" })} 
+                    {plan.interval === "monthly" 
+                      ? t("plans:pricing.perMonth", { ns: "subscription.plans.pricing" })
+                      : t("plans:pricing.perYear", { ns: "subscription.plans.pricing" })
+                    }
+                  </span>
+                </div>
+              )}
             </div>
           </CardContent>
           <CardFooter>
-            {status !== "premium" && (
+            {(status !== "premium" && status !== "business") && (
               <Button 
                 onClick={handleUpgrade} 
                 disabled={isUpgrading} 
@@ -156,6 +171,54 @@ const ManageSubscriptionView: React.FC = () => {
             </div>
           </CardContent>
         </Card>
+      </div>
+      
+      {/* Mevcut Planlar */}
+      <h2 className="text-2xl font-bold mt-12 mb-6">{t("plans:pricing.title", { ns: "subscription.plans", defaultValue: "Abonelik Planları" })}</h2>
+      <div className="grid gap-6 md:grid-cols-3">
+        {plans.filter(p => p.type !== "trial").map((plan) => (
+          <Card key={plan.id} className={status === plan.type ? "border-primary" : ""}>
+            <CardHeader>
+              <CardTitle>{plan.name}</CardTitle>
+              <CardDescription>{plan.description}</CardDescription>
+              <div className="mt-2 font-bold text-2xl">
+                {plan.price} {t("plans:pricing.currency", { ns: "subscription.plans.pricing", defaultValue: "USD" })}
+                <span className="text-sm font-normal ml-1">
+                  {plan.interval === "monthly" 
+                    ? t("plans:pricing.perMonth", { ns: "subscription.plans.pricing", defaultValue: "/ ay" })
+                    : t("plans:pricing.perYear", { ns: "subscription.plans.pricing", defaultValue: "/ yıl" })
+                  }
+                </span>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2 text-sm">
+                {plan.features.map((feature, index) => (
+                  <li key={index} className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-500 shrink-0 mt-0.5" />
+                    <span>{t(`plans:features.${feature}`, { ns: "subscription.plans.ui", defaultValue: feature })}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+            <CardFooter>
+              <Button 
+                className={`w-full ${status === plan.type ? "bg-gray-200 text-gray-500 dark:bg-gray-700 cursor-default" : ""}`}
+                disabled={status === plan.type || isUpgrading}
+                onClick={handleUpgrade}
+              >
+                {status === plan.type 
+                  ? t("buttons.current", { ns: "subscription.ui", defaultValue: "Mevcut Plan" })
+                  : status === "premium" || status === "business"
+                    ? plan.type === "premium" || plan.type === "business"
+                      ? t("buttons.switch", { ns: "subscription.ui", defaultValue: "Bu Plana Geç" })
+                      : t("buttons.downgrade", { ns: "subscription.ui", defaultValue: "Düşür" })
+                    : t("buttons.upgrade", { ns: "subscription.ui", defaultValue: "Yükselt" })
+                }
+              </Button>
+            </CardFooter>
+          </Card>
+        ))}
       </div>
     </div>
   );
