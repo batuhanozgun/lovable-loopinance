@@ -43,8 +43,8 @@ export class AuthService {
       });
       
       // Event tipine göre daha detaylı kontrol
-      if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
-        this.logger.debug("Kullanıcı çıkış yaptı veya silindi");
+      if (event === 'SIGNED_OUT') {
+        this.logger.debug("Kullanıcı çıkış yaptı");
         callback(false);
         return;
       } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
