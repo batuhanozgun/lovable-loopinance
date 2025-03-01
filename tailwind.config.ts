@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -101,6 +100,16 @@ export default {
 				'fade-out': {
 					'0%': { opacity: '1' },
 					'100%': { opacity: '0' }
+				},
+				'gradient-shift': {
+					'0%': { backgroundPosition: '0% 50%' },
+					'50%': { backgroundPosition: '100% 50%' },
+					'100%': { backgroundPosition: '0% 50%' }
+				},
+				'gradient-rotate': {
+					'0%': { backgroundSize: '200% 200%', backgroundPosition: '0% 50%' },
+					'50%': { backgroundSize: '200% 200%', backgroundPosition: '100% 50%' },
+					'100%': { backgroundSize: '200% 200%', backgroundPosition: '0% 50%' }
 				}
 			},
 			animation: {
@@ -109,7 +118,15 @@ export default {
 				'slide-in-left': 'slide-in-left 0.3s ease-out',
 				'slide-out-left': 'slide-out-left 0.3s ease-out',
 				'fade-in': 'fade-in 0.3s ease-out',
-				'fade-out': 'fade-out 0.3s ease-out'
+				'fade-out': 'fade-out 0.3s ease-out',
+				'gradient-flow': 'gradient-shift 3s ease infinite',
+				'gradient-rotate': 'gradient-rotate 3s ease infinite'
+			},
+			backgroundImage: {
+				'gradient-fab': 'linear-gradient(225deg, rgba(84,85,89,1) 0%, rgba(108,154,229,1) 50%, rgba(0,140,158,1) 100%)',
+				'gradient-fab-hover': 'linear-gradient(45deg, rgba(84,85,89,1) 0%, rgba(108,154,229,1) 50%, rgba(0,140,158,1) 100%)',
+				'gradient-fab-dark': 'linear-gradient(225deg, hsla(210,13%,40%,1) 0%, hsla(185,94%,7%,1) 50%, hsla(185,100%,15%,1) 100%)',
+				'gradient-fab-dark-hover': 'linear-gradient(45deg, hsla(210,13%,40%,1) 0%, hsla(185,94%,7%,1) 50%, hsla(185,100%,15%,1) 100%)'
 			}
 		}
 	},
@@ -138,6 +155,16 @@ export default {
 						backgroundColor: 'hsl(var(--sidebar-accent))',
 					},
 				},
+				'.gradient-mask': {
+					'mask-image': 'linear-gradient(to right, transparent, black 20%, black 80%, transparent 100%)'
+				},
+				'.bg-gradient-animate': {
+					'backgroundSize': '200% 200%',
+					'transition': 'all 0.3s ease'
+				},
+				'.bg-gradient-animate:hover': {
+					'backgroundPosition': 'right center'
+				}
 			};
 			addUtilities(newUtilities, ['responsive', 'hover']);
 		},

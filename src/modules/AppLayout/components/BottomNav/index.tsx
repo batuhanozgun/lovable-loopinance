@@ -2,7 +2,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, Link } from "react-router-dom";
-import { Home, Wallet, Grid, List, Settings, PlusCircle } from "lucide-react";
+import { Home, Wallet, Grid, List, PlusCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
 import { Button } from "@/components/ui/button";
@@ -57,10 +57,22 @@ export const BottomNav: React.FC = () => {
               <Button
                 onClick={handleNewTransactionClick}
                 size="icon"
-                className="h-14 w-14 rounded-full bg-primary hover:bg-primary/90 shadow-md"
+                className={cn(
+                  "h-14 w-14 rounded-full",
+                  "bg-gradient-fab dark:bg-gradient-fab-dark",
+                  "hover:bg-gradient-fab-hover dark:hover:bg-gradient-fab-dark-hover",
+                  "bg-gradient-animate",
+                  "shadow-lg hover:shadow-xl",
+                  "transition-all duration-300 ease-in-out",
+                  "scale-100 hover:scale-105",
+                  "group"
+                )}
                 aria-label={t("AppLayout:navigation.newTransaction")}
               >
-                <PlusCircle size={26} className="text-primary-foreground" />
+                <PlusCircle 
+                  size={26} 
+                  className="text-primary-foreground transition-transform duration-300 group-hover:rotate-90" 
+                />
               </Button>
             </div>
           );
