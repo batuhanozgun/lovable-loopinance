@@ -37,12 +37,10 @@ export const showSubscriptionToast = {
     }
 
     toast({
-      title: <div className="flex items-center gap-2">
-        <CheckCircle className="h-4 w-4 text-green-500" />
-        {title}
-      </div>,
+      title,
       description,
       variant: "default",
+      icon: <CheckCircle className="h-4 w-4 text-green-500" />
     });
   },
 
@@ -51,45 +49,37 @@ export const showSubscriptionToast = {
       i18next.t("general.description", { ns: "errors" });
 
     toast({
-      title: <div className="flex items-center gap-2">
-        <AlertCircle className="h-4 w-4 text-red-500" />
-        {i18next.t("general.title", { ns: "errors" })}
-      </div>,
+      title: i18next.t("general.title", { ns: "errors" }),
       description: errorMessage,
       variant: "destructive",
+      icon: <AlertCircle className="h-4 w-4" />
     });
   },
 
   premium: () => {
     toast({
-      title: <div className="flex items-center gap-2">
-        <CheckCircle className="h-4 w-4 text-green-500" />
-        {t("success.upgrade")}
-      </div>,
+      title: t("success.upgrade"),
       description: t("premium.active"),
       variant: "default",
+      icon: <CheckCircle className="h-4 w-4 text-green-500" />
     });
   },
 
   info: (message: string) => {
     toast({
-      title: <div className="flex items-center gap-2">
-        <Info className="h-4 w-4 text-blue-500" />
-        Bilgi
-      </div>,
+      title: "Bilgi",
       description: message,
       variant: "default",
+      icon: <Info className="h-4 w-4 text-blue-500" />
     });
   },
 
   warning: (message: string) => {
     toast({
-      title: <div className="flex items-center gap-2">
-        <AlertCircle className="h-4 w-4 text-amber-500" />
-        Uyarı
-      </div>,
+      title: "Uyarı",
       description: message,
       variant: "default",
+      icon: <AlertCircle className="h-4 w-4 text-amber-500" />
     });
   }
 };
