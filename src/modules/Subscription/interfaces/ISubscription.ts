@@ -16,6 +16,14 @@ export interface ISubscription {
   cancel_at_period_end?: boolean;
   canceled_at?: string | null;
   plan_id?: string | null;
+  status?: string;
+  timezone?: string;
+  metadata?: Record<string, any>;
+  notification_settings?: {
+    trialEndWarning: boolean;
+    paymentReminders: boolean;
+    featureUpdates: boolean;
+  };
 }
 
 export interface SubscriptionFeature {

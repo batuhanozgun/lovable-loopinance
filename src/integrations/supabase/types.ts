@@ -36,11 +36,87 @@ export type Database = {
         }
         Relationships: []
       }
+      subscription_features: {
+        Row: {
+          available_in_basic: boolean
+          available_in_business: boolean
+          available_in_premium: boolean
+          available_in_trial: boolean
+          created_at: string
+          description: string
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          available_in_basic?: boolean
+          available_in_business?: boolean
+          available_in_premium?: boolean
+          available_in_trial?: boolean
+          created_at?: string
+          description: string
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          available_in_basic?: boolean
+          available_in_business?: boolean
+          available_in_premium?: boolean
+          available_in_trial?: boolean
+          created_at?: string
+          description?: string
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      subscription_plans: {
+        Row: {
+          created_at: string
+          description: string | null
+          features: Json
+          id: string
+          interval: string
+          name: string
+          price: number
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          features?: Json
+          id?: string
+          interval: string
+          name: string
+          price: number
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          features?: Json
+          id?: string
+          interval?: string
+          name?: string
+          price?: number
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       subscriptions: {
         Row: {
           created_at: string
           id: string
           is_trial_notified: boolean
+          metadata: Json
+          notification_settings: Json
+          status: string
+          timezone: string | null
           trial_ends_at: string | null
           type: string
           updated_at: string
@@ -50,6 +126,10 @@ export type Database = {
           created_at?: string
           id?: string
           is_trial_notified?: boolean
+          metadata?: Json
+          notification_settings?: Json
+          status?: string
+          timezone?: string | null
           trial_ends_at?: string | null
           type: string
           updated_at?: string
@@ -59,6 +139,10 @@ export type Database = {
           created_at?: string
           id?: string
           is_trial_notified?: boolean
+          metadata?: Json
+          notification_settings?: Json
+          status?: string
+          timezone?: string | null
           trial_ends_at?: string | null
           type?: string
           updated_at?: string
@@ -71,7 +155,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      update_expired_trials: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

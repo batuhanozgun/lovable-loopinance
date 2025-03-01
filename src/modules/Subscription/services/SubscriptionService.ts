@@ -185,6 +185,7 @@ export class SubscriptionService {
         .from("subscriptions")
         .update({
           type: 'premium',
+          status: 'active',
           updated_at: new Date().toISOString()
         })
         .eq("user_id", userId);
@@ -202,6 +203,36 @@ export class SubscriptionService {
     } catch (error) {
       this.logger.error("Premium aboneliğe geçiş yapılırken hata oluştu", error);
       throw error;
+    }
+  }
+
+  /**
+   * Veritabanından tüm abonelik planlarını getir
+   */
+  static async getPlansFromDatabase(): Promise<SubscriptionPlan[]> {
+    try {
+      const { data, error } = await supabase
+        .from("subscription_plans")
+        .select("*")
+        .order("price", { ascending: true });
+      
+      if (error) {
+        this.logger.error("Abonelik planları alınamadı", error);
+        throw error;
+      }
+      
+      return data.map(plan => ({
+        id: plan.id,
+        type: plan.type as SubscriptionType,
+        name: plan.name,
+        price: plan.price,
+        interval: plan.interval as 'monthly' | 'yearly',
+        features: Array.isArray(plan.features) ? plan.features : JSON.parse(plan.features),
+        description: plan.description
+      }));
+    } catch (error) {
+      this.logger.error("Planlar alınırken hata oluştu", error);
+      return this.getSubscriptionPlans(); // Fallback olarak statik planları döndür
     }
   }
 

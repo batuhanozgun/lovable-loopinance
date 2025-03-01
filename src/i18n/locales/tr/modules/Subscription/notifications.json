@@ -13,5 +13,14 @@
     "title": "Deneme Süreniz Sona Erdi",
     "description": "Verileriniz korunuyor, dilediğiniz zaman kaldığınız yerden devam edebilirsiniz",
     "cta": "Tüm özelliklere sınırsız erişim için Premium'a geçin"
+  },
+  "success": {
+    "upgrade": "Premium aboneliğe başarıyla geçildi",
+    "cancel": "Abonelik iptal edildi",
+    "renewal": "Otomatik yenileme ayarları güncellendi"
+  },
+  "premium": {
+    "active": "Premium aboneliğiniz aktif",
+    "payment": "Bir sonraki ödeme {{date}} tarihinde"
   }
 }

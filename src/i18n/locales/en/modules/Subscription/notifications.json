@@ -13,5 +13,14 @@
     "title": "Your Trial Has Ended",
     "description": "Your data is preserved, you can continue where you left off anytime",
     "cta": "Upgrade to Premium for unlimited access to all features"
+  },
+  "success": {
+    "upgrade": "Successfully upgraded to Premium",
+    "cancel": "Subscription has been cancelled",
+    "renewal": "Automatic renewal has been updated"
+  },
+  "premium": {
+    "active": "Your Premium subscription is active",
+    "payment": "Next payment will be on {{date}}"
   }
 }

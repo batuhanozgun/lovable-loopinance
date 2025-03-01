@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -23,6 +24,7 @@ export const PremiumDialog: React.FC<PremiumDialogProps> = ({ open, onOpenChange
     setIsLoading(true);
     try {
       await SubscriptionController.handleUpgradeToPremium();
+      showSubscriptionToast.success('upgrade');
       onOpenChange(false);
     } catch (error) {
       console.error("Premium yükseltme hatası:", error);
