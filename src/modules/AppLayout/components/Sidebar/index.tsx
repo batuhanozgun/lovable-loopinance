@@ -66,7 +66,7 @@ export const Sidebar: React.FC = () => {
               variant="ghost"
               size="icon"
               className={cn(
-                "absolute right-0 translate-x-1/2 top-4 z-5", // z-index değeri 5 olarak kalıyor
+                "absolute right-0 translate-x-1/2 top-4 z-15", // z-index değeri 15 olarak güncellendi (sidebarla uyumlu)
                 "h-8 w-8 rounded-full p-0 flex justify-center items-center",
                 "bg-background/80 backdrop-blur-sm border shadow-sm",
                 CSS_CLASSES.TRANSITIONS.BASE,
@@ -155,11 +155,11 @@ export const Sidebar: React.FC = () => {
   return (
     <aside 
       className={cn(
-        "fixed top-16 left-0 h-[calc(100vh-4rem)] flex flex-col shadow-sm", // fixed position ve top-16 (header yüksekliği) eklendi
+        "fixed top-16 left-0 h-[calc(100vh-4rem)] flex flex-col shadow-sm", 
         CSS_CLASSES.COLORS.BG,
         "border-r",
         CSS_CLASSES.COLORS.BORDER,
-        `z-[${Z_INDEX.SIDEBAR}]` // Sabit z-index değeri kullanıldı
+        "z-15" // z-index doğrudan değer olarak eklendi
       )}
       style={sidebarStyles}
     >

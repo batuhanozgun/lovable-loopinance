@@ -28,7 +28,7 @@ export const BREAKPOINTS = {
 
 // Z-index değerleri
 export const Z_INDEX = {
-  SIDEBAR: 5,    // Sabit değer (AppHeader'dan düşük)
+  SIDEBAR: 15,    // Header altında ama içerikten yüksek
   SIDEBAR_MOBILE: 40, // Mobil sidebar için yüksek değer
   BACKDROP: 30,  // Backdrop için orta değer
   TOOLTIP: 100,  // Tooltip için en yüksek değer
