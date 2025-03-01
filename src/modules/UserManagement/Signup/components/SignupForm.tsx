@@ -12,13 +12,7 @@ import { useTranslation } from "react-i18next";
 import { GoogleAuthButton } from "../../OAuth";
 
 export const SignUp = () => {
-  const { t } = useTranslation([
-    "Signup.ui", 
-    "Signup.messages", 
-    "Signup.validation",
-    "common", 
-    "errors"
-  ]);
+  const { t } = useTranslation(["common", "errors"]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -50,7 +44,7 @@ export const SignUp = () => {
       toast({
         variant: "destructive",
         title: t("common:error"),
-        description: error instanceof Error ? error.message : t("Signup.messages:error.signupFailed")
+        description: error instanceof Error ? error.message : t("Signup:messages.error.signupFailed")
       });
     } finally {
       setLoading(false);
@@ -64,7 +58,7 @@ export const SignUp = () => {
           <div className="space-y-2">
             <Input
               id="firstName"
-              placeholder={t("Signup.ui:form.firstName")}
+              placeholder={t("Signup:ui.form.firstName")}
               {...register("firstName")}
               className="w-full"
               disabled={loading}
@@ -79,7 +73,7 @@ export const SignUp = () => {
           <div className="space-y-2">
             <Input
               id="lastName"
-              placeholder={t("Signup.ui:form.lastName")}
+              placeholder={t("Signup:ui.form.lastName")}
               {...register("lastName")}
               className="w-full"
               disabled={loading}
@@ -96,7 +90,7 @@ export const SignUp = () => {
           <Input
             id="email"
             type="email"
-            placeholder={t("Signup.ui:form.email")}
+            placeholder={t("Signup:ui.form.email")}
             {...register("email")}
             className="w-full"
             disabled={loading}
@@ -112,7 +106,7 @@ export const SignUp = () => {
           <Input
             id="password"
             type="password"
-            placeholder={t("Signup.ui:form.password")}
+            placeholder={t("Signup:ui.form.password")}
             {...register("password")}
             className="w-full"
             disabled={loading}
@@ -126,7 +120,7 @@ export const SignUp = () => {
       </div>
       
       <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? t("Signup.ui:form.loading") : t("Signup.ui:form.submit")}
+        {loading ? t("Signup:ui.form.loading") : t("Signup:ui.form.submit")}
       </Button>
     </form>
   );

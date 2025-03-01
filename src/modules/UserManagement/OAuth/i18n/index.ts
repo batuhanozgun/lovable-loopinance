@@ -3,13 +3,13 @@ import i18n from 'i18next';
 
 // İngilizce kaynaklar
 import messagesEN from './locales/en/messages.json';
-import uiEN from './locales/en/ui.json';
 import notificationsEN from './locales/en/notifications.json';
+import uiEN from './locales/en/ui.json';
 
 // Türkçe kaynaklar
 import messagesTR from './locales/tr/messages.json';
-import uiTR from './locales/tr/ui.json';
 import notificationsTR from './locales/tr/notifications.json';
+import uiTR from './locales/tr/ui.json';
 
 // OAuth modülü çevirilerini başlat
 export const initOAuthTranslations = () => {
@@ -38,15 +38,15 @@ function addOAuthResources() {
     // İngilizce kaynakları ekle
     i18n.addResourceBundle('en', 'OAuth', {
       messages: messagesEN,
-      ui: uiEN,
-      notifications: notificationsEN
+      notifications: notificationsEN,
+      ui: uiEN
     }, true, true);
 
     // Türkçe kaynakları ekle
     i18n.addResourceBundle('tr', 'OAuth', {
       messages: messagesTR,
-      ui: uiTR,
-      notifications: notificationsTR
+      notifications: notificationsTR,
+      ui: uiTR
     }, true, true);
     
     console.log("OAuth çevirileri başarıyla eklendi");

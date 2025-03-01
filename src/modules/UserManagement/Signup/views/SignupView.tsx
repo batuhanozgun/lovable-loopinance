@@ -8,12 +8,12 @@ import { Typewriter } from "../../common/components/Typewriter";
 import { GoogleAuthButton } from "../../OAuth";
 
 export const SignUp = () => {
-  const { t } = useTranslation(["Signup.content", "common", "OAuth.ui"]);
+  const { t } = useTranslation(["common", "OAuth"]);
 
   const typewriterTexts = [
-    t("Signup.content:typewriter.text1"),
-    t("Signup.content:typewriter.text2"),
-    t("Signup.content:typewriter.text3")
+    t("Signup:content.typewriter.text1"),
+    t("Signup:content.typewriter.text2"),
+    t("Signup:content.typewriter.text3")
   ];
 
   return (
@@ -53,10 +53,10 @@ export const SignUp = () => {
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight">
-              {t("Signup.content:title")}
+              {t("Signup:content.title")}
             </h1>
             <p className="text-sm text-muted-foreground">
-              {t("Signup.content:subtitle")}
+              {t("Signup:content.subtitle")}
             </p>
           </div>
           
@@ -68,19 +68,19 @@ export const SignUp = () => {
             </div>
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-background px-2 text-muted-foreground">
-                {t("OAuth.ui:or")}
+                {t("OAuth:ui.or")}
               </span>
             </div>
           </div>
           
           <SignUpForm />
           <p className="px-8 text-center text-sm text-muted-foreground">
-            {t("Signup.content:hasAccount")}{" "}
+            {t("Signup:content.hasAccount")}{" "}
             <Link
               to="/login"
               className="underline underline-offset-4 hover:text-primary"
             >
-              {t("Signup.content:loginAccount")}
+              {t("Signup:content.loginAccount")}
             </Link>
           </p>
         </div>

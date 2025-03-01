@@ -39,7 +39,7 @@ export const initSignupTranslations = () => {
 // Signup kaynak paketlerini ekleme yardımcı fonksiyonu
 function addSignupResources() {
   try {
-    // İngilizce kaynakları ekle
+    // İngilizce kaynakları ekle - Doğru namespace'i kullan
     i18n.addResourceBundle('en', 'Signup', {
       messages: messagesEN,
       validation: errorsEN,
@@ -48,7 +48,7 @@ function addSignupResources() {
       notifications: notificationsEN
     }, true, true);
 
-    // Türkçe kaynakları ekle
+    // Türkçe kaynakları ekle - Doğru namespace'i kullan
     i18n.addResourceBundle('tr', 'Signup', {
       messages: messagesTR,
       validation: errorsTR,
@@ -57,7 +57,25 @@ function addSignupResources() {
       notifications: notificationsTR
     }, true, true);
     
-    console.log("Signup çevirileri başarıyla eklendi");
+    // Çeviri testleri için log ekleyelim
+    if (process.env.NODE_ENV === 'development') {
+      console.log("Signup çevirileri başarıyla eklendi");
+      
+      // Örnek çeviri anahtarlarını kontrol et
+      const testLanguages = ['en', 'tr'];
+      const testKeys = [
+        'Signup:content.title',
+        'Signup:ui.form.firstName', 
+        'Signup:content.typewriter.text1'
+      ];
+      
+      testLanguages.forEach(lang => {
+        console.log(`Çeviri testi (${lang}):`);
+        testKeys.forEach(key => {
+          console.log(`  ${key}: ${i18n.t(key, { lng: lang })}`);
+        });
+      });
+    }
   } catch (error) {
     console.error("Signup çevirileri eklenirken hata oluştu:", error);
   }
