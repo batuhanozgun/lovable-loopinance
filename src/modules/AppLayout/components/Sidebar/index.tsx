@@ -66,7 +66,7 @@ export const Sidebar: React.FC = () => {
               variant="ghost"
               size="icon"
               className={cn(
-                "absolute right-0 translate-x-1/2 top-4 z-15", // z-index değeri 15 olarak güncellendi (sidebarla uyumlu)
+                "absolute right-0 translate-x-1/2 top-4 z-[30]", // z-index değeri 30 olarak güncellendi
                 "h-8 w-8 rounded-full p-0 flex justify-center items-center",
                 "bg-background/80 backdrop-blur-sm border shadow-sm",
                 CSS_CLASSES.TRANSITIONS.BASE,
@@ -118,7 +118,7 @@ export const Sidebar: React.FC = () => {
           <div 
             className={cn(
               "fixed inset-0 bg-black/50 animate-fade-in cursor-pointer",
-              `z-[${Z_INDEX.BACKDROP}]`
+              `z-[${Z_INDEX.BACKDROP}]` // Z-index değeri constant'tan alınıyor
             )}
             onClick={handleBackdropClick}
             aria-hidden="true"
@@ -131,7 +131,7 @@ export const Sidebar: React.FC = () => {
             CSS_CLASSES.COLORS.BG,
             "border-r",
             CSS_CLASSES.COLORS.BORDER,
-            `z-[${Z_INDEX.SIDEBAR_MOBILE}]`,
+            `z-[${Z_INDEX.SIDEBAR_MOBILE}]`, // Z-index değeri constant'tan alınıyor
             isExpanded ? "animate-slide-in-left" : "animate-slide-out-left -translate-x-full",
             // Mobilde header altında başlamasını sağla
             "mt-16" // header yüksekliği kadar margin-top
@@ -159,7 +159,7 @@ export const Sidebar: React.FC = () => {
         CSS_CLASSES.COLORS.BG,
         "border-r",
         CSS_CLASSES.COLORS.BORDER,
-        "z-15" // z-index doğrudan değer olarak eklendi
+        `z-[${Z_INDEX.SIDEBAR}]` // Z-index değeri constant'tan alınıyor (30)
       )}
       style={sidebarStyles}
     >
