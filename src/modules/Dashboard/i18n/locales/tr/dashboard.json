@@ -1,0 +1,15 @@
+
+{
+  "financialSummary": {
+    "title": "Finansal Özet",
+    "description": "En son finansal aktivitelerinizi ve özetleri görüntüleyin."
+  },
+  "recentTransactions": {
+    "title": "Son İşlemler",
+    "description": "Son harcama ve gelir modellerinizi izleyin."
+  },
+  "budgetGoals": {
+    "title": "Bütçe Hedefleri",
+    "description": "Finansal hedeflerinize ilerleme durumunuzu takip edin."
+  }
+}

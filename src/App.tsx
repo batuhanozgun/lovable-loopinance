@@ -7,7 +7,7 @@ import { Login } from "@/modules/UserManagement/Login/views/LoginView";
 import { useState, useEffect } from "react";
 import { SessionService } from "@/modules/UserManagement/auth";
 import { Layout } from "@/modules/AppLayout/components/Layout";
-import Index from "./pages/Index";
+import { DashboardView } from "@/modules/Dashboard";
 import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
 import "@/i18n/config";
@@ -104,7 +104,7 @@ const App = () => {
             element={
               isAuthenticated ? (
                 <Layout>
-                  <Index />
+                  <DashboardView />
                 </Layout>
               ) : (
                 <Landing />
@@ -116,7 +116,7 @@ const App = () => {
             element={
               isAuthenticated ? (
                 <Layout>
-                  <Index />
+                  <DashboardView />
                 </Layout>
               ) : (
                 <Navigate to="/login" />

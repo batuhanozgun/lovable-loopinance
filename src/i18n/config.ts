@@ -16,6 +16,7 @@ import { initSignupTranslations } from '@/modules/UserManagement/Signup/i18n';
 import { initLoginTranslations } from '@/modules/UserManagement/Login/i18n';
 import { initOAuthTranslations } from '@/modules/UserManagement/OAuth/i18n';
 import { initAppLayoutTranslations } from '@/modules/AppLayout/i18n';
+import { initDashboardTranslations } from '@/modules/Dashboard/i18n';
 
 i18n
   .use(initReactI18next)
@@ -45,5 +46,6 @@ initSignupTranslations();
 initLoginTranslations();
 initOAuthTranslations();
 initAppLayoutTranslations();
+initDashboardTranslations();
 
 export default i18n;
