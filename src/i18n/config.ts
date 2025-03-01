@@ -15,6 +15,7 @@ import * as errorsTR from './locales/tr/errors.json';
 import { initSignupTranslations } from '@/modules/UserManagement/Signup/i18n';
 import { initLoginTranslations } from '@/modules/UserManagement/Login/i18n';
 import { initOAuthTranslations } from '@/modules/UserManagement/OAuth/i18n';
+import { initAppLayoutTranslations } from '@/modules/AppLayout/i18n';
 
 i18n
   .use(initReactI18next)
@@ -43,5 +44,6 @@ i18n
 initSignupTranslations();
 initLoginTranslations();
 initOAuthTranslations();
+initAppLayoutTranslations();
 
 export default i18n;

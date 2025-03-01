@@ -6,6 +6,7 @@ import { SignUp } from "@/modules/UserManagement/Signup/views/SignupView";
 import { Login } from "@/modules/UserManagement/Login/views/LoginView";
 import { useState, useEffect } from "react";
 import { SessionService } from "@/modules/UserManagement/auth";
+import { Layout } from "@/modules/AppLayout/components/Layout";
 import Index from "./pages/Index";
 import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
@@ -102,7 +103,9 @@ const App = () => {
             path="/"
             element={
               isAuthenticated ? (
-                <Index />
+                <Layout>
+                  <Index />
+                </Layout>
               ) : (
                 <Landing />
               )
@@ -110,7 +113,15 @@ const App = () => {
           />
           <Route
             path="/dashboard"
-            element={isAuthenticated ? <Index /> : <Navigate to="/login" />}
+            element={
+              isAuthenticated ? (
+                <Layout>
+                  <Index />
+                </Layout>
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
           />
           <Route
             path="/signup"
@@ -120,7 +131,18 @@ const App = () => {
             path="/login"
             element={!isAuthenticated ? <Login /> : <Navigate to="/dashboard" />}
           />
-          <Route path="*" element={<NotFound />} />
+          <Route
+            path="*"
+            element={
+              isAuthenticated ? (
+                <Layout>
+                  <NotFound />
+                </Layout>
+              ) : (
+                <NotFound />
+              )
+            }
+          />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
