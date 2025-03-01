@@ -50,7 +50,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
 
   return (
     <header className={cn(
-      "flex items-center justify-between px-4 py-4 border-b bg-gradient-to-r from-[rgba(250,250,250,1)] via-[rgba(108,154,229,1)] to-[rgba(0,140,158,1)] dark:from-[hsla(210,13%,40%,1)] dark:via-[hsla(185,94%,7%,1)] dark:to-[hsla(0,100%,4%,1)] backdrop-blur-sm",
+      "flex items-center justify-between px-4 py-4 border-b bg-gradient-to-r from-[rgba(250,250,250,0.85)] via-[rgba(108,154,229,0.85)] to-[rgba(0,140,158,0.85)] dark:from-[hsla(210,13%,40%,0.75)] dark:via-[hsla(185,94%,7%,0.75)] dark:to-[hsla(0,100%,4%,0.75)] backdrop-blur-sm",
       "sticky top-0 z-10 transition-all duration-200",
       className
     )}>
