@@ -1,126 +1,120 @@
 
 import { toast } from "@/hooks/use-toast";
 import i18next from "i18next";
-import { CheckCircle, AlertCircle, Info } from "lucide-react";
 
 /**
- * Toast bildirimi türleri
- */
-type SuccessAction = 'upgrade' | 'cancel' | 'renewal' | 'trial' | 'cancelled';
-
-/**
- * i18n namespace kısaltması
- */
-const t = (key: string, options?: object) => i18next.t(key, { ns: "subscription.notifications", ...options });
-
-/**
- * Abonelik toast bildirimlerini yönetir
+ * Abonelik işlemleri için toast bildirimlerini yönetir
  */
 export const showSubscriptionToast = {
-  // Başarı durumları için bildirimleri gösterir
-  success: (action: SuccessAction) => {
+  /**
+   * Başarı bildirimleri
+   * @param action - Başarı türü
+   */
+  success: (action: 'upgrade' | 'cancel' | 'renewal' | 'trial' | 'cancelled') => {
     let title = '';
     let description = '';
 
     switch (action) {
       case 'upgrade':
-        title = t("success.upgrade");
-        description = t("premium.active");
+        title = i18next.t("Subscription.notifications.success.title");
+        description = i18next.t("Subscription.notifications.success.upgraded", { plan: "Premium" });
         break;
       case 'cancel':
       case 'cancelled':
-        title = t("success.cancel");
-        description = "";
+        title = i18next.t("Subscription.notifications.success.title");
+        description = i18next.t("Subscription.notifications.success.cancelled");
         break;
       case 'renewal':
-        title = t("success.renewal");
-        description = "";
+        title = i18next.t("Subscription.notifications.success.title");
+        description = i18next.t("Subscription.notifications.success.subscribed", { plan: "Premium" });
         break;
       case 'trial':
-        title = t("trialEnding.title");
-        description = t("trialEnded.description");
+        title = i18next.t("Subscription.notifications.trial.title");
+        description = i18next.t("Subscription.notifications.trial.remaining", { days: 14 });
         break;
       default:
-        title = t("success.title", { defaultValue: "İşlem Başarılı" });
+        title = i18next.t("Subscription.notifications.success.title", { defaultValue: "İşlem Başarılı" });
         description = "";
     }
 
     toast({
       title,
       description,
-      variant: "default",
-      // Icon isteğe bağlı
-      icon: <CheckCircle className="h-4 w-4 text-green-500" />
+      variant: "default"
     });
   },
 
-  // Hata durumları için bildirimleri gösterir
+  /**
+   * Hata bildirimleri
+   * @param error - Hata objesi
+   */
   error: (error?: Error) => {
     const errorMessage = error?.message || 
-      i18next.t("general.description", { ns: "errors" });
+      i18next.t("Subscription.notifications.error.fallback");
 
     toast({
-      title: i18next.t("general.title", { ns: "errors" }),
+      title: i18next.t("Subscription.notifications.error.title"),
       description: errorMessage,
-      variant: "destructive",
-      // Icon isteğe bağlı
-      icon: <AlertCircle className="h-4 w-4" />
+      variant: "destructive"
     });
   },
 
-  // Premium bildirimleri için özel toast
+  /**
+   * Premium bildirimleri
+   */
   premium: () => {
     toast({
-      title: t("success.upgrade"),
-      description: t("premium.active"),
-      variant: "default",
-      // Icon isteğe bağlı
-      icon: <CheckCircle className="h-4 w-4 text-green-500" />
+      title: i18next.t("Subscription.notifications.premium.title"),
+      description: i18next.t("Subscription.notifications.premium.status"),
+      variant: "default"
     });
   },
 
-  // Bilgilendirme mesajları için
+  /**
+   * Bilgilendirme mesajları
+   * @param message - Gösterilecek mesaj
+   */
   info: (message: string) => {
     toast({
-      title: t("info.title", { defaultValue: "Bilgi" }),
+      title: i18next.t("info.title", { defaultValue: "Bilgi", ns: "subscription.notifications" }),
       description: message,
-      variant: "default",
-      // Icon isteğe bağlı
-      icon: <Info className="h-4 w-4 text-blue-500" />
+      variant: "default"
     });
   },
 
-  // Uyarı mesajları için
+  /**
+   * Uyarı mesajları
+   * @param message - Gösterilecek mesaj
+   */
   warning: (message: string) => {
     toast({
-      title: t("warning.title", { defaultValue: "Uyarı" }),
+      title: i18next.t("warning.title", { defaultValue: "Uyarı", ns: "subscription.notifications" }),
       description: message,
-      variant: "default",
-      // Icon isteğe bağlı
-      icon: <AlertCircle className="h-4 w-4 text-amber-500" />
+      variant: "default"
     });
   },
   
-  // Deneme süresi bildirimleri için
+  /**
+   * Deneme süresi bildirimleri
+   * @param remainingDays - Kalan gün sayısı
+   */
   trialEnding: (remainingDays: number) => {
     let description = '';
     
     if (remainingDays <= 3) {
-      description = t("trialEnding.days.3");
+      description = i18next.t("trialEnding.days.3", { ns: "subscription.notifications" });
     } else if (remainingDays <= 7) {
-      description = t("trialEnding.days.7");
+      description = i18next.t("trialEnding.days.7", { ns: "subscription.notifications" });
     } else if (remainingDays <= 14) {
-      description = t("trialEnding.days.14");
+      description = i18next.t("trialEnding.days.14", { ns: "subscription.notifications" });
     } else {
-      description = t("trial.remaining", { days: remainingDays });
+      description = i18next.t("trial.remaining", { days: remainingDays, ns: "subscription.notifications" });
     }
     
     toast({
-      title: t("trialEnding.title"),
+      title: i18next.t("trialEnding.title", { ns: "subscription.notifications" }),
       description,
-      variant: "default",
-      // Icon isteğe bağlı
-      icon: <AlertCircle className="h-4 w-4 text-amber-500" />
+      variant: "default"
     });
   }
 };
