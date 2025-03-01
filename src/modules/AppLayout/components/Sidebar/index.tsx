@@ -17,17 +17,14 @@ const SidebarContent: React.FC = () => {
   const logger = LoggerService.getInstance('AppLayout.Sidebar');
   const { 
     isExpanded, 
-    isMobile, 
-    isHovering,
-    handleMouseEnter,
-    handleMouseLeave,
+    isMobile,
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd
   } = useSidebarContext();
   const { effectiveWidth } = useSidebarResize();
   
-  logger.debug('Sidebar component rendered', { isExpanded, isMobile, effectiveWidth, isHovering });
+  logger.debug('Sidebar component rendered', { isExpanded, isMobile, effectiveWidth });
 
   // Sidebar bileşeninin stilini dinamik olarak oluştur
   const sidebarStyles = {
@@ -92,7 +89,7 @@ const SidebarContent: React.FC = () => {
     );
   }
 
-  // Desktop görünüm
+  // Desktop görünüm - mouseover ve mouseout event'leri kaldırıldı
   return (
     <aside 
       className={cn(
@@ -102,8 +99,6 @@ const SidebarContent: React.FC = () => {
         CSS_CLASSES.COLORS.BORDER
       )}
       style={sidebarStyles}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
     >
       {sidebarContent}
     </aside>

@@ -4,7 +4,7 @@ import { useSidebarContext } from '../context/SidebarContext';
 import { SIDEBAR_WIDTHS, BREAKPOINTS } from '../constants';
 
 export const useSidebarResize = () => {
-  const { isExpanded, isMobile, isHovering } = useSidebarContext();
+  const { isExpanded, isMobile } = useSidebarContext();
   
   // Type hatasını çözmek için açıkça type tanımlıyoruz
   const [sidebarWidth, setSidebarWidth] = useState<typeof SIDEBAR_WIDTHS[keyof typeof SIDEBAR_WIDTHS]>(
@@ -21,30 +21,21 @@ export const useSidebarResize = () => {
       setSidebarWidth(isExpanded ? SIDEBAR_WIDTHS.EXPANDED : SIDEBAR_WIDTHS.COLLAPSED);
     }
   }, [isExpanded, isMobile]);
-
-  // Hover durumunda gerçekleşen sidebar genişliği - useMemo ile optimize
-  const getHoverWidth = useMemo(() => {
-    if (!isMobile && !isExpanded && isHovering) {
-      return SIDEBAR_WIDTHS.EXPANDED;
-    }
-    return sidebarWidth;
-  }, [isMobile, isExpanded, isHovering, sidebarWidth]);
   
-  // Şu anki efektif genişlik (hover veya genişletilmiş duruma göre)
+  // Şu anki efektif genişlik (genişletilmiş duruma göre)
   const effectiveWidth = useMemo(() => {
     if (isMobile) {
       return isExpanded ? sidebarWidth : '0';
     }
     
-    return isHovering && !isExpanded ? SIDEBAR_WIDTHS.EXPANDED : sidebarWidth;
-  }, [isMobile, isExpanded, isHovering, sidebarWidth]);
+    return sidebarWidth;
+  }, [isMobile, isExpanded, sidebarWidth]);
   
   return {
     sidebarWidth,
     effectiveWidth,
     isExpanded,
     isMobile,
-    widths: SIDEBAR_WIDTHS,
-    getHoverWidth
+    widths: SIDEBAR_WIDTHS
   };
 };

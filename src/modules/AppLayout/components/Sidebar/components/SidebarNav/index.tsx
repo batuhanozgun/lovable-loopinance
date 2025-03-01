@@ -8,13 +8,13 @@ import { TRANSITION, CSS_CLASSES } from '../../constants';
 
 export const SidebarNav: React.FC = () => {
   const logger = LoggerService.getInstance('AppLayout.SidebarNav');
-  const { isExpanded, isMobile, isHovering } = useSidebarContext();
+  const { isExpanded, isMobile } = useSidebarContext();
   const [isVisible, setIsVisible] = useState(true);
   
   // Daraltılmış modda içeriğin görünürlüğünü yönet
   useEffect(() => {
     if (!isMobile) {
-      if (!isExpanded && !isHovering) {
+      if (!isExpanded) {
         const timer = setTimeout(() => {
           setIsVisible(false);
         }, TRANSITION.DURATION); // transition süresi
@@ -25,16 +25,16 @@ export const SidebarNav: React.FC = () => {
     } else {
       setIsVisible(isExpanded);
     }
-  }, [isExpanded, isMobile, isHovering]);
+  }, [isExpanded, isMobile]);
   
-  logger.debug('SidebarNav rendered', { isExpanded, isMobile, isHovering, isVisible });
+  logger.debug('SidebarNav rendered', { isExpanded, isMobile, isVisible });
 
   return (
     <div className={cn(
       "flex-1 overflow-y-auto",
       CSS_CLASSES.TRANSITIONS.BASE,
       // İçerik geçişini daha iyi kontrol etmek için CSS class değişiklikleri
-      (!isExpanded && !isHovering && !isMobile) 
+      (!isExpanded && !isMobile) 
         ? "opacity-90" // İkonları görünür tut ama metni gizle
         : CSS_CLASSES.COLLAPSED.CONTENT_VISIBLE,
       // Mobil modda, daraltılmışken tamamen gizle

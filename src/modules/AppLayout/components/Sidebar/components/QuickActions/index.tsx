@@ -17,12 +17,12 @@ import { CSS_CLASSES, SPACING, TRANSITION } from '../../constants';
 export const QuickActions: React.FC = () => {
   const { t } = useTranslation(['AppLayout', 'common']);
   const logger = LoggerService.getInstance('AppLayout.QuickActions');
-  const { isExpanded, showQuickActions, toggleQuickActions, isMobile, isHovering } = useSidebarContext();
+  const { isExpanded, showQuickActions, toggleQuickActions, isMobile } = useSidebarContext();
   
-  logger.debug('QuickActions rendered', { isExpanded, showQuickActions, isMobile, isHovering });
+  logger.debug('QuickActions rendered', { isExpanded, showQuickActions, isMobile });
 
-  // Daraltılmış ve hover olmayan durumda tooltip göster
-  if (!isExpanded && !isMobile && !isHovering) {
+  // Daraltılmış durumda tooltip göster
+  if (!isExpanded && !isMobile) {
     return (
       <div className={cn(
         SPACING.SECTION,
@@ -64,7 +64,7 @@ export const QuickActions: React.FC = () => {
       CSS_CLASSES.COLORS.BORDER,
       CSS_CLASSES.TRANSITIONS.BASE,
       // İçerik transition sınıflarını değiştirerek daha iyi geçiş sağlıyoruz
-      (!isExpanded && !isHovering && !isMobile) && "opacity-0 invisible",
+      (!isExpanded && !isMobile) && "opacity-0 invisible",
       isMobile && !isExpanded && "hidden"
     )}>
       <Button 
@@ -75,12 +75,12 @@ export const QuickActions: React.FC = () => {
           CSS_CLASSES.COLORS.TEXT,
           CSS_CLASSES.COLORS.ACCENT_HOVER,
           CSS_CLASSES.TRANSITIONS.BASE,
-          (isExpanded || isHovering) ? CSS_CLASSES.COLLAPSED.WITH_TEXT : CSS_CLASSES.COLLAPSED.ICON_ONLY
+          isExpanded ? CSS_CLASSES.COLLAPSED.WITH_TEXT : CSS_CLASSES.COLLAPSED.ICON_ONLY
         )}
         onClick={toggleQuickActions}
       >
         {showQuickActions ? <X size={SPACING.ICON_SIZE} /> : <Plus size={SPACING.ICON_SIZE} />}
-        {(isExpanded || isHovering) && (
+        {isExpanded && (
           <span className={CSS_CLASSES.TRANSITIONS.OPACITY}>
             {t('AppLayout:sidebar.quickActions')}
           </span>
@@ -88,7 +88,7 @@ export const QuickActions: React.FC = () => {
       </Button>
 
       {/* QuickActions menüsü gelecekte buraya eklenecek */}
-      {showQuickActions && (isExpanded || isHovering) && (
+      {showQuickActions && isExpanded && (
         <div className="mt-2 p-2 bg-sidebar-accent rounded-md animate-fade-in">
           <p className="text-sm text-sidebar-foreground">{t('AppLayout:sidebar.comingSoon')}</p>
         </div>

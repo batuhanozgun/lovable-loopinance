@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
 import { BREAKPOINTS, TRANSITION } from '../constants';
@@ -5,12 +6,10 @@ import { BREAKPOINTS, TRANSITION } from '../constants';
 interface SidebarContextState {
   isExpanded: boolean;
   isMobile: boolean;
-  isHovering: boolean;
+  isHovering: boolean; // Kalıyor ama artık kullanılmayacak
   toggleSidebar: () => void;
   showQuickActions: boolean;
   toggleQuickActions: () => void;
-  handleMouseEnter: () => void;
-  handleMouseLeave: () => void;
   handleTouchStart: (e: React.TouchEvent) => void;
   handleTouchMove: (e: React.TouchEvent) => void;
   handleTouchEnd: () => void;
@@ -84,23 +83,7 @@ export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({ child
     });
   }, [logger]);
 
-  const handleMouseEnter = useCallback(() => {
-    if (!state.isMobile && !state.isExpanded) {
-      setTimeout(() => {
-        setState(prev => ({ ...prev, isHovering: true }));
-        logger.debug('Sidebar mouse enter', { isHovering: true });
-      }, TRANSITION.HOVER_DELAY);
-    }
-  }, [state.isMobile, state.isExpanded, logger]);
-
-  const handleMouseLeave = useCallback(() => {
-    if (!state.isMobile) {
-      setTimeout(() => {
-        setState(prev => ({ ...prev, isHovering: false }));
-        logger.debug('Sidebar mouse leave', { isHovering: false });
-      }, TRANSITION.HOVER_DELAY);
-    }
-  }, [state.isMobile, logger]);
+  // Mouse enter ve leave handler'ları kaldırıldı
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     if (state.isMobile) {
@@ -151,8 +134,6 @@ export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({ child
     ...state,
     toggleSidebar,
     toggleQuickActions,
-    handleMouseEnter,
-    handleMouseLeave,
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd,
