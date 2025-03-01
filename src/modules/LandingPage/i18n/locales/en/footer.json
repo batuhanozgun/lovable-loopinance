@@ -1,0 +1,22 @@
+
+{
+  "tagline": "Simplify your financial tracking and management.",
+  "product": {
+    "title": "Product",
+    "features": "Features",
+    "pricing": "Pricing",
+    "faq": "FAQ"
+  },
+  "company": {
+    "title": "Company",
+    "about": "About Us",
+    "team": "Team",
+    "contact": "Contact"
+  },
+  "legal": {
+    "title": "Legal",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  },
+  "copyright": "All rights reserved."
+}

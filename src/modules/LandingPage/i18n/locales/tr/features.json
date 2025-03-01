@@ -1,0 +1,21 @@
+
+{
+  "title": "Güçlü Finansal Araçlar",
+  "subtitle": "Finanslarınızı yönetmek için ihtiyacınız olan her şey tek bir yerde",
+  "tracking": {
+    "title": "Gider Takibi",
+    "description": "Paranızın nereye gittiğini takip etmek için tüm harcamalarınızı kolayca kaydedin ve kategorilere ayırın."
+  },
+  "sync": {
+    "title": "Çoklu Cihaz Senkronizasyonu",
+    "description": "Gerçek zamanlı senkronizasyon ile herhangi bir cihazdan finansal verilerinize erişin."
+  },
+  "insights": {
+    "title": "Finansal İçgörüler",
+    "description": "Daha iyi finansal kararlar almanıza yardımcı olacak detaylı raporlar ve analizler elde edin."
+  },
+  "security": {
+    "title": "Banka Düzeyinde Güvenlik",
+    "description": "Finansal verileriniz en yüksek güvenlik standartlarıyla korunur."
+  }
+}

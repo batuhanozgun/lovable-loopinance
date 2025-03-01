@@ -1,4 +1,3 @@
-
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
@@ -45,6 +44,12 @@ import * as oauthNotificationsTR from './locales/tr/UserManagement/oauth/notific
 // Import Landing page translations
 import * as landingEN from './locales/en/landing.json';
 import * as landingTR from './locales/tr/landing.json';
+
+// Import the landing page translations initializer
+import { initLandingPageTranslations } from '@/modules/LandingPage/i18n';
+
+// Initialize landing page translations
+initLandingPageTranslations();
 
 i18n
   .use(initReactI18next)

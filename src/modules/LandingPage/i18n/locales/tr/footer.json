@@ -1,0 +1,22 @@
+
+{
+  "tagline": "Finansal takibinizi ve yönetiminizi basitleştirin.",
+  "product": {
+    "title": "Ürün",
+    "features": "Özellikler",
+    "pricing": "Fiyatlandırma",
+    "faq": "SSS"
+  },
+  "company": {
+    "title": "Şirket",
+    "about": "Hakkımızda",
+    "team": "Ekip",
+    "contact": "İletişim"
+  },
+  "legal": {
+    "title": "Yasal",
+    "privacy": "Gizlilik Politikası",
+    "terms": "Kullanım Koşulları"
+  },
+  "copyright": "Tüm hakları saklıdır."
+}
