@@ -42,16 +42,6 @@ import * as oauthUITR from './locales/tr/UserManagement/oauth/ui.json';
 import * as oauthMessagesTR from './locales/tr/UserManagement/oauth/messages.json';
 import * as oauthNotificationsTR from './locales/tr/UserManagement/oauth/notifications.json';
 
-// Import Subscription module translations
-import * as subscriptionUIEN from './locales/en/Subscription/ui.json';
-import * as subscriptionNotificationsEN from './locales/en/Subscription/notifications.json';
-import * as subscriptionPlansUIEN from './locales/en/Subscription/plans/ui.json';
-import * as subscriptionPlansPricingEN from './locales/en/Subscription/plans/pricing.json';
-import * as subscriptionUITR from './locales/tr/Subscription/ui.json';
-import * as subscriptionNotificationsTR from './locales/tr/Subscription/notifications.json';
-import * as subscriptionPlansUITR from './locales/tr/Subscription/plans/ui.json';
-import * as subscriptionPlansPricingTR from './locales/tr/Subscription/plans/pricing.json';
-
 // Import Landing page translations
 import * as landingEN from './locales/en/landing.json';
 import * as landingTR from './locales/tr/landing.json';
@@ -87,12 +77,6 @@ i18n
         'UserManagement.oauth.messages': oauthMessagesEN,
         'UserManagement.oauth.notifications': oauthNotificationsEN,
         
-        // Subscription module translations
-        'Subscription.ui': subscriptionUIEN,
-        'Subscription.notifications': subscriptionNotificationsEN,
-        'Subscription.plans.ui': subscriptionPlansUIEN,
-        'Subscription.plans.pricing': subscriptionPlansPricingEN,
-        
         // Landing page translations
         landing: landingEN
       },
@@ -116,12 +100,6 @@ i18n
         'UserManagement.oauth.ui': oauthUITR,
         'UserManagement.oauth.messages': oauthMessagesTR,
         'UserManagement.oauth.notifications': oauthNotificationsTR,
-        
-        // Subscription module translations
-        'Subscription.ui': subscriptionUITR,
-        'Subscription.notifications': subscriptionNotificationsTR,
-        'Subscription.plans.ui': subscriptionPlansUITR,
-        'Subscription.plans.pricing': subscriptionPlansPricingTR,
         
         // Landing page translations
         landing: landingTR
