@@ -9,10 +9,10 @@ const logger = LoggerService.getInstance("SignupValidator");
 
 export const SignupSchema = z.object({
   firstName: z.string().min(2, {
-    message: i18next.t("UserManagement.signup.validation:firstNameMin")
+    message: i18next.t("Signup.validation:firstNameMin")
   }),
   lastName: z.string().min(2, {
-    message: i18next.t("UserManagement.signup.validation:lastNameMin")
+    message: i18next.t("Signup.validation:lastNameMin")
   }),
   email: z.string().email({
     message: i18next.t("errors:invalidEmail")
@@ -20,16 +20,16 @@ export const SignupSchema = z.object({
   password: z
     .string()
     .min(8, {
-      message: i18next.t("UserManagement.signup.validation:passwordMin")
+      message: i18next.t("Signup.validation:passwordMin")
     })
     .regex(/[A-Z]/, {
-      message: i18next.t("UserManagement.signup.validation:passwordUppercase")
+      message: i18next.t("Signup.validation:passwordUppercase")
     })
     .regex(/[a-z]/, {
-      message: i18next.t("UserManagement.signup.validation:passwordLowercase")
+      message: i18next.t("Signup.validation:passwordLowercase")
     })
     .regex(/[0-9]/, {
-      message: i18next.t("UserManagement.signup.validation:passwordNumber")
+      message: i18next.t("Signup.validation:passwordNumber")
     }),
 });
 

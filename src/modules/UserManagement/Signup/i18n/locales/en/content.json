@@ -1,0 +1,12 @@
+
+{
+  "title": "Create Account",
+  "subtitle": "Enter your information to create your account",
+  "hasAccount": "Already have an account?",
+  "loginAccount": "Sign in",
+  "typewriter": {
+    "text1": "Create an account to start managing your finances easily.",
+    "text2": "Join our community of smart finance managers today.",
+    "text3": "Take control of your financial future with Loopinance."
+  }
+}

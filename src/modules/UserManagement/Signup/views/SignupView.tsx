@@ -1,3 +1,4 @@
+
 import { SignUp as SignUpForm } from "../components/SignupForm";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -7,12 +8,12 @@ import { Typewriter } from "../../common/components/Typewriter";
 import { GoogleAuthButton } from "../../OAuth/components/GoogleAuthButton";
 
 export const SignUp = () => {
-  const { t } = useTranslation(["UserManagement.signup.content", "common", "UserManagement.oauth.ui"]);
+  const { t } = useTranslation(["Signup.content", "common", "UserManagement.oauth.ui"]);
 
   const typewriterTexts = [
-    t("typewriter.text1"),
-    t("typewriter.text2"),
-    t("typewriter.text3")
+    t("Signup.content:typewriter.text1"),
+    t("Signup.content:typewriter.text2"),
+    t("Signup.content:typewriter.text3")
   ];
 
   return (
@@ -52,10 +53,10 @@ export const SignUp = () => {
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight">
-              {t("title")}
+              {t("Signup.content:title")}
             </h1>
             <p className="text-sm text-muted-foreground">
-              {t("subtitle")}
+              {t("Signup.content:subtitle")}
             </p>
           </div>
           
@@ -74,12 +75,12 @@ export const SignUp = () => {
           
           <SignUpForm />
           <p className="px-8 text-center text-sm text-muted-foreground">
-            {t("hasAccount")}{" "}
+            {t("Signup.content:hasAccount")}{" "}
             <Link
               to="/login"
               className="underline underline-offset-4 hover:text-primary"
             >
-              {t("loginAccount")}
+              {t("Signup.content:loginAccount")}
             </Link>
           </p>
         </div>

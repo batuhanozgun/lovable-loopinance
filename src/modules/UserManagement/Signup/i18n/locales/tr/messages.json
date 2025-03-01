@@ -1,0 +1,10 @@
+
+{
+  "success": {
+    "signup": "Hesap başarıyla oluşturuldu!"
+  },
+  "error": {
+    "signupFailed": "Kayıt başarısız. Lütfen daha sonra tekrar deneyin.",
+    "emailAlreadyExists": "Bu e-posta adresi zaten kayıtlı. Lütfen başka bir e-posta adresi deneyin veya giriş yapın."
+  }
+}

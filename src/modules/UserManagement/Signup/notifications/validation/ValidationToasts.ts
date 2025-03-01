@@ -9,7 +9,7 @@ export class ValidationToasts {
   static showFormValidationError(message: string): void {
     toast({
       variant: "destructive",
-      title: i18next.t("UserManagement.signup.notifications:error.title"),
+      title: i18next.t("Signup.notifications:error.title"),
       description: message,
     });
   }
@@ -20,8 +20,8 @@ export class ValidationToasts {
   static showEmailValidationError(message?: string): void {
     toast({
       variant: "destructive",
-      title: i18next.t("UserManagement.signup.notifications:error.title"),
-      description: message || i18next.t("UserManagement.signup.validation:invalidEmail"),
+      title: i18next.t("Signup.notifications:error.title"),
+      description: message || i18next.t("Signup.validation:invalidEmail"),
     });
   }
   
@@ -31,8 +31,8 @@ export class ValidationToasts {
   static showPasswordValidationError(message?: string): void {
     toast({
       variant: "destructive",
-      title: i18next.t("UserManagement.signup.notifications:error.title"),
-      description: message || i18next.t("UserManagement.signup.validation:passwordMin"),
+      title: i18next.t("Signup.notifications:error.title"),
+      description: message || i18next.t("Signup.validation:passwordMin"),
     });
   }
 }

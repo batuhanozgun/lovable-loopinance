@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
 import { ValidationLogger } from "../../logging/validation/ValidationLogger";
@@ -38,7 +39,7 @@ export class EmailValidationService {
         return { 
           exists: false, 
           rateLimited: true,
-          message: i18next.t("UserManagement.errors:rateLimitExceeded") 
+          message: i18next.t("errors:rateLimitExceeded") 
         };
       }
 
@@ -49,7 +50,7 @@ export class EmailValidationService {
         
         return { 
           exists: true, 
-          message: i18next.t("UserManagement.errors:emailAlreadyExists")
+          message: i18next.t("errors:emailAlreadyExists")
         };
       }
 
@@ -67,7 +68,7 @@ export class EmailValidationService {
       
       return { 
         exists: false,
-        message: i18next.t("UserManagement.errors:emailCheckFailed") 
+        message: i18next.t("errors:emailCheckFailed") 
       };
       
     } catch (error) {
@@ -76,7 +77,7 @@ export class EmailValidationService {
       
       return { 
         exists: false,
-        message: i18next.t("UserManagement.errors:emailCheckFailed") 
+        message: i18next.t("errors:emailCheckFailed") 
       };
     }
   }

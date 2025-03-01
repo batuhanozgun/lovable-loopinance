@@ -8,8 +8,8 @@ export class AuthToasts {
    */
   static showSignupSuccess(): void {
     toast({
-      title: i18next.t("UserManagement.signup.notifications:success.title"),
-      description: i18next.t("UserManagement.signup.notifications:success.signup"),
+      title: i18next.t("Signup.notifications:success.title"),
+      description: i18next.t("Signup.notifications:success.signup"),
     });
   }
   
@@ -19,11 +19,11 @@ export class AuthToasts {
   static showSignupError(error?: Error | string): void {
     const errorMessage = typeof error === 'string' 
       ? error 
-      : error?.message || i18next.t("UserManagement.signup.notifications:error.fallback");
+      : error?.message || i18next.t("Signup.notifications:error.fallback");
     
     toast({
       variant: "destructive",
-      title: i18next.t("UserManagement.signup.notifications:error.title"),
+      title: i18next.t("Signup.notifications:error.title"),
       description: errorMessage,
     });
   }
@@ -34,8 +34,8 @@ export class AuthToasts {
   static showEmailExistsError(): void {
     toast({
       variant: "destructive",
-      title: i18next.t("UserManagement.signup.notifications:error.title"),
-      description: i18next.t("UserManagement.signup.notifications:error.emailAlreadyExists"),
+      title: i18next.t("Signup.notifications:error.title"),
+      description: i18next.t("Signup.notifications:error.emailAlreadyExists"),
     });
   }
   
@@ -45,8 +45,8 @@ export class AuthToasts {
   static showRateLimitError(): void {
     toast({
       variant: "destructive",
-      title: i18next.t("UserManagement.signup.notifications:error.title"),
-      description: i18next.t("UserManagement.signup.notifications:error.rateLimitExceeded"),
+      title: i18next.t("Signup.notifications:error.title"),
+      description: i18next.t("Signup.notifications:error.rateLimitExceeded"),
     });
   }
 }

@@ -1,0 +1,10 @@
+
+{
+  "success": {
+    "signup": "Account created successfully!"
+  },
+  "error": {
+    "signupFailed": "Registration failed. Please try again later.",
+    "emailAlreadyExists": "This email is already registered. Please try another email or sign in."
+  }
+}
