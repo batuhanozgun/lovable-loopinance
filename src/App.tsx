@@ -6,6 +6,7 @@ import { SignUp } from "@/modules/UserManagement/Signup/views/SignupView";
 import { Login } from "@/modules/UserManagement/Login/views/LoginView";
 import { useState, useEffect } from "react";
 import { AuthService } from "@/modules/UserManagement/common/services/AuthService";
+import { supabase } from "@/lib/supabase";
 import Index from "./pages/Index";
 import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
@@ -21,6 +22,7 @@ const ProtectedManageSubscriptionView = withSubscriptionProtection(ManageSubscri
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // Initialize theme from localStorage or system preference
   useEffect(() => {
@@ -36,14 +38,42 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const subscription = AuthService.onAuthStateChange(setIsAuthenticated);
+    // İlk yükleme sırasında mevcut session'ı kontrol et
+    const checkInitialSession = async () => {
+      try {
+        setIsLoading(true);
+        const { data: { session } } = await supabase.auth.getSession();
+        setIsAuthenticated(!!session && !!session.user);
+      } catch (error) {
+        console.error("Session kontrolü sırasında bir hata oluştu:", error);
+        setIsAuthenticated(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    checkInitialSession();
+    
+    // Auth state değişikliklerini dinle
+    const subscription = AuthService.onAuthStateChange((authState) => {
+      setIsAuthenticated(authState);
+      setIsLoading(false);
+    });
+    
     return () => {
       subscription.data?.subscription.unsubscribe();
     };
   }, []);
 
-  if (isAuthenticated === null) {
-    return <div>Loading...</div>;
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-lg font-medium text-muted-foreground">Yükleniyor...</p>
+        </div>
+      </div>
+    );
   }
 
   return (

@@ -1,5 +1,4 @@
 
-import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import { LanguageSelector } from "@/components/LanguageSelector";
@@ -7,12 +6,30 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { BarChart3, CreditCard, Home, LogOut, Settings, User } from "lucide-react";
 import { withSubscriptionProtection } from "@/modules/Subscription/hooks/withSubscriptionProtection";
 import { Link } from "react-router-dom";
+import { AuthService } from "@/modules/UserManagement/common/services/AuthService";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const IndexPage = () => {
   const { t } = useTranslation();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const { toast } = useToast();
   
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
+    try {
+      setIsLoggingOut(true);
+      await AuthService.signOut();
+      // Toast ekleme gerekli değil çünkü başarılı çıkış sonrası sayfa değişecek
+    } catch (error) {
+      console.error("Çıkış yapılırken bir hata oluştu:", error);
+      toast({
+        title: "Çıkış yapılamadı",
+        description: "İşleminiz sırasında bir hata oluştu. Lütfen tekrar deneyin.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoggingOut(false);
+    }
   };
 
   return (
@@ -51,9 +68,10 @@ const IndexPage = () => {
             variant="outline" 
             className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground gap-2" 
             onClick={handleSignOut}
+            disabled={isLoggingOut}
           >
             <LogOut size={18} />
-            {t("common:logout")}
+            {isLoggingOut ? t("common:loggingOut") : t("common:logout")}
           </Button>
         </div>
       </aside>

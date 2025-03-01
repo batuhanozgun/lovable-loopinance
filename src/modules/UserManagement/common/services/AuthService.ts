@@ -36,8 +36,27 @@ export class AuthService {
     this.logger.debug("Auth durumu değişikliği dinleyicisi ekleniyor");
     
     return supabase.auth.onAuthStateChange((event, session) => {
-      this.logger.debug("Auth durumu değişti", { event, userId: session?.user.id });
-      callback(!!session);
+      this.logger.debug("Auth durumu değişti", { 
+        event, 
+        hasSession: !!session, 
+        userId: session?.user?.id 
+      });
+      
+      // Event tipine göre daha detaylı kontrol
+      if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
+        this.logger.debug("Kullanıcı çıkış yaptı veya silindi");
+        callback(false);
+        return;
+      } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+        this.logger.debug("Kullanıcı giriş yaptı veya token yenilendi");
+        callback(true);
+        return;
+      }
+      
+      // Session durumuna göre auth state'ini güncelle
+      const isAuthenticated = !!session && !!session.user;
+      this.logger.debug("Auth durumu güncellendi", { isAuthenticated });
+      callback(isAuthenticated);
     });
   }
 
