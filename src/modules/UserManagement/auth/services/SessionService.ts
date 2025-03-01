@@ -19,7 +19,8 @@ export class SessionService {
         this.logger.error("Failed to get user session", error);
         return {
           success: false,
-          error: error.message
+          error: error.message,
+          isAuthenticated: false
         };
       }
       
