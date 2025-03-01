@@ -66,7 +66,7 @@ export const Sidebar: React.FC = () => {
               variant="ghost"
               size="icon"
               className={cn(
-                "absolute right-0 translate-x-1/2 top-4 z-5", // z-index değeri 20'den 5'e düşürüldü
+                "absolute right-0 translate-x-1/2 top-4 z-5", // z-index değeri 5 olarak kalıyor
                 "h-8 w-8 rounded-full p-0 flex justify-center items-center",
                 "bg-background/80 backdrop-blur-sm border shadow-sm",
                 CSS_CLASSES.TRANSITIONS.BASE,
@@ -151,14 +151,15 @@ export const Sidebar: React.FC = () => {
     );
   }
 
-  // Desktop görünüm - mouseover ve mouseout event'leri kaldırıldı
+  // Desktop görünüm - fixed position ile her zaman görünür olacak
   return (
     <aside 
       className={cn(
-        "relative h-screen flex flex-col shadow-sm",
+        "fixed top-16 left-0 h-[calc(100vh-4rem)] flex flex-col shadow-sm", // fixed position ve top-16 (header yüksekliği) eklendi
         CSS_CLASSES.COLORS.BG,
         "border-r",
-        CSS_CLASSES.COLORS.BORDER
+        CSS_CLASSES.COLORS.BORDER,
+        `z-[${Z_INDEX.SIDEBAR}]` // Sabit z-index değeri kullanıldı
       )}
       style={sidebarStyles}
     >
