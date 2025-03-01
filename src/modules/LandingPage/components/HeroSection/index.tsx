@@ -1,4 +1,5 @@
 
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -10,7 +11,7 @@ export const HeroSection = () => {
   const { logComponentView } = useAnalyticsLogger();
 
   // Log component view on mount
-  React.useEffect(() => {
+  useEffect(() => {
     logComponentView('HeroSection');
   }, [logComponentView]);
 
