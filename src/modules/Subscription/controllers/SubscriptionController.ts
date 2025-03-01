@@ -2,7 +2,8 @@
 import { SubscriptionService } from "../services/subscription/SubscriptionService";
 import { SubscriptionStatusService } from "../services/subscription/SubscriptionStatusService";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
-import { showSubscriptionToast } from "../helpers/toastHelper";
+import { toast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 import { SubscriptionStatus } from "../interfaces/subscription/ISubscription";
 
 export class SubscriptionController {
@@ -18,7 +19,11 @@ export class SubscriptionController {
       const success = await SubscriptionService.upgradeToPremium();
       
       if (success) {
-        showSubscriptionToast.premium();
+        toast({
+          title: "Başarılı!",
+          description: "Premium aboneliğe başarıyla geçiş yaptınız.",
+          variant: "default",
+        });
         return { success: true };
       }
       
@@ -26,7 +31,13 @@ export class SubscriptionController {
     } catch (error) {
       this.logger.error("Premium aboneliğe geçiş başarısız oldu", error);
       
-      showSubscriptionToast.error(error instanceof Error ? error : undefined);
+      toast({
+        title: "Hata!",
+        description: error instanceof Error 
+          ? error.message 
+          : "Premium aboneliğe geçiş yapılırken bir hata oluştu.",
+        variant: "destructive",
+      });
       
       return {
         success: false,
@@ -45,6 +56,8 @@ export class SubscriptionController {
     error?: string;
   }> {
     try {
+      this.logger.debug("Abonelik durumu kontrol ediliyor");
+      
       const { 
         isPremium, 
         isTrialExpired, 
@@ -53,6 +66,7 @@ export class SubscriptionController {
       
       // Premium hesap ise sorun yok
       if (isPremium) {
+        this.logger.debug("Kullanıcı premium aboneliğe sahip");
         return { 
           status: "premium", 
           hasAccess: true
@@ -61,6 +75,7 @@ export class SubscriptionController {
       
       // Trial süresi bitmiş ise kısıtlı erişim
       if (isTrialExpired) {
+        this.logger.debug("Kullanıcının deneme süresi bitmiş");
         return { 
           status: "expired",
           hasAccess: false 
@@ -68,6 +83,7 @@ export class SubscriptionController {
       }
       
       // Trial süresi devam ediyor
+      this.logger.debug("Kullanıcının deneme süresi devam ediyor", { remainingDays });
       return {
         status: "trial",
         hasAccess: true,

@@ -1,5 +1,5 @@
 
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
 import { ISubscription } from "../../interfaces/subscription/ISubscription";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
 import { SubscriptionCacheService } from "../cache/SubscriptionCacheService";
@@ -30,12 +30,11 @@ export class SubscriptionService {
       }
       
       // session.user.id kullanarak kullanıcının kendi verilerine erişim
-      const userId = session.user.id;
-      
+      // RLS kuralları ile korunduğu için sadece kendi verilerini görebilir
       const { data, error } = await supabase
         .from("subscriptions")
         .select("*")
-        .eq("user_id", userId)
+        .eq("user_id", session.user.id)
         .maybeSingle();
       
       if (error) {
@@ -67,8 +66,7 @@ export class SubscriptionService {
         return false;
       }
       
-      const userId = session.user.id;
-      
+      // RLS kuralları ile sadece kendi aboneliğini güncelleyebilir
       const { error } = await supabase
         .from("subscriptions")
         .update({
@@ -76,7 +74,7 @@ export class SubscriptionService {
           status: 'active',
           updated_at: new Date().toISOString()
         })
-        .eq("user_id", userId);
+        .eq("user_id", session.user.id);
       
       if (error) {
         this.logger.error("Premium aboneliğe geçiş başarısız oldu", error);
@@ -86,7 +84,7 @@ export class SubscriptionService {
       // Cache'i temizle
       this.cacheService.clearCache();
       
-      this.logger.info("Kullanıcı premium aboneliğe geçti", { userId });
+      this.logger.info("Kullanıcı premium aboneliğe geçti", { userId: session.user.id });
       return true;
     } catch (error) {
       this.logger.error("Premium aboneliğe geçiş yapılırken hata oluştu", error);
