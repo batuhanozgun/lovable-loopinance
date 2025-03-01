@@ -1,11 +1,10 @@
-
 import { SignUp as SignUpForm } from "../components/SignupForm";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Typewriter } from "../../common/components/Typewriter";
-import { GoogleAuthButton } from "../../OAuth/components/GoogleAuthButton";
+import { GoogleAuthButton } from "../../OAuth";
 
 export const SignUp = () => {
   const { t } = useTranslation(["Signup.content", "common", "UserManagement.oauth.ui"]);

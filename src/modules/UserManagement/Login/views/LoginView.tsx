@@ -1,10 +1,11 @@
+
 import { LoginForm } from "../components/LoginForm";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { Typewriter } from "../../common/components/Typewriter";
-import { GoogleAuthButton } from "../../OAuth/components/GoogleAuthButton";
+import { GoogleAuthButton } from "../../OAuth";
 import { useEffect } from "react";
 import { initLoginTranslations } from "../i18n";
 
