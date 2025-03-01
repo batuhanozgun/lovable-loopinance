@@ -40,7 +40,7 @@ export const showSubscriptionToast = {
       title,
       description,
       variant: "default",
-      icon: <CheckCircle className="h-4 w-4 text-green-500" />
+      icon: CheckCircle
     });
   },
 
@@ -52,7 +52,7 @@ export const showSubscriptionToast = {
       title: i18next.t("general.title", { ns: "errors" }),
       description: errorMessage,
       variant: "destructive",
-      icon: <AlertCircle className="h-4 w-4" />
+      icon: AlertCircle
     });
   },
 
@@ -61,7 +61,7 @@ export const showSubscriptionToast = {
       title: t("success.upgrade"),
       description: t("premium.active"),
       variant: "default",
-      icon: <CheckCircle className="h-4 w-4 text-green-500" />
+      icon: CheckCircle
     });
   },
 
@@ -70,7 +70,7 @@ export const showSubscriptionToast = {
       title: "Bilgi",
       description: message,
       variant: "default",
-      icon: <Info className="h-4 w-4 text-blue-500" />
+      icon: Info
     });
   },
 
@@ -79,7 +79,7 @@ export const showSubscriptionToast = {
       title: "Uyarı",
       description: message,
       variant: "default",
-      icon: <AlertCircle className="h-4 w-4 text-amber-500" />
+      icon: AlertCircle
     });
   }
 };
