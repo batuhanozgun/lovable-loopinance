@@ -76,7 +76,7 @@ export const showSubscriptionToast = {
    */
   info: (message: string) => {
     toast({
-      title: i18next.t("info.title", { defaultValue: "Bilgi", ns: "subscription.notifications" }),
+      title: i18next.t("Subscription.notifications.info.title", { defaultValue: "Bilgi" }),
       description: message,
       variant: "default"
     });
@@ -88,7 +88,7 @@ export const showSubscriptionToast = {
    */
   warning: (message: string) => {
     toast({
-      title: i18next.t("warning.title", { defaultValue: "Uyarı", ns: "subscription.notifications" }),
+      title: i18next.t("Subscription.notifications.warning.title", { defaultValue: "Uyarı" }),
       description: message,
       variant: "default"
     });
@@ -100,21 +100,36 @@ export const showSubscriptionToast = {
    */
   trialEnding: (remainingDays: number) => {
     let description = '';
+    let title = i18next.t("Subscription.notifications.trial.title", { defaultValue: "Deneme Süresi" });
     
-    if (remainingDays <= 3) {
-      description = i18next.t("trialEnding.days.3", { ns: "subscription.notifications" });
+    if (remainingDays <= 0) {
+      description = i18next.t("Subscription.notifications.trial.ended", { defaultValue: "Deneme süreniz sona erdi." });
+      title = i18next.t("Subscription.notifications.trialEnded.title", { defaultValue: "Deneme Süresi Sona Erdi" });
+    } else if (remainingDays <= 3) {
+      description = i18next.t("Subscription.notifications.trialEnding.days.3", { defaultValue: "Son 3 gün" });
     } else if (remainingDays <= 7) {
-      description = i18next.t("trialEnding.days.7", { ns: "subscription.notifications" });
+      description = i18next.t("Subscription.notifications.trialEnding.days.7", { defaultValue: "Son 1 hafta" });
     } else if (remainingDays <= 14) {
-      description = i18next.t("trialEnding.days.14", { ns: "subscription.notifications" });
+      description = i18next.t("Subscription.notifications.trialEnding.days.14", { defaultValue: "Deneme sürenizin bitmesine 2 hafta kaldı" });
     } else {
-      description = i18next.t("trial.remaining", { days: remainingDays, ns: "subscription.notifications" });
+      description = i18next.t("Subscription.notifications.trial.remaining", { days: remainingDays, defaultValue: `Deneme sürenizin bitmesine ${remainingDays} gün kaldı.` });
     }
     
     toast({
-      title: i18next.t("trialEnding.title", { ns: "subscription.notifications" }),
+      title,
       description,
-      variant: "default"
+      variant: remainingDays <= 3 ? "destructive" : "default"
+    });
+  },
+  
+  /**
+   * Trial süresi bittiğinde bildirim
+   */
+  trialEnded: () => {
+    toast({
+      title: i18next.t("Subscription.notifications.trialEnded.title", { defaultValue: "Deneme Süreniz Sona Erdi" }),
+      description: i18next.t("Subscription.notifications.trialEnded.description", { defaultValue: "Verileriniz korunuyor, dilediğiniz zaman kaldığınız yerden devam edebilirsiniz" }),
+      variant: "destructive"
     });
   }
 };
