@@ -11,12 +11,14 @@ import Index from "./pages/Index";
 import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
 import "@/i18n/config";
+import { useToast } from "./hooks/use-toast";
 
 const queryClient = new QueryClient();
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { toast } = useToast();
 
   // Initialize theme from localStorage or system preference
   useEffect(() => {
@@ -36,8 +38,30 @@ const App = () => {
     const checkInitialSession = async () => {
       try {
         setIsLoading(true);
-        const { data: { session } } = await supabase.auth.getSession();
-        setIsAuthenticated(!!session && !!session.user);
+        
+        // Yükleme durumunu sınırlandırmak için timeout ekleyelim
+        const timeoutId = setTimeout(() => {
+          console.log("Session kontrolü zaman aşımına uğradı, varsayılan olarak oturum açılmamış kabul ediliyor");
+          setIsAuthenticated(false);
+          setIsLoading(false);
+        }, 5000); // 5 saniye sonra timeout
+        
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        // Timeout'u temizle
+        clearTimeout(timeoutId);
+        
+        if (error) {
+          console.error("Session kontrolü sırasında bir hata oluştu:", error);
+          toast({
+            title: "Oturum kontrolü hatası",
+            description: "Oturum bilgileriniz kontrol edilirken bir sorun oluştu. Lütfen tekrar giriş yapın.",
+            variant: "destructive",
+          });
+          setIsAuthenticated(false);
+        } else {
+          setIsAuthenticated(!!session && !!session.user);
+        }
       } catch (error) {
         console.error("Session kontrolü sırasında bir hata oluştu:", error);
         setIsAuthenticated(false);
@@ -57,7 +81,7 @@ const App = () => {
     return () => {
       subscription.data?.subscription.unsubscribe();
     };
-  }, []);
+  }, [toast]);
 
   if (isLoading) {
     return (
