@@ -7,8 +7,8 @@
 // Animasyon ve Geçiş Süreleri
 export const TRANSITION = {
   DURATION: 300, // ms
-  HOVER_DELAY: 100, // ms
-  TOOLTIP_DELAY: 300, // ms
+  HOVER_DELAY: 150, // ms - arttırıldı tutarlılık için
+  TOOLTIP_DELAY: 500, // ms - arttırıldı hover işlemi için yeterli süre vermek için
   EASING: 'cubic-bezier(0.4, 0, 0.2, 1)', // ease-in-out benzeri
 } as const;
 
@@ -49,9 +49,14 @@ export const CSS_CLASSES = {
   COLLAPSED: {
     CONTAINER: 'transition-all duration-300 flex',
     CONTENT_VISIBLE: 'opacity-100 visible translate-x-0',
-    CONTENT_HIDDEN: 'opacity-0 invisible -translate-x-2',
+    // Transform değerini kaldırarak ikonların görünür kalmasını sağlıyoruz
+    CONTENT_HIDDEN: 'opacity-0 invisible', // -translate-x-2 kaldırıldı
     ICON_ONLY: 'justify-center',
     WITH_TEXT: 'justify-start',
+    // İkon ve metin için ayrı geçiş stillerini ekliyoruz
+    ICON: 'opacity-100', // İkonlar her zaman görünür kalacak
+    TEXT_VISIBLE: 'opacity-100 visible max-w-full',
+    TEXT_HIDDEN: 'opacity-0 invisible max-w-0',
   },
   // Sidebar background, border ve text renkleri
   COLORS: {

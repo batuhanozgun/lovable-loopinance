@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
 import { BREAKPOINTS, TRANSITION } from '../constants';
@@ -37,30 +36,25 @@ export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const logger = LoggerService.getInstance('AppLayout.SidebarContext');
   const [state, setState] = useState(initialState);
   
-  // Gesture verilerini saklamak için state kullanımı
   const [touchGesture, setTouchGesture] = useState<TouchGesture>({
     startX: 0,
     currentX: 0,
-    threshold: 50, // minimum swipe mesafesi
+    threshold: 50,
     active: false,
   });
 
-  // Mobil görünüm kontrolü için event listener
   useEffect(() => {
     const checkIsMobile = () => {
       const isMobile = window.innerWidth < BREAKPOINTS.TABLET;
       setState(prev => {
-        // Eğer değişiklik yoksa state güncellemesini engelle
         if (prev.isMobile === isMobile) return prev;
         
         logger.debug('Screen size changed', { isMobile });
         
-        // Mobil görünüme geçildiğinde sidebar'ı daralt
         if (isMobile && prev.isExpanded) {
           return { ...prev, isMobile, isExpanded: false };
         }
         
-        // Desktop görünüme geçildiğinde ve sidebar daraltılmışsa, genişlet
         if (!isMobile && !prev.isExpanded && prev.isMobile) {
           return { ...prev, isMobile, isExpanded: true };
         }
@@ -69,17 +63,13 @@ export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       });
     };
 
-    // İlk yükleme kontrolü
     checkIsMobile();
 
-    // Event listener ekle
     window.addEventListener('resize', checkIsMobile);
     
-    // Cleanup
     return () => window.removeEventListener('resize', checkIsMobile);
   }, [logger]);
 
-  // Sidebar toggle handler
   const toggleSidebar = useCallback(() => {
     setState(prev => {
       logger.debug('Sidebar toggled', { wasExpanded: prev.isExpanded });
@@ -87,7 +77,6 @@ export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({ child
     });
   }, [logger]);
 
-  // QuickActions toggle handler
   const toggleQuickActions = useCallback(() => {
     setState(prev => {
       logger.debug('QuickActions toggled', { wasVisible: prev.showQuickActions });
@@ -95,22 +84,24 @@ export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({ child
     });
   }, [logger]);
 
-  // Hover yönetimi (desktop daraltılmış modda)
   const handleMouseEnter = useCallback(() => {
     if (!state.isMobile && !state.isExpanded) {
-      setState(prev => ({ ...prev, isHovering: true }));
-      logger.debug('Sidebar mouse enter', { isHovering: true });
+      setTimeout(() => {
+        setState(prev => ({ ...prev, isHovering: true }));
+        logger.debug('Sidebar mouse enter', { isHovering: true });
+      }, TRANSITION.HOVER_DELAY);
     }
   }, [state.isMobile, state.isExpanded, logger]);
 
   const handleMouseLeave = useCallback(() => {
     if (!state.isMobile) {
-      setState(prev => ({ ...prev, isHovering: false }));
-      logger.debug('Sidebar mouse leave', { isHovering: false });
+      setTimeout(() => {
+        setState(prev => ({ ...prev, isHovering: false }));
+        logger.debug('Sidebar mouse leave', { isHovering: false });
+      }, TRANSITION.HOVER_DELAY);
     }
   }, [state.isMobile, logger]);
 
-  // Touch gesture yönetimi (mobil için)
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     if (state.isMobile) {
       const touch = e.touches[0];
@@ -139,28 +130,22 @@ export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({ child
     if (state.isMobile && touchGesture.active) {
       const swipeDistance = touchGesture.startX - touchGesture.currentX;
       
-      // Sidebar açıkken sola swipe yapılırsa kapat
       if (state.isExpanded && swipeDistance > touchGesture.threshold) {
         toggleSidebar();
         logger.debug('Swipe left detected, closing sidebar', { swipeDistance });
       }
       
-      // Sidebar kapalıyken sağa swipe yapılırsa aç
       if (!state.isExpanded && swipeDistance < -touchGesture.threshold) {
         toggleSidebar();
         logger.debug('Swipe right detected, opening sidebar', { swipeDistance });
       }
       
-      // Touch gesture'ı sıfırla
       setTouchGesture(prev => ({
         ...prev,
         active: false,
       }));
     }
   }, [state.isMobile, state.isExpanded, touchGesture, toggleSidebar, logger]);
-
-  // Eğer otomatik sidebar hover davranışı istiyorsanız, buraya ek bir useEffect ekleyebilirsiniz
-  // Örnek: Belirli bir sürede otomatik kapanma
 
   const contextValue: SidebarContextState = {
     ...state,
@@ -180,7 +165,6 @@ export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   );
 };
 
-// Custom hook sidebar context'ine erişim için
 export const useSidebarContext = () => {
   const context = useContext(SidebarContext);
   

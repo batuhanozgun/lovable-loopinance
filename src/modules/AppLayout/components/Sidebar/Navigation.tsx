@@ -82,7 +82,7 @@ export const Navigation: React.FC = () => {
                       isActive && cn(CSS_CLASSES.COLORS.ACCENT, CSS_CLASSES.COLORS.PRIMARY, "font-medium")
                     )}
                   >
-                    <IconComponent size={SPACING.ICON_SIZE} />
+                    <IconComponent size={SPACING.ICON_SIZE} className={CSS_CLASSES.COLLAPSED.ICON} />
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent side="right" className="z-50">
@@ -107,7 +107,10 @@ export const Navigation: React.FC = () => {
               )}
             >
               <IconComponent size={SPACING.ICON_SIZE} className="flex-shrink-0" />
-              <span className={CSS_CLASSES.TRANSITIONS.OPACITY}>
+              <span className={cn(
+                CSS_CLASSES.TRANSITIONS.OPACITY,
+                (!isExpanded && !isHovering && !isMobile) ? CSS_CLASSES.COLLAPSED.TEXT_HIDDEN : CSS_CLASSES.COLLAPSED.TEXT_VISIBLE
+              )}>
                 {item.label}
               </span>
             </Link>

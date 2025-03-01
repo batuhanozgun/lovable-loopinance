@@ -63,7 +63,8 @@ export const QuickActions: React.FC = () => {
       "border-t",
       CSS_CLASSES.COLORS.BORDER,
       CSS_CLASSES.TRANSITIONS.BASE,
-      (!isExpanded && !isHovering && !isMobile) && CSS_CLASSES.COLLAPSED.CONTENT_HIDDEN,
+      // İçerik transition sınıflarını değiştirerek daha iyi geçiş sağlıyoruz
+      (!isExpanded && !isHovering && !isMobile) && "opacity-0 invisible",
       isMobile && !isExpanded && "hidden"
     )}>
       <Button 
@@ -78,8 +79,12 @@ export const QuickActions: React.FC = () => {
         )}
         onClick={toggleQuickActions}
       >
-        {(isExpanded || isHovering) && <span>{t('AppLayout:sidebar.quickActions')}</span>}
         {showQuickActions ? <X size={SPACING.ICON_SIZE} /> : <Plus size={SPACING.ICON_SIZE} />}
+        {(isExpanded || isHovering) && (
+          <span className={CSS_CLASSES.TRANSITIONS.OPACITY}>
+            {t('AppLayout:sidebar.quickActions')}
+          </span>
+        )}
       </Button>
 
       {/* QuickActions menüsü gelecekte buraya eklenecek */}

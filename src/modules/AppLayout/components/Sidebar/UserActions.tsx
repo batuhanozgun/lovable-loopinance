@@ -63,7 +63,7 @@ export const UserActions: React.FC = () => {
                   CSS_CLASSES.COLLAPSED.ICON_ONLY,
                   CSS_CLASSES.COLORS.TEXT,
                   CSS_CLASSES.COLORS.ACCENT_HOVER,
-                  "transition-all"
+                  CSS_CLASSES.TRANSITIONS.BASE
                 )} />
               </div>
             </TooltipTrigger>
@@ -80,7 +80,7 @@ export const UserActions: React.FC = () => {
                   CSS_CLASSES.COLLAPSED.ICON_ONLY,
                   CSS_CLASSES.COLORS.TEXT,
                   CSS_CLASSES.COLORS.ACCENT_HOVER,
-                  "transition-all"
+                  CSS_CLASSES.TRANSITIONS.BASE
                 )} />
               </div>
             </TooltipTrigger>
@@ -99,12 +99,12 @@ export const UserActions: React.FC = () => {
                     CSS_CLASSES.COLLAPSED.ICON_ONLY,
                     CSS_CLASSES.COLORS.TEXT,
                     CSS_CLASSES.COLORS.ACCENT_HOVER,
-                    "transition-all"
+                    CSS_CLASSES.TRANSITIONS.BASE
                   )}
                   onClick={handleSignOut}
                   disabled={isLoggingOut}
                 >
-                  <LogOut size={SPACING.ICON_SIZE} />
+                  <LogOut size={SPACING.ICON_SIZE} className={CSS_CLASSES.COLLAPSED.ICON} />
                 </Button>
               </div>
             </TooltipTrigger>
@@ -129,21 +129,22 @@ export const UserActions: React.FC = () => {
       "border-t flex flex-col gap-2",
       CSS_CLASSES.COLORS.BORDER,
       CSS_CLASSES.TRANSITIONS.BASE,
-      (!isExpanded && !isHovering && !isMobile) && CSS_CLASSES.COLLAPSED.CONTENT_HIDDEN
+      // Daraltılmış durumdaki görünürlüğü doğru transition ile ayarlıyoruz
+      (!isExpanded && !isHovering && !isMobile) && "opacity-0 invisible"
     )}>
       <LanguageSelector className={cn(
         "w-full",
         CSS_CLASSES.COLLAPSED.WITH_TEXT,
         CSS_CLASSES.COLORS.TEXT,
         CSS_CLASSES.COLORS.ACCENT_HOVER,
-        "transition-all"
+        CSS_CLASSES.TRANSITIONS.BASE
       )} />
       <ThemeToggle className={cn(
         "w-full",
         CSS_CLASSES.COLLAPSED.WITH_TEXT,
         CSS_CLASSES.COLORS.TEXT,
         CSS_CLASSES.COLORS.ACCENT_HOVER,
-        "transition-all"
+        CSS_CLASSES.TRANSITIONS.BASE
       )} />
       <Button 
         variant="ghost" 
@@ -153,13 +154,15 @@ export const UserActions: React.FC = () => {
           CSS_CLASSES.COLORS.TEXT,
           CSS_CLASSES.COLORS.ACCENT_HOVER,
           SPACING.ITEM_GAP,
-          "transition-all"
+          CSS_CLASSES.TRANSITIONS.BASE
         )}
         onClick={handleSignOut}
         disabled={isLoggingOut}
       >
         <LogOut size={SPACING.ICON_SIZE} />
-        {isLoggingOut ? t('common:loggingOut') : t('common:logout')}
+        <span className={CSS_CLASSES.TRANSITIONS.OPACITY}>
+          {isLoggingOut ? t('common:loggingOut') : t('common:logout')}
+        </span>
       </Button>
     </div>
   );

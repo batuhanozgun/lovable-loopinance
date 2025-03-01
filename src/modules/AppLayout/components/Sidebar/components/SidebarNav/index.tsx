@@ -33,9 +33,9 @@ export const SidebarNav: React.FC = () => {
     <div className={cn(
       "flex-1 overflow-y-auto",
       CSS_CLASSES.TRANSITIONS.BASE,
-      // Hover veya genişletilmiş durumda göster, değilse gizle
+      // İçerik geçişini daha iyi kontrol etmek için CSS class değişiklikleri
       (!isExpanded && !isHovering && !isMobile) 
-        ? CSS_CLASSES.COLLAPSED.CONTENT_HIDDEN 
+        ? "opacity-90" // İkonları görünür tut ama metni gizle
         : CSS_CLASSES.COLLAPSED.CONTENT_VISIBLE,
       // Mobil modda, daraltılmışken tamamen gizle
       isMobile && !isExpanded && "hidden"
