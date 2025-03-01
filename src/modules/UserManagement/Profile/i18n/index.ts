@@ -12,24 +12,25 @@ import * as messagesTR from './locales/tr/messages.json';
 export const initProfileTranslations = () => {
   // i18n başlatıldı mı kontrol et
   if (i18n.isInitialized) {
-    // Kaynaklar henüz yoksa ekle (hasResourceBundle yerine daha güvenli bir kontrol)
     try {
-      // İngilizce çeviriler
+      // Profile namespace'i zaten config.ts'de başlatıldı,
+      // eğer orada yüklenmemişse buradan eklemeyi dene
       if (!i18n.exists('Profile:title', { lng: 'en' })) {
+        console.log('Profile çevirileri ekleniyor (EN)');
         i18n.addResourceBundle('en', 'Profile', {
           ...contentEN,
           errors: errorsEN,
           messages: messagesEN,
-        });
+        }, true, true);
       }
       
-      // Türkçe çeviriler
       if (!i18n.exists('Profile:title', { lng: 'tr' })) {
+        console.log('Profile çevirileri ekleniyor (TR)');
         i18n.addResourceBundle('tr', 'Profile', {
           ...contentTR,
           errors: errorsTR,
           messages: messagesTR,
-        });
+        }, true, true);
       }
     } catch (error) {
       console.warn('Profile çevirileri yüklenirken hata:', error);

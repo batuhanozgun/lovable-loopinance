@@ -12,8 +12,11 @@ export const LanguageSelector = ({ className, ...props }: LanguageSelectorProps)
 
   const toggleLanguage = () => {
     const newLang = i18n.language === "tr" ? "en" : "tr";
-    i18n.changeLanguage(newLang);
-    localStorage.setItem("preferredLanguage", newLang);
+    i18n.changeLanguage(newLang).then(() => {
+      localStorage.setItem("preferredLanguage", newLang);
+      // Dil değişimini anında etkili kıl
+      window.location.reload();
+    });
   };
 
   return (
