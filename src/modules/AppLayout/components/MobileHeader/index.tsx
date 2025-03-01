@@ -45,7 +45,7 @@ export const MobileHeader: React.FC = () => {
           onClick={() => toggleSidebar()}
           className="text-foreground"
         >
-          <Menu size={24} />
+          <Menu size={20} />
         </Button>
       </div>
       

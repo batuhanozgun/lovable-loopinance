@@ -1,22 +1,25 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
 import { useSidebarContext } from '../../context/SidebarContext';
 import { cn } from '@/lib/utils';
-import { CSS_CLASSES, SPACING } from '../../constants';
+import { CSS_CLASSES, SPACING, Z_INDEX } from '../../constants';
+import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 export const SidebarHeader: React.FC = () => {
   const { t } = useTranslation(['AppLayout', 'common']);
   const logger = LoggerService.getInstance('AppLayout.SidebarHeader');
-  const { isExpanded, isMobile, isHovering } = useSidebarContext();
+  const { isExpanded, isMobile, isHovering, toggleSidebar } = useSidebarContext();
   
   logger.debug('SidebarHeader rendered', { isExpanded, isMobile, isHovering });
 
   return (
     <div className={cn(
       SPACING.SECTION,
-      "border-b flex items-center justify-center", 
+      "border-b flex items-center justify-between relative", 
       CSS_CLASSES.COLORS.BORDER,
       CSS_CLASSES.TRANSITIONS.BASE,
       isMobile && !isExpanded && "border-none"
@@ -30,6 +33,41 @@ export const SidebarHeader: React.FC = () => {
       >
         {t('common:brandName')}
       </h1>
+      
+      {!isMobile && (
+        <TooltipProvider delayDuration={500}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className={cn(
+                  "h-8 w-8 rounded-full p-0 flex justify-center items-center",
+                  CSS_CLASSES.TRANSITIONS.BASE,
+                  "hover:bg-accent/50"
+                )}
+                onClick={toggleSidebar}
+                aria-label={isExpanded 
+                  ? t('AppLayout:sidebar.collapse') 
+                  : t('AppLayout:sidebar.expand')
+                }
+              >
+                {isExpanded ? (
+                  <ChevronLeft size={16} className="text-sidebar-foreground" />
+                ) : (
+                  <ChevronRight size={16} className="text-sidebar-foreground" />
+                )}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              {isExpanded 
+                ? t('AppLayout:sidebar.collapse') 
+                : t('AppLayout:sidebar.expand')
+              }
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )}
     </div>
   );
 };
