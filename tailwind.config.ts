@@ -127,7 +127,9 @@ export default {
 				'gradient-fab': 'linear-gradient(45deg, rgb(250,250,250) 0%, rgb(108,154,229) 50%, rgb(0,140,158) 100%)',
 				'gradient-fab-hover': 'linear-gradient(225deg, rgb(250,250,250) 0%, rgb(108,154,229) 50%, rgb(0,140,158) 100%)',
 				'gradient-fab-dark': 'linear-gradient(45deg, hsl(210,13%,40%) 0%, hsl(185,94%,7%) 50%, hsl(185,100%,15%) 100%)',
-				'gradient-fab-dark-hover': 'linear-gradient(225deg, hsl(210,13%,40%) 0%, hsl(185,94%,7%) 50%, hsl(185,100%,15%) 100%)'
+				'gradient-fab-dark-hover': 'linear-gradient(225deg, hsl(210,13%,40%) 0%, hsl(185,94%,7%) 50%, hsl(185,100%,15%) 100%)',
+				'gradient-sidebar': 'linear-gradient(to right, rgb(0,140,158) 0%, rgb(108,154,229) 50%, rgb(250,250,250) 100%)',
+				'gradient-sidebar-dark': 'linear-gradient(to right, hsl(185,100%,15%) 0%, hsl(185,94%,7%) 50%, hsl(210,13%,40%) 100%)'
 			}
 		}
 	},
