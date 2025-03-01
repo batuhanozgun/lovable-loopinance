@@ -5,11 +5,19 @@ import { useTranslation } from 'react-i18next';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
 import { Home, BarChart3, Settings, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useSidebarContext } from './context/SidebarContext';
+import { 
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 export const Navigation: React.FC = () => {
   const { t } = useTranslation(['AppLayout', 'common']);
   const logger = LoggerService.getInstance('AppLayout.Navigation');
   const location = useLocation();
+  const { isExpanded } = useSidebarContext();
   
   const navItems = [
     { 
@@ -34,26 +42,52 @@ export const Navigation: React.FC = () => {
     },
   ];
   
-  logger.debug('Navigation component rendered', { currentPath: location.pathname });
+  logger.debug('Navigation component rendered', { currentPath: location.pathname, isExpanded });
 
   return (
     <nav className="p-4 space-y-2">
-      {navItems.map((item) => {
-        const isActive = location.pathname === item.path;
-        return (
-          <Link 
-            key={item.path}
-            to={item.path} 
-            className={cn(
-              "flex items-center gap-3 text-sidebar-foreground hover:bg-sidebar-accent rounded-md px-3 py-2 transition-colors",
-              isActive && "bg-sidebar-accent text-sidebar-foreground-active font-medium"
-            )}
-          >
-            <item.icon size={18} />
-            <span>{item.label}</span>
-          </Link>
-        );
-      })}
+      <TooltipProvider delayDuration={300}>
+        {navItems.map((item) => {
+          const isActive = location.pathname === item.path;
+          
+          // Daraltılmış durumda tooltip göster
+          if (!isExpanded) {
+            return (
+              <Tooltip key={item.path}>
+                <TooltipTrigger asChild>
+                  <Link 
+                    to={item.path} 
+                    className={cn(
+                      "flex items-center justify-center text-sidebar-foreground hover:bg-sidebar-accent rounded-md px-3 py-2 transition-colors",
+                      isActive && "bg-sidebar-accent text-sidebar-foreground-active font-medium"
+                    )}
+                  >
+                    <item.icon size={18} />
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right">
+                  <p>{item.label}</p>
+                </TooltipContent>
+              </Tooltip>
+            );
+          }
+          
+          // Normal görünüm
+          return (
+            <Link 
+              key={item.path}
+              to={item.path} 
+              className={cn(
+                "flex items-center gap-3 text-sidebar-foreground hover:bg-sidebar-accent rounded-md px-3 py-2 transition-colors",
+                isActive && "bg-sidebar-accent text-sidebar-foreground-active font-medium"
+              )}
+            >
+              <item.icon size={18} />
+              <span>{item.label}</span>
+            </Link>
+          );
+        })}
+      </TooltipProvider>
     </nav>
   );
 };
