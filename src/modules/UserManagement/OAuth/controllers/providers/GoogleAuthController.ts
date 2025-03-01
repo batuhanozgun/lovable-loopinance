@@ -5,6 +5,10 @@ import { GoogleLogger } from "../../logging/providers/GoogleLogger";
 import { GoogleToasts } from "../../notifications/providers/GoogleToasts";
 
 export class GoogleAuthController {
+  static async signInWithGoogle(): Promise<void> {
+    await GoogleAuthController.handleSignIn();
+  }
+
   static async handleSignIn(): Promise<{ success: boolean, error?: string }> {
     const redirectService = RedirectService.getInstance();
     const logger = GoogleLogger.getInstance();
