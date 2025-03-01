@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { initLoginTranslations } from "../i18n";
 
 export const Login = () => {
-  const { t } = useTranslation(["Login", "common", "OAuth.ui"]);
+  const { t } = useTranslation(["Login", "common", "OAuth"]);
 
   // Initialize translations for the Login module
   useEffect(() => {
@@ -75,7 +75,7 @@ export const Login = () => {
             </div>
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-background px-2 text-muted-foreground">
-                {t("OAuth.ui:or")}
+                {t("OAuth:ui.or")}
               </span>
             </div>
           </div>
