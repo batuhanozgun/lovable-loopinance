@@ -26,7 +26,7 @@ export const HeaderBranding: React.FC<HeaderBrandingProps> = ({ className }) => 
         <Menu size={20} />
       </Button>
       
-      <h1 className="text-lg font-semibold bg-gradient-to-r from-[rgb(84,85,89)] via-[rgb(108,154,229)] to-[rgb(0,140,158)] dark:from-[hsl(210,13%,40%)] dark:via-[hsl(185,94%,7%)] dark:to-[hsl(185,100%,15%)] bg-clip-text text-transparent">
+      <h1 className="text-2xl font-bold bg-gradient-to-r from-[rgb(84,85,89)] via-[rgb(108,154,229)] to-[rgb(0,140,158)] dark:from-[hsl(210,13%,40%)] dark:via-[hsl(185,94%,7%)] dark:to-[hsl(185,100%,15%)] bg-clip-text text-transparent">
         {t('common:brandName')}
       </h1>
     </div>
