@@ -11,5 +11,6 @@
   "budgetGoals": {
     "title": "Budget Goals",
     "description": "Track your progress towards financial objectives."
-  }
+  },
+  "lastUpdated": "Last updated at {{time}}"
 }

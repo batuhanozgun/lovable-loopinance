@@ -6,6 +6,7 @@ import { BottomNav } from '../BottomNav';
 import { useTranslation } from 'react-i18next';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
 import { SidebarProvider } from '../Sidebar/context/SidebarContext';
+import { PageContainer } from './components/PageContainer';
 
 interface LayoutProps {
   children: ReactNode;
@@ -23,8 +24,10 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         <MobileHeader />
         <div className="flex flex-1">
           <Sidebar />
-          <main className="flex-1 bg-background pb-16 md:pb-0">
-            {children}
+          <main className="flex-1 bg-background pb-16 md:pb-0 flex flex-col">
+            <PageContainer className="flex-1 overflow-y-auto">
+              {children}
+            </PageContainer>
           </main>
         </div>
         <BottomNav />

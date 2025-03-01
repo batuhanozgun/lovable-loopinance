@@ -11,5 +11,6 @@
   "budgetGoals": {
     "title": "Bütçe Hedefleri",
     "description": "Finansal hedeflerinize ilerleme durumunuzu takip edin."
-  }
+  },
+  "lastUpdated": "Son güncelleme: {{time}}"
 }

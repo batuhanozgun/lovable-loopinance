@@ -4,6 +4,7 @@ import { FinancialSummary } from "../sections/FinancialSummary";
 import { RecentTransactions } from "../sections/RecentTransactions";
 import { BudgetGoals } from "../sections/BudgetGoals";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
+import DashboardHeader from "../components/DashboardHeader";
 
 const DashboardView = () => {
   const { t } = useTranslation(["Dashboard", "common"]);
@@ -12,12 +13,14 @@ const DashboardView = () => {
   logger.debug("Dashboard view rendered");
 
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold mb-6">{t("common:welcome")}</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <FinancialSummary />
-        <RecentTransactions />
-        <BudgetGoals />
+    <div className="flex flex-col h-full">
+      <DashboardHeader />
+      <div className="p-4 md:p-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <FinancialSummary />
+          <RecentTransactions />
+          <BudgetGoals />
+        </div>
       </div>
     </div>
   );
