@@ -12,6 +12,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { TRANSITION_DURATION } from '../../components/SidebarNav';
 
 export const QuickActions: React.FC = () => {
   const { t } = useTranslation(['AppLayout', 'common']);
@@ -23,7 +24,7 @@ export const QuickActions: React.FC = () => {
   // Daraltılmış ve hover olmayan durumda tooltip göster
   if (!isExpanded && !isMobile && !isHovering) {
     return (
-      <div className="px-3 py-2 border-t border-sidebar-border transition-opacity duration-300">
+      <div className={`px-3 py-2 border-t border-sidebar-border transition-all duration-${TRANSITION_DURATION}`}>
         <TooltipProvider delayDuration={300}>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -48,7 +49,7 @@ export const QuickActions: React.FC = () => {
   // Normal görünüm
   return (
     <div className={cn(
-      "px-3 py-2 border-t border-sidebar-border transition-all duration-300",
+      `px-3 py-2 border-t border-sidebar-border transition-all duration-${TRANSITION_DURATION}`,
       (!isExpanded && !isHovering && !isMobile) && "opacity-0",
       isMobile && !isExpanded && "hidden"
     )}>
@@ -56,7 +57,7 @@ export const QuickActions: React.FC = () => {
         variant="ghost" 
         size="sm"
         className={cn(
-          "w-full text-sidebar-foreground hover:bg-sidebar-accent transition-all duration-300",
+          `w-full text-sidebar-foreground hover:bg-sidebar-accent transition-all duration-${TRANSITION_DURATION}`,
           (isExpanded || isHovering) ? "justify-between" : "justify-center"
         )}
         onClick={toggleQuickActions}

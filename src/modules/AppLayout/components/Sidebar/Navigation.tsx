@@ -57,7 +57,7 @@ export const Navigation: React.FC = () => {
       "p-4 space-y-2 transition-all duration-300",
       (!isExpanded && !isHovering && !isMobile) && "items-center"
     )}>
-      <TooltipProvider delayDuration={500}>
+      <TooltipProvider delayDuration={300}>
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           const IconComponent = item.icon;
@@ -90,7 +90,7 @@ export const Navigation: React.FC = () => {
               key={item.path}
               to={item.path} 
               className={cn(
-                "flex items-center gap-3 text-sidebar-foreground hover:bg-sidebar-accent rounded-md px-3 py-2 transition-all duration-300",
+                "flex items-center w-full gap-3 text-sidebar-foreground hover:bg-sidebar-accent rounded-md px-3 py-2 transition-all duration-300",
                 isActive && "bg-sidebar-accent text-sidebar-primary font-medium"
               )}
             >

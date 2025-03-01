@@ -16,6 +16,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
+import { TRANSITION_DURATION } from './components/SidebarNav';
 
 export const UserActions: React.FC = () => {
   const { t } = useTranslation(['AppLayout', 'common']);
@@ -47,7 +48,7 @@ export const UserActions: React.FC = () => {
   // Daraltılmış sidebar ve hover olmadığında - içerik icon olarak görünür
   if (!isExpanded && !isMobile && !isHovering) {
     return (
-      <div className="p-4 border-t border-sidebar-border flex flex-col gap-2 transition-all duration-300">
+      <div className={`p-4 border-t border-sidebar-border flex flex-col gap-2 transition-all duration-${TRANSITION_DURATION}`}>
         <TooltipProvider delayDuration={300}>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -101,7 +102,7 @@ export const UserActions: React.FC = () => {
   // Normal görünüm (genişletilmiş sidebar veya hover durumu)
   return (
     <div className={cn(
-      "p-4 border-t border-sidebar-border flex flex-col gap-2 transition-all duration-300",
+      `p-4 border-t border-sidebar-border flex flex-col gap-2 transition-all duration-${TRANSITION_DURATION}`,
       (!isExpanded && !isHovering && !isMobile) && "opacity-0"
     )}>
       <LanguageSelector className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground transition-all" />

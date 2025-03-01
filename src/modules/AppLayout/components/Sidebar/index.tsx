@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
 import { SidebarProvider, useSidebarContext } from './context/SidebarContext';
 import { SidebarHeader } from './components/SidebarHeader';
-import { SidebarNav } from './components/SidebarNav';
+import { SidebarNav, TRANSITION_DURATION } from './components/SidebarNav';
 import { QuickActions } from './components/QuickActions';
 import { UserActions } from './UserActions';
 import { useSidebarResize } from './hooks/useSidebarResize';
@@ -32,7 +32,7 @@ const SidebarContent: React.FC = () => {
   const sidebarStyles = {
     width: effectiveWidth,
     minWidth: effectiveWidth,
-    transition: 'width 0.3s ease-in-out, min-width 0.3s ease-in-out, transform 0.3s ease-in-out',
+    transition: `width ${TRANSITION_DURATION}ms ease-in-out, min-width ${TRANSITION_DURATION}ms ease-in-out, transform ${TRANSITION_DURATION}ms ease-in-out`,
   };
 
   // Mobil ekranda kapalıyken overflow'u gizle, açıkken göster
