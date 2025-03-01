@@ -1,8 +1,5 @@
 
 import DashboardView from "./views/DashboardView";
-import { initDashboardTranslations } from "./i18n";
 
-// Initialize translations
-initDashboardTranslations();
-
+// NOT: initialization kaldırıldı, sadece export ediyoruz
 export { DashboardView };
