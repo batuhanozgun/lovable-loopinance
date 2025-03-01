@@ -4,11 +4,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { SignUp } from "@/modules/UserManagement/Signup/views/SignupView";
 import { useState, useEffect } from "react";
-import { AuthService } from "@/modules/UserManagement/common/services/AuthService";
-import { supabase } from "@/lib/supabase";
+import { SessionService } from "@/modules/UserManagement/auth";
 import Index from "./pages/Index";
 import Landing from "./pages/Landing";
-import Login from "./pages/Login"; // Güncellendi
+import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import "@/i18n/config";
 import { useToast } from "./hooks/use-toast";
@@ -46,13 +45,13 @@ const App = () => {
           setIsLoading(false);
         }, 5000); // 5 saniye sonra timeout
         
-        const { data: { session }, error } = await supabase.auth.getSession();
+        const sessionResponse = await SessionService.getCurrentSession();
         
         // Timeout'u temizle
         clearTimeout(timeoutId);
         
-        if (error) {
-          console.error("Session kontrolü sırasında bir hata oluştu:", error);
+        if (!sessionResponse.success) {
+          console.error("Session kontrolü sırasında bir hata oluştu:", sessionResponse.error);
           toast({
             title: "Oturum kontrolü hatası",
             description: "Oturum bilgileriniz kontrol edilirken bir sorun oluştu. Lütfen tekrar giriş yapın.",
@@ -60,7 +59,7 @@ const App = () => {
           });
           setIsAuthenticated(false);
         } else {
-          setIsAuthenticated(!!session && !!session.user);
+          setIsAuthenticated(sessionResponse.isAuthenticated);
         }
       } catch (error) {
         console.error("Session kontrolü sırasında bir hata oluştu:", error);
@@ -73,7 +72,7 @@ const App = () => {
     checkInitialSession();
     
     // Auth state değişikliklerini dinle
-    const subscription = AuthService.onAuthStateChange((authState) => {
+    const subscription = SessionService.onAuthStateChange((authState) => {
       setIsAuthenticated(authState);
       setIsLoading(false);
     });

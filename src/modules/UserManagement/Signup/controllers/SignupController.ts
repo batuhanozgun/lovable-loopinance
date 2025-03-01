@@ -1,9 +1,10 @@
 
-import { SignupService } from "../services/SignupService";
+import { AuthenticationService } from "../../auth";
 import { ISignupForm } from "../interfaces/ISignupForm";
 import { SignupValidator } from "../validators/SignupValidator";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
 import { ValidationToasts } from "../notifications/validation/ValidationToasts";
+import { AuthToasts } from "../notifications/auth/AuthToasts";
 
 const logger = LoggerService.getInstance("SignupController");
 
@@ -30,14 +31,27 @@ export class SignupController {
 
       logger.debug("Input validation successful, proceeding to signup");
       
-      // Perform signup
-      const signupResult = await SignupService.signUp(
+      // Perform signup using AuthenticationService
+      const signupResult = await AuthenticationService.signUpWithEmailPassword(
         formData.email,
         formData.password,
-        formData.firstName,
-        formData.lastName
+        {
+          firstName: formData.firstName,
+          lastName: formData.lastName
+        }
       );
-
+      
+      // Show appropriate toast notifications
+      if (signupResult.success) {
+        AuthToasts.showSignupSuccess();
+      } else if (signupResult.error?.includes("already registered")) {
+        AuthToasts.showEmailExistsError();
+      } else if (signupResult.error?.includes("rate limit")) {
+        AuthToasts.showRateLimitError();
+      } else {
+        AuthToasts.showSignupError(signupResult.error);
+      }
+      
       // Return signup result
       return signupResult;
       

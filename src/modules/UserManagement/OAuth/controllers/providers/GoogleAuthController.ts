@@ -1,19 +1,18 @@
 
-import { GoogleAuthService } from "../../services/providers/GoogleAuthService";
+import { AuthenticationService } from "@/modules/UserManagement/auth";
 import { RedirectService } from "../../services/redirect/RedirectService";
 import { GoogleLogger } from "../../logging/providers/GoogleLogger";
 import { GoogleToasts } from "../../notifications/providers/GoogleToasts";
 
 export class GoogleAuthController {
   static async handleSignIn(): Promise<{ success: boolean, error?: string }> {
-    const googleAuthService = GoogleAuthService.getInstance();
     const redirectService = RedirectService.getInstance();
     const logger = GoogleLogger.getInstance();
     
     try {
       logger.logSignInAttempt();
       
-      const result = await googleAuthService.signIn();
+      const result = await AuthenticationService.signInWithGoogle();
       
       if (!result.success || !result.url) {
         logger.logNoUrlError();
