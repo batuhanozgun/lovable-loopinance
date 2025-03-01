@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { ArrowDownRight, BarChart3, Lock, Rotate3D } from "lucide-react";
 
 export const FeatureSection = () => {
-  const { t } = useTranslation("landing");
+  const { t } = useTranslation("LandingPage");
 
   const features = [
     {

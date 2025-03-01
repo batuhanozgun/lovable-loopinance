@@ -17,20 +17,51 @@ import trFooter from './locales/tr/footer.json';
 
 // Initialize landing page module translations
 export const initLandingPageTranslations = () => {
-  // Add landing page namespace resources
-  i18n.addResourceBundle('en', 'LandingPage', {
-    hero: enHero,
-    features: enFeatures,
-    cta: enCta,
-    nav: enNav,
-    footer: enFooter
-  }, true, true);
-
-  i18n.addResourceBundle('tr', 'LandingPage', {
-    hero: trHero,
-    features: trFeatures,
-    cta: trCta,
-    nav: trNav,
-    footer: trFooter
-  }, true, true);
+  // i18n'in başlatılmış olduğundan emin olmak için kontrol edelim
+  if (!i18n.isInitialized) {
+    console.warn("i18n henüz başlatılmadı, LandingPage çevirileri daha sonra eklenecek");
+    
+    // i18n başlatıldığında çevirileri ekleyelim
+    const originalInit = i18n.init;
+    i18n.init = function(...args) {
+      const result = originalInit.apply(this, args);
+      addLandingPageResources();
+      return result;
+    };
+    
+    return;
+  }
+  
+  // i18n başlatılmışsa, çevirileri hemen ekleyelim
+  addLandingPageResources();
 };
+
+// LandingPage resource bundle'larını ekleyen yardımcı fonksiyon
+function addLandingPageResources() {
+  try {
+    // İngilizce kaynakları ekle
+    i18n.addResourceBundle('en', 'LandingPage', {
+      hero: enHero,
+      features: enFeatures,
+      cta: enCta,
+      nav: enNav,
+      footer: enFooter
+    }, true, true);
+
+    // Türkçe kaynakları ekle
+    i18n.addResourceBundle('tr', 'LandingPage', {
+      hero: trHero,
+      features: trFeatures,
+      cta: trCta,
+      nav: trNav,
+      footer: trFooter
+    }, true, true);
+    
+    console.log("LandingPage çevirileri başarıyla eklendi");
+  } catch (error) {
+    console.error("LandingPage çevirileri eklenirken hata oluştu:", error);
+  }
+}
+
+// Modül yüklendiğinde çevirileri otomatik olarak başlat
+initLandingPageTranslations();

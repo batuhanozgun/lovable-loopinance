@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 export const LandingFooter = () => {
-  const { t } = useTranslation("landing");
+  const { t } = useTranslation(["LandingPage", "common"]);
   const currentYear = new Date().getFullYear();
 
   return (
@@ -12,59 +12,59 @@ export const LandingFooter = () => {
         <div className="grid md:grid-cols-4 gap-8">
           <div>
             <h3 className="font-bold text-lg mb-4">{t("common:brandName")}</h3>
-            <p className="text-muted-foreground">{t("footer.tagline")}</p>
+            <p className="text-muted-foreground">{t("LandingPage:footer.tagline")}</p>
           </div>
           <div>
-            <h4 className="font-semibold mb-4">{t("footer.product.title")}</h4>
+            <h4 className="font-semibold mb-4">{t("LandingPage:footer.product.title")}</h4>
             <ul className="space-y-2">
               <li>
                 <Link to="#features" className="text-muted-foreground hover:text-foreground transition-colors">
-                  {t("footer.product.features")}
+                  {t("LandingPage:footer.product.features")}
                 </Link>
               </li>
               <li>
                 <Link to="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                  {t("footer.product.pricing")}
+                  {t("LandingPage:footer.product.pricing")}
                 </Link>
               </li>
               <li>
                 <Link to="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                  {t("footer.product.faq")}
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4">{t("footer.company.title")}</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link to="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                  {t("footer.company.about")}
-                </Link>
-              </li>
-              <li>
-                <Link to="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                  {t("footer.company.team")}
-                </Link>
-              </li>
-              <li>
-                <Link to="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                  {t("footer.company.contact")}
+                  {t("LandingPage:footer.product.faq")}
                 </Link>
               </li>
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold mb-4">{t("footer.legal.title")}</h4>
+            <h4 className="font-semibold mb-4">{t("LandingPage:footer.company.title")}</h4>
             <ul className="space-y-2">
               <li>
                 <Link to="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                  {t("footer.legal.privacy")}
+                  {t("LandingPage:footer.company.about")}
                 </Link>
               </li>
               <li>
                 <Link to="#" className="text-muted-foreground hover:text-foreground transition-colors">
-                  {t("footer.legal.terms")}
+                  {t("LandingPage:footer.company.team")}
+                </Link>
+              </li>
+              <li>
+                <Link to="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  {t("LandingPage:footer.company.contact")}
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-4">{t("LandingPage:footer.legal.title")}</h4>
+            <ul className="space-y-2">
+              <li>
+                <Link to="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  {t("LandingPage:footer.legal.privacy")}
+                </Link>
+              </li>
+              <li>
+                <Link to="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                  {t("LandingPage:footer.legal.terms")}
                 </Link>
               </li>
             </ul>
@@ -72,7 +72,7 @@ export const LandingFooter = () => {
         </div>
         <div className="border-t border-border mt-12 pt-8 text-center text-muted-foreground">
           <p>
-            © {currentYear} {t("common:brandName")}. {t("footer.copyright")}
+            © {currentYear} {t("common:brandName")}. {t("LandingPage:footer.copyright")}
           </p>
         </div>
       </div>

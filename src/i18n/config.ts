@@ -1,3 +1,4 @@
+
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
@@ -41,15 +42,7 @@ import * as oauthUITR from './locales/tr/UserManagement/oauth/ui.json';
 import * as oauthMessagesTR from './locales/tr/UserManagement/oauth/messages.json';
 import * as oauthNotificationsTR from './locales/tr/UserManagement/oauth/notifications.json';
 
-// Import Landing page translations
-import * as landingEN from './locales/en/landing.json';
-import * as landingTR from './locales/tr/landing.json';
-
-// Import the landing page translations initializer
-import { initLandingPageTranslations } from '@/modules/LandingPage/i18n';
-
-// Initialize landing page translations
-initLandingPageTranslations();
+// LandingPage modülü çevirileri kaldırıldı
 
 i18n
   .use(initReactI18next)
@@ -82,8 +75,7 @@ i18n
         'UserManagement.oauth.messages': oauthMessagesEN,
         'UserManagement.oauth.notifications': oauthNotificationsEN,
         
-        // Landing page translations
-        landing: landingEN
+        // Landing page çevirileri kaldırıldı
       },
       tr: {
         // Common translations
@@ -106,8 +98,7 @@ i18n
         'UserManagement.oauth.messages': oauthMessagesTR,
         'UserManagement.oauth.notifications': oauthNotificationsTR,
         
-        // Landing page translations
-        landing: landingTR
+        // Landing page çevirileri kaldırıldı
       }
     },
   });

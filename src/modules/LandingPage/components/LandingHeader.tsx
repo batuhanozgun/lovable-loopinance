@@ -6,7 +6,7 @@ import { LanguageSelector } from "@/components/LanguageSelector";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const LandingHeader = () => {
-  const { t } = useTranslation("landing");
+  const { t } = useTranslation(["LandingPage", "common"]);
   
   return (
     <header className="fixed top-0 left-0 w-full bg-background/80 backdrop-blur-sm py-4 px-6 flex items-center justify-between shadow-sm border-b z-50">
@@ -15,23 +15,23 @@ export const LandingHeader = () => {
       </div>
       <nav className="hidden md:flex items-center space-x-6">
         <Link to="/" className="text-foreground hover:text-primary transition-colors">
-          {t("nav.home")}
+          {t("LandingPage:nav.home")}
         </Link>
         <Link to="#features" className="text-foreground hover:text-primary transition-colors">
-          {t("nav.features")}
+          {t("LandingPage:nav.features")}
         </Link>
         <Link to="#about" className="text-foreground hover:text-primary transition-colors">
-          {t("nav.about")}
+          {t("LandingPage:nav.about")}
         </Link>
       </nav>
       <div className="flex items-center space-x-4">
         <LanguageSelector variant="ghost" size="sm" />
         <ThemeToggle variant="ghost" size="sm" />
         <Button variant="ghost" size="sm" asChild>
-          <Link to="/login">{t("nav.login")}</Link>
+          <Link to="/login">{t("LandingPage:nav.login")}</Link>
         </Button>
         <Button size="sm" asChild>
-          <Link to="/signup">{t("nav.signup")}</Link>
+          <Link to="/signup">{t("LandingPage:nav.signup")}</Link>
         </Button>
       </div>
     </header>
