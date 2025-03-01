@@ -6,14 +6,21 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import { Typewriter } from "@/components/Typewriter";
 import { GoogleAuthButton } from "../../OAuth/components/GoogleAuthButton";
+import { useEffect } from "react";
+import { initLoginTranslations } from "../i18n";
 
 export const Login = () => {
-  const { t } = useTranslation(["UserManagement.login.content", "common", "UserManagement.oauth.ui"]);
+  const { t } = useTranslation(["Login", "common"]);
+
+  // Login modülünün çevirilerini başlat
+  useEffect(() => {
+    initLoginTranslations();
+  }, []);
 
   const typewriterTexts = [
-    t("typewriter.text1"),
-    t("typewriter.text2"),
-    t("typewriter.text3")
+    t("Login:content.typewriter.text1"),
+    t("Login:content.typewriter.text2"),
+    t("Login:content.typewriter.text3")
   ];
 
   return (
@@ -53,10 +60,10 @@ export const Login = () => {
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight">
-              {t("title")}
+              {t("Login:content.title")}
             </h1>
             <p className="text-sm text-muted-foreground">
-              {t("subtitle")}
+              {t("Login:content.subtitle")}
             </p>
           </div>
           
@@ -68,19 +75,19 @@ export const Login = () => {
             </div>
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-background px-2 text-muted-foreground">
-                {t("UserManagement.oauth.ui:or")}
+                {t("Login:ui.or")}
               </span>
             </div>
           </div>
           
           <LoginForm />
           <p className="px-8 text-center text-sm text-muted-foreground">
-            {t("noAccount")}{" "}
+            {t("Login:content.noAccount")}{" "}
             <Link
               to="/signup"
               className="underline underline-offset-4 hover:text-primary"
             >
-              {t("createAccount")}
+              {t("Login:content.createAccount")}
             </Link>
           </p>
         </div>

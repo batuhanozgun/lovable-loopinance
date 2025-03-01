@@ -1,12 +1,10 @@
 
 import { supabase } from "@/lib/supabase";
-import { LoggerService } from "@/modules/Logging/services/LoggerService";
+import { LoginLogger } from "../logging/LoginLogger";
 
 export class LoginService {
-  private static logger = LoggerService.getInstance();
-
   static async login(email: string, password: string) {
-    this.logger.debug("Supabase ile giriş denemesi yapılıyor", { email });
+    LoginLogger.debug("Attempting to login with Supabase", { email });
     
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -14,10 +12,10 @@ export class LoginService {
     });
 
     if (error) {
-      this.logger.error("Supabase giriş işlemi başarısız", error, { email });
+      LoginLogger.error("Supabase login failed", error, { email });
       throw error;
     }
 
-    this.logger.debug("Supabase giriş işlemi başarılı", { email });
+    LoginLogger.debug("Supabase login successful", { email });
   }
 }

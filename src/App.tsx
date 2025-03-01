@@ -3,12 +3,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { SignUp } from "@/modules/UserManagement/Signup/views/SignupView";
-import { Login } from "@/modules/UserManagement/Login/views/LoginView";
 import { useState, useEffect } from "react";
 import { AuthService } from "@/modules/UserManagement/common/services/AuthService";
 import { supabase } from "@/lib/supabase";
 import Index from "./pages/Index";
 import Landing from "./pages/Landing";
+import Login from "./pages/Login"; // Güncellendi
 import NotFound from "./pages/NotFound";
 import "@/i18n/config";
 import { useToast } from "./hooks/use-toast";
