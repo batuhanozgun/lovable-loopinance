@@ -36,81 +36,12 @@ export type Database = {
         }
         Relationships: []
       }
-      subscription_features: {
-        Row: {
-          available_in_premium: boolean
-          available_in_trial: boolean
-          created_at: string
-          description: string
-          id: string
-          name: string
-          updated_at: string
-        }
-        Insert: {
-          available_in_premium?: boolean
-          available_in_trial?: boolean
-          created_at?: string
-          description: string
-          id?: string
-          name: string
-          updated_at?: string
-        }
-        Update: {
-          available_in_premium?: boolean
-          available_in_trial?: boolean
-          created_at?: string
-          description?: string
-          id?: string
-          name?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
-      subscription_plans: {
-        Row: {
-          created_at: string
-          description: string | null
-          features: Json
-          id: string
-          interval: string
-          name: string
-          price: number
-          type: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          description?: string | null
-          features?: Json
-          id?: string
-          interval: string
-          name: string
-          price: number
-          type: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          description?: string | null
-          features?: Json
-          id?: string
-          interval?: string
-          name?: string
-          price?: number
-          type?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      update_expired_trials: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never
