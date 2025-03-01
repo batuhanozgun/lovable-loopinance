@@ -5,7 +5,7 @@ import { initLoginTranslations } from "@/modules/UserManagement/Login/i18n";
 
 const LoginPage = () => {
   useEffect(() => {
-    // Login çevirilerini başlat
+    // Initialize Login translations
     initLoginTranslations();
   }, []);
   

@@ -5,7 +5,7 @@ import { initLandingPageTranslations } from "@/modules/LandingPage/i18n";
 
 const Landing = () => {
   useEffect(() => {
-    // LandingPage çevirilerini başlat
+    // Initialize LandingPage translations
     initLandingPageTranslations();
   }, []);
   

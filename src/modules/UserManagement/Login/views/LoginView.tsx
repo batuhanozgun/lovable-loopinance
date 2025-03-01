@@ -12,7 +12,7 @@ import { initLoginTranslations } from "../i18n";
 export const Login = () => {
   const { t } = useTranslation(["Login", "common"]);
 
-  // Login modülünün çevirilerini başlat
+  // Initialize translations for the Login module
   useEffect(() => {
     initLoginTranslations();
   }, []);

@@ -17,11 +17,11 @@ import trFooter from './locales/tr/footer.json';
 
 // Initialize landing page module translations
 export const initLandingPageTranslations = () => {
-  // i18n'in başlatılmış olduğundan emin olmak için kontrol edelim
+  // Check if i18n is initialized
   if (!i18n.isInitialized) {
-    console.warn("i18n henüz başlatılmadı, LandingPage çevirileri daha sonra eklenecek");
+    console.warn("i18n not yet initialized, LandingPage translations will be added later");
     
-    // i18n başlatıldığında çevirileri ekleyelim
+    // Add translations once i18n is initialized
     const originalInit = i18n.init;
     i18n.init = function(...args) {
       const result = originalInit.apply(this, args);
@@ -32,14 +32,14 @@ export const initLandingPageTranslations = () => {
     return;
   }
   
-  // i18n başlatılmışsa, çevirileri hemen ekleyelim
+  // If i18n is already initialized, add translations immediately
   addLandingPageResources();
 };
 
-// LandingPage resource bundle'larını ekleyen yardımcı fonksiyon
+// Helper function to add LandingPage resource bundles
 function addLandingPageResources() {
   try {
-    // İngilizce kaynakları ekle
+    // Add English resources
     i18n.addResourceBundle('en', 'LandingPage', {
       hero: enHero,
       features: enFeatures,
@@ -48,7 +48,7 @@ function addLandingPageResources() {
       footer: enFooter
     }, true, true);
 
-    // Türkçe kaynakları ekle
+    // Add Turkish resources
     i18n.addResourceBundle('tr', 'LandingPage', {
       hero: trHero,
       features: trFeatures,
@@ -57,11 +57,11 @@ function addLandingPageResources() {
       footer: trFooter
     }, true, true);
     
-    console.log("LandingPage çevirileri başarıyla eklendi");
+    console.log("LandingPage translations successfully added");
   } catch (error) {
-    console.error("LandingPage çevirileri eklenirken hata oluştu:", error);
+    console.error("Error adding LandingPage translations:", error);
   }
 }
 
-// Modül yüklendiğinde çevirileri otomatik olarak başlat
+// Automatically initialize translations when module is loaded
 initLandingPageTranslations();
