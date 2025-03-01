@@ -76,9 +76,11 @@ const SidebarContent: React.FC = () => {
             "border-r",
             CSS_CLASSES.COLORS.BORDER,
             `z-[${Z_INDEX.SIDEBAR_MOBILE}]`,
-            isExpanded ? "animate-slide-in-left" : "animate-slide-out-left -translate-x-full"
+            isExpanded ? "animate-slide-in-left" : "animate-slide-out-left -translate-x-full",
+            // Mobilde header altında başlamasını sağla
+            "mt-16" // header yüksekliği kadar margin-top
           )}
-          style={{ width: effectiveWidth }}
+          style={{ width: effectiveWidth, height: 'calc(100vh - 64px)' }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}

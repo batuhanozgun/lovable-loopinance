@@ -1,6 +1,7 @@
 
 import React, { ReactNode } from 'react';
 import { Sidebar } from '../Sidebar';
+import { MobileHeader } from '../MobileHeader';
 import { useTranslation } from 'react-i18next';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
 
@@ -15,11 +16,14 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   logger.debug('Layout component rendered');
 
   return (
-    <div className="min-h-screen flex w-full">
-      <Sidebar />
-      <main className="flex-1 bg-background">
-        {children}
-      </main>
+    <div className="min-h-screen flex flex-col w-full">
+      <MobileHeader />
+      <div className="flex flex-1">
+        <Sidebar />
+        <main className="flex-1 bg-background">
+          {children}
+        </main>
+      </div>
     </div>
   );
 };
