@@ -55,9 +55,13 @@ export const Sidebar: React.FC = () => {
   const sidebarContent = (
     <>
       <SidebarHeader />
-      <SidebarNav />
-      <QuickActions />
-      <UserActions />
+      <div className="flex-1 overflow-y-auto">
+        <SidebarNav />
+      </div>
+      <div>
+        <QuickActions />
+        <UserActions />
+      </div>
     </>
   );
 
@@ -88,7 +92,11 @@ export const Sidebar: React.FC = () => {
             // Mobilde header altında başlamasını sağla
             "mt-16" // header yüksekliği kadar margin-top
           )}
-          style={{ width: effectiveWidth, height: 'calc(100vh - 64px)' }}
+          style={{ 
+            width: effectiveWidth, 
+            // Header (64px) + Bottom Nav (64px) = 128px
+            height: 'calc(100vh - 128px)' 
+          }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}

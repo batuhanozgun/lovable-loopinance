@@ -31,14 +31,17 @@ export const SidebarNav: React.FC = () => {
 
   return (
     <div className={cn(
-      "flex-1 overflow-y-auto",
+      "overflow-y-auto",
       CSS_CLASSES.TRANSITIONS.BASE,
       // İçerik geçişini daha iyi kontrol etmek için CSS class değişiklikleri
       (!isExpanded && !isMobile) 
         ? "opacity-90" // İkonları görünür tut ama metni gizle
         : CSS_CLASSES.COLLAPSED.CONTENT_VISIBLE,
       // Mobil modda, daraltılmışken tamamen gizle
-      isMobile && !isExpanded && "hidden"
+      isMobile && !isExpanded && "hidden",
+      // Smooth scrolling
+      "scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-sidebar-border hover:scrollbar-thumb-sidebar-accent",
+      "-webkit-overflow-scrolling-touch"
     )}>
       <Navigation />
     </div>

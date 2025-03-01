@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
-import { Home, BarChart3, Settings, User } from 'lucide-react';
+import { Home, BarChart3, Settings, User, Wallet, Grid, List } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useSidebarContext } from './context/SidebarContext';
 import { 
@@ -25,6 +25,21 @@ export const Navigation: React.FC = () => {
       label: t('AppLayout:navigation.dashboard'), 
       path: '/dashboard', 
       icon: Home 
+    },
+    { 
+      label: t('AppLayout:navigation.accounts'), 
+      path: '/accounts', 
+      icon: Wallet 
+    },
+    { 
+      label: t('AppLayout:navigation.budgets'), 
+      path: '/budgets', 
+      icon: Grid 
+    },
+    { 
+      label: t('AppLayout:navigation.categories'), 
+      path: '/categories', 
+      icon: List 
     },
     { 
       label: t('AppLayout:navigation.analytics'), 

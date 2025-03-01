@@ -113,5 +113,33 @@ export default {
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [
+		require("tailwindcss-animate"),
+		function({ addUtilities }) {
+			const newUtilities = {
+				'.scrollbar-thin': {
+					'scrollbarWidth': 'thin',
+					'&::-webkit-scrollbar': {
+						width: '6px',
+					},
+				},
+				'.scrollbar-thumb-rounded': {
+					'&::-webkit-scrollbar-thumb': {
+						borderRadius: '0.25rem',
+					},
+				},
+				'.scrollbar-thumb-sidebar-border': {
+					'&::-webkit-scrollbar-thumb': {
+						backgroundColor: 'hsl(var(--sidebar-border))',
+					},
+				},
+				'.scrollbar-thumb-sidebar-accent': {
+					'&::-webkit-scrollbar-thumb': {
+						backgroundColor: 'hsl(var(--sidebar-accent))',
+					},
+				},
+			};
+			addUtilities(newUtilities, ['responsive', 'hover']);
+		},
+	],
 } satisfies Config;
