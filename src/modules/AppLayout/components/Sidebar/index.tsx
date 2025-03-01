@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
 import { useSidebarContext } from './context/SidebarContext';
@@ -17,6 +17,7 @@ export const Sidebar: React.FC = () => {
   const { 
     isExpanded, 
     isMobile,
+    toggleSidebar,
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd
@@ -24,6 +25,13 @@ export const Sidebar: React.FC = () => {
   const { effectiveWidth } = useSidebarResize();
   
   logger.debug('Sidebar component rendered', { isExpanded, isMobile, effectiveWidth });
+
+  // Backdrop tıklaması için handler - useCallback ile sarmalıyoruz
+  const handleBackdropClick = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    logger.debug('Backdrop clicked, closing sidebar');
+    toggleSidebar();
+  }, [toggleSidebar, logger]);
 
   // Sidebar bileşeninin stilini dinamik olarak oluştur
   const sidebarStyles = {
@@ -61,10 +69,11 @@ export const Sidebar: React.FC = () => {
         {isExpanded && (
           <div 
             className={cn(
-              "fixed inset-0 bg-black/50 animate-fade-in",
+              "fixed inset-0 bg-black/50 animate-fade-in cursor-pointer",
               `z-[${Z_INDEX.BACKDROP}]`
             )}
-            onClick={() => useSidebarContext().toggleSidebar()}
+            onClick={handleBackdropClick}
+            aria-hidden="true"
           />
         )}
         

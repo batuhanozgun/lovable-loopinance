@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
@@ -18,7 +18,7 @@ export const Navigation: React.FC = () => {
   const { t } = useTranslation(['AppLayout', 'common']);
   const logger = LoggerService.getInstance('AppLayout.Navigation');
   const location = useLocation();
-  const { isExpanded, isMobile } = useSidebarContext();
+  const { isExpanded, isMobile, toggleSidebar } = useSidebarContext();
   
   const navItems = [
     { 
@@ -49,6 +49,14 @@ export const Navigation: React.FC = () => {
     isMobile
   });
 
+  // Navigasyon elemanına tıklandığında mobil görünümde sidebar'ı kapat
+  const handleNavClick = useCallback(() => {
+    if (isMobile && isExpanded) {
+      logger.debug('Navigation item clicked in mobile view, closing sidebar');
+      toggleSidebar();
+    }
+  }, [isMobile, isExpanded, toggleSidebar, logger]);
+
   // Daraltılmış modda tooltip göster (isHovering kaldırıldı)
   const shouldShowTooltip = !isExpanded && !isMobile;
 
@@ -71,6 +79,7 @@ export const Navigation: React.FC = () => {
                 <TooltipTrigger asChild>
                   <Link 
                     to={item.path} 
+                    onClick={handleNavClick}
                     className={cn(
                       "flex items-center w-full rounded-md",
                       CSS_CLASSES.COLLAPSED.ICON_ONLY,
@@ -96,6 +105,7 @@ export const Navigation: React.FC = () => {
             <Link 
               key={item.path}
               to={item.path} 
+              onClick={handleNavClick}
               className={cn(
                 "flex items-center w-full gap-3 rounded-md",
                 CSS_CLASSES.COLORS.TEXT,
