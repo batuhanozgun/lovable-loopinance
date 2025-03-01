@@ -1,7 +1,7 @@
 
 import React, { ReactNode } from 'react';
 import { Sidebar } from '../Sidebar';
-import { MobileHeader } from '../MobileHeader';
+import { AppHeader } from '../AppHeader';
 import { BottomNav } from '../BottomNav';
 import { useTranslation } from 'react-i18next';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
@@ -21,7 +21,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex flex-col w-full">
-        <MobileHeader />
+        <AppHeader />
         <div className="flex flex-1">
           <Sidebar />
           <main className="flex-1 bg-background pb-16 md:pb-0 flex flex-col">

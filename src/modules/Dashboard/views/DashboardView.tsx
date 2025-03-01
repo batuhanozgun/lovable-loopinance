@@ -4,7 +4,9 @@ import { FinancialSummary } from "../sections/FinancialSummary";
 import { RecentTransactions } from "../sections/RecentTransactions";
 import { BudgetGoals } from "../sections/BudgetGoals";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
-import DashboardHeader from "../components/DashboardHeader";
+import { Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { AppHeader } from "@/modules/AppLayout/components/AppHeader";
 
 const DashboardView = () => {
   const { t } = useTranslation(["Dashboard", "common"]);
@@ -12,10 +14,17 @@ const DashboardView = () => {
 
   logger.debug("Dashboard view rendered");
 
+  // Header için aksiyon butonları
+  const headerActions = (
+    <Button size="sm" className="gap-1">
+      <Plus size={16} />
+      {t('common:add')}
+    </Button>
+  );
+
   return (
     <div className="flex flex-col h-full">
-      <DashboardHeader />
-      <div className="p-4 md:p-8">
+      <div className="p-4 md:p-8 pt-0 md:pt-0">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <FinancialSummary />
           <RecentTransactions />
