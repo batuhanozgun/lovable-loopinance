@@ -12,6 +12,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { CSS_CLASSES, SPACING, TRANSITION } from './constants';
 
 export const Navigation: React.FC = () => {
   const { t } = useTranslation(['AppLayout', 'common']);
@@ -54,10 +55,12 @@ export const Navigation: React.FC = () => {
 
   return (
     <nav className={cn(
-      "p-4 space-y-2 transition-all duration-300",
+      SPACING.CONTAINER,
+      "space-y-2",
+      CSS_CLASSES.TRANSITIONS.BASE,
       (!isExpanded && !isHovering && !isMobile) && "items-center"
     )}>
-      <TooltipProvider delayDuration={300}>
+      <TooltipProvider delayDuration={TRANSITION.TOOLTIP_DELAY}>
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           const IconComponent = item.icon;
@@ -70,11 +73,16 @@ export const Navigation: React.FC = () => {
                   <Link 
                     to={item.path} 
                     className={cn(
-                      "flex items-center justify-center w-full text-sidebar-foreground hover:bg-sidebar-accent rounded-md px-3 py-2 transition-all duration-300",
-                      isActive && "bg-sidebar-accent text-sidebar-primary font-medium"
+                      "flex items-center w-full rounded-md",
+                      CSS_CLASSES.COLLAPSED.ICON_ONLY,
+                      CSS_CLASSES.COLORS.TEXT,
+                      CSS_CLASSES.COLORS.ACCENT_HOVER,
+                      SPACING.NAV_ITEM,
+                      CSS_CLASSES.TRANSITIONS.BASE,
+                      isActive && cn(CSS_CLASSES.COLORS.ACCENT, CSS_CLASSES.COLORS.PRIMARY, "font-medium")
                     )}
                   >
-                    <IconComponent size={20} />
+                    <IconComponent size={SPACING.ICON_SIZE} />
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent side="right" className="z-50">
@@ -90,12 +98,16 @@ export const Navigation: React.FC = () => {
               key={item.path}
               to={item.path} 
               className={cn(
-                "flex items-center w-full gap-3 text-sidebar-foreground hover:bg-sidebar-accent rounded-md px-3 py-2 transition-all duration-300",
-                isActive && "bg-sidebar-accent text-sidebar-primary font-medium"
+                "flex items-center w-full gap-3 rounded-md",
+                CSS_CLASSES.COLORS.TEXT,
+                CSS_CLASSES.COLORS.ACCENT_HOVER,
+                SPACING.NAV_ITEM,
+                CSS_CLASSES.TRANSITIONS.BASE,
+                isActive && cn(CSS_CLASSES.COLORS.ACCENT, CSS_CLASSES.COLORS.PRIMARY, "font-medium")
               )}
             >
-              <IconComponent size={20} className="flex-shrink-0" />
-              <span className="transition-opacity duration-300 truncate">
+              <IconComponent size={SPACING.ICON_SIZE} className="flex-shrink-0" />
+              <span className={CSS_CLASSES.TRANSITIONS.OPACITY}>
                 {item.label}
               </span>
             </Link>

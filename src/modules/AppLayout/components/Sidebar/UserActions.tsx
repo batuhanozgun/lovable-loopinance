@@ -16,7 +16,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
-import { TRANSITION_DURATION } from './components/SidebarNav';
+import { CSS_CLASSES, SPACING, TRANSITION } from './constants';
 
 export const UserActions: React.FC = () => {
   const { t } = useTranslation(['AppLayout', 'common']);
@@ -48,12 +48,23 @@ export const UserActions: React.FC = () => {
   // Daraltılmış sidebar ve hover olmadığında - içerik icon olarak görünür
   if (!isExpanded && !isMobile && !isHovering) {
     return (
-      <div className={`p-4 border-t border-sidebar-border flex flex-col gap-2 transition-all duration-${TRANSITION_DURATION}`}>
-        <TooltipProvider delayDuration={300}>
+      <div className={cn(
+        SPACING.SECTION,
+        "border-t flex flex-col gap-2",
+        CSS_CLASSES.COLORS.BORDER,
+        CSS_CLASSES.TRANSITIONS.BASE
+      )}>
+        <TooltipProvider delayDuration={TRANSITION.TOOLTIP_DELAY}>
           <Tooltip>
             <TooltipTrigger asChild>
               <div>
-                <LanguageSelector className="w-full justify-center text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground transition-all" />
+                <LanguageSelector className={cn(
+                  "w-full",
+                  CSS_CLASSES.COLLAPSED.ICON_ONLY,
+                  CSS_CLASSES.COLORS.TEXT,
+                  CSS_CLASSES.COLORS.ACCENT_HOVER,
+                  "transition-all"
+                )} />
               </div>
             </TooltipTrigger>
             <TooltipContent side="right">
@@ -64,7 +75,13 @@ export const UserActions: React.FC = () => {
           <Tooltip>
             <TooltipTrigger asChild>
               <div>
-                <ThemeToggle className="w-full justify-center text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground transition-all" />
+                <ThemeToggle className={cn(
+                  "w-full",
+                  CSS_CLASSES.COLLAPSED.ICON_ONLY,
+                  CSS_CLASSES.COLORS.TEXT,
+                  CSS_CLASSES.COLORS.ACCENT_HOVER,
+                  "transition-all"
+                )} />
               </div>
             </TooltipTrigger>
             <TooltipContent side="right">
@@ -77,11 +94,17 @@ export const UserActions: React.FC = () => {
               <div>
                 <Button 
                   variant="ghost" 
-                  className="w-full justify-center text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground transition-all" 
+                  className={cn(
+                    "w-full",
+                    CSS_CLASSES.COLLAPSED.ICON_ONLY,
+                    CSS_CLASSES.COLORS.TEXT,
+                    CSS_CLASSES.COLORS.ACCENT_HOVER,
+                    "transition-all"
+                  )}
                   onClick={handleSignOut}
                   disabled={isLoggingOut}
                 >
-                  <LogOut size={18} />
+                  <LogOut size={SPACING.ICON_SIZE} />
                 </Button>
               </div>
             </TooltipTrigger>
@@ -102,18 +125,40 @@ export const UserActions: React.FC = () => {
   // Normal görünüm (genişletilmiş sidebar veya hover durumu)
   return (
     <div className={cn(
-      `p-4 border-t border-sidebar-border flex flex-col gap-2 transition-all duration-${TRANSITION_DURATION}`,
-      (!isExpanded && !isHovering && !isMobile) && "opacity-0"
+      SPACING.SECTION,
+      "border-t flex flex-col gap-2",
+      CSS_CLASSES.COLORS.BORDER,
+      CSS_CLASSES.TRANSITIONS.BASE,
+      (!isExpanded && !isHovering && !isMobile) && CSS_CLASSES.COLLAPSED.CONTENT_HIDDEN
     )}>
-      <LanguageSelector className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground transition-all" />
-      <ThemeToggle className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground transition-all" />
+      <LanguageSelector className={cn(
+        "w-full",
+        CSS_CLASSES.COLLAPSED.WITH_TEXT,
+        CSS_CLASSES.COLORS.TEXT,
+        CSS_CLASSES.COLORS.ACCENT_HOVER,
+        "transition-all"
+      )} />
+      <ThemeToggle className={cn(
+        "w-full",
+        CSS_CLASSES.COLLAPSED.WITH_TEXT,
+        CSS_CLASSES.COLORS.TEXT,
+        CSS_CLASSES.COLORS.ACCENT_HOVER,
+        "transition-all"
+      )} />
       <Button 
         variant="ghost" 
-        className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground gap-2 transition-all" 
+        className={cn(
+          "w-full",
+          CSS_CLASSES.COLLAPSED.WITH_TEXT,
+          CSS_CLASSES.COLORS.TEXT,
+          CSS_CLASSES.COLORS.ACCENT_HOVER,
+          SPACING.ITEM_GAP,
+          "transition-all"
+        )}
         onClick={handleSignOut}
         disabled={isLoggingOut}
       >
-        <LogOut size={18} />
+        <LogOut size={SPACING.ICON_SIZE} />
         {isLoggingOut ? t('common:loggingOut') : t('common:logout')}
       </Button>
     </div>

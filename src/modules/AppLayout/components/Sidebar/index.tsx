@@ -4,11 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
 import { SidebarProvider, useSidebarContext } from './context/SidebarContext';
 import { SidebarHeader } from './components/SidebarHeader';
-import { SidebarNav, TRANSITION_DURATION } from './components/SidebarNav';
+import { SidebarNav } from './components/SidebarNav';
 import { QuickActions } from './components/QuickActions';
 import { UserActions } from './UserActions';
 import { useSidebarResize } from './hooks/useSidebarResize';
 import { cn } from '@/lib/utils';
+import { TRANSITION, Z_INDEX, CSS_CLASSES } from './constants';
 
 // Inner component that uses the sidebar context
 const SidebarContent: React.FC = () => {
@@ -32,7 +33,7 @@ const SidebarContent: React.FC = () => {
   const sidebarStyles = {
     width: effectiveWidth,
     minWidth: effectiveWidth,
-    transition: `width ${TRANSITION_DURATION}ms ease-in-out, min-width ${TRANSITION_DURATION}ms ease-in-out, transform ${TRANSITION_DURATION}ms ease-in-out`,
+    transition: `width ${TRANSITION.DURATION}ms ${TRANSITION.EASING}, min-width ${TRANSITION.DURATION}ms ${TRANSITION.EASING}, transform ${TRANSITION.DURATION}ms ${TRANSITION.EASING}`,
   };
 
   // Mobil ekranda kapalıyken overflow'u gizle, açıkken göster
@@ -63,14 +64,21 @@ const SidebarContent: React.FC = () => {
         {/* Overlay backdrop - sidebar açıkken gösterilir */}
         {isExpanded && (
           <div 
-            className="fixed inset-0 bg-black/50 z-40 animate-fade-in"
+            className={cn(
+              "fixed inset-0 bg-black/50 animate-fade-in",
+              `z-[${Z_INDEX.BACKDROP}]`
+            )}
             onClick={() => useSidebarContext().toggleSidebar()}
           />
         )}
         
         <aside 
           className={cn(
-            "fixed top-0 left-0 h-screen bg-sidebar border-r border-sidebar-border flex flex-col z-50 shadow-lg",
+            "fixed top-0 left-0 h-screen flex flex-col shadow-lg",
+            CSS_CLASSES.COLORS.BG,
+            "border-r",
+            CSS_CLASSES.COLORS.BORDER,
+            `z-[${Z_INDEX.SIDEBAR_MOBILE}]`,
             isExpanded ? "animate-slide-in-left" : "animate-slide-out-left -translate-x-full"
           )}
           style={{ width: effectiveWidth }}
@@ -87,7 +95,12 @@ const SidebarContent: React.FC = () => {
   // Desktop görünüm
   return (
     <aside 
-      className="relative h-screen bg-sidebar border-r border-sidebar-border flex flex-col shadow-sm"
+      className={cn(
+        "relative h-screen flex flex-col shadow-sm",
+        CSS_CLASSES.COLORS.BG,
+        "border-r",
+        CSS_CLASSES.COLORS.BORDER
+      )}
       style={sidebarStyles}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

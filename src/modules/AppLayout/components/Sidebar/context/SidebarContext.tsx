@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
-import { BREAKPOINTS } from '../hooks/useSidebarResize';
+import { BREAKPOINTS, TRANSITION } from '../constants';
 
 interface SidebarContextState {
   isExpanded: boolean;
@@ -37,7 +37,7 @@ export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const logger = LoggerService.getInstance('AppLayout.SidebarContext');
   const [state, setState] = useState(initialState);
   
-  // Gesture verilerini saklamak için ref kullanımı
+  // Gesture verilerini saklamak için state kullanımı
   const [touchGesture, setTouchGesture] = useState<TouchGesture>({
     startX: 0,
     currentX: 0,
@@ -58,6 +58,11 @@ export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({ child
         // Mobil görünüme geçildiğinde sidebar'ı daralt
         if (isMobile && prev.isExpanded) {
           return { ...prev, isMobile, isExpanded: false };
+        }
+        
+        // Desktop görünüme geçildiğinde ve sidebar daraltılmışsa, genişlet
+        if (!isMobile && !prev.isExpanded && prev.isMobile) {
+          return { ...prev, isMobile, isExpanded: true };
         }
         
         return { ...prev, isMobile };
@@ -153,6 +158,9 @@ export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       }));
     }
   }, [state.isMobile, state.isExpanded, touchGesture, toggleSidebar, logger]);
+
+  // Eğer otomatik sidebar hover davranışı istiyorsanız, buraya ek bir useEffect ekleyebilirsiniz
+  // Örnek: Belirli bir sürede otomatik kapanma
 
   const contextValue: SidebarContextState = {
     ...state,

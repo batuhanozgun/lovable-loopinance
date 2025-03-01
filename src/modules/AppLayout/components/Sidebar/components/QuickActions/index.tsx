@@ -12,7 +12,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { TRANSITION_DURATION } from '../../components/SidebarNav';
+import { CSS_CLASSES, SPACING, TRANSITION } from '../../constants';
 
 export const QuickActions: React.FC = () => {
   const { t } = useTranslation(['AppLayout', 'common']);
@@ -24,17 +24,27 @@ export const QuickActions: React.FC = () => {
   // Daraltılmış ve hover olmayan durumda tooltip göster
   if (!isExpanded && !isMobile && !isHovering) {
     return (
-      <div className={`px-3 py-2 border-t border-sidebar-border transition-all duration-${TRANSITION_DURATION}`}>
-        <TooltipProvider delayDuration={300}>
+      <div className={cn(
+        SPACING.SECTION,
+        "border-t",
+        CSS_CLASSES.COLORS.BORDER,
+        CSS_CLASSES.TRANSITIONS.BASE
+      )}>
+        <TooltipProvider delayDuration={TRANSITION.TOOLTIP_DELAY}>
           <Tooltip>
             <TooltipTrigger asChild>
               <Button 
                 variant="ghost" 
                 size="sm"
-                className="w-full justify-center text-sidebar-foreground hover:bg-sidebar-accent"
+                className={cn(
+                  "w-full",
+                  CSS_CLASSES.COLLAPSED.ICON_ONLY,
+                  CSS_CLASSES.COLORS.TEXT,
+                  CSS_CLASSES.COLORS.ACCENT_HOVER
+                )}
                 onClick={toggleQuickActions}
               >
-                {showQuickActions ? <X size={18} /> : <Plus size={18} />}
+                {showQuickActions ? <X size={SPACING.ICON_SIZE} /> : <Plus size={SPACING.ICON_SIZE} />}
               </Button>
             </TooltipTrigger>
             <TooltipContent side="right">
@@ -49,21 +59,27 @@ export const QuickActions: React.FC = () => {
   // Normal görünüm
   return (
     <div className={cn(
-      `px-3 py-2 border-t border-sidebar-border transition-all duration-${TRANSITION_DURATION}`,
-      (!isExpanded && !isHovering && !isMobile) && "opacity-0",
+      SPACING.SECTION,
+      "border-t",
+      CSS_CLASSES.COLORS.BORDER,
+      CSS_CLASSES.TRANSITIONS.BASE,
+      (!isExpanded && !isHovering && !isMobile) && CSS_CLASSES.COLLAPSED.CONTENT_HIDDEN,
       isMobile && !isExpanded && "hidden"
     )}>
       <Button 
         variant="ghost" 
         size="sm"
         className={cn(
-          `w-full text-sidebar-foreground hover:bg-sidebar-accent transition-all duration-${TRANSITION_DURATION}`,
-          (isExpanded || isHovering) ? "justify-between" : "justify-center"
+          "w-full",
+          CSS_CLASSES.COLORS.TEXT,
+          CSS_CLASSES.COLORS.ACCENT_HOVER,
+          CSS_CLASSES.TRANSITIONS.BASE,
+          (isExpanded || isHovering) ? CSS_CLASSES.COLLAPSED.WITH_TEXT : CSS_CLASSES.COLLAPSED.ICON_ONLY
         )}
         onClick={toggleQuickActions}
       >
         {(isExpanded || isHovering) && <span>{t('AppLayout:sidebar.quickActions')}</span>}
-        {showQuickActions ? <X size={18} /> : <Plus size={18} />}
+        {showQuickActions ? <X size={SPACING.ICON_SIZE} /> : <Plus size={SPACING.ICON_SIZE} />}
       </Button>
 
       {/* QuickActions menüsü gelecekte buraya eklenecek */}

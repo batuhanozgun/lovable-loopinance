@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight, Menu } from 'lucide-react';
 import { useSidebarContext } from '../../context/SidebarContext';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { CSS_CLASSES, SPACING } from '../../constants';
 
 export const SidebarHeader: React.FC = () => {
   const { t } = useTranslation(['AppLayout', 'common']);
@@ -23,12 +24,17 @@ export const SidebarHeader: React.FC = () => {
 
   return (
     <div className={cn(
-      "p-4 border-b border-sidebar-border flex items-center justify-between transition-all duration-300",
+      SPACING.SECTION,
+      "border-b flex items-center justify-between", 
+      CSS_CLASSES.COLORS.BORDER,
+      CSS_CLASSES.TRANSITIONS.BASE,
       isMobile && !isExpanded && "border-none"
     )}>
       <h1 
         className={cn(
-          "text-xl font-bold text-sidebar-foreground transition-all duration-300 overflow-hidden",
+          "text-xl font-bold overflow-hidden",
+          CSS_CLASSES.COLORS.TEXT,
+          CSS_CLASSES.TRANSITIONS.BASE,
           (!isExpanded && !isMobile && !isHovering) && "opacity-0 w-0"
         )}
       >
@@ -39,12 +45,16 @@ export const SidebarHeader: React.FC = () => {
         variant="ghost"
         size="icon"
         onClick={toggleSidebar}
-        className="bg-transparent hover:bg-sidebar-accent transition-colors rounded-full p-1"
+        className={cn(
+          "bg-transparent rounded-full p-1",
+          CSS_CLASSES.COLORS.ACCENT_HOVER,
+          "transition-colors"
+        )}
         aria-label={isExpanded ? t('AppLayout:sidebar.collapse') : t('AppLayout:sidebar.expand')}
       >
         <ToggleIcon 
-          size={20} 
-          className="text-sidebar-foreground" 
+          size={SPACING.ICON_SIZE + 2} 
+          className={CSS_CLASSES.COLORS.TEXT} 
         />
       </Button>
     </div>

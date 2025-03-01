@@ -1,20 +1,7 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import { useSidebarContext } from '../context/SidebarContext';
-
-// Sidebara ait genişlik değerleri - ekran boyutuna göre
-export const SIDEBAR_WIDTHS = {
-  EXPANDED: '16rem',   // 256px - tam genişlik
-  COLLAPSED: '4.5rem', // 72px - daraltılmış
-  MOBILE: '18rem',     // 288px - mobil (biraz daha geniş)
-} as const;
-
-// Responsive breakpoint değerleri
-export const BREAKPOINTS = {
-  MOBILE: 640,  // sm
-  TABLET: 768,  // md
-  DESKTOP: 1024, // lg
-} as const;
+import { SIDEBAR_WIDTHS, BREAKPOINTS } from '../constants';
 
 export const useSidebarResize = () => {
   const { isExpanded, isMobile, isHovering } = useSidebarContext();

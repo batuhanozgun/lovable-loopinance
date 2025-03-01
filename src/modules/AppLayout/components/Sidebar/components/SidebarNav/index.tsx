@@ -4,9 +4,7 @@ import { LoggerService } from '@/modules/Logging/services/LoggerService';
 import { Navigation } from '../../Navigation';
 import { useSidebarContext } from '../../context/SidebarContext';
 import { cn } from '@/lib/utils';
-
-// Tüm sidebar komponentleri için standart transition değerleri
-export const TRANSITION_DURATION = 300; // ms cinsinden
+import { TRANSITION, CSS_CLASSES } from '../../constants';
 
 export const SidebarNav: React.FC = () => {
   const logger = LoggerService.getInstance('AppLayout.SidebarNav');
@@ -19,7 +17,7 @@ export const SidebarNav: React.FC = () => {
       if (!isExpanded && !isHovering) {
         const timer = setTimeout(() => {
           setIsVisible(false);
-        }, TRANSITION_DURATION); // transition süresi
+        }, TRANSITION.DURATION); // transition süresi
         return () => clearTimeout(timer);
       } else {
         setIsVisible(true);
@@ -33,10 +31,13 @@ export const SidebarNav: React.FC = () => {
 
   return (
     <div className={cn(
-      "flex-1 overflow-y-auto transition-all",
-      `duration-${TRANSITION_DURATION}`,
-      // Hover olduğunda da içeriği hemen göster
-      (!isExpanded && !isHovering && !isMobile) ? "opacity-0" : "opacity-100",
+      "flex-1 overflow-y-auto",
+      CSS_CLASSES.TRANSITIONS.BASE,
+      // Hover veya genişletilmiş durumda göster, değilse gizle
+      (!isExpanded && !isHovering && !isMobile) 
+        ? CSS_CLASSES.COLLAPSED.CONTENT_HIDDEN 
+        : CSS_CLASSES.COLLAPSED.CONTENT_VISIBLE,
+      // Mobil modda, daraltılmışken tamamen gizle
       isMobile && !isExpanded && "hidden"
     )}>
       <Navigation />
