@@ -71,7 +71,10 @@ export const BottomNav: React.FC = () => {
               >
                 <PlusCircle 
                   size={26} 
-                  className="text-primary-foreground transition-transform duration-300 group-hover:rotate-90" 
+                  className={cn(
+                    "text-slate-900 dark:text-primary-foreground", 
+                    "transition-transform duration-300 group-hover:rotate-90"
+                  )} 
                 />
               </Button>
             </div>
