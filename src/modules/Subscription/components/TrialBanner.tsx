@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { SubscriptionController } from "../controllers/SubscriptionController";
 import { useSubscription } from "../hooks/useSubscription";
 import { useTranslation } from "react-i18next";
-import { toast } from "@/hooks/use-toast"; // Doğru import yolu
+import { toast } from "@/hooks/use-toast";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const TrialBanner: React.FC = () => {
   const { status, remainingDays, isLoading, plan } = useSubscription();
@@ -57,12 +58,11 @@ export const TrialBanner: React.FC = () => {
   };
   
   const getMessage = () => {
-    if (isLoading) return t("loading");
     if (status === "premium") {
       return plan ? `${plan.name} ${t("premium.status")}` : t("premium.status");
     }
     if (status === "expired") return t("trialEnding.cta", { ns: "subscription.notifications" });
-    if (remainingDays === null) return t("loading");
+    if (remainingDays === null) return "";
     
     if (remainingDays <= 3) {
       return t("trialEnding.days.3", { ns: "subscription.notifications" });
@@ -75,8 +75,22 @@ export const TrialBanner: React.FC = () => {
     }
   };
   
-  if (isLoading) return null;
+  // Eğer yükleniyor ve henüz veri yok ise banner'ı tamamen gizle
+  if (isLoading && !status) return null;
   
+  // Yükleniyor durumunda "iskelet" banner göster
+  if (isLoading) {
+    return (
+      <div className="px-4 py-2 rounded-md border bg-gray-100 dark:bg-gray-800/20 flex items-center justify-between mt-2 mx-2">
+        <div className="flex items-center gap-2">
+          <Skeleton className="h-5 w-5 rounded-full" />
+          <Skeleton className="h-4 w-40" />
+        </div>
+        <Skeleton className="h-8 w-28" />
+      </div>
+    );
+  }
+
   return (
     <div className={`px-4 py-2 rounded-md border ${getBannerClass()} flex items-center justify-between mt-2 mx-2`}>
       <div className="flex items-center gap-2">

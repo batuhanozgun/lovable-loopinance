@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 import { ISubscription, SubscriptionPlan, SubscriptionType } from "../interfaces/ISubscription";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
@@ -6,7 +7,9 @@ import { DEFAULT_SUBSCRIPTION_PLANS } from "../constants/planConstants";
 export class SubscriptionService {
   private static logger = LoggerService.getInstance("SubscriptionService");
   private static CACHE_TTL = 5 * 60 * 1000; // 5 dakika
-  private static subscriptionCache: {
+  
+  // Cache'i public yaparak useSubscription hook'unda doğrudan erişilebilir hale getiriyoruz
+  static subscriptionCache: {
     data: ISubscription | null;
     timestamp: number;
   } | null = null;
