@@ -1,14 +1,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { cn } from "@/lib/utils";
-
-interface TypewriterProps {
-  texts: string[];
-  typingSpeed?: number;
-  deletingSpeed?: number;
-  delayBetweenTexts?: number;
-  className?: string;
-}
+import { TypewriterProps } from "./types";
 
 export const Typewriter = ({
   texts,
