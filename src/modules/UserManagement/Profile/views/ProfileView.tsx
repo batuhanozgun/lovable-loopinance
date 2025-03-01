@@ -1,8 +1,6 @@
-
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
-import { PageHeader } from "@/components/ui/page-header";
 import { ProfileInfo } from "../components/ProfileInfo";
 import { AccountSettings } from "../components/AccountSettings";
 import { ProfileService } from "@/modules/UserManagement/auth/services/ProfileService";
@@ -112,12 +110,6 @@ export const ProfileView: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-6">
-      <PageHeader
-        title={t("Profile:title")}
-        description={t("Profile:description")}
-        gradient
-      />
-      
       <div className="grid gap-8 mt-8 md:grid-cols-1 lg:grid-cols-2">
         {profileData && (
           <>
