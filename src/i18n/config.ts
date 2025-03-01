@@ -46,6 +46,10 @@ import * as subscriptionNotificationsTR from './locales/tr/Subscription/notifica
 import * as subscriptionPlansUITR from './locales/tr/Subscription/plans/ui.json';
 import * as subscriptionPlansPricingTR from './locales/tr/Subscription/plans/pricing.json';
 
+// Import Landing page translations
+import * as landingEN from './locales/en/landing.json';
+import * as landingTR from './locales/tr/landing.json';
+
 i18n
   .use(initReactI18next)
   .use(LanguageDetector)
@@ -78,7 +82,10 @@ i18n
         'Subscription.ui': subscriptionUIEN,
         'Subscription.notifications': subscriptionNotificationsEN,
         'Subscription.plans.ui': subscriptionPlansUIEN,
-        'Subscription.plans.pricing': subscriptionPlansPricingEN
+        'Subscription.plans.pricing': subscriptionPlansPricingEN,
+        
+        // Landing page translations
+        landing: landingEN
       },
       tr: {
         // Common translations
@@ -102,7 +109,10 @@ i18n
         'Subscription.ui': subscriptionUITR,
         'Subscription.notifications': subscriptionNotificationsTR,
         'Subscription.plans.ui': subscriptionPlansUITR,
-        'Subscription.plans.pricing': subscriptionPlansPricingTR
+        'Subscription.plans.pricing': subscriptionPlansPricingTR,
+        
+        // Landing page translations
+        landing: landingTR
       }
     },
   });
