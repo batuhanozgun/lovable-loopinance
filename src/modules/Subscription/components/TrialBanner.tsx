@@ -1,10 +1,11 @@
+
 import React from "react";
 import { AlertCircle, Sparkles, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SubscriptionController } from "../controllers/SubscriptionController";
 import { useSubscription } from "../hooks/useSubscription";
 import { useTranslation } from "react-i18next";
-import { showSubscriptionToast } from "../helpers/toastHelper";
+import { toast } from "@/hooks/use-toast"; // Doğru import yolu
 
 export const TrialBanner: React.FC = () => {
   const { status, remainingDays, isLoading, plan } = useSubscription();
@@ -16,9 +17,18 @@ export const TrialBanner: React.FC = () => {
     setIsUpgrading(true);
     try {
       await SubscriptionController.handleUpgradeToPremium();
+      toast({
+        title: t("Subscription.notifications.success.title"),
+        description: t("Subscription.notifications.success.upgraded", { plan: "Premium" }),
+        variant: "default"
+      });
     } catch (error) {
       console.error("Premium yükseltme hatası:", error);
-      showSubscriptionToast.error(error instanceof Error ? error : undefined);
+      toast({
+        title: t("Subscription.notifications.error.title"),
+        description: error instanceof Error ? error.message : t("Subscription.notifications.error.fallback"),
+        variant: "destructive"
+      });
     } finally {
       setIsUpgrading(false);
     }

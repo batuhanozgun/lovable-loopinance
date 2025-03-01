@@ -5,6 +5,10 @@ import { SubscriptionController } from "../controllers/SubscriptionController";
 import { PremiumDialog } from "../components/PremiumDialog";
 import { useTranslation } from "react-i18next";
 import { AuthService } from "@/modules/UserManagement/common/services/AuthService";
+import { LoggerService } from "@/modules/Logging/services/LoggerService";
+
+// Logger instance
+const logger = LoggerService.getInstance("SubscriptionProtection");
 
 export function withSubscriptionProtection<P extends object>(
   Component: React.ComponentType<P>
@@ -24,7 +28,7 @@ export function withSubscriptionProtection<P extends object>(
           const user = await AuthService.getCurrentUser();
           setIsAuthenticated(!!user);
         } catch (error) {
-          console.error("Oturum kontrolü sırasında hata:", error);
+          logger.error("Oturum kontrolü sırasında hata:", error);
           setIsAuthenticated(false);
         }
       };
@@ -60,7 +64,7 @@ export function withSubscriptionProtection<P extends object>(
             setShowPremiumDialog(true);
           }
         } catch (error) {
-          console.error("Abonelik durumu kontrol edilirken bir hata oluştu:", error);
+          logger.error("Abonelik durumu kontrol edilirken bir hata oluştu:", error);
           // Hata durumunda erişime izin ver
           setHasAccess(true);
         } finally {
