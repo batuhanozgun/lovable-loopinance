@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { OAuthController } from "../controllers/OAuthController";
+import { GoogleAuthController } from "../controllers/providers/GoogleAuthController";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 
@@ -25,7 +25,7 @@ export const GoogleAuthButton = ({
   const handleGoogleSignIn = async () => {
     setLoading(true);
     try {
-      await OAuthController.handleGoogleSignIn();
+      await GoogleAuthController.handleSignIn();
       // Not needed to handle the success case here because we will be redirected
     } catch (error) {
       // Error handling is done in the controller
