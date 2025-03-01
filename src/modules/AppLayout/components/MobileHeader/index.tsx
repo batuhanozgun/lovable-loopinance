@@ -36,25 +36,25 @@ export const MobileHeader: React.FC = () => {
   logger.debug('MobileHeader rendered', { currentPath: location.pathname });
 
   return (
-    <header className="md:hidden flex items-center justify-between h-16 px-4 border-b bg-gradient-sidebar dark:bg-gradient-sidebar-dark">
+    <header className="md:hidden flex items-center justify-between h-16 px-4 border-b bg-background">
       <div className="flex items-center gap-3">
         <Button
           variant="ghost"
           size="icon"
           aria-label={t('AppLayout:sidebar.toggleMenu')}
           onClick={() => toggleSidebar()}
-          className="text-white"
+          className="text-foreground"
         >
           <Menu size={24} />
         </Button>
       </div>
       
       <div className="flex flex-col items-center">
-        <h1 className="text-lg font-semibold text-white">
+        <h1 className="text-lg font-semibold bg-gradient-to-r from-[rgb(84,85,89)] via-[rgb(108,154,229)] to-[rgb(0,140,158)] dark:from-[hsl(210,13%,40%)] dark:via-[hsl(185,94%,7%)] dark:to-[hsl(185,100%,15%)] bg-clip-text text-transparent">
           {t('common:brandName')}
         </h1>
         {pageTitle && (
-          <span className="text-xs text-white/80">
+          <span className="text-xs text-muted-foreground">
             {pageTitle}
           </span>
         )}

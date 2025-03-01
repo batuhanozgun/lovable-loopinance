@@ -19,12 +19,11 @@ export const SidebarHeader: React.FC = () => {
       "border-b flex items-center justify-center", 
       CSS_CLASSES.COLORS.BORDER,
       CSS_CLASSES.TRANSITIONS.BASE,
-      "bg-gradient-sidebar dark:bg-gradient-sidebar-dark",
       isMobile && !isExpanded && "border-none"
     )}>
       <h1 
         className={cn(
-          "text-xl font-bold overflow-hidden text-white", 
+          "text-xl font-bold overflow-hidden bg-gradient-to-r from-[rgb(84,85,89)] via-[rgb(108,154,229)] to-[rgb(0,140,158)] dark:from-[hsl(210,13%,40%)] dark:via-[hsl(185,94%,7%)] dark:to-[hsl(185,100%,15%)] bg-clip-text text-transparent",
           CSS_CLASSES.TRANSITIONS.BASE,
           (!isExpanded && !isMobile && !isHovering) && "opacity-0 w-0"
         )}

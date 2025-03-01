@@ -84,7 +84,7 @@ export const Sidebar: React.FC = () => {
         <aside 
           className={cn(
             "fixed top-0 left-0 h-screen flex flex-col shadow-lg",
-            "bg-gradient-sidebar dark:bg-gradient-sidebar-dark",
+            CSS_CLASSES.COLORS.BG,
             "border-r",
             CSS_CLASSES.COLORS.BORDER,
             `z-[${Z_INDEX.SIDEBAR_MOBILE}]`,
@@ -112,7 +112,7 @@ export const Sidebar: React.FC = () => {
     <aside 
       className={cn(
         "relative h-screen flex flex-col shadow-sm",
-        "bg-gradient-sidebar dark:bg-gradient-sidebar-dark",
+        CSS_CLASSES.COLORS.BG,
         "border-r",
         CSS_CLASSES.COLORS.BORDER
       )}
