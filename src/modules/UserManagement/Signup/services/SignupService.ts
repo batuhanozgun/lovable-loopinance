@@ -1,97 +1,62 @@
 
-import { supabase } from "@/integrations/supabase/client";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
-import i18next from "i18next";
+import { AuthenticationService } from "./auth/AuthenticationService";
+import { ErrorHandlingService } from "./error/ErrorHandlingService";
+import { ResponseMappingService } from "./response/ResponseMappingService";
+import { AuthLogger } from "../logging/auth/AuthLogger";
+import { AuthToasts } from "../notifications/auth/AuthToasts";
 
 const logger = LoggerService.getInstance("SignupService");
+const authLogger = new AuthLogger();
 
 export class SignupService {
+  /**
+   * Handle user signup with email and password
+   */
   static async signUp(email: string, password: string, firstName: string, lastName: string) {
     try {
-      logger.debug("Attempting to sign up user", { email, firstName, lastName });
+      logger.debug("Orchestrating signup process", { email, firstName, lastName });
+      authLogger.logSignupAttempt(email);
 
-      // Kayıt işlemini gerçekleştir
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            first_name: firstName,
-            last_name: lastName,
-          },
-        },
-      });
-
-      logger.debug("Supabase signup response received", { 
-        hasError: !!error, 
-        hasUser: !!data?.user,
-        errorMessage: error?.message
-      });
-
-      // Tekrarlanan kayıt veya hata durumları için kontrol
+      // Perform authentication
+      const authResult = await AuthenticationService.signUpWithEmailPassword(
+        email, 
+        password, 
+        { firstName, lastName }
+      );
       
-      // 1. Kullanıcı yoksa veya identities dizisi boşsa, bu bir ipucudur
-      if (data?.user && (!data.user.identities || data.user.identities.length === 0)) {
-        logger.warn("Possible repeated signup detected - empty identities", { email });
-        return {
-          success: false,
-          error: i18next.t("userManagement:errors.emailAlreadyExists"),
-        };
+      // Log results
+      if (authResult.success) {
+        authLogger.logSignupSuccess(authResult.user.id, email);
+      } else {
+        authLogger.logSignupFailure(email, authResult.error || "Unknown reason");
       }
       
-      // Not: "Kullanıcı verisi var ama session oluşmadı" kontrolünü kaldırdık
-      // Çünkü yeni kullanıcılar e-posta doğrulaması yapmadan session oluşturmaz
-
-      // E-posta zaten kayıtlı hata kontrolü
-      if (error && error.message.includes("already registered")) {
-        logger.warn("Email already registered", { email, error: error.message });
-        return {
-          success: false,
-          error: i18next.t("userManagement:errors.emailAlreadyExists"),
-        };
+      // Show appropriate toast notifications
+      if (authResult.success) {
+        AuthToasts.showSignupSuccess();
+      } else if (authResult.error?.includes("already registered")) {
+        AuthToasts.showEmailExistsError();
+      } else if (authResult.error?.includes("rate limit")) {
+        AuthToasts.showRateLimitError();
+      } else {
+        AuthToasts.showSignupError(authResult.error);
       }
-
-      // Rate limiting hatası kontrolü
-      if (error && error.message.includes("rate limit")) {
-        logger.warn("Rate limit exceeded during signup", { email, error: error.message });
-        return {
-          success: false,
-          error: i18next.t("userManagement:errors.rateLimitExceeded"),
-        };
-      }
-
-      // Diğer hata türleri için kontrol
-      if (error) {
-        logger.error("Signup error from Supabase", error, { email });
-        return {
-          success: false,
-          error: i18next.t("userManagement:errors.signupFailed"),
-        };
-      }
-
-      // Kullanıcı verisi kontrolü
-      if (!data.user) {
-        logger.warn("Signup failed - no user returned from Supabase", { email });
-        return {
-          success: false,
-          error: i18next.t("userManagement:errors.signupFailed"),
-        };
-      }
-
-      logger.info("User signup successful", { 
-        userId: data.user.id,
-        email: data.user.email 
-      });
-
-      return {
-        success: true,
-        user: data.user,
-      };
+      
+      // Map response
+      return ResponseMappingService.mapAuthResponse(authResult);
+      
     } catch (error) {
+      // Handle unexpected errors
       logger.error("Unexpected error during signup", error);
+      authLogger.logSignupError(email, error);
+      AuthToasts.showSignupError(error instanceof Error ? error : new Error("Signup failed"));
+      
+      // Return error response
+      const errorResponse = ErrorHandlingService.handleSystemError(error);
       return {
         success: false,
-        error: i18next.t("userManagement:errors.signupFailed"),
+        error: errorResponse.error
       };
     }
   }

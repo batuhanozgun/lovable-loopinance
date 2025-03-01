@@ -3,7 +3,7 @@ import { SignupService } from "../services/SignupService";
 import { ISignupForm } from "../interfaces/ISignupForm";
 import { SignupValidator } from "../validators/SignupValidator";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
-import { showSignupToast } from "../helpers/toastHelper";
+import { ValidationToasts } from "../notifications/validation/ValidationToasts";
 
 const logger = LoggerService.getInstance("SignupController");
 
@@ -12,14 +12,15 @@ export class SignupController {
     try {
       logger.debug("Starting signup process", { email: formData.email });
       
-      // Form verilerini doğrula
+      // Validate form data
       const validationResult = SignupValidator.validateSignupInput(formData);
 
       if (!validationResult.success) {
         const validationError = validationResult.error.issues[0];
         logger.warn("Signup validation failed", { error: validationError });
         
-        showSignupToast.error(new Error(validationError.message));
+        // Show validation error toast
+        ValidationToasts.showFormValidationError(validationError.message);
 
         return {
           success: false,
@@ -29,7 +30,7 @@ export class SignupController {
 
       logger.debug("Input validation successful, proceeding to signup");
       
-      // Kayıt işlemini gerçekleştir
+      // Perform signup
       const signupResult = await SignupService.signUp(
         formData.email,
         formData.password,
@@ -37,24 +38,16 @@ export class SignupController {
         formData.lastName
       );
 
-      // Kayıt sonucunu bildiren toast göster
-      if (!signupResult.success) {
-        logger.warn("Signup failed", { error: signupResult.error, email: formData.email });
-        
-        showSignupToast.error(new Error(signupResult.error));
-        
-        return signupResult;
-      } else {
-        logger.info("Signup successful", { email: formData.email });
-        
-        showSignupToast.success();
-        
-        return signupResult;
-      }
+      // Return signup result
+      return signupResult;
+      
     } catch (error) {
       logger.error("Unexpected error in signup controller", error);
       
-      showSignupToast.error(error instanceof Error ? error : new Error("Signup failed"));
+      // Show error toast
+      ValidationToasts.showFormValidationError(
+        error instanceof Error ? error.message : "Signup failed"
+      );
 
       return {
         success: false,
