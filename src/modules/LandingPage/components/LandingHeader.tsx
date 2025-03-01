@@ -9,7 +9,7 @@ export const LandingHeader = () => {
   const { t } = useTranslation(["LandingPage", "common"]);
   
   return (
-    <header className="fixed top-0 left-0 w-full bg-background/80 backdrop-blur-sm py-4 px-6 flex items-center justify-between shadow-sm border-b z-50">
+    <header className="fixed top-0 left-0 w-full bg-gradient-to-r from-[rgba(250,250,250,1)] via-[rgba(108,154,229,1)] to-[rgba(0,140,158,1)] dark:from-[hsla(210,13%,40%,1)] dark:via-[hsla(185,94%,7%,1)] dark:to-[hsla(0,100%,4%,1)] backdrop-blur-sm py-4 px-6 flex items-center justify-between shadow-sm border-b z-50">
       <div className="flex items-center">
         <span className="text-2xl font-bold bg-gradient-to-r from-[rgb(84,85,89)] via-[rgb(108,154,229)] to-[rgb(0,140,158)] dark:from-[hsl(210,13%,40%)] dark:via-[hsl(185,94%,7%)] dark:to-[hsl(185,100%,15%)] bg-clip-text text-transparent">{t("common:brandName")}</span>
       </div>
