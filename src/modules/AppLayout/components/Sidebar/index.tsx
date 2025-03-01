@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
-import { SidebarProvider, useSidebarContext } from './context/SidebarContext';
+import { useSidebarContext } from './context/SidebarContext';
 import { SidebarHeader } from './components/SidebarHeader';
 import { SidebarNav } from './components/SidebarNav';
 import { QuickActions } from './components/QuickActions';
@@ -11,8 +11,7 @@ import { useSidebarResize } from './hooks/useSidebarResize';
 import { cn } from '@/lib/utils';
 import { TRANSITION, Z_INDEX, CSS_CLASSES } from './constants';
 
-// Inner component that uses the sidebar context
-const SidebarContent: React.FC = () => {
+export const Sidebar: React.FC = () => {
   const { t } = useTranslation(['AppLayout', 'common']);
   const logger = LoggerService.getInstance('AppLayout.Sidebar');
   const { 
@@ -104,14 +103,5 @@ const SidebarContent: React.FC = () => {
     >
       {sidebarContent}
     </aside>
-  );
-};
-
-// Ana dışa aktarılan bileşen - Provider ile sarıyor
-export const Sidebar: React.FC = () => {
-  return (
-    <SidebarProvider>
-      <SidebarContent />
-    </SidebarProvider>
   );
 };
