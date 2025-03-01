@@ -124,9 +124,9 @@ export default {
 				'gradient-rotate': 'gradient-rotate 3s ease infinite'
 			},
 			backgroundImage: {
-				// Ters çeviriyoruz: Normal durumda 45 derece, hover durumunda 225 derece
-				'gradient-fab': 'linear-gradient(45deg, rgba(84,85,89,1) 0%, rgba(108,154,229,1) 50%, rgba(0,140,158,1) 100%)',
-				'gradient-fab-hover': 'linear-gradient(225deg, rgba(84,85,89,1) 0%, rgba(108,154,229,1) 50%, rgba(0,140,158,1) 100%)',
+				// Gradient opacity'yi artıralım ve daha belirgin renklere ayarlayalım
+				'gradient-fab': 'linear-gradient(45deg, rgba(84,85,89,1) 0%, rgba(76,108,163,1) 50%, rgba(0,140,158,1) 100%)',
+				'gradient-fab-hover': 'linear-gradient(225deg, rgba(84,85,89,1) 0%, rgba(76,108,163,1) 50%, rgba(0,140,158,1) 100%)',
 				'gradient-fab-dark': 'linear-gradient(45deg, hsla(210,13%,40%,1) 0%, hsla(185,94%,7%,1) 50%, hsla(185,100%,15%,1) 100%)',
 				'gradient-fab-dark-hover': 'linear-gradient(225deg, hsla(210,13%,40%,1) 0%, hsla(185,94%,7%,1) 50%, hsla(185,100%,15%,1) 100%)'
 			}
@@ -161,7 +161,7 @@ export default {
 					'mask-image': 'linear-gradient(to right, transparent, black 20%, black 80%, transparent 100%)'
 				},
 				'.bg-gradient-animate': {
-					'backgroundSize': '200% 200%',
+					'backgroundSize': '100% 100%', // 200% -> 100% olarak değiştirildi, daha az transparan olacak
 					'transition': 'all 0.3s ease'
 				},
 				'.bg-gradient-animate:hover': {
