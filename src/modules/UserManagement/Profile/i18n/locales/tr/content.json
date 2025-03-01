@@ -1,0 +1,32 @@
+
+{
+  "title": "Profil",
+  "description": "Profil bilgilerinizi ve hesap ayarlarınızı görüntüleyin ve yönetin",
+  "sections": {
+    "personalInfo": {
+      "title": "Kişisel Bilgiler",
+      "description": "Kişisel bilgilerinizi ve platformda nasıl göründüğünüzü güncelleyin"
+    },
+    "accountSettings": {
+      "title": "Hesap Ayarları",
+      "description": "Hesap tercihlerinizi, güvenliğinizi ve dil ayarlarınızı yönetin"
+    }
+  },
+  "fields": {
+    "firstName": "Ad",
+    "lastName": "Soyad",
+    "email": "E-posta Adresi",
+    "createdAt": "Hesap Oluşturulma",
+    "lastUpdated": "Son Güncelleme",
+    "language": "Dil",
+    "languageDescription": "Görüntüleme dilini değiştirin",
+    "theme": "Tema",
+    "themeDescription": "Açık ve koyu mod arasında seçim yapın",
+    "password": "Şifre",
+    "passwordDescription": "Hesap şifrenizi değiştirin"
+  },
+  "actions": {
+    "edit": "Profili Düzenle",
+    "changePassword": "Şifre Değiştir"
+  }
+}

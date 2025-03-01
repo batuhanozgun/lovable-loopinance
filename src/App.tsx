@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { SessionService } from "@/modules/UserManagement/auth";
 import { Layout } from "@/modules/AppLayout/components/Layout";
 import { DashboardView } from "@/modules/Dashboard";
+import { ProfileView } from "@/modules/UserManagement/Profile";
 import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
 import "@/i18n/config";
@@ -117,6 +118,18 @@ const App = () => {
               isAuthenticated ? (
                 <Layout>
                   <DashboardView />
+                </Layout>
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              isAuthenticated ? (
+                <Layout>
+                  <ProfileView />
                 </Layout>
               ) : (
                 <Navigate to="/login" />

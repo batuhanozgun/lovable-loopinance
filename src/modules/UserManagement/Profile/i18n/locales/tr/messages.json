@@ -1,0 +1,11 @@
+
+{
+  "updateSuccess": {
+    "title": "Profil Güncellendi",
+    "description": "Profil bilgileriniz başarıyla güncellendi"
+  },
+  "passwordChangeSuccess": {
+    "title": "Şifre Değiştirildi",
+    "description": "Şifreniz başarıyla değiştirildi"
+  }
+}

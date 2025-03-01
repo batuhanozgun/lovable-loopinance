@@ -1,0 +1,32 @@
+
+{
+  "title": "Profile",
+  "description": "View and manage your profile information and account settings",
+  "sections": {
+    "personalInfo": {
+      "title": "Personal Information",
+      "description": "Update your personal details and how others see you on the platform"
+    },
+    "accountSettings": {
+      "title": "Account Settings",
+      "description": "Manage your account preferences, security, and language settings"
+    }
+  },
+  "fields": {
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email Address",
+    "createdAt": "Account Created",
+    "lastUpdated": "Last Updated",
+    "language": "Language",
+    "languageDescription": "Change the display language",
+    "theme": "Theme",
+    "themeDescription": "Choose between light and dark mode",
+    "password": "Password",
+    "passwordDescription": "Change your account password"
+  },
+  "actions": {
+    "edit": "Edit Profile",
+    "changePassword": "Change Password"
+  }
+}

@@ -1,0 +1,11 @@
+
+{
+  "updateSuccess": {
+    "title": "Profile Updated",
+    "description": "Your profile information has been updated successfully"
+  },
+  "passwordChangeSuccess": {
+    "title": "Password Changed",
+    "description": "Your password has been changed successfully"
+  }
+}

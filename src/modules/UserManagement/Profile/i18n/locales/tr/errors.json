@@ -1,0 +1,8 @@
+
+{
+  "sessionNotFound": "Oturum bilgisi alınamadı",
+  "profileNotFound": "Profil bilgileri alınamadı",
+  "loadError": "Profil verisi yüklenemedi",
+  "updateError": "Profil güncellenemedi",
+  "avatarUploadError": "Avatar resmi yüklenemedi"
+}
