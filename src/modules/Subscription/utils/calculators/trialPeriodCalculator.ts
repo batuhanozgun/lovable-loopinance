@@ -1,65 +1,39 @@
 
-import { ISubscription } from "../../interfaces/subscription/ISubscription";
-import { LoggerService } from "@/modules/Logging/services/LoggerService";
+import { ISubscription } from "../../interfaces/ISubscription";
 
 /**
- * Deneme süresi hesaplamaları için yardımcı fonksiyonlar
+ * Deneme süresinin bitimine kalan gün sayısını hesaplar
  */
-class TrialPeriodCalculator {
-  private logger = LoggerService.getInstance("TrialPeriodCalculator");
-
-  /**
-   * Deneme süresinin durumunu hesaplar
-   */
-  calculateTrialStatus(subscription: ISubscription): {
-    isExpired: boolean;
-    remainingDays: number | null;
-    endDate: Date | null;
-  } {
-    if (subscription.type !== 'trial' || !subscription.trial_ends_at) {
-      return {
-        isExpired: true,
-        remainingDays: null,
-        endDate: null
-      };
-    }
-
-    const trialEndsAt = new Date(subscription.trial_ends_at);
-    const now = new Date();
-    
-    const isExpired = now > trialEndsAt;
-    
-    let remainingDays = null;
-    if (!isExpired) {
-      // Milisaniyeden gün hesabı
-      const remainingMilliseconds = trialEndsAt.getTime() - now.getTime();
-      remainingDays = Math.ceil(remainingMilliseconds / (1000 * 60 * 60 * 24));
-    } else {
-      remainingDays = 0;
-    }
-
-    return {
-      isExpired,
-      remainingDays,
-      endDate: trialEndsAt
-    };
+export const calculateRemainingTrialDays = (subscription: ISubscription | null): number | null => {
+  if (!subscription || !subscription.trial_ends_at) {
+    return null;
   }
-
-  /**
-   * Deneme süresinin kritik durumda olup olmadığını kontrol eder
-   */
-  isTrialCritical(remainingDays: number | null): boolean {
-    if (remainingDays === null) return false;
-    return remainingDays <= 7 && remainingDays > 0;
+  
+  const trialEndDate = new Date(subscription.trial_ends_at);
+  const currentDate = new Date();
+  
+  // Trial süresi zaten bittiyse 0 döndür
+  if (currentDate > trialEndDate) {
+    return 0;
   }
+  
+  // Kalan milisaniyeleri hesapla ve günlere çevir
+  const remainingTime = trialEndDate.getTime() - currentDate.getTime();
+  const remainingDays = Math.ceil(remainingTime / (1000 * 60 * 60 * 24));
+  
+  return remainingDays;
+};
 
-  /**
-   * Deneme süresinin bitmesine yakın olup olmadığını kontrol eder
-   */
-  isTrialEnding(remainingDays: number | null): boolean {
-    if (remainingDays === null) return false;
-    return remainingDays <= 3 && remainingDays > 0;
+/**
+ * Deneme süresinin bitip bitmediğini kontrol eder
+ */
+export const isTrialExpired = (subscription: ISubscription | null): boolean => {
+  if (!subscription || !subscription.trial_ends_at) {
+    return true;
   }
-}
-
-export const trialPeriodCalculator = new TrialPeriodCalculator();
+  
+  const trialEndDate = new Date(subscription.trial_ends_at);
+  const currentDate = new Date();
+  
+  return currentDate > trialEndDate;
+};

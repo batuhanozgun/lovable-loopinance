@@ -2,6 +2,7 @@
 import { supabase } from "@/integrations/supabase/client";
 import { ISubscription, SubscriptionPlan, SubscriptionType } from "../interfaces/ISubscription";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
+import { DEFAULT_SUBSCRIPTION_PLANS } from "../constants/planConstants";
 
 export class SubscriptionService {
   private static logger = LoggerService.getInstance("SubscriptionService");
@@ -88,9 +89,9 @@ export class SubscriptionService {
       }
       
       // Cache'i güncelle
-      this.setSubscriptionCache(data);
+      this.setSubscriptionCache(data as ISubscription);
       
-      return data;
+      return data as ISubscription;
     } catch (error) {
       this.logger.error("Abonelik bilgileri alınırken hata oluştu", error);
       throw error;
@@ -254,7 +255,7 @@ export class SubscriptionService {
         name: plan.name,
         price: plan.price,
         interval: plan.interval as 'monthly' | 'yearly',
-        features: Array.isArray(plan.features) ? plan.features : JSON.parse(plan.features),
+        features: Array.isArray(plan.features) ? plan.features : JSON.parse(JSON.stringify(plan.features)),
         description: plan.description
       }));
     } catch (error) {
@@ -267,44 +268,7 @@ export class SubscriptionService {
    * Mevcut abonelik planlarını döndürür
    */
   static getSubscriptionPlans(): SubscriptionPlan[] {
-    return [
-      {
-        id: "trial-plan",
-        type: "trial",
-        name: "Deneme",
-        price: 0,
-        interval: "monthly",
-        features: ["basic-tracking", "limited-accounts", "basic-reports"],
-        description: "3 aylık sınırlı deneme sürümü"
-      },
-      {
-        id: "premium-monthly",
-        type: "premium",
-        name: "Premium",
-        price: 9.99,
-        interval: "monthly",
-        features: ["unlimited-accounts", "advanced-reports", "budgeting", "api-access"],
-        description: "Tam özellikli premium paket"
-      },
-      {
-        id: "premium-yearly",
-        type: "premium",
-        name: "Premium Yıllık",
-        price: 99.99,
-        interval: "yearly",
-        features: ["unlimited-accounts", "advanced-reports", "budgeting", "api-access"],
-        description: "Tam özellikli premium paket (yıllık fatura %16 tasarruf)"
-      },
-      {
-        id: "business-monthly",
-        type: "business",
-        name: "Kurumsal",
-        price: 29.99,
-        interval: "monthly",
-        features: ["unlimited-accounts", "advanced-reports", "budgeting", "api-access", "team-access", "dedicated-support"],
-        description: "Şirketler için kurumsal çözüm"
-      }
-    ];
+    return DEFAULT_SUBSCRIPTION_PLANS;
   }
 
   /**

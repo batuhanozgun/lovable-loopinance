@@ -1,10 +1,22 @@
 
-import { SubscriptionPlan } from "../interfaces/subscription/ISubscription";
+import { SubscriptionPlan } from "../interfaces/ISubscription";
+import { LoggerService } from "@/modules/Logging/services/LoggerService";
 
-/**
- * Abonelik planları
- */
-export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
+const logger = LoggerService.getInstance("planConstants");
+
+export const SUBSCRIPTION_PLAN_TYPES = {
+  TRIAL: 'trial',
+  PREMIUM: 'premium',
+  BASIC: 'basic',
+  BUSINESS: 'business'
+};
+
+export const SUBSCRIPTION_PLAN_INTERVALS = {
+  MONTHLY: 'monthly',
+  YEARLY: 'yearly'
+};
+
+export const DEFAULT_SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
     id: "trial-plan",
     type: "trial",
@@ -43,19 +55,11 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   }
 ];
 
-/**
- * Plan tipleri
- */
-export const PLAN_TYPES = {
-  TRIAL: "trial",
-  PREMIUM: "premium",
-  BUSINESS: "business"
-};
-
-/**
- * Plan dönemleri
- */
-export const PLAN_INTERVALS = {
-  MONTHLY: "monthly",
-  YEARLY: "yearly"
+export const getDefaultSubscriptionPlans = (): SubscriptionPlan[] => {
+  try {
+    return DEFAULT_SUBSCRIPTION_PLANS;
+  } catch (error) {
+    logger.error("Abonelik planları getirilemedi", error);
+    return [];
+  }
 };
