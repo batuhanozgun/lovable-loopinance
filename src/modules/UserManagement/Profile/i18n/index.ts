@@ -10,21 +10,32 @@ import * as messagesEN from './locales/en/messages.json';
 import * as messagesTR from './locales/tr/messages.json';
 
 export const initProfileTranslations = () => {
-  // Kaynaklar henüz yoksa ekle
-  if (!i18n.hasResourceBundle('en', 'Profile')) {
-    i18n.addResourceBundle('en', 'Profile', {
-      ...contentEN,
-      errors: errorsEN,
-      messages: messagesEN,
-    });
-  }
-  
-  if (!i18n.hasResourceBundle('tr', 'Profile')) {
-    i18n.addResourceBundle('tr', 'Profile', {
-      ...contentTR,
-      errors: errorsTR,
-      messages: messagesTR,
-    });
+  // i18n başlatıldı mı kontrol et
+  if (i18n.isInitialized) {
+    // Kaynaklar henüz yoksa ekle (hasResourceBundle yerine daha güvenli bir kontrol)
+    try {
+      // İngilizce çeviriler
+      if (!i18n.exists('Profile:title', { lng: 'en' })) {
+        i18n.addResourceBundle('en', 'Profile', {
+          ...contentEN,
+          errors: errorsEN,
+          messages: messagesEN,
+        });
+      }
+      
+      // Türkçe çeviriler
+      if (!i18n.exists('Profile:title', { lng: 'tr' })) {
+        i18n.addResourceBundle('tr', 'Profile', {
+          ...contentTR,
+          errors: errorsTR,
+          messages: messagesTR,
+        });
+      }
+    } catch (error) {
+      console.warn('Profile çevirileri yüklenirken hata:', error);
+    }
+  } else {
+    console.warn('i18n henüz başlatılmadı, profil çevirileri daha sonra yüklenecek');
   }
 };
 
