@@ -14,15 +14,30 @@ import { cn } from '@/lib/utils';
 const SidebarContent: React.FC = () => {
   const { t } = useTranslation(['AppLayout', 'common']);
   const logger = LoggerService.getInstance('AppLayout.Sidebar');
-  const { isExpanded, isMobile } = useSidebarContext();
+  const { 
+    isExpanded, 
+    isMobile, 
+    isHovering,
+    handleMouseEnter,
+    handleMouseLeave,
+    handleTouchStart,
+    handleTouchMove,
+    handleTouchEnd
+  } = useSidebarContext();
   const { sidebarWidth } = useSidebarResize();
   
-  logger.debug('Sidebar component rendered', { isExpanded, isMobile, sidebarWidth });
+  logger.debug('Sidebar component rendered', { isExpanded, isMobile, sidebarWidth, isHovering });
+
+  // Hover ve expanded durumlarına göre sidebar genişliği
+  const getEffectiveWidth = () => {
+    if (isMobile) return isExpanded ? sidebarWidth : '0';
+    return isExpanded || isHovering ? sidebarWidth : sidebarWidth;
+  };
 
   // Sidebar bileşeninin stilini dinamik olarak oluştur
   const sidebarStyles = {
-    width: sidebarWidth,
-    minWidth: sidebarWidth,
+    width: getEffectiveWidth(),
+    minWidth: getEffectiveWidth(),
     transition: 'width 0.3s ease-in-out, min-width 0.3s ease-in-out, transform 0.3s ease-in-out',
   };
 
@@ -54,17 +69,20 @@ const SidebarContent: React.FC = () => {
         {/* Overlay backdrop - sidebar açıkken gösterilir */}
         {isExpanded && (
           <div 
-            className="fixed inset-0 bg-black/50 z-40"
+            className="fixed inset-0 bg-black/50 z-40 animate-fade-in"
             onClick={() => useSidebarContext().toggleSidebar()}
           />
         )}
         
         <aside 
           className={cn(
-            "fixed top-0 left-0 h-screen bg-sidebar border-r border-sidebar-border flex flex-col z-50 transition-transform duration-300",
-            isExpanded ? "translate-x-0" : "-translate-x-full"
+            "fixed top-0 left-0 h-screen bg-sidebar border-r border-sidebar-border flex flex-col z-50 shadow-lg",
+            isExpanded ? "animate-slide-in-left" : "animate-slide-out-left -translate-x-full"
           )}
-          style={{ width: '16rem' }}
+          style={{ width: sidebarWidth }}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
           {sidebarContent}
         </aside>
@@ -75,8 +93,10 @@ const SidebarContent: React.FC = () => {
   // Desktop görünüm
   return (
     <aside 
-      className="relative h-screen bg-sidebar border-r border-sidebar-border flex flex-col"
+      className="relative h-screen bg-sidebar border-r border-sidebar-border flex flex-col shadow-sm"
       style={sidebarStyles}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {sidebarContent}
     </aside>

@@ -6,34 +6,68 @@ import { Plus, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useSidebarContext } from '../../context/SidebarContext';
 import { cn } from '@/lib/utils';
+import { 
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 export const QuickActions: React.FC = () => {
   const { t } = useTranslation(['AppLayout', 'common']);
   const logger = LoggerService.getInstance('AppLayout.QuickActions');
-  const { isExpanded, showQuickActions, toggleQuickActions } = useSidebarContext();
+  const { isExpanded, showQuickActions, toggleQuickActions, isMobile, isHovering } = useSidebarContext();
   
-  logger.debug('QuickActions rendered', { isExpanded, showQuickActions });
+  logger.debug('QuickActions rendered', { isExpanded, showQuickActions, isMobile, isHovering });
 
-  // QuickActions henüz implemente edilmedi, gelecek aşamalarda eklenecek
-  // Şimdilik sadece toggle butonu gösteriyoruz
+  // Daraltılmış ve hover olmayan durumda tooltip göster
+  if (!isExpanded && !isMobile && !isHovering) {
+    return (
+      <div className="px-3 py-2 border-t border-sidebar-border transition-opacity duration-300">
+        <TooltipProvider delayDuration={300}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                className="w-full justify-center text-sidebar-foreground hover:bg-sidebar-accent"
+                onClick={toggleQuickActions}
+              >
+                {showQuickActions ? <X size={18} /> : <Plus size={18} />}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="right">
+              <p>{t('AppLayout:sidebar.quickActions')}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+    );
+  }
+
+  // Normal görünüm
   return (
-    <div className="px-3 py-2 border-t border-sidebar-border">
+    <div className={cn(
+      "px-3 py-2 border-t border-sidebar-border transition-all duration-300",
+      (!isExpanded && !isHovering && !isMobile) && "opacity-0",
+      isMobile && !isExpanded && "hidden"
+    )}>
       <Button 
         variant="ghost" 
         size="sm"
         className={cn(
-          "w-full justify-between text-sidebar-foreground hover:bg-sidebar-accent",
-          !isExpanded && "justify-center"
+          "w-full text-sidebar-foreground hover:bg-sidebar-accent transition-all duration-300",
+          (isExpanded || isHovering) ? "justify-between" : "justify-center"
         )}
         onClick={toggleQuickActions}
       >
-        {isExpanded && <span>{t('AppLayout:sidebar.quickActions')}</span>}
+        {(isExpanded || isHovering) && <span>{t('AppLayout:sidebar.quickActions')}</span>}
         {showQuickActions ? <X size={18} /> : <Plus size={18} />}
       </Button>
 
       {/* QuickActions menüsü gelecekte buraya eklenecek */}
-      {showQuickActions && isExpanded && (
-        <div className="mt-2 p-2 bg-sidebar-accent rounded-md">
+      {showQuickActions && (isExpanded || isHovering) && (
+        <div className="mt-2 p-2 bg-sidebar-accent rounded-md animate-fade-in">
           <p className="text-sm text-sidebar-foreground">{t('AppLayout:sidebar.comingSoon')}</p>
         </div>
       )}

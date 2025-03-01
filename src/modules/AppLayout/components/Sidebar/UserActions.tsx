@@ -22,7 +22,7 @@ export const UserActions: React.FC = () => {
   const logger = LoggerService.getInstance('AppLayout.UserActions');
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const { toast } = useToast();
-  const { isExpanded } = useSidebarContext();
+  const { isExpanded, isMobile, isHovering } = useSidebarContext();
   
   const handleSignOut = async () => {
     try {
@@ -42,17 +42,17 @@ export const UserActions: React.FC = () => {
     }
   };
   
-  logger.debug('UserActions component rendered', { isExpanded });
+  logger.debug('UserActions component rendered', { isExpanded, isMobile, isHovering });
 
-  // Daraltılmış sidebar için özel UI
-  if (!isExpanded) {
+  // Daraltılmış sidebar ve hover olmadığında - içerik icon olarak görünür
+  if (!isExpanded && !isMobile && !isHovering) {
     return (
-      <div className="p-4 border-t border-sidebar-border flex flex-col gap-2">
+      <div className="p-4 border-t border-sidebar-border flex flex-col gap-2 transition-all duration-300">
         <TooltipProvider delayDuration={300}>
           <Tooltip>
             <TooltipTrigger asChild>
               <div>
-                <LanguageSelector className="w-full justify-center text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground" />
+                <LanguageSelector className="w-full justify-center text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground transition-all" />
               </div>
             </TooltipTrigger>
             <TooltipContent side="right">
@@ -63,7 +63,7 @@ export const UserActions: React.FC = () => {
           <Tooltip>
             <TooltipTrigger asChild>
               <div>
-                <ThemeToggle className="w-full justify-center text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground" />
+                <ThemeToggle className="w-full justify-center text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground transition-all" />
               </div>
             </TooltipTrigger>
             <TooltipContent side="right">
@@ -75,8 +75,8 @@ export const UserActions: React.FC = () => {
             <TooltipTrigger asChild>
               <div>
                 <Button 
-                  variant="outline" 
-                  className="w-full justify-center text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground" 
+                  variant="ghost" 
+                  className="w-full justify-center text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground transition-all" 
                   onClick={handleSignOut}
                   disabled={isLoggingOut}
                 >
@@ -93,14 +93,22 @@ export const UserActions: React.FC = () => {
     );
   }
 
-  // Normal görünüm (genişletilmiş sidebar)
+  // Mobil görünümde eğer sidebar kapalıysa hiçbir şey gösterme
+  if (isMobile && !isExpanded) {
+    return null;
+  }
+
+  // Normal görünüm (genişletilmiş sidebar veya hover durumu)
   return (
-    <div className="p-4 border-t border-sidebar-border flex flex-col gap-2">
-      <LanguageSelector className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground" />
-      <ThemeToggle className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground" />
+    <div className={cn(
+      "p-4 border-t border-sidebar-border flex flex-col gap-2 transition-all duration-300",
+      (!isExpanded && !isHovering && !isMobile) && "opacity-0"
+    )}>
+      <LanguageSelector className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground transition-all" />
+      <ThemeToggle className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground transition-all" />
       <Button 
-        variant="outline" 
-        className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground gap-2" 
+        variant="ghost" 
+        className="w-full justify-start text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground gap-2 transition-all" 
         onClick={handleSignOut}
         disabled={isLoggingOut}
       >

@@ -17,7 +17,7 @@ export const Navigation: React.FC = () => {
   const { t } = useTranslation(['AppLayout', 'common']);
   const logger = LoggerService.getInstance('AppLayout.Navigation');
   const location = useLocation();
-  const { isExpanded } = useSidebarContext();
+  const { isExpanded, isMobile, isHovering } = useSidebarContext();
   
   const navItems = [
     { 
@@ -42,48 +42,59 @@ export const Navigation: React.FC = () => {
     },
   ];
   
-  logger.debug('Navigation component rendered', { currentPath: location.pathname, isExpanded });
+  logger.debug('Navigation component rendered', { 
+    currentPath: location.pathname, 
+    isExpanded, 
+    isMobile,
+    isHovering
+  });
 
   return (
-    <nav className="p-4 space-y-2">
+    <nav className={cn(
+      "p-4 space-y-2 transition-all duration-300",
+      (!isExpanded && !isHovering && !isMobile) && "items-center"
+    )}>
       <TooltipProvider delayDuration={300}>
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           
-          // Daraltılmış durumda tooltip göster
-          if (!isExpanded) {
+          // Daraltılmış durumda tooltip göster (ve hover durumunda değilse)
+          if (!isExpanded && !isMobile && !isHovering) {
             return (
               <Tooltip key={item.path}>
                 <TooltipTrigger asChild>
                   <Link 
                     to={item.path} 
                     className={cn(
-                      "flex items-center justify-center text-sidebar-foreground hover:bg-sidebar-accent rounded-md px-3 py-2 transition-colors",
-                      isActive && "bg-sidebar-accent text-sidebar-foreground-active font-medium"
+                      "flex items-center justify-center text-sidebar-foreground hover:bg-sidebar-accent rounded-md px-3 py-2 transition-all duration-300",
+                      isActive && "bg-sidebar-accent text-sidebar-primary font-medium"
                     )}
                   >
-                    <item.icon size={18} />
+                    <item.icon size={20} />
                   </Link>
                 </TooltipTrigger>
-                <TooltipContent side="right">
+                <TooltipContent side="right" className="z-50">
                   <p>{item.label}</p>
                 </TooltipContent>
               </Tooltip>
             );
           }
           
-          // Normal görünüm
+          // Normal görünüm (genişletilmiş veya hover)
           return (
             <Link 
               key={item.path}
               to={item.path} 
               className={cn(
-                "flex items-center gap-3 text-sidebar-foreground hover:bg-sidebar-accent rounded-md px-3 py-2 transition-colors",
-                isActive && "bg-sidebar-accent text-sidebar-foreground-active font-medium"
+                "flex items-center gap-3 text-sidebar-foreground hover:bg-sidebar-accent rounded-md px-3 py-2 transition-all duration-300",
+                isActive && "bg-sidebar-accent text-sidebar-primary font-medium"
               )}
             >
-              <item.icon size={18} />
-              <span>{item.label}</span>
+              <item.icon size={20} />
+              <span className={cn(
+                "transition-opacity duration-300",
+                (!isExpanded && !isHovering && !isMobile) && "opacity-0 w-0 overflow-hidden"
+              )}>{item.label}</span>
             </Link>
           );
         })}

@@ -2,23 +2,40 @@
 import { useEffect, useState } from 'react';
 import { useSidebarContext } from '../context/SidebarContext';
 
+// Sidebara ait genişlik değerleri - ekran boyutuna göre
+export const SIDEBAR_WIDTHS = {
+  EXPANDED: '16rem',   // 256px - tam genişlik
+  COLLAPSED: '4.5rem', // 72px - daraltılmış
+  MOBILE: '18rem',     // 288px - mobil (biraz daha geniş)
+} as const;
+
+// Responsive breakpoint değerleri
+export const BREAKPOINTS = {
+  MOBILE: 640,  // sm
+  TABLET: 768,  // md
+  DESKTOP: 1024, // lg
+} as const;
+
 export const useSidebarResize = () => {
   const { isExpanded, isMobile } = useSidebarContext();
-  const [sidebarWidth, setSidebarWidth] = useState(isExpanded ? '16rem' : '4.5rem');
+  const [sidebarWidth, setSidebarWidth] = useState(
+    isExpanded ? SIDEBAR_WIDTHS.EXPANDED : SIDEBAR_WIDTHS.COLLAPSED
+  );
   
   useEffect(() => {
     if (isMobile) {
       // Mobil görünümde tam genişlik (overlay olarak açılacak)
-      setSidebarWidth(isExpanded ? '16rem' : '0');
+      setSidebarWidth(SIDEBAR_WIDTHS.MOBILE);
     } else {
       // Desktop görünümde genişletilmiş veya daraltılmış
-      setSidebarWidth(isExpanded ? '16rem' : '4.5rem');
+      setSidebarWidth(isExpanded ? SIDEBAR_WIDTHS.EXPANDED : SIDEBAR_WIDTHS.COLLAPSED);
     }
   }, [isExpanded, isMobile]);
   
   return {
     sidebarWidth,
     isExpanded,
-    isMobile
+    isMobile,
+    widths: SIDEBAR_WIDTHS
   };
 };
