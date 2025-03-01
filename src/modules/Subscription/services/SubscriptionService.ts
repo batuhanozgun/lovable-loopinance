@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { ISubscription, SubscriptionPlan, SubscriptionType } from "../interfaces/ISubscription";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
@@ -75,8 +74,7 @@ export class SubscriptionService {
         return null;
       }
       
-      // session.user.id kullanarak kullanıcının kendi verilerine erişim
-      // RLS kuralları ile korunduğu için sadece kendi verilerini görebilir
+      // RLS politikası aktif olduğu için sadece kendi kayıtlarını alabilir
       const { data, error } = await supabase
         .from("subscriptions")
         .select("*")
