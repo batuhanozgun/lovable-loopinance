@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -124,11 +123,10 @@ export default {
 				'gradient-rotate': 'gradient-rotate 3s ease infinite'
 			},
 			backgroundImage: {
-				// Gradient opacity'yi artıralım ve daha belirgin renklere ayarlayalım
-				'gradient-fab': 'linear-gradient(45deg, rgba(84,85,89,1) 0%, rgba(76,108,163,1) 50%, rgba(0,140,158,1) 100%)',
-				'gradient-fab-hover': 'linear-gradient(225deg, rgba(84,85,89,1) 0%, rgba(76,108,163,1) 50%, rgba(0,140,158,1) 100%)',
-				'gradient-fab-dark': 'linear-gradient(45deg, hsla(210,13%,40%,1) 0%, hsla(185,94%,7%,1) 50%, hsla(185,100%,15%,1) 100%)',
-				'gradient-fab-dark-hover': 'linear-gradient(225deg, hsla(210,13%,40%,1) 0%, hsla(185,94%,7%,1) 50%, hsla(185,100%,15%,1) 100%)'
+				'gradient-fab': 'linear-gradient(45deg, rgb(84,85,89) 0%, rgb(76,108,163) 50%, rgb(0,140,158) 100%)',
+				'gradient-fab-hover': 'linear-gradient(225deg, rgb(84,85,89) 0%, rgb(76,108,163) 50%, rgb(0,140,158) 100%)',
+				'gradient-fab-dark': 'linear-gradient(45deg, hsl(210,13%,40%) 0%, hsl(185,94%,7%) 50%, hsl(185,100%,15%) 100%)',
+				'gradient-fab-dark-hover': 'linear-gradient(225deg, hsl(210,13%,40%) 0%, hsl(185,94%,7%) 50%, hsl(185,100%,15%) 100%)'
 			}
 		}
 	},
@@ -160,13 +158,6 @@ export default {
 				'.gradient-mask': {
 					'mask-image': 'linear-gradient(to right, transparent, black 20%, black 80%, transparent 100%)'
 				},
-				'.bg-gradient-animate': {
-					'backgroundSize': '100% 100%', // 200% -> 100% olarak değiştirildi, daha az transparan olacak
-					'transition': 'all 0.3s ease'
-				},
-				'.bg-gradient-animate:hover': {
-					'backgroundPosition': 'right center'
-				}
 			};
 			addUtilities(newUtilities, ['responsive', 'hover']);
 		},
