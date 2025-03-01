@@ -24,20 +24,14 @@ const SidebarContent: React.FC = () => {
     handleTouchMove,
     handleTouchEnd
   } = useSidebarContext();
-  const { sidebarWidth } = useSidebarResize();
+  const { effectiveWidth } = useSidebarResize();
   
-  logger.debug('Sidebar component rendered', { isExpanded, isMobile, sidebarWidth, isHovering });
-
-  // Hover ve expanded durumlarına göre sidebar genişliği
-  const getEffectiveWidth = () => {
-    if (isMobile) return isExpanded ? sidebarWidth : '0';
-    return isExpanded || isHovering ? sidebarWidth : sidebarWidth;
-  };
+  logger.debug('Sidebar component rendered', { isExpanded, isMobile, effectiveWidth, isHovering });
 
   // Sidebar bileşeninin stilini dinamik olarak oluştur
   const sidebarStyles = {
-    width: getEffectiveWidth(),
-    minWidth: getEffectiveWidth(),
+    width: effectiveWidth,
+    minWidth: effectiveWidth,
     transition: 'width 0.3s ease-in-out, min-width 0.3s ease-in-out, transform 0.3s ease-in-out',
   };
 
@@ -79,7 +73,7 @@ const SidebarContent: React.FC = () => {
             "fixed top-0 left-0 h-screen bg-sidebar border-r border-sidebar-border flex flex-col z-50 shadow-lg",
             isExpanded ? "animate-slide-in-left" : "animate-slide-out-left -translate-x-full"
           )}
-          style={{ width: sidebarWidth }}
+          style={{ width: effectiveWidth }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}

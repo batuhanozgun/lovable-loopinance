@@ -30,8 +30,9 @@ export const SidebarNav: React.FC = () => {
 
   return (
     <div className={cn(
-      "flex-1 overflow-y-auto transition-opacity duration-300",
-      (!isExpanded && !isHovering && !isMobile) && "opacity-0",
+      "flex-1 overflow-y-auto transition-all duration-300",
+      // Hover olduğunda da içeriği hemen göster
+      (!isExpanded && !isHovering && !isMobile) ? "opacity-0" : "opacity-100",
       isMobile && !isExpanded && "hidden"
     )}>
       <Navigation />

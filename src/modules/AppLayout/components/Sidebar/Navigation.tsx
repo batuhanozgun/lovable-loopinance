@@ -49,28 +49,32 @@ export const Navigation: React.FC = () => {
     isHovering
   });
 
+  // Daraltılmış modda ve hover olmadığında tooltip göster
+  const shouldShowTooltip = !isExpanded && !isMobile && !isHovering;
+
   return (
     <nav className={cn(
       "p-4 space-y-2 transition-all duration-300",
       (!isExpanded && !isHovering && !isMobile) && "items-center"
     )}>
-      <TooltipProvider delayDuration={300}>
+      <TooltipProvider delayDuration={500}>
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
+          const IconComponent = item.icon;
           
           // Daraltılmış durumda tooltip göster (ve hover durumunda değilse)
-          if (!isExpanded && !isMobile && !isHovering) {
+          if (shouldShowTooltip) {
             return (
               <Tooltip key={item.path}>
                 <TooltipTrigger asChild>
                   <Link 
                     to={item.path} 
                     className={cn(
-                      "flex items-center justify-center text-sidebar-foreground hover:bg-sidebar-accent rounded-md px-3 py-2 transition-all duration-300",
+                      "flex items-center justify-center w-full text-sidebar-foreground hover:bg-sidebar-accent rounded-md px-3 py-2 transition-all duration-300",
                       isActive && "bg-sidebar-accent text-sidebar-primary font-medium"
                     )}
                   >
-                    <item.icon size={20} />
+                    <IconComponent size={20} />
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent side="right" className="z-50">
@@ -90,11 +94,10 @@ export const Navigation: React.FC = () => {
                 isActive && "bg-sidebar-accent text-sidebar-primary font-medium"
               )}
             >
-              <item.icon size={20} />
-              <span className={cn(
-                "transition-opacity duration-300",
-                (!isExpanded && !isHovering && !isMobile) && "opacity-0 w-0 overflow-hidden"
-              )}>{item.label}</span>
+              <IconComponent size={20} className="flex-shrink-0" />
+              <span className="transition-opacity duration-300 truncate">
+                {item.label}
+              </span>
             </Link>
           );
         })}
