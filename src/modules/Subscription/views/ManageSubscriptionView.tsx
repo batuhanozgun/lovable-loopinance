@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { SubscriptionController } from "../controllers/SubscriptionController";
@@ -9,7 +8,7 @@ import { Sparkles, AlertCircle, CheckCircle } from "lucide-react";
 import { format } from "date-fns";
 import { tr, enUS } from "date-fns/locale";
 import { useTranslation } from "react-i18next";
-import { useToast } from "@/hooks/use-toast";
+import { showSubscriptionToast } from "../helpers/toastHelper";
 import { SubscriptionService } from "../services/SubscriptionService";
 
 const ManageSubscriptionView: React.FC = () => {
@@ -17,7 +16,6 @@ const ManageSubscriptionView: React.FC = () => {
   const { subscription, status, plan, remainingDays, isLoading, refetch } = useSubscription();
   const [isUpgrading, setIsUpgrading] = React.useState(false);
   const [plans, setPlans] = React.useState(SubscriptionService.getSubscriptionPlans());
-  const { toast } = useToast();
   
   const dateLocale = i18n.language === "tr" ? tr : enUS;
   
@@ -26,18 +24,12 @@ const ManageSubscriptionView: React.FC = () => {
     try {
       await SubscriptionController.handleUpgradeToPremium();
       await refetch();
-      toast({
-        title: t("premium.status"),
-        description: t("premium.unlimited"),
-        variant: "default",
-      });
+      // Toast bildirimini güncelliyoruz
+      showSubscriptionToast.premium();
     } catch (error) {
       console.error("Premium yükseltme hatası:", error);
-      toast({
-        title: t("errors:general.title", { ns: "errors" }),
-        description: t("errors:general.description", { ns: "errors" }),
-        variant: "destructive",
-      });
+      // Hata toast'ını güncelliyoruz
+      showSubscriptionToast.error(error instanceof Error ? error : undefined);
     } finally {
       setIsUpgrading(false);
     }
