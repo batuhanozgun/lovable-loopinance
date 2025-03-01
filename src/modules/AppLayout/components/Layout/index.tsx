@@ -2,6 +2,7 @@
 import React, { ReactNode } from 'react';
 import { Sidebar } from '../Sidebar';
 import { MobileHeader } from '../MobileHeader';
+import { BottomNav } from '../BottomNav';
 import { useTranslation } from 'react-i18next';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
 import { SidebarProvider } from '../Sidebar/context/SidebarContext';
@@ -22,10 +23,11 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         <MobileHeader />
         <div className="flex flex-1">
           <Sidebar />
-          <main className="flex-1 bg-background">
+          <main className="flex-1 bg-background pb-16 md:pb-0">
             {children}
           </main>
         </div>
+        <BottomNav />
       </div>
     </SidebarProvider>
   );

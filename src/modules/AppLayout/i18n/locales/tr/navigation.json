@@ -1,7 +1,11 @@
 
 {
-  "dashboard": "Gösterge Paneli",
-  "analytics": "Analitikler",
+  "dashboard": "Ana Sayfa",
+  "analytics": "Analitik",
   "settings": "Ayarlar",
-  "profile": "Profil"
+  "profile": "Profil",
+  "accounts": "Hesaplar",
+  "budgets": "Bütçeler", 
+  "categories": "Kategoriler",
+  "newTransaction": "Yeni İşlem"
 }

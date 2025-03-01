@@ -3,5 +3,9 @@
   "dashboard": "Dashboard",
   "analytics": "Analytics",
   "settings": "Settings",
-  "profile": "Profile"
+  "profile": "Profile",
+  "accounts": "Accounts",
+  "budgets": "Budgets", 
+  "categories": "Categories",
+  "newTransaction": "New Transaction"
 }
