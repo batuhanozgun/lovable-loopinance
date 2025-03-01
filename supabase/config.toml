@@ -1,1 +1,5 @@
+
 project_id = "rqodvnlgmjwgbedzsmoh"
+[edge_functions]
+[edge_functions.update-expired-trials]
+verify_jwt = false

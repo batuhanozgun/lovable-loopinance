@@ -1,8 +1,9 @@
 
-import { SubscriptionService } from "../services/SubscriptionService";
+import { SubscriptionService } from "../services/subscription/SubscriptionService";
+import { SubscriptionStatusService } from "../services/subscription/SubscriptionStatusService";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
 import { showSubscriptionToast } from "../helpers/toastHelper";
-import { SubscriptionStatus } from "../interfaces/ISubscription";
+import { SubscriptionStatus } from "../interfaces/subscription/ISubscription";
 
 export class SubscriptionController {
   private static logger = LoggerService.getInstance("SubscriptionController");
@@ -18,10 +19,6 @@ export class SubscriptionController {
       
       if (success) {
         showSubscriptionToast.premium();
-        
-        // Sayfayı yenile
-        window.location.reload();
-        
         return { success: true };
       }
       
@@ -52,7 +49,7 @@ export class SubscriptionController {
         isPremium, 
         isTrialExpired, 
         remainingDays 
-      } = await SubscriptionService.getSubscriptionStatus();
+      } = await SubscriptionStatusService.getSubscriptionStatus();
       
       // Premium hesap ise sorun yok
       if (isPremium) {
@@ -93,7 +90,7 @@ export class SubscriptionController {
    */
   static async getUserSubscriptionFeatures() {
     try {
-      const { subscription } = await SubscriptionService.getSubscriptionStatus();
+      const { subscription } = await SubscriptionStatusService.getSubscriptionStatus();
       
       if (!subscription) {
         return {
@@ -102,11 +99,11 @@ export class SubscriptionController {
         };
       }
       
-      const plan = SubscriptionService.getSubscriptionPlanByType(subscription.type);
-      
       return {
-        features: plan?.features || [],
-        hasAccess: subscription.type !== 'trial' || !await SubscriptionService.isTrialExpired()
+        features: subscription.type === 'premium' || subscription.type === 'business' 
+          ? ['premium', 'unlimited'] 
+          : ['basic'],
+        hasAccess: subscription.type !== 'trial' || !await SubscriptionStatusService.isTrialExpired()
       };
     } catch (error) {
       this.logger.error("Kullanıcı abonelik özellikleri alınırken hata oluştu", error);
