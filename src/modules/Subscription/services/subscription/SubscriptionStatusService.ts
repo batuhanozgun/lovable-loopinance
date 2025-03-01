@@ -1,6 +1,6 @@
 
-import { ISubscription } from "../../interfaces/subscription/ISubscription";
-import { SubscriptionService } from "./SubscriptionService";
+import { ISubscription } from "../../interfaces/ISubscription";
+import { SubscriptionService } from "../SubscriptionService";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
 import { trialPeriodCalculator } from "../../utils/calculators/trialPeriodCalculator";
 

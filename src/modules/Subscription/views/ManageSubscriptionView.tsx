@@ -24,11 +24,9 @@ const ManageSubscriptionView: React.FC = () => {
     try {
       await SubscriptionController.handleUpgradeToPremium();
       await refetch();
-      // Toast bildirimini güncelliyoruz
       showSubscriptionToast.premium();
     } catch (error) {
       console.error("Premium yükseltme hatası:", error);
-      // Hata toast'ını güncelliyoruz
       showSubscriptionToast.error(error instanceof Error ? error : undefined);
     } finally {
       setIsUpgrading(false);
@@ -48,7 +46,6 @@ const ManageSubscriptionView: React.FC = () => {
       <h1 className="text-3xl font-bold mb-8">{t("currentPlan")}</h1>
       
       <div className="grid gap-6 md:grid-cols-2">
-        {/* Mevcut Plan */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
@@ -123,7 +120,6 @@ const ManageSubscriptionView: React.FC = () => {
           </CardFooter>
         </Card>
         
-        {/* Plan Karşılaştırma */}
         <Card>
           <CardHeader>
             <CardTitle>{t("comparison.title", { ns: "subscription.plans" })}</CardTitle>
@@ -139,21 +135,18 @@ const ManageSubscriptionView: React.FC = () => {
                 <div className="font-medium text-center">{t("premium.title")}</div>
               </div>
               
-              {/* Tüm özellikler için tek bir satır */}
               <div className="grid grid-cols-3 gap-2 text-sm border-t pt-2">
                 <div className="text-muted-foreground">{t("comparison.allFeatures", { ns: "subscription.plans" })}</div>
                 <div className="text-center"><CheckCircle className="mx-auto h-4 w-4 text-green-500" /></div>
                 <div className="text-center"><CheckCircle className="mx-auto h-4 w-4 text-green-500" /></div>
               </div>
               
-              {/* Kullanım süresi - Ana Fark */}
               <div className="grid grid-cols-3 gap-2 text-sm border-t pt-2 font-medium">
                 <div className="text-muted-foreground">{t("comparison.duration", { ns: "subscription.plans" })}</div>
                 <div className="text-center">{t("features.duration.trial")}</div>
                 <div className="text-center">{t("features.duration.premium")}</div>
               </div>
               
-              {/* İşlevsel açıklama - salt görüntüleme */}
               <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-950/20 rounded-md border border-amber-100 dark:border-amber-900/30">
                 <p className="text-sm text-amber-800 dark:text-amber-300">
                   <AlertCircle className="inline-block mr-2 h-4 w-4" />
@@ -165,7 +158,6 @@ const ManageSubscriptionView: React.FC = () => {
         </Card>
       </div>
       
-      {/* Mevcut Planlar */}
       <h2 className="text-2xl font-bold mt-12 mb-6">{t("plans:pricing.title", { ns: "subscription.plans", defaultValue: "Abonelik Planları" })}</h2>
       <div className="grid gap-6 md:grid-cols-3">
         {plans.filter(p => p.type !== "trial").map((plan) => (

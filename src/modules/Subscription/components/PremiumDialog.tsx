@@ -6,7 +6,7 @@ import { SubscriptionController } from "../controllers/SubscriptionController";
 import { Sparkles, Clock, Eye, Check, LogOut } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { showSubscriptionToast } from "../helpers/toastHelper";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 
 interface PremiumDialogProps {

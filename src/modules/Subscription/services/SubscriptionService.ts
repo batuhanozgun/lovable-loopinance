@@ -1,5 +1,5 @@
 
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
 import { ISubscription, SubscriptionPlan, SubscriptionType } from "../interfaces/ISubscription";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
 
@@ -16,6 +16,42 @@ export class SubscriptionService {
    */
   static clearCache() {
     this.subscriptionCache = null;
+    this.logger.debug("Abonelik önbelleği temizlendi");
+  }
+
+  /**
+   * Cache'den abonelik bilgilerini alır
+   */
+  static getSubscriptionCache(): ISubscription | null {
+    const now = Date.now();
+    if (
+      this.subscriptionCache && 
+      this.subscriptionCache.data && 
+      now - this.subscriptionCache.timestamp < this.CACHE_TTL
+    ) {
+      this.logger.debug("Abonelik bilgileri cache'den alındı");
+      return this.subscriptionCache.data;
+    }
+    return null;
+  }
+
+  /**
+   * Cache'e abonelik bilgilerini kaydeder
+   */
+  static setSubscriptionCache(data: ISubscription | null): void {
+    this.subscriptionCache = {
+      data,
+      timestamp: Date.now()
+    };
+    this.logger.debug("Abonelik bilgileri cache'e kaydedildi");
+  }
+
+  /**
+   * Cache TTL süresini günceller
+   */
+  static setCacheTTL(milliseconds: number): void {
+    this.CACHE_TTL = milliseconds;
+    this.logger.debug(`Cache TTL süresi ${milliseconds}ms olarak güncellendi`);
   }
 
   /**
@@ -24,14 +60,9 @@ export class SubscriptionService {
   static async getCurrentSubscription(): Promise<ISubscription | null> {
     try {
       // Cache'i kontrol et
-      const now = Date.now();
-      if (
-        this.subscriptionCache && 
-        this.subscriptionCache.data && 
-        now - this.subscriptionCache.timestamp < this.CACHE_TTL
-      ) {
-        this.logger.debug("Abonelik bilgileri cache'den alındı");
-        return this.subscriptionCache.data;
+      const cachedData = this.getSubscriptionCache();
+      if (cachedData) {
+        return cachedData;
       }
 
       this.logger.debug("Kullanıcı abonelik bilgileri getiriliyor");
@@ -44,12 +75,11 @@ export class SubscriptionService {
       }
       
       // session.user.id kullanarak kullanıcının kendi verilerine erişim
-      const userId = session.user.id;
-      
+      // RLS kuralları ile korunduğu için sadece kendi verilerini görebilir
       const { data, error } = await supabase
         .from("subscriptions")
         .select("*")
-        .eq("user_id", userId)
+        .eq("user_id", session.user.id)
         .maybeSingle();
       
       if (error) {
@@ -58,10 +88,7 @@ export class SubscriptionService {
       }
       
       // Cache'i güncelle
-      this.subscriptionCache = {
-        data,
-        timestamp: now
-      };
+      this.setSubscriptionCache(data);
       
       return data;
     } catch (error) {
