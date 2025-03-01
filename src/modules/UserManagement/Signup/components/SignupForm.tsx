@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { SignupController } from "../controllers/SignupController";
 import { SignupSchema } from "../validators/SignupValidator";
 import { useTranslation } from "react-i18next";
+import { GoogleAuthButton } from "../../OAuth";
 
 export const SignUp = () => {
   const { t } = useTranslation([
