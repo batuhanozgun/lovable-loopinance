@@ -23,8 +23,7 @@ export const SidebarHeader: React.FC = () => {
     )}>
       <h1 
         className={cn(
-          "text-xl font-bold overflow-hidden",
-          CSS_CLASSES.COLORS.TEXT,
+          "text-xl font-bold overflow-hidden bg-gradient-to-r from-[rgb(84,85,89)] via-[rgb(108,154,229)] to-[rgb(0,140,158)] dark:from-[hsl(210,13%,40%)] dark:via-[hsl(185,94%,7%)] dark:to-[hsl(185,100%,15%)] bg-clip-text text-transparent",
           CSS_CLASSES.TRANSITIONS.BASE,
           (!isExpanded && !isMobile && !isHovering) && "opacity-0 w-0"
         )}
