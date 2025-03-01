@@ -17,8 +17,10 @@ export const BREAKPOINTS = {
 } as const;
 
 export const useSidebarResize = () => {
-  const { isExpanded, isMobile } = useSidebarContext();
-  const [sidebarWidth, setSidebarWidth] = useState(
+  const { isExpanded, isMobile, isHovering } = useSidebarContext();
+  
+  // Type hatasını çözmek için açıkça type tanımlıyoruz
+  const [sidebarWidth, setSidebarWidth] = useState<typeof SIDEBAR_WIDTHS[keyof typeof SIDEBAR_WIDTHS]>(
     isExpanded ? SIDEBAR_WIDTHS.EXPANDED : SIDEBAR_WIDTHS.COLLAPSED
   );
   
@@ -31,11 +33,20 @@ export const useSidebarResize = () => {
       setSidebarWidth(isExpanded ? SIDEBAR_WIDTHS.EXPANDED : SIDEBAR_WIDTHS.COLLAPSED);
     }
   }, [isExpanded, isMobile]);
+
+  // Hover durumunda gerçekleşen sidebar genişliği
+  const getHoverWidth = () => {
+    if (!isMobile && !isExpanded && isHovering) {
+      return SIDEBAR_WIDTHS.EXPANDED;
+    }
+    return sidebarWidth;
+  };
   
   return {
     sidebarWidth,
     isExpanded,
     isMobile,
-    widths: SIDEBAR_WIDTHS
+    widths: SIDEBAR_WIDTHS,
+    getHoverWidth
   };
 };
