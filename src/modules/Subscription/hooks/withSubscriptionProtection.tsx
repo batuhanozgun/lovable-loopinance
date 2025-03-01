@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 import { SubscriptionController } from "../controllers/SubscriptionController";
 import { PremiumDialog } from "../components/PremiumDialog";
 import { useTranslation } from "react-i18next";
-import { supabase } from "@/lib/supabase";
+import { AuthService } from "@/modules/UserManagement/common/services/AuthService";
 
 export function withSubscriptionProtection<P extends object>(
   Component: React.ComponentType<P>
@@ -21,8 +21,8 @@ export function withSubscriptionProtection<P extends object>(
     useEffect(() => {
       const checkAuth = async () => {
         try {
-          const { data: { session } } = await supabase.auth.getSession();
-          setIsAuthenticated(!!session && !!session.user);
+          const user = await AuthService.getCurrentUser();
+          setIsAuthenticated(!!user);
         } catch (error) {
           console.error("Oturum kontrolü sırasında hata:", error);
           setIsAuthenticated(false);
@@ -31,8 +31,8 @@ export function withSubscriptionProtection<P extends object>(
       
       checkAuth();
       
-      const subscription = supabase.auth.onAuthStateChange((event, session) => {
-        setIsAuthenticated(!!session && !!session.user);
+      const subscription = AuthService.onAuthStateChange((authState) => {
+        setIsAuthenticated(authState);
       });
       
       return () => {

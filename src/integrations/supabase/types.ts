@@ -111,6 +111,8 @@ export type Database = {
       subscriptions: {
         Row: {
           created_at: string
+          current_period_end: string | null
+          current_period_start: string | null
           id: string
           is_trial_notified: boolean
           metadata: Json
@@ -124,6 +126,8 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
           id?: string
           is_trial_notified?: boolean
           metadata?: Json
@@ -137,6 +141,8 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
           id?: string
           is_trial_notified?: boolean
           metadata?: Json
