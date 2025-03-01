@@ -1,15 +1,17 @@
 
 import React, { useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
 import { useSidebarContext } from './context/SidebarContext';
-import { SidebarHeader } from './components/SidebarHeader';
 import { SidebarNav } from './components/SidebarNav';
 import { QuickActions } from './components/QuickActions';
 import { UserActions } from './UserActions';
 import { useSidebarResize } from './hooks/useSidebarResize';
 import { cn } from '@/lib/utils';
-import { TRANSITION, Z_INDEX, CSS_CLASSES } from './constants';
+import { TRANSITION, Z_INDEX, CSS_CLASSES, SPACING } from './constants';
+import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 export const Sidebar: React.FC = () => {
   const { t } = useTranslation(['AppLayout', 'common']);
@@ -51,10 +53,52 @@ export const Sidebar: React.FC = () => {
     };
   }, [isExpanded, isMobile]);
 
+  // Toggle butonu için render
+  const renderToggleButton = () => {
+    // Mobil görünümde toggle butonu gösterme
+    if (isMobile) return null;
+
+    return (
+      <TooltipProvider delayDuration={500}>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className={cn(
+                "absolute right-0 translate-x-1/2 top-4 z-20",
+                "h-8 w-8 rounded-full p-0 flex justify-center items-center",
+                "bg-background/80 backdrop-blur-sm border shadow-sm",
+                CSS_CLASSES.TRANSITIONS.BASE,
+                "hover:bg-accent/50"
+              )}
+              onClick={toggleSidebar}
+              aria-label={isExpanded 
+                ? t('AppLayout:sidebar.collapse') 
+                : t('AppLayout:sidebar.expand')
+              }
+            >
+              {isExpanded ? (
+                <ChevronLeft size={16} className="text-sidebar-foreground" />
+              ) : (
+                <ChevronRight size={16} className="text-sidebar-foreground" />
+              )}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            {isExpanded 
+              ? t('AppLayout:sidebar.collapse') 
+              : t('AppLayout:sidebar.expand')
+            }
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  };
+
   // Sidebar render edilirken gösterilecek UI
   const sidebarContent = (
     <>
-      <SidebarHeader />
       <div className="flex-1 overflow-y-auto">
         <SidebarNav />
       </div>
@@ -118,6 +162,9 @@ export const Sidebar: React.FC = () => {
       )}
       style={sidebarStyles}
     >
+      {/* Toggle butonu */}
+      {renderToggleButton()}
+      
       {sidebarContent}
     </aside>
   );

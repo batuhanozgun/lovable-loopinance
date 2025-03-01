@@ -4,7 +4,7 @@ import { LoggerService } from '@/modules/Logging/services/LoggerService';
 import { Navigation } from '../../Navigation';
 import { useSidebarContext } from '../../context/SidebarContext';
 import { cn } from '@/lib/utils';
-import { TRANSITION, CSS_CLASSES } from '../../constants';
+import { TRANSITION, CSS_CLASSES, SPACING } from '../../constants';
 
 export const SidebarNav: React.FC = () => {
   const logger = LoggerService.getInstance('AppLayout.SidebarNav');
@@ -31,7 +31,7 @@ export const SidebarNav: React.FC = () => {
 
   return (
     <div className={cn(
-      "overflow-y-auto",
+      "overflow-y-auto pt-4", // header olmadığı için azaltılmış padding-top
       CSS_CLASSES.TRANSITIONS.BASE,
       // İçerik geçişini daha iyi kontrol etmek için CSS class değişiklikleri
       (!isExpanded && !isMobile) 

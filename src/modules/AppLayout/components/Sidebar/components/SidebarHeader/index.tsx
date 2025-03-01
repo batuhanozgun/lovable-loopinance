@@ -9,12 +9,18 @@ import { CSS_CLASSES, SPACING, Z_INDEX } from '../../constants';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
+/**
+ * @deprecated Bu bileşen artık kullanılmıyor. Toggle buton Sidebar bileşenine taşındı.
+ * 
+ * SidebarHeader - Sidebar'ın üst kısmında bulunan başlık ve daraltma butonu
+ * Not: Bu bileşen artık kullanılmıyor, ancak referans için korundu.
+ */
 export const SidebarHeader: React.FC = () => {
   const { t } = useTranslation(['AppLayout', 'common']);
   const logger = LoggerService.getInstance('AppLayout.SidebarHeader');
   const { isExpanded, isMobile, isHovering, toggleSidebar } = useSidebarContext();
   
-  logger.debug('SidebarHeader rendered', { isExpanded, isMobile, isHovering });
+  logger.debug('SidebarHeader rendered - DEPRECATED', { isExpanded, isMobile, isHovering });
 
   return (
     <div className={cn(

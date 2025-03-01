@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
 import { BREAKPOINTS, TRANSITION } from '../constants';
@@ -6,7 +5,7 @@ import { BREAKPOINTS, TRANSITION } from '../constants';
 interface SidebarContextState {
   isExpanded: boolean;
   isMobile: boolean;
-  isHovering: boolean; // Kalıyor ama artık kullanılmayacak
+  isHovering: boolean;
   toggleSidebar: () => void;
   showQuickActions: boolean;
   toggleQuickActions: () => void;
@@ -82,8 +81,6 @@ export const SidebarProvider: React.FC<{ children: React.ReactNode }> = ({ child
       return { ...prev, showQuickActions: !prev.showQuickActions };
     });
   }, [logger]);
-
-  // Mouse enter ve leave handler'ları kaldırıldı
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     if (state.isMobile) {
