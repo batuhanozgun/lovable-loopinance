@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
@@ -109,8 +110,8 @@ export const ProfileView: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-6">
-      <div className="grid gap-8 mt-8 md:grid-cols-1 lg:grid-cols-2">
+    <div className="container mx-auto px-4 py-4">
+      <div className="grid gap-4 mt-4 md:grid-cols-1 lg:grid-cols-2">
         {profileData && (
           <>
             <ProfileInfo

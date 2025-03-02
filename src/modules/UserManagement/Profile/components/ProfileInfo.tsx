@@ -69,15 +69,15 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({ profile, onUpdateProfi
 
   return (
     <Card className="shadow-md">
-      <CardHeader>
+      <CardHeader className="pb-3">
         <CardTitle>{t("Profile:sections.personalInfo.title")}</CardTitle>
         <CardDescription>
           {t("Profile:sections.personalInfo.description")}
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col items-center mb-6">
-          <Avatar className="w-24 h-24 mb-4">
+        <div className="flex flex-col items-center mb-4">
+          <Avatar className="w-24 h-24 mb-2">
             <AvatarImage src={profile.avatar_url || ""} alt={`${firstName} ${lastName}`} />
             <AvatarFallback className="text-xl">{getInitials()}</AvatarFallback>
           </Avatar>
@@ -89,10 +89,10 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({ profile, onUpdateProfi
           </div>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           {isEditing ? (
             <>
-              <div className="grid gap-3">
+              <div className="grid gap-2">
                 <label className="text-sm font-medium">
                   {t("Profile:fields.firstName")}
                 </label>
@@ -103,7 +103,7 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({ profile, onUpdateProfi
                 />
               </div>
               
-              <div className="grid gap-3">
+              <div className="grid gap-2">
                 <label className="text-sm font-medium">
                   {t("Profile:fields.lastName")}
                 </label>
@@ -114,7 +114,7 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({ profile, onUpdateProfi
                 />
               </div>
               
-              <div className="flex gap-2 justify-end mt-4">
+              <div className="flex gap-2 justify-end mt-3">
                 <Button 
                   variant="outline" 
                   onClick={handleCancel}
@@ -134,8 +134,8 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({ profile, onUpdateProfi
             </>
           ) : (
             <>
-              <div className="grid gap-3">
-                <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-2">
+                <div className="grid grid-cols-2 gap-2">
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">
                       {t("Profile:fields.firstName")}
@@ -151,8 +151,8 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({ profile, onUpdateProfi
                 </div>
               </div>
               
-              <div className="grid gap-3 mt-6">
-                <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-2 mt-4">
+                <div className="grid grid-cols-2 gap-2">
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">
                       {t("Profile:fields.createdAt")}
@@ -168,7 +168,7 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({ profile, onUpdateProfi
                 </div>
               </div>
               
-              <div className="flex justify-end mt-4">
+              <div className="flex justify-end mt-3">
                 <Button 
                   variant="outline" 
                   onClick={() => setIsEditing(true)}
