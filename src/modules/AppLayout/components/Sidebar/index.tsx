@@ -96,17 +96,17 @@ export const Sidebar: React.FC = () => {
     );
   };
 
-  // Sidebar render edilirken gösterilecek UI
+  // Sidebar içeriği - height kontrolü eklendi
   const sidebarContent = (
-    <>
-      <div className="flex-1 overflow-y-auto">
+    <div className="flex flex-col h-full">
+      <div className="flex-1 overflow-hidden">
         <SidebarNav />
       </div>
       <div>
         <QuickActions />
         <UserActions />
       </div>
-    </>
+    </div>
   );
 
   // Mobile görünüm (overlay)
@@ -127,19 +127,15 @@ export const Sidebar: React.FC = () => {
         
         <aside 
           className={cn(
-            "fixed top-0 left-0 h-screen flex flex-col shadow-lg",
+            "fixed top-16 left-0 h-[calc(100vh-128px)] flex flex-col shadow-lg",
             CSS_CLASSES.COLORS.BG,
             "border-r",
             CSS_CLASSES.COLORS.BORDER,
             `z-[${Z_INDEX.SIDEBAR_MOBILE}]`,
-            isExpanded ? "animate-slide-in-left" : "animate-slide-out-left -translate-x-full",
-            // Mobilde header altında başlamasını sağla
-            "mt-16" // header yüksekliği kadar margin-top
+            isExpanded ? "animate-slide-in-left" : "animate-slide-out-left -translate-x-full"
           )}
           style={{ 
-            width: effectiveWidth, 
-            // Header (64px) + Bottom Nav (64px) = 128px
-            height: 'calc(100vh - 128px)' 
+            width: effectiveWidth
           }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
@@ -151,11 +147,11 @@ export const Sidebar: React.FC = () => {
     );
   }
 
-  // Desktop görünüm - mouseover ve mouseout event'leri kaldırıldı
+  // Desktop görünüm
   return (
     <aside 
       className={cn(
-        "relative h-screen flex flex-col shadow-sm",
+        "h-[calc(100vh-64px)] flex flex-col shadow-sm",
         CSS_CLASSES.COLORS.BG,
         "border-r",
         CSS_CLASSES.COLORS.BORDER
