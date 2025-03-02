@@ -63,7 +63,7 @@ export const HeroSection = () => {
           />
           {/* Dark mode görseli */}
           <img 
-            src="/lovable-uploads/43cfc13f-b8aa-4084-a8bc-754258bdc616.png" 
+            src="/lovable-uploads/e9f8067e-6751-4920-b74e-8b5e742a2f3c.png" 
             alt={t("hero.image.alt")} 
             className={`w-full h-full object-cover rounded-lg absolute top-0 left-0 transition-opacity duration-500 ${isDarkMode ? 'opacity-100' : 'opacity-0'}`}
           />
