@@ -16,8 +16,10 @@ const LayoutContent = ({ children }: { children: ReactNode }) => {
   const { effectiveWidth } = useSidebarResize();
   
   // İçeriği sidebar genişliğine göre ayarla (sadece desktop modunda)
+  // Burada da marginLeft'i doğru şekilde ayarlıyoruz
   const mainStyle = !isMobile ? {
-    marginLeft: isExpanded ? effectiveWidth : effectiveWidth
+    marginLeft: effectiveWidth,
+    paddingTop: '4px', // İçerik için küçük bir padding ekliyoruz
   } : undefined;
   
   return (

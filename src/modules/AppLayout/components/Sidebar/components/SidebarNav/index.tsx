@@ -31,7 +31,7 @@ export const SidebarNav: React.FC = () => {
 
   return (
     <div className={cn(
-      "overflow-y-auto pt-4", // header olmadığı için azaltılmış padding-top
+      "overflow-y-auto pt-2", // pt-4'ten pt-2'ye değiştirildi 
       CSS_CLASSES.TRANSITIONS.BASE,
       // İçerik geçişini daha iyi kontrol etmek için CSS class değişiklikleri
       (!isExpanded && !isMobile) 

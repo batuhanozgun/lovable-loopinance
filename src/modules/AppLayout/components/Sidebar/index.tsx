@@ -67,7 +67,7 @@ export const Sidebar: React.FC = () => {
               variant="ghost"
               size="icon"
               className={cn(
-                "absolute right-0 translate-x-1/2 top-4 z-[30]", // z-index değeri sidebar ile aynı
+                "absolute right-0 translate-x-1/2 top-6", // top değerini 4'ten 6'ya güncelledik (24px)
                 "h-8 w-8 rounded-full p-0 flex justify-center items-center",
                 "bg-background/80 backdrop-blur-sm border shadow-sm",
                 CSS_CLASSES.TRANSITIONS.BASE,
@@ -100,7 +100,7 @@ export const Sidebar: React.FC = () => {
   // Sidebar render edilirken gösterilecek UI
   const sidebarContent = (
     <>
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto pt-2"> {/* pt-4'ten pt-2'ye değiştirildi */}
         <SidebarNav />
       </div>
       <div>
@@ -128,7 +128,7 @@ export const Sidebar: React.FC = () => {
         
         <aside 
           className={cn(
-            "fixed left-0 h-screen flex flex-col shadow-lg",
+            "fixed left-0 flex flex-col shadow-lg",
             CSS_CLASSES.COLORS.BG,
             "border-r",
             CSS_CLASSES.COLORS.BORDER,
@@ -138,7 +138,7 @@ export const Sidebar: React.FC = () => {
           style={{ 
             width: effectiveWidth,
             top: `${HEADER_HEIGHT.mobile}px`, // Header yüksekliğini px cinsinden kullanıyoruz
-            height: `calc(100vh - ${HEADER_HEIGHT.mobile}px)` // Height hesabını düzeltiyoruz
+            height: `calc(100vh - ${HEADER_HEIGHT.mobile}px + 8px)` // 8px ekstra alan ekledik
           }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
@@ -163,7 +163,7 @@ export const Sidebar: React.FC = () => {
       style={{
         ...sidebarStyles,
         top: `${HEADER_HEIGHT.desktop}px`, // Header yüksekliğini px cinsinden kullanıyoruz 
-        height: `calc(100vh - ${HEADER_HEIGHT.desktop}px)` // Height hesabını düzeltiyoruz
+        height: `calc(100vh - ${HEADER_HEIGHT.desktop}px + 8px)` // 8px ekstra alan ekledik
       }}
     >
       {/* Toggle butonu */}
