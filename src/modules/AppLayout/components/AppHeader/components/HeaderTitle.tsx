@@ -36,12 +36,23 @@ export const HeaderTitle: React.FC<HeaderTitleProps> = ({
   const titleText = title || t('common:welcome');
   const timestampText = timestamp || format(new Date(), "HH:mm");
 
+  // Sadece başlığı göster veya başlık ve diğer bilgileri göster
+  if (!showTimestamp && !description) {
+    return (
+      <div className={className}>
+        <h1 className="text-xl md:text-2xl font-semibold tracking-tight">{titleText}</h1>
+      </div>
+    );
+  }
+
   return (
     <div className={cn('space-y-1', className)}>
       <h1 className="text-xl md:text-2xl font-semibold tracking-tight">{titleText}</h1>
-      <p className="text-sm md:text-base text-muted-foreground">
-        {descriptionText}
-      </p>
+      {description && (
+        <p className="text-sm md:text-base text-muted-foreground">
+          {descriptionText}
+        </p>
+      )}
       
       {showTimestamp && (
         <div className="flex items-center text-xs text-muted-foreground">

@@ -50,7 +50,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
 
   return (
     <header className={cn(
-      "flex items-center justify-between px-4 py-4 border-b bg-background/80 backdrop-blur-sm",
+      "flex items-center justify-between px-4 py-2 border-b bg-background/80 backdrop-blur-sm",
       "sticky top-0 z-10 transition-all duration-200",
       className
     )}>
@@ -60,7 +60,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
         <div className="hidden md:block">
           <HeaderTitle 
             title={pageTitle} 
-            description={description}
+            showTimestamp={false} 
           />
         </div>
         

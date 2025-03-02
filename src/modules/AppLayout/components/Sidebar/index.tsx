@@ -99,10 +99,10 @@ export const Sidebar: React.FC = () => {
   // Sidebar render edilirken gösterilecek UI
   const sidebarContent = (
     <>
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-sidebar-border">
         <SidebarNav />
       </div>
-      <div>
+      <div className="flex-shrink-0">
         <QuickActions />
         <UserActions />
       </div>
@@ -138,8 +138,8 @@ export const Sidebar: React.FC = () => {
           )}
           style={{ 
             width: effectiveWidth, 
-            // Header (64px) + Bottom Nav (64px) = 128px
-            height: 'calc(100vh - 128px)' 
+            // Header (48px) + Bottom Nav (64px) = 112px
+            height: 'calc(100vh - 112px)' 
           }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
@@ -155,7 +155,7 @@ export const Sidebar: React.FC = () => {
   return (
     <aside 
       className={cn(
-        "relative h-[calc(100vh-64px)] flex flex-col shadow-sm",
+        "relative h-[calc(100vh-48px)] flex flex-col shadow-sm",
         CSS_CLASSES.COLORS.BG,
         "border-r",
         CSS_CLASSES.COLORS.BORDER
