@@ -22,7 +22,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
     <SidebarProvider>
       <div className="min-h-screen flex flex-col w-full">
         <AppHeader />
-        <div className="flex flex-1 overflow-hidden">
+        <div className="flex flex-1">
           <Sidebar />
           <main className="flex-1 bg-background pb-16 md:pb-0 flex flex-col">
             <PageContainer className="flex-1 overflow-y-auto">

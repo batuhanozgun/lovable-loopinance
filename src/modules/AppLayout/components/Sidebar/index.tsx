@@ -155,7 +155,7 @@ export const Sidebar: React.FC = () => {
   return (
     <aside 
       className={cn(
-        "relative h-[calc(100vh-48px)] flex flex-col shadow-sm",
+        "relative h-full flex flex-col shadow-sm",
         CSS_CLASSES.COLORS.BG,
         "border-r",
         CSS_CLASSES.COLORS.BORDER
