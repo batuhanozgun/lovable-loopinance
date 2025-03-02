@@ -10,7 +10,6 @@ import { UserActions } from './UserActions';
 import { useSidebarResize } from './hooks/useSidebarResize';
 import { cn } from '@/lib/utils';
 import { TRANSITION, Z_INDEX, CSS_CLASSES, SPACING } from './constants';
-import { HEADER_HEIGHT } from '../AppHeader/constants/header';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
@@ -67,7 +66,7 @@ export const Sidebar: React.FC = () => {
               variant="ghost"
               size="icon"
               className={cn(
-                "absolute right-0 translate-x-1/2 top-6", // top değerini 4'ten 6'ya güncelledik (24px)
+                "absolute right-0 translate-x-1/2 top-4 z-20",
                 "h-8 w-8 rounded-full p-0 flex justify-center items-center",
                 "bg-background/80 backdrop-blur-sm border shadow-sm",
                 CSS_CLASSES.TRANSITIONS.BASE,
@@ -100,7 +99,7 @@ export const Sidebar: React.FC = () => {
   // Sidebar render edilirken gösterilecek UI
   const sidebarContent = (
     <>
-      <div className="flex-1 overflow-y-auto pt-2"> {/* pt-4'ten pt-2'ye değiştirildi */}
+      <div className="flex-1 overflow-y-auto">
         <SidebarNav />
       </div>
       <div>
@@ -119,7 +118,7 @@ export const Sidebar: React.FC = () => {
           <div 
             className={cn(
               "fixed inset-0 bg-black/50 animate-fade-in cursor-pointer",
-              `z-[${Z_INDEX.BACKDROP}]` // Z-index değeri constant'tan alınıyor
+              `z-[${Z_INDEX.BACKDROP}]`
             )}
             onClick={handleBackdropClick}
             aria-hidden="true"
@@ -128,17 +127,19 @@ export const Sidebar: React.FC = () => {
         
         <aside 
           className={cn(
-            "fixed left-0 flex flex-col shadow-lg",
+            "fixed top-0 left-0 h-screen flex flex-col shadow-lg",
             CSS_CLASSES.COLORS.BG,
             "border-r",
             CSS_CLASSES.COLORS.BORDER,
-            `z-[${Z_INDEX.SIDEBAR_MOBILE}]`, // Z-index değeri constant'tan alınıyor
+            `z-[${Z_INDEX.SIDEBAR_MOBILE}]`,
             isExpanded ? "animate-slide-in-left" : "animate-slide-out-left -translate-x-full",
+            // Mobilde header altında başlamasını sağla
+            "mt-16" // header yüksekliği kadar margin-top
           )}
           style={{ 
-            width: effectiveWidth,
-            top: `${HEADER_HEIGHT.mobile}px`, // Header yüksekliğini px cinsinden kullanıyoruz
-            height: `calc(100vh - ${HEADER_HEIGHT.mobile}px + 8px)` // 8px ekstra alan ekledik
+            width: effectiveWidth, 
+            // Header (64px) + Bottom Nav (64px) = 128px
+            height: 'calc(100vh - 128px)' 
           }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
@@ -150,21 +151,16 @@ export const Sidebar: React.FC = () => {
     );
   }
 
-  // Desktop görünüm - fixed position ile her zaman görünür olacak
+  // Desktop görünüm - mouseover ve mouseout event'leri kaldırıldı
   return (
     <aside 
       className={cn(
-        "fixed left-0 flex flex-col shadow-sm", 
+        "relative h-screen flex flex-col shadow-sm",
         CSS_CLASSES.COLORS.BG,
         "border-r",
-        CSS_CLASSES.COLORS.BORDER,
-        `z-[${Z_INDEX.SIDEBAR}]` // Z-index değeri constant'tan alınıyor (30)
+        CSS_CLASSES.COLORS.BORDER
       )}
-      style={{
-        ...sidebarStyles,
-        top: `${HEADER_HEIGHT.desktop}px`, // Header yüksekliğini px cinsinden kullanıyoruz 
-        height: `calc(100vh - ${HEADER_HEIGHT.desktop}px + 8px)` // 8px ekstra alan ekledik
-      }}
+      style={sidebarStyles}
     >
       {/* Toggle butonu */}
       {renderToggleButton()}
