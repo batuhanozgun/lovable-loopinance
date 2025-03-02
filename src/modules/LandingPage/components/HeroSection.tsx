@@ -57,7 +57,7 @@ export const HeroSection = () => {
         <div className="bg-muted/80 backdrop-blur-sm rounded-lg overflow-hidden aspect-video flex items-center justify-center shadow-md relative">
           {/* Light mode görseli */}
           <img 
-            src="/lovable-uploads/23da449c-b453-44a0-8b2f-91c1eaff45d4.png" 
+            src="/lovable-uploads/51df3ccf-f69e-454f-970f-2077bdace861.png" 
             alt={t("hero.image.alt")} 
             className={`w-full h-full object-cover rounded-lg absolute top-0 left-0 transition-opacity duration-500 ${isDarkMode ? 'opacity-0' : 'opacity-100'}`}
           />
