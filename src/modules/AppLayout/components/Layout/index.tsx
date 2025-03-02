@@ -20,12 +20,12 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex flex-col w-full overflow-hidden">
+      <div className="min-h-screen flex flex-col w-full">
         <AppHeader />
-        <div className="flex flex-1 h-[calc(100vh-64px)]">
+        <div className="flex flex-1">
           <Sidebar />
-          <main className="flex-1 bg-background pb-16 md:pb-0 flex flex-col overflow-hidden">
-            <PageContainer className="flex-1">
+          <main className="flex-1 bg-background pb-16 md:pb-0 flex flex-col">
+            <PageContainer className="flex-1 overflow-y-auto">
               {children}
             </PageContainer>
           </main>

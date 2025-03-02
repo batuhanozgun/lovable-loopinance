@@ -66,7 +66,7 @@ export const Sidebar: React.FC = () => {
               variant="ghost"
               size="icon"
               className={cn(
-                "absolute right-0 translate-x-1/2 top-2 z-20",
+                "absolute right-0 translate-x-1/2 top-4 z-20",
                 "h-8 w-8 rounded-full p-0 flex justify-center items-center",
                 "bg-background/80 backdrop-blur-sm border shadow-sm",
                 CSS_CLASSES.TRANSITIONS.BASE,
@@ -96,17 +96,17 @@ export const Sidebar: React.FC = () => {
     );
   };
 
-  // Sidebar içeriği - height kontrolü eklendi
+  // Sidebar render edilirken gösterilecek UI
   const sidebarContent = (
-    <div className="flex flex-col h-full">
-      <div className="flex-1 overflow-hidden">
+    <>
+      <div className="flex-1 overflow-y-auto">
         <SidebarNav />
       </div>
       <div>
         <QuickActions />
         <UserActions />
       </div>
-    </div>
+    </>
   );
 
   // Mobile görünüm (overlay)
@@ -127,15 +127,19 @@ export const Sidebar: React.FC = () => {
         
         <aside 
           className={cn(
-            "fixed top-16 left-0 h-[calc(100vh-128px)] flex flex-col shadow-lg",
+            "fixed top-0 left-0 h-screen flex flex-col shadow-lg",
             CSS_CLASSES.COLORS.BG,
             "border-r",
             CSS_CLASSES.COLORS.BORDER,
             `z-[${Z_INDEX.SIDEBAR_MOBILE}]`,
-            isExpanded ? "animate-slide-in-left" : "animate-slide-out-left -translate-x-full"
+            isExpanded ? "animate-slide-in-left" : "animate-slide-out-left -translate-x-full",
+            // Mobilde header altında başlamasını sağla
+            "mt-16" // header yüksekliği kadar margin-top
           )}
           style={{ 
-            width: effectiveWidth
+            width: effectiveWidth, 
+            // Header (64px) + Bottom Nav (64px) = 128px
+            height: 'calc(100vh - 128px)' 
           }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
@@ -147,11 +151,11 @@ export const Sidebar: React.FC = () => {
     );
   }
 
-  // Desktop görünüm
+  // Desktop görünüm - mouseover ve mouseout event'leri kaldırıldı
   return (
     <aside 
       className={cn(
-        "h-[calc(100vh-64px)] flex flex-col shadow-sm",
+        "relative h-screen flex flex-col shadow-sm",
         CSS_CLASSES.COLORS.BG,
         "border-r",
         CSS_CLASSES.COLORS.BORDER

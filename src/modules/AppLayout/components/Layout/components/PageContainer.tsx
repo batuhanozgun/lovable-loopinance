@@ -13,7 +13,7 @@ export const PageContainer: React.FC<PageContainerProps> = ({ children, classNam
   logger.debug("PageContainer rendered");
   
   return (
-    <div className={`overflow-y-auto h-full ${className}`}>
+    <div className={className}>
       {children}
     </div>
   );
