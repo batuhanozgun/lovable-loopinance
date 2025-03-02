@@ -66,7 +66,7 @@ export const Sidebar: React.FC = () => {
               variant="ghost"
               size="icon"
               className={cn(
-                "absolute right-0 translate-x-1/2 top-4 z-[30]", // z-index değeri 30 olarak güncellendi
+                "absolute right-0 translate-x-1/2 top-4 z-[30]", // z-index değeri sidebar ile aynı
                 "h-8 w-8 rounded-full p-0 flex justify-center items-center",
                 "bg-background/80 backdrop-blur-sm border shadow-sm",
                 CSS_CLASSES.TRANSITIONS.BASE,
