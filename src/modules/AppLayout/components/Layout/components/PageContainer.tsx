@@ -1,6 +1,7 @@
 
 import React, { ReactNode } from "react";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
+import { cn } from "@/lib/utils";
 
 interface PageContainerProps {
   children: ReactNode;
@@ -13,7 +14,7 @@ export const PageContainer: React.FC<PageContainerProps> = ({ children, classNam
   logger.debug("PageContainer rendered");
   
   return (
-    <div className={className}>
+    <div className={cn("h-full", className)}>
       {children}
     </div>
   );

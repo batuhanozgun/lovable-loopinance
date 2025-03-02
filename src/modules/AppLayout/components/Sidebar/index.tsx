@@ -66,7 +66,7 @@ export const Sidebar: React.FC = () => {
               variant="ghost"
               size="icon"
               className={cn(
-                "absolute right-0 translate-x-1/2 top-4 z-20",
+                "absolute right-0 translate-x-1/2 top-2 z-20",
                 "h-8 w-8 rounded-full p-0 flex justify-center items-center",
                 "bg-background/80 backdrop-blur-sm border shadow-sm",
                 CSS_CLASSES.TRANSITIONS.BASE,
@@ -155,7 +155,7 @@ export const Sidebar: React.FC = () => {
   return (
     <aside 
       className={cn(
-        "relative h-screen flex flex-col shadow-sm",
+        "relative h-[calc(100vh-64px)] flex flex-col shadow-sm",
         CSS_CLASSES.COLORS.BG,
         "border-r",
         CSS_CLASSES.COLORS.BORDER
