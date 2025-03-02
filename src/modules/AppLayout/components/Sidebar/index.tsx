@@ -10,6 +10,7 @@ import { UserActions } from './UserActions';
 import { useSidebarResize } from './hooks/useSidebarResize';
 import { cn } from '@/lib/utils';
 import { TRANSITION, Z_INDEX, CSS_CLASSES, SPACING } from './constants';
+import { HEADER_HEIGHT } from '../AppHeader/constants/header';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
@@ -127,19 +128,17 @@ export const Sidebar: React.FC = () => {
         
         <aside 
           className={cn(
-            "fixed top-0 left-0 h-screen flex flex-col shadow-lg",
+            "fixed left-0 h-screen flex flex-col shadow-lg",
             CSS_CLASSES.COLORS.BG,
             "border-r",
             CSS_CLASSES.COLORS.BORDER,
             `z-[${Z_INDEX.SIDEBAR_MOBILE}]`, // Z-index değeri constant'tan alınıyor
             isExpanded ? "animate-slide-in-left" : "animate-slide-out-left -translate-x-full",
-            // Mobilde header altında başlamasını sağla
-            "mt-16" // header yüksekliği kadar margin-top
           )}
           style={{ 
-            width: effectiveWidth, 
-            // Header (64px) + Bottom Nav (64px) = 128px
-            height: 'calc(100vh - 128px)' 
+            width: effectiveWidth,
+            top: `${HEADER_HEIGHT.mobile}px`, // Header yüksekliğini px cinsinden kullanıyoruz
+            height: `calc(100vh - ${HEADER_HEIGHT.mobile}px)` // Height hesabını düzeltiyoruz
           }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
@@ -155,13 +154,17 @@ export const Sidebar: React.FC = () => {
   return (
     <aside 
       className={cn(
-        "fixed top-16 left-0 h-[calc(100vh-4rem)] flex flex-col shadow-sm", 
+        "fixed left-0 flex flex-col shadow-sm", 
         CSS_CLASSES.COLORS.BG,
         "border-r",
         CSS_CLASSES.COLORS.BORDER,
         `z-[${Z_INDEX.SIDEBAR}]` // Z-index değeri constant'tan alınıyor (30)
       )}
-      style={sidebarStyles}
+      style={{
+        ...sidebarStyles,
+        top: `${HEADER_HEIGHT.desktop}px`, // Header yüksekliğini px cinsinden kullanıyoruz 
+        height: `calc(100vh - ${HEADER_HEIGHT.desktop}px)` // Height hesabını düzeltiyoruz
+      }}
     >
       {/* Toggle butonu */}
       {renderToggleButton()}

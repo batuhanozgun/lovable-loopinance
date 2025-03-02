@@ -8,6 +8,7 @@ import { LoggerService } from '@/modules/Logging/services/LoggerService';
 import { SidebarProvider, useSidebarContext } from '../Sidebar/context/SidebarContext';
 import { PageContainer } from './components/PageContainer';
 import { useSidebarResize } from '../Sidebar/hooks/useSidebarResize';
+import { HEADER_HEIGHT } from '../AppHeader/constants/header';
 
 // İç ComponentWrapper bileşeni
 const LayoutContent = ({ children }: { children: ReactNode }) => {
