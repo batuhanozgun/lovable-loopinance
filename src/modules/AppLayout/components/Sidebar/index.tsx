@@ -151,24 +151,16 @@ export const Sidebar: React.FC = () => {
     );
   }
 
-  // Desktop görünüm - sabit pozisyonlama ile
+  // Desktop görünüm - mouseover ve mouseout event'leri kaldırıldı
   return (
     <aside 
       className={cn(
-        "fixed left-0 flex flex-col shadow-sm",
+        "relative h-screen flex flex-col shadow-sm",
         CSS_CLASSES.COLORS.BG,
         "border-r",
-        CSS_CLASSES.COLORS.BORDER,
-        // Header altında konumlanması için top değerini ayarla
-        "top-16", // 64px header yüksekliği
-        // Bottom nav'in üzerinde kalması için bottom değerini ayarla
-        "bottom-0" // mobilde bottom nav varsa hesaplanmalı
+        CSS_CLASSES.COLORS.BORDER
       )}
-      style={{
-        ...sidebarStyles,
-        // Scroll yapmayı önlemek için yüksekliği hesapla
-        height: 'calc(100vh - 64px)' // Header yüksekliği çıkarılıyor
-      }}
+      style={sidebarStyles}
     >
       {/* Toggle butonu */}
       {renderToggleButton()}
