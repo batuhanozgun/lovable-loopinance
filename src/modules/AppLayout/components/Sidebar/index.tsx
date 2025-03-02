@@ -35,18 +35,23 @@ export const Sidebar: React.FC = () => {
     toggleSidebar();
   }, [toggleSidebar, logger]);
 
-  // Sidebar içeriği (hem mobil hem desktop için ortak)
-  const sidebarContent = (
-    <>
-      <div className="flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-sidebar-border">
-        <SidebarNav />
-      </div>
-      <div className="flex-shrink-0">
-        <QuickActions />
-        <UserActions />
-      </div>
-    </>
-  );
+  // Sidebar bileşeninin stilini dinamik olarak oluştur
+  const sidebarStyles = {
+    width: effectiveWidth,
+    minWidth: effectiveWidth,
+    transition: `width ${TRANSITION.DURATION}ms ${TRANSITION.EASING}, min-width ${TRANSITION.DURATION}ms ${TRANSITION.EASING}, transform ${TRANSITION.DURATION}ms ${TRANSITION.EASING}`,
+  };
+
+  // Mobil ekranda kapalıyken overflow'u gizle, açıkken göster
+  useEffect(() => {
+    if (isMobile) {
+      document.body.style.overflow = isExpanded ? 'hidden' : '';
+    }
+    
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isExpanded, isMobile]);
 
   // Toggle butonu için render
   const renderToggleButton = () => {
@@ -91,6 +96,19 @@ export const Sidebar: React.FC = () => {
     );
   };
 
+  // Sidebar render edilirken gösterilecek UI
+  const sidebarContent = (
+    <>
+      <div className="flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-sidebar-border">
+        <SidebarNav />
+      </div>
+      <div className="flex-shrink-0">
+        <QuickActions />
+        <UserActions />
+      </div>
+    </>
+  );
+
   // Mobile görünüm (overlay)
   if (isMobile) {
     return (
@@ -133,19 +151,16 @@ export const Sidebar: React.FC = () => {
     );
   }
 
-  // Desktop görünüm - viewport hesabı ile tam yükseklik
+  // Desktop görünüm - mouseover ve mouseout event'leri kaldırıldı
   return (
     <aside 
       className={cn(
-        "h-full flex flex-col shadow-sm overflow-hidden",
+        "relative h-[calc(100vh-48px)] flex flex-col shadow-sm",
         CSS_CLASSES.COLORS.BG,
         "border-r",
         CSS_CLASSES.COLORS.BORDER
       )}
-      style={{ 
-        width: effectiveWidth,
-        minWidth: effectiveWidth
-      }}
+      style={sidebarStyles}
     >
       {/* Toggle butonu */}
       {renderToggleButton()}

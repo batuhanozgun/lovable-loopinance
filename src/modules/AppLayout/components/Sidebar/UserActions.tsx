@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
 import { LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { LanguageSelector } from '@/components/LanguageSelector';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import { AuthService } from '@/modules/UserManagement/common/services/AuthService';
 import { useToast } from '@/hooks/use-toast';
 import { useSidebarContext } from './context/SidebarContext';
@@ -48,11 +50,45 @@ export const UserActions: React.FC = () => {
     return (
       <div className={cn(
         SPACING.SECTION,
-        "border-t flex flex-col gap-2 mt-auto", // mt-auto ile en alta yerleştirildi
+        "border-t flex flex-col gap-2",
         CSS_CLASSES.COLORS.BORDER,
         CSS_CLASSES.TRANSITIONS.BASE
       )}>
         <TooltipProvider delayDuration={TRANSITION.TOOLTIP_DELAY}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div>
+                <LanguageSelector className={cn(
+                  "w-full",
+                  CSS_CLASSES.COLLAPSED.ICON_ONLY,
+                  CSS_CLASSES.COLORS.TEXT,
+                  CSS_CLASSES.COLORS.ACCENT_HOVER,
+                  CSS_CLASSES.TRANSITIONS.BASE
+                )} />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="right">
+              <p>{t('AppLayout:sidebar.changeLanguage')}</p>
+            </TooltipContent>
+          </Tooltip>
+          
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div>
+                <ThemeToggle className={cn(
+                  "w-full",
+                  CSS_CLASSES.COLLAPSED.ICON_ONLY,
+                  CSS_CLASSES.COLORS.TEXT,
+                  CSS_CLASSES.COLORS.ACCENT_HOVER,
+                  CSS_CLASSES.TRANSITIONS.BASE
+                )} />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent side="right">
+              <p>{t('AppLayout:sidebar.changeTheme')}</p>
+            </TooltipContent>
+          </Tooltip>
+          
           <Tooltip>
             <TooltipTrigger asChild>
               <div>
@@ -90,12 +126,26 @@ export const UserActions: React.FC = () => {
   return (
     <div className={cn(
       SPACING.SECTION,
-      "border-t flex flex-col gap-2 mt-auto", // mt-auto ile en alta yerleştirildi
+      "border-t flex flex-col gap-2",
       CSS_CLASSES.COLORS.BORDER,
       CSS_CLASSES.TRANSITIONS.BASE,
       // Daraltılmış durumdaki görünürlüğü doğru transition ile ayarlıyoruz
       (!isExpanded && !isHovering && !isMobile) && "opacity-0 invisible"
     )}>
+      <LanguageSelector className={cn(
+        "w-full",
+        CSS_CLASSES.COLLAPSED.WITH_TEXT,
+        CSS_CLASSES.COLORS.TEXT,
+        CSS_CLASSES.COLORS.ACCENT_HOVER,
+        CSS_CLASSES.TRANSITIONS.BASE
+      )} />
+      <ThemeToggle className={cn(
+        "w-full",
+        CSS_CLASSES.COLLAPSED.WITH_TEXT,
+        CSS_CLASSES.COLORS.TEXT,
+        CSS_CLASSES.COLORS.ACCENT_HOVER,
+        CSS_CLASSES.TRANSITIONS.BASE
+      )} />
       <Button 
         variant="ghost" 
         className={cn(

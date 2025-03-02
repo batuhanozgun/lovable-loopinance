@@ -110,8 +110,8 @@ export const ProfileView: React.FC = () => {
   }
 
   return (
-    <div className="p-4 md:p-6 h-full">
-      <div className="grid gap-6 h-full md:grid-cols-1 lg:grid-cols-2">
+    <div className="container mx-auto px-4 py-4">
+      <div className="grid gap-4 mt-4 md:grid-cols-1 lg:grid-cols-2">
         {profileData && (
           <>
             <ProfileInfo
