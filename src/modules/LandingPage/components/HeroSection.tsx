@@ -3,10 +3,41 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { useState, useEffect } from "react";
+
 export const HeroSection = () => {
-  const {
-    t
-  } = useTranslation("LandingPage");
+  const { t } = useTranslation("LandingPage");
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Tema durumunu izle
+  useEffect(() => {
+    // İlk yüklemede tema durumunu kontrol et
+    const checkTheme = () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      setIsDarkMode(isDark);
+    };
+
+    // Sayfa yüklendiğinde tema durumunu kontrol et
+    checkTheme();
+
+    // Tema değişimini izle
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.attributeName === 'class' &&
+          mutation.target === document.documentElement
+        ) {
+          checkTheme();
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, { attributes: true });
+
+    // Temizlik
+    return () => observer.disconnect();
+  }, []);
+
   return <section className="py-20 px-6 bg-gradient-to-r from-[rgba(250,250,250,1)] via-[rgba(108,154,229,1)] to-[rgba(0,140,158,1)] dark:from-[hsla(210,13%,40%,1)] dark:via-[hsla(185,94%,7%,1)] dark:to-[hsla(0,100%,4%,1)]">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         <div className="space-y-6">
@@ -23,11 +54,18 @@ export const HeroSection = () => {
             </Button>
           </div>
         </div>
-        <div className="bg-muted/80 backdrop-blur-sm rounded-lg overflow-hidden aspect-video flex items-center justify-center shadow-md">
+        <div className="bg-muted/80 backdrop-blur-sm rounded-lg overflow-hidden aspect-video flex items-center justify-center shadow-md relative">
+          {/* Light mode görseli */}
           <img 
             src="/lovable-uploads/da7c001f-f0d1-4225-af8d-0f6134bdd6eb.png" 
             alt={t("hero.image.alt")} 
-            className="w-full h-full object-cover rounded-lg" 
+            className={`w-full h-full object-cover rounded-lg absolute top-0 left-0 transition-opacity duration-500 ${isDarkMode ? 'opacity-0' : 'opacity-100'}`}
+          />
+          {/* Dark mode görseli */}
+          <img 
+            src="/lovable-uploads/43cfc13f-b8aa-4084-a8bc-754258bdc616.png" 
+            alt={t("hero.image.alt")} 
+            className={`w-full h-full object-cover rounded-lg absolute top-0 left-0 transition-opacity duration-500 ${isDarkMode ? 'opacity-100' : 'opacity-0'}`}
           />
         </div>
       </div>
