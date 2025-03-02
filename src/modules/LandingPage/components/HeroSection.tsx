@@ -25,7 +25,7 @@ export const HeroSection = () => {
         </div>
         <div className="bg-muted/80 backdrop-blur-sm rounded-lg overflow-hidden aspect-video flex items-center justify-center shadow-md">
           <img 
-            src="/lovable-uploads/ab1a30f4-3957-4547-a395-51dd98567c46.png" 
+            src="/lovable-uploads/da7c001f-f0d1-4225-af8d-0f6134bdd6eb.png" 
             alt={t("hero.image.alt")} 
             className="w-full h-full object-cover rounded-lg" 
           />
