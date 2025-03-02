@@ -23,10 +23,12 @@ export const HeroSection = () => {
             </Button>
           </div>
         </div>
-        <div className="bg-muted/80 backdrop-blur-sm rounded-lg aspect-video flex items-center justify-center shadow-md">
-          <div className="text-muted-foreground p-12 text-center">
-            <p className="text-lg font-medium">{t("hero.image.alt")}</p>
-          </div>
+        <div className="bg-muted/80 backdrop-blur-sm rounded-lg overflow-hidden aspect-video flex items-center justify-center shadow-md">
+          <img 
+            src="/lovable-uploads/ab1a30f4-3957-4547-a395-51dd98567c46.png" 
+            alt={t("hero.image.alt")} 
+            className="w-full h-full object-cover rounded-lg" 
+          />
         </div>
       </div>
     </section>;
