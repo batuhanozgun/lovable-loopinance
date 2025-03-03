@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils';
 import { TRANSITION, Z_INDEX, CSS_CLASSES, SPACING } from './constants';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { HEADER_HEIGHT } from '../AppHeader/constants/header';
 
 export const Sidebar: React.FC = () => {
   const { t } = useTranslation(['AppLayout', 'common']);
@@ -138,8 +139,8 @@ export const Sidebar: React.FC = () => {
           )}
           style={{ 
             width: effectiveWidth, 
-            // Header (48px) + Bottom Nav (64px) = 112px
-            height: 'calc(100vh - 112px)' 
+            // Header + Bottom Nav height
+            height: `calc(100vh - ${HEADER_HEIGHT.mobile}px - 64px)` 
           }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
@@ -155,12 +156,15 @@ export const Sidebar: React.FC = () => {
   return (
     <aside 
       className={cn(
-        "relative h-[calc(100vh-48px)] flex flex-col shadow-sm",
+        "relative flex flex-col shadow-sm",
         CSS_CLASSES.COLORS.BG,
         "border-r",
         CSS_CLASSES.COLORS.BORDER
       )}
-      style={sidebarStyles}
+      style={{
+        ...sidebarStyles,
+        height: `calc(100vh - ${HEADER_HEIGHT.desktop}px)`
+      }}
     >
       {/* Toggle butonu */}
       {renderToggleButton()}

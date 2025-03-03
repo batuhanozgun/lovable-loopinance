@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
 import { SidebarProvider } from '../Sidebar/context/SidebarContext';
 import { PageContainer } from './components/PageContainer';
+import { HEADER_HEIGHT } from '../AppHeader/constants/header';
 
 interface LayoutProps {
   children: ReactNode;
@@ -24,7 +25,10 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         <AppHeader />
         <div className="flex flex-1 overflow-hidden">
           <Sidebar />
-          <main className="flex-1 bg-background pb-16 md:pb-0 flex flex-col">
+          <main 
+            className="flex-1 bg-background pb-16 md:pb-0 flex flex-col"
+            style={{ height: `calc(100vh - ${HEADER_HEIGHT.desktop}px)` }}
+          >
             <PageContainer className="flex-1 overflow-y-auto">
               {children}
             </PageContainer>
