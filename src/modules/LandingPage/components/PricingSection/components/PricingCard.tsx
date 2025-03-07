@@ -1,4 +1,5 @@
 
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -21,7 +22,7 @@ export const PricingCard = ({ planType }: PricingCardProps) => {
   const isYearly = planType === "yearly";
 
   // Analytics için loglama
-  React.useEffect(() => {
+  useEffect(() => {
     logPlanView(planType);
   }, [planType, logPlanView]);
 

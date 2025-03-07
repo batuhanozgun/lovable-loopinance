@@ -8,4 +8,5 @@ export interface PricingAnalyticsEvent {
   action: 'view' | 'click' | 'scroll';
   source: string;
   metadata?: Record<string, unknown>;
+  [key: string]: unknown; // Index signature ekliyoruz
 }

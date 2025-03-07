@@ -6,7 +6,14 @@ import { PricingPlanType, PricingAnalyticsEvent } from '../types/pricing.types';
 export const usePricingAnalytics = () => {
   // Genel analitik olaylarını logla
   const logPricingEvent = useCallback((event: PricingAnalyticsEvent) => {
-    pricingAnalyticsLogger.info('Pricing event recorded', event);
+    // Logger'a object olarak gönderelim
+    const eventData = {
+      planType: event.planType,
+      action: event.action,
+      source: event.source,
+      ...(event.metadata || {})
+    };
+    pricingAnalyticsLogger.info('Pricing event recorded', eventData);
   }, []);
 
   // Plan görüntüleme olaylarını logla
