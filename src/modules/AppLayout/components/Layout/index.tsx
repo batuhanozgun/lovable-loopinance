@@ -21,7 +21,10 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex flex-col w-full">
+        {/* Üst başlık */}
         <AppHeader />
+        
+        {/* Ana içerik alanı */}
         <div className="flex flex-1 overflow-hidden">
           <Sidebar />
           <main 
@@ -33,6 +36,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
             </PageContainer>
           </main>
         </div>
+        
+        {/* Mobil alt navigasyon */}
         <BottomNav />
       </div>
     </SidebarProvider>

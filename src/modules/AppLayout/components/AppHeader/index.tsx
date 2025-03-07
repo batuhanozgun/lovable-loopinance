@@ -53,19 +53,28 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
       "sticky top-0 z-10 transition-all duration-200",
       className
     )}>
-      <div className="flex w-full items-center justify-between">
-        <HeaderBranding />
+      {/* Üç sütunlu bir düzen oluşturuyoruz: Sol (Logo), Orta (Başlık), Sağ (Eylemler) */}
+      <div className="flex w-full items-center">
+        {/* Sol sütun */}
+        <div className="flex-shrink-0">
+          <HeaderBranding />
+        </div>
         
-        <div className="hidden md:block">
+        {/* Orta sütun (ortalanmış) */}
+        <div className="flex-grow hidden md:flex justify-center">
           <HeaderTitle 
             title={pageTitle} 
             showTimestamp={false} 
           />
         </div>
         
-        <HeaderActions pageActions={actions} />
+        {/* Sağ sütun */}
+        <div className="flex-shrink-0 ml-auto">
+          <HeaderActions pageActions={actions} />
+        </div>
       </div>
       
+      {/* Mobil görünümde başlık için ayrı bir alan */}
       <div className="md:hidden w-full text-center absolute left-0 bottom-0 transform translate-y-full">
         {pageTitle && (
           <span className="text-xs text-muted-foreground bg-background/80 backdrop-blur-sm px-2 py-1 rounded-b-md">
