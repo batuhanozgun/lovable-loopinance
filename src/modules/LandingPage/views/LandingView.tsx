@@ -1,6 +1,7 @@
 
 import { HeroSection } from "@/modules/LandingPage/components/HeroSection";
 import { FeatureSection } from "@/modules/LandingPage/components/FeatureSection";
+import { PricingSection } from "@/modules/LandingPage/components/PricingSection";
 import { CtaSection } from "@/modules/LandingPage/components/CtaSection";
 import { LandingHeader } from "@/modules/LandingPage/components/LandingHeader";
 import { LandingFooter } from "@/modules/LandingPage/components/LandingFooter";
@@ -32,6 +33,7 @@ export const LandingView = () => {
       <main className="flex-1 pt-16">
         <HeroSection />
         <FeatureSection />
+        <PricingSection />
         <CtaSection />
       </main>
       <LandingFooter />

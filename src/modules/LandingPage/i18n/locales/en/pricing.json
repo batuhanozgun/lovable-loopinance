@@ -1,0 +1,46 @@
+
+{
+  "title": "Simple and Transparent Pricing",
+  "subtitle": "Start with a 6-month trial, then choose the plan that suits you",
+  "plans": {
+    "trial": {
+      "name": "Trial",
+      "price": "Free",
+      "duration": "6 months",
+      "badge": "Most Popular",
+      "features": [
+        "Full access to all features",
+        "Transaction tracking",
+        "Budget management",
+        "Analytics dashboard"
+      ]
+    },
+    "monthly": {
+      "name": "Monthly Premium",
+      "price": "$5",
+      "period": "month",
+      "features": [
+        "All features in Trial",
+        "Unlimited transactions",
+        "Advanced analytics",
+        "Priority support"
+      ]
+    },
+    "yearly": {
+      "name": "Yearly Premium",
+      "price": "$40",
+      "period": "year",
+      "badge": "33% Savings",
+      "features": [
+        "All features in Monthly plan",
+        "Annual financial report",
+        "Premium support"
+      ]
+    }
+  },
+  "cta": {
+    "trial": "Try for Free",
+    "subscribe": "Subscribe Now",
+    "savings": "Save 33% annually"
+  }
+}
