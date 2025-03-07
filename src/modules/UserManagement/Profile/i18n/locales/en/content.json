@@ -23,10 +23,25 @@
     "theme": "Theme",
     "themeDescription": "Choose between light and dark mode",
     "password": "Password",
-    "passwordDescription": "Change your account password"
+    "passwordDescription": "Change your account password",
+    "twoFactor": "Two-Factor Authentication",
+    "apiKeys": "API Keys",
+    "sessions": "Active Sessions"
   },
   "actions": {
     "edit": "Edit Profile",
-    "changePassword": "Change Password"
+    "changePassword": "Change Password",
+    "change": "Change",
+    "verify": "Verify",
+    "setup": "Set Up",
+    "generate": "Generate",
+    "manage": "Manage"
+  },
+  "status": {
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "active": "{{count}} active session",
+    "active_plural": "{{count}} active sessions",
+    "none": "None"
   }
 }

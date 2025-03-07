@@ -23,10 +23,25 @@
     "theme": "Tema",
     "themeDescription": "Açık ve koyu mod arasında seçim yapın",
     "password": "Şifre",
-    "passwordDescription": "Hesap şifrenizi değiştirin"
+    "passwordDescription": "Hesap şifrenizi değiştirin",
+    "twoFactor": "İki Faktörlü Kimlik Doğrulama",
+    "apiKeys": "API Anahtarları",
+    "sessions": "Aktif Oturumlar"
   },
   "actions": {
     "edit": "Profili Düzenle",
-    "changePassword": "Şifre Değiştir"
+    "changePassword": "Şifre Değiştir",
+    "change": "Değiştir",
+    "verify": "Doğrula",
+    "setup": "Kur",
+    "generate": "Oluştur",
+    "manage": "Yönet"
+  },
+  "status": {
+    "enabled": "Etkin",
+    "disabled": "Devre Dışı",
+    "active": "{{count}} aktif oturum",
+    "active_plural": "{{count}} aktif oturum",
+    "none": "Yok"
   }
 }
