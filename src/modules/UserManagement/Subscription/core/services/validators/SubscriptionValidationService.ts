@@ -2,10 +2,8 @@
 import { ISubscriptionResponse } from "../../../domain/models/Subscription";
 import { SubscriptionLoggerService } from "../shared/SubscriptionLoggerService";
 import { SubscriptionQueryService } from "../queries/SubscriptionQueryService";
-import { SubscriptionTrialValidator } from "./SubscriptionTrialValidator";
-import { SubscriptionPeriodValidator } from "./SubscriptionPeriodValidator";
-import { SubscriptionStatusManager } from "../managers/SubscriptionStatusManager";
 import { SubscriptionQueryErrorHandler } from "../queries/SubscriptionQueryErrorHandler";
+import { StatusService } from "../../../features/status/services/StatusService";
 
 export class SubscriptionValidationService {
   private static logger = SubscriptionLoggerService.getLogger("SubscriptionValidationService");
@@ -21,19 +19,8 @@ export class SubscriptionValidationService {
         return response;
       }
       
-      const subscription = response.subscription;
-      
-      // Trial süresi dolmuş mu kontrol et
-      if (SubscriptionTrialValidator.isTrialExpired(subscription)) {
-        return await SubscriptionStatusManager.markAsExpired(userId, subscription);
-      }
-      
-      // Aktif abonelik süresi dolmuş mu kontrol et
-      if (SubscriptionPeriodValidator.isSubscriptionPeriodExpired(subscription)) {
-        return await SubscriptionStatusManager.markAsExpired(userId, subscription);
-      }
-      
-      return response;
+      // Abonelik durumunu doğrula ve gerekirse güncelle
+      return await StatusService.validateSubscriptionStatus(userId, response.subscription);
     } catch (error) {
       this.logger.error("Abonelik durumu kontrol edilirken beklenmeyen hata", error);
       return SubscriptionQueryErrorHandler.handleUnexpectedError(error);

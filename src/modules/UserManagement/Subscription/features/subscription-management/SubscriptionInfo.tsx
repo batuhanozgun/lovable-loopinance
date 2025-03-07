@@ -6,6 +6,9 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { useSubscription } from '../../hooks/useSubscription';
+import { SubscriptionStatusDisplay } from '../status/components/SubscriptionStatusDisplay';
+import { TrialInfoDisplay } from '../trial/components/TrialInfoDisplay';
+import { PaymentInfoDisplay } from '../payment/components/PaymentInfoDisplay';
 
 export const SubscriptionInfo: React.FC = () => {
   const { t } = useTranslation(['common']);
@@ -45,23 +48,6 @@ export const SubscriptionInfo: React.FC = () => {
     );
   }
 
-  const getStatusBadge = () => {
-    if (isTrial) return <Badge className="bg-blue-500">Deneme</Badge>;
-    if (isActive && subscription.plan_type === 'monthly') return <Badge className="bg-green-500">Aylık Abonelik</Badge>;
-    if (isActive && subscription.plan_type === 'yearly') return <Badge className="bg-green-700">Yıllık Abonelik</Badge>;
-    if (isExpired) return <Badge variant="destructive">Süresi Dolmuş</Badge>;
-    return <Badge variant="outline">Bilinmiyor</Badge>;
-  };
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('tr-TR', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric'
-    });
-  };
-
   return (
     <Card className="w-full">
       <CardHeader>
@@ -70,59 +56,27 @@ export const SubscriptionInfo: React.FC = () => {
             <CardTitle>Abonelik Bilgisi</CardTitle>
             <CardDescription>Mevcut abonelik durumunuz</CardDescription>
           </div>
-          {getStatusBadge()}
+          <SubscriptionStatusDisplay 
+            status={subscription.status} 
+            planType={subscription.plan_type} 
+          />
         </div>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
           {isTrial && (
-            <>
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Deneme süresi bitiş tarihi:</span>
-                <span className="font-medium">{formatDate(subscription.trial_ends_at)}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Kalan gün:</span>
-                <span className="font-medium">
-                  {daysRemaining} gün
-                </span>
-              </div>
-              <div className="mt-6">
-                <Button className="w-full" variant="default" asChild>
-                  <Link to="/pricing">Aboneliğe Geç</Link>
-                </Button>
-              </div>
-            </>
+            <TrialInfoDisplay 
+              trialEndsAt={subscription.trial_ends_at}
+              daysRemaining={daysRemaining || 0}
+            />
           )}
 
           {isActive && !isTrial && (
-            <>
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Abonelik tipi:</span>
-                <span className="font-medium">
-                  {subscription.plan_type === 'monthly' ? 'Aylık' : 'Yıllık'}
-                </span>
-              </div>
-              {subscription.current_period_ends_at && (
-                <>
-                  <div className="flex justify-between items-center">
-                    <span className="text-muted-foreground">Yenileme tarihi:</span>
-                    <span className="font-medium">{formatDate(subscription.current_period_ends_at)}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-muted-foreground">Kalan gün:</span>
-                    <span className="font-medium">
-                      {daysRemaining} gün
-                    </span>
-                  </div>
-                </>
-              )}
-              <div className="mt-6">
-                <Button className="w-full" variant="outline" asChild>
-                  <Link to="/subscription/manage">Aboneliği Yönet</Link>
-                </Button>
-              </div>
-            </>
+            <PaymentInfoDisplay 
+              planType={subscription.plan_type}
+              periodEndsAt={subscription.current_period_ends_at}
+              daysRemaining={daysRemaining || 0}
+            />
           )}
 
           {isExpired && (
