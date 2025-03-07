@@ -9,6 +9,8 @@ import { SessionService } from "@/modules/UserManagement/auth";
 import { Layout } from "@/modules/AppLayout/components/Layout";
 import { DashboardView } from "@/modules/Dashboard";
 import { ProfileView } from "@/modules/UserManagement/Profile";
+import { SubscriptionGuard } from "@/modules/UserManagement/Subscription/middleware/SubscriptionGuard";
+import { ExpiredSubscriptionView } from "@/modules/UserManagement/Subscription/views/ExpiredSubscriptionView";
 import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
 import "@/i18n/config";
@@ -105,7 +107,9 @@ const App = () => {
             element={
               isAuthenticated ? (
                 <Layout>
-                  <DashboardView />
+                  <SubscriptionGuard>
+                    <DashboardView />
+                  </SubscriptionGuard>
                 </Layout>
               ) : (
                 <Landing />
@@ -117,7 +121,9 @@ const App = () => {
             element={
               isAuthenticated ? (
                 <Layout>
-                  <DashboardView />
+                  <SubscriptionGuard>
+                    <DashboardView />
+                  </SubscriptionGuard>
                 </Layout>
               ) : (
                 <Navigate to="/login" />
@@ -130,6 +136,18 @@ const App = () => {
               isAuthenticated ? (
                 <Layout>
                   <ProfileView />
+                </Layout>
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/subscription/expired"
+            element={
+              isAuthenticated ? (
+                <Layout>
+                  <ExpiredSubscriptionView />
                 </Layout>
               ) : (
                 <Navigate to="/login" />
