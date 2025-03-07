@@ -1,7 +1,7 @@
 
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
 import { ISubscriptionResponse } from "../../types/ISubscription";
-import { SubscriptionRepository } from "../../repositories/SubscriptionRepository";
+import { SubscriptionRepositoryFactory } from "../../repositories/SubscriptionRepositoryFactory";
 import { calculateDaysRemaining } from "../../utils/dateUtils";
 
 export class SubscriptionQueryService {
@@ -14,7 +14,8 @@ export class SubscriptionQueryService {
     try {
       this.logger.debug("Kullanıcı abonelik bilgileri alınıyor", { userId });
 
-      const { subscription, error } = await SubscriptionRepository.getByUserId(userId);
+      const queryRepository = SubscriptionRepositoryFactory.getQueryRepository();
+      const { subscription, error } = await queryRepository.getByUserId(userId);
 
       if (error || !subscription) {
         return {

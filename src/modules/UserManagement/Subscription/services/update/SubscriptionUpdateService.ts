@@ -1,6 +1,6 @@
 
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
-import { SubscriptionRepository } from "../../repositories/SubscriptionRepository";
+import { SubscriptionRepositoryFactory } from "../../repositories/SubscriptionRepositoryFactory";
 import { ISubscription, SubscriptionStatus } from "../../types/ISubscription";
 
 export class SubscriptionUpdateService {
@@ -15,7 +15,9 @@ export class SubscriptionUpdateService {
   ): Promise<boolean> {
     try {
       this.logger.debug("Abonelik durumu güncelleniyor", { userId, status });
-      return await SubscriptionRepository.updateStatus(userId, status);
+      
+      const updateRepository = SubscriptionRepositoryFactory.getUpdateRepository();
+      return await updateRepository.updateStatus(userId, status);
     } catch (error) {
       this.logger.error("Abonelik durumu güncellenirken beklenmeyen hata", error);
       return false;
