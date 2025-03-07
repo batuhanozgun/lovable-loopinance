@@ -1,6 +1,7 @@
 
 import { LoggerService } from '../services/LoggerService';
-import { LogLevel, LogMetadata } from '../types/LogTypes';
+import { LogLevel } from '../types/LogTypes';
+import type { LogMetadata } from '../types/LogTypes';
 import { DEFAULT_LOG_CONFIG, formatLogMessage } from '../config/LogConfig';
 
 /**
