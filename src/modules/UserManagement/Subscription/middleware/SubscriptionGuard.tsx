@@ -1,16 +1,16 @@
 
 import React, { ReactNode, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
 import { useSubscriptionState } from '../hooks/useSubscriptionState';
 import { useSubscriptionStatus } from '../hooks/useSubscriptionStatus';
 import { useSubscriptionGuard } from '../hooks/useSubscriptionGuard';
-import { LoggerService } from '@/modules/Logging/services/LoggerService';
+import { SessionService } from '@/modules/UserManagement/auth';
+import { SubscriptionLoadingView } from '../components/SubscriptionLoadingView';
+import { SubscriptionRouteGuard } from '../components/SubscriptionRouteGuard';
+import { useState } from 'react';
 
 interface SubscriptionGuardProps {
   children: ReactNode;
 }
-
-const logger = LoggerService.getInstance("SubscriptionGuard");
 
 export const SubscriptionGuard: React.FC<SubscriptionGuardProps> = ({ children }) => {
   const { subscription, isLoading } = useSubscriptionState();
@@ -21,35 +21,39 @@ export const SubscriptionGuard: React.FC<SubscriptionGuardProps> = ({ children }
     isExpired,
     subscription?.id
   );
-
+  const [userId, setUserId] = useState<string>("");
+  
   useEffect(() => {
-    if (subscription) {
-      logger.debug("Abonelik durumu kontrolü", {
-        status: subscription.status,
-        planType: subscription.plan_type
-      });
-    }
-  }, [subscription]);
+    const getUserId = async () => {
+      try {
+        const user = await SessionService.getCurrentUser();
+        if (user?.id) {
+          setUserId(user.id);
+        }
+      } catch (error) {
+        console.error("Kullanıcı bilgisi alınamadı", error);
+      }
+    };
+    
+    getUserId();
+  }, []);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-lg font-medium text-muted-foreground">Abonelik bilgileri yükleniyor...</p>
-        </div>
-      </div>
-    );
+    return <SubscriptionLoadingView />;
   }
 
-  if (shouldRedirect && redirectPath) {
-    return <Navigate to={redirectPath} replace />;
-  }
-
-  if (canAccess) {
-    return <>{children}</>;
-  }
-
-  // Varsayılan olarak abonelik sayfasına yönlendir
-  return <Navigate to="/subscription/expired" replace />;
+  return (
+    <SubscriptionRouteGuard
+      canAccess={canAccess}
+      shouldRedirect={shouldRedirect}
+      redirectPath={redirectPath}
+      userId={userId}
+      subscription={subscription}
+      isLoading={isLoading}
+      isActive={isActive}
+      isExpired={isExpired}
+    >
+      {children}
+    </SubscriptionRouteGuard>
+  );
 };
