@@ -1,5 +1,5 @@
 
-import { SubscriptionStatus } from "../../types/ISubscription";
+import { SubscriptionStatus } from "../../domain/models/Subscription";
 
 export interface ISubscriptionUpdateRepository {
   /**

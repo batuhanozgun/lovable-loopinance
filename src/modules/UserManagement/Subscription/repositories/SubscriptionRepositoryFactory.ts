@@ -1,8 +1,8 @@
 
 import { ISubscriptionQueryRepository } from "./interfaces/ISubscriptionQueryRepository";
 import { ISubscriptionUpdateRepository } from "./interfaces/ISubscriptionUpdateRepository";
-import { SubscriptionQueryRepository } from "./SubscriptionQueryRepository";
-import { SubscriptionUpdateRepository } from "./SubscriptionUpdateRepository";
+import { SubscriptionQueryRepository } from "./queries/SubscriptionQueryRepository";
+import { SubscriptionUpdateRepository } from "./mutations/SubscriptionUpdateRepository";
 
 /**
  * Abonelik repository'lerini yöneten factory sınıfı

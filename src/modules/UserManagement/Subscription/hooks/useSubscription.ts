@@ -1,7 +1,7 @@
 
-import { useSubscriptionState } from './useSubscriptionState';
-import { useSubscriptionStatus } from './useSubscriptionStatus';
-import { useSubscriptionError } from './useSubscriptionError';
+import { useSubscriptionState } from './state/useSubscriptionState';
+import { useSubscriptionStatus } from './validation/useSubscriptionStatus';
+import { useSubscriptionError } from './error/useSubscriptionError';
 
 /**
  * Ana abonelik hook'u - diğer hook'ları birleştirir

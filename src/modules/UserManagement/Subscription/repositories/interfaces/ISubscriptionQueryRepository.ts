@@ -1,5 +1,5 @@
 
-import { ISubscription } from "../../types/ISubscription";
+import { ISubscription } from "../../domain/models/Subscription";
 
 export interface ISubscriptionQueryRepository {
   /**
