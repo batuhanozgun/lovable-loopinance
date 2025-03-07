@@ -14,13 +14,13 @@ export const HeaderActions: React.FC<HeaderActionsProps> = ({ className, pageAct
     <div className={cn('flex items-center', className)}>
       {/* Sayfa eylemleri varsa, onları göster */}
       {pageActions && (
-        <div className="mr-2">
+        <div className="mr-4">
           {pageActions}
         </div>
       )}
       
       {/* Sabit eylemler (dil seçici ve tema değiştirici) */}
-      <div className="flex items-center space-x-1 pr-4">
+      <div className="flex items-center space-x-1">
         <LanguageSelector />
         <ThemeToggle />
       </div>

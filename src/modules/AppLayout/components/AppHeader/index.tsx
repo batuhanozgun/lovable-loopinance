@@ -69,7 +69,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
         </div>
         
         {/* Sağ sütun - Eylemler (tema ve dil) */}
-        <div className="flex-1 md:flex-none flex justify-end">
+        <div className="ml-auto pr-4">
           <HeaderActions pageActions={actions} />
         </div>
       </div>
