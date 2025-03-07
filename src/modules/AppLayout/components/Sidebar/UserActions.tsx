@@ -4,8 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
 import { LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { LanguageSelector } from '@/components/LanguageSelector';
-import { ThemeToggle } from '@/components/ThemeToggle';
 import { AuthService } from '@/modules/UserManagement/common/services/AuthService';
 import { useToast } from '@/hooks/use-toast';
 import { useSidebarContext } from './context/SidebarContext';
@@ -58,40 +56,6 @@ export const UserActions: React.FC = () => {
           <Tooltip>
             <TooltipTrigger asChild>
               <div>
-                <LanguageSelector className={cn(
-                  "w-full",
-                  CSS_CLASSES.COLLAPSED.ICON_ONLY,
-                  CSS_CLASSES.COLORS.TEXT,
-                  CSS_CLASSES.COLORS.ACCENT_HOVER,
-                  CSS_CLASSES.TRANSITIONS.BASE
-                )} />
-              </div>
-            </TooltipTrigger>
-            <TooltipContent side="right">
-              <p>{t('AppLayout:sidebar.changeLanguage')}</p>
-            </TooltipContent>
-          </Tooltip>
-          
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div>
-                <ThemeToggle className={cn(
-                  "w-full",
-                  CSS_CLASSES.COLLAPSED.ICON_ONLY,
-                  CSS_CLASSES.COLORS.TEXT,
-                  CSS_CLASSES.COLORS.ACCENT_HOVER,
-                  CSS_CLASSES.TRANSITIONS.BASE
-                )} />
-              </div>
-            </TooltipTrigger>
-            <TooltipContent side="right">
-              <p>{t('AppLayout:sidebar.changeTheme')}</p>
-            </TooltipContent>
-          </Tooltip>
-          
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div>
                 <Button 
                   variant="ghost" 
                   className={cn(
@@ -132,20 +96,6 @@ export const UserActions: React.FC = () => {
       // Daraltılmış durumdaki görünürlüğü doğru transition ile ayarlıyoruz
       (!isExpanded && !isHovering && !isMobile) && "opacity-0 invisible"
     )}>
-      <LanguageSelector className={cn(
-        "w-full",
-        CSS_CLASSES.COLLAPSED.WITH_TEXT,
-        CSS_CLASSES.COLORS.TEXT,
-        CSS_CLASSES.COLORS.ACCENT_HOVER,
-        CSS_CLASSES.TRANSITIONS.BASE
-      )} />
-      <ThemeToggle className={cn(
-        "w-full",
-        CSS_CLASSES.COLLAPSED.WITH_TEXT,
-        CSS_CLASSES.COLORS.TEXT,
-        CSS_CLASSES.COLORS.ACCENT_HOVER,
-        CSS_CLASSES.TRANSITIONS.BASE
-      )} />
       <Button 
         variant="ghost" 
         className={cn(
