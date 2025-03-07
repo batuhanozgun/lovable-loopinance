@@ -21,7 +21,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex flex-col w-full">
-        {/* Üst başlık */}
+        {/* Üst başlık - tam genişlik */}
         <AppHeader />
         
         {/* Ana içerik alanı */}

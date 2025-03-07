@@ -53,23 +53,22 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
       "sticky top-0 z-10 transition-all duration-200",
       className
     )}>
-      {/* Üç sütunlu bir düzen: Sol (Logo), Orta (Başlık), Sağ (Eylemler) */}
-      <div className="flex w-full items-center">
-        {/* Sol sütun - Logo */}
+      <div className="flex w-full items-center justify-between">
+        {/* Sol kısım - Logo */}
         <div className="flex-shrink-0">
           <HeaderBranding />
         </div>
         
-        {/* Orta sütun - Başlık (sadece tablet ve üstü) */}
-        <div className="flex-grow hidden md:flex justify-center">
+        {/* Orta kısım - Başlık (sadece tablet ve üstü) */}
+        <div className="hidden md:block flex-grow text-center">
           <HeaderTitle 
             title={pageTitle} 
             showTimestamp={false} 
           />
         </div>
         
-        {/* Sağ sütun - Eylemler (tema ve dil) */}
-        <div className="ml-auto pr-4">
+        {/* Sağ kısım - Eylemler (tema ve dil) */}
+        <div className="flex items-center">
           <HeaderActions pageActions={actions} />
         </div>
       </div>
