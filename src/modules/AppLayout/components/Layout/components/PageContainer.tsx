@@ -14,7 +14,7 @@ export const PageContainer: React.FC<PageContainerProps> = ({ children, classNam
   logger.debug("PageContainer rendered");
   
   return (
-    <div className={cn("h-full", className)}>
+    <div className={cn("h-full p-4 md:p-6 pt-6 md:pt-8", className)}>
       {children}
     </div>
   );

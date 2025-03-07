@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
@@ -110,22 +109,20 @@ export const ProfileView: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-4">
-      <div className="grid gap-4 mt-4 md:grid-cols-1 lg:grid-cols-2">
-        {profileData && (
-          <>
-            <ProfileInfo
-              profile={profileData}
-              onUpdateProfile={handleProfileUpdate}
-            />
-            
-            <AccountSettings
-              profile={profileData}
-              onUpdateProfile={handleProfileUpdate}
-            />
-          </>
-        )}
-      </div>
+    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+      {profileData && (
+        <>
+          <ProfileInfo
+            profile={profileData}
+            onUpdateProfile={handleProfileUpdate}
+          />
+          
+          <AccountSettings
+            profile={profileData}
+            onUpdateProfile={handleProfileUpdate}
+          />
+        </>
+      )}
     </div>
   );
 };
