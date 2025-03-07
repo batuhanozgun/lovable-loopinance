@@ -2,7 +2,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
-import { LoggerService } from '@/modules/Logging/services/LoggerService';
+import { appHeaderLogger } from '../../logging';
 import { useLocation } from 'react-router-dom';
 import { PAGE_TITLES } from './constants/header';
 import { HeaderBranding } from './components/HeaderBranding';
@@ -23,7 +23,6 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
   className
 }) => {
   const { t } = useTranslation(['AppLayout', 'common']);
-  const logger = LoggerService.getInstance('AppLayout.AppHeader');
   const location = useLocation();
   
   // Mevcut sayfanın başlığını belirle
@@ -46,7 +45,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
   // Eğer özel başlık verilmemişse, sayfa başlığını kullan
   const pageTitle = title || getCurrentPageTitle();
   
-  logger.debug('AppHeader rendered', { currentPath: location.pathname, pageTitle });
+  appHeaderLogger.debug('AppHeader rendered', { currentPath: location.pathname, pageTitle });
 
   return (
     <header className={cn(

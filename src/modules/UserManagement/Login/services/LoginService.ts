@@ -1,10 +1,10 @@
 
 import { supabase } from "@/integrations/supabase/client";
-import { LoginLogger } from "../logging/LoginLogger";
+import { loginLogger } from "../../logging";
 
 export class LoginService {
   static async login(email: string, password: string) {
-    LoginLogger.debug("Attempting to login with Supabase", { email });
+    loginLogger.debug("Attempting to login with Supabase", { email });
     
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -12,10 +12,10 @@ export class LoginService {
     });
 
     if (error) {
-      LoginLogger.error("Supabase login failed", error, { email });
+      loginLogger.error("Supabase login failed", error, { email });
       throw error;
     }
 
-    LoginLogger.debug("Supabase login successful", { email });
+    loginLogger.debug("Supabase login successful", { email });
   }
 }

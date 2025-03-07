@@ -4,7 +4,7 @@ import { Sidebar } from '../Sidebar';
 import { AppHeader } from '../AppHeader';
 import { BottomNav } from '../BottomNav';
 import { useTranslation } from 'react-i18next';
-import { LoggerService } from '@/modules/Logging/services/LoggerService';
+import { layoutLogger } from '../../logging';
 import { SidebarProvider } from '../Sidebar/context/SidebarContext';
 import { PageContainer } from './components/PageContainer';
 import { HEADER_HEIGHT } from '../AppHeader/constants/header';
@@ -15,9 +15,8 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { t } = useTranslation(['common']);
-  const logger = LoggerService.getInstance('AppLayout');
   
-  logger.debug('Layout component rendered');
+  layoutLogger.debug('Layout component rendered');
 
   return (
     <SidebarProvider>

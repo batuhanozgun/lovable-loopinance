@@ -1,18 +1,16 @@
-
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, Link } from "react-router-dom";
 import { Home, Wallet, Grid, List, PlusCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { LoggerService } from "@/modules/Logging/services/LoggerService";
+import { bottomNavLogger } from "../../logging";
 import { Button } from "@/components/ui/button";
 
 export const BottomNav: React.FC = () => {
   const { t } = useTranslation(["AppLayout", "common"]);
   const location = useLocation();
-  const logger = LoggerService.getInstance("AppLayout.BottomNav");
 
-  logger.debug("BottomNav rendered", { currentPath: location.pathname });
+  bottomNavLogger.debug("BottomNav rendered", { currentPath: location.pathname });
 
   const navItems = [
     {
@@ -39,7 +37,7 @@ export const BottomNav: React.FC = () => {
   ];
 
   const handleNewTransactionClick = () => {
-    logger.debug("New transaction FAB clicked");
+    bottomNavLogger.debug("New transaction FAB clicked");
     // TODO: Yeni işlem ekleme modalı veya sayfası açılacak
     alert("Yeni işlem ekleme özelliği henüz implementasyonu yapılmadı");
   };

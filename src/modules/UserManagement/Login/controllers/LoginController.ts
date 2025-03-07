@@ -1,23 +1,23 @@
 
 import { LoginService } from "../services/LoginService";
 import { ILoginForm } from "../interfaces/ILoginForm";
-import { LoginLogger } from "../logging/LoginLogger";
+import { loginLogger } from "../../logging";
 import { showLoginToast } from "../notifications/toastHelper";
 
 export class LoginController {
   static async handleLogin({ email, password }: ILoginForm) {
     try {
-      LoginLogger.debug("Login attempt started", { email });
+      loginLogger.debug("Login attempt started", { email });
       
       await LoginService.login(email, password);
       
-      LoginLogger.info("User logged in successfully", { email });
+      loginLogger.info("User logged in successfully", { email });
       
       showLoginToast.success();
       
       return { success: true };
     } catch (error) {
-      LoginLogger.error("Login failed", error, { email });
+      loginLogger.error("Login failed", error, { email });
       
       showLoginToast.error(error instanceof Error ? error : new Error("Login failed"));
       

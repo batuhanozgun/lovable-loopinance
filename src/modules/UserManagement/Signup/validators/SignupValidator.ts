@@ -2,10 +2,8 @@
 import { z } from "zod";
 import { ISignupForm } from "../interfaces/ISignupForm";
 import i18next from "i18next";
-import { LoggerService } from "@/modules/Logging/services/LoggerService";
+import { signupLogger } from "../../logging";
 import { EmailValidationService } from "../services/validation/EmailValidationService";
-
-const logger = LoggerService.getInstance("SignupValidator");
 
 export const SignupSchema = z.object({
   firstName: z.string().min(2, {
@@ -38,7 +36,7 @@ export class SignupValidator {
    * Validate signup form input data
    */
   static validateSignupInput(data: ISignupForm) {
-    logger.debug("Validating signup input", { email: data.email });
+    signupLogger.debug("Validating signup input", { email: data.email });
     return SignupSchema.safeParse(data);
   }
 

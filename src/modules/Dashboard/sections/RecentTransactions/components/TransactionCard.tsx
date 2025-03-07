@@ -1,12 +1,11 @@
 
 import { useTranslation } from "react-i18next";
-import { LoggerService } from "@/modules/Logging/services/LoggerService";
+import { recentTransactionsLogger } from "@/modules/Dashboard/logging";
 
 export const TransactionCard = () => {
   const { t } = useTranslation("Dashboard");
-  const logger = LoggerService.getInstance("Dashboard.RecentTransactions");
   
-  logger.debug("RecentTransactions component rendered");
+  recentTransactionsLogger.debug("RecentTransactions component rendered");
 
   return (
     <div className="bg-card rounded-lg shadow-sm p-6 border border-border">

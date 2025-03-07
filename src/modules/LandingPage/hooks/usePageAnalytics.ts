@@ -1,11 +1,14 @@
 
 import { useEffect, useState, useCallback } from 'react';
-import { useAnalyticsLogger } from '../logging/analytics.logger';
+import { analyticsLogger } from '../logging';
 
 export const usePageAnalytics = () => {
-  const { logPageAnalytics } = useAnalyticsLogger();
   const [startTime] = useState<number>(Date.now());
   const [scrollDepth, setScrollDepth] = useState<number>(0);
+
+  const logPageAnalytics = useCallback(({ viewDuration, scrollDepth }: { viewDuration: number, scrollDepth: number }) => {
+    analyticsLogger.info("Page analytics data recorded", { viewDuration, scrollDepth });
+  }, []);
 
   // Calculate and update scroll depth
   const handleScroll = useCallback(() => {
@@ -44,5 +47,5 @@ export const usePageAnalytics = () => {
     };
   }, [startTime, scrollDepth, logPageAnalytics]);
 
-  return { scrollDepth };
+  return { scrollDepth, logPageAnalytics };
 };

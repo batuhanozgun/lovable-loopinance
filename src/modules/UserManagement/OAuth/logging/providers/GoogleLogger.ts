@@ -1,10 +1,10 @@
 
-import { LoggerService } from "@/modules/Logging/services/LoggerService";
+import { oauthLogger } from "@/modules/UserManagement/logging";
 import { OAuthProviderEvent } from "./events";
 
 export class GoogleLogger {
   private static instance: GoogleLogger;
-  private logger = LoggerService.getInstance("GoogleOAuth");
+  private logger = oauthLogger.createSubLogger("Google");
 
   private constructor() {}
 

@@ -1,8 +1,8 @@
 
-import { LoggerService } from "@/modules/Logging/services/LoggerService";
+import { LoggerFactory } from "@/modules/Logging/core/LoggerFactory";
 
 export class ValidationLogger {
-  private logger = LoggerService.getInstance("ValidationEvents");
+  private logger = LoggerFactory.getInstance().getLogger("UserManagement.Signup.Validation");
   
   /**
    * Log email validation attempt

@@ -3,16 +3,15 @@ import { useTranslation } from "react-i18next";
 import { FinancialSummary } from "../sections/FinancialSummary";
 import { RecentTransactions } from "../sections/RecentTransactions";
 import { BudgetGoals } from "../sections/BudgetGoals";
-import { LoggerService } from "@/modules/Logging/services/LoggerService";
+import { DashboardLogger } from "../logging";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AppHeader } from "@/modules/AppLayout/components/AppHeader";
 
 const DashboardView = () => {
   const { t } = useTranslation(["Dashboard", "common"]);
-  const logger = LoggerService.getInstance("Dashboard.View");
 
-  logger.debug("Dashboard view rendered");
+  DashboardLogger.debug("Dashboard view rendered");
 
   // Header için aksiyon butonları
   const headerActions = (

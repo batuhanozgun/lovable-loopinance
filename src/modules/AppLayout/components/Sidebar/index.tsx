@@ -1,8 +1,7 @@
-
 import React, { useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { LoggerService } from '@/modules/Logging/services/LoggerService';
+import { sidebarLogger } from '../../logging';
 import { useSidebarContext } from './context/SidebarContext';
 import { SidebarNav } from './components/SidebarNav';
 import { QuickActions } from './components/QuickActions';
@@ -16,7 +15,6 @@ import { HEADER_HEIGHT } from '../AppHeader/constants/header';
 
 export const Sidebar: React.FC = () => {
   const { t } = useTranslation(['AppLayout', 'common']);
-  const logger = LoggerService.getInstance('AppLayout.Sidebar');
   const { 
     isExpanded, 
     isMobile,
@@ -27,14 +25,14 @@ export const Sidebar: React.FC = () => {
   } = useSidebarContext();
   const { effectiveWidth } = useSidebarResize();
   
-  logger.debug('Sidebar component rendered', { isExpanded, isMobile, effectiveWidth });
+  sidebarLogger.debug('Sidebar component rendered', { isExpanded, isMobile, effectiveWidth });
 
   // Backdrop tıklaması için handler - useCallback ile sarmalıyoruz
   const handleBackdropClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
-    logger.debug('Backdrop clicked, closing sidebar');
+    sidebarLogger.debug('Backdrop clicked, closing sidebar');
     toggleSidebar();
-  }, [toggleSidebar, logger]);
+  }, [toggleSidebar]);
 
   // Sidebar bileşeninin stilini dinamik olarak oluştur
   const sidebarStyles = {

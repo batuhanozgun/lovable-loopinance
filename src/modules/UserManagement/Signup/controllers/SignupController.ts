@@ -2,23 +2,21 @@
 import { AuthenticationService } from "../../auth";
 import { ISignupForm } from "../interfaces/ISignupForm";
 import { SignupValidator } from "../validators/SignupValidator";
-import { LoggerService } from "@/modules/Logging/services/LoggerService";
+import { signupLogger } from "../../logging";
 import { ValidationToasts } from "../notifications/validation/ValidationToasts";
 import { AuthToasts } from "../notifications/auth/AuthToasts";
-
-const logger = LoggerService.getInstance("SignupController");
 
 export class SignupController {
   static async handleSignup(formData: ISignupForm) {
     try {
-      logger.debug("Starting signup process", { email: formData.email });
+      signupLogger.debug("Starting signup process", { email: formData.email });
       
       // Validate form data
       const validationResult = SignupValidator.validateSignupInput(formData);
 
       if (!validationResult.success) {
         const validationError = validationResult.error.issues[0];
-        logger.warn("Signup validation failed", { error: validationError });
+        signupLogger.warn("Signup validation failed", { error: validationError });
         
         // Show validation error toast
         ValidationToasts.showFormValidationError(validationError.message);
@@ -29,7 +27,7 @@ export class SignupController {
         };
       }
 
-      logger.debug("Input validation successful, proceeding to signup");
+      signupLogger.debug("Input validation successful, proceeding to signup");
       
       // Perform signup using AuthenticationService
       const signupResult = await AuthenticationService.signUpWithEmailPassword(
@@ -56,7 +54,7 @@ export class SignupController {
       return signupResult;
       
     } catch (error) {
-      logger.error("Unexpected error in signup controller", error);
+      signupLogger.error("Unexpected error in signup controller", error);
       
       // Show error toast
       ValidationToasts.showFormValidationError(

@@ -1,9 +1,11 @@
 
 import { useEffect } from 'react';
-import { useEventsLogger } from '../logging/events.logger';
+import { eventsLogger } from '../logging';
 
 export const useScrollTracking = () => {
-  const { logScrollPosition } = useEventsLogger();
+  const logScrollPosition = (position: number) => {
+    eventsLogger.debug(`User scrolled to ${position}% of page`);
+  };
 
   useEffect(() => {
     let lastLoggedPosition = 0;
@@ -32,5 +34,7 @@ export const useScrollTracking = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [logScrollPosition]);
+  }, []);
+  
+  return { logScrollPosition };
 };
