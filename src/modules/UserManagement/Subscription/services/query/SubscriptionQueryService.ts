@@ -1,11 +1,13 @@
 
-import { LoggerService } from "@/modules/Logging/services/LoggerService";
 import { ISubscriptionResponse } from "../../types/ISubscription";
 import { SubscriptionRepositoryFactory } from "../../repositories/SubscriptionRepositoryFactory";
-import { calculateDaysRemaining } from "../../utils/dateUtils";
+import { SubscriptionLoggerService } from "../shared/SubscriptionLoggerService";
+import { SubscriptionDataMapper } from "./SubscriptionDataMapper";
+import { SubscriptionDateCalculator } from "./SubscriptionDateCalculator";
+import { SubscriptionQueryErrorHandler } from "./SubscriptionQueryErrorHandler";
 
 export class SubscriptionQueryService {
-  private static logger = LoggerService.getInstance("SubscriptionQueryService");
+  private static logger = SubscriptionLoggerService.getLogger("SubscriptionQueryService");
 
   /**
    * Kullanıcının abonelik bilgilerini getir
@@ -18,34 +20,28 @@ export class SubscriptionQueryService {
       const { subscription, error } = await queryRepository.getByUserId(userId);
 
       if (error || !subscription) {
-        return {
-          success: false,
-          error: error || "Abonelik bilgileri bulunamadı"
-        };
+        return SubscriptionQueryErrorHandler.createNotFoundError();
       }
       
-      // Deneme süresi için kalan gün hesaplama
-      const daysRemaining = subscription.status === 'trial' 
-        ? calculateDaysRemaining(subscription.trial_ends_at)
-        : calculateDaysRemaining(subscription.current_period_ends_at);
+      // Abonelik verilerini domain modeline dönüştür
+      const domainSubscription = SubscriptionDataMapper.mapToDomainModel(subscription);
+      
+      // Kalan gün sayısını hesapla
+      const daysRemaining = SubscriptionDateCalculator.calculateRemainingDays(domainSubscription);
 
       this.logger.debug("Kullanıcı abonelik bilgileri başarıyla alındı", { 
         userId, 
-        status: subscription.status,
+        status: domainSubscription.status,
         daysRemaining 
       });
       
       return {
         success: true,
-        subscription,
+        subscription: domainSubscription,
         daysRemaining
       };
     } catch (error) {
-      this.logger.error("Abonelik bilgileri alınırken beklenmeyen hata", error);
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : "Abonelik bilgileri alınamadı"
-      };
+      return SubscriptionQueryErrorHandler.handleUnexpectedError(error);
     }
   }
 }

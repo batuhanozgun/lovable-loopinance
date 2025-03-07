@@ -1,12 +1,14 @@
 
-import { LoggerService } from "@/modules/Logging/services/LoggerService";
-import { ISubscription, ISubscriptionResponse } from "../../types/ISubscription";
-import { isDateExpired } from "../../utils/dateUtils";
+import { ISubscriptionResponse } from "../../types/ISubscription";
+import { SubscriptionLoggerService } from "../shared/SubscriptionLoggerService";
 import { SubscriptionQueryService } from "../query/SubscriptionQueryService";
-import { SubscriptionUpdateService } from "../update/SubscriptionUpdateService";
+import { SubscriptionTrialValidator } from "./SubscriptionTrialValidator";
+import { SubscriptionPeriodValidator } from "./SubscriptionPeriodValidator";
+import { SubscriptionStatusManager } from "./SubscriptionStatusManager";
+import { SubscriptionQueryErrorHandler } from "../query/SubscriptionQueryErrorHandler";
 
 export class SubscriptionValidationService {
-  private static logger = LoggerService.getInstance("SubscriptionValidationService");
+  private static logger = SubscriptionLoggerService.getLogger("SubscriptionValidationService");
 
   /**
    * Kullanıcının abonelik durumunu kontrol et
@@ -22,44 +24,19 @@ export class SubscriptionValidationService {
       const subscription = response.subscription;
       
       // Trial süresi dolmuş mu kontrol et
-      if (subscription.status === 'trial') {
-        if (isDateExpired(subscription.trial_ends_at)) {
-          this.logger.info("Kullanıcının deneme süresi dolmuş", { userId });
-          
-          // Deneme süresi dolan kullanıcının durumunu güncelle
-          await SubscriptionUpdateService.updateSubscriptionStatus(userId, 'expired');
-          
-          return {
-            success: true,
-            subscription: SubscriptionUpdateService.updateSubscriptionWithStatus(subscription, 'expired'),
-            daysRemaining: 0
-          };
-        }
+      if (SubscriptionTrialValidator.isTrialExpired(subscription)) {
+        return await SubscriptionStatusManager.markAsExpired(userId, subscription);
       }
       
       // Aktif abonelik süresi dolmuş mu kontrol et
-      if (subscription.status === 'active' && subscription.current_period_ends_at) {
-        if (isDateExpired(subscription.current_period_ends_at)) {
-          this.logger.info("Kullanıcının aktif abonelik süresi dolmuş", { userId });
-          
-          // Süresi dolan kullanıcının durumunu güncelle
-          await SubscriptionUpdateService.updateSubscriptionStatus(userId, 'expired');
-          
-          return {
-            success: true,
-            subscription: SubscriptionUpdateService.updateSubscriptionWithStatus(subscription, 'expired'),
-            daysRemaining: 0
-          };
-        }
+      if (SubscriptionPeriodValidator.isSubscriptionPeriodExpired(subscription)) {
+        return await SubscriptionStatusManager.markAsExpired(userId, subscription);
       }
       
       return response;
     } catch (error) {
       this.logger.error("Abonelik durumu kontrol edilirken beklenmeyen hata", error);
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : "Abonelik durumu kontrol edilemedi"
-      };
+      return SubscriptionQueryErrorHandler.handleUnexpectedError(error);
     }
   }
 }

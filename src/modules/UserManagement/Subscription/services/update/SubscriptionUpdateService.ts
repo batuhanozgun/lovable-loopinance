@@ -1,10 +1,11 @@
 
-import { LoggerService } from "@/modules/Logging/services/LoggerService";
+import { SubscriptionLoggerService } from "../shared/SubscriptionLoggerService";
 import { SubscriptionRepositoryFactory } from "../../repositories/SubscriptionRepositoryFactory";
 import { ISubscription, SubscriptionStatus } from "../../types/ISubscription";
+import { SubscriptionUpdateErrorHandler } from "./SubscriptionUpdateErrorHandler";
 
 export class SubscriptionUpdateService {
-  private static logger = LoggerService.getInstance("SubscriptionUpdateService");
+  private static logger = SubscriptionLoggerService.getLogger("SubscriptionUpdateService");
 
   /**
    * Abonelik durumunu güncelle
@@ -19,8 +20,7 @@ export class SubscriptionUpdateService {
       const updateRepository = SubscriptionRepositoryFactory.getUpdateRepository();
       return await updateRepository.updateStatus(userId, status);
     } catch (error) {
-      this.logger.error("Abonelik durumu güncellenirken beklenmeyen hata", error);
-      return false;
+      return SubscriptionUpdateErrorHandler.handleUnexpectedError(error);
     }
   }
 

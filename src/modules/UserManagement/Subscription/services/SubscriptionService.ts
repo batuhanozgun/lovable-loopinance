@@ -1,11 +1,11 @@
 
-import { LoggerService } from "@/modules/Logging/services/LoggerService";
+import { SubscriptionLoggerService } from "./shared/SubscriptionLoggerService";
 import { ISubscriptionResponse } from "../types/ISubscription";
 import { SubscriptionQueryService } from "./query/SubscriptionQueryService";
 import { SubscriptionValidationService } from "./validation/SubscriptionValidationService";
 
 export class SubscriptionService {
-  private static logger = LoggerService.getInstance("SubscriptionService");
+  private static logger = SubscriptionLoggerService.getLogger("SubscriptionService");
 
   /**
    * Kullanıcının abonelik bilgilerini getir
