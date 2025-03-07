@@ -12,7 +12,7 @@ interface AccountSettingsProps {
   onUpdateProfile: (data: Partial<IUserProfile>) => Promise<void>;
 }
 
-export const AccountSettings: React.FC<AccountSettingsProps> = ({ profile }) => {
+export const AccountSettings: React.FC<AccountSettingsProps> = ({ profile, onUpdateProfile }) => {
   const { t } = useTranslation(["Profile", "common"]);
   const logger = LoggerService.getInstance("UserManagement.AccountSettings");
   const [isLoading, setIsLoading] = useState(false);
