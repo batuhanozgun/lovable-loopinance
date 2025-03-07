@@ -53,7 +53,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
       "sticky top-0 z-10 transition-all duration-200",
       className
     )}>
-      <div className="flex w-full items-center justify-between md:justify-start md:space-x-8">
+      <div className="flex w-full items-center justify-between">
         <HeaderBranding />
         
         <div className="hidden md:block">
@@ -63,9 +63,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
           />
         </div>
         
-        <div className="flex items-center ml-auto">
-          <HeaderActions pageActions={actions} />
-        </div>
+        <HeaderActions pageActions={actions} />
       </div>
       
       <div className="md:hidden w-full text-center absolute left-0 bottom-0 transform translate-y-full">

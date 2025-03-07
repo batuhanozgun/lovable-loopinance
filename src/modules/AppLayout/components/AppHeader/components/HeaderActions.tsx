@@ -11,14 +11,14 @@ interface HeaderActionsProps {
 
 export const HeaderActions: React.FC<HeaderActionsProps> = ({ className, pageActions }) => {
   return (
-    <div className={cn('flex items-center flex-shrink-0 gap-2 w-full justify-end pr-4 md:pr-6', className)}>
+    <div className={cn('flex items-center flex-shrink-0 gap-2 justify-end pr-4 md:pr-6', className)}>
       {pageActions && (
         <div className="mr-auto">
           {pageActions}
         </div>
       )}
       
-      <div className="flex items-center space-x-1 ml-4">
+      <div className="flex items-center space-x-2">
         <LanguageSelector />
         <ThemeToggle />
       </div>
