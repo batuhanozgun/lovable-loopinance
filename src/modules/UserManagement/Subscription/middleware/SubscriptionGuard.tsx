@@ -1,7 +1,9 @@
 
 import React, { ReactNode, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useSubscription } from '../hooks/useSubscription';
+import { useSubscriptionState } from '../hooks/useSubscriptionState';
+import { useSubscriptionStatus } from '../hooks/useSubscriptionStatus';
+import { useSubscriptionGuard } from '../hooks/useSubscriptionGuard';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
 
 interface SubscriptionGuardProps {
@@ -11,7 +13,14 @@ interface SubscriptionGuardProps {
 const logger = LoggerService.getInstance("SubscriptionGuard");
 
 export const SubscriptionGuard: React.FC<SubscriptionGuardProps> = ({ children }) => {
-  const { isLoading, isActive, isExpired, subscription } = useSubscription();
+  const { subscription, isLoading } = useSubscriptionState();
+  const { isActive, isExpired } = useSubscriptionStatus(subscription);
+  const { canAccess, shouldRedirect, redirectPath, loading } = useSubscriptionGuard(
+    isLoading,
+    isActive,
+    isExpired,
+    subscription?.id
+  );
 
   useEffect(() => {
     if (subscription) {
@@ -22,7 +31,7 @@ export const SubscriptionGuard: React.FC<SubscriptionGuardProps> = ({ children }
     }
   }, [subscription]);
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
         <div className="text-center">
@@ -33,18 +42,14 @@ export const SubscriptionGuard: React.FC<SubscriptionGuardProps> = ({ children }
     );
   }
 
-  // Abonelik süresi dolmuşsa, "abonelik süresi doldu" sayfasına yönlendir
-  if (isExpired) {
-    logger.info("Kullanıcının abonelik süresi dolmuş, yönlendiriliyor");
-    return <Navigate to="/subscription/expired" replace />;
+  if (shouldRedirect && redirectPath) {
+    return <Navigate to={redirectPath} replace />;
   }
 
-  // Abonelik aktifse (trial veya active), içeriği göster
-  if (isActive) {
+  if (canAccess) {
     return <>{children}</>;
   }
 
-  // Diğer durumlarda (örn. cancelled) da abonelik sayfasına yönlendir
-  logger.warn("Beklenmeyen abonelik durumu, yönlendiriliyor");
+  // Varsayılan olarak abonelik sayfasına yönlendir
   return <Navigate to="/subscription/expired" replace />;
 };
