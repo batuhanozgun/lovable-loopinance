@@ -14,7 +14,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export const SubscriptionInfo: React.FC = () => {
   const { subscription, isLoading } = useSubscription();
-  const { t } = useTranslation(['Subscription', 'common', 'Profile']);
+  const { t, i18n } = useTranslation(['Subscription', 'common', 'Profile']);
   
   if (isLoading) {
     return (
@@ -49,32 +49,51 @@ export const SubscriptionInfo: React.FC = () => {
     }
   };
   
+  // Durum bilgisini al
+  const getStatusText = () => {
+    if (subscription.status === SubscriptionStatus.TRIAL && subscription.daysRemaining <= 7) {
+      return t('Subscription:subscription.badge.trialEnding');
+    }
+    return t(`Subscription:subscription.status.${subscription.status}`);
+  };
+  
+  // Abonelik bilgisini al
+  const getInfoMessage = () => {
+    if (subscription.status === SubscriptionStatus.TRIAL) {
+      return subscription.daysRemaining > 0
+        ? t('Subscription:subscription.info.trialRemaining', { days: subscription.daysRemaining })
+        : t('Subscription:subscription.info.trialExpired');
+    }
+    
+    if (subscription.status === SubscriptionStatus.ACTIVE) {
+      return subscription.daysRemaining > 0
+        ? t('Subscription:subscription.info.subscriptionRemaining', { days: subscription.daysRemaining })
+        : '';
+    }
+    
+    if (subscription.status === SubscriptionStatus.EXPIRED) {
+      return t('Subscription:subscription.info.expired');
+    }
+    
+    return '';
+  };
+  
   return (
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle>{t('Profile:content.subscriptionTitle', 'Abonelik')}</CardTitle>
           <Badge variant={getBadgeVariant()}>
-            {t(`Subscription:status.${subscription.status}`)}
+            {getStatusText()}
           </Badge>
         </div>
         <CardDescription>
-          {t(`Subscription:plan.${subscription.plan}`)}
+          {t(`Subscription:subscription.plan.${subscription.plan}`)}
         </CardDescription>
       </CardHeader>
       
       <CardContent>
-        {subscription.status === SubscriptionStatus.TRIAL && (
-          <p className="text-sm text-muted-foreground">
-            {t('Subscription:info.trialRemaining', { days: subscription.daysRemaining })}
-          </p>
-        )}
-        
-        {subscription.status === SubscriptionStatus.ACTIVE && (
-          <p className="text-sm text-muted-foreground">
-            {t('Subscription:info.subscriptionRemaining', { days: subscription.daysRemaining })}
-          </p>
-        )}
+        <p className="text-sm text-muted-foreground">{getInfoMessage()}</p>
       </CardContent>
       
       <CardFooter>

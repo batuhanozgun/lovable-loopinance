@@ -11,7 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export const SubscriptionCard: React.FC = () => {
   const { subscription, isLoading, error } = useSubscription();
-  const { t } = useTranslation(['Subscription', 'common']);
+  const { t, i18n } = useTranslation(['Subscription', 'common']);
   
   // Yükleniyor gösterimi
   if (isLoading) {
@@ -67,27 +67,27 @@ export const SubscriptionCard: React.FC = () => {
   // Durum adını getir
   const getStatusText = () => {
     if (subscription.status === SubscriptionStatus.TRIAL && subscription.daysRemaining <= 7) {
-      return t('Subscription:badge.trialEnding');
+      return t('Subscription:subscription.badge.trialEnding');
     }
-    return t(`Subscription:status.${subscription.status}`);
+    return t(`Subscription:subscription.status.${subscription.status}`);
   };
   
   // Bilgi mesajını getir
   const getInfoMessage = () => {
     if (subscription.status === SubscriptionStatus.TRIAL) {
       return subscription.daysRemaining > 0
-        ? t('Subscription:info.trialRemaining', { days: subscription.daysRemaining })
-        : t('Subscription:info.trialExpired');
+        ? t('Subscription:subscription.info.trialRemaining', { days: subscription.daysRemaining })
+        : t('Subscription:subscription.info.trialExpired');
     }
     
     if (subscription.status === SubscriptionStatus.ACTIVE) {
       return subscription.daysRemaining > 0
-        ? t('Subscription:info.subscriptionRemaining', { days: subscription.daysRemaining })
+        ? t('Subscription:subscription.info.subscriptionRemaining', { days: subscription.daysRemaining })
         : '';
     }
     
     if (subscription.status === SubscriptionStatus.EXPIRED) {
-      return t('Subscription:info.expired');
+      return t('Subscription:subscription.info.expired');
     }
     
     return '';
@@ -98,7 +98,7 @@ export const SubscriptionCard: React.FC = () => {
     if (subscription.status === SubscriptionStatus.TRIAL) {
       return (
         <Button className="w-full">
-          {t('Subscription:actions.upgrade')}
+          {t('Subscription:subscription.actions.upgrade')}
         </Button>
       );
     }
@@ -106,7 +106,7 @@ export const SubscriptionCard: React.FC = () => {
     if (subscription.status === SubscriptionStatus.EXPIRED) {
       return (
         <Button className="w-full">
-          {t('Subscription:actions.renew')}
+          {t('Subscription:subscription.actions.renew')}
         </Button>
       );
     }
@@ -114,7 +114,7 @@ export const SubscriptionCard: React.FC = () => {
     if (subscription.status === SubscriptionStatus.ACTIVE) {
       return (
         <Button variant="outline" className="w-full">
-          {t('Subscription:actions.changePlan')}
+          {t('Subscription:subscription.actions.changePlan')}
         </Button>
       );
     }
@@ -122,18 +122,29 @@ export const SubscriptionCard: React.FC = () => {
     return null;
   };
   
+  // Yenileme tarihini formatla - kullanıcının aktif diline göre
+  const formatRenewalDate = (date: Date) => {
+    return date.toLocaleDateString(i18n.language === 'tr' ? 'tr-TR' : 'en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+  
   return (
     <Card className="w-full">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <CardTitle>{t(`Subscription:plan.${subscription.plan}`)}</CardTitle>
+          <CardTitle>{t(`Subscription:subscription.plan.${subscription.plan}`)}</CardTitle>
           <Badge variant={getBadgeVariant()}>
             {getStatusText()}
           </Badge>
         </div>
         <CardDescription>
           {subscription.expiresAt && (
-            t('Subscription:info.renewalDate', { date: formatDate(subscription.expiresAt) })
+            t('Subscription:subscription.info.renewalDate', { 
+              date: formatRenewalDate(subscription.expiresAt) 
+            })
           )}
         </CardDescription>
       </CardHeader>
