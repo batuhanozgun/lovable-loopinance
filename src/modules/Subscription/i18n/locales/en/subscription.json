@@ -1,7 +1,6 @@
 
 {
   "status": {
-    "title": "Your Subscription Status",
     "trial": "Trial",
     "active": "Active",
     "expired": "Expired",

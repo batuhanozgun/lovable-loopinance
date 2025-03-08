@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { viewsLogger } from '../logging';
 
 export const SubscriptionView: React.FC = () => {
-  const { t } = useTranslation(['common', 'Subscription']);
+  const { t } = useTranslation(['Subscription', 'common']);
   
   useEffect(() => {
     viewsLogger.debug('Abonelik sayfası görüntülendi');
@@ -13,7 +13,7 @@ export const SubscriptionView: React.FC = () => {
   
   return (
     <div className="container mx-auto p-4 max-w-3xl">
-      <h1 className="text-2xl font-bold mb-6">{t('Subscription:status.title', 'Abonelik Durumunuz')}</h1>
+      <h1 className="text-2xl font-bold mb-6">{t('Subscription:subscription.status.title', 'Abonelik Durumunuz')}</h1>
       
       <div className="grid gap-6">
         <SubscriptionCard />

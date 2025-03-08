@@ -34,12 +34,16 @@ export const initSubscriptionTranslations = () => {
 function addSubscriptionResources() {
   try {
     // İngilizce kaynakları ekle
-    i18n.addResourceBundle('en', 'Subscription', subscriptionEN, true, true);
-    i18n.addResourceBundle('en', 'Subscription.errors', errorsEN, true, true);
+    i18n.addResourceBundle('en', 'Subscription', {
+      subscription: subscriptionEN,
+      errors: errorsEN
+    }, true, true);
 
     // Türkçe kaynakları ekle
-    i18n.addResourceBundle('tr', 'Subscription', subscriptionTR, true, true);
-    i18n.addResourceBundle('tr', 'Subscription.errors', errorsTR, true, true);
+    i18n.addResourceBundle('tr', 'Subscription', {
+      subscription: subscriptionTR,
+      errors: errorsTR
+    }, true, true);
     
     console.log("Subscription çevirileri başarıyla eklendi");
   } catch (error) {
