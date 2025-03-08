@@ -1,0 +1,34 @@
+
+{
+  "status": {
+    "trial": "Trial",
+    "active": "Active",
+    "expired": "Expired",
+    "canceled": "Canceled"
+  },
+  "plan": {
+    "trial": "Trial Plan",
+    "monthly": "Monthly Plan",
+    "yearly": "Yearly Plan"
+  },
+  "info": {
+    "trialRemaining": "{{days}} days remaining in your trial",
+    "subscriptionRemaining": "{{days}} days remaining in your subscription",
+    "expired": "Your subscription has expired",
+    "trialExpired": "Your trial has expired",
+    "renewalDate": "Next renewal on {{date}}"
+  },
+  "actions": {
+    "upgrade": "Upgrade Plan",
+    "renew": "Renew Subscription",
+    "cancel": "Cancel Subscription",
+    "changePlan": "Change Plan"
+  },
+  "badge": {
+    "trial": "Trial",
+    "active": "Active",
+    "expired": "Expired",
+    "trialEnding": "Trial Ending Soon",
+    "subscriptionEnding": "Ending Soon"
+  }
+}

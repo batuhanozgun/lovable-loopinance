@@ -1,0 +1,15 @@
+
+{
+  "fetch": {
+    "general": "Abonelik bilgileri alınamadı",
+    "notFound": "Abonelik bulunamadı"
+  },
+  "update": {
+    "general": "Abonelik güncellenemedi",
+    "planChange": "Abonelik planı değiştirilemedi"
+  },
+  "access": {
+    "denied": "Bu özelliğe erişiminiz yok",
+    "expired": "Aboneliğinizin süresi doldu"
+  }
+}

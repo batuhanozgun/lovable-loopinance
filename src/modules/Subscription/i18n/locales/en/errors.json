@@ -1,0 +1,15 @@
+
+{
+  "fetch": {
+    "general": "Could not fetch subscription information",
+    "notFound": "Subscription not found"
+  },
+  "update": {
+    "general": "Failed to update subscription",
+    "planChange": "Failed to change subscription plan"
+  },
+  "access": {
+    "denied": "You do not have access to this feature",
+    "expired": "Your subscription has expired"
+  }
+}

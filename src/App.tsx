@@ -9,6 +9,7 @@ import { SessionService } from "@/modules/UserManagement/auth";
 import { Layout } from "@/modules/AppLayout/components/Layout";
 import { DashboardView } from "@/modules/Dashboard";
 import { ProfileView } from "@/modules/UserManagement/Profile";
+import { SubscriptionView } from "@/modules/Subscription";
 import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
 import "@/i18n/config";
@@ -130,6 +131,18 @@ const App = () => {
               isAuthenticated ? (
                 <Layout>
                   <ProfileView />
+                </Layout>
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/subscription"
+            element={
+              isAuthenticated ? (
+                <Layout>
+                  <SubscriptionView />
                 </Layout>
               ) : (
                 <Navigate to="/login" />

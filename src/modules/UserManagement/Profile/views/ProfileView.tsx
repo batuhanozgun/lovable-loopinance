@@ -1,8 +1,10 @@
+
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
 import { ProfileInfo } from "../components/ProfileInfo";
 import { AccountSettings } from "../components/AccountSettings";
+import { SubscriptionInfo } from "../components/SubscriptionInfo";
 import { ProfileService } from "@/modules/UserManagement/auth/services/ProfileService";
 import { SessionService } from "@/modules/UserManagement/auth/services/SessionService";
 import { IUserProfile } from "@/modules/UserManagement/auth/types/IUserProfile";
@@ -109,18 +111,24 @@ export const ProfileView: React.FC = () => {
   }
 
   return (
-    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+    <div className="grid gap-6">
       {profileData && (
         <>
-          <ProfileInfo
-            profile={profileData}
-            onUpdateProfile={handleProfileUpdate}
-          />
-          
-          <AccountSettings
-            profile={profileData}
-            onUpdateProfile={handleProfileUpdate}
-          />
+          <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+            <ProfileInfo
+              profile={profileData}
+              onUpdateProfile={handleProfileUpdate}
+            />
+            
+            <div className="grid gap-4">
+              <SubscriptionInfo />
+              
+              <AccountSettings
+                profile={profileData}
+                onUpdateProfile={handleProfileUpdate}
+              />
+            </div>
+          </div>
         </>
       )}
     </div>

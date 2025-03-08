@@ -18,6 +18,7 @@ import { initOAuthTranslations } from '@/modules/UserManagement/OAuth/i18n';
 import { initAppLayoutTranslations } from '@/modules/AppLayout/i18n';
 import { initDashboardTranslations } from '@/modules/Dashboard/i18n';
 import { initProfileTranslations } from '@/modules/UserManagement/Profile/i18n';
+import { initSubscriptionTranslations } from '@/modules/Subscription/i18n';
 
 // Profile modülü çevirilerini doğrudan içe aktar
 import * as profileContentEN from '@/modules/UserManagement/Profile/i18n/locales/en/content.json';
@@ -75,6 +76,7 @@ initLoginTranslations();
 initOAuthTranslations();
 initAppLayoutTranslations();
 initDashboardTranslations();
+initSubscriptionTranslations();
 // Profile modülü çevirileri zaten yüklendi, tekrar başlatmaya gerek yok
 
 export default i18n;

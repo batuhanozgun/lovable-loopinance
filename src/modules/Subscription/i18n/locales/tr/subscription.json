@@ -1,0 +1,34 @@
+
+{
+  "status": {
+    "trial": "Deneme",
+    "active": "Aktif",
+    "expired": "Süresi Dolmuş",
+    "canceled": "İptal Edilmiş"
+  },
+  "plan": {
+    "trial": "Deneme Planı",
+    "monthly": "Aylık Plan",
+    "yearly": "Yıllık Plan"
+  },
+  "info": {
+    "trialRemaining": "Deneme sürenizde {{days}} gün kaldı",
+    "subscriptionRemaining": "Aboneliğinizde {{days}} gün kaldı",
+    "expired": "Aboneliğinizin süresi doldu",
+    "trialExpired": "Deneme süreniz doldu",
+    "renewalDate": "Bir sonraki yenileme {{date}} tarihinde"
+  },
+  "actions": {
+    "upgrade": "Planı Yükselt",
+    "renew": "Aboneliği Yenile",
+    "cancel": "Aboneliği İptal Et",
+    "changePlan": "Planı Değiştir"
+  },
+  "badge": {
+    "trial": "Deneme",
+    "active": "Aktif",
+    "expired": "Süresi Doldu",
+    "trialEnding": "Deneme Süresi Bitiyor",
+    "subscriptionEnding": "Süre Bitiyor"
+  }
+}
