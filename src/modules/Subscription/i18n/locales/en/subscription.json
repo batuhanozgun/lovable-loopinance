@@ -23,7 +23,8 @@
     "upgrade": "Upgrade Plan",
     "renew": "Renew Subscription",
     "cancel": "Cancel Subscription",
-    "changePlan": "Change Plan"
+    "changePlan": "Change Plan",
+    "subscribe": "Subscribe Now"
   },
   "badge": {
     "trial": "Trial",
@@ -31,5 +32,17 @@
     "expired": "Expired",
     "trialEnding": "Trial Ending Soon",
     "subscriptionEnding": "Ending Soon"
+  },
+  "access": {
+    "restricted": {
+      "title": "Subscription Required",
+      "description": "This feature is only available to active subscribers.",
+      "moduleDescription": "The {{moduleName}} module is only available to active subscribers.",
+      "upgrade": "Upgrade your plan to access all features and continue managing your finances effectively."
+    }
+  },
+  "plans": {
+    "title": "Available Plans",
+    "description": "Choose the plan that works best for you"
   }
 }

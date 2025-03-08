@@ -1,5 +1,6 @@
+
 import React, { useCallback } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
 import { Home, BarChart3, Settings, User, Wallet, Grid, List } from 'lucide-react';
@@ -12,12 +13,16 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { CSS_CLASSES, SPACING, TRANSITION } from './constants';
+import { useAccessControl } from '@/modules/Subscription/hooks/useAccessControl';
+import { AccessRestrictedDialog } from '@/modules/Subscription/components/AccessRestrictedDialog';
 
 export const Navigation: React.FC = () => {
   const { t } = useTranslation(['AppLayout', 'common']);
   const logger = LoggerService.getInstance('AppLayout.Navigation');
   const location = useLocation();
+  const navigate = useNavigate();
   const { isExpanded, isMobile, toggleSidebar } = useSidebarContext();
+  const { canNavigateTo, isDialogOpen, restrictedModuleName, closeDialog } = useAccessControl();
   
   const navItems = [
     { 
@@ -64,12 +69,19 @@ export const Navigation: React.FC = () => {
   });
 
   // Navigasyon elemanına tıklandığında mobil görünümde sidebar'ı kapat
-  const handleNavClick = useCallback(() => {
-    if (isMobile && isExpanded) {
-      logger.debug('Navigation item clicked in mobile view, closing sidebar');
-      toggleSidebar();
+  const handleNavClick = useCallback((e: React.MouseEvent, path: string, label: string) => {
+    e.preventDefault(); // Önce varsayılan davranışı engelle
+    
+    // Erişim kontrolü
+    if (canNavigateTo(path, label)) {
+      navigate(path);
+      
+      if (isMobile && isExpanded) {
+        logger.debug('Navigation item clicked in mobile view, closing sidebar');
+        toggleSidebar();
+      }
     }
-  }, [isMobile, isExpanded, toggleSidebar, logger]);
+  }, [isMobile, isExpanded, toggleSidebar, logger, canNavigateTo, navigate]);
 
   // Daraltılmış modda tooltip göster (isHovering kaldırıldı)
   const shouldShowTooltip = !isExpanded && !isMobile;
@@ -81,6 +93,12 @@ export const Navigation: React.FC = () => {
       CSS_CLASSES.TRANSITIONS.BASE,
       (!isExpanded && !isMobile) && "items-center"
     )}>
+      <AccessRestrictedDialog 
+        isOpen={isDialogOpen} 
+        onClose={closeDialog} 
+        moduleName={restrictedModuleName} 
+      />
+      
       <TooltipProvider delayDuration={TRANSITION.TOOLTIP_DELAY}>
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
@@ -91,9 +109,9 @@ export const Navigation: React.FC = () => {
             return (
               <Tooltip key={item.path}>
                 <TooltipTrigger asChild>
-                  <Link 
-                    to={item.path} 
-                    onClick={handleNavClick}
+                  <a 
+                    href={item.path}
+                    onClick={(e) => handleNavClick(e, item.path, item.label)}
                     className={cn(
                       "flex items-center w-full rounded-md",
                       CSS_CLASSES.COLLAPSED.ICON_ONLY,
@@ -105,7 +123,7 @@ export const Navigation: React.FC = () => {
                     )}
                   >
                     <IconComponent size={SPACING.ICON_SIZE} className={CSS_CLASSES.COLLAPSED.ICON} />
-                  </Link>
+                  </a>
                 </TooltipTrigger>
                 <TooltipContent side="right" className="z-50">
                   <p>{item.label}</p>
@@ -116,10 +134,10 @@ export const Navigation: React.FC = () => {
           
           // Normal görünüm (genişletilmiş)
           return (
-            <Link 
+            <a 
               key={item.path}
-              to={item.path} 
-              onClick={handleNavClick}
+              href={item.path}
+              onClick={(e) => handleNavClick(e, item.path, item.label)}
               className={cn(
                 "flex items-center w-full gap-3 rounded-md",
                 CSS_CLASSES.COLORS.TEXT,
@@ -136,7 +154,7 @@ export const Navigation: React.FC = () => {
               )}>
                 {item.label}
               </span>
-            </Link>
+            </a>
           );
         })}
       </TooltipProvider>

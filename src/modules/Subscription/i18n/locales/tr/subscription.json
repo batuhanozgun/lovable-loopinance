@@ -23,7 +23,8 @@
     "upgrade": "Planı Yükselt",
     "renew": "Aboneliği Yenile",
     "cancel": "Aboneliği İptal Et",
-    "changePlan": "Planı Değiştir"
+    "changePlan": "Planı Değiştir",
+    "subscribe": "Şimdi Abone Ol"
   },
   "badge": {
     "trial": "Deneme",
@@ -31,5 +32,17 @@
     "expired": "Süresi Doldu",
     "trialEnding": "Deneme Süresi Bitiyor",
     "subscriptionEnding": "Süre Bitiyor"
+  },
+  "access": {
+    "restricted": {
+      "title": "Abonelik Gerekli",
+      "description": "Bu özellik sadece aktif abonelere açıktır.",
+      "moduleDescription": "{{moduleName}} modülü sadece aktif abonelere açıktır.",
+      "upgrade": "Tüm özelliklere erişmek ve finansal durumunuzu etkin bir şekilde yönetmeye devam etmek için planınızı yükseltin."
+    }
+  },
+  "plans": {
+    "title": "Mevcut Planlar",
+    "description": "Size en uygun planı seçin"
   }
 }

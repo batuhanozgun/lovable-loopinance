@@ -1,7 +1,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { SubscriptionService } from '../services/SubscriptionService';
-import { ISubscriptionSummary, SubscriptionPlanType } from '../types/ISubscription';
+import { ISubscriptionSummary, SubscriptionPlanType, SubscriptionStatus } from '../types/ISubscription';
 import { SessionService } from '@/modules/UserManagement/auth/services/SessionService';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
@@ -92,6 +92,23 @@ export const useSubscription = () => {
     }
   }, [fetchSubscription, t, toast]);
 
+  // Kullanıcının belirli bir özelliğe erişiminin olup olmadığını kontrol et
+  const isFeatureAccessible = useCallback(() => {
+    // Veri yükleniyorsa veya hata varsa erişimi engelleme
+    if (isLoading || error) return true;
+    
+    // Abonelik bilgisi yoksa yine erişime izin ver (güvenli mod)
+    if (!subscriptionSummary) return true;
+    
+    // Eğer abonelik aktifse erişime izin ver
+    if (subscriptionSummary.isActive) {
+      return true;
+    }
+    
+    // Abonelik süresi dolduysa erişimi kısıtla
+    return false;
+  }, [isLoading, error, subscriptionSummary]);
+
   // İlk yüklemede abonelik bilgisini getir
   useEffect(() => {
     fetchSubscription();
@@ -102,6 +119,7 @@ export const useSubscription = () => {
     error,
     subscription: subscriptionSummary,
     refreshSubscription: fetchSubscription,
-    updatePlan: updateSubscriptionPlan
+    updatePlan: updateSubscriptionPlan,
+    isFeatureAccessible
   };
 };
