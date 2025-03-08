@@ -1,29 +1,41 @@
 
-import { ISubscriptionResponse } from "../../../domain/models/Subscription";
-import { SubscriptionLoggerService } from "../shared/SubscriptionLoggerService";
+import { ISubscription, ISubscriptionResponse } from "../../../domain/models/Subscription";
 import { SubscriptionQueryService } from "../queries/SubscriptionQueryService";
-import { SubscriptionQueryErrorHandler } from "../queries/SubscriptionQueryErrorHandler";
 import { StatusService } from "../../../features/status/services/StatusService";
+import { LoggerService } from "@/modules/Logging/services/LoggerService";
 
+const logger = LoggerService.getInstance("SubscriptionValidationService");
+
+/**
+ * Abonelik doğrulama servisi
+ */
 export class SubscriptionValidationService {
-  private static logger = SubscriptionLoggerService.getLogger("SubscriptionValidationService");
-
   /**
    * Kullanıcının abonelik durumunu kontrol et
    */
   static async checkSubscriptionStatus(userId: string): Promise<ISubscriptionResponse> {
     try {
-      const response = await SubscriptionQueryService.getUserSubscription(userId);
+      // Kullanıcının abonelik bilgilerini getir
+      const result = await SubscriptionQueryService.getUserSubscription(userId);
       
-      if (!response.success || !response.subscription) {
-        return response;
+      if (!result.success || !result.subscription) {
+        return result;
       }
       
-      // Abonelik durumunu doğrula ve gerekirse güncelle
-      return await StatusService.validateSubscriptionStatus(userId, response.subscription);
+      // Abonelik durumunu validate et ve gerekiyorsa güncelle
+      const validationResult = await StatusService.validateSubscriptionStatus(
+        userId,
+        result.subscription
+      );
+      
+      return validationResult;
     } catch (error) {
-      this.logger.error("Abonelik durumu kontrol edilirken beklenmeyen hata", error);
-      return SubscriptionQueryErrorHandler.handleUnexpectedError(error);
+      logger.error("Abonelik durum kontrolü sırasında beklenmeyen hata", error);
+      
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Abonelik durumu kontrol edilirken bir hata oluştu"
+      };
     }
   }
 }

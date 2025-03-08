@@ -3,6 +3,8 @@
 export * from './hooks/useSubscription';
 export * from './hooks/useSubscriptionState';
 export * from './hooks/useSubscriptionStatus';
+export * from './hooks/useSubscriptionError';
+export * from './hooks/useSubscriptionGuard';
 
 // Components
 export * from './features/subscription-management/SubscriptionInfo';
@@ -15,3 +17,6 @@ export * from './guards/SubscriptionGuard';
 export * from './domain/models/Subscription';
 export * from './domain/models/Trial';
 export * from './domain/models/Payment';
+
+// Utils
+export * from './utils/dateUtils';

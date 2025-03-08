@@ -1,41 +1,35 @@
 
-import { SubscriptionStatus } from "./Subscription";
+import { calculateDaysRemaining, formatDateLocale } from "../../utils/dateUtils";
 
-/**
- * Deneme süresi modeli
- */
 export interface ITrial {
-  starts_at: string;
-  ends_at: string;
-  is_active: boolean;
+  starts_at: string | null;
+  ends_at: string | null;
   days_remaining: number;
+  is_active: boolean;
+  formatted_end_date: string;
 }
 
 export interface ITrialResponse {
-  success: boolean;
   trial?: ITrial;
   error?: string;
 }
 
 /**
- * Trial modeli oluştur
+ * Deneme süresi modeli oluşturur
  */
 export const createTrialModel = (
-  trialStartsAt: string,
-  trialEndsAt: string,
-  status: SubscriptionStatus
+  trialStartsAt: string | null,
+  trialEndsAt: string | null,
+  status: string
 ): ITrial => {
-  const now = new Date();
-  const endDate = new Date(trialEndsAt);
-  
-  // Kalan gün hesaplama
-  const diffTime = Math.max(0, endDate.getTime() - now.getTime());
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  const daysRemaining = calculateDaysRemaining(trialEndsAt);
+  const isActive = status === 'trial' && daysRemaining > 0;
   
   return {
     starts_at: trialStartsAt,
     ends_at: trialEndsAt,
-    is_active: status === 'trial' && diffDays > 0,
-    days_remaining: diffDays
+    days_remaining: daysRemaining,
+    is_active: isActive,
+    formatted_end_date: formatDateLocale(trialEndsAt)
   };
 };

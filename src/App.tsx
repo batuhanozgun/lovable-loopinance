@@ -9,7 +9,7 @@ import { SessionService } from "@/modules/UserManagement/auth";
 import { Layout } from "@/modules/AppLayout/components/Layout";
 import { DashboardView } from "@/modules/Dashboard";
 import { ProfileView } from "@/modules/UserManagement/Profile";
-import { SubscriptionGuard } from "@/modules/UserManagement/Subscription/middleware/SubscriptionGuard";
+import { SubscriptionGuard } from "@/modules/UserManagement/Subscription/guards/SubscriptionGuard";
 import { ExpiredSubscriptionView } from "@/modules/UserManagement/Subscription/views/ExpiredSubscriptionView";
 import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";

@@ -1,55 +1,35 @@
 
-import { useMemo } from 'react';
-import { LoggerService } from '@/modules/Logging/services/LoggerService';
+import { useNavigate } from "react-router-dom";
+import { LoggerService } from "@/modules/Logging/services/LoggerService";
+import { useSubscriptionStatus } from "./useSubscriptionStatus";
+import { ISubscription } from "../domain/models/Subscription";
 
 const logger = LoggerService.getInstance("useSubscriptionGuard");
 
 /**
- * Abonelik güvenlik kontrolü hook'u
+ * Abonelik durumuna göre rota koruması sağlayan hook
  */
-export const useSubscriptionGuard = (
-  isLoading: boolean,
-  isActive: boolean,
-  isExpired: boolean,
-  subscriptionId?: string
-) => {
-  return useMemo(() => {
-    // Yükleme sırasında erişime izin verme
-    if (isLoading) {
-      return {
-        canAccess: false,
-        shouldRedirect: false,
-        loading: true
-      };
+export const useSubscriptionGuard = (subscription: ISubscription | null) => {
+  const navigate = useNavigate();
+  const { isActive, isExpired } = useSubscriptionStatus(subscription);
+  
+  /**
+   * Abonelik durumuna göre yönlendirme yap
+   */
+  const guardNavigate = () => {
+    if (subscription && isExpired) {
+      logger.debug("Süresi dolmuş abonelik, yönlendirme yapılıyor", { status: subscription.status });
+      navigate("/subscription/expired");
+      return false;
     }
     
-    // Abonelik süresi dolmuşsa, yönlendirme
-    if (isExpired) {
-      logger.info("Kullanıcının abonelik süresi dolmuş, yönlendiriliyor", { subscriptionId });
-      return {
-        canAccess: false,
-        shouldRedirect: true,
-        redirectPath: '/subscription/expired',
-        loading: false
-      };
-    }
-    
-    // Abonelik aktifse (trial veya active), erişime izin ver
-    if (isActive) {
-      return {
-        canAccess: true,
-        shouldRedirect: false,
-        loading: false
-      };
-    }
-    
-    // Diğer durumlarda da abonelik sayfasına yönlendir
-    logger.warn("Beklenmeyen abonelik durumu, yönlendiriliyor", { subscriptionId });
-    return {
-      canAccess: false,
-      shouldRedirect: true,
-      redirectPath: '/subscription/expired',
-      loading: false
-    };
-  }, [isLoading, isActive, isExpired, subscriptionId]);
+    // Aktif abonelik - erişime izin ver
+    return true;
+  };
+  
+  return {
+    guardNavigate,
+    allowAccess: isActive,
+    needsUpgrade: isExpired,
+  };
 };
