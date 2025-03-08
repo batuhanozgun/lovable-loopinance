@@ -4,8 +4,12 @@ import { LoggerService } from '@/modules/Logging/services/LoggerService';
 import { Navigation } from '../../Navigation';
 import { useSidebarContext } from '../../context/SidebarContext';
 import { cn } from '@/lib/utils';
-import { TRANSITION, CSS_CLASSES, SPACING } from '../../constants';
+import { TRANSITION, CSS_CLASSES } from '../../constants';
 
+/**
+ * Sidebar içindeki navigasyon bölümünü yöneten bileşen
+ * Sidebar daraltıldığında ve genişletildiğinde uygun animasyonları yönetir
+ */
 export const SidebarNav: React.FC = () => {
   const logger = LoggerService.getInstance('AppLayout.SidebarNav');
   const { isExpanded, isMobile } = useSidebarContext();
