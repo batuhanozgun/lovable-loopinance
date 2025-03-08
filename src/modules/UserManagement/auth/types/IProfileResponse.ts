@@ -1,8 +1,6 @@
 
-import { IUserProfile } from "./IUserProfile";
-
 export interface IProfileResponse {
   success: boolean;
-  profile?: IUserProfile;
+  profile?: any;
   error?: string;
 }

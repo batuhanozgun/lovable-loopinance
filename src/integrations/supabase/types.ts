@@ -36,45 +36,6 @@ export type Database = {
         }
         Relationships: []
       }
-      subscriptions: {
-        Row: {
-          created_at: string
-          current_period_ends_at: string | null
-          current_period_starts_at: string | null
-          id: string
-          plan_type: Database["public"]["Enums"]["subscription_plan_type"]
-          status: Database["public"]["Enums"]["subscription_status"]
-          trial_ends_at: string
-          trial_starts_at: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          current_period_ends_at?: string | null
-          current_period_starts_at?: string | null
-          id?: string
-          plan_type?: Database["public"]["Enums"]["subscription_plan_type"]
-          status?: Database["public"]["Enums"]["subscription_status"]
-          trial_ends_at?: string
-          trial_starts_at?: string
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          current_period_ends_at?: string | null
-          current_period_starts_at?: string | null
-          id?: string
-          plan_type?: Database["public"]["Enums"]["subscription_plan_type"]
-          status?: Database["public"]["Enums"]["subscription_status"]
-          trial_ends_at?: string
-          trial_starts_at?: string
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
     }
     Views: {
       [_ in never]: never
@@ -83,8 +44,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      subscription_plan_type: "trial" | "monthly" | "yearly"
-      subscription_status: "trial" | "active" | "expired" | "cancelled"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never

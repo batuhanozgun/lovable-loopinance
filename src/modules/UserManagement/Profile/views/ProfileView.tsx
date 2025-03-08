@@ -1,151 +1,127 @@
-
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { LoggerService } from "@/modules/Logging/services/LoggerService";
 import { ProfileInfo } from "../components/ProfileInfo";
 import { AccountSettings } from "../components/AccountSettings";
-import { SubscriptionInfo } from "../components/SubscriptionInfo";
-import { IUserProfile } from "@/modules/UserManagement/auth/types/IUserProfile";
 import { ProfileService } from "@/modules/UserManagement/auth/services/ProfileService";
 import { SessionService } from "@/modules/UserManagement/auth/services/SessionService";
-import { LoggerService } from "@/modules/Logging/services/LoggerService";
-import { Skeleton } from "@/components/ui/skeleton";
+import { IUserProfile } from "@/modules/UserManagement/auth/types/IUserProfile";
 import { useToast } from "@/hooks/use-toast";
 
 export const ProfileView: React.FC = () => {
-  const { t } = useTranslation(["Profile"]);
-  const [profile, setProfile] = useState<IUserProfile | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isUpdating, setIsUpdating] = useState(false);
+  const { t } = useTranslation(["Profile", "common"]);
   const logger = LoggerService.getInstance("UserManagement.ProfileView");
+  const [isLoading, setIsLoading] = useState(true);
+  const [profileData, setProfileData] = useState<IUserProfile | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
-    loadUserProfile();
-  }, []);
+    const fetchUserData = async () => {
+      try {
+        setIsLoading(true);
+        const sessionResponse = await SessionService.getCurrentSession();
+        
+        if (!sessionResponse.success || !sessionResponse.user) {
+          logger.error("Oturum bilgisi alınamadı");
+          toast({
+            title: t("common:error"),
+            description: t("Profile:errors.sessionNotFound"),
+            variant: "destructive",
+          });
+          return;
+        }
 
-  const loadUserProfile = async () => {
-    try {
-      setIsLoading(true);
-      logger.debug("Kullanıcı profili yükleniyor");
-      
-      const currentUser = await SessionService.getCurrentUser();
-      if (!currentUser) {
-        logger.error("Oturum açmış kullanıcı bulunamadı");
+        const userId = sessionResponse.user.id;
+        setUserId(userId);
+
+        const profileResponse = await ProfileService.getUserProfile(userId);
+        
+        if (!profileResponse.success) {
+          logger.error("Profil bilgileri alınamadı", { error: profileResponse.error });
+          toast({
+            title: t("common:error"),
+            description: t("Profile:errors.profileNotFound"),
+            variant: "destructive",
+          });
+          return;
+        }
+
+        setProfileData(profileResponse.profile as IUserProfile);
+        logger.debug("Profil bilgileri başarıyla yüklendi", { userId });
+      } catch (error) {
+        logger.error("Profil verisi yüklenirken bir hata oluştu", error);
         toast({
+          title: t("common:error"),
+          description: t("Profile:errors.loadError"),
           variant: "destructive",
-          title: t("Profile:errors.noUser"),
-          description: t("Profile:errors.noUserDescription"),
         });
-        return;
+      } finally {
+        setIsLoading(false);
       }
+    };
 
-      const response = await ProfileService.getUserProfile(currentUser.id);
+    fetchUserData();
+  }, [t, toast]);
+
+  const handleProfileUpdate = async (updatedData: Partial<IUserProfile>) => {
+    if (!userId) return;
+    
+    try {
+      logger.debug("Profil güncelleme başlatıldı", { updatedData });
+      const response = await ProfileService.updateUserProfile(userId, updatedData);
       
       if (!response.success) {
-        logger.error("Profil bilgileri yüklenemedi", { error: response.error });
+        logger.error("Profil güncellenirken hata oluştu", { error: response.error });
         toast({
+          title: t("common:error"),
+          description: t("Profile:errors.updateError"),
           variant: "destructive",
-          title: t("Profile:errors.loadFailed"),
-          description: response.error || t("Profile:errors.loadFailedDescription"),
         });
         return;
       }
-
-      logger.debug("Profil bilgileri başarıyla yüklendi", { userId: currentUser.id });
-      setProfile(response.profile);
-    } catch (error) {
-      logger.error("Profil yüklenirken beklenmeyen hata", error);
+      
+      setProfileData(response.profile as IUserProfile);
+      logger.debug("Profil başarıyla güncellendi");
       toast({
-        variant: "destructive",
-        title: t("Profile:errors.unexpectedError"),
-        description: error instanceof Error ? error.message : t("Profile:errors.tryAgain"),
+        title: t("Profile:messages.updateSuccess.title"),
+        description: t("Profile:messages.updateSuccess.description"),
       });
-    } finally {
-      setIsLoading(false);
+    } catch (error) {
+      logger.error("Profil güncellenirken bir hata oluştu", error);
+      toast({
+        title: t("common:error"),
+        description: t("Profile:errors.updateError"),
+        variant: "destructive",
+      });
     }
   };
 
-  const handleUpdateProfile = async (data: Partial<IUserProfile>) => {
-    if (!profile?.id) {
-      logger.error("Profil güncellenemiyor, profil ID bulunamadı");
-      return;
-    }
-
-    try {
-      setIsUpdating(true);
-      logger.debug("Profil güncelleniyor", { profileId: profile.id, ...data });
-      
-      const response = await ProfileService.updateUserProfile(profile.id, data);
-      
-      if (!response.success) {
-        logger.error("Profil güncellenemedi", { error: response.error });
-        toast({
-          variant: "destructive",
-          title: t("Profile:errors.updateFailed"),
-          description: response.error || t("Profile:errors.updateFailedDescription"),
-        });
-        return;
-      }
-
-      logger.debug("Profil başarıyla güncellendi", { profileId: profile.id });
-      setProfile(response.profile);
-      
-      toast({
-        title: t("Profile:messages.updateSuccess"),
-        description: t("Profile:messages.updateSuccessDescription"),
-      });
-    } catch (error) {
-      logger.error("Profil güncellenirken beklenmeyen hata", error);
-      toast({
-        variant: "destructive",
-        title: t("Profile:errors.unexpectedError"),
-        description: error instanceof Error ? error.message : t("Profile:errors.tryAgain"),
-      });
-    } finally {
-      setIsUpdating(false);
-    }
-  };
-
-  const renderLoading = () => (
-    <div className="space-y-8">
-      <div className="border rounded-lg p-6">
-        <Skeleton className="h-24 w-24 rounded-full mx-auto mb-4" />
-        <Skeleton className="h-8 w-1/3 mx-auto mb-6" />
-        <div className="space-y-4">
-          <Skeleton className="h-12 w-full" />
-          <Skeleton className="h-12 w-full" />
-          <Skeleton className="h-12 w-full" />
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-lg font-medium text-muted-foreground">{t("common:loading")}</p>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 
   return (
-    <div className="container py-6 max-w-5xl">
-      <h1 className="text-3xl font-bold mb-8">{t("profile.title")}</h1>
-      
-      {isLoading ? (
-        renderLoading()
-      ) : (
-        <div className="grid gap-8 md:grid-cols-2">
-          <div className="space-y-8">
-            {profile && (
-              <ProfileInfo 
-                profile={profile} 
-                onUpdateProfile={handleUpdateProfile} 
-              />
-            )}
-            <SubscriptionInfo />
-          </div>
-          <div>
-            {profile && (
-              <AccountSettings 
-                profile={profile} 
-                onUpdateProfile={handleUpdateProfile} 
-              />
-            )}
-          </div>
-        </div>
+    <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+      {profileData && (
+        <>
+          <ProfileInfo
+            profile={profileData}
+            onUpdateProfile={handleProfileUpdate}
+          />
+          
+          <AccountSettings
+            profile={profileData}
+            onUpdateProfile={handleProfileUpdate}
+          />
+        </>
       )}
     </div>
   );
