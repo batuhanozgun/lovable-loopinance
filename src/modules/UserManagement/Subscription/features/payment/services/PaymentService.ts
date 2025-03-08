@@ -1,7 +1,7 @@
 
 import { ISubscription } from "../../../domain/models/Subscription";
 import { IPayment, createPaymentModel } from "../../../domain/models/Payment";
-import { isDateExpired } from "../../../helpers/date/dateUtils";
+import { isDateExpired } from "../../../core/utils/dateUtils";
 import { SubscriptionLoggerService } from "../../../core/services/shared/SubscriptionLoggerService";
 
 /**

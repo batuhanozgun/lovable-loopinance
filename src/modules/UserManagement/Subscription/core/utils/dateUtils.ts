@@ -66,3 +66,22 @@ export const formatDateLocale = (date: Date | string | null): string => {
     day: 'numeric'
   });
 };
+
+/**
+ * Bir tarihin geçmiş olup olmadığını kontrol eder
+ */
+export const isDateExpired = (date: Date | string | null): boolean => {
+  if (!date) return false;
+  
+  const today = new Date();
+  const checkDate = typeof date === 'string' ? new Date(date) : date;
+  
+  // Geçerli tarih mi kontrol et
+  if (isNaN(checkDate.getTime())) return false;
+  
+  // Günü, ayı ve yılı alıp zaman kısmını sıfırlayarak tam günler arası hesaplama yap
+  const todayWithoutTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const dateWithoutTime = new Date(checkDate.getFullYear(), checkDate.getMonth(), checkDate.getDate());
+  
+  return dateWithoutTime < todayWithoutTime;
+};

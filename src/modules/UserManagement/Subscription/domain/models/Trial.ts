@@ -1,5 +1,5 @@
 
-import { calculateDaysRemaining, formatDateLocale } from "../../utils/dateUtils";
+import { calculateDaysRemaining, formatDateLocale } from "../../../core/utils/dateUtils";
 
 export interface ITrial {
   starts_at: string | null;

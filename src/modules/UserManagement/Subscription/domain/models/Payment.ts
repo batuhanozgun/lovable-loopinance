@@ -1,5 +1,5 @@
 
-import { calculateDaysRemaining, formatDateLocale } from "../../utils/dateUtils";
+import { calculateDaysRemaining, formatDateLocale } from "../../../core/utils/dateUtils";
 import { PricingPlanType } from "@/modules/LandingPage/components/PricingSection/types/pricing.types";
 
 export interface IPayment {

@@ -1,28 +1,38 @@
 
 import { ISubscription } from "../../../domain/models/Subscription";
-import { isDateExpired } from "../../../helpers/date/dateUtils";
-import { SubscriptionLoggerService } from "../shared/SubscriptionLoggerService";
+import { isDateExpired } from "../../utils/dateUtils";
 
 /**
- * Aktif abonelik süresi doğrulama servisi
+ * Abonelik ödeme dönemi doğrulama servisi
  */
 export class SubscriptionPeriodValidator {
-  private static logger = SubscriptionLoggerService.getLogger("SubscriptionPeriodValidator");
-
   /**
-   * Aktif abonelik süresinin dolup dolmadığını kontrol et
+   * Ödeme döneminin hala geçerli olup olmadığını kontrol eder
    */
-  static isSubscriptionPeriodExpired(subscription: ISubscription): boolean {
-    if (subscription.status !== 'active' || !subscription.current_period_ends_at) {
+  static isPeriodValid(subscription: ISubscription): boolean {
+    if (subscription.status !== 'active') {
       return false;
     }
     
-    const isExpired = isDateExpired(subscription.current_period_ends_at);
-    
-    if (isExpired) {
-      this.logger.info("Kullanıcının aktif abonelik süresi dolmuş", { userId: subscription.user_id });
+    if (!subscription.current_period_ends_at) {
+      return false;
     }
     
-    return isExpired;
+    return !isDateExpired(subscription.current_period_ends_at);
+  }
+  
+  /**
+   * Ödeme döneminin sona erip ermediğini kontrol eder
+   */
+  static isPeriodExpired(subscription: ISubscription): boolean {
+    if (subscription.status !== 'active') {
+      return false;
+    }
+    
+    if (!subscription.current_period_ends_at) {
+      return true;
+    }
+    
+    return isDateExpired(subscription.current_period_ends_at);
   }
 }

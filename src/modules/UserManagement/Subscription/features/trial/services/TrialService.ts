@@ -1,7 +1,7 @@
 
 import { ISubscription, SubscriptionStatus } from "../../../domain/models/Subscription";
 import { ITrial, createTrialModel } from "../../../domain/models/Trial";
-import { isDateExpired } from "../../../helpers/date/dateUtils";
+import { isDateExpired } from "../../../core/utils/dateUtils";
 import { SubscriptionLoggerService } from "../../../core/services/shared/SubscriptionLoggerService";
 
 /**

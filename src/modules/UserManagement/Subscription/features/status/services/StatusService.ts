@@ -4,7 +4,7 @@ import { ITrialResponse, createTrialModel } from "../../../domain/models/Trial";
 import { IPaymentResponse, createPaymentModel } from "../../../domain/models/Payment";
 import { SubscriptionUpdateService } from "../../../core/services/mutations/SubscriptionUpdateService";
 import { SubscriptionLoggerService } from "../../../core/services/shared/SubscriptionLoggerService";
-import { calculateDaysRemaining } from "../../../utils/dateUtils";
+import { calculateDaysRemaining } from "../../../core/utils/dateUtils";
 
 /**
  * Abonelik durumu yönetimi servisi

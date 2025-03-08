@@ -1,28 +1,38 @@
 
 import { ISubscription } from "../../../domain/models/Subscription";
-import { isDateExpired } from "../../../helpers/date/dateUtils";
-import { SubscriptionLoggerService } from "../shared/SubscriptionLoggerService";
+import { isDateExpired } from "../../utils/dateUtils";
 
 /**
- * Deneme süresi doğrulama servisi
+ * Abonelik deneme süresi doğrulama servisi
  */
 export class SubscriptionTrialValidator {
-  private static logger = SubscriptionLoggerService.getLogger("SubscriptionTrialValidator");
-
   /**
-   * Deneme süresinin dolup dolmadığını kontrol et
+   * Deneme süresinin geçerli olup olmadığını kontrol eder
+   */
+  static isTrialValid(subscription: ISubscription): boolean {
+    if (subscription.status !== 'trial') {
+      return false;
+    }
+    
+    if (!subscription.trial_ends_at) {
+      return false;
+    }
+    
+    return !isDateExpired(subscription.trial_ends_at);
+  }
+  
+  /**
+   * Deneme süresinin dolup dolmadığını kontrol eder
    */
   static isTrialExpired(subscription: ISubscription): boolean {
     if (subscription.status !== 'trial') {
       return false;
     }
     
-    const isExpired = isDateExpired(subscription.trial_ends_at);
-    
-    if (isExpired) {
-      this.logger.info("Kullanıcının deneme süresi dolmuş", { userId: subscription.user_id });
+    if (!subscription.trial_ends_at) {
+      return true;
     }
     
-    return isExpired;
+    return isDateExpired(subscription.trial_ends_at);
   }
 }

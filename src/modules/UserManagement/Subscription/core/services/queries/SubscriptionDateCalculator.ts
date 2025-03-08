@@ -1,7 +1,7 @@
 
 import { ISubscription } from "../../../domain/models/Subscription";
 import { StatusService } from "../../../features/status/services/StatusService";
-import { calculateDaysRemaining } from "../../../utils/dateUtils";
+import { calculateDaysRemaining } from "../../utils/dateUtils";
 
 /**
  * Abonelik süreleri hesaplama servisi
