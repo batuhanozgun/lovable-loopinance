@@ -3,6 +3,9 @@
 export { SubscriptionView } from './views/SubscriptionView';
 export { SubscriptionCard } from './components/SubscriptionCard';
 export { useSubscription } from './hooks/useSubscription';
+export { useSubscriptionQuery } from './hooks/useSubscriptionQuery';
+export { useSubscriptionMutation } from './hooks/useSubscriptionMutation';
+export { useFeatureAccess } from './hooks/useFeatureAccess';
 export { useTrialStatus } from './hooks/useTrialStatus';
 export { initSubscriptionTranslations } from './i18n';
 

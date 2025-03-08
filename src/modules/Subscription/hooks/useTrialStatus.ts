@@ -1,10 +1,10 @@
 
-import { useSubscription } from './useSubscription';
+import { useSubscriptionQuery } from './useSubscriptionQuery';
 import { SubscriptionStatus } from '../types/ISubscription';
 import { useMemo } from 'react';
 
 export const useTrialStatus = () => {
-  const { subscription, isLoading, error } = useSubscription();
+  const { subscription, isLoading, error } = useSubscriptionQuery();
   
   // Deneme süresiyle ilgili bilgileri hesaplama
   const trialInfo = useMemo(() => {

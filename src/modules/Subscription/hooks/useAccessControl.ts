@@ -1,12 +1,12 @@
 
 import { useState, useCallback } from 'react';
-import { useSubscription } from './useSubscription';
+import { useFeatureAccess } from './useFeatureAccess';
 import { subscriptionLogger } from '../logging';
 
 export const useAccessControl = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [restrictedModuleName, setRestrictedModuleName] = useState<string | undefined>(undefined);
-  const { isFeatureAccessible } = useSubscription();
+  const { isFeatureAccessible } = useFeatureAccess();
   
   // Kısıtlı modüller
   const restrictedPaths = [
