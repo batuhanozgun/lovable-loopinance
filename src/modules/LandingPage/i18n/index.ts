@@ -7,7 +7,6 @@ import enFeatures from './locales/en/features.json';
 import enCta from './locales/en/cta.json';
 import enNav from './locales/en/nav.json';
 import enFooter from './locales/en/footer.json';
-import enPricing from './locales/en/pricing.json';
 
 // Turkish resources
 import trHero from './locales/tr/hero.json';
@@ -15,7 +14,6 @@ import trFeatures from './locales/tr/features.json';
 import trCta from './locales/tr/cta.json';
 import trNav from './locales/tr/nav.json';
 import trFooter from './locales/tr/footer.json';
-import trPricing from './locales/tr/pricing.json';
 
 // Initialize landing page module translations
 export const initLandingPageTranslations = () => {
@@ -47,8 +45,7 @@ function addLandingPageResources() {
       features: enFeatures,
       cta: enCta,
       nav: enNav,
-      footer: enFooter,
-      pricing: enPricing
+      footer: enFooter
     }, true, true);
 
     // Add Turkish resources
@@ -57,8 +54,7 @@ function addLandingPageResources() {
       features: trFeatures,
       cta: trCta,
       nav: trNav,
-      footer: trFooter,
-      pricing: trPricing
+      footer: trFooter
     }, true, true);
     
     console.log("LandingPage translations successfully added");
