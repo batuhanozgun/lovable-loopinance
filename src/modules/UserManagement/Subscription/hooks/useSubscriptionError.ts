@@ -31,7 +31,6 @@ export const useSubscriptionError = (error: string | null) => {
   const clearError = () => {
     // Bu fonksiyon, error state'ini temizlemek için kullanılabilir
     // Örneğin: setError(null) şeklinde bir state güncelleme fonksiyonu
-    // ancak şu an için kullanılmıyor
   };
   
   return {

@@ -1,7 +1,7 @@
 
 import React, { ReactNode, useEffect } from 'react';
-import { useSubscriptionState } from '../hooks/state/useSubscriptionState';
-import { useSubscriptionStatus } from '../hooks/validation/useSubscriptionStatus';
+import { useSubscriptionState } from '../hooks/useSubscriptionState';
+import { useSubscriptionStatus } from '../hooks/useSubscriptionStatus';
 import { useSubscriptionGuard } from '../hooks/security/useSubscriptionGuard';
 import { SessionService } from '@/modules/UserManagement/auth';
 import { SubscriptionLoadingView } from '../features/status/SubscriptionLoadingView';

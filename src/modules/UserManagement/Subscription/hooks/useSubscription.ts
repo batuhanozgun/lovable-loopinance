@@ -1,7 +1,7 @@
 
-import { useSubscriptionState } from './state/useSubscriptionState';
-import { useSubscriptionStatus } from './validation/useSubscriptionStatus';
-import { useSubscriptionError } from './error/useSubscriptionError';
+import { useSubscriptionState } from './useSubscriptionState';
+import { useSubscriptionStatus } from './useSubscriptionStatus';
+import { useSubscriptionError } from './useSubscriptionError';
 import { useEffect } from 'react';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
 

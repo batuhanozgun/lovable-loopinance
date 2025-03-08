@@ -1,6 +1,6 @@
 
 import { useMemo } from 'react';
-import { ISubscription } from '../types/ISubscription';
+import { ISubscription } from '../domain/models/Subscription';
 
 /**
  * Abonelik durum hesaplama hook'u

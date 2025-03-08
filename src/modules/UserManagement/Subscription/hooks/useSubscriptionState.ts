@@ -2,8 +2,8 @@
 import { useState, useEffect } from 'react';
 import { LoggerService } from '@/modules/Logging/services/LoggerService';
 import { SessionService } from '@/modules/UserManagement/auth';
-import { SubscriptionService } from '../services/SubscriptionService';
-import { ISubscription } from '../types/ISubscription';
+import { SubscriptionService } from '../core/services/SubscriptionService';
+import { ISubscription } from '../domain/models/Subscription';
 
 const logger = LoggerService.getInstance("useSubscriptionState");
 
