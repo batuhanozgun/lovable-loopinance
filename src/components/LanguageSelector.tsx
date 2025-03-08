@@ -16,8 +16,11 @@ export const LanguageSelector = ({ className, ...props }: LanguageSelectorProps)
     const currentLang = i18n.language;
     const newLang = currentLang === "tr" ? "en" : "tr";
     
-    // Hızlı dil değişimi için Promise beklemeyelim ve sayfa yenilemesi yapmayalım
-    i18n.changeLanguage(newLang);
+    // Hızlı dil değişimi için Promise beklemeyelim
+    i18n.changeLanguage(newLang).catch(err => {
+      console.error("Dil değiştirme hatası:", err);
+    });
+    
     localStorage.setItem("preferredLanguage", newLang);
     
     // Kullanıcıya bildirim gösterelim
