@@ -1,69 +1,147 @@
 
-import { ISubscription, ISubscriptionResponse, SubscriptionStatus } from "../../../domain/models/Subscription";
-import { SubscriptionLoggerService } from "../../../core/services/shared/SubscriptionLoggerService";
+import { ISubscription, SubscriptionStatus } from "../../../domain/models/Subscription";
+import { ITrialResponse, createTrialModel } from "../../../domain/models/Trial";
+import { IPaymentResponse, createPaymentModel } from "../../../domain/models/Payment";
 import { SubscriptionUpdateService } from "../../../core/services/mutations/SubscriptionUpdateService";
-import { TrialService } from "../../trial/services/TrialService";
-import { PaymentService } from "../../payment/services/PaymentService";
+import { SubscriptionLoggerService } from "../../../core/services/shared/SubscriptionLoggerService";
 
 /**
- * Abonelik durumu yönetim servisi
+ * Abonelik durumu yönetimi servisi
  */
 export class StatusService {
   private static logger = SubscriptionLoggerService.getLogger("StatusService");
 
   /**
-   * Abonelik durumunu 'expired' olarak güncelle
+   * Abonelik için Trial modelini oluştur
    */
-  static async markAsExpired(userId: string, subscription: ISubscription): Promise<ISubscriptionResponse> {
-    this.logger.info("Abonelik durumu 'expired' olarak güncelleniyor", { userId });
+  static createTrialFromSubscription(subscription: ISubscription) {
+    return createTrialModel(
+      subscription.trial_starts_at,
+      subscription.trial_ends_at,
+      subscription.status
+    );
+  }
+
+  /**
+   * Abonelik için Payment modelini oluştur
+   */
+  static createPaymentFromSubscription(subscription: ISubscription) {
+    if (!subscription.current_period_ends_at) {
+      return undefined;
+    }
     
-    // Durumu güncelle
-    await SubscriptionUpdateService.updateSubscriptionStatus(userId, 'expired');
-    
-    // Güncellenmiş abonelik nesnesini oluştur
-    const updatedSubscription = SubscriptionUpdateService.updateSubscriptionWithStatus(subscription, 'expired');
-    
-    return {
-      success: true,
-      subscription: updatedSubscription,
-      daysRemaining: 0
-    };
+    return createPaymentModel(
+      subscription.plan_type,
+      subscription.current_period_starts_at,
+      subscription.current_period_ends_at,
+      subscription.status === 'active'
+    );
   }
   
   /**
-   * Abonelik durumunu doğrula ve gerekirse güncelle
+   * Deneme süresinin bitip bitmediğini kontrol et
    */
-  static async validateSubscriptionStatus(userId: string, subscription: ISubscription): Promise<ISubscriptionResponse> {
-    // Trial süresi dolmuş mu kontrol et
-    if (TrialService.isTrialExpired(subscription)) {
-      return await this.markAsExpired(userId, subscription);
+  static isTrialExpired(subscription: ISubscription): boolean {
+    if (subscription.status !== 'trial') {
+      return false;
     }
     
-    // Ödeme dönemi sona ermiş mi kontrol et
-    if (PaymentService.isPaymentPeriodExpired(subscription)) {
-      return await this.markAsExpired(userId, subscription);
+    const trial = this.createTrialFromSubscription(subscription);
+    return !trial.is_active || trial.days_remaining <= 0;
+  }
+
+  /**
+   * Aktif abonelik süresinin bitip bitmediğini kontrol et
+   */
+  static isSubscriptionPeriodExpired(subscription: ISubscription): boolean {
+    if (subscription.status !== 'active' || !subscription.current_period_ends_at) {
+      return false;
     }
     
-    // Doğrulama geçildiyse mevcut durumu koru
-    const daysRemaining = this.calculateDaysRemaining(subscription);
-    
-    return {
-      success: true,
-      subscription,
-      daysRemaining
-    };
+    const payment = this.createPaymentFromSubscription(subscription);
+    return payment ? !payment.is_active || payment.days_remaining <= 0 : true;
+  }
+
+  /**
+   * Abonelik durumunu validasyon ve gerekirese güncelleme
+   */
+  static async validateSubscriptionStatus(
+    userId: string,
+    subscription: ISubscription
+  ): Promise<{
+    success: boolean;
+    subscription?: ISubscription;
+    daysRemaining?: number;
+    error?: string;
+  }> {
+    try {
+      // Trial durumunu hesapla
+      const trial = this.createTrialFromSubscription(subscription);
+      
+      // Payment durumunu hesapla (varsa)
+      const payment = this.createPaymentFromSubscription(subscription);
+      
+      // Durumu kontrol et ve gerekirse güncelle
+      let updatedSubscription = { ...subscription, trial, payment };
+      let daysRemaining = 0;
+      
+      // Trial süresi dolmuş mu kontrol et
+      if (this.isTrialExpired(subscription)) {
+        this.logger.info("Kullanıcının deneme süresi dolmuş", { userId });
+        
+        // Durumu expired olarak güncelle
+        await SubscriptionUpdateService.updateSubscriptionStatus(userId, 'expired');
+        updatedSubscription.status = 'expired';
+        
+        return {
+          success: true,
+          subscription: updatedSubscription,
+          daysRemaining: 0
+        };
+      }
+      
+      // Aktif abonelik süresi dolmuş mu kontrol et
+      if (this.isSubscriptionPeriodExpired(subscription)) {
+        this.logger.info("Kullanıcının aktif abonelik süresi dolmuş", { userId });
+        
+        // Durumu expired olarak güncelle
+        await SubscriptionUpdateService.updateSubscriptionStatus(userId, 'expired');
+        updatedSubscription.status = 'expired';
+        
+        return {
+          success: true,
+          subscription: updatedSubscription,
+          daysRemaining: 0
+        };
+      }
+      
+      // Kalan gün sayısını hesapla
+      daysRemaining = this.calculateDaysRemaining(updatedSubscription);
+      
+      return {
+        success: true,
+        subscription: updatedSubscription,
+        daysRemaining
+      };
+    } catch (error) {
+      this.logger.error("Abonelik durumu kontrol edilirken beklenmeyen hata", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Bilinmeyen hata"
+      };
+    }
   }
   
   /**
    * Abonelik için kalan gün sayısını hesapla
    */
   static calculateDaysRemaining(subscription: ISubscription): number {
-    if (subscription.status === 'trial') {
-      return TrialService.calculateTrialDaysRemaining(subscription);
+    if (subscription.status === 'trial' && subscription.trial) {
+      return subscription.trial.days_remaining;
     }
     
-    if (subscription.status === 'active') {
-      return PaymentService.calculatePaymentDaysRemaining(subscription);
+    if (subscription.status === 'active' && subscription.payment) {
+      return subscription.payment.days_remaining;
     }
     
     return 0;

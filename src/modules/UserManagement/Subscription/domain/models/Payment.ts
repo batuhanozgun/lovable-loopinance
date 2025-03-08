@@ -1,6 +1,9 @@
 
 import { PricingPlanType } from "@/modules/LandingPage/components/PricingSection/types/pricing.types";
 
+/**
+ * Ödeme durumu modeli
+ */
 export interface IPayment {
   plan_type: PricingPlanType;
   current_period_starts_at?: string;

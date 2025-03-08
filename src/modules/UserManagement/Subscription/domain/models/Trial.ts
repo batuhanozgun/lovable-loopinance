@@ -1,6 +1,9 @@
 
 import { SubscriptionStatus } from "./Subscription";
 
+/**
+ * Deneme süresi modeli
+ */
 export interface ITrial {
   starts_at: string;
   ends_at: string;

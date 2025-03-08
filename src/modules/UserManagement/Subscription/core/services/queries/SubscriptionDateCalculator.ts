@@ -1,7 +1,5 @@
 
 import { ISubscription } from "../../../domain/models/Subscription";
-import { TrialService } from "../../../features/trial/services/TrialService";
-import { PaymentService } from "../../../features/payment/services/PaymentService";
 import { StatusService } from "../../../features/status/services/StatusService";
 
 /**
