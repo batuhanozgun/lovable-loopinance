@@ -32,14 +32,14 @@ export interface ISubCategoryTemplate {
 export interface ICreateCategoryFromTemplateData {
   templateId: string;
   userId: string;
-  language?: SupportedLanguage;
+  language?: string;
 }
 
 /**
  * Şablon liste görünümü için ayarlar
  */
 export interface ITemplateViewOptions {
-  language: SupportedLanguage;
+  language: string;
 }
 
 /**
