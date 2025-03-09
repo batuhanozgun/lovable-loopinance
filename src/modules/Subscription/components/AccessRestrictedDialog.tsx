@@ -18,18 +18,20 @@ interface AccessRestrictedDialogProps {
   isOpen: boolean;
   onClose: () => void;
   moduleName?: string;
+  feature?: string;
 }
 
 export const AccessRestrictedDialog: React.FC<AccessRestrictedDialogProps> = ({
   isOpen,
   onClose,
-  moduleName
+  moduleName,
+  feature
 }) => {
   const { t } = useTranslation(['Subscription', 'common']);
   const navigate = useNavigate();
   const { updatePlan } = useSubscription();
   
-  subscriptionLogger.debug('AccessRestrictedDialog rendered', { isOpen, moduleName });
+  subscriptionLogger.debug('AccessRestrictedDialog rendered', { isOpen, moduleName, feature });
 
   const handleNavigateToSubscription = () => {
     subscriptionLogger.debug('Redirecting to subscription page');
@@ -43,9 +45,11 @@ export const AccessRestrictedDialog: React.FC<AccessRestrictedDialogProps> = ({
         <DialogHeader>
           <DialogTitle>{t('Subscription:access.restricted.title')}</DialogTitle>
           <DialogDescription>
-            {moduleName 
-              ? t('Subscription:access.restricted.moduleDescription', { moduleName }) 
-              : t('Subscription:access.restricted.description')}
+            {feature 
+              ? t('Subscription:access.restricted.featureDescription', { feature }) 
+              : moduleName 
+                ? t('Subscription:access.restricted.moduleDescription', { moduleName }) 
+                : t('Subscription:access.restricted.description')}
           </DialogDescription>
         </DialogHeader>
         <div className="py-4">

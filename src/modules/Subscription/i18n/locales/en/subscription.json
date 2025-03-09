@@ -1,168 +1,43 @@
 
 {
   "title": "Subscription",
-  "description": "Plans and subscription management",
-  "management": {
-    "title": "Subscription Management",
-    "navigation": {
-      "dashboard": "Dashboard",
-      "plans": "Plans",
-      "billing": "Billing & Payments",
-      "settings": "Settings"
-    }
-  },
-  "plan": {
-    "trial": "Trial",
-    "monthly": "Monthly",
-    "yearly": "Yearly"
-  },
-  "status": {
-    "title": "Subscription Status",
-    "trial": "Trial",
-    "active": "Active",
-    "expired": "Expired",
-    "canceled": "Canceled"
-  },
-  "badge": {
-    "trialEnding": "Trial Ending"
-  },
-  "info": {
-    "trialRemaining": "{{days}} days left in trial",
-    "trialExpired": "Your trial has expired",
-    "subscriptionRemaining": "{{days}} days remaining",
-    "expired": "Your subscription has expired",
-    "renewalDate": "Renewal date: {{date}}"
+  "subtitle": "Manage your subscription plan",
+  "trial": {
+    "title": "Free Trial",
+    "description": "You are currently on a free trial",
+    "days": "{{count}} days remaining",
+    "expired": "Your trial has expired"
   },
   "plans": {
-    "title": "Choose a Plan",
-    "features": {
-      "allAccess": "Full access to all features",
-      "unlimitedAccounts": "Unlimited accounts",
-      "advancedAnalytics": "Advanced analytics",
-      "prioritySupport": "Priority support"
-    },
-    "pricing": {
-      "period": {
-        "month": "/month",
-        "year": "/year"
-      },
-      "billedAnnually": "Billed annually"
-    },
-    "discount": "Save {{percentage}}%"
+    "monthly": "Monthly Plan",
+    "yearly": "Yearly Plan",
+    "trial": "Trial Plan"
   },
-  "subscription": {
-    "plan": {
-      "current": "Current Plan: {{plan}}",
-      "updated": "Your subscription plan has been updated to {{plan}}"
-    }
-  },
-  "dashboard": {
-    "title": "Subscription Dashboard",
-    "summary": "Subscription Summary",
-    "overview": "Overview",
-    "usage": "Usage Statistics",
-    "nextBilling": "Next Billing",
-    "featuresAccess": "Features Access"
-  },
-  "billing": {
-    "title": "Billing & Payments",
-    "history": "Billing History",
-    "paymentMethods": "Payment Methods",
-    "invoices": "Invoices",
-    "addPaymentMethod": "Add Payment Method",
-    "defaultPaymentMethod": "Default Payment Method",
-    "noInvoices": "No invoices available",
-    "downloadInvoice": "Download Invoice"
-  },
-  "settings": {
-    "title": "Subscription Settings",
-    "autoRenew": "Auto-renew subscription",
-    "notifications": "Billing notifications",
-    "cancelSubscription": "Cancel Subscription",
-    "reactivateSubscription": "Reactivate Subscription",
-    "confirmCancel": "Are you sure you want to cancel your subscription?",
-    "cancellationReason": "Please tell us why you are cancelling"
+  "status": {
+    "active": "Active",
+    "canceled": "Canceled",
+    "expired": "Expired",
+    "trial": "Trial"
   },
   "actions": {
-    "upgrade": "Upgrade",
-    "subscribe": "Subscribe",
-    "changePlan": "Change Plan",
-    "renew": "Renew Subscription",
-    "viewDetails": "View Details",
-    "manageSubscription": "Manage Subscription"
+    "upgrade": "Upgrade Plan",
+    "downgrade": "Downgrade Plan",
+    "cancel": "Cancel Plan",
+    "renew": "Renew Plan",
+    "modify": "Modify Plan"
   },
-  "feature": {
-    "access": {
-      "denied": "This feature requires a subscription",
-      "upgrade": "Upgrade"
+  "access": {
+    "restricted": {
+      "title": "Premium Feature",
+      "description": "This feature requires a premium subscription.",
+      "moduleDescription": "The {{moduleName}} module requires a premium subscription.",
+      "featureDescription": "The {{feature}} feature requires a premium subscription.",
+      "upgrade": "Upgrade your plan to get access to all premium features."
     }
   },
-  "payment": {
-    "title": "Payment Process",
-    "steps": {
-      "plan": "Plan",
-      "billing": "Billing",
-      "payment": "Payment",
-      "confirm": "Confirm",
-      "success": "Complete"
-    },
-    "plan": {
-      "title": "Choose a Plan",
-      "monthly": {
-        "title": "Monthly",
-        "price": "$5.99/mo",
-        "description": "Standard subscription billed monthly"
-      },
-      "yearly": {
-        "title": "Yearly",
-        "price": "$4.99/mo",
-        "total": "$59.88/yr",
-        "save": "Save $12",
-        "description": "Premium subscription billed annually"
-      }
-    },
-    "billing": {
-      "title": "Billing Information",
-      "fullName": "Full Name",
-      "email": "Email",
-      "address": "Address",
-      "city": "City",
-      "zipCode": "Zip Code",
-      "country": "Country"
-    },
-    "card": {
-      "title": "Payment Details",
-      "number": "Card Number",
-      "name": "Cardholder Name",
-      "expiry": "Expiry Date",
-      "cvv": "CVV"
-    },
-    "confirmation": {
-      "summary": "Order Summary",
-      "plan": "Selected Plan",
-      "amount": "Total Amount",
-      "billingTitle": "Billing Details",
-      "paymentTitle": "Payment Method",
-      "paymentMethod": "Credit/Debit Card",
-      "disclaimer": "By proceeding, your payment will be processed and your selected plan will be activated."
-    },
-    "success": {
-      "congratulations": "Congratulations!",
-      "partialSuccess": "Payment Received",
-      "planActivated": "Your {{plan}} subscription has been activated",
-      "processed": "Your payment has been processed successfully",
-      "paymentComplete": "Your payment has been successfully completed",
-      "errorActivating": "There was an issue activating your subscription",
-      "tryAgainLater": "Please try again later or contact our support team",
-      "errorDetails": "Error details"
-    },
-    "actions": {
-      "continue": "Continue",
-      "back": "Back",
-      "upgrade": "Upgrade",
-      "confirm": "Purchase",
-      "done": "Done",
-      "processing": "Processing..."
-    }
+  "billing": {
+    "title": "Billing Information",
+    "nextBilling": "Your next billing date is {{date}}",
+    "paymentMethod": "Your payment method is {{method}}"
   }
 }

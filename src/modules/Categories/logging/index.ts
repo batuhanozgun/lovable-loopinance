@@ -8,6 +8,8 @@ export const categoriesLogger = createLogger('Categories');
 export const operationsLogger = categoriesLogger.createSubLogger('Operations');
 export const validationLogger = categoriesLogger.createSubLogger('Validation');
 export const uiLogger = categoriesLogger.createSubLogger('UI');
+export const eventsLogger = categoriesLogger.createSubLogger('Events');
+export const formsLogger = categoriesLogger.createSubLogger('Forms');
 export const performanceLogger = categoriesLogger.createSubLogger('Performance');
 
 // Hizmetler için loggerlar

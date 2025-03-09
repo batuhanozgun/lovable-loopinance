@@ -17,7 +17,12 @@
     "success": "Alt kategoriler başarıyla taşındı"
   },
   "sort": {
-    "success": "Kategori sıralaması güncellendi"
+    "success": "Kategori sıralaması başarıyla güncellendi"
+  },
+  "form": {
+    "submit": "Kategori Oluştur",
+    "update": "Kategori Güncelle",
+    "cancel": "İptal"
   },
   "subcategory": {
     "create": {
@@ -30,7 +35,12 @@
       "success": "Alt kategori başarıyla silindi"
     },
     "sort": {
-      "success": "Alt kategori sıralaması güncellendi"
+      "success": "Alt kategori sıralaması başarıyla güncellendi"
+    },
+    "form": {
+      "submit": "Alt Kategori Oluştur",
+      "update": "Alt Kategori Güncelle",
+      "cancel": "İptal"
     }
   }
 }

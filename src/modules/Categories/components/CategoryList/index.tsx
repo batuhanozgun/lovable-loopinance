@@ -1,17 +1,19 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCategories } from '../../hooks/useCategories';
 import { useCategoryMutations } from '../../hooks/useCategoryMutations';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Loader2, Plus, FolderPlus } from 'lucide-react';
+import { Loader2, Plus } from 'lucide-react';
 import { useSubscription } from '@/modules/Subscription/hooks/useSubscription';
 import { SubscriptionPlanType } from '@/modules/Subscription/types/ISubscription';
-import { eventsLogger } from '../../logging';
+import { eventsLogger, uiLogger } from '../../logging';
 import { CategoryItem } from './CategoryItem';
 import { EmptyState } from './EmptyState';
 import type { ICategory } from '../../types';
+import { ListHeader } from './components/ListHeader';
+import { CategoryForm } from '../CategoryForm';
 
 /**
  * Kategori listesi bileşeni
@@ -21,10 +23,12 @@ export const CategoryList: React.FC = () => {
   const { categories, isLoading, isError } = useCategories();
   const { subscription } = useSubscription();
   const { updateCategoryOrder } = useCategoryMutations();
-  const [showCategoryForm, setShowCategoryForm] = React.useState(false);
+  const [showCategoryForm, setShowCategoryForm] = useState(false);
   
-  // Ücretli özellik mi?
-  const isSubscriptionRequired = subscription?.plan_type === SubscriptionPlanType.TRIAL;
+  const logger = uiLogger.createSubLogger('CategoryList');
+  
+  // Ücretli özellik kontrolü
+  const isTrialUser = subscription?.plan === SubscriptionPlanType.TRIAL;
   
   // Yeni kategori oluşturma formunu göster/gizle
   const handleNewCategory = () => {
@@ -32,14 +36,19 @@ export const CategoryList: React.FC = () => {
     setShowCategoryForm(true);
   };
   
-  // Kategori sürükleme ve bırakma işlemi tamamlandığında
+  // Form kapatma işlemi
+  const handleCloseForm = () => {
+    setShowCategoryForm(false);
+  };
+  
+  // Kategori sıralaması güncelleme
   const handleCategoryOrderChange = (categories: ICategory[]) => {
     const updates = categories.map((category, index) => ({
       id: category.id,
       sort_order: index
     }));
     
-    eventsLogger.debug('Kategori sıralaması güncelleme isteği', { categoriesCount: updates.length });
+    logger.debug('Kategori sıralaması güncelleme isteği', { categoriesCount: updates.length });
     updateCategoryOrder.mutate(updates);
   };
   
@@ -79,34 +88,13 @@ export const CategoryList: React.FC = () => {
   // Kategoriler listesi
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight">{t('Categories:title')}</h2>
-          <p className="text-muted-foreground">{t('Categories:subtitle')}</p>
-        </div>
-        <Button onClick={handleNewCategory} disabled={showCategoryForm}>
-          <Plus className="w-4 h-4 mr-2" />
-          {t('Categories:actions.create')}
-        </Button>
-      </div>
+      <ListHeader 
+        onNewCategory={handleNewCategory} 
+        isFormVisible={showCategoryForm}
+      />
       
       {showCategoryForm && (
-        <Card className="mb-4">
-          <CardHeader>
-            <CardTitle>{t('Categories:actions.create')}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {/* Kategori formu buraya gelecek */}
-            <div className="flex justify-end space-x-2 mt-4">
-              <Button variant="outline" onClick={() => setShowCategoryForm(false)}>
-                {t('Categories:form.cancel')}
-              </Button>
-              <Button type="submit">
-                {t('Categories:form.submit')}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+        <CategoryForm onClose={handleCloseForm} />
       )}
       
       <div className="grid grid-cols-1 gap-6">
@@ -114,7 +102,7 @@ export const CategoryList: React.FC = () => {
           <CategoryItem 
             key={category.id} 
             category={category} 
-            isSubscriptionRequired={isSubscriptionRequired}
+            isSubscriptionRequired={isTrialUser}
           />
         ))}
       </div>

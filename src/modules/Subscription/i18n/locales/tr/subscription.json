@@ -1,168 +1,43 @@
 
 {
   "title": "Abonelik",
-  "description": "Paketler ve abonelik yönetimi",
-  "management": {
-    "title": "Abonelik Yönetimi",
-    "navigation": {
-      "dashboard": "Genel Bakış",
-      "plans": "Planlar",
-      "billing": "Fatura & Ödemeler",
-      "settings": "Ayarlar"
-    }
-  },
-  "plan": {
-    "trial": "Deneme",
-    "monthly": "Aylık",
-    "yearly": "Yıllık"
-  },
-  "status": {
-    "title": "Abonelik Durumu",
-    "trial": "Deneme",
-    "active": "Aktif",
-    "expired": "Süresi Doldu",
-    "canceled": "İptal Edildi"
-  },
-  "badge": {
-    "trialEnding": "Deneme Süresi Bitiyor"
-  },
-  "info": {
-    "trialRemaining": "{{days}} gün deneme süresi kaldı",
-    "trialExpired": "Deneme süreniz sona erdi",
-    "subscriptionRemaining": "{{days}} gün kaldı",
-    "expired": "Aboneliğinizin süresi doldu",
-    "renewalDate": "Yenileme tarihi: {{date}}"
+  "subtitle": "Abonelik planınızı yönetin",
+  "trial": {
+    "title": "Ücretsiz Deneme",
+    "description": "Şu anda ücretsiz deneme sürümündesiniz",
+    "days": "{{count}} gün kaldı",
+    "expired": "Deneme süreniz sona erdi"
   },
   "plans": {
-    "title": "Bir Plan Seçin",
-    "features": {
-      "allAccess": "Tüm özelliklere tam erişim",
-      "unlimitedAccounts": "Sınırsız hesap",
-      "advancedAnalytics": "Gelişmiş analitik",
-      "prioritySupport": "Öncelikli destek"
-    },
-    "pricing": {
-      "period": {
-        "month": "/ay",
-        "year": "/yıl"
-      },
-      "billedAnnually": "Yıllık faturalandırılır"
-    },
-    "discount": "%{{percentage}} Tasarruf"
+    "monthly": "Aylık Plan",
+    "yearly": "Yıllık Plan",
+    "trial": "Deneme Planı"
   },
-  "subscription": {
-    "plan": {
-      "current": "Mevcut Plan: {{plan}}",
-      "updated": "Abonelik planınız {{plan}} olarak güncellendi"
-    }
-  },
-  "dashboard": {
-    "title": "Abonelik Paneli",
-    "summary": "Abonelik Özeti",
-    "overview": "Genel Bakış",
-    "usage": "Kullanım İstatistikleri",
-    "nextBilling": "Sonraki Fatura",
-    "featuresAccess": "Özellik Erişimi"
-  },
-  "billing": {
-    "title": "Fatura & Ödemeler",
-    "history": "Fatura Geçmişi",
-    "paymentMethods": "Ödeme Yöntemleri",
-    "invoices": "Faturalar",
-    "addPaymentMethod": "Ödeme Yöntemi Ekle",
-    "defaultPaymentMethod": "Varsayılan Ödeme Yöntemi",
-    "noInvoices": "Fatura bulunmamaktadır",
-    "downloadInvoice": "Faturayı İndir"
-  },
-  "settings": {
-    "title": "Abonelik Ayarları",
-    "autoRenew": "Aboneliği otomatik yenile",
-    "notifications": "Fatura bildirimleri",
-    "cancelSubscription": "Aboneliği İptal Et",
-    "reactivateSubscription": "Aboneliği Yeniden Etkinleştir",
-    "confirmCancel": "Aboneliğinizi iptal etmek istediğinizden emin misiniz?",
-    "cancellationReason": "Lütfen iptal etme nedeninizi belirtin"
+  "status": {
+    "active": "Aktif",
+    "canceled": "İptal Edildi",
+    "expired": "Süresi Doldu",
+    "trial": "Deneme"
   },
   "actions": {
-    "upgrade": "Yükselt",
-    "subscribe": "Abone Ol",
-    "changePlan": "Planı Değiştir",
-    "renew": "Aboneliği Yenile",
-    "viewDetails": "Detayları Görüntüle",
-    "manageSubscription": "Aboneliği Yönet"
+    "upgrade": "Planı Yükselt",
+    "downgrade": "Planı Düşür",
+    "cancel": "Planı İptal Et",
+    "renew": "Planı Yenile",
+    "modify": "Planı Değiştir"
   },
-  "feature": {
-    "access": {
-      "denied": "Bu özelliğe erişim için abonelik gerekiyor",
-      "upgrade": "Yükselt"
+  "access": {
+    "restricted": {
+      "title": "Premium Özellik",
+      "description": "Bu özellik premium abonelik gerektirir.",
+      "moduleDescription": "{{moduleName}} modülü premium abonelik gerektirir.",
+      "featureDescription": "{{feature}} özelliği premium abonelik gerektirir.",
+      "upgrade": "Tüm premium özelliklere erişim kazanmak için planınızı yükseltin."
     }
   },
-  "payment": {
-    "title": "Ödeme İşlemi",
-    "steps": {
-      "plan": "Plan",
-      "billing": "Fatura",
-      "payment": "Ödeme",
-      "confirm": "Onay",
-      "success": "Tamamlandı"
-    },
-    "plan": {
-      "title": "Plan Seçin",
-      "monthly": {
-        "title": "Aylık",
-        "price": "₺49/ay",
-        "description": "Aylık faturalandırılan standart abonelik"
-      },
-      "yearly": {
-        "title": "Yıllık",
-        "price": "₺39/ay",
-        "total": "₺468/yıl",
-        "save": "₺120 Tasarruf",
-        "description": "Yıllık faturalandırılan premium abonelik"
-      }
-    },
-    "billing": {
-      "title": "Fatura Bilgileri",
-      "fullName": "Ad Soyad",
-      "email": "E-posta",
-      "address": "Adres",
-      "city": "Şehir",
-      "zipCode": "Posta Kodu",
-      "country": "Ülke"
-    },
-    "card": {
-      "title": "Ödeme Bilgileri",
-      "number": "Kart Numarası",
-      "name": "Kart Üzerindeki İsim",
-      "expiry": "Son Kullanma Tarihi",
-      "cvv": "CVV"
-    },
-    "confirmation": {
-      "summary": "Sipariş Özeti",
-      "plan": "Seçilen Plan",
-      "amount": "Toplam Tutar",
-      "billingTitle": "Fatura Bilgileri",
-      "paymentTitle": "Ödeme Bilgileri",
-      "paymentMethod": "Kredi/Banka Kartı",
-      "disclaimer": "Devam ettiğinizde, ödemeniz işleme alınacak ve seçtiğiniz plan aktifleştirilecektir."
-    },
-    "success": {
-      "congratulations": "Tebrikler!",
-      "partialSuccess": "Ödemeniz Alındı",
-      "planActivated": "{{plan}} aboneliğiniz etkinleştirildi",
-      "processed": "Ödemeniz başarıyla işlendi",
-      "paymentComplete": "Ödemeniz başarıyla tamamlandı",
-      "errorActivating": "Aboneliğinizi etkinleştirirken bir sorun oluştu",
-      "tryAgainLater": "Lütfen daha sonra tekrar deneyin veya destek ekibimizle iletişime geçin",
-      "errorDetails": "Hata detayları"
-    },
-    "actions": {
-      "continue": "Devam Et",
-      "back": "Geri",
-      "upgrade": "Yükselt",
-      "confirm": "Satın Al",
-      "done": "Tamamlandı",
-      "processing": "İşleniyor..."
-    }
+  "billing": {
+    "title": "Fatura Bilgileri",
+    "nextBilling": "Bir sonraki fatura tarihiniz: {{date}}",
+    "paymentMethod": "Ödeme yönteminiz: {{method}}"
   }
 }

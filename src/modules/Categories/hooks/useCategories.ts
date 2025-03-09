@@ -2,6 +2,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { CategoryService } from '../services/category';
 import { uiLogger } from '../logging';
+import type { ICategory } from '../types';
 
 /**
  * Kategorileri çekmek için hook
@@ -9,7 +10,7 @@ import { uiLogger } from '../logging';
 export const useCategories = () => {
   const logger = uiLogger.createSubLogger('CategoriesHook');
 
-  return useQuery({
+  const result = useQuery<ICategory[], Error>({
     queryKey: ['categories'],
     queryFn: async () => {
       logger.debug('Kategoriler getiriliyor');
@@ -23,4 +24,11 @@ export const useCategories = () => {
       }
     }
   });
+
+  return {
+    categories: result.data || [],
+    isLoading: result.isLoading,
+    isError: result.isError,
+    error: result.error
+  };
 };

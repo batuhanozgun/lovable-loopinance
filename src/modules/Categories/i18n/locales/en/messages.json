@@ -17,7 +17,12 @@
     "success": "Subcategories moved successfully"
   },
   "sort": {
-    "success": "Category order updated"
+    "success": "Category order updated successfully"
+  },
+  "form": {
+    "submit": "Create Category",
+    "update": "Update Category",
+    "cancel": "Cancel"
   },
   "subcategory": {
     "create": {
@@ -31,6 +36,11 @@
     },
     "sort": {
       "success": "Subcategory order updated successfully"
+    },
+    "form": {
+      "submit": "Create Subcategory",
+      "update": "Update Subcategory",
+      "cancel": "Cancel"
     }
   }
 }
