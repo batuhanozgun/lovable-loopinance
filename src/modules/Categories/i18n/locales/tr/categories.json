@@ -11,7 +11,8 @@
     "edit": "Düzenle",
     "delete": "Sil",
     "move": "Taşı",
-    "import": "Kategorilerime Ekle"
+    "import": "Kategorilerime Ekle",
+    "importing": "Ekleniyor..."
   },
   "form": {
     "categoryName": "Kategori Adı",
@@ -27,7 +28,8 @@
     "noSubcategories": "Alt kategori yok",
     "withSubcategories": "{{count}} alt kategori",
     "templateLibrary": "Hazır kategori şablonları",
-    "importFromTemplate": "Şablondan kategori ekle"
+    "importFromTemplate": "Şablondan kategori ekle",
+    "andMore": "ve {{count}} daha"
   },
   "empty": {
     "title": "Henüz kategori yok",

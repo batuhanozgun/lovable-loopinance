@@ -1,38 +1,43 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCategories } from '../../hooks/queries/useCategoryQueries';
 import { useCategoryTemplates } from '../../hooks/queries/useCategoryTemplateQueries';
 import { useCategoryTemplateImportMutation } from '../../hooks/mutations/useCategoryTemplateImportMutation';
 import { TemplateItem } from './components/TemplateItem';
 import { useSessionService } from '@/modules/UserManagement/auth/hooks/useSessionService';
+import { Loader2 } from 'lucide-react';
 
 export const CategoryTemplateList: React.FC = () => {
   const { t } = useTranslation(['Categories']);
   const { categoryTemplates, isLoading: isLoadingTemplates } = useCategoryTemplates();
   const { categories } = useCategories();
-  const { getCurrentUserID, sessionInitialized } = useSessionService();
+  const { getCurrentUserID } = useSessionService();
   const { importCategoryFromTemplate, isImporting } = useCategoryTemplateImportMutation();
+  const [importingTemplateId, setImportingTemplateId] = useState<string | null>(null);
   
   const handleImportCategory = async (templateId: string) => {
-    if (!sessionInitialized) {
-      console.warn('Session not initialized yet');
-      return;
+    try {
+      setImportingTemplateId(templateId);
+      const userId = await getCurrentUserID();
+      
+      if (!userId) {
+        console.error('User ID not found');
+        return;
+      }
+      
+      importCategoryFromTemplate({ templateId, userId });
+    } catch (error) {
+      console.error('Error importing category:', error);
+    } finally {
+      setImportingTemplateId(null);
     }
-    
-    const userId = getCurrentUserID();
-    if (!userId) {
-      console.error('User ID not found');
-      return;
-    }
-    
-    importCategoryFromTemplate({ templateId, userId });
   };
   
-  if (isLoadingTemplates || !sessionInitialized) {
+  if (isLoadingTemplates) {
     return (
       <div className="flex justify-center items-center h-40">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
@@ -53,7 +58,7 @@ export const CategoryTemplateList: React.FC = () => {
           key={template.id} 
           template={template} 
           onImport={handleImportCategory}
-          isImporting={isImporting}
+          isImporting={isImporting || importingTemplateId === template.id}
         />
       ))}
     </div>

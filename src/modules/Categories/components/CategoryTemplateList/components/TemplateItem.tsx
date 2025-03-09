@@ -5,6 +5,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Badge } from '@/components/ui/badge';
 import { useTranslation } from 'react-i18next';
 import { ICategoryTemplate } from '../../../types/template';
+import { Check, Loader2, Plus } from 'lucide-react';
 
 interface TemplateItemProps {
   template: ICategoryTemplate;
@@ -21,14 +22,14 @@ export const TemplateItem: React.FC<TemplateItemProps> = ({
   const subcategoriesCount = template.sub_categories?.length || 0;
 
   return (
-    <Card className="w-full">
+    <Card className="w-full h-full flex flex-col transition-all hover:shadow-md">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center text-lg">
           {template.icon && <span className="mr-2 text-xl">{template.icon}</span>}
           {template.name}
         </CardTitle>
       </CardHeader>
-      <CardContent className="pb-2">
+      <CardContent className="pb-2 flex-grow">
         {subcategoriesCount > 0 ? (
           <div className="space-y-2">
             <Badge variant="outline" className="bg-muted">
@@ -59,7 +60,17 @@ export const TemplateItem: React.FC<TemplateItemProps> = ({
           className="w-full" 
           disabled={isImporting}
         >
-          {t('categories:actions.import')}
+          {isImporting ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              {t('categories:actions.importing')}
+            </>
+          ) : (
+            <>
+              <Plus className="mr-2 h-4 w-4" />
+              {t('categories:actions.import')}
+            </>
+          )}
         </Button>
       </CardFooter>
     </Card>

@@ -11,7 +11,8 @@
     "edit": "Edit",
     "delete": "Delete",
     "move": "Move",
-    "import": "Add to My Categories"
+    "import": "Add to My Categories",
+    "importing": "Adding..."
   },
   "form": {
     "categoryName": "Category Name",
@@ -27,7 +28,8 @@
     "noSubcategories": "No subcategories",
     "withSubcategories": "{{count}} subcategories",
     "templateLibrary": "Ready-to-use category templates",
-    "importFromTemplate": "Add category from template"
+    "importFromTemplate": "Add category from template",
+    "andMore": "and {{count}} more"
   },
   "empty": {
     "title": "No categories yet",
