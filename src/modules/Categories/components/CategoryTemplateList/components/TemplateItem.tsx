@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -59,7 +58,7 @@ export const TemplateItem: React.FC<TemplateItemProps> = ({
         {subcategoriesCount > 0 ? (
           <div className="space-y-2">
             <Badge variant="outline" className="bg-muted">
-              {t('categories:labels.withSubcategories', { count: subcategoriesCount })}
+              {t('Categories:labels.withSubcategories', { count: subcategoriesCount })}
             </Badge>
             <div className="text-sm text-muted-foreground mt-2">
               <ul className="list-disc ml-5">
@@ -68,7 +67,7 @@ export const TemplateItem: React.FC<TemplateItemProps> = ({
                 ))}
                 {subcategoriesCount > 3 && (
                   <li>
-                    {t('categories:labels.andMore', { count: subcategoriesCount - 3 })}
+                    {t('Categories:labels.andMore', { count: subcategoriesCount - 3 })}
                   </li>
                 )}
               </ul>
@@ -76,7 +75,7 @@ export const TemplateItem: React.FC<TemplateItemProps> = ({
           </div>
         ) : (
           <div className="text-sm text-muted-foreground">
-            {t('categories:labels.noSubcategories')}
+            {t('Categories:labels.noSubcategories')}
           </div>
         )}
       </CardContent>
@@ -89,12 +88,12 @@ export const TemplateItem: React.FC<TemplateItemProps> = ({
           {isImporting ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              {t('categories:actions.importing')}
+              {t('Categories:actions.importing')}
             </>
           ) : (
             <>
               <Plus className="mr-2 h-4 w-4" />
-              {t('categories:actions.import')}
+              {t('Categories:actions.import')}
             </>
           )}
         </Button>
