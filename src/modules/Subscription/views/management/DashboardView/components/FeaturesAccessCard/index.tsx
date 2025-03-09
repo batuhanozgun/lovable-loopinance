@@ -1,9 +1,9 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Package } from 'lucide-react';
-import { ISubscriptionSummary, SubscriptionPlanType } from '@/modules/Subscription/types/ISubscription';
+import { ISubscriptionSummary, SubscriptionPlanType } from '../../../../../types/ISubscription';
 
 interface FeaturesAccessCardProps {
   subscription: ISubscriptionSummary | null;
@@ -15,10 +15,10 @@ export const FeaturesAccessCard: React.FC<FeaturesAccessCardProps> = ({ subscrip
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="flex items-center">
+        <h3 className="text-lg font-medium flex items-center">
           <Package className="mr-2 h-5 w-5" />
           {t('Subscription:dashboard.featuresAccess')}
-        </CardTitle>
+        </h3>
       </CardHeader>
       <CardContent>
         <ul className="space-y-2">

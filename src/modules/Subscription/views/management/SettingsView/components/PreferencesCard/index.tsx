@@ -19,15 +19,15 @@ export const PreferencesCard: React.FC<PreferencesCardProps> = ({
   onAutoRenewChange,
   onEmailNotificationsChange
 }) => {
-  const { t, i18n } = useTranslation(['Subscription', 'common']);
-  const isturkish = i18n.language.startsWith('tr');
+  const { t, i18n } = useTranslation(['Subscription']);
+  const isTurkish = i18n.language.startsWith('tr');
   
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{isturkish ? 'Abonelik Tercihleri' : 'Subscription Preferences'}</CardTitle>
+        <CardTitle>{isTurkish ? 'Abonelik Tercihleri' : 'Subscription Preferences'}</CardTitle>
         <CardDescription>
-          {isturkish 
+          {isTurkish 
             ? 'Aboneliğinizin nasıl yönetileceğini yapılandırın'
             : 'Configure how your subscription is managed'}
         </CardDescription>
@@ -38,7 +38,7 @@ export const PreferencesCard: React.FC<PreferencesCardProps> = ({
             <div className="space-y-0.5">
               <Label htmlFor="auto-renew">{t('Subscription:settings.autoRenew')}</Label>
               <p className="text-sm text-muted-foreground">
-                {isturkish
+                {isTurkish
                   ? 'Aboneliğiniz otomatik olarak yenilenecek'
                   : 'Your subscription will automatically renew'}
               </p>
@@ -56,7 +56,7 @@ export const PreferencesCard: React.FC<PreferencesCardProps> = ({
             <div className="space-y-0.5">
               <Label htmlFor="email-notifications">{t('Subscription:settings.notifications')}</Label>
               <p className="text-sm text-muted-foreground">
-                {isturkish
+                {isTurkish
                   ? 'Abonelik ve fatura ile ilgili e-posta bildirimleri alın'
                   : 'Receive email notifications about your subscription and billing'}
               </p>

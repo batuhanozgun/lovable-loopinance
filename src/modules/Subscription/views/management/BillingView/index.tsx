@@ -1,45 +1,15 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSubscription } from '../../../hooks/useSubscription';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useSubscription } from '../../../hooks/useSubscription';
 import { SubscriptionPlanType } from '../../../types/ISubscription';
 import { viewsLogger } from '../../../logging';
 import { BillingSkeleton } from '../shared/components/LoadingSkeleton';
-import { InvoiceTable } from './components/InvoiceTable';
-import { PaymentMethods } from './components/PaymentMethods';
+import { Invoice, InvoiceTable } from './components/InvoiceTable';
+import { PaymentMethod, PaymentMethods } from './components/PaymentMethods';
 import { useSubscriptionLocale } from '../shared/hooks/useSubscriptionLocale';
-
-// Demo fatura verileri
-const getDemoInvoices = (locale: string, currency: string) => {
-  const monthlyPrice = locale.startsWith('tr') ? 49 : 4.99;
-  const yearlyPrice = locale.startsWith('tr') ? 468 : 59.88;
-  
-  return [
-    {
-      id: 'INV-001',
-      date: new Date(2023, 11, 1),
-      amount: yearlyPrice,
-      status: 'paid',
-      plan: SubscriptionPlanType.YEARLY
-    },
-    {
-      id: 'INV-002',
-      date: new Date(2022, 11, 1),
-      amount: yearlyPrice,
-      status: 'paid',
-      plan: SubscriptionPlanType.YEARLY
-    },
-    {
-      id: 'INV-003',
-      date: new Date(2021, 11, 1),
-      amount: monthlyPrice,
-      status: 'paid',
-      plan: SubscriptionPlanType.MONTHLY
-    }
-  ];
-};
 
 export const SubscriptionBillingView: React.FC = () => {
   const { t } = useTranslation(['Subscription', 'common']);
@@ -49,23 +19,56 @@ export const SubscriptionBillingView: React.FC = () => {
   useEffect(() => {
     viewsLogger.debug('Abonelik fatura sayfası görüntülendi');
   }, []);
-  
-  // Demo fatura verileri
-  const invoices = getDemoInvoices(locale, currency);
+
+  // Demo fatura verileri oluştur
+  const getDemoInvoices = (): Invoice[] => {
+    const monthlyPrice = locale.startsWith('tr') ? 49 : 4.99;
+    const yearlyPrice = locale.startsWith('tr') ? 468 : 59.88;
+    
+    return [
+      {
+        id: 'INV-001',
+        date: new Date(2023, 11, 1),
+        amount: yearlyPrice,
+        status: 'paid',
+        plan: SubscriptionPlanType.YEARLY
+      },
+      {
+        id: 'INV-002',
+        date: new Date(2022, 11, 1),
+        amount: yearlyPrice,
+        status: 'paid',
+        plan: SubscriptionPlanType.YEARLY
+      },
+      {
+        id: 'INV-003',
+        date: new Date(2021, 11, 1),
+        amount: monthlyPrice,
+        status: 'paid',
+        plan: SubscriptionPlanType.MONTHLY
+      }
+    ];
+  };
   
   // Ödeme yöntemi
-  const paymentMethods = [
-    {
-      type: 'card',
-      lastFour: '4242',
-      expiry: '12/25',
-      brand: 'Visa'
-    }
-  ];
+  const getPaymentMethods = (): PaymentMethod[] => {
+    return [
+      {
+        type: 'card',
+        lastFour: '4242',
+        expiry: '12/25',
+        brand: 'Visa',
+        isDefault: true
+      }
+    ];
+  };
   
   if (isLoading) {
     return <BillingSkeleton />;
   }
+  
+  const invoices = getDemoInvoices();
+  const paymentMethods = getPaymentMethods();
   
   return (
     <div className="container mx-auto p-4 max-w-4xl">
@@ -87,13 +90,35 @@ export const SubscriptionBillingView: React.FC = () => {
               <CardDescription>{t('Subscription:billing.invoices')}</CardDescription>
             </CardHeader>
             <CardContent>
-              <InvoiceTable invoices={invoices} />
+              {invoices.length > 0 ? (
+                <InvoiceTable invoices={invoices} />
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-muted-foreground">{t('Subscription:billing.noInvoices')}</p>
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
         
         <TabsContent value="payment-methods" className="mt-4">
-          <PaymentMethods paymentMethods={paymentMethods} />
+          <Card>
+            <CardHeader>
+              <div className="flex justify-between items-start">
+                <div>
+                  <CardTitle>{t('Subscription:billing.paymentMethods')}</CardTitle>
+                  <CardDescription>
+                    {locale.startsWith('tr') 
+                      ? 'Ödeme yöntemlerinizi yönetin' 
+                      : 'Manage your payment methods'}
+                  </CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <PaymentMethods paymentMethods={paymentMethods} />
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>

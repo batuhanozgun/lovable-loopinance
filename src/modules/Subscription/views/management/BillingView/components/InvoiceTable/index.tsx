@@ -4,89 +4,44 @@ import { useTranslation } from 'react-i18next';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
-import { SubscriptionPlanType } from '@/modules/Subscription/types/ISubscription';
+import { SubscriptionPlanType } from '../../../../../types/ISubscription';
 import { useSubscriptionLocale } from '../../../shared/hooks/useSubscriptionLocale';
+import { formatDate, formatPrice } from '../../../shared/utils/formatters';
 
-// Demo invoice type
-interface Invoice {
+export interface Invoice {
   id: string;
   date: Date;
   amount: number;
-  status: 'paid' | 'pending' | 'failed';
+  status: string;
   plan: SubscriptionPlanType;
 }
 
-export const InvoiceTable: React.FC = () => {
+interface InvoiceTableProps {
+  invoices: Invoice[];
+}
+
+export const InvoiceTable: React.FC<InvoiceTableProps> = ({ invoices }) => {
   const { t, i18n } = useTranslation(['Subscription', 'common']);
-  const { formatPrice, locale, currency } = useSubscriptionLocale();
-  
-  // Demo data for invoices
-  const getDemoInvoices = (): Invoice[] => {
-    const monthlyPrice = locale.startsWith('tr') ? 49 : 4.99;
-    const yearlyPrice = locale.startsWith('tr') ? 468 : 59.88;
-    
-    return [
-      {
-        id: 'INV-001',
-        date: new Date(2023, 11, 1),
-        amount: yearlyPrice,
-        status: 'paid',
-        plan: SubscriptionPlanType.YEARLY
-      },
-      {
-        id: 'INV-002',
-        date: new Date(2022, 11, 1),
-        amount: yearlyPrice,
-        status: 'paid',
-        plan: SubscriptionPlanType.YEARLY
-      },
-      {
-        id: 'INV-003',
-        date: new Date(2021, 11, 1),
-        amount: monthlyPrice,
-        status: 'paid',
-        plan: SubscriptionPlanType.MONTHLY
-      }
-    ];
-  };
-  
-  const invoices = getDemoInvoices();
-  
-  // Format date based on locale
-  const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat(locale, {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    }).format(date);
-  };
-  
-  if (invoices.length === 0) {
-    return (
-      <div className="text-center py-8">
-        <p className="text-muted-foreground">{t('Subscription:billing.noInvoices')}</p>
-      </div>
-    );
-  }
+  const { locale, currency, isTurkish } = useSubscriptionLocale();
   
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>{locale.startsWith('tr') ? 'Fatura No' : 'Invoice'}</TableHead>
-          <TableHead>{locale.startsWith('tr') ? 'Tarih' : 'Date'}</TableHead>
-          <TableHead>{locale.startsWith('tr') ? 'Plan' : 'Plan'}</TableHead>
-          <TableHead>{locale.startsWith('tr') ? 'Tutar' : 'Amount'}</TableHead>
-          <TableHead>{locale.startsWith('tr') ? 'İşlem' : 'Action'}</TableHead>
+          <TableHead>{isTurkish ? 'Fatura No' : 'Invoice'}</TableHead>
+          <TableHead>{isTurkish ? 'Tarih' : 'Date'}</TableHead>
+          <TableHead>{isTurkish ? 'Plan' : 'Plan'}</TableHead>
+          <TableHead>{isTurkish ? 'Tutar' : 'Amount'}</TableHead>
+          <TableHead>{isTurkish ? 'İşlem' : 'Action'}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {invoices.map(invoice => (
           <TableRow key={invoice.id}>
             <TableCell className="font-medium">{invoice.id}</TableCell>
-            <TableCell>{formatDate(invoice.date)}</TableCell>
-            <TableCell>{t(`Subscription:plans.${invoice.plan}`)}</TableCell>
-            <TableCell>{formatPrice(invoice.amount)}</TableCell>
+            <TableCell>{formatDate(invoice.date, locale)}</TableCell>
+            <TableCell>{t(`Subscription:plan.${invoice.plan}`)}</TableCell>
+            <TableCell>{formatPrice(invoice.amount, locale, currency)}</TableCell>
             <TableCell>
               <Button variant="ghost" size="icon">
                 <Download className="h-4 w-4" />

@@ -2,11 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSubscription } from '../../../hooks/useSubscription';
-import { SubscriptionPaymentDialog } from '../../../components/PaymentDialog/StepAdapter';
 import { SubscriptionPlanType } from '../../../types/ISubscription';
 import { viewsLogger } from '../../../logging';
 import { PlansSkeleton } from '../shared/components/LoadingSkeleton';
 import { PlanCard } from './components/PlanCard';
+import { SubscriptionPaymentDialog } from '../../../components/PaymentDialog/StepAdapter';
 
 export const SubscriptionPlansView: React.FC = () => {
   const { t } = useTranslation(['Subscription', 'common']);
@@ -30,28 +30,27 @@ export const SubscriptionPlansView: React.FC = () => {
     setPaymentOpen(true);
   };
   
-  // Buton disable durumunu belirle
   const isCurrentPlan = (planType: SubscriptionPlanType) => {
     return subscription?.plan === planType && subscription.status !== 'trial' && subscription.isActive;
   };
+
+  // Plan özellikleri
+  const getMonthlyFeatures = () => [
+    { key: 'allAccess' },
+    { key: 'unlimitedAccounts' },
+    { key: 'advancedAnalytics' },
+  ];
+  
+  const getYearlyFeatures = () => [
+    { key: 'allAccess' },
+    { key: 'unlimitedAccounts' },
+    { key: 'advancedAnalytics' },
+    { key: 'prioritySupport', highlight: true }
+  ];
   
   if (isLoading) {
     return <PlansSkeleton />;
   }
-  
-  // Plan özellikleri
-  const monthlyFeatures = [
-    { name: t('Subscription:plans.features.allAccess') },
-    { name: t('Subscription:plans.features.unlimitedAccounts') },
-    { name: t('Subscription:plans.features.advancedAnalytics') }
-  ];
-  
-  const yearlyFeatures = [
-    { name: t('Subscription:plans.features.allAccess') },
-    { name: t('Subscription:plans.features.unlimitedAccounts') },
-    { name: t('Subscription:plans.features.advancedAnalytics') },
-    { name: t('Subscription:plans.features.prioritySupport'), highlight: true }
-  ];
   
   return (
     <div className="container mx-auto p-4 max-w-4xl">
@@ -64,21 +63,19 @@ export const SubscriptionPlansView: React.FC = () => {
         {/* Aylık Plan */}
         <PlanCard 
           planType={SubscriptionPlanType.MONTHLY}
-          features={monthlyFeatures}
+          features={getMonthlyFeatures()}
           isCurrentPlan={isCurrentPlan(SubscriptionPlanType.MONTHLY)}
-          isTrial={subscription?.isTrial || false}
           onSelectPlan={handlePlanSelect}
         />
         
         {/* Yıllık Plan */}
         <PlanCard 
           planType={SubscriptionPlanType.YEARLY}
-          features={yearlyFeatures}
+          features={getYearlyFeatures()}
           isCurrentPlan={isCurrentPlan(SubscriptionPlanType.YEARLY)}
-          isTrial={subscription?.isTrial || false}
-          discount={20}
+          discountPercentage={20}
           onSelectPlan={handlePlanSelect}
-          variant="highlighted"
+          isYearly={true}
         />
       </div>
       

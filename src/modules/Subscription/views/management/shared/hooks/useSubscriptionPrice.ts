@@ -1,37 +1,40 @@
 
-import { SubscriptionPlanType } from '../../../../types/ISubscription';
-import { formatCurrency } from '@/modules/Payment/utils/currencyUtils';
-import { useSubscriptionLocale } from './useSubscriptionLocale';
+import { SubscriptionPlanType } from "../../../../types/ISubscription";
+import { useSubscriptionLocale } from "./useSubscriptionLocale";
 
 /**
- * Abonelik fiyatlandırması ile ilgili işlemleri sağlayan hook
+ * Abonelik fiyatlarını döndüren hook
  */
 export const useSubscriptionPrice = () => {
-  const { locale, currency, monthlyPrice, yearlyPrice } = useSubscriptionLocale();
+  const { isTurkish } = useSubscriptionLocale();
   
-  // Abonelik plan tipine göre fiyat hesapla
-  const getPriceByPlan = (planType: SubscriptionPlanType) => {
-    return planType === SubscriptionPlanType.YEARLY ? yearlyPrice : monthlyPrice;
-  };
+  // Standart plan fiyatları - dilin Türkçe olup olmadığına göre
+  const monthlyPrice = isTurkish ? 49 : 4.99;
+  const yearlyPrice = isTurkish ? 39 : 3.99;
+  const yearlyDiscount = 20; // % cinsinden
   
-  // Tek ödeme tutarını hesapla (aylık veya yıllık)
-  const getSinglePaymentAmount = (planType: SubscriptionPlanType) => {
-    if (planType === SubscriptionPlanType.YEARLY) {
-      return yearlyPrice * 12;
+  // Yıllık toplam fiyat (aylık fiyat * 12)
+  const yearlyTotalPrice = yearlyPrice * 12;
+  
+  /**
+   * Plan tipine göre fiyat döndür
+   */
+  const getPriceByPlan = (planType: SubscriptionPlanType): number => {
+    switch (planType) {
+      case SubscriptionPlanType.MONTHLY:
+        return monthlyPrice;
+      case SubscriptionPlanType.YEARLY:
+        return yearlyPrice;
+      default:
+        return 0;
     }
-    return monthlyPrice;
-  };
-  
-  // Para birimi formatını uygula
-  const formatPrice = (price: number) => {
-    return formatCurrency(price, locale, currency);
   };
   
   return {
-    getPriceByPlan,
-    getSinglePaymentAmount,
-    formatPrice,
+    monthlyPrice,
     yearlyPrice,
-    monthlyPrice
+    yearlyTotalPrice,
+    yearlyDiscount,
+    getPriceByPlan
   };
 };

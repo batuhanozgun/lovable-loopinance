@@ -1,33 +1,32 @@
 
 import React from 'react';
-import { Calendar } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { ISubscriptionSummary } from '../../../../../types/ISubscription';
-import { formatRenewalDate } from '../../utils/formatters';
+import { Calendar } from 'lucide-react';
 import { useSubscriptionLocale } from '../../hooks/useSubscriptionLocale';
+import { formatDate } from '../../utils/formatters';
 
 interface RenewalDateDisplayProps {
-  subscription: ISubscriptionSummary | null;
+  expiresAt: Date | null;
   showIcon?: boolean;
   className?: string;
 }
 
-export const RenewalDateDisplay: React.FC<RenewalDateDisplayProps> = ({ 
-  subscription, 
+export const RenewalDateDisplay: React.FC<RenewalDateDisplayProps> = ({
+  expiresAt,
   showIcon = true,
-  className = ''
+  className = ""
 }) => {
   const { t } = useTranslation(['Subscription']);
   const { locale } = useSubscriptionLocale();
   
-  if (!subscription || !subscription.expiresAt) return null;
-  
-  const formattedDate = formatRenewalDate(subscription, locale);
+  if (!expiresAt) return null;
   
   return (
-    <div className={`flex items-center text-sm ${className}`}>
+    <div className={`flex items-center ${className}`}>
       {showIcon && <Calendar className="h-4 w-4 mr-2 text-muted-foreground" />}
-      <span>{t('Subscription:info.renewalDate', { date: formattedDate })}</span>
+      <span>{t('Subscription:info.renewalDate', { 
+        date: formatDate(expiresAt, locale) 
+      })}</span>
     </div>
   );
 };

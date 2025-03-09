@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
+import { 
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -9,7 +9,7 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle
+  AlertDialogTitle 
 } from '@/components/ui/alert-dialog';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -17,17 +17,22 @@ import { Label } from '@/components/ui/label';
 interface CancellationDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onConfirmCancel: (reason: string) => void;
+  onConfirm: (reason: string) => void;
 }
 
 export const CancellationDialog: React.FC<CancellationDialogProps> = ({
   open,
   onOpenChange,
-  onConfirmCancel
+  onConfirm
 }) => {
   const { t } = useTranslation(['Subscription', 'common']);
   const [reason, setReason] = useState('');
-
+  
+  const handleConfirm = () => {
+    onConfirm(reason);
+    setReason('');
+  };
+  
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
@@ -56,7 +61,7 @@ export const CancellationDialog: React.FC<CancellationDialogProps> = ({
             {t('common:cancel')}
           </AlertDialogCancel>
           <AlertDialogAction 
-            onClick={() => onConfirmCancel(reason)}
+            onClick={handleConfirm}
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
             {t('Subscription:settings.cancelSubscription')}

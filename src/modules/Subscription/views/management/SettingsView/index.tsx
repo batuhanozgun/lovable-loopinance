@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSubscription } from '../../../hooks/useSubscription';
+import { SubscriptionStatus } from '../../../types/ISubscription';
 import { viewsLogger } from '../../../logging';
 import { useToast } from '@/hooks/use-toast';
 import { SettingsSkeleton } from '../shared/components/LoadingSkeleton';
@@ -44,7 +45,11 @@ export const SubscriptionSettingsView: React.FC = () => {
   };
   
   // Abonelik iptal
-  const handleCancelSubscription = (reason: string) => {
+  const handleCancelSubscription = () => {
+    setCancelDialogOpen(true);
+  };
+  
+  const handleConfirmCancel = (reason: string) => {
     viewsLogger.debug('Abonelik iptal isteği', { reason });
     toast({
       title: i18n.language.startsWith('tr') ? 'Aboneliğiniz iptal edildi' : 'Your subscription has been canceled',
@@ -52,6 +57,7 @@ export const SubscriptionSettingsView: React.FC = () => {
         ? 'Mevcut dönem sonuna kadar hizmetlerimize erişebilirsiniz' 
         : 'You can access our services until the end of the current period',
     });
+    setCancelDialogOpen(false);
     
     // Normalde API çağrısı yapılır
     setTimeout(() => {
@@ -95,16 +101,16 @@ export const SubscriptionSettingsView: React.FC = () => {
         />
         
         <SubscriptionManagementCard 
-          subscription={subscription}
-          onCancelClick={() => setCancelDialogOpen(true)}
-          onReactivateClick={handleReactivateSubscription}
+          status={subscription?.status || null}
+          onCancel={handleCancelSubscription}
+          onReactivate={handleReactivateSubscription}
         />
       </div>
       
       <CancellationDialog 
         open={cancelDialogOpen}
         onOpenChange={setCancelDialogOpen}
-        onConfirmCancel={handleCancelSubscription}
+        onConfirm={handleConfirmCancel}
       />
     </div>
   );

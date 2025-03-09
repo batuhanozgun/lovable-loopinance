@@ -4,5 +4,3 @@ import errors from './errors.json';
 
 export const subscriptionTR = subscription;
 export const errorsTR = errors;
-
-export { subscription, errors };

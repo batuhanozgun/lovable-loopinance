@@ -1,35 +1,35 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { ISubscriptionSummary, SubscriptionPlanType } from '@/modules/Subscription/types/ISubscription';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { ISubscriptionSummary } from '../../../../../types/ISubscription';
 import { StatusBadge } from '../../../shared/components/StatusBadge';
 import { PriceDisplay } from '../../../shared/components/PriceDisplay';
 import { RenewalDateDisplay } from '../../../shared/components/RenewalDateDisplay';
-import { useSubscriptionStatus } from '../../../shared/hooks/useSubscriptionStatus';
+import { useSubscriptionPrice } from '../../../shared/hooks/useSubscriptionPrice';
 
 interface SubscriptionSummaryCardProps {
   subscription: ISubscriptionSummary | null;
 }
 
-export const SubscriptionSummaryCard: React.FC<SubscriptionSummaryCardProps> = ({ 
-  subscription 
-}) => {
+export const SubscriptionSummaryCard: React.FC<SubscriptionSummaryCardProps> = ({ subscription }) => {
   const { t } = useTranslation(['Subscription']);
-  const { getSubscriptionInfoText } = useSubscriptionStatus(subscription);
+  const { getPriceByPlan } = useSubscriptionPrice();
   
   if (!subscription) return null;
+  
+  const currentPrice = getPriceByPlan(subscription.plan);
   
   return (
     <Card>
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
           <div>
-            <CardTitle>{t('Subscription:dashboard.summary')}</CardTitle>
+            <h3 className="text-lg font-medium">{t('Subscription:dashboard.summary')}</h3>
             <CardDescription>
-              {subscription && t(`Subscription:plans.${subscription.plan}`)}
+              {t(`Subscription:plan.${subscription.plan}`)}
             </CardDescription>
           </div>
           <StatusBadge subscription={subscription} />
@@ -38,14 +38,25 @@ export const SubscriptionSummaryCard: React.FC<SubscriptionSummaryCardProps> = (
       <CardContent>
         <div className="space-y-4">
           <div className="text-sm text-muted-foreground">
-            {getSubscriptionInfoText()}
+            {subscription.daysRemaining > 0 ? (
+              subscription.isTrial 
+                ? t('Subscription:info.trialRemaining', { days: subscription.daysRemaining })
+                : t('Subscription:info.subscriptionRemaining', { days: subscription.daysRemaining })
+            ) : (
+              subscription.isTrial 
+                ? t('Subscription:info.trialExpired')
+                : t('Subscription:info.expired')
+            )}
           </div>
           
-          <RenewalDateDisplay subscription={subscription} />
+          {subscription.expiresAt && (
+            <RenewalDateDisplay expiresAt={subscription.expiresAt} />
+          )}
           
           <div className="flex items-center justify-between pt-2">
             <PriceDisplay 
-              plan={subscription.plan}
+              price={currentPrice} 
+              planType={subscription.plan}
               className="font-medium"
             />
             
