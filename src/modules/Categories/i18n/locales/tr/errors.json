@@ -1,0 +1,21 @@
+
+{
+  "fetch": {
+    "failed": "Kategoriler yüklenemedi"
+  },
+  "create": {
+    "failed": "Kategori oluşturulamadı"
+  },
+  "update": {
+    "failed": "Kategori güncellenemedi"
+  },
+  "delete": {
+    "failed": "Kategori silinemedi"
+  },
+  "move": {
+    "failed": "Alt kategoriler taşınamadı"
+  },
+  "sort": {
+    "failed": "Kategori sıralaması güncellenemedi"
+  }
+}

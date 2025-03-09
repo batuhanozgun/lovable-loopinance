@@ -1,0 +1,29 @@
+
+{
+  "title": "Categories",
+  "subtitle": "Manage your spending and budget categories",
+  "actions": {
+    "create": "New Category",
+    "edit": "Edit",
+    "delete": "Delete",
+    "move": "Move"
+  },
+  "form": {
+    "categoryName": "Category Name",
+    "subCategoryName": "Subcategory Name",
+    "icon": "Choose Icon",
+    "submit": "Save",
+    "cancel": "Cancel"
+  },
+  "labels": {
+    "noCategories": "No categories found",
+    "addYourFirst": "Add your first category",
+    "dragToReorder": "Drag to reorder",
+    "noSubcategories": "No subcategories"
+  },
+  "empty": {
+    "title": "No categories yet",
+    "description": "Create categories to organize your transactions and budgets",
+    "cta": "Create your first category"
+  }
+}

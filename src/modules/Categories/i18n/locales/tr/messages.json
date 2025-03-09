@@ -1,0 +1,22 @@
+
+{
+  "create": {
+    "success": "Kategori başarıyla oluşturuldu"
+  },
+  "update": {
+    "success": "Kategori başarıyla güncellendi"
+  },
+  "delete": {
+    "success": "Kategori başarıyla silindi",
+    "confirmation": "Bu kategoriyi silmek istediğinizden emin misiniz?",
+    "hasTransactions": "Bu kategoride {{count}} işlem bulunuyor",
+    "hasBudgets": "Bu kategoride {{count}} bütçe kalemi bulunuyor",
+    "movePrompt": "Alt kategorileri nereye taşımak istersiniz?"
+  },
+  "move": {
+    "success": "Alt kategoriler başarıyla taşındı"
+  },
+  "sort": {
+    "success": "Kategori sıralaması güncellendi"
+  }
+}

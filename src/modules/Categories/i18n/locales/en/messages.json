@@ -1,0 +1,22 @@
+
+{
+  "create": {
+    "success": "Category created successfully"
+  },
+  "update": {
+    "success": "Category updated successfully"
+  },
+  "delete": {
+    "success": "Category deleted successfully",
+    "confirmation": "Are you sure you want to delete this category?",
+    "hasTransactions": "This category has {{count}} transactions",
+    "hasBudgets": "This category has {{count}} budget items",
+    "movePrompt": "Where do you want to move the subcategories?"
+  },
+  "move": {
+    "success": "Subcategories moved successfully"
+  },
+  "sort": {
+    "success": "Category order updated"
+  }
+}

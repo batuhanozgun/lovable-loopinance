@@ -1,0 +1,21 @@
+
+{
+  "fetch": {
+    "failed": "Failed to load categories"
+  },
+  "create": {
+    "failed": "Failed to create category"
+  },
+  "update": {
+    "failed": "Failed to update category"
+  },
+  "delete": {
+    "failed": "Failed to delete category"
+  },
+  "move": {
+    "failed": "Failed to move subcategories"
+  },
+  "sort": {
+    "failed": "Failed to update category order"
+  }
+}

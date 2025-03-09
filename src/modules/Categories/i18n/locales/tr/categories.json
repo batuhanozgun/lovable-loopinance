@@ -1,0 +1,29 @@
+
+{
+  "title": "Kategoriler",
+  "subtitle": "Harcama ve bütçe kategorilerinizi yönetin",
+  "actions": {
+    "create": "Yeni Kategori",
+    "edit": "Düzenle",
+    "delete": "Sil",
+    "move": "Taşı"
+  },
+  "form": {
+    "categoryName": "Kategori Adı",
+    "subCategoryName": "Alt Kategori Adı",
+    "icon": "İkon Seç",
+    "submit": "Kaydet",
+    "cancel": "İptal"
+  },
+  "labels": {
+    "noCategories": "Kategori bulunamadı",
+    "addYourFirst": "İlk kategorinizi ekleyin",
+    "dragToReorder": "Sıralamak için sürükleyin",
+    "noSubcategories": "Alt kategori yok"
+  },
+  "empty": {
+    "title": "Henüz kategori yok",
+    "description": "İşlemlerinizi ve bütçelerinizi düzenlemek için kategoriler oluşturun",
+    "cta": "İlk kategorinizi oluşturun"
+  }
+}
