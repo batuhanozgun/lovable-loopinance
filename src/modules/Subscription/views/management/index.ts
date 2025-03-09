@@ -1,6 +1,6 @@
 
 export { SubscriptionDashboardView } from './DashboardView/index';
-export { SubscriptionPlansView } from './PlansView';
+export { SubscriptionPlansView } from './PlansView/index';
 export { SubscriptionBillingView } from './BillingView/index';
 export { SubscriptionSettingsView } from './SettingsView/index';
 
