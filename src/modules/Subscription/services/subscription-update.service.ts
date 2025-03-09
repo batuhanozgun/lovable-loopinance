@@ -7,6 +7,18 @@ import { SubscriptionQueryService } from "./subscription-query.service";
 import { SubscriptionMapperService } from "./subscription-mapper.service";
 
 /**
+ * Abonelik plan güncellemesinde kullanılan veri yapısı
+ */
+interface SubscriptionUpdateData {
+  plan_type: SubscriptionPlanType;
+  status?: SubscriptionStatus;
+  updated_at: string;
+  current_period_starts_at?: string | null;
+  current_period_ends_at?: string | null;
+  trial_ends_at?: string | null;
+}
+
+/**
  * Abonelik güncelleme işlemlerini yöneten servis
  */
 export class SubscriptionUpdateService {
@@ -35,6 +47,12 @@ export class SubscriptionUpdateService {
       // Tarih hesaplamaları için şimdiki zaman
       const now = new Date();
       
+      // Tip güvenliği için başlangıç ​​updateData nesnesi
+      const updateData: SubscriptionUpdateData = {
+        plan_type: planType,
+        updated_at: now.toISOString()
+      };
+      
       // Yeni bitiş tarihini hesapla
       let periodEndDate: Date;
       
@@ -51,25 +69,15 @@ export class SubscriptionUpdateService {
         periodEndDate = currentSubscription.subscription.trial_ends_at || now;
       }
       
-      // Güncellenecek verileri hazırla - string yerine enum değeri kullan
-      const updateData = {
-        plan_type: planType,
-        updated_at: now.toISOString()
-      };
-      
       // Trial'dan ücretli plana geçiş veya ücretli plan güncelleme
       if (planType !== SubscriptionPlanType.TRIAL) {
-        Object.assign(updateData, {
-          status: SubscriptionStatus.ACTIVE,
-          current_period_starts_at: now.toISOString(),
-          current_period_ends_at: periodEndDate.toISOString()
-        });
+        updateData.status = SubscriptionStatus.ACTIVE;
+        updateData.current_period_starts_at = now.toISOString();
+        updateData.current_period_ends_at = periodEndDate.toISOString();
         
         // Eğer deneme süresi devam ediyorsa, deneme süresini sonlandır
         if (currentSubscription.subscription.status === SubscriptionStatus.TRIAL) {
-          Object.assign(updateData, {
-            trial_ends_at: now.toISOString()
-          });
+          updateData.trial_ends_at = now.toISOString();
         }
       }
       

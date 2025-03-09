@@ -6,13 +6,16 @@
   },
   "update": {
     "general": "Abonelik güncellenemedi",
-    "planChange": "Abonelik planı değiştirilemedi"
+    "planChange": "Abonelik planı değiştirilemedi",
+    "invalidData": "Abonelik verileri geçersiz",
+    "missingUserId": "Kullanıcı bilgisi bulunamadı"
   },
   "access": {
     "denied": "Bu özelliğe erişiminiz yok",
     "expired": "Aboneliğinizin süresi doldu"
   },
   "session": {
-    "error": "Oturum bilgisi alınamadı"
+    "error": "Oturum bilgisi alınamadı",
+    "missing": "Oturum bulunamadı"
   }
 }
