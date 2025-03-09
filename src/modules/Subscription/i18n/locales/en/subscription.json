@@ -135,5 +135,8 @@
     "canceledDescription": "Your subscription has been canceled. You can access our services until the end of the current period.",
     "cancellationReason": "Cancellation Reason",
     "cancellationReasonPlaceholder": "Your reason for cancellation (optional)"
+  },
+  "plan": {
+    "title": "Plan"
   }
 }

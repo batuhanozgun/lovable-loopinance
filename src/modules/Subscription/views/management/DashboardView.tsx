@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSubscription } from '../../hooks/useSubscription';
@@ -20,14 +19,12 @@ export const SubscriptionDashboardView: React.FC = () => {
     viewsLogger.debug('Abonelik yönetim paneli görüntülendi');
   }, []);
   
-  // Kullanıcının diline göre para birimi ve biçim belirle
   const locale = i18n.language.startsWith('tr') ? 'tr-TR' : 'en-US';
   const currency = i18n.language.startsWith('tr') ? 'TRY' : 'USD';
   const monthlyPrice = i18n.language.startsWith('tr') ? 49 : 4.99;
   const yearlyPrice = i18n.language.startsWith('tr') ? 39 : 3.99;
   const currentPrice = subscription?.plan === SubscriptionPlanType.YEARLY ? yearlyPrice : monthlyPrice;
   
-  // Abonelik durumuna göre rozet variantını belirle
   const getStatusBadgeVariant = () => {
     if (!subscription) return 'outline';
     
@@ -45,13 +42,11 @@ export const SubscriptionDashboardView: React.FC = () => {
     }
   };
   
-  // Durum metni
   const getStatusText = () => {
     if (!subscription) return '';
     return t(`Subscription:status.${subscription.status}`);
   };
   
-  // Abonelik bilgi metni
   const getSubscriptionInfoText = () => {
     if (!subscription) return '';
     
@@ -74,7 +69,6 @@ export const SubscriptionDashboardView: React.FC = () => {
     return '';
   };
   
-  // Yenileme tarihi
   const getRenewalDate = () => {
     if (!subscription || !subscription.expiresAt) return '';
     
@@ -112,14 +106,13 @@ export const SubscriptionDashboardView: React.FC = () => {
       </div>
       
       <div className="grid md:grid-cols-2 gap-6">
-        {/* Abonelik Özeti */}
         <Card>
           <CardHeader className="pb-2">
             <div className="flex justify-between items-start">
               <div>
                 <CardTitle>{t('Subscription:dashboard.summary')}</CardTitle>
                 <CardDescription>
-                  {subscription && t(`Subscription:plan.${subscription.plan}`)}
+                  {subscription && t(`Subscription:plans.${subscription.plan}`)}
                 </CardDescription>
               </div>
               {subscription && (
@@ -162,7 +155,6 @@ export const SubscriptionDashboardView: React.FC = () => {
           </CardContent>
         </Card>
         
-        {/* Sonraki Fatura */}
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center">
@@ -175,7 +167,7 @@ export const SubscriptionDashboardView: React.FC = () => {
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <span className="text-sm">{t('Subscription:plan.title')}:</span>
-                  <span className="font-medium">{t(`Subscription:plan.${subscription.plan}`)}</span>
+                  <span className="font-medium">{t(`Subscription:plans.${subscription.plan}`)}</span>
                 </div>
                 
                 <div className="flex justify-between items-center">
@@ -210,7 +202,6 @@ export const SubscriptionDashboardView: React.FC = () => {
           </CardContent>
         </Card>
         
-        {/* Kullanım İstatistikleri */}
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center">
@@ -227,7 +218,6 @@ export const SubscriptionDashboardView: React.FC = () => {
           </CardContent>
         </Card>
         
-        {/* Özellik Erişimi */}
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="flex items-center">

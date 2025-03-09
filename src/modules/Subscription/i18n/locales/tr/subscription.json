@@ -135,5 +135,8 @@
     "canceledDescription": "Aboneliğiniz iptal edildi. Mevcut dönem sonuna kadar hizmetlerimize erişebilirsiniz.",
     "cancellationReason": "İptal Nedeni",
     "cancellationReasonPlaceholder": "İptal etme nedeniniz (isteğe bağlı)"
+  },
+  "plan": {
+    "title": "Plan"
   }
 }
