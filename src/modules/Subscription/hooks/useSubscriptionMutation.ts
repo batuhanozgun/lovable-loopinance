@@ -71,6 +71,15 @@ export const useSubscriptionMutation = (onSuccess?: () => void) => {
           userId
         });
         
+        // 406 hatası için özel mesaj
+        if (response.error?.includes('406')) {
+          subscriptionLogger.warn('406 hatası alındı, geçici bir veritabanı hatası olabilir');
+          return {
+            success: false,
+            error: t('Subscription:errors.update.tryAgain')
+          };
+        }
+        
         return response;
       }
       

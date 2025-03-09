@@ -58,42 +58,45 @@ export class SubscriptionUpdateService {
         }
       }
       
-      subscriptionLogger.debug('Abonelik güncelleme verileri hazırlandı', {
-        updateData,
+      // Upsert işlemi için veri hazırla
+      const trialStartDate = new Date(now);
+      const trialEndDate = SubscriptionDateService.calculateTrialEndDate(trialStartDate);
+      
+      // Deneme süresi için başlangıç ve bitiş tarihleri
+      const upsertData: SubscriptionInsertData = {
+        ...updateData,
+        user_id: userId,
+        trial_starts_at: currentSubscription.success && currentSubscription.subscription ? 
+          currentSubscription.subscription.trial_starts_at?.toISOString() ?? trialStartDate.toISOString() :
+          trialStartDate.toISOString(),
+        trial_ends_at: updateData.trial_ends_at ?? 
+          (currentSubscription.success && currentSubscription.subscription?.trial_ends_at ? 
+            currentSubscription.subscription.trial_ends_at.toISOString() : 
+            trialEndDate.toISOString())
+      };
+      
+      // Status değeri tanımlanmamış ise ve yeni bir kayıt oluşturuluyorsa, deneme süresi olarak ayarla
+      if (!upsertData.status && (!currentSubscription.success || !currentSubscription.subscription)) {
+        upsertData.status = 'trial';
+      }
+      
+      subscriptionLogger.debug('Abonelik upsert verisi hazırlandı', {
+        upsertData,
         userId,
         subscriptionExists: currentSubscription.success && !!currentSubscription.subscription
       });
       
-      let result;
-      
-      // Abonelik kaydı varsa güncelle, yoksa yeni kayıt oluştur
-      if (currentSubscription.success && currentSubscription.subscription) {
-        // Mevcut kaydı güncelle
-        result = await SubscriptionRepositoryService.updateSubscription(userId, updateData);
-      } else {
-        // Yeni kayıt için veri hazırla
-        const trialStartDate = new Date(now);
-        const trialEndDate = SubscriptionDateService.calculateTrialEndDate(trialStartDate);
-        
-        // Deneme süresi için başlangıç ve bitiş tarihleri
-        const insertData: SubscriptionInsertData = {
-          ...updateData,
-          user_id: userId,
-          trial_starts_at: trialStartDate.toISOString(),
-          trial_ends_at: trialEndDate.toISOString()
-        };
-        
-        // Status değeri tanımlanmamış ise, deneme süresi olarak ayarla
-        if (!insertData.status) {
-          insertData.status = 'trial';
-        }
-        
-        // Yeni kayıt ekle
-        result = await SubscriptionRepositoryService.createSubscription(insertData);
-      }
+      // Upsert işlemini gerçekleştir
+      const result = await SubscriptionRepositoryService.upsertSubscription(upsertData);
       
       // İşlem sonucunu kontrol et
       if (result.error) {
+        subscriptionLogger.error('Abonelik upsert işlemi başarısız oldu', {
+          error: result.error,
+          userId,
+          planType
+        });
+        
         return {
           success: false,
           error: result.error
@@ -101,9 +104,12 @@ export class SubscriptionUpdateService {
       }
       
       if (!result.data) {
+        const errorMsg = 'İşlem sonucunda veri döndürülemedi';
+        subscriptionLogger.error(errorMsg, { userId, planType });
+        
         return {
           success: false,
-          error: 'İşlem sonucunda veri döndürülemedi'
+          error: errorMsg
         };
       }
       

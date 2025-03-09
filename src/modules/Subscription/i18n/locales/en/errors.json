@@ -11,7 +11,9 @@
     "missingUserId": "User information not found",
     "databaseError": "Database error: Cannot update subscription",
     "subscriptionNotFound": "Subscription to update not found",
-    "invalidPlanType": "Invalid subscription plan type"
+    "invalidPlanType": "Invalid subscription plan type",
+    "upsertFailed": "Failed to create or update subscription record",
+    "tryAgain": "Please try again, the system encountered a temporary error"
   },
   "access": {
     "denied": "You do not have access to this feature",
@@ -20,11 +22,13 @@
   "session": {
     "error": "Could not retrieve session information",
     "missing": "Session not found",
-    "invalid": "Invalid session"
+    "invalid": "Invalid session",
+    "expired": "Your session has expired, please login again"
   },
   "repository": {
     "createFailed": "Failed to create subscription record",
     "updateFailed": "Failed to update subscription record",
-    "dataError": "Data processing error"
+    "dataError": "Data processing error",
+    "upsertFailed": "Failed to create or update subscription database record"
   }
 }

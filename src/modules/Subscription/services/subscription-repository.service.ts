@@ -144,4 +144,85 @@ export class SubscriptionRepositoryService {
       };
     }
   }
+
+  /**
+   * Abonelik verisini ekler veya günceller (Upsert)
+   * Mevcut kayıt varsa günceller, yoksa yeni bir kayıt oluşturur
+   */
+  static async upsertSubscription(
+    upsertData: SubscriptionInsertData
+  ): Promise<{ data: ISubscription | null, error: string | null }> {
+    try {
+      subscriptionLogger.debug('Abonelik verisi ekleniyor/güncelleniyor (Upsert)', { 
+        userId: upsertData.user_id,
+        planType: upsertData.plan_type
+      });
+      
+      const result = await supabase
+        .from('subscriptions')
+        .upsert(upsertData, { 
+          onConflict: 'user_id',
+          ignoreDuplicates: false 
+        })
+        .select('*')
+        .maybeSingle();
+      
+      if (result.error) {
+        subscriptionLogger.error('Abonelik upsert işleminde Supabase hatası oluştu', {
+          error: result.error, 
+          userId: upsertData.user_id,
+          errorMessage: result.error.message,
+          errorCode: result.error.code
+        });
+        
+        return {
+          data: null,
+          error: `${result.error.message} (Hata kodu: ${result.error.code})`
+        };
+      }
+      
+      if (!result.data) {
+        // Upsert başarılı ama veri dönmediyse, kaydı tekrar alalım
+        const getResult = await supabase
+          .from('subscriptions')
+          .select('*')
+          .eq('user_id', upsertData.user_id)
+          .maybeSingle();
+          
+        if (getResult.error || !getResult.data) {
+          subscriptionLogger.warn('Upsert sonrası abonelik verisi alınamadı', {
+            userId: upsertData.user_id,
+            getError: getResult.error
+          });
+          
+          return {
+            data: null,
+            error: 'Upsert işlemi tamamlandı ancak güncel veri alınamadı'
+          };
+        }
+        
+        const subscription = SubscriptionMapperService.mapDbResponseToSubscription(getResult.data);
+        return { data: subscription, error: null };
+      }
+      
+      const subscription = SubscriptionMapperService.mapDbResponseToSubscription(result.data);
+      subscriptionLogger.info('Abonelik upsert işlemi başarılı', {
+        userId: upsertData.user_id,
+        subscriptionId: subscription.id
+      });
+      
+      return { data: subscription, error: null };
+    } catch (error) {
+      subscriptionLogger.error('Abonelik upsert işleminde beklenmeyen hata', {
+        error,
+        errorMessage: error instanceof Error ? error.message : 'Bilinmeyen hata',
+        userId: upsertData.user_id
+      });
+      
+      return {
+        data: null,
+        error: error instanceof Error ? error.message : 'Beklenmeyen bir hata oluştu'
+      };
+    }
+  }
 }

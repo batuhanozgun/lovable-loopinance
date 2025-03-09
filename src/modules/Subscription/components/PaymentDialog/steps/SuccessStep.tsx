@@ -28,6 +28,7 @@ export const SuccessStep: React.FC<SuccessStepProps> = ({
   const [updateSuccessful, setUpdateSuccessful] = useState(false);
   const [updateError, setUpdateError] = useState<string | null>(null);
   const [sessionRetryAttempted, setSessionRetryAttempted] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
   
   // Ödeme başarılı olduğunda, abonelik planını güncelle
   useEffect(() => {
@@ -61,30 +62,59 @@ export const SuccessStep: React.FC<SuccessStepProps> = ({
           subscriptionLogger.debug('Başarılı ödeme sonrası abonelik güncellemesi başlatılıyor', { 
             plan: selectedPlan, 
             transactionId,
-            userId: userId || 'bilinmiyor'
+            userId: userId || 'bilinmiyor',
+            retryCount
           });
           
           const result = await updatePlan(selectedPlan, transactionId);
           
           if (!result.success) {
             const errorMsg = result.error || t('Subscription:errors.update.general');
+            let shouldRetry = false;
+            
+            // 406 Not Acceptable hatasını algıla ve tekrar deneme yap
+            if (errorMsg.includes('406') && retryCount < 2) {
+              shouldRetry = true;
+              setRetryCount(prev => prev + 1);
+              setUpdateAttempted(false); // Tekrar deneme için bayrağı sıfırla
+              
+              subscriptionLogger.warn('406 hatası alındı, abonelik güncellemesi tekrar denenecek', {
+                plan: selectedPlan,
+                userId: userId || 'bilinmiyor',
+                nextRetryCount: retryCount + 1
+              });
+              
+              // Kısa bir beklemeden sonra tekrar dene
+              setTimeout(() => {
+                setUpdateAttempted(false);
+              }, 800);
+              
+              return;
+            }
+            
             subscriptionLogger.error('Abonelik güncellemesi başarısız oldu', { 
               plan: selectedPlan,
               userId: userId || 'bilinmiyor',
-              error: result.error
+              error: result.error,
+              retryCount
             });
-            toast({
-              title: t('common:error'),
-              description: errorMsg,
-              variant: "destructive",
-            });
-            setUpdateError(errorMsg);
+            
+            if (!shouldRetry) {
+              toast({
+                title: t('common:error'),
+                description: errorMsg,
+                variant: "destructive",
+              });
+              setUpdateError(errorMsg);
+            }
           } else {
             subscriptionLogger.info('Abonelik başarıyla güncellendi', { 
               plan: selectedPlan,
-              userId: userId || 'bilinmiyor'
+              userId: userId || 'bilinmiyor',
+              retryCount
             });
             setUpdateSuccessful(true);
+            setRetryCount(0); // Başarılı olduğunda sayacı sıfırla
             toast({
               title: t('common:success'),
               description: t('Subscription:subscription.plan.updated', { 
@@ -94,7 +124,10 @@ export const SuccessStep: React.FC<SuccessStepProps> = ({
           }
         } catch (error) {
           const errorMsg = error instanceof Error ? error.message : t('Subscription:errors.update.general');
-          subscriptionLogger.error('Abonelik güncellenirken beklenmeyen hata', error);
+          subscriptionLogger.error('Abonelik güncellenirken beklenmeyen hata', {
+            error,
+            retryCount
+          });
           toast({
             title: t('common:error'),
             description: errorMsg,
@@ -109,7 +142,7 @@ export const SuccessStep: React.FC<SuccessStepProps> = ({
       }
     }
   }, [selectedPlan, updatePlan, toast, t, transactionId, updateAttempted, 
-      userId, refreshUserSession, sessionRetryAttempted, isSessionLoading]);
+      userId, refreshUserSession, sessionRetryAttempted, isSessionLoading, retryCount]);
   
   // Kullanıcıya gösterilecek buton metnini belirle
   const getButtonText = () => {

@@ -11,7 +11,9 @@
     "missingUserId": "Kullanıcı bilgisi bulunamadı",
     "databaseError": "Veritabanı hatası: Abonelik güncellenemiyor",
     "subscriptionNotFound": "Güncellenecek abonelik bulunamadı",
-    "invalidPlanType": "Geçersiz abonelik planı"
+    "invalidPlanType": "Geçersiz abonelik planı",
+    "upsertFailed": "Abonelik kaydı oluşturulamadı veya güncellenemedi",
+    "tryAgain": "Lütfen tekrar deneyin, sistem geçici bir hata ile karşılaştı"
   },
   "access": {
     "denied": "Bu özelliğe erişiminiz yok",
@@ -20,11 +22,13 @@
   "session": {
     "error": "Oturum bilgisi alınamadı",
     "missing": "Oturum bulunamadı",
-    "invalid": "Geçersiz oturum"
+    "invalid": "Geçersiz oturum",
+    "expired": "Oturumunuzun süresi doldu, lütfen tekrar giriş yapın"
   },
   "repository": {
     "createFailed": "Abonelik kaydı oluşturulamadı",
     "updateFailed": "Abonelik kaydı güncellenemedi",
-    "dataError": "Veri işleme hatası"
+    "dataError": "Veri işleme hatası",
+    "upsertFailed": "Abonelik veritabanı kaydı oluşturulamadı veya güncellenemedi"
   }
 }
