@@ -1,0 +1,25 @@
+
+{
+  "general": "An error occurred during payment processing",
+  "connection": "Could not connect to payment server",
+  "card": {
+    "invalid": "Invalid card details",
+    "expired": "Card has expired",
+    "declined": "Payment was declined by your bank",
+    "insufficient": "Insufficient funds",
+    "limit": "Card limit exceeded"
+  },
+  "validation": {
+    "missing": "Required payment information is missing",
+    "invalid": "Invalid payment information"
+  },
+  "processing": {
+    "timeout": "Payment processing timed out",
+    "gateway": "Payment gateway error",
+    "retry": "Please try again later"
+  },
+  "billing": {
+    "invalid": "Invalid billing information",
+    "missing": "Required billing information is missing"
+  }
+}

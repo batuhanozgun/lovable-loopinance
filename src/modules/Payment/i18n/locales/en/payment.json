@@ -1,0 +1,73 @@
+
+{
+  "title": "Payment",
+  "description": "Secure payment processing",
+  "steps": {
+    "summary": "Summary",
+    "billing": "Billing",
+    "payment": "Payment",
+    "confirmation": "Confirm"
+  },
+  "billing": {
+    "title": "Billing Information",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "John Doe",
+    "email": "Email",
+    "emailPlaceholder": "john@example.com",
+    "address": "Address",
+    "addressPlaceholder": "123 Main St",
+    "city": "City",
+    "cityPlaceholder": "New York",
+    "zipCode": "Zip Code",
+    "zipCodePlaceholder": "10001",
+    "country": "Country"
+  },
+  "cardDetails": "Card Details",
+  "card": {
+    "title": "Payment Details",
+    "number": "Card Number",
+    "holder": "Cardholder Name",
+    "holderPlaceholder": "John Doe",
+    "expiry": "Expiry Date",
+    "cvv": "CVV"
+  },
+  "confirmation": {
+    "summary": "Order Summary",
+    "plan": "Selected Plan",
+    "amount": "Total Amount",
+    "billingTitle": "Billing Details",
+    "paymentTitle": "Payment Method",
+    "paymentMethod": "Credit/Debit Card",
+    "disclaimer": "By proceeding, your payment will be processed and your selected plan will be activated."
+  },
+  "success": {
+    "congratulations": "Congratulations!",
+    "partialSuccess": "Payment Received",
+    "planActivated": "Your {{plan}} subscription has been activated",
+    "processed": "Your payment has been processed successfully",
+    "paymentComplete": "Your payment has been successfully completed",
+    "errorActivating": "There was an issue activating your subscription",
+    "tryAgainLater": "Please try again later or contact our support team",
+    "errorDetails": "Error details"
+  },
+  "actions": {
+    "continue": "Continue",
+    "back": "Back",
+    "upgrade": "Upgrade",
+    "confirm": "Purchase",
+    "done": "Done",
+    "processing": "Processing..."
+  },
+  "validation": {
+    "cardNumberInvalid": "Please enter a valid 16-digit card number",
+    "expiryDateInvalid": "Please enter a valid expiry date (MM/YY)",
+    "cvvInvalid": "Please enter a valid CVV"
+  },
+  "testCards": "For testing, use card number starting with 4111... for success, 4242... for failure",
+  "included": "What's included",
+  "confirmExit": "Are you sure you want to exit the payment process?",
+  "transaction": {
+    "id": "Transaction ID",
+    "date": "Transaction Date"
+  }
+}

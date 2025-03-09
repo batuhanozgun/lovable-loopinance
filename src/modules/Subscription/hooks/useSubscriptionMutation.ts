@@ -96,7 +96,8 @@ export const useSubscriptionMutation = (onSuccess?: () => void) => {
       
       subscriptionLogger.info('Plan başarıyla güncellendi', { 
         planType,
-        userId
+        userId,
+        transactionId: transactionId || 'yok'
       });
       
       // Doğru plan adını çevirme

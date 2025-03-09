@@ -1,0 +1,73 @@
+
+{
+  "title": "Ödeme",
+  "description": "Güvenli ödeme işlemi",
+  "steps": {
+    "summary": "Özet",
+    "billing": "Fatura",
+    "payment": "Ödeme",
+    "confirmation": "Onay"
+  },
+  "billing": {
+    "title": "Fatura Bilgileri",
+    "fullName": "Ad Soyad",
+    "fullNamePlaceholder": "Ahmet Yılmaz",
+    "email": "E-posta",
+    "emailPlaceholder": "ahmet@ornek.com",
+    "address": "Adres",
+    "addressPlaceholder": "Atatürk Cad. No: A7",
+    "city": "Şehir",
+    "cityPlaceholder": "İstanbul",
+    "zipCode": "Posta Kodu",
+    "zipCodePlaceholder": "34000",
+    "country": "Ülke"
+  },
+  "cardDetails": "Kart Bilgileri",
+  "card": {
+    "title": "Ödeme Bilgileri",
+    "number": "Kart Numarası",
+    "holder": "Kart Üzerindeki İsim",
+    "holderPlaceholder": "Ahmet Yılmaz",
+    "expiry": "Son Kullanma Tarihi",
+    "cvv": "CVV"
+  },
+  "confirmation": {
+    "summary": "Sipariş Özeti",
+    "plan": "Seçilen Plan",
+    "amount": "Toplam Tutar",
+    "billingTitle": "Fatura Bilgileri",
+    "paymentTitle": "Ödeme Bilgileri",
+    "paymentMethod": "Kredi/Banka Kartı",
+    "disclaimer": "Devam ettiğinizde, ödemeniz işleme alınacak ve seçtiğiniz plan aktifleştirilecektir."
+  },
+  "success": {
+    "congratulations": "Tebrikler!",
+    "partialSuccess": "Ödemeniz Alındı",
+    "planActivated": "{{plan}} aboneliğiniz etkinleştirildi",
+    "processed": "Ödemeniz başarıyla işlendi",
+    "paymentComplete": "Ödemeniz başarıyla tamamlandı",
+    "errorActivating": "Aboneliğinizi etkinleştirirken bir sorun oluştu",
+    "tryAgainLater": "Lütfen daha sonra tekrar deneyin veya destek ekibimizle iletişime geçin",
+    "errorDetails": "Hata detayları"
+  },
+  "actions": {
+    "continue": "Devam Et",
+    "back": "Geri",
+    "upgrade": "Yükselt",
+    "confirm": "Satın Al",
+    "done": "Tamam",
+    "processing": "İşleniyor..."
+  },
+  "validation": {
+    "cardNumberInvalid": "Lütfen geçerli bir 16 haneli kart numarası girin",
+    "expiryDateInvalid": "Lütfen geçerli bir son kullanma tarihi girin (AA/YY)",
+    "cvvInvalid": "Lütfen geçerli bir CVV girin"
+  },
+  "testCards": "Test için 4111... ile başlayan kart numarasını başarılı, 4242... ile başlayanı başarısız işlem için kullanabilirsiniz",
+  "included": "Dahil olanlar",
+  "confirmExit": "Ödeme işleminden çıkmak istediğinize emin misiniz?",
+  "transaction": {
+    "id": "İşlem Numarası",
+    "date": "İşlem Tarihi"
+  }
+}

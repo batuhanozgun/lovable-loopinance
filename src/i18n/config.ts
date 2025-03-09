@@ -3,80 +3,54 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-// Import common translations
-import * as commonEN from './locales/en/common.json';
-import * as commonTR from './locales/tr/common.json';
+// Çeviriler
+import commonEn from './locales/en/common.json';
+import errorsEn from './locales/en/errors.json';
+import commonTr from './locales/tr/common.json';
+import errorsTr from './locales/tr/errors.json';
 
-// Import error translations
-import * as errorsEN from './locales/en/errors.json';
-import * as errorsTR from './locales/tr/errors.json';
-
-// Modül çevirilerini içe aktar
-import { initSignupTranslations } from '@/modules/UserManagement/Signup/i18n';
-import { initLoginTranslations } from '@/modules/UserManagement/Login/i18n';
-import { initOAuthTranslations } from '@/modules/UserManagement/OAuth/i18n';
+// Modüllerin çevirilerini başlatan işlevler
 import { initAppLayoutTranslations } from '@/modules/AppLayout/i18n';
+import { initLandingTranslations } from '@/modules/LandingPage/i18n';
 import { initDashboardTranslations } from '@/modules/Dashboard/i18n';
+import { initLoginTranslations } from '@/modules/UserManagement/Login/i18n';
+import { initSignupTranslations } from '@/modules/UserManagement/Signup/i18n';
+import { initOAuthTranslations } from '@/modules/UserManagement/OAuth/i18n';
 import { initProfileTranslations } from '@/modules/UserManagement/Profile/i18n';
 import { initSubscriptionTranslations } from '@/modules/Subscription/i18n';
+import { initPaymentTranslations } from '@/modules/Payment/i18n';
 
-// Profile modülü çevirilerini doğrudan içe aktar
-import * as profileContentEN from '@/modules/UserManagement/Profile/i18n/locales/en/content.json';
-import * as profileContentTR from '@/modules/UserManagement/Profile/i18n/locales/tr/content.json';
-import * as profileErrorsEN from '@/modules/UserManagement/Profile/i18n/locales/en/errors.json';
-import * as profileErrorsTR from '@/modules/UserManagement/Profile/i18n/locales/tr/errors.json';
-import * as profileMessagesEN from '@/modules/UserManagement/Profile/i18n/locales/en/messages.json';
-import * as profileMessagesTR from '@/modules/UserManagement/Profile/i18n/locales/tr/messages.json';
-
-// Kullanıcı dil tercihini kontrol et
-const savedLanguage = localStorage.getItem('preferredLanguage');
-const defaultLng = savedLanguage || 'tr'; // Varsayılan olarak Türkçe
-
+// i18n nesnesini yapılandır
 i18n
-  .use(initReactI18next)
   .use(LanguageDetector)
+  .use(initReactI18next)
   .init({
-    debug: process.env.NODE_ENV === 'development',
-    fallbackLng: 'en',
-    lng: defaultLng, // Kaydedilmiş dili kullan
-    interpolation: {
-      escapeValue: false,
-    },
-    ns: ['common', 'errors', 'Profile'], // Profile namespace'ini ekle
-    defaultNS: 'common',
     resources: {
       en: {
-        // Common translations
-        common: commonEN,
-        errors: errorsEN,
-        // Profile translations
-        Profile: {
-          ...profileContentEN,
-          errors: profileErrorsEN,
-          messages: profileMessagesEN,
-        }
+        common: commonEn,
+        errors: errorsEn
       },
       tr: {
-        // Common translations
-        common: commonTR,
-        errors: errorsTR,
-        // Profile translations
-        Profile: {
-          ...profileContentTR,
-          errors: profileErrorsTR,
-          messages: profileMessagesTR,
-        }
+        common: commonTr,
+        errors: errorsTr
       }
     },
+    fallbackLng: 'tr',
+    debug: false,
+    interpolation: {
+      escapeValue: false, // React zaten XSS koruma yapıyor
+    }
   });
 
-// Diğer modül çevirilerini yükle
-initSignupTranslations();
-initLoginTranslations();
-initOAuthTranslations();
+// Tüm modüllerin çevirilerini başlat
 initAppLayoutTranslations();
+initLandingTranslations();
 initDashboardTranslations();
+initLoginTranslations();
+initSignupTranslations();
+initOAuthTranslations();
+initProfileTranslations();
 initSubscriptionTranslations();
-// Profile modülü çevirileri zaten yüklendi, tekrar başlatmaya gerek yok
+initPaymentTranslations();
 
 export default i18n;

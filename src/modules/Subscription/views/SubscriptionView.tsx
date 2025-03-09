@@ -8,11 +8,12 @@ import { SubscriptionPlanType } from '../types/ISubscription';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Check } from 'lucide-react';
-import { PaymentDialog } from '../components/PaymentDialog';
+import { SubscriptionPaymentDialog } from '../components/PaymentDialog/StepAdapter';
+import { formatCurrency } from '@/modules/Payment/utils/currencyUtils';
 
 export const SubscriptionView: React.FC = () => {
   const { t, i18n } = useTranslation(['Subscription', 'common']);
-  const { subscription, updatePlan, isLoading, isTrial } = useSubscription();
+  const { subscription, isLoading, isTrial } = useSubscription();
   const plansRef = useRef<HTMLDivElement>(null);
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlanType>(SubscriptionPlanType.MONTHLY);
@@ -35,15 +36,6 @@ export const SubscriptionView: React.FC = () => {
     }
   };
 
-  // Format currency based on locale
-  const formatCurrency = (price: number, currency: string = '₺') => {
-    return new Intl.NumberFormat(i18n.language === 'tr' ? 'tr-TR' : 'en-US', {
-      style: 'currency',
-      currency: currency === '₺' ? 'TRY' : currency,
-      minimumFractionDigits: 0,
-    }).format(price).replace('TRY', '₺');
-  };
-  
   return (
     <div className="container mx-auto p-4 max-w-3xl">
       <h1 className="text-2xl font-bold mb-6">{t('Subscription:status.title')}</h1>
@@ -61,7 +53,7 @@ export const SubscriptionView: React.FC = () => {
                 <h3 className="text-lg font-medium">{t('Subscription:plan.monthly')}</h3>
                 <p className="text-2xl font-bold mt-2">
                   {t('Subscription:plans.pricing.monthly', {
-                    price: formatCurrency(49),
+                    price: formatCurrency(49, i18n.language === 'tr' ? 'tr-TR' : 'en-US'),
                     period: t('Subscription:plans.pricing.period.month')
                   })}
                 </p>
@@ -94,7 +86,7 @@ export const SubscriptionView: React.FC = () => {
                 <h3 className="text-lg font-medium">{t('Subscription:plan.yearly')}</h3>
                 <p className="text-2xl font-bold mt-2">
                   {t('Subscription:plans.pricing.monthly', {
-                    price: formatCurrency(39),
+                    price: formatCurrency(39, i18n.language === 'tr' ? 'tr-TR' : 'en-US'),
                     period: t('Subscription:plans.pricing.period.month')
                   })}
                 </p>
@@ -129,8 +121,8 @@ export const SubscriptionView: React.FC = () => {
         )}
       </div>
       
-      {/* Ödeme Diyaloğu */}
-      <PaymentDialog 
+      {/* Adaptör üzerinden Payment modülünün PaymentDialog'unu kullan */}
+      <SubscriptionPaymentDialog 
         open={paymentOpen} 
         onOpenChange={setPaymentOpen} 
         selectedPlan={selectedPlan} 

@@ -1,0 +1,25 @@
+
+{
+  "general": "Ödeme işlemi sırasında bir hata oluştu",
+  "connection": "Ödeme sunucusuna bağlanılamadı",
+  "card": {
+    "invalid": "Geçersiz kart bilgileri",
+    "expired": "Kartın süresi dolmuş",
+    "declined": "Ödeme bankanız tarafından reddedildi",
+    "insufficient": "Yetersiz bakiye",
+    "limit": "Kart limiti aşıldı"
+  },
+  "validation": {
+    "missing": "Gerekli ödeme bilgileri eksik",
+    "invalid": "Geçersiz ödeme bilgileri"
+  },
+  "processing": {
+    "timeout": "Ödeme işlemi zaman aşımına uğradı",
+    "gateway": "Ödeme ağ geçidi hatası",
+    "retry": "Lütfen daha sonra tekrar deneyin"
+  },
+  "billing": {
+    "invalid": "Geçersiz fatura bilgileri",
+    "missing": "Gerekli fatura bilgileri eksik"
+  }
+}
