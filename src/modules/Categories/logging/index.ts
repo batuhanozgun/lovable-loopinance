@@ -1,15 +1,16 @@
 
 import { createLogger } from '@/modules/Logging';
 
-// Ana modül loggeri
-export const categoriesLogger = createLogger('Categories');
+// Ana kategori logger'ı
+const logger = createLogger('Categories');
 
-// Alt modül loggerları
-export const uiLogger = categoriesLogger.createSubLogger('UI');
-export const eventsLogger = categoriesLogger.createSubLogger('Events');
-export const operationsLogger = categoriesLogger.createSubLogger('Operations');
-export const formsLogger = categoriesLogger.createSubLogger('Forms');
-export const apiLogger = categoriesLogger.createSubLogger('API');
+// Alt modüller için logger'lar
+export const categoryQueryLogger = logger.createSubLogger('Query');
+export const categoryMutationLogger = logger.createSubLogger('Mutation');
+export const categoryUILogger = logger.createSubLogger('UI');
+export const categoryValidationLogger = logger.createSubLogger('Validation');
+export const operationsLogger = logger.createSubLogger('Operations');
+export const apiLogger = logger.createSubLogger('API');
 
-// Tip güvenliği için isim exportu
-export const CategoriesLogger = 'Categories';
+// Ana logger'ı dışa aktar
+export { logger as categoriesLogger };
