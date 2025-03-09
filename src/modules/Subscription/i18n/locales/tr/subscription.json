@@ -19,12 +19,6 @@
     "enterprise": "Kurumsal Plan",
     "custom": "Özel Plan",
     "title": "Plan",
-    "pricing": {
-      "period": {
-        "month": "/ay",
-        "year": "/yıl"
-      }
-    },
     "features": {
       "allAccess": "Tüm özelliklere erişim",
       "unlimitedAccounts": "Sınırsız hesap",
@@ -33,7 +27,11 @@
     },
     "discount": "%{{percentage}} indirim",
     "pricing": {
-      "billedAnnually": "Yıllık ödeme"
+      "billedAnnually": "Yıllık ödeme",
+      "period": {
+        "month": "/ay",
+        "year": "/yıl"
+      }
     }
   },
   "subscription": {
