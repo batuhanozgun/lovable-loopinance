@@ -5,7 +5,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
 import type { ICategory } from '../../types';
 import type { SupportedLanguage } from '../../types/template';
-import { DEFAULT_LANGUAGE_SETTINGS } from '../../types/template';
+import { getSafeLanguage } from '../../utils/languageUtils';
 
 const categoryTemplateImportService = new CategoryTemplateImportService();
 
@@ -16,13 +16,6 @@ export const useCategoryTemplateImportMutation = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const { t, i18n } = useTranslation(['Categories', 'Messages']);
-
-  // Güvenli bir şekilde dil tipini döndür, eğer desteklenmiyorsa varsayılan dili kullan
-  const getSafeLanguage = (lang: string): SupportedLanguage => {
-    return DEFAULT_LANGUAGE_SETTINGS.supportedLanguages.includes(lang as SupportedLanguage) 
-      ? (lang as SupportedLanguage) 
-      : DEFAULT_LANGUAGE_SETTINGS.defaultLanguage;
-  };
 
   const mutation = useMutation({
     mutationFn: async ({ 

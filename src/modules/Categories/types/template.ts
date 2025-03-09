@@ -4,7 +4,7 @@
  */
 export interface ICategoryTemplate {
   id: string;
-  name: Record<string, string>;
+  name: Record<string, string> | string;
   icon: string | null;
   sort_order: number;
   is_active: boolean;
@@ -18,7 +18,7 @@ export interface ICategoryTemplate {
  */
 export interface ISubCategoryTemplate {
   id: string;
-  name: Record<string, string>;
+  name: Record<string, string> | string;
   category_template_id: string;
   sort_order: number;
   is_active: boolean;

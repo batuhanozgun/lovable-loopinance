@@ -10,13 +10,12 @@ import { getSafeLanguage } from '../../utils/languageUtils';
 
 export const CategoryTemplateList: React.FC = () => {
   const { t, i18n } = useTranslation(['Categories']);
-  const { categoryTemplates, isLoading: isLoadingTemplates } = useCategoryTemplates();
+  // Dil değişikliğini takip edeceğiz ve bunu parametre olarak sorgulama geçireceğiz
+  const safeLanguage = getSafeLanguage(i18n.language);
+  const { categoryTemplates, isLoading: isLoadingTemplates } = useCategoryTemplates({ language: safeLanguage });
   const { getCurrentUserID } = useSessionService();
   const { importCategoryFromTemplate, isImporting } = useCategoryTemplateImportMutation();
   const [importingTemplateId, setImportingTemplateId] = React.useState<string | null>(null);
-  
-  // Güvenli şekilde dil tipini döndür
-  const safeLanguage = getSafeLanguage(i18n.language);
   
   const handleImportCategory = async (templateId: string) => {
     try {
@@ -28,6 +27,7 @@ export const CategoryTemplateList: React.FC = () => {
         return;
       }
       
+      // Dil parametresini de geçir
       importCategoryFromTemplate({ templateId, userId, language: safeLanguage });
     } catch (error) {
       console.error('Error importing category:', error);

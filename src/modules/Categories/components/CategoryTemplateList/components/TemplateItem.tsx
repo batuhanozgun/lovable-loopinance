@@ -24,8 +24,11 @@ export const TemplateItem: React.FC<TemplateItemProps> = ({
   const { t } = useTranslation(['Categories']);
   const subcategoriesCount = template.sub_categories?.length || 0;
   
-  // Şablon adını belirlenen dilde al
-  const templateName = getLocalizedName(template.name, language, 'Unnamed Template');
+  // name artık doğrudan string olarak gelecek, Records<string, string> değil
+  // template.name artık stringdir, çünkü CategoryTemplateQueryService zaten dönüştürdü
+  const templateName = typeof template.name === 'string' 
+    ? template.name 
+    : getLocalizedName(template.name as Record<string, string>, language, 'Unnamed Template');
 
   return (
     <Card className="w-full h-full flex flex-col transition-all hover:shadow-md">
@@ -44,7 +47,11 @@ export const TemplateItem: React.FC<TemplateItemProps> = ({
             <div className="text-sm text-muted-foreground mt-2">
               <ul className="list-disc ml-5">
                 {template.sub_categories?.slice(0, 3).map((subCategory) => (
-                  <li key={subCategory.id}>{getLocalizedName(subCategory.name, language, subCategory.id)}</li>
+                  <li key={subCategory.id}>
+                    {typeof subCategory.name === 'string' 
+                      ? subCategory.name 
+                      : getLocalizedName(subCategory.name as Record<string, string>, language, subCategory.id)}
+                  </li>
                 ))}
                 {subcategoriesCount > 3 && (
                   <li>

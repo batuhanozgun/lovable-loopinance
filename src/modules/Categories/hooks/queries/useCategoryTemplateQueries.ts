@@ -20,6 +20,7 @@ export const useCategoryTemplates = (options?: Partial<ITemplateViewOptions>) =>
   const { data, isLoading, error } = useQuery({
     queryKey: ['categoryTemplates', language],
     queryFn: async (): Promise<ICategoryTemplate[]> => {
+      // Sorgu fonksiyonunda dil parametresini geçir
       return categoryTemplateService.getAllCategoryTemplates(language);
     }
   });
@@ -44,6 +45,7 @@ export const useCategoryTemplateById = (id: string, options?: Partial<ITemplateV
   const { data, isLoading, error } = useQuery({
     queryKey: ['categoryTemplate', id, language],
     queryFn: async (): Promise<ICategoryTemplate | null> => {
+      // Sorgu fonksiyonunda dil parametresini geçir
       return categoryTemplateService.getCategoryTemplateById(id, language);
     },
     enabled: !!id

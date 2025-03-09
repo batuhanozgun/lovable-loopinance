@@ -48,17 +48,18 @@ export class CategoryTemplateQueryService extends BaseCategoryTemplateService {
             this.logger.error('Alt kategori şablonlarını getirme hatası', subCategoryError, { categoryTemplateId: categoryTemplate.id });
             return { 
               ...categoryTemplate, 
-              name: categoryTemplate.name as Record<string, string>,
+              name: getLocalizedName(categoryTemplate.name as Record<string, string>, language),
               sub_categories: [] 
             };
           }
           
+          // Şablon verisini işleyerek döndür - seçili dildeki isimleri kullan
           return { 
             ...categoryTemplate, 
-            name: categoryTemplate.name as Record<string, string>,
+            name: getLocalizedName(categoryTemplate.name as Record<string, string>, language),
             sub_categories: subCategoryTemplates?.map(subTemplate => ({
               ...subTemplate,
-              name: subTemplate.name as Record<string, string>
+              name: getLocalizedName(subTemplate.name as Record<string, string>, language)
             })) || [] 
           };
         })
@@ -107,17 +108,18 @@ export class CategoryTemplateQueryService extends BaseCategoryTemplateService {
         this.logger.error('Alt kategori şablonları detayları getirme hatası', subCategoryError, { categoryTemplateId: id });
         return { 
           ...categoryTemplate, 
-          name: categoryTemplate.name as Record<string, string>,
+          name: getLocalizedName(categoryTemplate.name as Record<string, string>, language),
           sub_categories: [] 
         };
       }
       
+      // Şablon verisini işleyerek döndür - seçili dildeki isimleri kullan
       return { 
         ...categoryTemplate, 
-        name: categoryTemplate.name as Record<string, string>,
+        name: getLocalizedName(categoryTemplate.name as Record<string, string>, language),
         sub_categories: subCategoryTemplates?.map(subTemplate => ({
           ...subTemplate,
-          name: subTemplate.name as Record<string, string>
+          name: getLocalizedName(subTemplate.name as Record<string, string>, language)
         })) || [] 
       };
     } catch (error) {
