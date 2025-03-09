@@ -30,6 +30,16 @@
       "unlimitedAccounts": "Sınırsız hesap",
       "advancedAnalytics": "Gelişmiş analitik",
       "prioritySupport": "Öncelikli destek"
+    },
+    "discount": "%{{percentage}} indirim",
+    "pricing": {
+      "billedAnnually": "Yıllık faturalandırılır"
+    }
+  },
+  "subscription": {
+    "plan": {
+      "current": "Mevcut Plan",
+      "updated": "Planınız {{plan}} olarak güncellendi"
     }
   },
   "status": {
@@ -72,7 +82,11 @@
     "address": "Fatura Adresi",
     "download": "Faturayı İndir",
     "details": "Fatura Detayları",
-    "noInvoices": "Mevcut fatura bulunmamaktadır"
+    "noInvoices": "Mevcut fatura bulunmamaktadır",
+    "invoices": "Faturalar",
+    "paymentMethods": "Ödeme Yöntemleri",
+    "addPaymentMethod": "Ödeme Yöntemi Ekle",
+    "defaultPaymentMethod": "Varsayılan Ödeme Yöntemi"
   },
   "dashboard": {
     "title": "Abonelik Paneli",
@@ -99,6 +113,26 @@
   "payment": {
     "confirmation": {
       "amount": "Tutar"
+    },
+    "plan": {
+      "monthly": {
+        "description": "Her ay yenilenen plan"
+      },
+      "yearly": {
+        "description": "İndirimli yıllık plan"
+      }
     }
+  },
+  "settings": {
+    "title": "Abonelik Ayarları",
+    "autoRenew": "Otomatik Yenileme",
+    "notifications": "E-posta Bildirimleri",
+    "cancelSubscription": "Aboneliği İptal Et",
+    "reactivateSubscription": "Aboneliği Yeniden Etkinleştir",
+    "confirmCancel": "İptal İşlemini Onayla",
+    "cancelDescription": "Aboneliğinizi iptal ederseniz, mevcut dönemin sonuna kadar hizmetlerimize erişebilirsiniz. İptal işleminden sonra yeni fatura oluşturulmayacaktır.",
+    "canceledDescription": "Aboneliğiniz iptal edildi. Mevcut dönem sonuna kadar hizmetlerimize erişebilirsiniz.",
+    "cancellationReason": "İptal Nedeni",
+    "cancellationReasonPlaceholder": "İptal etme nedeniniz (isteğe bağlı)"
   }
 }

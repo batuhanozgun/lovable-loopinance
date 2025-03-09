@@ -30,6 +30,16 @@
       "unlimitedAccounts": "Unlimited accounts",
       "advancedAnalytics": "Advanced analytics",
       "prioritySupport": "Priority support"
+    },
+    "discount": "{{percentage}}% discount",
+    "pricing": {
+      "billedAnnually": "Billed annually"
+    }
+  },
+  "subscription": {
+    "plan": {
+      "current": "Current Plan",
+      "updated": "Your plan has been updated to {{plan}}"
     }
   },
   "status": {
@@ -72,7 +82,11 @@
     "address": "Billing Address",
     "download": "Download Invoice",
     "details": "Billing Details",
-    "noInvoices": "No invoices available"
+    "noInvoices": "No invoices available",
+    "invoices": "Invoices",
+    "paymentMethods": "Payment Methods",
+    "addPaymentMethod": "Add Payment Method",
+    "defaultPaymentMethod": "Default Payment Method"
   },
   "dashboard": {
     "title": "Subscription Dashboard",
@@ -99,6 +113,26 @@
   "payment": {
     "confirmation": {
       "amount": "Amount"
+    },
+    "plan": {
+      "monthly": {
+        "description": "Renewed monthly"
+      },
+      "yearly": {
+        "description": "Discounted annual plan"
+      }
     }
+  },
+  "settings": {
+    "title": "Subscription Settings",
+    "autoRenew": "Auto-Renewal",
+    "notifications": "Email Notifications",
+    "cancelSubscription": "Cancel Subscription",
+    "reactivateSubscription": "Reactivate Subscription",
+    "confirmCancel": "Confirm Cancellation",
+    "cancelDescription": "If you cancel your subscription, you can access our services until the end of the current period. No new invoice will be created after cancellation.",
+    "canceledDescription": "Your subscription has been canceled. You can access our services until the end of the current period.",
+    "cancellationReason": "Cancellation Reason",
+    "cancellationReasonPlaceholder": "Your reason for cancellation (optional)"
   }
 }
