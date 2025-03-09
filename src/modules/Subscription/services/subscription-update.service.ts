@@ -5,18 +5,57 @@ import { IUpdateSubscriptionResponse } from "../types/ISubscriptionResponse";
 import { subscriptionLogger } from "../logging";
 import { SubscriptionQueryService } from "./subscription-query.service";
 import { SubscriptionMapperService } from "./subscription-mapper.service";
+import { Database } from "@/integrations/supabase/types";
+
+// Supabase'den plan tipi ve durumu için tip tanımları
+type SupabasePlanType = Database["public"]["Enums"]["subscription_plan_type"];
+type SupabaseStatus = Database["public"]["Enums"]["subscription_status"];
 
 /**
  * Abonelik plan güncellemesinde kullanılan veri yapısı
+ * (Supabase veritabanı tipleriyle uyumlu)
  */
 interface SubscriptionUpdateData {
-  plan_type: SubscriptionPlanType;
-  status?: SubscriptionStatus;
+  plan_type: SupabasePlanType;
+  status?: SupabaseStatus;
   updated_at: string;
   current_period_starts_at?: string | null;
   current_period_ends_at?: string | null;
   trial_ends_at?: string | null;
 }
+
+/**
+ * Uygulama enum'larını Supabase string literal tiplerine dönüştüren yardımcı fonksiyonlar
+ */
+const mapPlanTypeToSupabase = (planType: SubscriptionPlanType): SupabasePlanType => {
+  switch (planType) {
+    case SubscriptionPlanType.TRIAL:
+      return 'trial';
+    case SubscriptionPlanType.MONTHLY:
+      return 'monthly';
+    case SubscriptionPlanType.YEARLY:
+      return 'yearly';
+    default:
+      subscriptionLogger.error('Bilinmeyen plan tipi', { planType });
+      return 'trial'; // Varsayılan olarak trial döndür
+  }
+};
+
+const mapStatusToSupabase = (status: SubscriptionStatus): SupabaseStatus => {
+  switch (status) {
+    case SubscriptionStatus.TRIAL:
+      return 'trial';
+    case SubscriptionStatus.ACTIVE:
+      return 'active';
+    case SubscriptionStatus.EXPIRED:
+      return 'expired';
+    case SubscriptionStatus.CANCELED:
+      return 'cancelled'; // Dikkat: Enum değeri 'CANCELED' iken Supabase'de 'cancelled'
+    default:
+      subscriptionLogger.error('Bilinmeyen durum', { status });
+      return 'trial'; // Varsayılan olarak trial döndür
+  }
+};
 
 /**
  * Abonelik güncelleme işlemlerini yöneten servis
@@ -47,9 +86,12 @@ export class SubscriptionUpdateService {
       // Tarih hesaplamaları için şimdiki zaman
       const now = new Date();
       
+      // Plan tipini Supabase formatına dönüştür
+      const supabasePlanType = mapPlanTypeToSupabase(planType);
+      
       // Tip güvenliği için başlangıç ​​updateData nesnesi
       const updateData: SubscriptionUpdateData = {
-        plan_type: planType,
+        plan_type: supabasePlanType,
         updated_at: now.toISOString()
       };
       
@@ -71,7 +113,7 @@ export class SubscriptionUpdateService {
       
       // Trial'dan ücretli plana geçiş veya ücretli plan güncelleme
       if (planType !== SubscriptionPlanType.TRIAL) {
-        updateData.status = SubscriptionStatus.ACTIVE;
+        updateData.status = mapStatusToSupabase(SubscriptionStatus.ACTIVE);
         updateData.current_period_starts_at = now.toISOString();
         updateData.current_period_ends_at = periodEndDate.toISOString();
         
