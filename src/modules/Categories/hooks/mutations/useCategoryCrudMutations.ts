@@ -1,90 +1,84 @@
 
-import { useMutation } from '@tanstack/react-query';
-import { toast } from '@/hooks/use-toast';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
+import { createLogger } from '@/modules/Logging';
 import { CategoryManagementService } from '../../services/category.service';
-import { categoryMutationLogger } from '../../logging';
 import { ICategory } from '../../types';
 
+// CRUD işlemleri için logger
+const categoryMutationLogger = createLogger('Categories.Mutations');
+
+/**
+ * Kategori CRUD işlemleri için hook
+ */
 export const useCategoryCrudMutations = (onSuccess?: () => void) => {
-  const { t } = useTranslation(['categories', 'messages']);
+  const { t } = useTranslation(['categories', 'common', 'messages', 'errors']);
+  const queryClient = useQueryClient();
   const logger = categoryMutationLogger.createSubLogger('CategoryCRUD');
 
   // Kategori oluşturma mutasyonu
-  const createCategory = useMutation({
+  const createCategoryMutation = useMutation({
     mutationFn: (category: Omit<ICategory, 'id'>) => {
       logger.debug('Kategori oluşturuluyor', { category });
       return CategoryManagementService.createCategory(category);
     },
     onSuccess: (data) => {
       logger.info('Kategori başarıyla oluşturuldu', { categoryId: data.id });
-      toast({
-        title: t('common:success'),
-        description: t('messages:create.success'),
-      });
+      toast.success(t('messages:create.success'));
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
       if (onSuccess) onSuccess();
     },
-    onError: (error: any) => {
-      logger.error('Kategori oluşturma hatası', { error });
-      toast({
-        title: t('common:error'),
-        description: t('errors:create'),
-        variant: 'destructive',
-      });
+    onError: (error: Error) => {
+      logger.error('Kategori oluşturma hatası', error);
+      toast.error(t('errors:create.failed', { error: error.message }));
     }
   });
 
   // Kategori güncelleme mutasyonu
-  const updateCategory = useMutation({
+  const updateCategoryMutation = useMutation({
     mutationFn: (category: ICategory) => {
       logger.debug('Kategori güncelleniyor', { categoryId: category.id });
       return CategoryManagementService.updateCategory(category);
     },
     onSuccess: () => {
       logger.info('Kategori başarıyla güncellendi');
-      toast({
-        title: t('common:success'),
-        description: t('messages:update.success'),
-      });
+      toast.success(t('messages:update.success'));
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
       if (onSuccess) onSuccess();
     },
-    onError: (error: any) => {
-      logger.error('Kategori güncelleme hatası', { error });
-      toast({
-        title: t('common:error'),
-        description: t('errors:update'),
-        variant: 'destructive',
-      });
+    onError: (error: Error) => {
+      logger.error('Kategori güncelleme hatası', error);
+      toast.error(t('errors:update.failed', { error: error.message }));
     }
   });
 
   // Kategori silme mutasyonu
-  const deleteCategory = useMutation({
+  const deleteCategoryMutation = useMutation({
     mutationFn: (categoryId: string) => {
       logger.debug('Kategori siliniyor', { categoryId });
       return CategoryManagementService.deleteCategory(categoryId);
     },
     onSuccess: () => {
       logger.info('Kategori başarıyla silindi');
-      toast({
-        title: t('common:success'),
-        description: t('messages:delete.success'),
-      });
+      toast.success(t('messages:delete.success'));
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
       if (onSuccess) onSuccess();
     },
-    onError: (error: any) => {
-      logger.error('Kategori silme hatası', { error });
-      toast({
-        title: t('common:error'),
-        description: t('errors:delete'),
-        variant: 'destructive',
-      });
+    onError: (error: Error) => {
+      logger.error('Kategori silme hatası', error);
+      toast.error(t('errors:delete.failed', { error: error.message }));
     }
   });
 
   return {
-    createCategory,
-    updateCategory,
-    deleteCategory
+    createCategory: createCategoryMutation.mutate,
+    isCreatingCategory: createCategoryMutation.isPending,
+    
+    updateCategory: updateCategoryMutation.mutate,
+    isUpdatingCategory: updateCategoryMutation.isPending,
+    
+    deleteCategory: deleteCategoryMutation.mutate,
+    isDeletingCategory: deleteCategoryMutation.isPending
   };
 };

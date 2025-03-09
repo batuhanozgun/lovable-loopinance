@@ -2,51 +2,71 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
+import { createLogger } from '@/modules/Logging';
 import { ICategoryOrder, ISubCategoryOrder, ICategoryMoveOperation } from '../../types';
-import { CategoryOrganizationService } from '../../services/category/category-organization.service';
+import { CategoryOrganizationService } from '../../services/category.service';
+
+// Sıralama işlemleri için logger
+const categoryMutationLogger = createLogger('Categories.Mutations');
 
 /**
  * Kategori ve alt kategorilerin sıralama mutasyonlarını yöneten hook
  */
-export const useCategoryOrderingMutations = () => {
+export const useCategoryOrderingMutations = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
-  const { t } = useTranslation(['Categories', 'common', 'errors']);
+  const { t } = useTranslation(['categories', 'common', 'errors']);
+  const logger = categoryMutationLogger.createSubLogger('CategoryOrdering');
   
   // Kategori sıralama mutasyonu
   const updateCategoryOrderMutation = useMutation({
-    mutationFn: (categoryOrders: ICategoryOrder[]) => 
-      CategoryOrganizationService.updateCategoryOrder(categoryOrders),
+    mutationFn: (categoryOrders: ICategoryOrder[]) => {
+      logger.debug('Kategori sıralaması güncelleniyor', { count: categoryOrders.length });
+      return CategoryOrganizationService.updateCategoryOrder(categoryOrders);
+    },
     onSuccess: () => {
+      logger.info('Kategori sıralaması başarıyla güncellendi');
+      toast.success(t('categories:sort.success'));
       queryClient.invalidateQueries({ queryKey: ['categories'] });
-      toast.success(t('Categories:sort.success'));
+      if (onSuccess) onSuccess();
     },
     onError: (error: Error) => {
+      logger.error('Kategori sıralama hatası', error);
       toast.error(t('errors:update.failed', { error: error.message }));
     }
   });
   
   // Alt kategori sıralama mutasyonu
   const updateSubCategoryOrderMutation = useMutation({
-    mutationFn: (subCategoryOrders: ISubCategoryOrder[]) => 
-      CategoryOrganizationService.updateSubCategoryOrder(subCategoryOrders),
+    mutationFn: (subCategoryOrders: ISubCategoryOrder[]) => {
+      logger.debug('Alt kategori sıralaması güncelleniyor', { count: subCategoryOrders.length });
+      return CategoryOrganizationService.updateSubCategoryOrder(subCategoryOrders);
+    },
     onSuccess: () => {
+      logger.info('Alt kategori sıralaması başarıyla güncellendi');
+      toast.success(t('categories:subcategory.sort.success'));
       queryClient.invalidateQueries({ queryKey: ['categories'] });
-      toast.success(t('Categories:subcategory.sort.success'));
+      if (onSuccess) onSuccess();
     },
     onError: (error: Error) => {
+      logger.error('Alt kategori sıralama hatası', error);
       toast.error(t('errors:update.failed', { error: error.message }));
     }
   });
   
   // Alt kategorileri taşıma mutasyonu
   const moveSubCategoriesMutation = useMutation({
-    mutationFn: ({ sourceId, targetId, subCategoryIds }: ICategoryMoveOperation) => 
-      CategoryOrganizationService.moveSubCategoriesToCategory(sourceId, targetId, subCategoryIds),
+    mutationFn: ({ sourceId, targetId, subCategoryIds }: ICategoryMoveOperation) => {
+      logger.debug('Alt kategoriler taşınıyor', { sourceId, targetId, count: subCategoryIds.length });
+      return CategoryOrganizationService.moveSubCategoriesToCategory(sourceId, targetId, subCategoryIds);
+    },
     onSuccess: () => {
+      logger.info('Alt kategoriler başarıyla taşındı');
+      toast.success(t('categories:move.success'));
       queryClient.invalidateQueries({ queryKey: ['categories'] });
-      toast.success(t('Categories:move.success'));
+      if (onSuccess) onSuccess();
     },
     onError: (error: Error) => {
+      logger.error('Alt kategori taşıma hatası', error);
       toast.error(t('errors:update.failed', { error: error.message }));
     }
   });
