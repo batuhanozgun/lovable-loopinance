@@ -13,6 +13,6 @@ export const initPaymentTranslations = (): void => {
   i18n.addResourceBundle('tr', 'PaymentErrors', errorsTr);
 };
 
-// Re-export all translation files
-export * from './locales/en';
-export * from './locales/tr';
+// Re-export all translation files for better access
+export { paymentEn, errorsEn } from './locales/en';
+export { paymentTr, errorsTr } from './locales/tr';
