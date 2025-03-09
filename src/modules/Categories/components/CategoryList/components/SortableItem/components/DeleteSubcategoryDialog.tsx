@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   AlertDialog,
@@ -27,6 +27,18 @@ export const DeleteSubcategoryDialog: React.FC<DeleteSubcategoryDialogProps> = (
   onConfirm
 }) => {
   const { t } = useTranslation(['Categories']);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    try {
+      setIsDeleting(true);
+      await onConfirm();
+    } catch (error) {
+      console.error('Alt kategori silme hatası:', error);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
@@ -38,12 +50,15 @@ export const DeleteSubcategoryDialog: React.FC<DeleteSubcategoryDialogProps> = (
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>{t('Categories:delete.cancel', 'İptal')}</AlertDialogCancel>
+          <AlertDialogCancel disabled={isDeleting}>
+            {t('Categories:delete.cancel', 'İptal')}
+          </AlertDialogCancel>
           <AlertDialogAction
-            onClick={onConfirm}
+            onClick={handleDelete}
             className="bg-red-600 hover:bg-red-700"
+            disabled={isDeleting}
           >
-            {t('Categories:delete.confirm', 'Sil')}
+            {isDeleting ? t('Categories:delete.deleting', 'Siliniyor...') : t('Categories:delete.confirm', 'Sil')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

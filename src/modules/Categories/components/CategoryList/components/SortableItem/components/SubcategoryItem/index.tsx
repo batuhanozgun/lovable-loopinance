@@ -1,10 +1,12 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Pencil, Trash2 } from 'lucide-react';
 import { ISubCategory } from '@/modules/Categories/types';
 import { EditSubcategoryDialog } from '../EditSubcategoryDialog';
 import { DeleteSubcategoryDialog } from '../DeleteSubcategoryDialog';
 import { useDialogs } from './hooks/useDialogs';
+import { useToast } from '@/hooks/use-toast';
+import { useTranslation } from 'react-i18next';
 
 interface SubcategoryItemProps {
   subCategory: ISubCategory;
@@ -17,6 +19,10 @@ export const SubcategoryItem: React.FC<SubcategoryItemProps> = ({
   onEdit,
   onDelete
 }) => {
+  const { t } = useTranslation(['Categories']);
+  const { toast } = useToast();
+  const [isEditing, setIsEditing] = useState(false);
+  
   const {
     isEditDialogOpen,
     setIsEditDialogOpen,
@@ -26,19 +32,32 @@ export const SubcategoryItem: React.FC<SubcategoryItemProps> = ({
     setEditName
   } = useDialogs(subCategory);
 
-  const handleEditSave = () => {
+  const handleEditSave = async () => {
     if (editName.trim()) {
-      onEdit({
-        ...subCategory,
-        name: editName.trim()
-      });
+      try {
+        setIsEditing(true);
+        
+        await onEdit({
+          ...subCategory,
+          name: editName.trim()
+        });
+        
+        setIsEditDialogOpen(false);
+      } catch (error) {
+        console.error('Alt kategori düzenleme hatası:', error);
+      } finally {
+        setIsEditing(false);
+      }
     }
-    setIsEditDialogOpen(false);
   };
 
-  const handleDelete = () => {
-    onDelete(subCategory.id);
-    setIsDeleteDialogOpen(false);
+  const handleDelete = async () => {
+    try {
+      await onDelete(subCategory.id);
+      setIsDeleteDialogOpen(false);
+    } catch (error) {
+      console.error('Alt kategori silme hatası:', error);
+    }
   };
 
   return (
@@ -50,7 +69,7 @@ export const SubcategoryItem: React.FC<SubcategoryItemProps> = ({
             type="button"
             onClick={() => setIsEditDialogOpen(true)}
             className="p-1.5 rounded-md text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors"
-            title="Düzenle"
+            title={t('Categories:actions.edit', 'Düzenle')}
           >
             <Pencil className="h-3.5 w-3.5" />
           </button>
@@ -58,7 +77,7 @@ export const SubcategoryItem: React.FC<SubcategoryItemProps> = ({
             type="button"
             onClick={() => setIsDeleteDialogOpen(true)}
             className="p-1.5 rounded-md text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors"
-            title="Sil"
+            title={t('Categories:actions.delete', 'Sil')}
           >
             <Trash2 className="h-3.5 w-3.5" />
           </button>

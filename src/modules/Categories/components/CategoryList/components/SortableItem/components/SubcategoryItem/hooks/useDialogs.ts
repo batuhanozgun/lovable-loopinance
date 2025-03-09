@@ -7,9 +7,21 @@ export const useDialogs = (subCategory: ISubCategory) => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [editName, setEditName] = useState(subCategory.name);
   
+  // Reset the edit name when the subcategory changes or when dialog opens
+  const openEditDialog = () => {
+    setEditName(subCategory.name);
+    setIsEditDialogOpen(true);
+  };
+  
   return {
     isEditDialogOpen,
-    setIsEditDialogOpen,
+    setIsEditDialogOpen: (isOpen: boolean) => {
+      if (isOpen) {
+        openEditDialog();
+      } else {
+        setIsEditDialogOpen(false);
+      }
+    },
     isDeleteDialogOpen,
     setIsDeleteDialogOpen,
     editName,

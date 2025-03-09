@@ -65,6 +65,18 @@ export const SortableItem: React.FC<SortableItemProps> = ({
     setIsDeleteDialogOpen(false);
   };
 
+  const handleEditSubCategory = (updatedSubCategory: ISubCategory) => {
+    if (onEditSubCategory) {
+      onEditSubCategory(category.id, updatedSubCategory);
+    }
+  };
+
+  const handleDeleteSubCategory = (subCategoryId: string) => {
+    if (onDeleteSubCategory) {
+      onDeleteSubCategory(category.id, subCategoryId);
+    }
+  };
+
   return (
     <div
       ref={setNodeRef}
@@ -77,8 +89,8 @@ export const SortableItem: React.FC<SortableItemProps> = ({
         listeners={listeners}
         onEditClick={() => setIsEditDialogOpen(true)}
         onDeleteClick={() => setIsDeleteDialogOpen(true)}
-        onEditSubCategory={onEditSubCategory}
-        onDeleteSubCategory={onDeleteSubCategory}
+        onEditSubCategory={handleEditSubCategory}
+        onDeleteSubCategory={handleDeleteSubCategory}
       />
 
       <EditCategoryDialog 

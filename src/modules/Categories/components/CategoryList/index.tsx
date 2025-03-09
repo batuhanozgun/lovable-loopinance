@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   DndContext,
@@ -15,11 +14,12 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy
 } from '@dnd-kit/sortable';
-import { ICategory, ICategoryUpdateParams } from '../../types';
+import { ICategory, ICategoryUpdateParams, ISubCategory, ISubCategoryUpdateParams } from '../../types';
 import { SortableItem } from './components/SortableItem';
 import { useTranslation } from 'react-i18next';
 import { useToast } from '@/hooks/use-toast';
 import { useCategoryCrudMutations } from '../../hooks/mutations/useCategoryCrudMutations';
+import { SubcategoryService } from '../../services/SubcategoryService';
 
 interface CategoryListProps {
   categories: ICategory[];
@@ -31,6 +31,7 @@ export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCateg
   const { t } = useTranslation(['Categories', 'Messages']);
   const { toast } = useToast();
   const { updateCategory, deleteCategory } = useCategoryCrudMutations();
+  const subcategoryService = new SubcategoryService();
   
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -56,7 +57,6 @@ export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCateg
       
       const newItems = arrayMove(items, oldIndex, newIndex);
       
-      // Sıralama verilerini hazırla
       const sortData = newItems.map((category, index) => ({
         id: category.id,
         sort_order: index
@@ -84,7 +84,6 @@ export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCateg
       
       await updateCategory.mutateAsync(updateParams);
       
-      // Kategori listesini güncelle
       setCategories(prevCategories => 
         prevCategories.map(cat => 
           cat.id === editedCategory.id 
@@ -93,14 +92,12 @@ export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCateg
         )
       );
       
-      // Başarı toast mesajı göster
       toast({
         title: t('Messages:category.update.success'),
         description: t('Messages:category.update.successDescription'),
       });
     } catch (error) {
       console.error('Kategori güncelleme hatası:', error);
-      // Hata toast mesajı göster
       toast({
         variant: "destructive",
         title: t('Categories:errors.update.failed'),
@@ -113,24 +110,102 @@ export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCateg
     try {
       await deleteCategory.mutateAsync(categoryId);
       
-      // Kategori listesinden sil
       setCategories(prevCategories => 
         prevCategories.filter(cat => cat.id !== categoryId)
       );
       
-      // Başarı toast mesajı göster
       toast({
         title: t('Messages:category.delete.success'),
         description: t('Messages:category.delete.successDescription'),
       });
     } catch (error) {
       console.error('Kategori silme hatası:', error);
-      // Hata toast mesajı göster
       toast({
         variant: "destructive",
         title: t('Categories:errors.delete.failed'),
         description: error instanceof Error ? error.message : String(error),
       });
+    }
+  };
+
+  const handleEditSubCategory = async (categoryId: string, updatedSubCategory: ISubCategory) => {
+    try {
+      const updateParams: ISubCategoryUpdateParams = {
+        id: updatedSubCategory.id,
+        data: {
+          name: updatedSubCategory.name
+        }
+      };
+      
+      const result = await subcategoryService.updateSubCategory(updatedSubCategory.id, updateParams.data);
+      
+      setCategories(prevCategories => 
+        prevCategories.map(category => {
+          if (category.id === categoryId) {
+            return {
+              ...category,
+              sub_categories: category.sub_categories?.map(subCat => 
+                subCat.id === updatedSubCategory.id 
+                  ? { ...subCat, name: updatedSubCategory.name } 
+                  : subCat
+              )
+            };
+          }
+          return category;
+        })
+      );
+      
+      toast({
+        title: t('Messages:subcategory.update.success'),
+        description: t('Messages:subcategory.update.successDescription'),
+      });
+      
+      return result;
+    } catch (error) {
+      console.error('Alt kategori güncelleme hatası:', error);
+      
+      toast({
+        variant: "destructive",
+        title: t('Categories:errors.subcategory.update.failed'),
+        description: error instanceof Error ? error.message : String(error),
+      });
+      
+      throw error;
+    }
+  };
+
+  const handleDeleteSubCategory = async (categoryId: string, subCategoryId: string) => {
+    try {
+      await subcategoryService.deleteSubCategory(subCategoryId);
+      
+      setCategories(prevCategories => 
+        prevCategories.map(category => {
+          if (category.id === categoryId) {
+            return {
+              ...category,
+              sub_categories: category.sub_categories?.filter(subCat => 
+                subCat.id !== subCategoryId
+              )
+            };
+          }
+          return category;
+        })
+      );
+      
+      toast({
+        title: t('Messages:subcategory.delete.success'),
+        description: t('Messages:subcategory.delete.successDescription'),
+      });
+    } catch (error) {
+      console.error('Alt kategori silme hatası:', error);
+      
+      toast({
+        variant: "destructive",
+        title: t('Categories:errors.subcategory.delete.failed'),
+        description: error instanceof Error ? error.message : String(error),
+      });
+      
+      throw error;
     }
   };
 
@@ -155,6 +230,8 @@ export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCateg
               category={category} 
               onEdit={handleEditCategory}
               onDelete={handleDeleteCategory}
+              onEditSubCategory={handleEditSubCategory}
+              onDeleteSubCategory={handleDeleteSubCategory}
             />
           ))}
         </div>
