@@ -138,5 +138,14 @@
   },
   "plan": {
     "title": "Plan"
+  },
+  "management": {
+    "title": "Abonelik Yönetimi",
+    "navigation": {
+      "dashboard": "Panel",
+      "plans": "Planlar",
+      "billing": "Faturalama",
+      "settings": "Ayarlar"
+    }
   }
 }

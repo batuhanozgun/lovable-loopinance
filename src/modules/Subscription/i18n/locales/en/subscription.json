@@ -138,5 +138,14 @@
   },
   "plan": {
     "title": "Plan"
+  },
+  "management": {
+    "title": "Subscription Management",
+    "navigation": {
+      "dashboard": "Dashboard",
+      "plans": "Plans",
+      "billing": "Billing",
+      "settings": "Settings"
+    }
   }
 }
