@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import { ChevronDown, ChevronRight, Pencil, Trash2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { ICategory } from '../../../../../types';
+import { ICategory, ISubCategory } from '../../../../../types';
 import { useTranslation } from 'react-i18next';
+import { SubcategoryItem } from './SubcategoryItem';
 
 interface CategoryItemProps {
   category: ICategory;
@@ -12,6 +13,8 @@ interface CategoryItemProps {
   listeners: any;
   onEditClick: (e: React.MouseEvent) => void;
   onDeleteClick: (e: React.MouseEvent) => void;
+  onEditSubCategory?: (categoryId: string, subCategory: ISubCategory) => void;
+  onDeleteSubCategory?: (categoryId: string, subCategoryId: string) => void;
 }
 
 export const CategoryItem: React.FC<CategoryItemProps> = ({
@@ -19,7 +22,9 @@ export const CategoryItem: React.FC<CategoryItemProps> = ({
   attributes,
   listeners,
   onEditClick,
-  onDeleteClick
+  onDeleteClick,
+  onEditSubCategory,
+  onDeleteSubCategory
 }) => {
   const { t } = useTranslation(['Categories']);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -29,6 +34,14 @@ export const CategoryItem: React.FC<CategoryItemProps> = ({
     e.preventDefault();
     e.stopPropagation();
     setIsExpanded(!isExpanded);
+  };
+
+  const handleEditSubCategory = (updatedSubCategory: ISubCategory) => {
+    onEditSubCategory?.(category.id, updatedSubCategory);
+  };
+
+  const handleDeleteSubCategory = (subCategoryId: string) => {
+    onDeleteSubCategory?.(category.id, subCategoryId);
   };
 
   return (
@@ -94,7 +107,11 @@ export const CategoryItem: React.FC<CategoryItemProps> = ({
             key={subCategory.id}
             className="p-2 bg-white rounded border border-gray-100 text-sm shadow-sm"
           >
-            {subCategory.name}
+            <SubcategoryItem
+              subCategory={subCategory}
+              onEdit={handleEditSubCategory}
+              onDelete={handleDeleteSubCategory}
+            />
           </div>
         ))}
       </div>

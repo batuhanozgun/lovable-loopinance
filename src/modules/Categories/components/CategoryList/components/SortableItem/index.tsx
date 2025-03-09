@@ -2,23 +2,31 @@
 import React from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { ICategory } from '../../../../types';
+import { ICategory, ISubCategory } from '../../../../types';
 import { useDialogs } from './hooks/useDialogs';
 import { CategoryItem } from './components/CategoryItem';
 import { EditCategoryDialog } from './components/EditCategoryDialog';
 import { DeleteCategoryDialog } from './components/DeleteCategoryDialog';
+import { useToast } from '@/hooks/use-toast';
+import { useTranslation } from 'react-i18next';
 
 interface SortableItemProps {
   category: ICategory;
   onEdit?: (category: ICategory) => void;
   onDelete?: (categoryId: string) => void;
+  onEditSubCategory?: (categoryId: string, subCategory: ISubCategory) => void;
+  onDeleteSubCategory?: (categoryId: string, subCategoryId: string) => void;
 }
 
 export const SortableItem: React.FC<SortableItemProps> = ({ 
   category,
   onEdit,
-  onDelete
+  onDelete,
+  onEditSubCategory,
+  onDeleteSubCategory
 }) => {
+  const { t } = useTranslation(['Categories', 'Messages']);
+  const { toast } = useToast();
   const {
     isEditDialogOpen, setIsEditDialogOpen,
     isDeleteDialogOpen, setIsDeleteDialogOpen,
@@ -69,6 +77,8 @@ export const SortableItem: React.FC<SortableItemProps> = ({
         listeners={listeners}
         onEditClick={() => setIsEditDialogOpen(true)}
         onDeleteClick={() => setIsDeleteDialogOpen(true)}
+        onEditSubCategory={onEditSubCategory}
+        onDeleteSubCategory={onDeleteSubCategory}
       />
 
       <EditCategoryDialog 
