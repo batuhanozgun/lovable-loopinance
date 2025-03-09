@@ -8,8 +8,7 @@ import type { ICategory } from '../../types';
  */
 export class CategoryQueryService extends BaseCategoryService {
   constructor() {
-    super();
-    this.logger = categoryQueryLogger;
+    super(categoryQueryLogger);
   }
 
   /**
@@ -30,6 +29,10 @@ export class CategoryQueryService extends BaseCategoryService {
         return this.handleDbError(categoryError, 'Kategori listesi getirme');
       }
       
+      if (!categories) {
+        return [];
+      }
+      
       // Her kategori için alt kategorileri getir
       const result = await Promise.all(
         categories.map(async (category) => {
@@ -45,14 +48,14 @@ export class CategoryQueryService extends BaseCategoryService {
             return { ...category, sub_categories: [] };
           }
           
-          return { ...category, sub_categories: subCategories };
+          return { ...category, sub_categories: subCategories || [] };
         })
       );
       
       this.logger.debug('Kategoriler başarıyla getirildi', { count: result.length });
       return result;
     } catch (error) {
-      return this.handleDbError(error, 'Kategori listesi getirme');
+      return this.handleDbError(error instanceof Error ? error : new Error('Bilinmeyen hata'), 'Kategori listesi getirme');
     }
   }
   
@@ -72,6 +75,10 @@ export class CategoryQueryService extends BaseCategoryService {
         .single();
       
       if (categoryError) {
+        if (categoryError.code === 'PGRST116') {
+          this.logger.warn('Kategori bulunamadı', { categoryId: id });
+          return null;
+        }
         this.logger.error('Kategori detayları getirme hatası', categoryError, { categoryId: id });
         return null;
       }
@@ -89,9 +96,9 @@ export class CategoryQueryService extends BaseCategoryService {
         return { ...category, sub_categories: [] };
       }
       
-      return { ...category, sub_categories: subCategories };
+      return { ...category, sub_categories: subCategories || [] };
     } catch (error) {
-      this.logger.error('Kategori detayları getirme işlemi başarısız oldu', error, { categoryId: id });
+      this.logger.error('Kategori detayları getirme işlemi başarısız oldu', error instanceof Error ? error : new Error('Bilinmeyen hata'), { categoryId: id });
       return null;
     }
   }

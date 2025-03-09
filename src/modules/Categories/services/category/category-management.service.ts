@@ -12,8 +12,7 @@ import type {
  */
 export class CategoryManagementService extends BaseCategoryService {
   constructor() {
-    super();
-    this.logger = categoryMutationLogger;
+    super(categoryMutationLogger);
   }
 
   /**
@@ -36,7 +35,7 @@ export class CategoryManagementService extends BaseCategoryService {
       this.logger.debug('Kategori başarıyla oluşturuldu', { categoryId: category.id });
       return { ...category, sub_categories: [] };
     } catch (error) {
-      return this.handleDbError(error, 'Kategori oluşturma');
+      return this.handleDbError(error instanceof Error ? error : new Error('Bilinmeyen hata'), 'Kategori oluşturma');
     }
   }
   
@@ -73,9 +72,9 @@ export class CategoryManagementService extends BaseCategoryService {
         return { ...category, sub_categories: [] };
       }
       
-      return { ...category, sub_categories: subCategories };
+      return { ...category, sub_categories: subCategories || [] };
     } catch (error) {
-      return this.handleDbError(error, 'Kategori güncelleme', { categoryId: id });
+      return this.handleDbError(error instanceof Error ? error : new Error('Bilinmeyen hata'), 'Kategori güncelleme', { categoryId: id });
     }
   }
   
@@ -108,7 +107,7 @@ export class CategoryManagementService extends BaseCategoryService {
       
       this.logger.debug('Kategori başarıyla silindi', { categoryId: id });
     } catch (error) {
-      this.handleDbError(error, 'Kategori silme', { categoryId: id });
+      this.handleDbError(error instanceof Error ? error : new Error('Bilinmeyen hata'), 'Kategori silme', { categoryId: id });
     }
   }
 }

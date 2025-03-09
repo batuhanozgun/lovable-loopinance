@@ -15,8 +15,13 @@ export {
   SubcategoryService
 };
 
-// Ana servis olarak BaseCategoryService'i kullan
-export const CategoryService = BaseCategoryService;
+// Yeni tarzda export için basit factory
+export const createCategoryServices = () => ({
+  query: new CategoryQueryService(),
+  management: new CategoryManagementService(),
+  organization: new CategoryOrganizationService(),
+  subcategory: new SubcategoryService()
+});
 
-// Eski tarzda export için
+// Geriye uyumluluk için
 export default BaseCategoryService;
