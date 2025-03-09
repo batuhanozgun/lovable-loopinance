@@ -62,5 +62,71 @@
   "debug": {
     "pageViewed": "Abonelik sayfası görüntülendi",
     "planUpgradeRequested": "Plan yükseltme isteği"
+  },
+  "payment": {
+    "title": "Ödeme Bilgileri",
+    "description": "{{plan}} planını etkinleştirmek için ödemenizi tamamlayın",
+    "included": "Neleri içeriyor",
+    "testCards": "Test kartı: 4111 1111 1111 1111 (başarılı) veya 4242 4242 4242 4242 (başarısız)",
+    "cardDetails": "Kart Bilgileri",
+    "steps": {
+      "summary": "Özet",
+      "billing": "Fatura",
+      "payment": "Ödeme",
+      "confirmation": "Onay"
+    },
+    "actions": {
+      "continue": "Devam Et",
+      "confirm": "Ödemeyi Onayla",
+      "processing": "İşleniyor...",
+      "done": "Panele Dön"
+    },
+    "billing": {
+      "title": "Fatura Bilgileri",
+      "fullName": "Ad Soyad",
+      "fullNamePlaceholder": "Ahmet Yılmaz",
+      "email": "E-posta Adresi",
+      "emailPlaceholder": "ahmet@ornek.com",
+      "address": "Adres",
+      "addressPlaceholder": "Atatürk Cad. No:123",
+      "city": "Şehir",
+      "cityPlaceholder": "İstanbul",
+      "zipCode": "Posta Kodu",
+      "zipCodePlaceholder": "34000",
+      "country": "Ülke"
+    },
+    "card": {
+      "number": "Kart Numarası",
+      "holder": "Kart Sahibi",
+      "holderPlaceholder": "Ahmet Yılmaz",
+      "expiry": "Son Kullanma Tarihi",
+      "cvv": "CVV"
+    },
+    "validation": {
+      "cardNumberInvalid": "Lütfen geçerli bir kart numarası girin",
+      "expiryDateInvalid": "Lütfen geçerli bir son kullanma tarihi girin",
+      "cvvInvalid": "Lütfen geçerli bir CVV girin"
+    },
+    "confirmation": {
+      "summary": "Sipariş Özeti",
+      "plan": "Seçilen Plan",
+      "amount": "Toplam Tutar",
+      "billingTitle": "Fatura Bilgileri",
+      "paymentTitle": "Ödeme Bilgileri",
+      "paymentMethod": "Kredi Kartı",
+      "disclaimer": "Satın alma işleminizi onaylayarak, Kullanım Koşulları ve Gizlilik Politikası'nı kabul etmiş olursunuz. Bu, demo amaçlı simüle edilmiş bir ödemedir."
+    },
+    "success": {
+      "title": "Ödeme Başarılı",
+      "description": "Ödemeniz için teşekkür ederiz. Aboneliğiniz etkinleştirildi.",
+      "congratulations": "Ödeme Başarılı!",
+      "planActivated": "{{plan}} planınız başarıyla etkinleştirildi.",
+      "processed": "Ödeme başarıyla işlendi"
+    },
+    "errors": {
+      "general": "Ödemeniz işlenirken bir hata oluştu",
+      "declined": "Kartınız reddedildi. Lütfen başka bir kart deneyin.",
+      "invalidCard": "Lütfen kart bilgilerinizi kontrol edip tekrar deneyin."
+    }
   }
 }

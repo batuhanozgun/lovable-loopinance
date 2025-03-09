@@ -62,5 +62,71 @@
   "debug": {
     "pageViewed": "Subscription page viewed",
     "planUpgradeRequested": "Plan upgrade requested"
+  },
+  "payment": {
+    "title": "Payment Details",
+    "description": "Complete your payment to activate your {{plan}}",
+    "included": "What's included",
+    "testCards": "Test card: 4111 1111 1111 1111 (success) or 4242 4242 4242 4242 (failure)",
+    "cardDetails": "Card Information",
+    "steps": {
+      "summary": "Summary",
+      "billing": "Billing",
+      "payment": "Payment",
+      "confirmation": "Confirm"
+    },
+    "actions": {
+      "continue": "Continue",
+      "confirm": "Confirm Payment",
+      "processing": "Processing...",
+      "done": "Return to Dashboard"
+    },
+    "billing": {
+      "title": "Billing Information",
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "John Smith",
+      "email": "Email Address",
+      "emailPlaceholder": "john@example.com",
+      "address": "Address",
+      "addressPlaceholder": "123 Main St",
+      "city": "City",
+      "cityPlaceholder": "New York",
+      "zipCode": "Zip Code",
+      "zipCodePlaceholder": "10001",
+      "country": "Country"
+    },
+    "card": {
+      "number": "Card Number",
+      "holder": "Cardholder Name",
+      "holderPlaceholder": "John Smith",
+      "expiry": "Expiry Date",
+      "cvv": "CVV"
+    },
+    "validation": {
+      "cardNumberInvalid": "Please enter a valid card number",
+      "expiryDateInvalid": "Please enter a valid expiry date",
+      "cvvInvalid": "Please enter a valid CVV"
+    },
+    "confirmation": {
+      "summary": "Order Summary",
+      "plan": "Selected Plan",
+      "amount": "Total Amount",
+      "billingTitle": "Billing Information",
+      "paymentTitle": "Payment Information",
+      "paymentMethod": "Credit Card",
+      "disclaimer": "By confirming your purchase, you agree to our Terms of Service and Privacy Policy. This is a simulated payment for demonstration purposes."
+    },
+    "success": {
+      "title": "Payment Successful",
+      "description": "Thank you for your payment. Your subscription has been activated.",
+      "congratulations": "Payment Successful!",
+      "planActivated": "Your {{plan}} has been activated successfully.",
+      "processed": "Payment processed successfully"
+    },
+    "errors": {
+      "general": "An error occurred processing your payment",
+      "declined": "Your card was declined. Please try a different card.",
+      "invalidCard": "Please check your card details and try again."
+    }
   }
 }

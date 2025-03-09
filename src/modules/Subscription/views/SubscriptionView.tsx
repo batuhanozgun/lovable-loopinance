@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SubscriptionCard } from '../components/SubscriptionCard';
 import { useTranslation } from 'react-i18next';
 import { viewsLogger } from '../logging';
@@ -8,11 +8,14 @@ import { SubscriptionPlanType } from '../types/ISubscription';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Check } from 'lucide-react';
+import { PaymentDialog } from '../components/PaymentDialog';
 
 export const SubscriptionView: React.FC = () => {
   const { t, i18n } = useTranslation(['Subscription', 'common']);
   const { subscription, updatePlan, isLoading, isTrial } = useSubscription();
   const plansRef = useRef<HTMLDivElement>(null);
+  const [paymentOpen, setPaymentOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlanType>(SubscriptionPlanType.MONTHLY);
   
   useEffect(() => {
     viewsLogger.debug(t('Subscription:debug.pageViewed'));
@@ -20,7 +23,8 @@ export const SubscriptionView: React.FC = () => {
   
   const handleUpgrade = async (planType: SubscriptionPlanType) => {
     viewsLogger.debug(t('Subscription:debug.planUpgradeRequested'), { planType });
-    await updatePlan(planType);
+    setSelectedPlan(planType);
+    setPaymentOpen(true);
   };
 
   // Scroll to plans section
@@ -124,6 +128,13 @@ export const SubscriptionView: React.FC = () => {
           </div>
         )}
       </div>
+      
+      {/* Ödeme Diyaloğu */}
+      <PaymentDialog 
+        open={paymentOpen} 
+        onOpenChange={setPaymentOpen} 
+        selectedPlan={selectedPlan} 
+      />
     </div>
   );
 };
