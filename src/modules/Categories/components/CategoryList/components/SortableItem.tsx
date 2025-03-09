@@ -5,6 +5,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { ICategory } from '../../../types';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 
 interface SortableItemProps {
   category: ICategory;
@@ -68,21 +69,24 @@ export const SortableItem: React.FC<SortableItemProps> = ({ category }) => {
         </div>
       </div>
       
-      {isExpanded && hasSubCategories && (
-        <div 
-          className="pl-8 mt-2 space-y-2"
-          onClick={(e) => e.stopPropagation()}
-        >
-          {category.sub_categories?.map((subCategory) => (
-            <div 
-              key={subCategory.id}
-              className="p-2 bg-white rounded border border-gray-100 text-sm shadow-sm"
-            >
-              {subCategory.name}
-            </div>
-          ))}
-        </div>
-      )}
+      <div 
+        className={cn(
+          "pl-8 overflow-hidden transition-all duration-300", 
+          isExpanded 
+            ? "max-h-96 opacity-100 mt-2 space-y-2 animate-accordion-down" 
+            : "max-h-0 opacity-0 animate-accordion-up"
+        )}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {hasSubCategories && category.sub_categories?.map((subCategory) => (
+          <div 
+            key={subCategory.id}
+            className="p-2 bg-white rounded border border-gray-100 text-sm shadow-sm"
+          >
+            {subCategory.name}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
