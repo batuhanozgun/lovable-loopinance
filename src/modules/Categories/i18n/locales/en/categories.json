@@ -19,7 +19,8 @@
     "subCategoryName": "Subcategory Name",
     "icon": "Choose Icon",
     "submit": "Save",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "editCategory": "Edit Category"
   },
   "labels": {
     "noCategories": "No categories found",
@@ -41,5 +42,20 @@
   "template": {
     "title": "Category Templates",
     "description": "Ready-to-use categories for a quick start"
+  },
+  "delete": {
+    "title": "Delete Category",
+    "description": "Are you sure you want to delete this category? This action cannot be undone.",
+    "warningSubcategories": "This category contains {{count}} subcategories. All of them will be deleted!",
+    "cancel": "Cancel",
+    "confirm": "Delete"
+  },
+  "errors": {
+    "update": {
+      "failed": "Failed to update category"
+    },
+    "delete": {
+      "failed": "Failed to delete category"
+    }
   }
 }

@@ -15,8 +15,11 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy
 } from '@dnd-kit/sortable';
-import { ICategory } from '../../types';
+import { ICategory, ICategoryUpdateParams } from '../../types';
 import { SortableItem } from './components/SortableItem';
+import { useTranslation } from 'react-i18next';
+import { useToast } from '@/hooks/use-toast';
+import { useCategoryCrudMutations } from '../../hooks/mutations/useCategoryCrudMutations';
 
 interface CategoryListProps {
   categories: ICategory[];
@@ -25,6 +28,10 @@ interface CategoryListProps {
 }
 
 export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCategories, updateCategoryOrder }) => {
+  const { t } = useTranslation(['Categories', 'Messages']);
+  const { toast } = useToast();
+  const { updateCategory, deleteCategory } = useCategoryCrudMutations();
+  
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -65,6 +72,68 @@ export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCateg
     });
   };
 
+  const handleEditCategory = async (editedCategory: ICategory) => {
+    try {
+      const updateParams: ICategoryUpdateParams = {
+        id: editedCategory.id,
+        data: {
+          name: editedCategory.name,
+          icon: editedCategory.icon
+        }
+      };
+      
+      await updateCategory(updateParams);
+      
+      // Kategori listesini güncelle
+      setCategories(prevCategories => 
+        prevCategories.map(cat => 
+          cat.id === editedCategory.id 
+            ? { ...cat, name: editedCategory.name, icon: editedCategory.icon } 
+            : cat
+        )
+      );
+      
+      // Başarı toast mesajı göster
+      toast({
+        title: t('Messages:category.update.success'),
+        description: t('Messages:category.update.successDescription'),
+      });
+    } catch (error) {
+      console.error('Kategori güncelleme hatası:', error);
+      // Hata toast mesajı göster
+      toast({
+        variant: "destructive",
+        title: t('Categories:errors.update.failed'),
+        description: error instanceof Error ? error.message : String(error),
+      });
+    }
+  };
+
+  const handleDeleteCategory = async (categoryId: string) => {
+    try {
+      await deleteCategory(categoryId);
+      
+      // Kategori listesinden sil
+      setCategories(prevCategories => 
+        prevCategories.filter(cat => cat.id !== categoryId)
+      );
+      
+      // Başarı toast mesajı göster
+      toast({
+        title: t('Messages:category.delete.success'),
+        description: t('Messages:category.delete.successDescription'),
+      });
+    } catch (error) {
+      console.error('Kategori silme hatası:', error);
+      // Hata toast mesajı göster
+      toast({
+        variant: "destructive",
+        title: t('Categories:errors.delete.failed'),
+        description: error instanceof Error ? error.message : String(error),
+      });
+    }
+  };
+
   if (!categories || categories.length === 0) {
     return <div className="p-4 text-center text-gray-500">Henüz kategori bulunmuyor.</div>;
   }
@@ -81,7 +150,12 @@ export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCateg
       >
         <div className="space-y-1">
           {categories.map((category) => (
-            <SortableItem key={category.id} category={category} />
+            <SortableItem 
+              key={category.id} 
+              category={category} 
+              onEdit={handleEditCategory}
+              onDelete={handleDeleteCategory}
+            />
           ))}
         </div>
       </SortableContext>

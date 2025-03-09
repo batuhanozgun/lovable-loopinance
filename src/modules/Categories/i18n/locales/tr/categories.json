@@ -19,7 +19,8 @@
     "subCategoryName": "Alt Kategori Adı",
     "icon": "İkon Seç",
     "submit": "Kaydet",
-    "cancel": "İptal"
+    "cancel": "İptal",
+    "editCategory": "Kategori Düzenle"
   },
   "labels": {
     "noCategories": "Kategori bulunamadı",
@@ -41,5 +42,20 @@
   "template": {
     "title": "Kategori Şablonları",
     "description": "Hızlı başlangıç için hazır kategoriler"
+  },
+  "delete": {
+    "title": "Kategoriyi sil",
+    "description": "Bu kategoriyi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+    "warningSubcategories": "Bu kategori {{count}} alt kategori içeriyor. Hepsi silinecek!",
+    "cancel": "İptal",
+    "confirm": "Sil"
+  },
+  "errors": {
+    "update": {
+      "failed": "Kategori güncellenemedi"
+    },
+    "delete": {
+      "failed": "Kategori silinemedi"
+    }
   }
 }
