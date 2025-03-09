@@ -2,7 +2,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { SubcategoryService } from '../../services/SubcategoryService';
 import { formsLogger } from '../../logging';
-import type { ICreateSubCategoryData, IUpdateSubCategoryData } from '../../types';
+import type { 
+  ICreateSubCategoryData, 
+  IUpdateSubCategoryData, 
+  ISubCategoryUpdateParams, 
+  ISubCategory 
+} from '../../types';
 
 /**
  * Alt kategori işlemleri için mutation hook'ları
@@ -34,10 +39,10 @@ export const useSubcategoryMutations = (invalidateCallback?: () => void) => {
 
   // Alt kategori güncelleme mutation'ı
   const updateSubCategory = useMutation({
-    mutationFn: async (data: IUpdateSubCategoryData) => {
-      logger.debug('Alt kategori güncelleme isteği', { id: data.id });
-      const result = await subcategoryService.updateSubCategory(data.id, data);
-      logger.debug('Alt kategori başarıyla güncellendi', { id: data.id });
+    mutationFn: async ({ id, data }: ISubCategoryUpdateParams): Promise<ISubCategory> => {
+      logger.debug('Alt kategori güncelleme isteği', { id });
+      const result = await subcategoryService.updateSubCategory(id, data);
+      logger.debug('Alt kategori başarıyla güncellendi', { id });
       return result;
     },
     onSuccess: (_, variables) => {

@@ -24,25 +24,39 @@ export const useCategoryMutations = () => {
   const { createCategory, updateCategory, deleteCategory } = useCategoryCrudMutations(invalidateCategories);
   
   // Alt kategori işlemleri için hook'u kullan
-  const subcategory = useSubcategoryMutations(invalidateCategories);
+  const { createSubCategory, updateSubCategory, deleteSubCategory } = useSubcategoryMutations(invalidateCategories);
   
   // Sıralama işlemleri için hook'u kullan
   const { updateCategoryOrder, updateSubCategoryOrder, moveSubCategories } = useCategoryOrderingMutations(invalidateCategories);
 
   return {
+    // CRUD işlemleri
     createCategory,
     updateCategory,
     deleteCategory,
-    subcategory,
+    
+    // Alt kategori işlemleri - ayrıca doğrudan erişim için
+    createSubCategory,
+    updateSubCategory,
+    deleteSubCategory,
+    
+    // Organizasyon işlemleri
+    updateCategoryOrder,
+    updateSubCategoryOrder,
+    moveSubCategories,
+    
+    // Gruplandırılmış erişim
+    subcategory: {
+      create: createSubCategory,
+      update: updateSubCategory,
+      delete: deleteSubCategory
+    },
+    
     ordering: {
       updateCategoryOrder,
       updateSubCategoryOrder,
       moveSubCategories
-    },
-    // Eski API ile uyumluluk için direkt erişim
-    updateCategoryOrder,
-    updateSubCategoryOrder,
-    moveSubCategories
+    }
   };
 };
 

@@ -2,7 +2,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CategoryManagementService } from '../../services/CategoryManagementService';
 import { formsLogger } from '../../logging';
-import type { ICreateCategoryData, IUpdateCategoryData } from '../../types';
+import type { ICreateCategoryData, IUpdateCategoryData, ICategoryUpdateParams, ICategory } from '../../types';
 
 /**
  * Kategori CRUD işlemleri için mutation hook'ları
@@ -33,10 +33,10 @@ export const useCategoryCrudMutations = (invalidateCallback?: () => void) => {
 
   // Kategori güncelleme mutation'ı
   const updateCategory = useMutation({
-    mutationFn: async (data: IUpdateCategoryData) => {
-      logger.debug('Kategori güncelleme isteği', { id: data.id });
-      const result = await categoryService.updateCategory(data.id, data);
-      logger.debug('Kategori başarıyla güncellendi', { id: data.id });
+    mutationFn: async ({ id, data }: ICategoryUpdateParams): Promise<ICategory> => {
+      logger.debug('Kategori güncelleme isteği', { id });
+      const result = await categoryService.updateCategory(id, data);
+      logger.debug('Kategori başarıyla güncellendi', { id });
       return result;
     },
     onSuccess: (_, variables) => {

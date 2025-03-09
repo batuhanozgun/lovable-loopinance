@@ -46,6 +46,14 @@ export interface IUpdateCategoryData {
 }
 
 /**
+ * Kategori güncelleme parametreleri
+ */
+export interface ICategoryUpdateParams {
+  id: string;
+  data: IUpdateCategoryData;
+}
+
+/**
  * Kategori sıralama işlemi
  */
 export interface ICategoryOrder {
@@ -76,6 +84,14 @@ export interface IUpdateSubCategoryData {
   name?: string;
   sort_order?: number;
   category_id?: string;
+}
+
+/**
+ * Alt kategori güncelleme parametreleri
+ */
+export interface ISubCategoryUpdateParams {
+  id: string;
+  data: IUpdateSubCategoryData;
 }
 
 /**

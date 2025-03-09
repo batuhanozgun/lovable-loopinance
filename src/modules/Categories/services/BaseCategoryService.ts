@@ -1,37 +1,29 @@
 
-import { supabase } from '@/integrations/supabase/client';
-import { createLogger, ModuleLogger } from '@/modules/Logging';
-import { PostgrestError } from '@supabase/supabase-js';
-
 /**
- * Temel kategori servis yapılandırması
- * Kategori ve alt kategori işlemleri için ortak yapıları içerir
+ * Kategoriler için temel servis sınıfı
+ * Diğer kategori servisleri tarafından kullanılan ortak metodları içerir
  */
 export class BaseCategoryService {
-  protected supabaseClient = supabase;
-  protected logger: ModuleLogger;
+  // Buraya ortak metodlar eklenebilir
+  // Örneğin: formatCategoryData, validateCategoryData, vb.
   
-  constructor(loggerName?: string) {
-    this.logger = createLogger(loggerName || 'Categories.Service');
+  /**
+   * Kategori verisini doğrula
+   */
+  validateCategoryData(data: any): boolean {
+    return !!data && typeof data.name === 'string' && data.name.trim().length > 0;
   }
   
   /**
-   * Kayıt bulunamadı durumunu kontrol eden yardımcı metod
+   * Alt kategori verisini doğrula
    */
-  protected handleNotFound<T>(data: T | null, entityType: string, id: string): T {
-    if (!data) {
-      const errorMessage = `${entityType} bulunamadı: ${id}`;
-      this.logger.warn(errorMessage, { entityType, id });
-      throw new Error(errorMessage);
-    }
-    return data;
-  }
-  
-  /**
-   * Veritabanı hataları için standart işleyici
-   */
-  protected handleDbError(error: Error | PostgrestError, operation: string, details?: Record<string, unknown>): never {
-    this.logger.error(`Veritabanı hatası: ${operation} başarısız oldu`, error, details);
-    throw error;
+  validateSubCategoryData(data: any): boolean {
+    return !!data && 
+      typeof data.name === 'string' && 
+      data.name.trim().length > 0 &&
+      typeof data.category_id === 'string';
   }
 }
+
+// default export yerine named export kullanıyoruz
+export default BaseCategoryService;

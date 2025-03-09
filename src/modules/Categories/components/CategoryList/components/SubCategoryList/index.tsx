@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -18,7 +19,7 @@ interface SubCategoryListProps {
  */
 export const SubCategoryList: React.FC<SubCategoryListProps> = ({ categoryId, subCategories, isSubscriptionRequired }) => {
   const { t } = useTranslation(['Categories']);
-  const { deleteSubCategory, updateSubCategoryOrder } = useCategoryMutations();
+  const { deleteSubCategory } = useCategoryMutations();
   
   if (subCategories.length === 0) {
     return null;
