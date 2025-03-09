@@ -21,8 +21,8 @@ export const useCategoryTemplates = (options?: Partial<ITemplateViewOptions>) =>
       : DEFAULT_LANGUAGE_SETTINGS.defaultLanguage;
   };
   
-  // Global dil tercihini kullan, sadece geçerli bir dil tipi olduğundan emin ol
-  const language = getSafeLanguage(options?.language || i18n.language);
+  // Belirtilen dil varsa kullan, yoksa global dil tercihini kullan
+  const language = options?.language || getSafeLanguage(i18n.language);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['categoryTemplates', language],
@@ -52,8 +52,8 @@ export const useCategoryTemplateById = (id: string, options?: Partial<ITemplateV
       : DEFAULT_LANGUAGE_SETTINGS.defaultLanguage;
   };
   
-  // Global dil tercihini kullan, sadece geçerli bir dil tipi olduğundan emin ol
-  const language = getSafeLanguage(options?.language || i18n.language);
+  // Belirtilen dil varsa kullan, yoksa global dil tercihini kullan
+  const language = options?.language || getSafeLanguage(i18n.language);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['categoryTemplate', id, language],
