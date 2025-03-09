@@ -11,5 +11,8 @@
   "access": {
     "denied": "Bu özelliğe erişiminiz yok",
     "expired": "Aboneliğinizin süresi doldu"
+  },
+  "session": {
+    "error": "Oturum bilgisi alınamadı"
   }
 }

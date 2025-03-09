@@ -1,5 +1,5 @@
 
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { SubscriptionUpdateService } from '../services';
 import { SubscriptionPlanType } from '../types/ISubscription';
 import { useSessionUser } from './useSessionUser';
@@ -11,9 +11,10 @@ import { useTranslation } from 'react-i18next';
  * Abonelik planı değişiklikleri için hook
  */
 export const useSubscriptionMutation = (onSuccess?: () => void) => {
-  const { userId } = useSessionUser();
+  const { userId, refreshUserSession } = useSessionUser();
   const { toast } = useToast();
   const { t } = useTranslation(['Subscription', 'common']);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   // Abonelik planını güncelle
   const updateSubscriptionPlan = useCallback(async (
@@ -21,17 +22,29 @@ export const useSubscriptionMutation = (onSuccess?: () => void) => {
     transactionId?: string
   ) => {
     try {
+      setIsUpdating(true);
+      
       if (!userId) {
-        subscriptionLogger.error('Kullanıcı ID bulunamadı', { planType });
-        toast({
-          title: t('common:error'),
-          description: t('Subscription:errors.access.denied'),
-          variant: "destructive",
-        });
-        return false;
+        // Oturumu yenilemeyi dene
+        await refreshUserSession();
+        
+        // Hala userId yoksa hata ver
+        if (!userId) {
+          subscriptionLogger.error('Kullanıcı ID bulunamadı', { planType });
+          toast({
+            title: t('common:error'),
+            description: t('Subscription:errors.access.denied'),
+            variant: "destructive",
+          });
+          return false;
+        }
       }
       
-      subscriptionLogger.debug('Plan güncelleme başlatıldı', { planType, userId });
+      subscriptionLogger.debug('Plan güncelleme başlatıldı', { 
+        planType, 
+        userId,
+        transactionId: transactionId || 'yok' 
+      });
       
       const response = await SubscriptionUpdateService.updateSubscriptionPlan(
         userId, 
@@ -40,7 +53,10 @@ export const useSubscriptionMutation = (onSuccess?: () => void) => {
       );
       
       if (!response.success) {
-        subscriptionLogger.error('Plan güncellenemedi', { error: response.error, planType });
+        subscriptionLogger.error('Plan güncellenemedi', { 
+          error: response.error, 
+          planType 
+        });
         toast({
           title: t('common:error'),
           description: t('Subscription:errors.update.planChange'),
@@ -49,15 +65,19 @@ export const useSubscriptionMutation = (onSuccess?: () => void) => {
         return false;
       }
       
-      subscriptionLogger.info('Plan başarıyla güncellendi', { planType });
+      subscriptionLogger.info('Plan başarıyla güncellendi', { 
+        planType,
+        userId
+      });
       
-      // i18n t fonksiyonu için doğru parametre kullanımı:
-      const planKey = `Subscription:plan.${planType}`;
-      const translatedPlan = t(planKey);
+      // Doğru plan adını çevirme
+      const translatedPlan = t(`Subscription:plan.${planType}`);
       
       toast({
         title: t('common:success'),
-        description: t('Subscription:subscription.plan.updated', { plan: translatedPlan }),
+        description: t('Subscription:subscription.plan.updated', { 
+          plan: translatedPlan 
+        }),
       });
       
       if (onSuccess) {
@@ -73,8 +93,13 @@ export const useSubscriptionMutation = (onSuccess?: () => void) => {
         variant: "destructive",
       });
       return false;
+    } finally {
+      setIsUpdating(false);
     }
-  }, [userId, toast, t, onSuccess]);
+  }, [userId, refreshUserSession, toast, t, onSuccess]);
 
-  return { updatePlan: updateSubscriptionPlan };
+  return { 
+    updatePlan: updateSubscriptionPlan, 
+    isUpdating 
+  };
 };

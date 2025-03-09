@@ -11,5 +11,8 @@
   "access": {
     "denied": "You do not have access to this feature",
     "expired": "Your subscription has expired"
+  },
+  "session": {
+    "error": "Could not retrieve session information"
   }
 }

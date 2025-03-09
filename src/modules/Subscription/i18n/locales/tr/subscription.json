@@ -128,5 +128,10 @@
       "declined": "Kartınız reddedildi. Lütfen başka bir kart deneyin.",
       "invalidCard": "Lütfen kart bilgilerinizi kontrol edip tekrar deneyin."
     }
+  },
+  "subscription": {
+    "plan": {
+      "updated": "{{plan}} planınız başarıyla güncellendi."
+    }
   }
 }

@@ -51,36 +51,51 @@ export class SubscriptionUpdateService {
         periodEndDate = currentSubscription.subscription.trial_ends_at || now;
       }
       
-      // Güncellenecek verileri hazırla
-      const updateData: any = {
+      // Güncellenecek verileri hazırla - string yerine enum değeri kullan
+      const updateData = {
         plan_type: planType,
         updated_at: now.toISOString()
       };
       
       // Trial'dan ücretli plana geçiş veya ücretli plan güncelleme
       if (planType !== SubscriptionPlanType.TRIAL) {
-        updateData.status = SubscriptionStatus.ACTIVE;
-        updateData.current_period_starts_at = now.toISOString();
-        updateData.current_period_ends_at = periodEndDate.toISOString();
+        Object.assign(updateData, {
+          status: SubscriptionStatus.ACTIVE,
+          current_period_starts_at: now.toISOString(),
+          current_period_ends_at: periodEndDate.toISOString()
+        });
         
         // Eğer deneme süresi devam ediyorsa, deneme süresini sonlandır
         if (currentSubscription.subscription.status === SubscriptionStatus.TRIAL) {
-          updateData.trial_ends_at = now.toISOString();
+          Object.assign(updateData, {
+            trial_ends_at: now.toISOString()
+          });
         }
       }
       
-      subscriptionLogger.debug('Abonelik güncelleme verileri hazırlandı', updateData);
+      subscriptionLogger.debug('Abonelik güncelleme verileri hazırlandı', {
+        updateData,
+        userId
+      });
       
-      // Veritabanını güncelle
+      // PUT istediği ile tüm veriyi güncelleyelim 
+      // (PATCH işlemi JSONB hataları oluşturabiliyor)
       const { data, error } = await supabase
         .from('subscriptions')
         .update(updateData)
         .eq('user_id', userId)
-        .select()
-        .maybeSingle();
+        .select('*')
+        .single();
       
       if (error) {
-        subscriptionLogger.error('Abonelik güncellenirken Supabase hatası oluştu', error, { userId });
+        subscriptionLogger.error('Abonelik güncellenirken Supabase hatası oluştu', {
+          error, 
+          userId,
+          errorMessage: error.message,
+          errorCode: error.code,
+          details: error.details,
+          hint: error.hint
+        });
         return {
           success: false,
           error: error.message
@@ -108,7 +123,11 @@ export class SubscriptionUpdateService {
         subscription: updatedSubscription
       };
     } catch (error) {
-      subscriptionLogger.error('Abonelik planı güncellenirken beklenmeyen hata', error, { userId });
+      subscriptionLogger.error('Abonelik planı güncellenirken beklenmeyen hata', {
+        error,
+        errorMessage: error instanceof Error ? error.message : 'Bilinmeyen hata',
+        userId
+      });
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Beklenmeyen bir hata oluştu'

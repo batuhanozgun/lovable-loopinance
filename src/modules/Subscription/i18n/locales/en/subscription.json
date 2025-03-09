@@ -128,5 +128,10 @@
       "declined": "Your card was declined. Please try a different card.",
       "invalidCard": "Please check your card details and try again."
     }
+  },
+  "subscription": {
+    "plan": {
+      "updated": "Your {{plan}} has been updated successfully."
+    }
   }
 }
