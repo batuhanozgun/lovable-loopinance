@@ -11,7 +11,7 @@ import errorsTr from './locales/tr/errors.json';
 
 // Modüllerin çevirilerini başlatan işlevler
 import { initAppLayoutTranslations } from '@/modules/AppLayout/i18n';
-import { initLandingTranslations } from '@/modules/LandingPage/i18n';
+import { initLandingPageTranslations } from '@/modules/LandingPage/i18n';
 import { initDashboardTranslations } from '@/modules/Dashboard/i18n';
 import { initLoginTranslations } from '@/modules/UserManagement/Login/i18n';
 import { initSignupTranslations } from '@/modules/UserManagement/Signup/i18n';
@@ -44,7 +44,7 @@ i18n
 
 // Tüm modüllerin çevirilerini başlat
 initAppLayoutTranslations();
-initLandingTranslations();
+initLandingPageTranslations();
 initDashboardTranslations();
 initLoginTranslations();
 initSignupTranslations();

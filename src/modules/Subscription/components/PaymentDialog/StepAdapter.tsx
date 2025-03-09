@@ -4,20 +4,20 @@ import {
   PaymentDialog, 
   PaymentStep 
 } from '@/modules/Payment';
-import { SubscriptionPlanType } from '../types/ISubscription';
-import { useSubscriptionMutation } from '../hooks/useSubscriptionMutation';
-import { subscriptionLogger } from '../logging';
+import { SubscriptionPlanType } from '@/modules/Subscription/types/ISubscription';
+import { useSubscriptionMutation } from '@/modules/Subscription/hooks/useSubscriptionMutation';
+import { subscriptionLogger } from '@/modules/Subscription/logging';
 
+/**
+ * Subscription modülüne özgü ödeme diyaloğu adaptörü
+ * Payment modülündeki PaymentDialog'u kullanır ve Subscription modülüne uyarlar
+ */
 interface SubscriptionPaymentDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   selectedPlan: SubscriptionPlanType;
 }
 
-/**
- * Subscription modülüne özgü ödeme diyaloğu adaptörü
- * Payment modülündeki PaymentDialog'u kullanır ve Subscription modülüne uyarlar
- */
 export const SubscriptionPaymentDialog: React.FC<SubscriptionPaymentDialogProps> = ({ 
   open, 
   onOpenChange, 
