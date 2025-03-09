@@ -6,25 +6,34 @@
     "title": "Ücretsiz Deneme",
     "description": "Şu anda ücretsiz deneme sürecindesiniz",
     "days": "{{count}} gün kaldı",
-    "expired": "Deneme süreniz sona erdi"
+    "expired": "Deneme süreniz sona erdi",
+    "info": "Deneme süreniz hakkında bilgi"
   },
   "plans": {
     "monthly": "Aylık Plan",
     "yearly": "Yıllık Plan",
-    "trial": "Deneme Planı"
+    "trial": "Deneme Planı",
+    "free": "Ücretsiz Plan",
+    "premium": "Premium Plan",
+    "enterprise": "Kurumsal Plan",
+    "custom": "Özel Plan"
   },
   "status": {
     "active": "Aktif",
     "canceled": "İptal Edildi",
     "expired": "Süresi Doldu",
-    "trial": "Deneme"
+    "trial": "Deneme",
+    "pending": "Beklemede",
+    "error": "Hata"
   },
   "actions": {
     "upgrade": "Planı Yükselt",
     "downgrade": "Planı Düşür",
     "cancel": "Planı İptal Et",
     "renew": "Planı Yenile",
-    "modify": "Planı Değiştir"
+    "modify": "Planı Değiştir",
+    "activate": "Planı Aktifleştir",
+    "purchase": "Satın Al"
   },
   "access": {
     "restricted": {
@@ -33,11 +42,24 @@
       "moduleDescription": "{{moduleName}} modülü premium abonelik gerektirir.",
       "featureDescription": "{{feature}} özelliği premium abonelik gerektirir.",
       "upgrade": "Tüm premium özelliklere erişim kazanmak için planınızı yükseltin."
+    },
+    "granted": {
+      "title": "Erişim Sağlandı",
+      "description": "Bu özelliğe erişim hakkına sahipsiniz."
     }
   },
   "billing": {
     "title": "Fatura Bilgileri",
     "nextBilling": "Bir sonraki fatura tarihiniz: {{date}}",
-    "paymentMethod": "Ödeme yönteminiz: {{method}}"
+    "paymentMethod": "Ödeme yönteminiz: {{method}}",
+    "history": "Fatura Geçmişi",
+    "address": "Fatura Adresi",
+    "download": "Faturayı İndir",
+    "details": "Fatura Detayları"
+  },
+  "features": {
+    "included": "Dahil Özellikler",
+    "excluded": "Dahil Olmayan Özellikler",
+    "compare": "Planları Karşılaştır"
   }
 }
