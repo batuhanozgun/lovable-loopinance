@@ -9,16 +9,21 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
 export const SubscriptionView: React.FC = () => {
-  const { t } = useTranslation(['Subscription', 'common']);
+  const { t, i18n } = useTranslation(['Subscription', 'common']);
   const { subscription, updatePlan, isLoading, isTrial } = useSubscription();
   
   useEffect(() => {
-    viewsLogger.debug('Abonelik sayfası görüntülendi');
-  }, []);
+    viewsLogger.debug(t('Subscription:debug.pageViewed'));
+  }, [t]);
   
   const handleUpgrade = async (planType: SubscriptionPlanType) => {
-    viewsLogger.debug('Plan yükseltme isteği', { planType });
+    viewsLogger.debug(t('Subscription:debug.planUpgradeRequested'), { planType });
     await updatePlan(planType);
+  };
+
+  // Format currency based on locale
+  const formatCurrency = (price: number) => {
+    return price.toString();
   };
   
   return (
@@ -36,16 +41,22 @@ export const SubscriptionView: React.FC = () => {
             <div className="grid md:grid-cols-2 gap-4 mt-6">
               <div className="border border-border rounded-lg p-6 bg-card">
                 <h3 className="text-lg font-medium">{t('Subscription:plan.monthly')}</h3>
-                <p className="text-2xl font-bold mt-2">₺49<span className="text-sm text-muted-foreground font-normal">/ay</span></p>
+                <p className="text-2xl font-bold mt-2">
+                  {t('Subscription:plans.pricing.monthly', {
+                    price: 49,
+                    currency: '₺',
+                    period: t('Subscription:plans.pricing.period.month')
+                  })}
+                </p>
                 <ul className="mt-4 space-y-2">
                   <li className="flex items-center text-sm">
-                    <span className="mr-2">✓</span> Tüm özelliklere erişim
+                    <span className="mr-2">✓</span> {t('Subscription:plans.features.allAccess')}
                   </li>
                   <li className="flex items-center text-sm">
-                    <span className="mr-2">✓</span> Sınırsız hesap
+                    <span className="mr-2">✓</span> {t('Subscription:plans.features.unlimitedAccounts')}
                   </li>
                   <li className="flex items-center text-sm">
-                    <span className="mr-2">✓</span> Gelişmiş analizler
+                    <span className="mr-2">✓</span> {t('Subscription:plans.features.advancedAnalytics')}
                   </li>
                 </ul>
                 <Button 
@@ -58,22 +69,28 @@ export const SubscriptionView: React.FC = () => {
               
               <div className="border border-primary rounded-lg p-6 bg-card">
                 <div className="bg-primary text-primary-foreground text-xs py-1 px-3 rounded-full inline-block mb-2">
-                  %20 İndirim
+                  {t('Subscription:plans.discount', { percentage: 20 })}
                 </div>
                 <h3 className="text-lg font-medium">{t('Subscription:plan.yearly')}</h3>
-                <p className="text-2xl font-bold mt-2">₺39<span className="text-sm text-muted-foreground font-normal">/ay</span></p>
+                <p className="text-2xl font-bold mt-2">
+                  {t('Subscription:plans.pricing.monthly', {
+                    price: 39,
+                    currency: '₺',
+                    period: t('Subscription:plans.pricing.period.month')
+                  })}
+                </p>
                 <ul className="mt-4 space-y-2">
                   <li className="flex items-center text-sm">
-                    <span className="mr-2">✓</span> Tüm özelliklere erişim
+                    <span className="mr-2">✓</span> {t('Subscription:plans.features.allAccess')}
                   </li>
                   <li className="flex items-center text-sm">
-                    <span className="mr-2">✓</span> Sınırsız hesap
+                    <span className="mr-2">✓</span> {t('Subscription:plans.features.unlimitedAccounts')}
                   </li>
                   <li className="flex items-center text-sm">
-                    <span className="mr-2">✓</span> Gelişmiş analizler
+                    <span className="mr-2">✓</span> {t('Subscription:plans.features.advancedAnalytics')}
                   </li>
                   <li className="flex items-center text-sm">
-                    <span className="mr-2">✓</span> Öncelikli destek
+                    <span className="mr-2">✓</span> {t('Subscription:plans.features.prioritySupport')}
                   </li>
                 </ul>
                 <Button 

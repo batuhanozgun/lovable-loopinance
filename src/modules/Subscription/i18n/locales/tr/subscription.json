@@ -43,6 +43,24 @@
   },
   "plans": {
     "title": "Mevcut Planlar",
-    "description": "Size en uygun planı seçin"
+    "description": "Size en uygun planı seçin",
+    "features": {
+      "allAccess": "Tüm özelliklere erişim",
+      "unlimitedAccounts": "Sınırsız hesap",
+      "advancedAnalytics": "Gelişmiş analizler",
+      "prioritySupport": "Öncelikli destek"
+    },
+    "discount": "%{{percentage}} İndirim",
+    "pricing": {
+      "monthly": "{{price}}{{currency}}/{{period}}",
+      "period": {
+        "month": "ay",
+        "year": "yıl"
+      }
+    }
+  },
+  "debug": {
+    "pageViewed": "Abonelik sayfası görüntülendi",
+    "planUpgradeRequested": "Plan yükseltme isteği"
   }
 }

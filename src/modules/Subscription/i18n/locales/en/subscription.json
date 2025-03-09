@@ -43,6 +43,24 @@
   },
   "plans": {
     "title": "Available Plans",
-    "description": "Choose the plan that works best for you"
+    "description": "Choose the plan that works best for you",
+    "features": {
+      "allAccess": "Access to all features",
+      "unlimitedAccounts": "Unlimited accounts",
+      "advancedAnalytics": "Advanced analytics",
+      "prioritySupport": "Priority support"
+    },
+    "discount": "{{percentage}}% Discount",
+    "pricing": {
+      "monthly": "{{price}}{{currency}}/{{period}}",
+      "period": {
+        "month": "month",
+        "year": "year"
+      }
+    }
+  },
+  "debug": {
+    "pageViewed": "Subscription page viewed",
+    "planUpgradeRequested": "Plan upgrade requested"
   }
 }
