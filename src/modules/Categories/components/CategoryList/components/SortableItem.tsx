@@ -28,6 +28,7 @@ export const SortableItem: React.FC<SortableItemProps> = ({ category }) => {
   };
 
   const toggleExpand = (e: React.MouseEvent) => {
+    e.preventDefault();
     e.stopPropagation();
     setIsExpanded(!isExpanded);
   };
@@ -36,10 +37,10 @@ export const SortableItem: React.FC<SortableItemProps> = ({ category }) => {
     <div
       ref={setNodeRef}
       style={style}
-      {...attributes}
       className="mb-2"
     >
       <div 
+        {...attributes}
         {...listeners}
         className="p-3 bg-white rounded-lg shadow-sm border border-gray-200 cursor-grab hover:bg-gray-50 transition-colors"
       >
@@ -49,6 +50,7 @@ export const SortableItem: React.FC<SortableItemProps> = ({ category }) => {
               <button 
                 onClick={toggleExpand}
                 className="p-1 rounded-md hover:bg-gray-100 transition-colors"
+                type="button"
               >
                 {isExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
               </button>
@@ -67,7 +69,10 @@ export const SortableItem: React.FC<SortableItemProps> = ({ category }) => {
       </div>
       
       {isExpanded && hasSubCategories && (
-        <div className="pl-8 mt-2 space-y-2">
+        <div 
+          className="pl-8 mt-2 space-y-2"
+          onClick={(e) => e.stopPropagation()}
+        >
           {category.sub_categories?.map((subCategory) => (
             <div 
               key={subCategory.id}
