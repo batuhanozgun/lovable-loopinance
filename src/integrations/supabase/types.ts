@@ -48,7 +48,7 @@ export type Database = {
           icon: string | null
           id: string
           is_active: boolean | null
-          name: string
+          name: Json
           sort_order: number | null
           updated_at: string | null
         }
@@ -57,7 +57,7 @@ export type Database = {
           icon?: string | null
           id?: string
           is_active?: boolean | null
-          name: string
+          name: Json
           sort_order?: number | null
           updated_at?: string | null
         }
@@ -66,7 +66,7 @@ export type Database = {
           icon?: string | null
           id?: string
           is_active?: boolean | null
-          name?: string
+          name?: Json
           sort_order?: number | null
           updated_at?: string | null
         }
@@ -143,7 +143,7 @@ export type Database = {
           created_at: string | null
           id: string
           is_active: boolean | null
-          name: string
+          name: Json
           sort_order: number | null
           updated_at: string | null
         }
@@ -152,7 +152,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           is_active?: boolean | null
-          name: string
+          name: Json
           sort_order?: number | null
           updated_at?: string | null
         }
@@ -161,7 +161,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           is_active?: boolean | null
-          name?: string
+          name?: Json
           sort_order?: number | null
           updated_at?: string | null
         }

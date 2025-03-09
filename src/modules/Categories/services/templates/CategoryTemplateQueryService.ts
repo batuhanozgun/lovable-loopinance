@@ -1,6 +1,6 @@
 
 import { BaseCategoryTemplateService } from './BaseCategoryTemplateService';
-import type { ICategoryTemplate } from '../../types/template';
+import type { ICategoryTemplate, SupportedLanguage } from '../../types/template';
 
 /**
  * Kategori şablonları ve alt kategori şablonlarını sorgulama işlemleri
@@ -13,7 +13,7 @@ export class CategoryTemplateQueryService extends BaseCategoryTemplateService {
   /**
    * Tüm kategori şablonlarını ve alt kategori şablonlarını getirir
    */
-  async getAllCategoryTemplates(language = 'tr'): Promise<ICategoryTemplate[]> {
+  async getAllCategoryTemplates(language: SupportedLanguage = 'tr'): Promise<ICategoryTemplate[]> {
     try {
       this.logger.debug('Kategori şablonları getiriliyor', { language });
       
@@ -66,7 +66,7 @@ export class CategoryTemplateQueryService extends BaseCategoryTemplateService {
   /**
    * Belirli bir kategori şablonunu detaylarıyla getirir
    */
-  async getCategoryTemplateById(id: string, language = 'tr'): Promise<ICategoryTemplate | null> {
+  async getCategoryTemplateById(id: string, language: SupportedLanguage = 'tr'): Promise<ICategoryTemplate | null> {
     try {
       this.logger.debug('Kategori şablonu detayları getiriliyor', { categoryTemplateId: id, language });
       

@@ -41,3 +41,24 @@ export interface ICreateCategoryFromTemplateData {
 export interface ITemplateViewOptions {
   language: string;
 }
+
+/**
+ * Desteklenen diller
+ */
+export type SupportedLanguage = 'tr' | 'en';
+
+/**
+ * Dil ayarları
+ */
+export interface ILanguageSettings {
+  defaultLanguage: SupportedLanguage;
+  supportedLanguages: SupportedLanguage[];
+}
+
+/**
+ * Varsayılan dil ayarları
+ */
+export const DEFAULT_LANGUAGE_SETTINGS: ILanguageSettings = {
+  defaultLanguage: 'tr',
+  supportedLanguages: ['tr', 'en']
+};

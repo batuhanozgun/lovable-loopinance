@@ -1,53 +1,38 @@
 
 {
-  "create": {
-    "success": "Kategori başarıyla oluşturuldu"
-  },
-  "update": {
-    "success": "Kategori başarıyla güncellendi"
-  },
-  "delete": {
-    "success": "Kategori başarıyla silindi",
-    "confirmation": "Bu kategoriyi silmek istediğinizden emin misiniz?",
-    "hasTransactions": "Bu kategoride {{count}} işlem bulunuyor",
-    "hasBudgets": "Bu kategoride {{count}} bütçe kalemi bulunuyor",
-    "movePrompt": "Alt kategorileri nereye taşımak istersiniz?"
-  },
-  "move": {
-    "success": "Alt kategoriler başarıyla taşındı"
-  },
-  "sort": {
-    "success": "Kategori sıralaması başarıyla güncellendi"
-  },
-  "form": {
-    "submit": "Kategori Oluştur",
-    "update": "Kategori Güncelle",
-    "cancel": "İptal"
+  "category": {
+    "create": {
+      "success": "Kategori başarıyla oluşturuldu",
+      "successDescription": "Yeni \"{{categoryName}}\" kategoriniz oluşturuldu"
+    },
+    "update": {
+      "success": "Kategori başarıyla güncellendi",
+      "successDescription": "Kategoriniz güncellendi"
+    },
+    "delete": {
+      "success": "Kategori başarıyla silindi",
+      "successDescription": "Kategoriniz silindi"
+    }
   },
   "subcategory": {
     "create": {
-      "success": "Alt kategori başarıyla oluşturuldu"
+      "success": "Alt kategori başarıyla oluşturuldu",
+      "successDescription": "Yeni alt kategoriniz oluşturuldu"
     },
     "update": {
-      "success": "Alt kategori başarıyla güncellendi"
+      "success": "Alt kategori başarıyla güncellendi",
+      "successDescription": "Alt kategoriniz güncellendi"
     },
     "delete": {
-      "success": "Alt kategori başarıyla silindi"
-    },
-    "sort": {
-      "success": "Alt kategori sıralaması başarıyla güncellendi"
-    },
-    "form": {
-      "submit": "Alt Kategori Oluştur",
-      "update": "Alt Kategori Güncelle",
-      "cancel": "İptal"
+      "success": "Alt kategori başarıyla silindi",
+      "successDescription": "Alt kategoriniz silindi"
     }
   },
   "template": {
     "import": {
       "success": "Kategori başarıyla eklendi",
-      "successDescription": "{{categoryName}} kategorisi kişisel kategorilerinize eklendi",
-      "failed": "Kategori eklenirken bir hata oluştu"
+      "successDescription": "\"{{categoryName}}\" kategorisi kategorilerinize eklendi",
+      "failed": "Kategori eklenemedi"
     }
   }
 }

@@ -4,12 +4,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useTranslation } from 'react-i18next';
-import { ICategoryTemplate } from '../../../types/template';
+import { ICategoryTemplate, SupportedLanguage } from '../../../types/template';
 import { Check, Loader2, Plus } from 'lucide-react';
 
 interface TemplateItemProps {
   template: ICategoryTemplate;
-  language: string;
+  language: SupportedLanguage;
   onImport: (templateId: string) => void;
   isImporting: boolean;
 }

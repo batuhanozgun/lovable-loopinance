@@ -2,6 +2,7 @@
 import { createLogger } from '@/modules/Logging';
 import { supabase } from '@/integrations/supabase/client';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
+import { SupportedLanguage } from '../../types/template';
 
 /**
  * Kategori şablonları için temel servis sınıfı
@@ -27,7 +28,7 @@ export class BaseCategoryTemplateService {
    * İsim alanlarından çoklu dil desteği için belirli dilde isim döndürür
    * Eğer belirtilen dilde bir isim yoksa, varsayılan dil (tr) veya mevcut herhangi bir dil döndürülür
    */
-  protected getLocalizedName(nameObject: Record<string, string> | null | undefined, language = 'tr'): string {
+  protected getLocalizedName(nameObject: Record<string, string> | null | undefined, language: SupportedLanguage = 'tr'): string {
     if (!nameObject) {
       return '';
     }

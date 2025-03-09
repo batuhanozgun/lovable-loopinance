@@ -1,52 +1,37 @@
 
 {
-  "create": {
-    "success": "Category created successfully"
-  },
-  "update": {
-    "success": "Category updated successfully"
-  },
-  "delete": {
-    "success": "Category deleted successfully",
-    "confirmation": "Are you sure you want to delete this category?",
-    "hasTransactions": "This category has {{count}} transactions",
-    "hasBudgets": "This category has {{count}} budget items",
-    "movePrompt": "Where do you want to move the subcategories?"
-  },
-  "move": {
-    "success": "Subcategories moved successfully"
-  },
-  "sort": {
-    "success": "Category order updated successfully"
-  },
-  "form": {
-    "submit": "Create Category",
-    "update": "Update Category",
-    "cancel": "Cancel"
+  "category": {
+    "create": {
+      "success": "Category created successfully",
+      "successDescription": "Your new category \"{{categoryName}}\" has been created"
+    },
+    "update": {
+      "success": "Category updated successfully",
+      "successDescription": "Your category has been updated"
+    },
+    "delete": {
+      "success": "Category deleted successfully",
+      "successDescription": "Your category has been deleted"
+    }
   },
   "subcategory": {
     "create": {
-      "success": "Subcategory created successfully"
+      "success": "Subcategory created successfully",
+      "successDescription": "Your new subcategory has been created"
     },
     "update": {
-      "success": "Subcategory updated successfully"
+      "success": "Subcategory updated successfully",
+      "successDescription": "Your subcategory has been updated"
     },
     "delete": {
-      "success": "Subcategory deleted successfully"
-    },
-    "sort": {
-      "success": "Subcategory order updated successfully"
-    },
-    "form": {
-      "submit": "Create Subcategory",
-      "update": "Update Subcategory",
-      "cancel": "Cancel"
+      "success": "Subcategory deleted successfully",
+      "successDescription": "Your subcategory has been deleted"
     }
   },
   "template": {
     "import": {
       "success": "Category added successfully",
-      "successDescription": "Category {{categoryName}} has been added to your personal categories",
+      "successDescription": "The category \"{{categoryName}}\" has been added to your categories",
       "failed": "Failed to add category"
     }
   }

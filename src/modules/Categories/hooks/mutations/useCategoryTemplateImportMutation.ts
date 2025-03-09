@@ -4,6 +4,7 @@ import { CategoryTemplateImportService } from '../../services/templates';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
 import type { ICategory } from '../../types';
+import type { SupportedLanguage } from '../../types/template';
 
 const categoryTemplateImportService = new CategoryTemplateImportService();
 
@@ -19,11 +20,11 @@ export const useCategoryTemplateImportMutation = () => {
     mutationFn: async ({ 
       templateId, 
       userId, 
-      language = i18n.language 
+      language = i18n.language as SupportedLanguage 
     }: { 
       templateId: string; 
       userId: string;
-      language?: string;
+      language?: SupportedLanguage;
     }): Promise<ICategory | null> => {
       return categoryTemplateImportService.createCategoryFromTemplate(templateId, userId, language);
     },

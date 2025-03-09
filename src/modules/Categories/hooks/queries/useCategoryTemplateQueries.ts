@@ -1,7 +1,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { CategoryTemplateQueryService } from '../../services/templates';
-import type { ICategoryTemplate, ITemplateViewOptions } from '../../types/template';
+import type { ICategoryTemplate, ITemplateViewOptions, SupportedLanguage } from '../../types/template';
 import { useTranslation } from 'react-i18next';
 
 const categoryTemplateService = new CategoryTemplateQueryService();
@@ -11,7 +11,7 @@ const categoryTemplateService = new CategoryTemplateQueryService();
  */
 export const useCategoryTemplates = (options?: Partial<ITemplateViewOptions>) => {
   const { i18n } = useTranslation();
-  const language = options?.language || i18n.language;
+  const language = options?.language || i18n.language as SupportedLanguage;
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['categoryTemplates', language],
@@ -32,7 +32,7 @@ export const useCategoryTemplates = (options?: Partial<ITemplateViewOptions>) =>
  */
 export const useCategoryTemplateById = (id: string, options?: Partial<ITemplateViewOptions>) => {
   const { i18n } = useTranslation();
-  const language = options?.language || i18n.language;
+  const language = options?.language || i18n.language as SupportedLanguage;
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['categoryTemplate', id, language],

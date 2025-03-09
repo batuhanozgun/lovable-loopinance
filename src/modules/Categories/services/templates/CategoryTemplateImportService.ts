@@ -3,7 +3,7 @@ import { BaseCategoryTemplateService } from './BaseCategoryTemplateService';
 import { CategoryManagementService } from '../CategoryManagementService';
 import { SubcategoryService } from '../SubcategoryService';
 import type { ICategory, ICreateCategoryData, ICreateSubCategoryData } from '../../types';
-import type { ICategoryTemplate, ISubCategoryTemplate } from '../../types/template';
+import type { ICategoryTemplate, ISubCategoryTemplate, SupportedLanguage } from '../../types/template';
 
 /**
  * Şablonlardan kategori oluşturma servisi
@@ -21,7 +21,7 @@ export class CategoryTemplateImportService extends BaseCategoryTemplateService {
   /**
    * Şablondan yeni bir kategori oluşturur
    */
-  async createCategoryFromTemplate(templateId: string, userId: string, language = 'tr'): Promise<ICategory | null> {
+  async createCategoryFromTemplate(templateId: string, userId: string, language: SupportedLanguage = 'tr'): Promise<ICategory | null> {
     try {
       this.logger.debug('Şablondan kategori oluşturuluyor', { templateId, userId, language });
       

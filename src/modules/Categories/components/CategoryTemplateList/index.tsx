@@ -8,17 +8,18 @@ import { TemplateItem } from './components/TemplateItem';
 import { LanguageSelector } from './components/LanguageSelector';
 import { useSessionService } from '@/modules/UserManagement/auth/hooks/useSessionService';
 import { Loader2 } from 'lucide-react';
+import { SupportedLanguage } from '../../types/template';
 
 export const CategoryTemplateList: React.FC = () => {
   const { t, i18n } = useTranslation(['Categories']);
-  const [language, setLanguage] = useState<string>(i18n.language);
+  const [language, setLanguage] = useState<SupportedLanguage>(i18n.language as SupportedLanguage);
   const { categoryTemplates, isLoading: isLoadingTemplates } = useCategoryTemplates({ language });
   const { categories } = useCategories();
   const { getCurrentUserID } = useSessionService();
   const { importCategoryFromTemplate, isImporting } = useCategoryTemplateImportMutation();
   const [importingTemplateId, setImportingTemplateId] = useState<string | null>(null);
   
-  const handleLanguageChange = (value: string) => {
+  const handleLanguageChange = (value: SupportedLanguage) => {
     setLanguage(value);
   };
   
