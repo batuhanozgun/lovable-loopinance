@@ -52,27 +52,27 @@ export const SubscriptionInfo: React.FC = () => {
   // Durum bilgisini al
   const getStatusText = () => {
     if (subscription.status === SubscriptionStatus.TRIAL && subscription.daysRemaining <= 7) {
-      return t('Subscription:subscription.badge.trialEnding');
+      return t('Subscription:badge.trialEnding');
     }
-    return t(`Subscription:subscription.status.${subscription.status}`);
+    return t(`Subscription:status.${subscription.status}`);
   };
   
   // Abonelik bilgisini al
   const getInfoMessage = () => {
     if (subscription.status === SubscriptionStatus.TRIAL) {
       return subscription.daysRemaining > 0
-        ? t('Subscription:subscription.info.trialRemaining', { days: subscription.daysRemaining })
-        : t('Subscription:subscription.info.trialExpired');
+        ? t('Subscription:info.trialRemaining', { days: subscription.daysRemaining })
+        : t('Subscription:info.trialExpired');
     }
     
     if (subscription.status === SubscriptionStatus.ACTIVE) {
       return subscription.daysRemaining > 0
-        ? t('Subscription:subscription.info.subscriptionRemaining', { days: subscription.daysRemaining })
+        ? t('Subscription:info.subscriptionRemaining', { days: subscription.daysRemaining })
         : '';
     }
     
     if (subscription.status === SubscriptionStatus.EXPIRED) {
-      return t('Subscription:subscription.info.expired');
+      return t('Subscription:info.expired');
     }
     
     return '';
@@ -88,7 +88,7 @@ export const SubscriptionInfo: React.FC = () => {
           </Badge>
         </div>
         <CardDescription>
-          {t(`Subscription:subscription.plan.${subscription.plan}`)}
+          {t(`Subscription:plan.${subscription.plan}`)}
         </CardDescription>
       </CardHeader>
       

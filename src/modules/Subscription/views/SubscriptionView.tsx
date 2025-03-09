@@ -49,7 +49,6 @@ export const SubscriptionView: React.FC = () => {
                 <p className="text-2xl font-bold mt-2">
                   {t('Subscription:plans.pricing.monthly', {
                     price: formatCurrency(49),
-                    currency: '',
                     period: t('Subscription:plans.pricing.period.month')
                   })}
                 </p>
@@ -83,7 +82,6 @@ export const SubscriptionView: React.FC = () => {
                 <p className="text-2xl font-bold mt-2">
                   {t('Subscription:plans.pricing.monthly', {
                     price: formatCurrency(39),
-                    currency: '',
                     period: t('Subscription:plans.pricing.period.month')
                   })}
                 </p>

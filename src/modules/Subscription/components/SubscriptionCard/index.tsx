@@ -67,27 +67,27 @@ export const SubscriptionCard: React.FC = () => {
   // Durum adını getir
   const getStatusText = () => {
     if (subscription.status === SubscriptionStatus.TRIAL && subscription.daysRemaining <= 7) {
-      return t('Subscription:subscription.badge.trialEnding');
+      return t('Subscription:badge.trialEnding');
     }
-    return t(`Subscription:subscription.status.${subscription.status}`);
+    return t(`Subscription:status.${subscription.status}`);
   };
   
   // Bilgi mesajını getir
   const getInfoMessage = () => {
     if (subscription.status === SubscriptionStatus.TRIAL) {
       return subscription.daysRemaining > 0
-        ? t('Subscription:subscription.info.trialRemaining', { days: subscription.daysRemaining })
-        : t('Subscription:subscription.info.trialExpired');
+        ? t('Subscription:info.trialRemaining', { days: subscription.daysRemaining })
+        : t('Subscription:info.trialExpired');
     }
     
     if (subscription.status === SubscriptionStatus.ACTIVE) {
       return subscription.daysRemaining > 0
-        ? t('Subscription:subscription.info.subscriptionRemaining', { days: subscription.daysRemaining })
+        ? t('Subscription:info.subscriptionRemaining', { days: subscription.daysRemaining })
         : '';
     }
     
     if (subscription.status === SubscriptionStatus.EXPIRED) {
-      return t('Subscription:subscription.info.expired');
+      return t('Subscription:info.expired');
     }
     
     return '';
@@ -98,7 +98,7 @@ export const SubscriptionCard: React.FC = () => {
     if (subscription.status === SubscriptionStatus.TRIAL) {
       return (
         <Button className="w-full">
-          {t('Subscription:subscription.actions.upgrade')}
+          {t('Subscription:actions.upgrade')}
         </Button>
       );
     }
@@ -106,7 +106,7 @@ export const SubscriptionCard: React.FC = () => {
     if (subscription.status === SubscriptionStatus.EXPIRED) {
       return (
         <Button className="w-full">
-          {t('Subscription:subscription.actions.renew')}
+          {t('Subscription:actions.renew')}
         </Button>
       );
     }
@@ -114,7 +114,7 @@ export const SubscriptionCard: React.FC = () => {
     if (subscription.status === SubscriptionStatus.ACTIVE) {
       return (
         <Button variant="outline" className="w-full">
-          {t('Subscription:subscription.actions.changePlan')}
+          {t('Subscription:actions.changePlan')}
         </Button>
       );
     }
@@ -135,14 +135,14 @@ export const SubscriptionCard: React.FC = () => {
     <Card className="w-full">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <CardTitle>{t(`Subscription:subscription.plan.${subscription.plan}`)}</CardTitle>
+          <CardTitle>{t(`Subscription:plan.${subscription.plan}`)}</CardTitle>
           <Badge variant={getBadgeVariant()}>
             {getStatusText()}
           </Badge>
         </div>
         <CardDescription>
           {subscription.expiresAt && (
-            t('Subscription:subscription.info.renewalDate', { 
+            t('Subscription:info.renewalDate', { 
               date: formatRenewalDate(subscription.expiresAt) 
             })
           )}
