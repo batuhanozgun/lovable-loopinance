@@ -32,3 +32,33 @@ export const useCategories = () => {
     error: result.error
   };
 };
+
+/**
+ * Tek bir kategori getirmek için hook
+ */
+export const useCategory = (id: string) => {
+  const logger = uiLogger.createSubLogger('CategoryHook');
+
+  const result = useQuery<ICategory, Error>({
+    queryKey: ['category', id],
+    queryFn: async () => {
+      logger.debug('Kategori getiriliyor', { id });
+      const category = await CategoryService.getCategoryById(id);
+      logger.debug('Kategori başarıyla getirildi', { id });
+      return category;
+    },
+    enabled: !!id,
+    meta: {
+      onError: (error: Error) => {
+        logger.error('Kategori getirme hatası', { id, error });
+      }
+    }
+  });
+
+  return {
+    category: result.data,
+    isLoading: result.isLoading,
+    isError: result.isError,
+    error: result.error
+  };
+};

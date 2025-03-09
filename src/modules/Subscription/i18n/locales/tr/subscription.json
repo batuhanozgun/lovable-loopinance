@@ -4,7 +4,7 @@
   "subtitle": "Abonelik planınızı yönetin",
   "trial": {
     "title": "Ücretsiz Deneme",
-    "description": "Şu anda ücretsiz deneme sürümündesiniz",
+    "description": "Şu anda ücretsiz deneme sürecindesiniz",
     "days": "{{count}} gün kaldı",
     "expired": "Deneme süreniz sona erdi"
   },

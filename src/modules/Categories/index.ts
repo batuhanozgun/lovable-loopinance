@@ -17,14 +17,15 @@ export type {
 export { useCategories, useCategory } from './hooks/useCategories';
 export { useCategoryMutations } from './hooks/useCategoryMutations';
 
-// Services
+// Servisler
 export { CategoryService } from './services/category.service';
 
 // Logging
 export {
-  CategoriesLogger,
   categoriesLogger,
+  uiLogger,
   operationsLogger,
   eventsLogger,
-  formsLogger
+  formsLogger,
+  CategoriesLogger
 } from './logging';
