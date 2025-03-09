@@ -17,5 +17,25 @@
   },
   "sort": {
     "failed": "Failed to update category order"
+  },
+  "subcategory": {
+    "create": {
+      "failed": "Failed to create subcategory"
+    },
+    "update": {
+      "failed": "Failed to update subcategory"
+    },
+    "delete": {
+      "failed": "Failed to delete subcategory"
+    },
+    "sort": {
+      "failed": "Failed to update subcategory order"
+    }
+  },
+  "validation": {
+    "duplicateName": "A category with this name already exists",
+    "duplicateSubcategory": "A subcategory with this name already exists in this category",
+    "invalidCategoryId": "Invalid category ID",
+    "invalidSubcategoryId": "Invalid subcategory ID"
   }
 }

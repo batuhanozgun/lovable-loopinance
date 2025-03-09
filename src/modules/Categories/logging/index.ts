@@ -1,19 +1,16 @@
 
 import { createLogger } from '@/modules/Logging';
 
-// Categories modülü için temel logger
-const logger = createLogger('Categories');
+// Ana kategori modülü loggeri
+export const categoriesLogger = createLogger('Categories');
 
-// Alt modüller için logger'lar
-const categoriesLogger = logger.createSubLogger('Categories');
-const operationsLogger = logger.createSubLogger('Operations');
-const eventsLogger = logger.createSubLogger('Events');
-const formsLogger = logger.createSubLogger('Forms');
+// Alt modüller için özelleştirilmiş loggerlar
+export const operationsLogger = categoriesLogger.createSubLogger('Operations');
+export const validationLogger = categoriesLogger.createSubLogger('Validation');
+export const uiLogger = categoriesLogger.createSubLogger('UI');
+export const performanceLogger = categoriesLogger.createSubLogger('Performance');
 
-export {
-  logger as CategoriesLogger,
-  categoriesLogger,
-  operationsLogger,
-  eventsLogger,
-  formsLogger
-};
+// Hizmetler için loggerlar
+export const categoryServiceLogger = operationsLogger.createSubLogger('CategoryService');
+export const categoryQueryLogger = operationsLogger.createSubLogger('Query');
+export const categoryMutationLogger = operationsLogger.createSubLogger('Mutation');

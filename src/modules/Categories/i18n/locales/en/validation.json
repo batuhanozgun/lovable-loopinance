@@ -10,5 +10,11 @@
     "minLength": "Subcategory name must be at least {{count}} characters",
     "maxLength": "Subcategory name cannot exceed {{count}} characters",
     "alreadyExists": "A subcategory with this name already exists in this category"
+  },
+  "categoryIcon": {
+    "invalid": "Invalid icon format"
+  },
+  "sort": {
+    "invalidOrder": "Invalid sort order value"
   }
 }

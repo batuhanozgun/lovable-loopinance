@@ -17,5 +17,25 @@
   },
   "sort": {
     "failed": "Kategori sıralaması güncellenemedi"
+  },
+  "subcategory": {
+    "create": {
+      "failed": "Alt kategori oluşturulamadı"
+    },
+    "update": {
+      "failed": "Alt kategori güncellenemedi"
+    },
+    "delete": {
+      "failed": "Alt kategori silinemedi"
+    },
+    "sort": {
+      "failed": "Alt kategori sıralaması güncellenemedi"
+    }
+  },
+  "validation": {
+    "duplicateName": "Bu isimde bir kategori zaten mevcut",
+    "duplicateSubcategory": "Bu kategoride aynı isimde bir alt kategori zaten mevcut",
+    "invalidCategoryId": "Geçersiz kategori ID'si",
+    "invalidSubcategoryId": "Geçersiz alt kategori ID'si"
   }
 }

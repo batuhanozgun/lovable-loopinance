@@ -10,5 +10,11 @@
     "minLength": "Alt kategori adı en az {{count}} karakter olmalıdır",
     "maxLength": "Alt kategori adı en fazla {{count}} karakter olabilir",
     "alreadyExists": "Bu kategoride bu isimde bir alt kategori zaten mevcut"
+  },
+  "categoryIcon": {
+    "invalid": "Geçersiz ikon formatı"
+  },
+  "sort": {
+    "invalidOrder": "Geçersiz sıralama değeri"
   }
 }
