@@ -44,15 +44,15 @@ export const CategoriesView: React.FC = () => {
   
   return (
     <div className="container mx-auto px-4 py-6">
-      <h1 className="text-2xl font-bold mb-6">{t('categories:title', 'Kategoriler')}</h1>
+      <h1 className="text-2xl font-bold mb-6">{t('Categories:title', 'Kategoriler')}</h1>
       
       <Tabs defaultValue="my-categories" value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="mb-6">
           <TabsTrigger value="my-categories">
-            {t('categories:tabs.myCategories')}
+            {t('Categories:tabs.myCategories')}
           </TabsTrigger>
           <TabsTrigger value="template-library">
-            {t('categories:tabs.templateLibrary')}
+            {t('Categories:tabs.templateLibrary')}
           </TabsTrigger>
         </TabsList>
         
@@ -72,8 +72,8 @@ export const CategoriesView: React.FC = () => {
         
         <TabsContent value="template-library">
           <div className="mb-4">
-            <h2 className="text-xl font-semibold mb-1">{t('categories:template.title')}</h2>
-            <p className="text-muted-foreground">{t('categories:template.description')}</p>
+            <h2 className="text-xl font-semibold mb-1">{t('Categories:template.title')}</h2>
+            <p className="text-muted-foreground">{t('Categories:template.description')}</p>
           </div>
           <CategoryTemplateList />
         </TabsContent>

@@ -55,8 +55,8 @@ export const CategoryTemplateList: React.FC = () => {
   if (!categoryTemplates || categoryTemplates.length === 0) {
     return (
       <div className="text-center p-8">
-        <h3 className="text-lg font-medium">{t('categories:empty.title')}</h3>
-        <p className="text-muted-foreground mt-2">{t('categories:empty.description')}</p>
+        <h3 className="text-lg font-medium">{t('Categories:empty.title')}</h3>
+        <p className="text-muted-foreground mt-2">{t('Categories:empty.description')}</p>
       </div>
     );
   }
