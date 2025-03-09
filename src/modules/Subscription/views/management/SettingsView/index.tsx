@@ -5,7 +5,6 @@ import { useSubscription } from '../../../hooks/useSubscription';
 import { SubscriptionStatus } from '../../../types/ISubscription';
 import { viewsLogger } from '../../../logging';
 import { useToast } from '@/hooks/use-toast';
-import { SettingsSkeleton } from '../shared/components/LoadingSkeleton';
 import { PreferencesCard } from './components/PreferencesCard';
 import { SubscriptionManagementCard } from './components/SubscriptionManagementCard';
 import { CancellationDialog } from './components/CancellationDialog';
@@ -80,10 +79,6 @@ export const SubscriptionSettingsView: React.FC = () => {
       refreshSubscription();
     }, 1000);
   };
-  
-  if (isLoading) {
-    return <SettingsSkeleton />;
-  }
   
   return (
     <div className="container mx-auto p-4 max-w-4xl">
