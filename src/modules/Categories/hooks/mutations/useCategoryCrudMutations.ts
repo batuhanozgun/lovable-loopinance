@@ -2,12 +2,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
-import { createLogger } from '@/modules/Logging';
+import { operationsLogger } from '../../logging';
 import { CategoryManagementService } from '../../services/category.service';
 import { ICategory } from '../../types';
-
-// CRUD işlemleri için logger
-const categoryMutationLogger = createLogger('Categories.Mutations');
 
 /**
  * Kategori CRUD işlemleri için hook
@@ -15,7 +12,7 @@ const categoryMutationLogger = createLogger('Categories.Mutations');
 export const useCategoryCrudMutations = (onSuccess?: () => void) => {
   const { t } = useTranslation(['categories', 'common', 'messages', 'errors']);
   const queryClient = useQueryClient();
-  const logger = categoryMutationLogger.createSubLogger('CategoryCRUD');
+  const logger = operationsLogger.createSubLogger('CategoryCRUD');
 
   // Kategori oluşturma mutasyonu
   const createCategoryMutation = useMutation({

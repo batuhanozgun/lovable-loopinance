@@ -2,12 +2,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
-import { createLogger } from '@/modules/Logging';
+import { operationsLogger } from '../../logging';
 import { ICategoryOrder, ISubCategoryOrder, ICategoryMoveOperation } from '../../types';
 import { CategoryOrganizationService } from '../../services/category.service';
-
-// Sıralama işlemleri için logger
-const categoryMutationLogger = createLogger('Categories.Mutations');
 
 /**
  * Kategori ve alt kategorilerin sıralama mutasyonlarını yöneten hook
@@ -15,7 +12,7 @@ const categoryMutationLogger = createLogger('Categories.Mutations');
 export const useCategoryOrderingMutations = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
   const { t } = useTranslation(['categories', 'common', 'errors']);
-  const logger = categoryMutationLogger.createSubLogger('CategoryOrdering');
+  const logger = operationsLogger.createSubLogger('CategoryOrdering');
   
   // Kategori sıralama mutasyonu
   const updateCategoryOrderMutation = useMutation({

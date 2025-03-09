@@ -1,5 +1,6 @@
 
 import { BaseCategoryService } from './BaseCategoryService';
+import { serviceLogger } from '../logging';
 import type { 
   ISubCategory,
   ICreateSubCategoryData,
@@ -19,7 +20,7 @@ export class SubcategoryService extends BaseCategoryService {
    */
   async createSubCategory(data: ICreateSubCategoryData): Promise<ISubCategory> {
     try {
-      this.logger.debug('Yeni alt kategori oluşturuluyor', { subCategoryData: data });
+      serviceLogger.debug('Yeni alt kategori oluşturuluyor', { subCategoryData: data });
       
       const { data: subCategory, error } = await this.supabaseClient
         .from('sub_categories')
@@ -31,7 +32,7 @@ export class SubcategoryService extends BaseCategoryService {
         return this.handleDbError(error, 'Alt kategori oluşturma', { subCategoryData: data });
       }
       
-      this.logger.debug('Alt kategori başarıyla oluşturuldu', { subCategoryId: subCategory.id });
+      serviceLogger.debug('Alt kategori başarıyla oluşturuldu', { subCategoryId: subCategory.id });
       return subCategory;
     } catch (error) {
       return this.handleDbError(error instanceof Error ? error : new Error('Bilinmeyen hata'), 'Alt kategori oluşturma');
@@ -43,7 +44,7 @@ export class SubcategoryService extends BaseCategoryService {
    */
   async updateSubCategory(id: string, data: IUpdateSubCategoryData): Promise<ISubCategory> {
     try {
-      this.logger.debug('Alt kategori güncelleniyor', { subCategoryId: id, updateData: data });
+      serviceLogger.debug('Alt kategori güncelleniyor', { subCategoryId: id, updateData: data });
       
       const { data: subCategory, error } = await this.supabaseClient
         .from('sub_categories')
@@ -56,7 +57,7 @@ export class SubcategoryService extends BaseCategoryService {
         return this.handleDbError(error, 'Alt kategori güncelleme', { subCategoryId: id, updateData: data });
       }
       
-      this.logger.debug('Alt kategori başarıyla güncellendi', { subCategoryId: id });
+      serviceLogger.debug('Alt kategori başarıyla güncellendi', { subCategoryId: id });
       return subCategory;
     } catch (error) {
       return this.handleDbError(error instanceof Error ? error : new Error('Bilinmeyen hata'), 'Alt kategori güncelleme', { subCategoryId: id });
@@ -68,7 +69,7 @@ export class SubcategoryService extends BaseCategoryService {
    */
   async deleteSubCategory(id: string): Promise<void> {
     try {
-      this.logger.debug('Alt kategori siliniyor', { subCategoryId: id });
+      serviceLogger.debug('Alt kategori siliniyor', { subCategoryId: id });
       
       const { error } = await this.supabaseClient
         .from('sub_categories')
@@ -79,7 +80,7 @@ export class SubcategoryService extends BaseCategoryService {
         return this.handleDbError(error, 'Alt kategori silme', { subCategoryId: id });
       }
       
-      this.logger.debug('Alt kategori başarıyla silindi', { subCategoryId: id });
+      serviceLogger.debug('Alt kategori başarıyla silindi', { subCategoryId: id });
     } catch (error) {
       this.handleDbError(error instanceof Error ? error : new Error('Bilinmeyen hata'), 'Alt kategori silme', { subCategoryId: id });
     }

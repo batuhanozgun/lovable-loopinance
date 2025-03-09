@@ -1,17 +1,14 @@
 
 import { useQuery } from '@tanstack/react-query';
-import { CategoryService } from '../../services/category';
-import { createLogger } from '@/modules/Logging';
+import { CategoryService } from '../../services/category.service';
+import { operationsLogger } from '../../logging';
 import type { ICategory } from '../../types';
-
-// Categories modülü için query logger'ı oluştur
-const categoryQueryLogger = createLogger('Categories.Queries');
 
 /**
  * Kategorileri çekmek için hook
  */
 export const useCategories = () => {
-  const logger = categoryQueryLogger.createSubLogger('CategoriesHook');
+  const logger = operationsLogger.createSubLogger('CategoriesHook');
 
   const result = useQuery<ICategory[], Error>({
     queryKey: ['categories'],
@@ -40,7 +37,7 @@ export const useCategories = () => {
  * Tek bir kategori getirmek için hook
  */
 export const useCategory = (id: string) => {
-  const logger = categoryQueryLogger.createSubLogger('CategoryHook');
+  const logger = operationsLogger.createSubLogger('CategoryHook');
 
   const result = useQuery<ICategory, Error>({
     queryKey: ['category', id],

@@ -3,16 +3,14 @@ import { createLogger } from '@/modules/Logging';
 import { useCategoryCrudMutations } from './useCategoryCrudMutations';
 import { useSubcategoryMutations } from './useSubcategoryMutations';
 import { useCategoryOrderingMutations } from './useCategoryOrderingMutations';
-
-// Kategori mutasyonları için logger
-const categoryMutationLogger = createLogger('Categories.Mutations');
+import { operationsLogger } from '../../logging';
 
 /**
  * Kategori mutasyonları için ana hook
  * Diğer özelleşmiş mutasyon hook'larını birleştirir
  */
 export const useCategoryMutations = () => {
-  const logger = categoryMutationLogger.createSubLogger('CategoryMutations');
+  const logger = operationsLogger.createSubLogger('CategoryMutations');
   
   logger.debug('Kategori mutasyonları hook başlatılıyor');
   
