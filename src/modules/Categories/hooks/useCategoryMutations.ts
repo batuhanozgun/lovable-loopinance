@@ -1,204 +1,240 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { CategoryService } from '../services/category.service';
-import { CATEGORIES_QUERY_KEY } from './useCategories';
-import { operationsLogger } from '../logging';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
+import { CategoryService } from '../services/category';
+import { uiLogger } from '../logging';
 import type { 
   ICreateCategoryData, 
   IUpdateCategoryData,
   ICreateSubCategoryData,
-  IUpdateSubCategoryData,
-  ICategoryMoveOperation
+  IUpdateSubCategoryData
 } from '../types';
 
 /**
- * Kategori mutasyonlarını yönetmek için hook
+ * Kategori mutasyonları için hook
  */
 export const useCategoryMutations = () => {
   const queryClient = useQueryClient();
-  const { toast } = useToast();
-  const { t } = useTranslation(['Categories', 'Messages', 'Errors']);
+  const { t } = useTranslation(['messages', 'errors'], { keyPrefix: 'categories' });
+  const logger = uiLogger.createSubLogger('CategoryMutations');
   
-  // Kategori oluşturma
+  // Tüm kategori verilerini yenileme fonksiyonu
+  const invalidateCategories = () => {
+    queryClient.invalidateQueries({ queryKey: ['categories'] });
+  };
+
+  // Kategori oluşturma mutasyonu
   const createCategory = useMutation({
-    mutationFn: (data: ICreateCategoryData) => CategoryService.createCategory(data),
-    onSuccess: () => {
-      toast({
-        title: t('Messages:create.success'),
-        description: t('Categories:form.categoryName')
-      });
-      queryClient.invalidateQueries({ queryKey: [CATEGORIES_QUERY_KEY] });
+    mutationFn: (data: ICreateCategoryData) => {
+      logger.debug('Kategori oluşturuluyor', { data });
+      return CategoryService.createCategory(data);
     },
-    onError: (error) => {
-      operationsLogger.error('Kategori oluşturma hatası', error);
+    onSuccess: () => {
+      logger.debug('Kategori başarıyla oluşturuldu');
       toast({
-        title: t('Errors:create.failed'),
-        description: error.message,
-        variant: 'destructive'
+        title: t('create.success'),
+        variant: 'default',
+      });
+      invalidateCategories();
+    },
+    onError: (error: Error) => {
+      logger.error('Kategori oluşturma hatası', error);
+      toast({
+        title: t('create.failed', { ns: 'errors' }),
+        variant: 'destructive',
       });
     }
   });
-  
-  // Kategori güncelleme
+
+  // Kategori güncelleme mutasyonu
   const updateCategory = useMutation({
-    mutationFn: ({ id, data }: { id: string; data: IUpdateCategoryData }) => CategoryService.updateCategory(id, data),
-    onSuccess: () => {
-      toast({
-        title: t('Messages:update.success'),
-        description: t('Categories:form.categoryName')
-      });
-      queryClient.invalidateQueries({ queryKey: [CATEGORIES_QUERY_KEY] });
+    mutationFn: ({ id, data }: { id: string, data: IUpdateCategoryData }) => {
+      logger.debug('Kategori güncelleniyor', { id, data });
+      return CategoryService.updateCategory(id, data);
     },
-    onError: (error) => {
-      operationsLogger.error('Kategori güncelleme hatası', error);
+    onSuccess: () => {
+      logger.debug('Kategori başarıyla güncellendi');
       toast({
-        title: t('Errors:update.failed'),
-        description: error.message,
-        variant: 'destructive'
+        title: t('update.success'),
+        variant: 'default',
+      });
+      invalidateCategories();
+    },
+    onError: (error: Error) => {
+      logger.error('Kategori güncelleme hatası', error);
+      toast({
+        title: t('update.failed', { ns: 'errors' }),
+        variant: 'destructive',
       });
     }
   });
-  
-  // Kategori silme
+
+  // Kategori silme mutasyonu
   const deleteCategory = useMutation({
-    mutationFn: (id: string) => CategoryService.deleteCategory(id),
-    onSuccess: () => {
-      toast({
-        title: t('Messages:delete.success'),
-        description: t('Categories:form.categoryName')
-      });
-      queryClient.invalidateQueries({ queryKey: [CATEGORIES_QUERY_KEY] });
+    mutationFn: (id: string) => {
+      logger.debug('Kategori siliniyor', { id });
+      return CategoryService.deleteCategory(id);
     },
-    onError: (error) => {
-      operationsLogger.error('Kategori silme hatası', error);
+    onSuccess: () => {
+      logger.debug('Kategori başarıyla silindi');
       toast({
-        title: t('Errors:delete.failed'),
-        description: error.message,
-        variant: 'destructive'
+        title: t('delete.success'),
+        variant: 'default',
+      });
+      invalidateCategories();
+    },
+    onError: (error: Error) => {
+      logger.error('Kategori silme hatası', error);
+      toast({
+        title: t('delete.failed', { ns: 'errors' }),
+        variant: 'destructive',
       });
     }
   });
-  
-  // Alt kategori oluşturma
+
+  // Alt kategori oluşturma mutasyonu
   const createSubCategory = useMutation({
-    mutationFn: (data: ICreateSubCategoryData) => CategoryService.createSubCategory(data),
-    onSuccess: () => {
-      toast({
-        title: t('Messages:create.success'),
-        description: t('Categories:form.subCategoryName')
-      });
-      queryClient.invalidateQueries({ queryKey: [CATEGORIES_QUERY_KEY] });
+    mutationFn: (data: ICreateSubCategoryData) => {
+      logger.debug('Alt kategori oluşturuluyor', { data });
+      return CategoryService.createSubCategory(data);
     },
-    onError: (error) => {
-      operationsLogger.error('Alt kategori oluşturma hatası', error);
+    onSuccess: () => {
+      logger.debug('Alt kategori başarıyla oluşturuldu');
       toast({
-        title: t('Errors:create.failed'),
-        description: error.message,
-        variant: 'destructive'
+        title: t('subcategory.create.success'),
+        variant: 'default',
+      });
+      invalidateCategories();
+    },
+    onError: (error: Error) => {
+      logger.error('Alt kategori oluşturma hatası', error);
+      toast({
+        title: t('subcategory.create.failed', { ns: 'errors' }),
+        variant: 'destructive',
       });
     }
   });
-  
-  // Alt kategori güncelleme
+
+  // Alt kategori güncelleme mutasyonu
   const updateSubCategory = useMutation({
-    mutationFn: ({ id, data }: { id: string; data: IUpdateSubCategoryData }) => CategoryService.updateSubCategory(id, data),
-    onSuccess: () => {
-      toast({
-        title: t('Messages:update.success'),
-        description: t('Categories:form.subCategoryName')
-      });
-      queryClient.invalidateQueries({ queryKey: [CATEGORIES_QUERY_KEY] });
+    mutationFn: ({ id, data }: { id: string, data: IUpdateSubCategoryData }) => {
+      logger.debug('Alt kategori güncelleniyor', { id, data });
+      return CategoryService.updateSubCategory(id, data);
     },
-    onError: (error) => {
-      operationsLogger.error('Alt kategori güncelleme hatası', error);
+    onSuccess: () => {
+      logger.debug('Alt kategori başarıyla güncellendi');
       toast({
-        title: t('Errors:update.failed'),
-        description: error.message,
-        variant: 'destructive'
+        title: t('subcategory.update.success'),
+        variant: 'default',
+      });
+      invalidateCategories();
+    },
+    onError: (error: Error) => {
+      logger.error('Alt kategori güncelleme hatası', error);
+      toast({
+        title: t('subcategory.update.failed', { ns: 'errors' }),
+        variant: 'destructive',
       });
     }
   });
-  
-  // Alt kategori silme
+
+  // Alt kategori silme mutasyonu
   const deleteSubCategory = useMutation({
-    mutationFn: (id: string) => CategoryService.deleteSubCategory(id),
-    onSuccess: () => {
-      toast({
-        title: t('Messages:delete.success'),
-        description: t('Categories:form.subCategoryName')
-      });
-      queryClient.invalidateQueries({ queryKey: [CATEGORIES_QUERY_KEY] });
+    mutationFn: (id: string) => {
+      logger.debug('Alt kategori siliniyor', { id });
+      return CategoryService.deleteSubCategory(id);
     },
-    onError: (error) => {
-      operationsLogger.error('Alt kategori silme hatası', error);
+    onSuccess: () => {
+      logger.debug('Alt kategori başarıyla silindi');
       toast({
-        title: t('Errors:delete.failed'),
-        description: error.message,
-        variant: 'destructive'
+        title: t('subcategory.delete.success'),
+        variant: 'default',
+      });
+      invalidateCategories();
+    },
+    onError: (error: Error) => {
+      logger.error('Alt kategori silme hatası', error);
+      toast({
+        title: t('subcategory.delete.failed', { ns: 'errors' }),
+        variant: 'destructive',
       });
     }
   });
-  
-  // Kategori sıralamasını güncelleme
+
+  // Kategori sıralamasını güncelleme mutasyonu
   const updateCategoryOrder = useMutation({
-    mutationFn: (categories: { id: string, sort_order: number }[]) => CategoryService.updateCategoryOrder(categories),
-    onSuccess: () => {
-      toast({
-        title: t('Messages:sort.success')
-      });
-      queryClient.invalidateQueries({ queryKey: [CATEGORIES_QUERY_KEY] });
+    mutationFn: (categories: { id: string, sort_order: number }[]) => {
+      logger.debug('Kategori sıralaması güncelleniyor', { count: categories.length });
+      return CategoryService.updateCategoryOrder(categories);
     },
-    onError: (error) => {
-      operationsLogger.error('Kategori sıralama hatası', error);
+    onSuccess: () => {
+      logger.debug('Kategori sıralaması başarıyla güncellendi');
       toast({
-        title: t('Errors:sort.failed'),
-        description: error.message,
-        variant: 'destructive'
+        title: t('sort.success'),
+        variant: 'default',
+      });
+      invalidateCategories();
+    },
+    onError: (error: Error) => {
+      logger.error('Kategori sıralama hatası', error);
+      toast({
+        title: t('sort.failed', { ns: 'errors' }),
+        variant: 'destructive',
       });
     }
   });
-  
-  // Alt kategori sıralamasını güncelleme
+
+  // Alt kategori sıralamasını güncelleme mutasyonu
   const updateSubCategoryOrder = useMutation({
-    mutationFn: (subCategories: { id: string, sort_order: number }[]) => CategoryService.updateSubCategoryOrder(subCategories),
-    onSuccess: () => {
-      toast({
-        title: t('Messages:sort.success')
-      });
-      queryClient.invalidateQueries({ queryKey: [CATEGORIES_QUERY_KEY] });
+    mutationFn: (subCategories: { id: string, sort_order: number }[]) => {
+      logger.debug('Alt kategori sıralaması güncelleniyor', { count: subCategories.length });
+      return CategoryService.updateSubCategoryOrder(subCategories);
     },
-    onError: (error) => {
-      operationsLogger.error('Alt kategori sıralama hatası', error);
+    onSuccess: () => {
+      logger.debug('Alt kategori sıralaması başarıyla güncellendi');
       toast({
-        title: t('Errors:sort.failed'),
-        description: error.message,
-        variant: 'destructive'
+        title: t('subcategory.sort.success'),
+        variant: 'default',
+      });
+      invalidateCategories();
+    },
+    onError: (error: Error) => {
+      logger.error('Alt kategori sıralama hatası', error);
+      toast({
+        title: t('subcategory.sort.failed', { ns: 'errors' }),
+        variant: 'destructive',
       });
     }
   });
-  
-  // Alt kategorileri taşıma
+
+  // Alt kategorileri taşıma mutasyonu
   const moveSubCategories = useMutation({
-    mutationFn: ({ sourceId, targetId, subCategoryIds }: ICategoryMoveOperation) => 
-      CategoryService.moveSubCategories(sourceId, targetId, subCategoryIds),
-    onSuccess: () => {
-      toast({
-        title: t('Messages:move.success')
-      });
-      queryClient.invalidateQueries({ queryKey: [CATEGORIES_QUERY_KEY] });
+    mutationFn: ({ sourceId, targetId, subCategoryIds }: { 
+      sourceId: string, 
+      targetId: string, 
+      subCategoryIds: string[] 
+    }) => {
+      logger.debug('Alt kategoriler taşınıyor', { sourceId, targetId, count: subCategoryIds.length });
+      return CategoryService.moveSubCategories(sourceId, targetId, subCategoryIds);
     },
-    onError: (error) => {
-      operationsLogger.error('Alt kategori taşıma hatası', error);
+    onSuccess: () => {
+      logger.debug('Alt kategoriler başarıyla taşındı');
       toast({
-        title: t('Errors:move.failed'),
-        description: error.message,
-        variant: 'destructive'
+        title: t('move.success'),
+        variant: 'default',
+      });
+      invalidateCategories();
+    },
+    onError: (error: Error) => {
+      logger.error('Alt kategori taşıma hatası', error);
+      toast({
+        title: t('move.failed', { ns: 'errors' }),
+        variant: 'destructive',
       });
     }
   });
-  
+
   return {
     createCategory,
     updateCategory,

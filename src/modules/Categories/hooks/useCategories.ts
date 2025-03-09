@@ -1,62 +1,26 @@
 
 import { useQuery } from '@tanstack/react-query';
-import { CategoryService } from '../services/category.service';
-import { categoriesLogger } from '../logging';
-import type { ICategory } from '../types';
-
-export const CATEGORIES_QUERY_KEY = 'categories';
+import { CategoryService } from '../services/category';
+import { uiLogger } from '../logging';
 
 /**
- * Kategorileri yönetmek için hook
+ * Kategorileri çekmek için hook
  */
 export const useCategories = () => {
-  const {
-    data: categories,
-    isLoading,
-    isError,
-    error,
-    refetch
-  } = useQuery({
-    queryKey: [CATEGORIES_QUERY_KEY],
-    queryFn: () => CategoryService.getAllCategories(),
-    onError: (err) => {
-      categoriesLogger.error('Kategorileri getirme hatası', err);
+  const logger = uiLogger.createSubLogger('CategoriesHook');
+
+  return useQuery({
+    queryKey: ['categories'],
+    queryFn: async () => {
+      logger.debug('Kategoriler getiriliyor');
+      const categories = await CategoryService.getAllCategories();
+      logger.debug('Kategoriler başarıyla getirildi', { count: categories.length });
+      return categories;
+    },
+    meta: {
+      onError: (error: Error) => {
+        logger.error('Kategorileri getirme hatası', error);
+      }
     }
   });
-
-  return {
-    categories: categories || [],
-    isLoading,
-    isError,
-    error,
-    refetch
-  };
-};
-
-/**
- * Belirli bir kategoriyi getirmek için hook
- */
-export const useCategory = (id: string) => {
-  const {
-    data: category,
-    isLoading,
-    isError,
-    error,
-    refetch
-  } = useQuery({
-    queryKey: [CATEGORIES_QUERY_KEY, id],
-    queryFn: () => CategoryService.getCategoryById(id),
-    enabled: !!id,
-    onError: (err) => {
-      categoriesLogger.error('Kategori detayları getirme hatası', err, { categoryId: id });
-    }
-  });
-
-  return {
-    category: category as ICategory,
-    isLoading,
-    isError,
-    error,
-    refetch
-  };
 };

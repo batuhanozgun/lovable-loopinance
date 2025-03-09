@@ -18,5 +18,19 @@
   },
   "sort": {
     "success": "Category order updated"
+  },
+  "subcategory": {
+    "create": {
+      "success": "Subcategory created successfully"
+    },
+    "update": {
+      "success": "Subcategory updated successfully"
+    },
+    "delete": {
+      "success": "Subcategory deleted successfully"
+    },
+    "sort": {
+      "success": "Subcategory order updated successfully"
+    }
   }
 }

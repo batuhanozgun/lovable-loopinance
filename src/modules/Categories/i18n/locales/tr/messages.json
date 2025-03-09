@@ -18,5 +18,19 @@
   },
   "sort": {
     "success": "Kategori sıralaması güncellendi"
+  },
+  "subcategory": {
+    "create": {
+      "success": "Alt kategori başarıyla oluşturuldu"
+    },
+    "update": {
+      "success": "Alt kategori başarıyla güncellendi"
+    },
+    "delete": {
+      "success": "Alt kategori başarıyla silindi"
+    },
+    "sort": {
+      "success": "Alt kategori sıralaması güncellendi"
+    }
   }
 }
