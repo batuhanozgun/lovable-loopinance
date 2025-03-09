@@ -9,8 +9,12 @@ import { useTranslation } from 'react-i18next';
 import { formatDate } from '../../utils/dateUtils';
 import { Skeleton } from '@/components/ui/skeleton';
 
-export const SubscriptionCard: React.FC = () => {
-  const { subscription, isLoading, error } = useSubscription();
+interface SubscriptionCardProps {
+  onActionClick?: () => void;
+}
+
+export const SubscriptionCard: React.FC<SubscriptionCardProps> = ({ onActionClick }) => {
+  const { subscription, isLoading, error, updatePlan } = useSubscription();
   const { t, i18n } = useTranslation(['Subscription', 'common']);
   
   // Yükleniyor gösterimi
@@ -93,11 +97,17 @@ export const SubscriptionCard: React.FC = () => {
     return '';
   };
   
-  // Aksiyon butonunu getir
+  // Aksiyon butonunu getir ve onClick handler ekle
   const getActionButton = () => {
+    const handleButtonClick = () => {
+      if (onActionClick) {
+        onActionClick();
+      }
+    };
+
     if (subscription.status === SubscriptionStatus.TRIAL) {
       return (
-        <Button className="w-full">
+        <Button className="w-full" onClick={handleButtonClick}>
           {t('Subscription:actions.upgrade')}
         </Button>
       );
@@ -105,7 +115,7 @@ export const SubscriptionCard: React.FC = () => {
     
     if (subscription.status === SubscriptionStatus.EXPIRED) {
       return (
-        <Button className="w-full">
+        <Button className="w-full" onClick={handleButtonClick}>
           {t('Subscription:actions.renew')}
         </Button>
       );
@@ -113,7 +123,7 @@ export const SubscriptionCard: React.FC = () => {
     
     if (subscription.status === SubscriptionStatus.ACTIVE) {
       return (
-        <Button variant="outline" className="w-full">
+        <Button variant="outline" className="w-full" onClick={handleButtonClick}>
           {t('Subscription:actions.changePlan')}
         </Button>
       );

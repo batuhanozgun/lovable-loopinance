@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { SubscriptionCard } from '../components/SubscriptionCard';
 import { useTranslation } from 'react-i18next';
 import { viewsLogger } from '../logging';
@@ -12,6 +12,7 @@ import { Check } from 'lucide-react';
 export const SubscriptionView: React.FC = () => {
   const { t, i18n } = useTranslation(['Subscription', 'common']);
   const { subscription, updatePlan, isLoading, isTrial } = useSubscription();
+  const plansRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     viewsLogger.debug(t('Subscription:debug.pageViewed'));
@@ -20,6 +21,14 @@ export const SubscriptionView: React.FC = () => {
   const handleUpgrade = async (planType: SubscriptionPlanType) => {
     viewsLogger.debug(t('Subscription:debug.planUpgradeRequested'), { planType });
     await updatePlan(planType);
+  };
+
+  // Scroll to plans section
+  const scrollToPlans = () => {
+    if (plansRef.current) {
+      plansRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      viewsLogger.debug('Scrolled to plans section');
+    }
   };
 
   // Format currency based on locale
@@ -36,10 +45,10 @@ export const SubscriptionView: React.FC = () => {
       <h1 className="text-2xl font-bold mb-6">{t('Subscription:status.title')}</h1>
       
       <div className="grid gap-6">
-        <SubscriptionCard />
+        <SubscriptionCard onActionClick={scrollToPlans} />
         
         {!isLoading && subscription && ((!subscription.isActive) || isTrial) && (
-          <div className="mt-6">
+          <div className="mt-6" ref={plansRef}>
             <h2 className="text-xl font-semibold mb-4">{t('Subscription:plans.title')}</h2>
             <Separator className="my-4" />
             
