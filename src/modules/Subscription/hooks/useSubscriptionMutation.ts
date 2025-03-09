@@ -1,3 +1,4 @@
+
 import { useCallback } from 'react';
 import { SubscriptionUpdateService } from '../services';
 import { SubscriptionPlanType } from '../types/ISubscription';
@@ -15,9 +16,13 @@ export const useSubscriptionMutation = (onSuccess?: () => void) => {
   const { t } = useTranslation(['Subscription', 'common']);
 
   // Abonelik planını güncelle
-  const updateSubscriptionPlan = useCallback(async (planType: SubscriptionPlanType) => {
+  const updateSubscriptionPlan = useCallback(async (
+    planType: SubscriptionPlanType, 
+    transactionId?: string
+  ) => {
     try {
       if (!userId) {
+        subscriptionLogger.error('Kullanıcı ID bulunamadı', { planType });
         toast({
           title: t('common:error'),
           description: t('Subscription:errors.access.denied'),
@@ -26,9 +31,16 @@ export const useSubscriptionMutation = (onSuccess?: () => void) => {
         return false;
       }
       
-      const response = await SubscriptionUpdateService.updateSubscriptionPlan(userId, planType);
+      subscriptionLogger.debug('Plan güncelleme başlatıldı', { planType, userId });
+      
+      const response = await SubscriptionUpdateService.updateSubscriptionPlan(
+        userId, 
+        planType,
+        transactionId
+      );
       
       if (!response.success) {
+        subscriptionLogger.error('Plan güncellenemedi', { error: response.error, planType });
         toast({
           title: t('common:error'),
           description: t('Subscription:errors.update.planChange'),
@@ -37,9 +49,12 @@ export const useSubscriptionMutation = (onSuccess?: () => void) => {
         return false;
       }
       
+      subscriptionLogger.info('Plan başarıyla güncellendi', { planType });
       toast({
         title: t('common:success'),
-        description: t('Subscription:subscription.plan.' + planType),
+        description: t('Subscription:subscription.plan.updated', { 
+          plan: t(`Subscription:plan.${planType}`) 
+        }, { defaultValue: `${planType} planına başarıyla geçildi` }),
       });
       
       if (onSuccess) {
