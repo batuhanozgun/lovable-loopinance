@@ -7,6 +7,7 @@ import { CheckCircle2 } from 'lucide-react';
 import { useSubscriptionMutation } from '../../../hooks/useSubscriptionMutation';
 import { useToast } from '@/hooks/use-toast';
 import { subscriptionLogger } from '../../../logging';
+import { useSessionUser } from '../../../hooks/useSessionUser';
 
 interface SuccessStepProps {
   selectedPlan: SubscriptionPlanType;
@@ -21,9 +22,11 @@ export const SuccessStep: React.FC<SuccessStepProps> = ({
 }) => {
   const { t } = useTranslation(['Subscription', 'common']);
   const { updatePlan, isUpdating } = useSubscriptionMutation();
+  const { userId, refreshUserSession, isSessionLoading } = useSessionUser();
   const { toast } = useToast();
   const [updateAttempted, setUpdateAttempted] = useState(false);
   const [updateSuccessful, setUpdateSuccessful] = useState(false);
+  const [sessionRetryAttempted, setSessionRetryAttempted] = useState(false);
   
   // Ödeme başarılı olduğunda, abonelik planını güncelle
   useEffect(() => {
@@ -31,23 +34,50 @@ export const SuccessStep: React.FC<SuccessStepProps> = ({
     if (!updateAttempted) {
       const updateSubscription = async () => {
         try {
+          // Oturum kontrolü - userId yoksa oturumu yenilemeyi dene
+          if (!userId && !sessionRetryAttempted) {
+            subscriptionLogger.debug('Oturum bilgisi eksik, yenileniyor');
+            setSessionRetryAttempted(true);
+            await refreshUserSession(true);
+            return; // useEffect tekrar çalışacak
+          }
+          
+          // Kullanıcı bilgisi hala yok ve yenileme denendi, hata göster
+          if (!userId && sessionRetryAttempted) {
+            subscriptionLogger.error('Oturum bilgisi yenileme sonrası da bulunamadı');
+            toast({
+              title: t('common:error'),
+              description: t('Subscription:errors.session.missing'),
+              variant: "destructive",
+            });
+            setUpdateAttempted(true);
+            return;
+          }
+          
           setUpdateAttempted(true);
           subscriptionLogger.debug('Başarılı ödeme sonrası abonelik güncellemesi başlatılıyor', { 
             plan: selectedPlan, 
-            transactionId 
+            transactionId,
+            userId: userId || 'bilinmiyor'
           });
           
           const result = await updatePlan(selectedPlan, transactionId);
           
           if (!result) {
-            subscriptionLogger.error('Abonelik güncellemesi başarısız oldu', { plan: selectedPlan });
+            subscriptionLogger.error('Abonelik güncellemesi başarısız oldu', { 
+              plan: selectedPlan,
+              userId: userId || 'bilinmiyor' 
+            });
             toast({
               title: t('common:error'),
               description: t('Subscription:errors.update.general'),
               variant: "destructive",
             });
           } else {
-            subscriptionLogger.info('Abonelik başarıyla güncellendi', { plan: selectedPlan });
+            subscriptionLogger.info('Abonelik başarıyla güncellendi', { 
+              plan: selectedPlan,
+              userId: userId || 'bilinmiyor'
+            });
             setUpdateSuccessful(true);
           }
         } catch (error) {
@@ -60,13 +90,16 @@ export const SuccessStep: React.FC<SuccessStepProps> = ({
         }
       };
       
-      updateSubscription();
+      if (!isSessionLoading) {
+        updateSubscription();
+      }
     }
-  }, [selectedPlan, updatePlan, toast, t, transactionId, updateAttempted]);
+  }, [selectedPlan, updatePlan, toast, t, transactionId, updateAttempted, 
+      userId, refreshUserSession, sessionRetryAttempted, isSessionLoading]);
   
   // Kullanıcıya gösterilecek buton metnini belirle
   const getButtonText = () => {
-    if (isUpdating) {
+    if (isUpdating || isSessionLoading) {
       return t('Subscription:payment.actions.processing');
     }
     return t('Subscription:payment.actions.done');
@@ -95,7 +128,7 @@ export const SuccessStep: React.FC<SuccessStepProps> = ({
         <Button 
           className="w-full" 
           onClick={onClose}
-          disabled={isUpdating}
+          disabled={isUpdating || isSessionLoading}
         >
           {getButtonText()}
         </Button>

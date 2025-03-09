@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
  * Abonelik planı değişiklikleri için hook
  */
 export const useSubscriptionMutation = (onSuccess?: () => void) => {
-  const { userId, refreshUserSession } = useSessionUser();
+  const { userId, refreshUserSession, isSessionLoading } = useSessionUser();
   const { toast } = useToast();
   const { t } = useTranslation(['Subscription', 'common']);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -24,16 +24,27 @@ export const useSubscriptionMutation = (onSuccess?: () => void) => {
     try {
       setIsUpdating(true);
       
+      // Eğer oturum yükleniyor ise, yükleme tamamlanana kadar bekle
+      if (isSessionLoading) {
+        subscriptionLogger.debug('Oturum bilgisi yükleniyor, bekleniyor');
+        // Kısa bir beklemeden sonra devam et
+        await new Promise(resolve => setTimeout(resolve, 500));
+      }
+      
       if (!userId) {
         // Oturumu yenilemeyi dene
-        await refreshUserSession();
+        subscriptionLogger.debug('Kullanıcı ID bulunamadı, oturum yenileniyor');
+        await refreshUserSession(true);
         
         // Hala userId yoksa hata ver
         if (!userId) {
-          subscriptionLogger.error('Kullanıcı ID bulunamadı', { planType });
+          subscriptionLogger.error('Kullanıcı ID bulunamadı', { 
+            planType,
+            sessionValid: !!userId 
+          });
           toast({
             title: t('common:error'),
-            description: t('Subscription:errors.access.denied'),
+            description: t('Subscription:errors.update.missingUserId'),
             variant: "destructive",
           });
           return false;
@@ -55,7 +66,8 @@ export const useSubscriptionMutation = (onSuccess?: () => void) => {
       if (!response.success) {
         subscriptionLogger.error('Plan güncellenemedi', { 
           error: response.error, 
-          planType 
+          planType,
+          userId
         });
         toast({
           title: t('common:error'),
@@ -86,7 +98,11 @@ export const useSubscriptionMutation = (onSuccess?: () => void) => {
       
       return true;
     } catch (error) {
-      subscriptionLogger.error('Plan güncellenirken hata oluştu', error);
+      subscriptionLogger.error('Plan güncellenirken hata oluştu', {
+        error,
+        errorMessage: error instanceof Error ? error.message : 'Bilinmeyen hata',
+        hasUserId: !!userId
+      });
       toast({
         title: t('common:error'),
         description: t('Subscription:errors.update.general'),
@@ -96,10 +112,10 @@ export const useSubscriptionMutation = (onSuccess?: () => void) => {
     } finally {
       setIsUpdating(false);
     }
-  }, [userId, refreshUserSession, toast, t, onSuccess]);
+  }, [userId, refreshUserSession, toast, t, onSuccess, isSessionLoading]);
 
   return { 
     updatePlan: updateSubscriptionPlan, 
-    isUpdating 
+    isUpdating: isUpdating || isSessionLoading
   };
 };
