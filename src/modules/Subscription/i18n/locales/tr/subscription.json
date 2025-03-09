@@ -2,6 +2,7 @@
 {
   "title": "Abonelik",
   "subtitle": "Abonelik planınızı yönetin",
+  "description": "Abonelik ayarlarınızı kontrol edin ve yönetin",
   "trial": {
     "title": "Ücretsiz Deneme",
     "description": "Şu anda ücretsiz deneme sürecindesiniz",
@@ -16,7 +17,20 @@
     "free": "Ücretsiz Plan",
     "premium": "Premium Plan",
     "enterprise": "Kurumsal Plan",
-    "custom": "Özel Plan"
+    "custom": "Özel Plan",
+    "title": "Plan",
+    "pricing": {
+      "period": {
+        "month": "/ay",
+        "year": "/yıl"
+      }
+    },
+    "features": {
+      "allAccess": "Tüm özelliklere erişim",
+      "unlimitedAccounts": "Sınırsız hesap",
+      "advancedAnalytics": "Gelişmiş analitik",
+      "prioritySupport": "Öncelikli destek"
+    }
   },
   "status": {
     "active": "Aktif",
@@ -33,7 +47,9 @@
     "renew": "Planı Yenile",
     "modify": "Planı Değiştir",
     "activate": "Planı Aktifleştir",
-    "purchase": "Satın Al"
+    "purchase": "Satın Al",
+    "changePlan": "Planı Değiştir",
+    "viewDetails": "Detayları Görüntüle"
   },
   "access": {
     "restricted": {
@@ -55,11 +71,34 @@
     "history": "Fatura Geçmişi",
     "address": "Fatura Adresi",
     "download": "Faturayı İndir",
-    "details": "Fatura Detayları"
+    "details": "Fatura Detayları",
+    "noInvoices": "Mevcut fatura bulunmamaktadır"
+  },
+  "dashboard": {
+    "title": "Abonelik Paneli",
+    "summary": "Abonelik Özeti",
+    "nextBilling": "Sonraki Ödeme",
+    "usage": "Kullanım İstatistikleri",
+    "featuresAccess": "Özellik Erişimi"
+  },
+  "info": {
+    "trialRemaining": "Deneme sürenizde {{days}} gün kaldı",
+    "trialExpired": "Deneme süreniz sona erdi",
+    "subscriptionRemaining": "Bir sonraki yenilemeye {{days}} gün kaldı",
+    "expired": "Aboneliğinizin süresi doldu",
+    "renewalDate": "Yenileme tarihi: {{date}}"
+  },
+  "badge": {
+    "trialEnding": "Deneme Süresi Bitiyor"
   },
   "features": {
     "included": "Dahil Özellikler",
     "excluded": "Dahil Olmayan Özellikler",
     "compare": "Planları Karşılaştır"
+  },
+  "payment": {
+    "confirmation": {
+      "amount": "Tutar"
+    }
   }
 }

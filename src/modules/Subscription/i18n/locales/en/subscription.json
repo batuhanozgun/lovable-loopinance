@@ -2,29 +2,54 @@
 {
   "title": "Subscription",
   "subtitle": "Manage your subscription plan",
+  "description": "Control and manage your subscription settings",
   "trial": {
     "title": "Free Trial",
     "description": "You are currently on a free trial",
     "days": "{{count}} days remaining",
-    "expired": "Your trial has expired"
+    "expired": "Your trial has expired",
+    "info": "Information about your trial period"
   },
   "plans": {
     "monthly": "Monthly Plan",
     "yearly": "Yearly Plan",
-    "trial": "Trial Plan"
+    "trial": "Trial Plan",
+    "free": "Free Plan",
+    "premium": "Premium Plan",
+    "enterprise": "Enterprise Plan",
+    "custom": "Custom Plan",
+    "title": "Plan",
+    "pricing": {
+      "period": {
+        "month": "/month",
+        "year": "/year"
+      }
+    },
+    "features": {
+      "allAccess": "Access to all features",
+      "unlimitedAccounts": "Unlimited accounts",
+      "advancedAnalytics": "Advanced analytics",
+      "prioritySupport": "Priority support"
+    }
   },
   "status": {
     "active": "Active",
     "canceled": "Canceled",
     "expired": "Expired",
-    "trial": "Trial"
+    "trial": "Trial",
+    "pending": "Pending",
+    "error": "Error"
   },
   "actions": {
     "upgrade": "Upgrade Plan",
     "downgrade": "Downgrade Plan",
     "cancel": "Cancel Plan",
     "renew": "Renew Plan",
-    "modify": "Modify Plan"
+    "modify": "Modify Plan",
+    "activate": "Activate Plan",
+    "purchase": "Purchase",
+    "changePlan": "Change Plan",
+    "viewDetails": "View Details"
   },
   "access": {
     "restricted": {
@@ -33,11 +58,47 @@
       "moduleDescription": "The {{moduleName}} module requires a premium subscription.",
       "featureDescription": "The {{feature}} feature requires a premium subscription.",
       "upgrade": "Upgrade your plan to get access to all premium features."
+    },
+    "granted": {
+      "title": "Access Granted",
+      "description": "You have access to this feature."
     }
   },
   "billing": {
     "title": "Billing Information",
     "nextBilling": "Your next billing date is {{date}}",
-    "paymentMethod": "Your payment method is {{method}}"
+    "paymentMethod": "Your payment method is {{method}}",
+    "history": "Billing History",
+    "address": "Billing Address",
+    "download": "Download Invoice",
+    "details": "Billing Details",
+    "noInvoices": "No invoices available"
+  },
+  "dashboard": {
+    "title": "Subscription Dashboard",
+    "summary": "Subscription Summary",
+    "nextBilling": "Next Billing",
+    "usage": "Usage Statistics",
+    "featuresAccess": "Features Access"
+  },
+  "info": {
+    "trialRemaining": "{{days}} days remaining in your trial",
+    "trialExpired": "Your trial period has expired",
+    "subscriptionRemaining": "{{days}} days until next renewal",
+    "expired": "Your subscription has expired",
+    "renewalDate": "Renewal date: {{date}}"
+  },
+  "badge": {
+    "trialEnding": "Trial Ending Soon"
+  },
+  "features": {
+    "included": "Included Features",
+    "excluded": "Not Included Features",
+    "compare": "Compare Plans"
+  },
+  "payment": {
+    "confirmation": {
+      "amount": "Amount"
+    }
   }
 }
