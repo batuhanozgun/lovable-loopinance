@@ -1,6 +1,5 @@
-
 import { useCallback } from 'react';
-import { SubscriptionService } from '../services/SubscriptionService';
+import { SubscriptionUpdateService } from '../services';
 import { SubscriptionPlanType } from '../types/ISubscription';
 import { useSessionUser } from './useSessionUser';
 import { subscriptionLogger } from '../logging';
@@ -27,7 +26,7 @@ export const useSubscriptionMutation = (onSuccess?: () => void) => {
         return false;
       }
       
-      const response = await SubscriptionService.updateSubscriptionPlan(userId, planType);
+      const response = await SubscriptionUpdateService.updateSubscriptionPlan(userId, planType);
       
       if (!response.success) {
         toast({
@@ -43,7 +42,6 @@ export const useSubscriptionMutation = (onSuccess?: () => void) => {
         description: t('Subscription:subscription.plan.' + planType),
       });
       
-      // Başarılı olursa callback çağır
       if (onSuccess) {
         onSuccess();
       }

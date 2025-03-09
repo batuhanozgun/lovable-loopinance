@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useCallback } from 'react';
-import { SubscriptionService } from '../services/SubscriptionService';
+import { SubscriptionSummaryService } from '../services';
 import { ISubscriptionSummary } from '../types/ISubscription';
 import { useSessionUser } from './useSessionUser';
 import { subscriptionLogger } from '../logging';
@@ -29,7 +29,7 @@ export const useSubscriptionQuery = () => {
         return;
       }
       
-      const summary = await SubscriptionService.getSubscriptionSummary(userId);
+      const summary = await SubscriptionSummaryService.getSubscriptionSummary(userId);
       
       if (!summary) {
         setError(t('Subscription:errors.fetch.notFound'));
