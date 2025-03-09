@@ -24,7 +24,8 @@ export const useCategoryTemplateImportMutation = () => {
         toast({
           title: t('categories:messages.template.import.success'),
           description: t('categories:messages.template.import.successDescription', { categoryName: data.name }),
-          variant: 'success',
+          // "success" variant olmadığı için default kullanıyoruz
+          variant: 'default',
         });
         // Kategorileri yeniden yükle
         queryClient.invalidateQueries({ queryKey: ['categories'] });

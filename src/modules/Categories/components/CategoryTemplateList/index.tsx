@@ -11,10 +11,15 @@ export const CategoryTemplateList: React.FC = () => {
   const { t } = useTranslation(['Categories']);
   const { categoryTemplates, isLoading: isLoadingTemplates } = useCategoryTemplates();
   const { categories } = useCategories();
-  const { getCurrentUserID } = useSessionService();
+  const { getCurrentUserID, sessionInitialized } = useSessionService();
   const { importCategoryFromTemplate, isImporting } = useCategoryTemplateImportMutation();
   
   const handleImportCategory = async (templateId: string) => {
+    if (!sessionInitialized) {
+      console.warn('Session not initialized yet');
+      return;
+    }
+    
     const userId = getCurrentUserID();
     if (!userId) {
       console.error('User ID not found');
@@ -24,7 +29,7 @@ export const CategoryTemplateList: React.FC = () => {
     importCategoryFromTemplate({ templateId, userId });
   };
   
-  if (isLoadingTemplates) {
+  if (isLoadingTemplates || !sessionInitialized) {
     return (
       <div className="flex justify-center items-center h-40">
         <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>

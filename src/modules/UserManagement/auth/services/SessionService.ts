@@ -5,6 +5,7 @@ import { ISessionResponse } from "../types/ISessionResponse";
 
 export class SessionService {
   private static logger = LoggerService.getInstance("SessionService");
+  private sessionCache: ISessionResponse | null = null;
 
   /**
    * Get the current user session
@@ -38,6 +39,23 @@ export class SessionService {
         isAuthenticated: false
       };
     }
+  }
+
+  /**
+   * Synchronously get the current session from cache or null
+   * This should only be used after session was already loaded asynchronously
+   */
+  getCurrentSessionSync(): ISessionResponse | null {
+    return this.sessionCache;
+  }
+
+  /**
+   * Initialize the session cache for sync operations
+   */
+  async initSessionCache(): Promise<ISessionResponse> {
+    const session = await SessionService.getCurrentSession();
+    this.sessionCache = session;
+    return session;
   }
 
   /**
