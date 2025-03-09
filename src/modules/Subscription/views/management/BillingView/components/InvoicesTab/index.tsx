@@ -49,7 +49,7 @@ export const InvoicesTab: React.FC = () => {
                 <TableRow key={invoice.id}>
                   <TableCell className="font-medium">{invoice.id}</TableCell>
                   <TableCell>{formatDate(invoice.date)}</TableCell>
-                  <TableCell>{t(`Subscription:plan.${invoice.plan}`)}</TableCell>
+                  <TableCell>{t(`Subscription:plans.${invoice.plan}`)}</TableCell>
                   <TableCell>{invoice.formattedAmount}</TableCell>
                   <TableCell>
                     <Button variant="ghost" size="icon">
