@@ -5,7 +5,7 @@ import { categoriesLogger } from '../logging';
 import { CategoryList } from '../components/CategoryList';
 import { loadTranslations } from '../i18n';
 import { ICategory } from '../types';
-import { useCategoryQueries } from '../hooks/queries/useCategoryQueries';
+import { useCategories } from '../hooks/queries/useCategoryQueries';
 import { useCategoryOrderingMutations } from '../hooks/mutations/useCategoryOrderingMutations';
 
 /**
@@ -17,10 +17,10 @@ export const CategoriesView: React.FC = () => {
   const [categories, setCategories] = useState<ICategory[]>([]);
   
   // Kategorileri getir
-  const { data: categoryData } = useCategoryQueries.useGetAllCategories();
+  const { categories: categoryData, isLoading } = useCategories();
   
   // Sıralama mutation'ını al
-  const { updateCategoryOrder } = useCategoryOrderingMutations.useUpdateCategoryOrder();
+  const { updateCategoryOrder } = useCategoryOrderingMutations();
   
   // Kategorileri state'e kaydet
   useEffect(() => {
@@ -42,11 +42,17 @@ export const CategoriesView: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-6">
       <h1 className="text-2xl font-bold mb-6">{t('categories:title', 'Kategoriler')}</h1>
-      <CategoryList 
-        categories={categories} 
-        setCategories={setCategories} 
-        updateCategoryOrder={updateCategoryOrder}
-      />
+      {isLoading ? (
+        <div className="flex justify-center items-center h-40">
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+        </div>
+      ) : (
+        <CategoryList 
+          categories={categories} 
+          setCategories={setCategories} 
+          updateCategoryOrder={updateCategoryOrder}
+        />
+      )}
     </div>
   );
 };
