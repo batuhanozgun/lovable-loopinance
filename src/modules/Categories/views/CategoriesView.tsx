@@ -1,9 +1,12 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { categoriesLogger } from '../logging';
 import { CategoryList } from '../components/CategoryList';
 import { loadTranslations } from '../i18n';
+import { ICategory } from '../types';
+import { useCategoryQueries } from '../hooks/queries/useCategoryQueries';
+import { useCategoryOrderingMutations } from '../hooks/mutations/useCategoryOrderingMutations';
 
 /**
  * Kategoriler görünümü
@@ -11,6 +14,20 @@ import { loadTranslations } from '../i18n';
  */
 export const CategoriesView: React.FC = () => {
   const { t } = useTranslation(['Categories']);
+  const [categories, setCategories] = useState<ICategory[]>([]);
+  
+  // Kategorileri getir
+  const { data: categoryData } = useCategoryQueries.useGetAllCategories();
+  
+  // Sıralama mutation'ını al
+  const { updateCategoryOrder } = useCategoryOrderingMutations.useUpdateCategoryOrder();
+  
+  // Kategorileri state'e kaydet
+  useEffect(() => {
+    if (categoryData) {
+      setCategories(categoryData);
+    }
+  }, [categoryData]);
   
   // i18n çevirilerini yükle
   useEffect(() => {
@@ -24,7 +41,14 @@ export const CategoriesView: React.FC = () => {
   
   return (
     <div className="container mx-auto px-4 py-6">
-      <CategoryList />
+      <h1 className="text-2xl font-bold mb-6">{t('categories:title', 'Kategoriler')}</h1>
+      <CategoryList 
+        categories={categories} 
+        setCategories={setCategories} 
+        updateCategoryOrder={updateCategoryOrder}
+      />
     </div>
   );
 };
+
+export default CategoriesView;

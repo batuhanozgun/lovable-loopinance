@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
-import { SortableContainer, SortableElement } from 'react-sortable-hoc';
-import arrayMove from 'array-move';
-import { ICategory } from '../../types';
 
-interface SortEndParams {
-  oldIndex: number;
-  newIndex: number;
-}
+import React from 'react';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy
+} from '@dnd-kit/sortable';
+import { ICategory } from '../../types';
+import { SortableItem } from './components/SortableItem';
 
 interface CategoryListProps {
   categories: ICategory[];
@@ -14,44 +24,65 @@ interface CategoryListProps {
   updateCategoryOrder: (data: { id: string; sort_order: number }[]) => void;
 }
 
-const SortableItem = SortableElement(({value}) => <div>{value.name}</div>);
-
-const SortableList = SortableContainer(({items}) => {
-  return (
-    <ul>
-      {items.map((value, index) => (
-        <SortableItem key={`item-${value.id}`} index={index} value={value} />
-      ))}
-    </ul>
-  );
-});
-
 export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCategories, updateCategoryOrder }) => {
-  const handleSortEnd = async ({ oldIndex, newIndex }: SortEndParams) => {
-    if (oldIndex === newIndex) {
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    
+    if (!over || active.id === over.id) {
       return;
     }
 
-    const newItems = arrayMove(categories, oldIndex, newIndex);
-    
-    // Yeni sıralamayı yerel olarak güncelle
-    setCategories(newItems);
-    
-    // Sıralama verilerini hazırla
-    const sortData = newItems.map((category, index) => ({
-      id: category.id,
-      sort_order: index
-    }));
-    
-    try {
-      // API değişikliği düzeltmesi: .mutate() yerine direkt fonksiyon çağrısı kullanıyoruz
-      updateCategoryOrder(sortData);
-    } catch (error) {
-      console.error('Kategori sıralama hatası:', error);
-      // Başarısız olursa orijinal sıralamaya geri dön
-      setCategories(categories);
-    }
+    setCategories((items) => {
+      const oldIndex = items.findIndex(item => item.id === active.id);
+      const newIndex = items.findIndex(item => item.id === over.id);
+      
+      const newItems = arrayMove(items, oldIndex, newIndex);
+      
+      // Sıralama verilerini hazırla
+      const sortData = newItems.map((category, index) => ({
+        id: category.id,
+        sort_order: index
+      }));
+      
+      try {
+        updateCategoryOrder(sortData);
+      } catch (error) {
+        console.error('Kategori sıralama hatası:', error);
+      }
+      
+      return newItems;
+    });
   };
 
-  return <SortableList items={categories} onSortEnd={handleSortEnd} />;
+  if (!categories || categories.length === 0) {
+    return <div className="p-4 text-center text-gray-500">Henüz kategori bulunmuyor.</div>;
+  }
+
+  return (
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
+      <SortableContext
+        items={categories.map(category => category.id)}
+        strategy={verticalListSortingStrategy}
+      >
+        <div className="space-y-2">
+          {categories.map((category) => (
+            <SortableItem key={category.id} category={category} />
+          ))}
+        </div>
+      </SortableContext>
+    </DndContext>
+  );
 };
+
+export default CategoryList;
