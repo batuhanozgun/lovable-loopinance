@@ -9,6 +9,7 @@ const categoryTemplateService = new CategoryTemplateQueryService();
 
 /**
  * Kategori şablonlarını getirmek için hook
+ * Global dil ayarlarını takip eder ve dil değiştiğinde şablonları yeniden yükler
  */
 export const useCategoryTemplates = (options?: Partial<ITemplateViewOptions>) => {
   const { i18n } = useTranslation();
@@ -20,6 +21,7 @@ export const useCategoryTemplates = (options?: Partial<ITemplateViewOptions>) =>
       : DEFAULT_LANGUAGE_SETTINGS.defaultLanguage;
   };
   
+  // Global dil tercihini kullan, sadece geçerli bir dil tipi olduğundan emin ol
   const language = getSafeLanguage(options?.language || i18n.language);
 
   const { data, isLoading, error } = useQuery({
@@ -38,6 +40,7 @@ export const useCategoryTemplates = (options?: Partial<ITemplateViewOptions>) =>
 
 /**
  * Belirli bir kategori şablonunu ID'ye göre getirmek için hook
+ * Global dil ayarlarını takip eder ve dil değiştiğinde şablonu yeniden yükler
  */
 export const useCategoryTemplateById = (id: string, options?: Partial<ITemplateViewOptions>) => {
   const { i18n } = useTranslation();
@@ -49,6 +52,7 @@ export const useCategoryTemplateById = (id: string, options?: Partial<ITemplateV
       : DEFAULT_LANGUAGE_SETTINGS.defaultLanguage;
   };
   
+  // Global dil tercihini kullan, sadece geçerli bir dil tipi olduğundan emin ol
   const language = getSafeLanguage(options?.language || i18n.language);
 
   const { data, isLoading, error } = useQuery({
