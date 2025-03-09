@@ -9,7 +9,9 @@
     "planChange": "Failed to change subscription plan",
     "invalidData": "Invalid subscription data",
     "missingUserId": "User information not found",
-    "databaseError": "Database error: Cannot update subscription"
+    "databaseError": "Database error: Cannot update subscription",
+    "subscriptionNotFound": "Subscription to update not found",
+    "invalidPlanType": "Invalid subscription plan type"
   },
   "access": {
     "denied": "You do not have access to this feature",
@@ -19,5 +21,10 @@
     "error": "Could not retrieve session information",
     "missing": "Session not found",
     "invalid": "Invalid session"
+  },
+  "repository": {
+    "createFailed": "Failed to create subscription record",
+    "updateFailed": "Failed to update subscription record",
+    "dataError": "Data processing error"
   }
 }

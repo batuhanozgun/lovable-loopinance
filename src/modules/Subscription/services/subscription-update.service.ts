@@ -1,68 +1,15 @@
 
-import { supabase } from "@/integrations/supabase/client";
 import { SubscriptionPlanType, SubscriptionStatus } from "../types/ISubscription";
 import { IUpdateSubscriptionResponse } from "../types/ISubscriptionResponse";
 import { subscriptionLogger } from "../logging";
 import { SubscriptionQueryService } from "./subscription-query.service";
-import { SubscriptionMapperService } from "./subscription-mapper.service";
-import { Database } from "@/integrations/supabase/types";
-
-// Supabase'den plan tipi ve durumu için tip tanımları
-type SupabasePlanType = Database["public"]["Enums"]["subscription_plan_type"];
-type SupabaseStatus = Database["public"]["Enums"]["subscription_status"];
-
-/**
- * Abonelik plan güncellemesinde kullanılan veri yapısı
- * (Supabase veritabanı tipleriyle uyumlu)
- */
-interface SubscriptionUpdateData {
-  plan_type: SupabasePlanType;
-  status?: SupabaseStatus;
-  updated_at: string;
-  current_period_starts_at?: string | null;
-  current_period_ends_at?: string | null;
-  trial_ends_at?: string | null;
-}
-
-/**
- * Abonelik ekleme işleminde kullanılan veri yapısı
- */
-interface SubscriptionInsertData extends SubscriptionUpdateData {
-  user_id: string;
-}
-
-/**
- * Uygulama enum'larını Supabase string literal tiplerine dönüştüren yardımcı fonksiyonlar
- */
-const mapPlanTypeToSupabase = (planType: SubscriptionPlanType): SupabasePlanType => {
-  switch (planType) {
-    case SubscriptionPlanType.TRIAL:
-      return 'trial';
-    case SubscriptionPlanType.MONTHLY:
-      return 'monthly';
-    case SubscriptionPlanType.YEARLY:
-      return 'yearly';
-    default:
-      subscriptionLogger.error('Bilinmeyen plan tipi', { planType });
-      return 'trial'; // Varsayılan olarak trial döndür
-  }
-};
-
-const mapStatusToSupabase = (status: SubscriptionStatus): SupabaseStatus => {
-  switch (status) {
-    case SubscriptionStatus.TRIAL:
-      return 'trial';
-    case SubscriptionStatus.ACTIVE:
-      return 'active';
-    case SubscriptionStatus.EXPIRED:
-      return 'expired';
-    case SubscriptionStatus.CANCELED:
-      return 'cancelled'; // Dikkat: Enum değeri 'CANCELED' iken Supabase'de 'cancelled'
-    default:
-      subscriptionLogger.error('Bilinmeyen durum', { status });
-      return 'trial'; // Varsayılan olarak trial döndür
-  }
-};
+import { SubscriptionDateService } from "./subscription-date.service";
+import { SubscriptionStatusService } from "./subscription-status.service";
+import { 
+  SubscriptionRepositoryService, 
+  SubscriptionUpdateData, 
+  SubscriptionInsertData 
+} from "./subscription-repository.service";
 
 /**
  * Abonelik güncelleme işlemlerini yöneten servis
@@ -82,41 +29,24 @@ export class SubscriptionUpdateService {
       // Kullanıcının mevcut aboneliğini getir
       const currentSubscription = await SubscriptionQueryService.getUserSubscription(userId);
       
-      // Tarih hesaplamaları için şimdiki zaman
-      const now = new Date();
+      // Şimdiki zaman
+      const now = SubscriptionDateService.getCurrentDate();
       
       // Plan tipini Supabase formatına dönüştür
-      const supabasePlanType = mapPlanTypeToSupabase(planType);
+      const supabasePlanType = SubscriptionStatusService.mapPlanTypeToSupabase(planType);
       
-      // Tip güvenliği için başlangıç ​​updateData nesnesi
+      // Temel güncelleme verilerini hazırla
       const updateData: SubscriptionUpdateData = {
         plan_type: supabasePlanType,
         updated_at: now.toISOString()
       };
       
-      // Yeni bitiş tarihini hesapla
-      let periodEndDate: Date;
+      // Plan tipine göre bitiş tarihini hesapla
+      const periodEndDate = SubscriptionDateService.calculatePeriodEndDate(planType, now);
       
-      if (planType === SubscriptionPlanType.MONTHLY) {
-        // Aylık plan için 30 gün ekle
-        periodEndDate = new Date(now);
-        periodEndDate.setDate(periodEndDate.getDate() + 30);
-      } else if (planType === SubscriptionPlanType.YEARLY) {
-        // Yıllık plan için 365 gün ekle
-        periodEndDate = new Date(now);
-        periodEndDate.setDate(periodEndDate.getDate() + 365);
-      } else if (currentSubscription.success && currentSubscription.subscription) {
-        // Deneme planı için mevcut trial_ends_at kullan
-        periodEndDate = currentSubscription.subscription.trial_ends_at || now;
-      } else {
-        // Hiç kayıt yoksa ve deneme planı ise, 14 günlük deneme süresi ver
-        periodEndDate = new Date(now);
-        periodEndDate.setDate(periodEndDate.getDate() + 14);
-      }
-      
-      // Trial'dan ücretli plana geçiş veya ücretli plan güncelleme
+      // Ücretli planlarda durum ve tarih bilgilerini ayarla
       if (planType !== SubscriptionPlanType.TRIAL) {
-        updateData.status = mapStatusToSupabase(SubscriptionStatus.ACTIVE);
+        updateData.status = SubscriptionStatusService.mapStatusToSupabase(SubscriptionStatus.ACTIVE);
         updateData.current_period_starts_at = now.toISOString();
         updateData.current_period_ends_at = periodEndDate.toISOString();
         
@@ -139,23 +69,18 @@ export class SubscriptionUpdateService {
       // Abonelik kaydı varsa güncelle, yoksa yeni kayıt oluştur
       if (currentSubscription.success && currentSubscription.subscription) {
         // Mevcut kaydı güncelle
-        result = await supabase
-          .from('subscriptions')
-          .update(updateData)
-          .eq('user_id', userId)
-          .select('*')
-          .single();
+        result = await SubscriptionRepositoryService.updateSubscription(userId, updateData);
       } else {
-        // Yeni kayıt oluştur
-        subscriptionLogger.info('Abonelik kaydı bulunamadı, yeni kayıt oluşturuluyor', { userId });
+        // Yeni kayıt için veri hazırla
+        const trialStartDate = new Date(now);
+        const trialEndDate = SubscriptionDateService.calculateTrialEndDate(trialStartDate);
         
-        // Insert işlemi için veri hazırla
+        // Deneme süresi için başlangıç ve bitiş tarihleri
         const insertData: SubscriptionInsertData = {
           ...updateData,
           user_id: userId,
-          // Deneme süresi için başlangıç ve bitiş tarihleri
-          trial_starts_at: now.toISOString(),
-          trial_ends_at: periodEndDate.toISOString(),
+          trial_starts_at: trialStartDate.toISOString(),
+          trial_ends_at: trialEndDate.toISOString()
         };
         
         // Status değeri tanımlanmamış ise, deneme süresi olarak ayarla
@@ -164,40 +89,24 @@ export class SubscriptionUpdateService {
         }
         
         // Yeni kayıt ekle
-        result = await supabase
-          .from('subscriptions')
-          .insert(insertData)
-          .select('*')
-          .single();
+        result = await SubscriptionRepositoryService.createSubscription(insertData);
       }
       
-      // Sonucu kontrol et
-      const { data, error } = result;
-      
-      if (error) {
-        subscriptionLogger.error('Abonelik güncellenirken Supabase hatası oluştu', {
-          error, 
-          userId,
-          errorMessage: error.message,
-          errorCode: error.code,
-          details: error.details,
-          hint: error.hint
-        });
+      // İşlem sonucunu kontrol et
+      if (result.error) {
         return {
           success: false,
-          error: `${error.message} (Hata kodu: ${error.code})`
+          error: result.error
         };
       }
       
-      if (!data) {
-        subscriptionLogger.error('Abonelik güncelleme sonucu boş', { userId });
+      if (!result.data) {
         return {
           success: false,
-          error: 'Güncelleme sonucu boş veri döndü'
+          error: 'İşlem sonucunda veri döndürülemedi'
         };
       }
       
-      const updatedSubscription = SubscriptionMapperService.mapDbResponseToSubscription(data);
       subscriptionLogger.info('Abonelik planı başarıyla güncellendi', { 
         userId, 
         newPlan: planType,
@@ -208,7 +117,7 @@ export class SubscriptionUpdateService {
       return {
         success: true,
         updated: true,
-        subscription: updatedSubscription
+        subscription: result.data
       };
     } catch (error) {
       subscriptionLogger.error('Abonelik planı güncellenirken beklenmeyen hata', {
@@ -216,6 +125,7 @@ export class SubscriptionUpdateService {
         errorMessage: error instanceof Error ? error.message : 'Bilinmeyen hata',
         userId
       });
+      
       return {
         success: false,
         error: error instanceof Error 

@@ -1,9 +1,17 @@
 
-// Tüm abonelik servislerini dışa aktar
+// Abonelik servislerini dışa aktar
 export { SubscriptionQueryService } from './subscription-query.service';
 export { SubscriptionSummaryService } from './subscription-summary.service';
 export { SubscriptionUpdateService } from './subscription-update.service';
 export { SubscriptionMapperService } from './subscription-mapper.service';
+export { SubscriptionDateService } from './subscription-date.service';
+export { SubscriptionStatusService } from './subscription-status.service';
+export { SubscriptionRepositoryService } from './subscription-repository.service';
+export type { 
+  SubscriptionBaseData,
+  SubscriptionUpdateData,
+  SubscriptionInsertData 
+} from './subscription-repository.service';
 
 // İşlevsel uyumluluk için eski servis sınıfını da oluştur
 import { SubscriptionQueryService } from './subscription-query.service';

@@ -9,7 +9,9 @@
     "planChange": "Abonelik planı değiştirilemedi",
     "invalidData": "Abonelik verileri geçersiz",
     "missingUserId": "Kullanıcı bilgisi bulunamadı",
-    "databaseError": "Veritabanı hatası: Abonelik güncellenemiyor"
+    "databaseError": "Veritabanı hatası: Abonelik güncellenemiyor",
+    "subscriptionNotFound": "Güncellenecek abonelik bulunamadı",
+    "invalidPlanType": "Geçersiz abonelik planı"
   },
   "access": {
     "denied": "Bu özelliğe erişiminiz yok",
@@ -19,5 +21,10 @@
     "error": "Oturum bilgisi alınamadı",
     "missing": "Oturum bulunamadı",
     "invalid": "Geçersiz oturum"
+  },
+  "repository": {
+    "createFailed": "Abonelik kaydı oluşturulamadı",
+    "updateFailed": "Abonelik kaydı güncellenemedi",
+    "dataError": "Veri işleme hatası"
   }
 }
