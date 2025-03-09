@@ -19,12 +19,16 @@ export const useSubscription = () => {
   const { updatePlan } = useSubscriptionMutation(refreshSubscription);
   const { isFeatureAccessible } = useFeatureAccess();
 
+  // Aboneliğin deneme süresi olup olmadığını kontrol et
+  const isTrial = subscription?.isTrial || false;
+
   return {
     isLoading,
     error,
     subscription,
     refreshSubscription,
     updatePlan,
-    isFeatureAccessible
+    isFeatureAccessible,
+    isTrial
   };
 };

@@ -17,8 +17,13 @@ export const useFeatureAccess = () => {
     // Abonelik bilgisi yoksa erişime izin ver (güvenli mod)
     if (!subscription) return true;
     
-    // Eğer abonelik aktifse erişime izin ver
-    if (subscription.isActive) {
+    // Eğer abonelik aktifse ve deneme süresi değilse erişime izin ver
+    if (subscription.isActive && !subscription.isTrial) {
+      return true;
+    }
+    
+    // Eğer deneme süresi ise ve süresi dolmadıysa erişime izin ver
+    if (subscription.isTrial && subscription.isActive) {
       return true;
     }
     

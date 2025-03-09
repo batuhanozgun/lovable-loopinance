@@ -82,6 +82,7 @@ export class SubscriptionService {
       let expiresAt: Date | null = null;
       let daysRemaining = 0;
       let isActive = false;
+      let isTrial = subscription.status === SubscriptionStatus.TRIAL;
       
       // Abonelik durumuna göre hesaplama yap
       if (subscription.status === SubscriptionStatus.TRIAL && subscription.trial_ends_at) {
@@ -99,6 +100,7 @@ export class SubscriptionService {
         plan: subscription.plan_type,
         daysRemaining,
         isActive,
+        isTrial,
         expiresAt
       };
     } catch (error) {

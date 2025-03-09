@@ -17,7 +17,7 @@ export const useTrialStatus = () => {
       };
     }
     
-    const isTrial = subscription.status === SubscriptionStatus.TRIAL;
+    const isTrial = subscription.isTrial;
     const daysRemaining = subscription.daysRemaining;
     const isEnding = isTrial && daysRemaining > 0 && daysRemaining <= 7; // Son 7 gün
     const hasExpired = isTrial && daysRemaining <= 0;

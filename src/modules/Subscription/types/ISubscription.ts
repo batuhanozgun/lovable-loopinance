@@ -30,5 +30,6 @@ export interface ISubscriptionSummary {
   plan: SubscriptionPlanType;
   daysRemaining: number;
   isActive: boolean;
+  isTrial: boolean; // Yeni eklenen alan
   expiresAt: Date | null;
 }

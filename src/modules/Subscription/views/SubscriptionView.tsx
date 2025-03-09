@@ -10,7 +10,7 @@ import { Separator } from '@/components/ui/separator';
 
 export const SubscriptionView: React.FC = () => {
   const { t } = useTranslation(['Subscription', 'common']);
-  const { subscription, updatePlan, isLoading } = useSubscription();
+  const { subscription, updatePlan, isLoading, isTrial } = useSubscription();
   
   useEffect(() => {
     viewsLogger.debug('Abonelik sayfası görüntülendi');
@@ -28,7 +28,7 @@ export const SubscriptionView: React.FC = () => {
       <div className="grid gap-6">
         <SubscriptionCard />
         
-        {!isLoading && subscription && !subscription.isActive && (
+        {!isLoading && subscription && ((!subscription.isActive) || isTrial) && (
           <div className="mt-6">
             <h2 className="text-xl font-semibold mb-4">{t('Subscription:plans.title')}</h2>
             <Separator className="my-4" />
@@ -52,7 +52,7 @@ export const SubscriptionView: React.FC = () => {
                   className="w-full mt-6" 
                   onClick={() => handleUpgrade(SubscriptionPlanType.MONTHLY)}
                 >
-                  {t('Subscription:actions.subscribe')}
+                  {isTrial ? t('Subscription:actions.upgrade') : t('Subscription:actions.subscribe')}
                 </Button>
               </div>
               
@@ -81,7 +81,7 @@ export const SubscriptionView: React.FC = () => {
                   variant="gradient"
                   onClick={() => handleUpgrade(SubscriptionPlanType.YEARLY)}
                 >
-                  {t('Subscription:actions.subscribe')}
+                  {isTrial ? t('Subscription:actions.upgrade') : t('Subscription:actions.subscribe')}
                 </Button>
               </div>
             </div>
