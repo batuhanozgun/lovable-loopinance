@@ -13,7 +13,9 @@
     "subscriptionNotFound": "Güncellenecek abonelik bulunamadı",
     "invalidPlanType": "Geçersiz abonelik planı",
     "upsertFailed": "Abonelik kaydı oluşturulamadı veya güncellenemedi",
-    "tryAgain": "Lütfen tekrar deneyin, sistem geçici bir hata ile karşılaştı"
+    "tryAgain": "Lütfen tekrar deneyin, sistem geçici bir hata ile karşılaştı",
+    "permissionDenied": "Erişim engellendi: Bu abonelik işlemini yapmaya yetkiniz yok",
+    "rlsViolation": "Güvenlik politikası ihlali: Bu işlem için yetkiniz yok"
   },
   "access": {
     "denied": "Bu özelliğe erişiminiz yok",
@@ -29,6 +31,7 @@
     "createFailed": "Abonelik kaydı oluşturulamadı",
     "updateFailed": "Abonelik kaydı güncellenemedi",
     "dataError": "Veri işleme hatası",
-    "upsertFailed": "Abonelik veritabanı kaydı oluşturulamadı veya güncellenemedi"
+    "upsertFailed": "Abonelik veritabanı kaydı oluşturulamadı veya güncellenemedi",
+    "permissionDenied": "Yetki hatası: Bu veritabanı işlemi için yetkiniz yok"
   }
 }

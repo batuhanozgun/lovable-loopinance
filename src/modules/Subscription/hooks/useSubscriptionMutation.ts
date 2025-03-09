@@ -71,6 +71,17 @@ export const useSubscriptionMutation = (onSuccess?: () => void) => {
           userId
         });
         
+        // RLS politika ihlali hatalarını localize et
+        if (response.error && (
+            response.error.includes('errors.update.rlsViolation') || 
+            response.error.includes('errors.repository.permissionDenied')
+        )) {
+          return {
+            success: false,
+            error: t('Subscription:errors.update.permissionDenied')
+          };
+        }
+        
         // 406 hatası için özel mesaj
         if (response.error?.includes('406')) {
           subscriptionLogger.warn('406 hatası alındı, geçici bir veritabanı hatası olabilir');

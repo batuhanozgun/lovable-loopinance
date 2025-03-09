@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
@@ -30,21 +29,17 @@ export const SuccessStep: React.FC<SuccessStepProps> = ({
   const [sessionRetryAttempted, setSessionRetryAttempted] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
   
-  // Ödeme başarılı olduğunda, abonelik planını güncelle
   useEffect(() => {
-    // Güncelleme işleminin yalnızca bir kez denenmesini sağla
     if (!updateAttempted) {
       const updateSubscription = async () => {
         try {
-          // Oturum kontrolü - userId yoksa oturumu yenilemeyi dene
           if (!userId && !sessionRetryAttempted) {
             subscriptionLogger.debug('Oturum bilgisi eksik, yenileniyor');
             setSessionRetryAttempted(true);
             await refreshUserSession(true);
-            return; // useEffect tekrar çalışacak
+            return;
           }
           
-          // Kullanıcı bilgisi hala yok ve yenileme denendi, hata göster
           if (!userId && sessionRetryAttempted) {
             const errorMsg = t('Subscription:errors.session.missing');
             subscriptionLogger.error('Oturum bilgisi yenileme sonrası da bulunamadı');
@@ -69,14 +64,22 @@ export const SuccessStep: React.FC<SuccessStepProps> = ({
           const result = await updatePlan(selectedPlan, transactionId);
           
           if (!result.success) {
-            const errorMsg = result.error || t('Subscription:errors.update.general');
+            let errorMsg = result.error || t('Subscription:errors.update.general');
             let shouldRetry = false;
             
-            // 406 Not Acceptable hatasını algıla ve tekrar deneme yap
+            if (errorMsg.includes('errors.update.rlsViolation') || 
+                errorMsg.includes('errors.repository.permissionDenied') ||
+                errorMsg.includes('42501')) {
+              errorMsg = t('Subscription:errors.update.permissionDenied');
+              subscriptionLogger.warn('RLS ihlali tespit edildi, kullanıcı dostu mesaj gösteriliyor', {
+                originalError: result.error
+              });
+            }
+            
             if (errorMsg.includes('406') && retryCount < 2) {
               shouldRetry = true;
               setRetryCount(prev => prev + 1);
-              setUpdateAttempted(false); // Tekrar deneme için bayrağı sıfırla
+              setUpdateAttempted(false);
               
               subscriptionLogger.warn('406 hatası alındı, abonelik güncellemesi tekrar denenecek', {
                 plan: selectedPlan,
@@ -84,7 +87,6 @@ export const SuccessStep: React.FC<SuccessStepProps> = ({
                 nextRetryCount: retryCount + 1
               });
               
-              // Kısa bir beklemeden sonra tekrar dene
               setTimeout(() => {
                 setUpdateAttempted(false);
               }, 800);
@@ -114,7 +116,7 @@ export const SuccessStep: React.FC<SuccessStepProps> = ({
               retryCount
             });
             setUpdateSuccessful(true);
-            setRetryCount(0); // Başarılı olduğunda sayacı sıfırla
+            setRetryCount(0);
             toast({
               title: t('common:success'),
               description: t('Subscription:subscription.plan.updated', { 
@@ -144,7 +146,6 @@ export const SuccessStep: React.FC<SuccessStepProps> = ({
   }, [selectedPlan, updatePlan, toast, t, transactionId, updateAttempted, 
       userId, refreshUserSession, sessionRetryAttempted, isSessionLoading, retryCount]);
   
-  // Kullanıcıya gösterilecek buton metnini belirle
   const getButtonText = () => {
     if (isUpdating || isSessionLoading) {
       return t('Subscription:payment.actions.processing');

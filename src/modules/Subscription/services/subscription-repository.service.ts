@@ -57,6 +57,20 @@ export class SubscriptionRepositoryService {
         .single();
       
       if (result.error) {
+        // Güvenlik politikası hatalarını kontrol et
+        if (result.error.code === '42501') {
+          subscriptionLogger.error('Abonelik güncellenirken erişim engellendi (RLS ihlali)', {
+            error: result.error, 
+            userId,
+            errorCode: result.error.code
+          });
+          
+          return {
+            data: null,
+            error: 'errors.update.permissionDenied'
+          };
+        }
+        
         subscriptionLogger.error('Abonelik güncellenirken Supabase hatası oluştu', {
           error: result.error, 
           userId,
@@ -109,6 +123,20 @@ export class SubscriptionRepositoryService {
         .single();
       
       if (result.error) {
+        // Güvenlik politikası hatalarını kontrol et
+        if (result.error.code === '42501') {
+          subscriptionLogger.error('Abonelik oluşturulurken erişim engellendi (RLS ihlali)', {
+            error: result.error,
+            userId: insertData.user_id,
+            errorCode: result.error.code
+          });
+          
+          return {
+            data: null,
+            error: 'errors.repository.permissionDenied'
+          };
+        }
+        
         subscriptionLogger.error('Abonelik oluşturulurken Supabase hatası oluştu', {
           error: result.error,
           userId: insertData.user_id,
@@ -168,6 +196,20 @@ export class SubscriptionRepositoryService {
         .maybeSingle();
       
       if (result.error) {
+        // Güvenlik politikası hatalarını kontrol et
+        if (result.error.code === '42501') {
+          subscriptionLogger.error('Abonelik upsert işleminde erişim engellendi (RLS ihlali)', {
+            error: result.error, 
+            userId: upsertData.user_id,
+            errorCode: result.error.code
+          });
+          
+          return {
+            data: null,
+            error: 'errors.update.rlsViolation'
+          };
+        }
+        
         subscriptionLogger.error('Abonelik upsert işleminde Supabase hatası oluştu', {
           error: result.error, 
           userId: upsertData.user_id,

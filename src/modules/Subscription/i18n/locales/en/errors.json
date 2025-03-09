@@ -13,7 +13,9 @@
     "subscriptionNotFound": "Subscription to update not found",
     "invalidPlanType": "Invalid subscription plan type",
     "upsertFailed": "Failed to create or update subscription record",
-    "tryAgain": "Please try again, the system encountered a temporary error"
+    "tryAgain": "Please try again, the system encountered a temporary error",
+    "permissionDenied": "Access denied: You don't have permission for this subscription operation",
+    "rlsViolation": "Security policy violation: You don't have permission for this operation"
   },
   "access": {
     "denied": "You do not have access to this feature",
@@ -29,6 +31,7 @@
     "createFailed": "Failed to create subscription record",
     "updateFailed": "Failed to update subscription record",
     "dataError": "Data processing error",
-    "upsertFailed": "Failed to create or update subscription database record"
+    "upsertFailed": "Failed to create or update subscription database record",
+    "permissionDenied": "Permission error: You don't have permission for this database operation"
   }
 }
