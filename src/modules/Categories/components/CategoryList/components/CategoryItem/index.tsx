@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useCategoryMutations } from '../../hooks/useCategoryMutations';
-import { eventsLogger } from '../../logging';
-import { BadgePlus, Edit, Trash, MoreVertical, MoveVertical } from 'lucide-react';
+import { useCategoryMutations } from '../../../../hooks/useCategoryMutations';
+import { eventsLogger } from '../../../../logging';
+import { BadgePlus, Edit, Trash, MoreVertical } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { SubCategoryList } from './SubCategoryList';
+import { SubCategoryList } from '../SubCategoryList';
 import { AccessRestrictedDialog } from '@/modules/Subscription/components/AccessRestrictedDialog';
-import type { ICategory } from '../../types';
+import type { ICategory } from '../../../../types';
 
 interface CategoryItemProps {
   category: ICategory;
@@ -134,3 +134,5 @@ export const CategoryItem: React.FC<CategoryItemProps> = ({ category, isSubscrip
     </Card>
   );
 };
+
+export default CategoryItem;

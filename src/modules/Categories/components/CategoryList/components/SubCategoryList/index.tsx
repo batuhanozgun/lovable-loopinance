@@ -2,11 +2,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
-import { useCategoryMutations } from '../../hooks/useCategoryMutations';
-import { eventsLogger } from '../../logging';
+import { useCategoryMutations } from '../../../../hooks/useCategoryMutations';
+import { eventsLogger } from '../../../../logging';
 import { Edit, Trash, MoreVertical } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import type { ISubCategory } from '../../types';
+import type { ISubCategory } from '../../../../types';
 
 interface SubCategoryListProps {
   categoryId: string;
@@ -64,3 +64,5 @@ export const SubCategoryList: React.FC<SubCategoryListProps> = ({ categoryId, su
     </div>
   );
 };
+
+export default SubCategoryList;

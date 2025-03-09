@@ -5,11 +5,11 @@ import { useCategories } from '../../hooks/useCategories';
 import { useCategoryMutations } from '../../hooks/useCategoryMutations';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Loader2, Plus } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { useSubscription } from '@/modules/Subscription/hooks/useSubscription';
 import { SubscriptionPlanType } from '@/modules/Subscription/types/ISubscription';
-import { eventsLogger, uiLogger } from '../../logging';
-import { CategoryItem } from './CategoryItem';
+import { uiLogger } from '../../logging';
+import { CategoryItem } from './components/CategoryItem';
 import { EmptyState } from './EmptyState';
 import type { ICategory } from '../../types';
 import { ListHeader } from './components/ListHeader';
@@ -32,7 +32,7 @@ export const CategoryList: React.FC = () => {
   
   // Yeni kategori oluşturma formunu göster/gizle
   const handleNewCategory = () => {
-    eventsLogger.debug('Yeni kategori formunu göster');
+    logger.debug('Yeni kategori formunu göster');
     setShowCategoryForm(true);
   };
   
@@ -109,3 +109,5 @@ export const CategoryList: React.FC = () => {
     </div>
   );
 };
+
+export default CategoryList;

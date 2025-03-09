@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
-import { uiLogger } from '../../../logging';
+import { uiLogger } from '../../../../logging';
 
 interface ListHeaderProps {
   onNewCategory: () => void;
