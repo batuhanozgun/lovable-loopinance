@@ -1,7 +1,7 @@
 
-export { SubscriptionDashboardView } from './DashboardView';
+export { SubscriptionDashboardView } from './DashboardView/index';
 export { SubscriptionPlansView } from './PlansView';
-export { SubscriptionBillingView } from './BillingView';
+export { SubscriptionBillingView } from './BillingView/index';
 export { SubscriptionSettingsView } from './SettingsView/index';
 
 // Shared components
