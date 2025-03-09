@@ -1,28 +1,22 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useCategories } from '../../hooks/queries/useCategoryQueries';
 import { useCategoryTemplates } from '../../hooks/queries/useCategoryTemplateQueries';
 import { useCategoryTemplateImportMutation } from '../../hooks/mutations/useCategoryTemplateImportMutation';
 import { TemplateItem } from './components/TemplateItem';
 import { useSessionService } from '@/modules/UserManagement/auth/hooks/useSessionService';
 import { Loader2 } from 'lucide-react';
-import { SupportedLanguage, DEFAULT_LANGUAGE_SETTINGS } from '../../types/template';
+import { getSafeLanguage } from '../../utils/languageUtils';
 
 export const CategoryTemplateList: React.FC = () => {
   const { t, i18n } = useTranslation(['Categories']);
   const { categoryTemplates, isLoading: isLoadingTemplates } = useCategoryTemplates();
-  const { categories } = useCategories();
   const { getCurrentUserID } = useSessionService();
   const { importCategoryFromTemplate, isImporting } = useCategoryTemplateImportMutation();
   const [importingTemplateId, setImportingTemplateId] = React.useState<string | null>(null);
   
-  // Güvenli bir şekilde dil tipini döndür
-  const getSafeLanguage = (lang: string): SupportedLanguage => {
-    return DEFAULT_LANGUAGE_SETTINGS.supportedLanguages.includes(lang as SupportedLanguage) 
-      ? (lang as SupportedLanguage) 
-      : DEFAULT_LANGUAGE_SETTINGS.defaultLanguage;
-  };
+  // Güvenli şekilde dil tipini döndür
+  const safeLanguage = getSafeLanguage(i18n.language);
   
   const handleImportCategory = async (templateId: string) => {
     try {
@@ -34,8 +28,6 @@ export const CategoryTemplateList: React.FC = () => {
         return;
       }
       
-      // Güvenli şekilde dil tipini dönüştür
-      const safeLanguage = getSafeLanguage(i18n.language);
       importCategoryFromTemplate({ templateId, userId, language: safeLanguage });
     } catch (error) {
       console.error('Error importing category:', error);
@@ -60,9 +52,6 @@ export const CategoryTemplateList: React.FC = () => {
       </div>
     );
   }
-
-  // Güvenli şekilde dil tipini dönüştür (TemplateItem props için)
-  const safeLanguage = getSafeLanguage(i18n.language);
 
   return (
     <div className="space-y-4">

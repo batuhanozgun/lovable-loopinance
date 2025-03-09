@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -5,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { useTranslation } from 'react-i18next';
 import { ICategoryTemplate, SupportedLanguage } from '../../../types/template';
 import { Check, Loader2, Plus } from 'lucide-react';
+import { getLocalizedName } from '../../../utils/languageUtils';
 
 interface TemplateItemProps {
   template: ICategoryTemplate;
@@ -22,29 +24,8 @@ export const TemplateItem: React.FC<TemplateItemProps> = ({
   const { t } = useTranslation(['Categories']);
   const subcategoriesCount = template.sub_categories?.length || 0;
   
-  // Get localized template name based on selected language
-  const getLocalizedName = (nameObj: Record<string, string> | undefined | null, fallbackText = ''): string => {
-    if (!nameObj) return fallbackText;
-    
-    if (nameObj[language]) {
-      return nameObj[language];
-    }
-    
-    // Fallback to Turkish (system default)
-    if (nameObj['tr']) {
-      return nameObj['tr'];
-    }
-    
-    // If no matched language, use first available
-    const firstLang = Object.keys(nameObj)[0];
-    if (firstLang) {
-      return nameObj[firstLang];
-    }
-    
-    return fallbackText;
-  };
-  
-  const templateName = getLocalizedName(template.name, 'Unnamed Template');
+  // Şablon adını belirlenen dilde al
+  const templateName = getLocalizedName(template.name, language, 'Unnamed Template');
 
   return (
     <Card className="w-full h-full flex flex-col transition-all hover:shadow-md">
@@ -63,7 +44,7 @@ export const TemplateItem: React.FC<TemplateItemProps> = ({
             <div className="text-sm text-muted-foreground mt-2">
               <ul className="list-disc ml-5">
                 {template.sub_categories?.slice(0, 3).map((subCategory) => (
-                  <li key={subCategory.id}>{getLocalizedName(subCategory.name, subCategory.id)}</li>
+                  <li key={subCategory.id}>{getLocalizedName(subCategory.name, language, subCategory.id)}</li>
                 ))}
                 {subcategoriesCount > 3 && (
                   <li>

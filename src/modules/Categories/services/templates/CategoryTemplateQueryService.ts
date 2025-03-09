@@ -2,6 +2,7 @@
 import { BaseCategoryTemplateService } from './BaseCategoryTemplateService';
 import type { ICategoryTemplate, SupportedLanguage } from '../../types/template';
 import { Json } from '@/integrations/supabase/types';
+import { getLocalizedName } from '../../utils/languageUtils';
 
 /**
  * Kategori şablonları ve alt kategori şablonlarını sorgulama işlemleri
