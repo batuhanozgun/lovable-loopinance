@@ -4,6 +4,7 @@ import { uiLogger } from './ui.logger';
 import { operationsLogger } from './operations.logger';
 import { serviceLogger } from './service.logger';
 import { formsLogger } from './forms.logger';
+import { eventsLogger } from './events.logger';
 
 // Tüm loggerları dışa aktar
 export {
@@ -11,7 +12,8 @@ export {
   uiLogger,
   operationsLogger,
   serviceLogger,
-  formsLogger
+  formsLogger,
+  eventsLogger
 };
 
 // Varsayılan dışa aktarım
