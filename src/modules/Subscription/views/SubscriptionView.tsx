@@ -37,84 +37,84 @@ export const SubscriptionView: React.FC = () => {
   };
 
   // Kullanıcının diline göre para birimi ve biçim belirle
-  const locale = i18n.language === 'tr' ? 'tr-TR' : 'en-US';
-  const currency = i18n.language === 'tr' ? 'TRY' : 'USD';
-  const monthlyPrice = i18n.language === 'tr' ? 49 : 4.99;
-  const yearlyPrice = i18n.language === 'tr' ? 39 : 3.99;
+  const locale = i18n.language.startsWith('tr') ? 'tr-TR' : 'en-US';
+  const currency = i18n.language.startsWith('tr') ? 'TRY' : 'USD';
+  const monthlyPrice = i18n.language.startsWith('tr') ? 49 : 4.99;
+  const yearlyPrice = i18n.language.startsWith('tr') ? 39 : 3.99;
 
   return (
     <div className="container mx-auto p-4 max-w-3xl">
-      <h1 className="text-2xl font-bold mb-6">{t('Subscription:status.title')}</h1>
+      <h1 className="text-2xl font-bold mb-6">{t('title')}</h1>
       
       <div className="grid gap-6">
         <SubscriptionCard onActionClick={scrollToPlans} />
         
         {!isLoading && subscription && ((!subscription.isActive) || isTrial) && (
           <div className="mt-6" ref={plansRef}>
-            <h2 className="text-xl font-semibold mb-4">{t('Subscription:plans.title')}</h2>
+            <h2 className="text-xl font-semibold mb-4">{t('plans.title')}</h2>
             <Separator className="my-4" />
             
             <div className="grid md:grid-cols-2 gap-4 mt-6">
               <div className="border border-border rounded-lg p-6 bg-card">
-                <h3 className="text-lg font-medium">{t('Subscription:plan.monthly')}</h3>
+                <h3 className="text-lg font-medium">{t('plan.monthly')}</h3>
                 <p className="text-2xl font-bold mt-2">
                   {formatCurrency(monthlyPrice, locale, currency)}
                   <span className="text-sm text-muted-foreground ml-1">
-                    {t('Subscription:plans.pricing.period.month')}
+                    {t('plans.pricing.period.month')}
                   </span>
                 </p>
                 <ul className="mt-4 space-y-2">
                   <li className="flex items-center text-sm">
                     <Check className="h-4 w-4 mr-2 flex-shrink-0" /> 
-                    {t('Subscription:plans.features.allAccess')}
+                    {t('plans.features.allAccess')}
                   </li>
                   <li className="flex items-center text-sm">
                     <Check className="h-4 w-4 mr-2 flex-shrink-0" /> 
-                    {t('Subscription:plans.features.unlimitedAccounts')}
+                    {t('plans.features.unlimitedAccounts')}
                   </li>
                   <li className="flex items-center text-sm">
                     <Check className="h-4 w-4 mr-2 flex-shrink-0" /> 
-                    {t('Subscription:plans.features.advancedAnalytics')}
+                    {t('plans.features.advancedAnalytics')}
                   </li>
                 </ul>
                 <Button 
                   className="w-full mt-6" 
                   onClick={() => handleUpgrade(SubscriptionPlanType.MONTHLY)}
                 >
-                  {isTrial ? t('Subscription:actions.upgrade') : t('Subscription:actions.subscribe')}
+                  {isTrial ? t('actions.upgrade') : t('actions.subscribe')}
                 </Button>
               </div>
               
               <div className="border border-primary rounded-lg p-6 bg-card relative">
                 <div className="bg-primary text-primary-foreground text-xs py-1 px-3 rounded-full inline-block mb-2">
-                  {t('Subscription:plans.discount', { percentage: 20 })}
+                  {t('plans.discount', { percentage: 20 })}
                 </div>
-                <h3 className="text-lg font-medium">{t('Subscription:plan.yearly')}</h3>
+                <h3 className="text-lg font-medium">{t('plan.yearly')}</h3>
                 <p className="text-2xl font-bold mt-2">
                   {formatCurrency(yearlyPrice, locale, currency)}
                   <span className="text-sm text-muted-foreground ml-1">
-                    {t('Subscription:plans.pricing.period.month')}
+                    {t('plans.pricing.period.month')}
                   </span>
                 </p>
                 <p className="text-sm text-muted-foreground mb-4">
-                  {i18n.language === 'tr' ? 'Yıllık' : 'Billed annually'}: {formatCurrency(yearlyPrice * 12, locale, currency)}
+                  {t('plans.pricing.billedAnnually')}: {formatCurrency(yearlyPrice * 12, locale, currency)}
                 </p>
                 <ul className="mt-4 space-y-2">
                   <li className="flex items-center text-sm">
                     <Check className="h-4 w-4 mr-2 flex-shrink-0" /> 
-                    {t('Subscription:plans.features.allAccess')}
+                    {t('plans.features.allAccess')}
                   </li>
                   <li className="flex items-center text-sm">
                     <Check className="h-4 w-4 mr-2 flex-shrink-0" /> 
-                    {t('Subscription:plans.features.unlimitedAccounts')}
+                    {t('plans.features.unlimitedAccounts')}
                   </li>
                   <li className="flex items-center text-sm">
                     <Check className="h-4 w-4 mr-2 flex-shrink-0" /> 
-                    {t('Subscription:plans.features.advancedAnalytics')}
+                    {t('plans.features.advancedAnalytics')}
                   </li>
                   <li className="flex items-center text-sm">
                     <Check className="h-4 w-4 mr-2 flex-shrink-0" /> 
-                    {t('Subscription:plans.features.prioritySupport')}
+                    {t('plans.features.prioritySupport')}
                   </li>
                 </ul>
                 <Button 
@@ -122,7 +122,7 @@ export const SubscriptionView: React.FC = () => {
                   variant="gradient"
                   onClick={() => handleUpgrade(SubscriptionPlanType.YEARLY)}
                 >
-                  {isTrial ? t('Subscription:actions.upgrade') : t('Subscription:actions.subscribe')}
+                  {isTrial ? t('actions.upgrade') : t('actions.subscribe')}
                 </Button>
               </div>
             </div>

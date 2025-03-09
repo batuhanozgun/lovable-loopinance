@@ -8,6 +8,7 @@
     "yearly": "Yearly"
   },
   "status": {
+    "title": "Subscription Status",
     "trial": "Trial",
     "active": "Active",
     "expired": "Expired",
@@ -20,13 +21,37 @@
     "trialRemaining": "{{days}} days left in trial",
     "trialExpired": "Your trial has expired",
     "subscriptionRemaining": "{{days}} days remaining",
-    "expired": "Your subscription has expired"
+    "expired": "Your subscription has expired",
+    "renewalDate": "Renewal date: {{date}}"
+  },
+  "plans": {
+    "title": "Choose a Plan",
+    "features": {
+      "allAccess": "Full access to all features",
+      "unlimitedAccounts": "Unlimited accounts",
+      "advancedAnalytics": "Advanced analytics",
+      "prioritySupport": "Priority support"
+    },
+    "pricing": {
+      "period": {
+        "month": "/month",
+        "year": "/year"
+      },
+      "billedAnnually": "Billed annually"
+    },
+    "discount": "Save {{percentage}}%"
   },
   "subscription": {
     "plan": {
       "current": "Current Plan: {{plan}}",
       "updated": "Your subscription plan has been updated to {{plan}}"
     }
+  },
+  "actions": {
+    "upgrade": "Upgrade",
+    "subscribe": "Subscribe",
+    "changePlan": "Change Plan",
+    "renew": "Renew Subscription"
   },
   "feature": {
     "access": {

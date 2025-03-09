@@ -8,6 +8,7 @@
     "yearly": "Yıllık"
   },
   "status": {
+    "title": "Abonelik Durumu",
     "trial": "Deneme",
     "active": "Aktif",
     "expired": "Süresi Doldu",
@@ -20,7 +21,25 @@
     "trialRemaining": "{{days}} gün deneme süresi kaldı",
     "trialExpired": "Deneme süreniz sona erdi",
     "subscriptionRemaining": "{{days}} gün kaldı",
-    "expired": "Aboneliğinizin süresi doldu"
+    "expired": "Aboneliğinizin süresi doldu",
+    "renewalDate": "Yenileme tarihi: {{date}}"
+  },
+  "plans": {
+    "title": "Bir Plan Seçin",
+    "features": {
+      "allAccess": "Tüm özelliklere tam erişim",
+      "unlimitedAccounts": "Sınırsız hesap",
+      "advancedAnalytics": "Gelişmiş analitik",
+      "prioritySupport": "Öncelikli destek"
+    },
+    "pricing": {
+      "period": {
+        "month": "/ay",
+        "year": "/yıl"
+      },
+      "billedAnnually": "Yıllık faturalandırılır"
+    },
+    "discount": "%{{percentage}} Tasarruf"
   },
   "subscription": {
     "plan": {
@@ -28,10 +47,16 @@
       "updated": "Abonelik planınız {{plan}} olarak güncellendi"
     }
   },
+  "actions": {
+    "upgrade": "Yükselt",
+    "subscribe": "Abone Ol",
+    "changePlan": "Planı Değiştir",
+    "renew": "Aboneliği Yenile"
+  },
   "feature": {
     "access": {
       "denied": "Bu özelliğe erişim için abonelik gerekiyor",
-      "upgrade": "Yükseltme"
+      "upgrade": "Yükselt"
     }
   },
   "payment": {
