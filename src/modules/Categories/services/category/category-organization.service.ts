@@ -1,92 +1,130 @@
 
-import { BaseCategoryService } from './base-category.service';
-import { categoryMutationLogger } from '../../logging';
+import { supabase } from '@/integrations/supabase/client';
+import { operationsLogger } from '../../logging';
+import { ICategoryOrder, ISubCategoryOrder } from '../../types';
 
-/**
- * Kategori sıralama ve organizasyon işlemleri
- */
-export class CategoryOrganizationService extends BaseCategoryService {
-  constructor() {
-    super();
-    this.logger = categoryMutationLogger.createSubLogger('Organization');
-  }
-
+export class CategoryOrganizationService {
   /**
-   * Kategori sıralamasını günceller
+   * Kategori sıralama güncellemesi
    */
-  async updateCategoryOrder(categories: { id: string, sort_order: number }[]): Promise<void> {
+  static async updateCategoryOrder(categories: ICategoryOrder[]): Promise<{ success: boolean; error?: string }> {
     try {
-      this.logger.debug('Kategori sıralaması güncelleniyor', { categories });
+      operationsLogger.debug('Kategori sıralama güncellemesi başlatıldı', { count: categories.length });
       
-      // Batch update için hazırlık
-      const updates = categories.map(({ id, sort_order }) => ({
-        id,
-        sort_order
-      }));
-      
-      // Kategorileri batch olarak güncelle
-      const { error } = await this.supabaseClient
-        .from('categories')
-        .upsert(updates);
-      
-      if (error) {
-        return this.handleDbError(error, 'Kategori sıralama', { categories });
+      // Kategorileri sırayla güncelle
+      for (const category of categories) {
+        const { error } = await supabase
+          .from('categories')
+          .update({ 
+            order: category.order 
+          })
+          .eq('id', category.id);
+        
+        if (error) {
+          operationsLogger.error('Kategori sıralama güncellemesi başarısız oldu', { 
+            error, 
+            categoryId: category.id 
+          });
+          return { 
+            success: false, 
+            error: error.message 
+          };
+        }
       }
       
-      this.logger.debug('Kategori sıralaması başarıyla güncellendi');
+      operationsLogger.info('Kategori sıralama güncellemesi tamamlandı', { count: categories.length });
+      return { success: true };
     } catch (error) {
-      this.handleDbError(error, 'Kategori sıralama');
+      operationsLogger.error('Kategori sıralama güncellemesi hatası', { error });
+      return { 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Beklenmeyen bir hata oluştu' 
+      };
     }
   }
   
   /**
-   * Alt kategori sıralamasını günceller
+   * Alt kategori sıralama güncellemesi
    */
-  async updateSubCategoryOrder(subCategories: { id: string, sort_order: number }[]): Promise<void> {
+  static async updateSubCategoryOrder(subCategories: ISubCategoryOrder[]): Promise<{ success: boolean; error?: string }> {
     try {
-      this.logger.debug('Alt kategori sıralaması güncelleniyor', { subCategories });
+      operationsLogger.debug('Alt kategori sıralama güncellemesi başlatıldı', { count: subCategories.length });
       
-      // Batch update için hazırlık
-      const updates = subCategories.map(({ id, sort_order }) => ({
-        id,
-        sort_order
-      }));
-      
-      // Alt kategorileri batch olarak güncelle
-      const { error } = await this.supabaseClient
-        .from('sub_categories')
-        .upsert(updates);
-      
-      if (error) {
-        return this.handleDbError(error, 'Alt kategori sıralama', { subCategories });
+      // Alt kategorileri sırayla güncelle
+      for (const subCategory of subCategories) {
+        const { error } = await supabase
+          .from('subcategories')
+          .update({ 
+            order: subCategory.order 
+          })
+          .eq('id', subCategory.id);
+        
+        if (error) {
+          operationsLogger.error('Alt kategori sıralama güncellemesi başarısız oldu', { 
+            error, 
+            subCategoryId: subCategory.id 
+          });
+          return { 
+            success: false, 
+            error: error.message 
+          };
+        }
       }
       
-      this.logger.debug('Alt kategori sıralaması başarıyla güncellendi');
+      operationsLogger.info('Alt kategori sıralama güncellemesi tamamlandı', { count: subCategories.length });
+      return { success: true };
     } catch (error) {
-      this.handleDbError(error, 'Alt kategori sıralama');
+      operationsLogger.error('Alt kategori sıralama güncellemesi hatası', { error });
+      return { 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Beklenmeyen bir hata oluştu' 
+      };
     }
   }
   
   /**
-   * Alt kategorileri başka bir kategoriye taşır
+   * Alt kategorileri taşıma
    */
-  async moveSubCategories(sourceId: string, targetId: string, subCategoryIds: string[]): Promise<void> {
+  static async moveSubCategories(
+    sourceId: string,
+    targetId: string | null
+  ): Promise<{ success: boolean; error?: string }> {
     try {
-      this.logger.debug('Alt kategoriler taşınıyor', { sourceId, targetId, subCategoryIds });
+      operationsLogger.debug('Alt kategorileri taşıma işlemi başlatıldı', { 
+        sourceId, 
+        targetId: targetId || 'null' 
+      });
       
-      // Alt kategorileri taşı
-      const { error } = await this.supabaseClient
-        .from('sub_categories')
-        .update({ category_id: targetId })
-        .in('id', subCategoryIds);
+      const { error } = await supabase
+        .from('subcategories')
+        .update({ 
+          parent_id: targetId 
+        })
+        .eq('parent_id', sourceId);
       
       if (error) {
-        return this.handleDbError(error, 'Alt kategori taşıma', { sourceId, targetId, subCategoryIds });
+        operationsLogger.error('Alt kategorileri taşıma işlemi başarısız oldu', { 
+          error, 
+          sourceId, 
+          targetId 
+        });
+        return { 
+          success: false, 
+          error: error.message 
+        };
       }
       
-      this.logger.debug('Alt kategoriler başarıyla taşındı');
+      operationsLogger.info('Alt kategorileri taşıma işlemi tamamlandı', { 
+        sourceId, 
+        targetId: targetId || 'null' 
+      });
+      return { success: true };
     } catch (error) {
-      this.handleDbError(error, 'Alt kategori taşıma');
+      operationsLogger.error('Alt kategorileri taşıma işlemi hatası', { error });
+      return { 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Beklenmeyen bir hata oluştu' 
+      };
     }
   }
 }

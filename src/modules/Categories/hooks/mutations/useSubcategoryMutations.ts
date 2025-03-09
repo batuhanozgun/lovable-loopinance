@@ -2,90 +2,89 @@
 import { useMutation } from '@tanstack/react-query';
 import { toast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
-import { SubcategoryService } from '../../services/category';
+import { SubcategoryService } from '../../services/category.service';
 import { categoryMutationLogger } from '../../logging';
-import type { ICreateSubCategoryData, IUpdateSubCategoryData } from '../../types';
+import { ISubCategory } from '../../types';
 
-/**
- * Alt kategori işlemleri için mutations hook'u
- */
-export const useSubcategoryMutations = (invalidateCategories: () => void) => {
-  const { t } = useTranslation(['messages', 'errors'], { keyPrefix: 'categories' });
+export const useSubcategoryMutations = (onSuccess?: () => void) => {
+  const { t } = useTranslation(['categories', 'messages']);
   const logger = categoryMutationLogger.createSubLogger('SubcategoryMutations');
-  const subcategoryService = new SubcategoryService();
 
   // Alt kategori oluşturma mutasyonu
-  const create = useMutation({
-    mutationFn: (data: ICreateSubCategoryData) => {
-      logger.debug('Alt kategori oluşturuluyor', { data });
-      return subcategoryService.createSubCategory(data);
+  const createSubCategory = useMutation({
+    mutationFn: (subCategory: Omit<ISubCategory, 'id'>) => {
+      logger.debug('Alt kategori oluşturuluyor', { subCategory });
+      return SubcategoryService.createSubCategory(subCategory);
     },
-    onSuccess: () => {
-      logger.debug('Alt kategori başarıyla oluşturuldu');
+    onSuccess: (data) => {
+      logger.info('Alt kategori başarıyla oluşturuldu', { subCategoryId: data.id });
       toast({
-        title: t('subcategory.create.success'),
-        variant: 'default',
+        title: t('common:success'),
+        description: t('messages:subcategory.create.success'),
       });
-      invalidateCategories();
+      if (onSuccess) onSuccess();
     },
-    onError: (error: Error) => {
-      logger.error('Alt kategori oluşturma hatası', error);
+    onError: (error: any) => {
+      logger.error('Alt kategori oluşturma hatası', { error });
       toast({
-        title: t('subcategory.create.failed', { ns: 'errors' }),
+        title: t('common:error'),
+        description: t('errors:subcategory.create'),
         variant: 'destructive',
       });
     }
   });
 
   // Alt kategori güncelleme mutasyonu
-  const update = useMutation({
-    mutationFn: ({ id, data }: { id: string, data: IUpdateSubCategoryData }) => {
-      logger.debug('Alt kategori güncelleniyor', { id, data });
-      return subcategoryService.updateSubCategory(id, data);
+  const updateSubCategory = useMutation({
+    mutationFn: (subCategory: ISubCategory) => {
+      logger.debug('Alt kategori güncelleniyor', { subCategoryId: subCategory.id });
+      return SubcategoryService.updateSubCategory(subCategory);
     },
     onSuccess: () => {
-      logger.debug('Alt kategori başarıyla güncellendi');
+      logger.info('Alt kategori başarıyla güncellendi');
       toast({
-        title: t('subcategory.update.success'),
-        variant: 'default',
+        title: t('common:success'),
+        description: t('messages:subcategory.update.success'),
       });
-      invalidateCategories();
+      if (onSuccess) onSuccess();
     },
-    onError: (error: Error) => {
-      logger.error('Alt kategori güncelleme hatası', error);
+    onError: (error: any) => {
+      logger.error('Alt kategori güncelleme hatası', { error });
       toast({
-        title: t('subcategory.update.failed', { ns: 'errors' }),
+        title: t('common:error'),
+        description: t('errors:subcategory.update'),
         variant: 'destructive',
       });
     }
   });
 
   // Alt kategori silme mutasyonu
-  const remove = useMutation({
-    mutationFn: (id: string) => {
-      logger.debug('Alt kategori siliniyor', { id });
-      return subcategoryService.deleteSubCategory(id);
+  const deleteSubCategory = useMutation({
+    mutationFn: (subCategoryId: string) => {
+      logger.debug('Alt kategori siliniyor', { subCategoryId });
+      return SubcategoryService.deleteSubCategory(subCategoryId);
     },
     onSuccess: () => {
-      logger.debug('Alt kategori başarıyla silindi');
+      logger.info('Alt kategori başarıyla silindi');
       toast({
-        title: t('subcategory.delete.success'),
-        variant: 'default',
+        title: t('common:success'),
+        description: t('messages:subcategory.delete.success'),
       });
-      invalidateCategories();
+      if (onSuccess) onSuccess();
     },
-    onError: (error: Error) => {
-      logger.error('Alt kategori silme hatası', error);
+    onError: (error: any) => {
+      logger.error('Alt kategori silme hatası', { error });
       toast({
-        title: t('subcategory.delete.failed', { ns: 'errors' }),
+        title: t('common:error'),
+        description: t('errors:subcategory.delete'),
         variant: 'destructive',
       });
     }
   });
 
   return {
-    create,
-    update,
-    delete: remove
+    createSubCategory,
+    updateSubCategory,
+    deleteSubCategory
   };
 };

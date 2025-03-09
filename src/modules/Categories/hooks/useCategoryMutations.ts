@@ -32,17 +32,18 @@ export const useCategoryMutations = () => {
   // Sıralama işlemleri için hook'u kullan
   const { updateCategoryOrder, updateSubCategoryOrder, moveSubCategories } = useCategoryOrderingMutations(invalidateCategories);
 
-  const ordering = {
-    updateCategoryOrder,
-    updateSubCategoryOrder
-  };
-
   return {
     createCategory,
     updateCategory,
     deleteCategory,
     subcategory,
-    ordering,
-    moveSubCategories
+    ordering: {
+      updateCategoryOrder,
+      updateSubCategoryOrder
+    },
+    moveSubCategories,
+    // Eski API ile uyumluluk için direkt erişim
+    updateCategoryOrder,
+    updateSubCategoryOrder
   };
 };
