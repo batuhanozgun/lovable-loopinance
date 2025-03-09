@@ -1,8 +1,6 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useCategories } from '../../hooks/useCategories';
-import { useCategoryMutations } from '../../hooks/useCategoryMutations';
+import { useCategories, useCategoryMutations } from '../../hooks';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';

@@ -1,6 +1,7 @@
 
-// Kategori servisleri için ana export dosyası
-export * from './category.service';
-export { default as CategoryService } from './category.service';
-
-// Diğer kategorilerle ilgili servisler eklendiğinde buraya eklenebilir
+// Tüm servis modüllerini tek bir yerden export et
+export { CategoryManagementService } from './CategoryManagementService';
+export { CategoryQueryService } from './CategoryQueryService';
+export { CategoryOrganizationService } from './CategoryOrganizationService';
+export { SubcategoryService } from './SubcategoryService';
+export { default as BaseCategoryService } from './BaseCategoryService';

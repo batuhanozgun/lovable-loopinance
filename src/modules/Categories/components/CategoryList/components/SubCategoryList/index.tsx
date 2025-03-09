@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
-import { useCategoryMutations } from '../../../../hooks/useCategoryMutations';
+import { useCategoryMutations } from '../../../../hooks';
 import { eventsLogger } from '../../../../logging';
 import { Edit, Trash, MoreVertical } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';

@@ -35,7 +35,7 @@ export const useCategoryCrudMutations = (invalidateCallback?: () => void) => {
   const updateCategory = useMutation({
     mutationFn: async (data: IUpdateCategoryData) => {
       logger.debug('Kategori güncelleme isteği', { id: data.id });
-      const result = await categoryService.updateCategory(data);
+      const result = await categoryService.updateCategory(data.id, data);
       logger.debug('Kategori başarıyla güncellendi', { id: data.id });
       return result;
     },

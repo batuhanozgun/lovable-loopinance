@@ -36,7 +36,7 @@ export const useSubcategoryMutations = (invalidateCallback?: () => void) => {
   const updateSubCategory = useMutation({
     mutationFn: async (data: IUpdateSubCategoryData) => {
       logger.debug('Alt kategori güncelleme isteği', { id: data.id });
-      const result = await subcategoryService.updateSubCategory(data);
+      const result = await subcategoryService.updateSubCategory(data.id, data);
       logger.debug('Alt kategori başarıyla güncellendi', { id: data.id });
       return result;
     },
