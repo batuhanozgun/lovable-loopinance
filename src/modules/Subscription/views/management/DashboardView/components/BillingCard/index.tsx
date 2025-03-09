@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CreditCard } from 'lucide-react';
-import { ISubscriptionSummary, SubscriptionPlanType } from '../../../../../../types/ISubscription';
+import { ISubscriptionSummary, SubscriptionPlanType } from '@/modules/Subscription/types/ISubscription';
 import { RenewalDateDisplay } from '../../../shared/components/RenewalDateDisplay';
 import { useSubscriptionPrice } from '../../../shared/hooks/useSubscriptionPrice';
 

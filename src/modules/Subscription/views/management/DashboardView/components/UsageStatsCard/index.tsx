@@ -20,7 +20,7 @@ export const UsageStatsCard: React.FC = () => {
       <CardContent>
         <div className="text-center py-8">
           <p className="text-muted-foreground">
-            {isturkish 
+            {isTurkish 
               ? "Kullanım istatistikleri yakında eklenecek"
               : "Usage statistics coming soon"}
           </p>

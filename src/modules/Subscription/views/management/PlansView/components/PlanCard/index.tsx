@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Check } from 'lucide-react';
-import { SubscriptionPlanType } from '../../../../../../types/ISubscription';
+import { SubscriptionPlanType } from '@/modules/Subscription/types/ISubscription';
 import { PriceDisplay } from '../../../shared/components/PriceDisplay';
 import { useSubscriptionPrice } from '../../../shared/hooks/useSubscriptionPrice';
 import { useSubscriptionLocale } from '../../../shared/hooks/useSubscriptionLocale';
