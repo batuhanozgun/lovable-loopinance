@@ -8,7 +8,6 @@ export { SubscriptionSettingsView } from './SettingsView/index';
 export { RenewalDateDisplay } from './shared/components/RenewalDateDisplay';
 export { PriceDisplay } from './shared/components/PriceDisplay';
 export { StatusBadge } from './shared/components/StatusBadge';
-export { DashboardSkeleton, BillingSkeleton, PlansSkeleton, SettingsSkeleton } from './shared/components/LoadingSkeleton';
 
 // Shared hooks
 export { useSubscriptionLocale } from './shared/hooks/useSubscriptionLocale';
