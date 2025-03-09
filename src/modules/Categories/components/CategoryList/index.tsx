@@ -82,7 +82,7 @@ export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCateg
         }
       };
       
-      await updateCategory(updateParams);
+      await updateCategory.mutateAsync(updateParams);
       
       // Kategori listesini güncelle
       setCategories(prevCategories => 
@@ -111,7 +111,7 @@ export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCateg
 
   const handleDeleteCategory = async (categoryId: string) => {
     try {
-      await deleteCategory(categoryId);
+      await deleteCategory.mutateAsync(categoryId);
       
       // Kategori listesinden sil
       setCategories(prevCategories => 
