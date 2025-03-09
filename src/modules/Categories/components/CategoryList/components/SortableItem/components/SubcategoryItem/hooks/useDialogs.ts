@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ISubCategory } from '@/modules/Categories/types';
 
 export const useDialogs = (subCategory: ISubCategory) => {
@@ -7,7 +7,14 @@ export const useDialogs = (subCategory: ISubCategory) => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [editName, setEditName] = useState(subCategory.name);
   
-  // Reset the edit name when the subcategory changes or when dialog opens
+  // Alt kategori değiştiğinde veya düzenleme dialogu açıldığında, düzenleme adını sıfırla
+  useEffect(() => {
+    if (isEditDialogOpen) {
+      setEditName(subCategory.name);
+    }
+  }, [subCategory.name, isEditDialogOpen]);
+  
+  // Düzenleme dialogunun açılması için yardımcı fonksiyon
   const openEditDialog = () => {
     setEditName(subCategory.name);
     setIsEditDialogOpen(true);

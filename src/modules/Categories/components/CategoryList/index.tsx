@@ -1,3 +1,4 @@
+
 import React from 'react';
 import {
   DndContext,
@@ -19,7 +20,7 @@ import { SortableItem } from './components/SortableItem';
 import { useTranslation } from 'react-i18next';
 import { useToast } from '@/hooks/use-toast';
 import { useCategoryCrudMutations } from '../../hooks/mutations/useCategoryCrudMutations';
-import { SubcategoryService } from '../../services/SubcategoryService';
+import { useSubcategoryMutations } from '../../hooks/mutations/useSubcategoryMutations';
 
 interface CategoryListProps {
   categories: ICategory[];
@@ -31,7 +32,7 @@ export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCateg
   const { t } = useTranslation(['Categories', 'Messages']);
   const { toast } = useToast();
   const { updateCategory, deleteCategory } = useCategoryCrudMutations();
-  const subcategoryService = new SubcategoryService();
+  const { updateSubCategory, deleteSubCategory } = useSubcategoryMutations();
   
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -137,7 +138,8 @@ export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCateg
         }
       };
       
-      const result = await subcategoryService.updateSubCategory(updatedSubCategory.id, updateParams.data);
+      // updateSubCategory.mutateAsync kullanarak alt kategori güncellemesi yapılıyor
+      await updateSubCategory.mutateAsync(updateParams);
       
       setCategories(prevCategories => 
         prevCategories.map(category => {
@@ -159,8 +161,6 @@ export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCateg
         title: t('Messages:subcategory.update.success'),
         description: t('Messages:subcategory.update.successDescription'),
       });
-      
-      return result;
     } catch (error) {
       console.error('Alt kategori güncelleme hatası:', error);
       
@@ -176,7 +176,8 @@ export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCateg
 
   const handleDeleteSubCategory = async (categoryId: string, subCategoryId: string) => {
     try {
-      await subcategoryService.deleteSubCategory(subCategoryId);
+      // deleteSubCategory.mutateAsync kullanarak alt kategori silme işlemi yapılıyor
+      await deleteSubCategory.mutateAsync(subCategoryId);
       
       setCategories(prevCategories => 
         prevCategories.map(category => {

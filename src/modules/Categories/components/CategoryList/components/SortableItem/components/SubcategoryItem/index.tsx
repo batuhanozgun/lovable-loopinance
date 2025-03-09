@@ -10,8 +10,8 @@ import { useTranslation } from 'react-i18next';
 
 interface SubcategoryItemProps {
   subCategory: ISubCategory;
-  onEdit: (updatedSubCategory: ISubCategory) => void;
-  onDelete: (id: string) => void;
+  onEdit: (updatedSubCategory: ISubCategory) => Promise<void>;
+  onDelete: (id: string) => Promise<void>;
 }
 
 export const SubcategoryItem: React.FC<SubcategoryItemProps> = ({
@@ -22,6 +22,7 @@ export const SubcategoryItem: React.FC<SubcategoryItemProps> = ({
   const { t } = useTranslation(['Categories']);
   const { toast } = useToast();
   const [isEditing, setIsEditing] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   
   const {
     isEditDialogOpen,
@@ -53,10 +54,13 @@ export const SubcategoryItem: React.FC<SubcategoryItemProps> = ({
 
   const handleDelete = async () => {
     try {
+      setIsDeleting(true);
       await onDelete(subCategory.id);
       setIsDeleteDialogOpen(false);
     } catch (error) {
       console.error('Alt kategori silme hatası:', error);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -90,6 +94,7 @@ export const SubcategoryItem: React.FC<SubcategoryItemProps> = ({
         name={editName}
         setName={setEditName}
         onSave={handleEditSave}
+        isLoading={isEditing}
       />
 
       <DeleteSubcategoryDialog
@@ -97,6 +102,7 @@ export const SubcategoryItem: React.FC<SubcategoryItemProps> = ({
         setIsOpen={setIsDeleteDialogOpen}
         subCategory={subCategory}
         onConfirm={handleDelete}
+        isDeleting={isDeleting}
       />
     </>
   );

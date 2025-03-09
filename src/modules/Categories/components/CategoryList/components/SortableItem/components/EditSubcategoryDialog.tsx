@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Dialog,
@@ -16,6 +16,7 @@ interface EditSubcategoryDialogProps {
   name: string;
   setName: (name: string) => void;
   onSave: () => void;
+  isLoading?: boolean;
 }
 
 export const EditSubcategoryDialog: React.FC<EditSubcategoryDialogProps> = ({
@@ -23,23 +24,10 @@ export const EditSubcategoryDialog: React.FC<EditSubcategoryDialogProps> = ({
   setIsOpen,
   name,
   setName,
-  onSave
+  onSave,
+  isLoading = false
 }) => {
   const { t } = useTranslation(['Categories']);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSave = async () => {
-    if (!name.trim()) return;
-    
-    try {
-      setIsLoading(true);
-      await onSave();
-    } catch (error) {
-      console.error('Alt kategori düzenleme hatası:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -65,7 +53,7 @@ export const EditSubcategoryDialog: React.FC<EditSubcategoryDialogProps> = ({
           <Button variant="outline" onClick={() => setIsOpen(false)} disabled={isLoading}>
             {t('Categories:form.cancel', 'İptal')}
           </Button>
-          <Button onClick={handleSave} disabled={isLoading || !name.trim()}>
+          <Button onClick={onSave} disabled={isLoading || !name.trim()}>
             {isLoading ? t('Categories:form.saving', 'Kaydediliyor...') : t('Categories:form.submit', 'Kaydet')}
           </Button>
         </DialogFooter>

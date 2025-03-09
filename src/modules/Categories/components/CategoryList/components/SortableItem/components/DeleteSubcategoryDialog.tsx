@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   AlertDialog,
@@ -18,27 +18,17 @@ interface DeleteSubcategoryDialogProps {
   setIsOpen: (isOpen: boolean) => void;
   subCategory: ISubCategory;
   onConfirm: () => void;
+  isDeleting?: boolean;
 }
 
 export const DeleteSubcategoryDialog: React.FC<DeleteSubcategoryDialogProps> = ({
   isOpen,
   setIsOpen,
   subCategory,
-  onConfirm
+  onConfirm,
+  isDeleting = false
 }) => {
   const { t } = useTranslation(['Categories']);
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  const handleDelete = async () => {
-    try {
-      setIsDeleting(true);
-      await onConfirm();
-    } catch (error) {
-      console.error('Alt kategori silme hatası:', error);
-    } finally {
-      setIsDeleting(false);
-    }
-  };
 
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
@@ -54,7 +44,7 @@ export const DeleteSubcategoryDialog: React.FC<DeleteSubcategoryDialogProps> = (
             {t('Categories:delete.cancel', 'İptal')}
           </AlertDialogCancel>
           <AlertDialogAction
-            onClick={handleDelete}
+            onClick={onConfirm}
             className="bg-red-600 hover:bg-red-700"
             disabled={isDeleting}
           >
