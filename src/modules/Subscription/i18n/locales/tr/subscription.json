@@ -2,6 +2,15 @@
 {
   "title": "Abonelik",
   "description": "Paketler ve abonelik yönetimi",
+  "management": {
+    "title": "Abonelik Yönetimi",
+    "navigation": {
+      "dashboard": "Genel Bakış",
+      "plans": "Planlar",
+      "billing": "Fatura & Ödemeler",
+      "settings": "Ayarlar"
+    }
+  },
   "plan": {
     "trial": "Deneme",
     "monthly": "Aylık",
@@ -47,11 +56,40 @@
       "updated": "Abonelik planınız {{plan}} olarak güncellendi"
     }
   },
+  "dashboard": {
+    "title": "Abonelik Paneli",
+    "summary": "Abonelik Özeti",
+    "overview": "Genel Bakış",
+    "usage": "Kullanım İstatistikleri",
+    "nextBilling": "Sonraki Fatura",
+    "featuresAccess": "Özellik Erişimi"
+  },
+  "billing": {
+    "title": "Fatura & Ödemeler",
+    "history": "Fatura Geçmişi",
+    "paymentMethods": "Ödeme Yöntemleri",
+    "invoices": "Faturalar",
+    "addPaymentMethod": "Ödeme Yöntemi Ekle",
+    "defaultPaymentMethod": "Varsayılan Ödeme Yöntemi",
+    "noInvoices": "Fatura bulunmamaktadır",
+    "downloadInvoice": "Faturayı İndir"
+  },
+  "settings": {
+    "title": "Abonelik Ayarları",
+    "autoRenew": "Aboneliği otomatik yenile",
+    "notifications": "Fatura bildirimleri",
+    "cancelSubscription": "Aboneliği İptal Et",
+    "reactivateSubscription": "Aboneliği Yeniden Etkinleştir",
+    "confirmCancel": "Aboneliğinizi iptal etmek istediğinizden emin misiniz?",
+    "cancellationReason": "Lütfen iptal etme nedeninizi belirtin"
+  },
   "actions": {
     "upgrade": "Yükselt",
     "subscribe": "Abone Ol",
     "changePlan": "Planı Değiştir",
-    "renew": "Aboneliği Yenile"
+    "renew": "Aboneliği Yenile",
+    "viewDetails": "Detayları Görüntüle",
+    "manageSubscription": "Aboneliği Yönet"
   },
   "feature": {
     "access": {

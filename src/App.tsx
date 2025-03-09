@@ -10,6 +10,12 @@ import { Layout } from "@/modules/AppLayout/components/Layout";
 import { DashboardView } from "@/modules/Dashboard";
 import { ProfileView } from "@/modules/UserManagement/Profile";
 import { SubscriptionView } from "@/modules/Subscription";
+import { 
+  SubscriptionDashboardView,
+  SubscriptionPlansView,
+  SubscriptionBillingView,
+  SubscriptionSettingsView
+} from "@/modules/Subscription/views/management";
 import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
 import "@/i18n/config";
@@ -143,6 +149,55 @@ const App = () => {
               isAuthenticated ? (
                 <Layout>
                   <SubscriptionView />
+                </Layout>
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          {/* Abonelik Yönetimi Route'ları */}
+          <Route
+            path="/subscription/dashboard"
+            element={
+              isAuthenticated ? (
+                <Layout>
+                  <SubscriptionDashboardView />
+                </Layout>
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/subscription/plans"
+            element={
+              isAuthenticated ? (
+                <Layout>
+                  <SubscriptionPlansView />
+                </Layout>
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/subscription/billing"
+            element={
+              isAuthenticated ? (
+                <Layout>
+                  <SubscriptionBillingView />
+                </Layout>
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/subscription/settings"
+            element={
+              isAuthenticated ? (
+                <Layout>
+                  <SubscriptionSettingsView />
                 </Layout>
               ) : (
                 <Navigate to="/login" />

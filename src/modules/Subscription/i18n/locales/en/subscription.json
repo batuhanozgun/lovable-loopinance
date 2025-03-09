@@ -2,6 +2,15 @@
 {
   "title": "Subscription",
   "description": "Plans and subscription management",
+  "management": {
+    "title": "Subscription Management",
+    "navigation": {
+      "dashboard": "Dashboard",
+      "plans": "Plans",
+      "billing": "Billing & Payments",
+      "settings": "Settings"
+    }
+  },
   "plan": {
     "trial": "Trial",
     "monthly": "Monthly",
@@ -47,11 +56,40 @@
       "updated": "Your subscription plan has been updated to {{plan}}"
     }
   },
+  "dashboard": {
+    "title": "Subscription Dashboard",
+    "summary": "Subscription Summary",
+    "overview": "Overview",
+    "usage": "Usage Statistics",
+    "nextBilling": "Next Billing",
+    "featuresAccess": "Features Access"
+  },
+  "billing": {
+    "title": "Billing & Payments",
+    "history": "Billing History",
+    "paymentMethods": "Payment Methods",
+    "invoices": "Invoices",
+    "addPaymentMethod": "Add Payment Method",
+    "defaultPaymentMethod": "Default Payment Method",
+    "noInvoices": "No invoices available",
+    "downloadInvoice": "Download Invoice"
+  },
+  "settings": {
+    "title": "Subscription Settings",
+    "autoRenew": "Auto-renew subscription",
+    "notifications": "Billing notifications",
+    "cancelSubscription": "Cancel Subscription",
+    "reactivateSubscription": "Reactivate Subscription",
+    "confirmCancel": "Are you sure you want to cancel your subscription?",
+    "cancellationReason": "Please tell us why you are cancelling"
+  },
   "actions": {
     "upgrade": "Upgrade",
     "subscribe": "Subscribe",
     "changePlan": "Change Plan",
-    "renew": "Renew Subscription"
+    "renew": "Renew Subscription",
+    "viewDetails": "View Details",
+    "manageSubscription": "Manage Subscription"
   },
   "feature": {
     "access": {
