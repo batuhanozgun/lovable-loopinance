@@ -5,10 +5,10 @@
   "description": "Abonelik ayarlarınızı kontrol edin ve yönetin",
   "trial": {
     "title": "Ücretsiz Deneme",
-    "description": "Şu anda ücretsiz deneme sürecindesiniz",
+    "description": "Şu anda ücretsiz deneme sürecindeyiz",
     "days": "{{count}} gün kaldı",
     "expired": "Deneme süreniz sona erdi",
-    "info": "Deneme süreniz hakkında bilgi"
+    "info": "Deneme süreci hakkında bilgi"
   },
   "plans": {
     "monthly": "Aylık Plan",
@@ -28,12 +28,12 @@
     "features": {
       "allAccess": "Tüm özelliklere erişim",
       "unlimitedAccounts": "Sınırsız hesap",
-      "advancedAnalytics": "Gelişmiş analitik",
+      "advancedAnalytics": "Gelişmiş analiz",
       "prioritySupport": "Öncelikli destek"
     },
     "discount": "%{{percentage}} indirim",
     "pricing": {
-      "billedAnnually": "Yıllık faturalandırılır"
+      "billedAnnually": "Yıllık ödeme"
     }
   },
   "subscription": {
@@ -56,10 +56,10 @@
     "cancel": "Planı İptal Et",
     "renew": "Planı Yenile",
     "modify": "Planı Değiştir",
-    "activate": "Planı Aktifleştir",
+    "activate": "Planı Etkinleştir",
     "purchase": "Satın Al",
     "changePlan": "Planı Değiştir",
-    "viewDetails": "Detayları Görüntüle"
+    "viewDetails": "Detayları Gör"
   },
   "access": {
     "restricted": {
@@ -67,11 +67,11 @@
       "description": "Bu özellik premium abonelik gerektirir.",
       "moduleDescription": "{{moduleName}} modülü premium abonelik gerektirir.",
       "featureDescription": "{{feature}} özelliği premium abonelik gerektirir.",
-      "upgrade": "Tüm premium özelliklere erişim kazanmak için planınızı yükseltin."
+      "upgrade": "Tüm premium özelliklere erişmek için planınızı yükseltin."
     },
     "granted": {
       "title": "Erişim Sağlandı",
-      "description": "Bu özelliğe erişim hakkına sahipsiniz."
+      "description": "Bu özelliğe erişiminiz var."
     }
   },
   "billing": {
@@ -82,19 +82,19 @@
     "address": "Fatura Adresi",
     "download": "Faturayı İndir",
     "details": "Fatura Detayları",
-    "noInvoices": "Mevcut fatura bulunmamaktadır",
+    "noInvoices": "Fatura bulunmamaktadır",
     "invoices": "Faturalar",
     "paymentMethods": "Ödeme Yöntemleri",
     "addPaymentMethod": "Ödeme Yöntemi Ekle",
     "defaultPaymentMethod": "Varsayılan Ödeme Yöntemi"
   },
   "dashboard": {
-    "title": "Abonelik Paneli",
+    "title": "Abonelik Kontrol Paneli",
     "summary": "Abonelik Özeti",
-    "nextBilling": "Sonraki Ödeme",
+    "nextBilling": "Sonraki Fatura",
     "usage": "Kullanım İstatistikleri",
-    "featuresAccess": "Özellik Erişimi",
-    "usageComingSoon": "Kullanım istatistikleri yakında eklenecek"
+    "featuresAccess": "Özelliklere Erişim",
+    "usageComingSoon": "Kullanım istatistikleri yakında"
   },
   "info": {
     "trialRemaining": "Deneme sürenizde {{days}} gün kaldı",
@@ -104,7 +104,7 @@
     "renewalDate": "Yenileme tarihi: {{date}}"
   },
   "badge": {
-    "trialEnding": "Deneme Süresi Bitiyor"
+    "trialEnding": "Deneme Süresi Yakında Bitiyor"
   },
   "features": {
     "included": "Dahil Özellikler",
@@ -117,7 +117,7 @@
     },
     "plan": {
       "monthly": {
-        "description": "Her ay yenilenen plan"
+        "description": "Aylık yenilenir"
       },
       "yearly": {
         "description": "İndirimli yıllık plan"
@@ -130,11 +130,11 @@
     "notifications": "E-posta Bildirimleri",
     "cancelSubscription": "Aboneliği İptal Et",
     "reactivateSubscription": "Aboneliği Yeniden Etkinleştir",
-    "confirmCancel": "İptal İşlemini Onayla",
-    "cancelDescription": "Aboneliğinizi iptal ederseniz, mevcut dönemin sonuna kadar hizmetlerimize erişebilirsiniz. İptal işleminden sonra yeni fatura oluşturulmayacaktır.",
+    "confirmCancel": "İptal Onayı",
+    "cancelDescription": "Aboneliğinizi iptal ederseniz, mevcut dönem sonuna kadar hizmetlerimize erişebilirsiniz. İptalden sonra yeni fatura oluşturulmayacaktır.",
     "canceledDescription": "Aboneliğiniz iptal edildi. Mevcut dönem sonuna kadar hizmetlerimize erişebilirsiniz.",
     "cancellationReason": "İptal Nedeni",
-    "cancellationReasonPlaceholder": "İptal etme nedeniniz (isteğe bağlı)"
+    "cancellationReasonPlaceholder": "İptal nedeniniz (isteğe bağlı)"
   },
   "plan": {
     "title": "Plan"
@@ -142,9 +142,9 @@
   "management": {
     "title": "Abonelik Yönetimi",
     "navigation": {
-      "dashboard": "Panel",
+      "dashboard": "Kontrol Paneli",
       "plans": "Planlar",
-      "billing": "Faturalama",
+      "billing": "Fatura",
       "settings": "Ayarlar"
     }
   }

@@ -8,6 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import { PreferencesCard } from './components/PreferencesCard';
 import { SubscriptionManagementCard } from './components/SubscriptionManagementCard';
 import { CancellationDialog } from './components/CancellationDialog';
+import { SettingsSkeleton } from '../shared/components/LoadingSkeleton';
 
 export const SubscriptionSettingsView: React.FC = () => {
   const { t, i18n } = useTranslation(['Subscription', 'common']);
@@ -79,6 +80,10 @@ export const SubscriptionSettingsView: React.FC = () => {
       refreshSubscription();
     }, 1000);
   };
+  
+  if (isLoading) {
+    return <SettingsSkeleton />;
+  }
   
   return (
     <div className="container mx-auto p-4 max-w-4xl">
