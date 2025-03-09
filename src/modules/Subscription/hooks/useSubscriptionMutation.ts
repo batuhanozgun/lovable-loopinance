@@ -6,6 +6,7 @@ import { useSessionUser } from './useSessionUser';
 import { subscriptionLogger } from '../logging';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
+import { IUpdateSubscriptionResponse } from '../types/ISubscriptionResponse';
 
 /**
  * Abonelik planı değişiklikleri için hook
@@ -20,7 +21,7 @@ export const useSubscriptionMutation = (onSuccess?: () => void) => {
   const updateSubscriptionPlan = useCallback(async (
     planType: SubscriptionPlanType, 
     transactionId?: string
-  ) => {
+  ): Promise<IUpdateSubscriptionResponse> => {
     try {
       setIsUpdating(true);
       
@@ -38,16 +39,16 @@ export const useSubscriptionMutation = (onSuccess?: () => void) => {
         
         // Hala userId yoksa hata ver
         if (!userId) {
+          const errorMsg = t('Subscription:errors.update.missingUserId');
           subscriptionLogger.error('Kullanıcı ID bulunamadı', { 
             planType,
             sessionValid: !!userId 
           });
-          toast({
-            title: t('common:error'),
-            description: t('Subscription:errors.update.missingUserId'),
-            variant: "destructive",
-          });
-          return false;
+          
+          return {
+            success: false,
+            error: errorMsg
+          };
         }
       }
       
@@ -69,12 +70,8 @@ export const useSubscriptionMutation = (onSuccess?: () => void) => {
           planType,
           userId
         });
-        toast({
-          title: t('common:error'),
-          description: t('Subscription:errors.update.planChange'),
-          variant: "destructive",
-        });
-        return false;
+        
+        return response;
       }
       
       subscriptionLogger.info('Plan başarıyla güncellendi', { 
@@ -96,19 +93,18 @@ export const useSubscriptionMutation = (onSuccess?: () => void) => {
         onSuccess();
       }
       
-      return true;
+      return response;
     } catch (error) {
       subscriptionLogger.error('Plan güncellenirken hata oluştu', {
         error,
         errorMessage: error instanceof Error ? error.message : 'Bilinmeyen hata',
         hasUserId: !!userId
       });
-      toast({
-        title: t('common:error'),
-        description: t('Subscription:errors.update.general'),
-        variant: "destructive",
-      });
-      return false;
+      
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : t('Subscription:errors.update.general')
+      };
     } finally {
       setIsUpdating(false);
     }

@@ -8,7 +8,8 @@
     "general": "Failed to update subscription",
     "planChange": "Failed to change subscription plan",
     "invalidData": "Invalid subscription data",
-    "missingUserId": "User information not found"
+    "missingUserId": "User information not found",
+    "databaseError": "Database error: Cannot update subscription"
   },
   "access": {
     "denied": "You do not have access to this feature",
@@ -16,6 +17,7 @@
   },
   "session": {
     "error": "Could not retrieve session information",
-    "missing": "Session not found"
+    "missing": "Session not found",
+    "invalid": "Invalid session"
   }
 }

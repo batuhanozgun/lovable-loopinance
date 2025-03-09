@@ -1,137 +1,105 @@
 
 {
+  "title": "Subscription",
+  "description": "Plans and subscription management",
+  "plan": {
+    "trial": "Trial",
+    "monthly": "Monthly",
+    "yearly": "Yearly"
+  },
   "status": {
-    "title": "Your Subscription Status",
     "trial": "Trial",
     "active": "Active",
     "expired": "Expired",
     "canceled": "Canceled"
   },
-  "plan": {
-    "trial": "Trial Plan",
-    "monthly": "Monthly Plan",
-    "yearly": "Yearly Plan"
+  "badge": {
+    "trialEnding": "Trial Ending"
   },
   "info": {
-    "trialRemaining": "{{days}} days remaining in your trial",
-    "subscriptionRemaining": "{{days}} days remaining in your subscription",
-    "expired": "Your subscription has expired",
+    "trialRemaining": "{{days}} days left in trial",
     "trialExpired": "Your trial has expired",
-    "renewalDate": "Next renewal on {{date}}"
+    "subscriptionRemaining": "{{days}} days remaining",
+    "expired": "Your subscription has expired"
   },
-  "actions": {
-    "upgrade": "Upgrade Plan",
-    "renew": "Renew Subscription",
-    "cancel": "Cancel Subscription",
-    "changePlan": "Change Plan",
-    "subscribe": "Subscribe Now"
-  },
-  "badge": {
-    "trial": "Trial",
-    "active": "Active",
-    "expired": "Expired",
-    "trialEnding": "Trial Ending Soon",
-    "subscriptionEnding": "Ending Soon"
-  },
-  "access": {
-    "restricted": {
-      "title": "Subscription Required",
-      "description": "This feature is only available to active subscribers.",
-      "moduleDescription": "The {{moduleName}} module is only available to active subscribers.",
-      "upgrade": "Upgrade your plan to access all features and continue managing your finances effectively."
+  "subscription": {
+    "plan": {
+      "current": "Current Plan: {{plan}}",
+      "updated": "Your subscription plan has been updated to {{plan}}"
     }
   },
-  "plans": {
-    "title": "Available Plans",
-    "description": "Choose the plan that works best for you",
-    "features": {
-      "allAccess": "Access to all features",
-      "unlimitedAccounts": "Unlimited accounts",
-      "advancedAnalytics": "Advanced analytics",
-      "prioritySupport": "Priority support"
-    },
-    "discount": "{{percentage}}% Discount",
-    "pricing": {
-      "monthly": "{{price}}/{{period}}",
-      "period": {
-        "month": "month",
-        "year": "year"
-      }
+  "feature": {
+    "access": {
+      "denied": "This feature requires a subscription",
+      "upgrade": "Upgrade"
     }
-  },
-  "debug": {
-    "pageViewed": "Subscription page viewed",
-    "planUpgradeRequested": "Plan upgrade requested"
   },
   "payment": {
-    "title": "Payment Details",
-    "description": "Complete your payment to activate your {{plan}}",
-    "included": "What's included",
-    "testCards": "Test card: 4111 1111 1111 1111 (success) or 4242 4242 4242 4242 (failure)",
-    "cardDetails": "Card Information",
+    "title": "Payment Process",
     "steps": {
-      "summary": "Summary",
+      "plan": "Plan",
       "billing": "Billing",
       "payment": "Payment",
-      "confirmation": "Confirm"
+      "confirm": "Confirm",
+      "success": "Complete"
     },
-    "actions": {
-      "continue": "Continue",
-      "confirm": "Confirm Payment",
-      "processing": "Processing...",
-      "done": "Return to Dashboard"
+    "plan": {
+      "title": "Choose a Plan",
+      "monthly": {
+        "title": "Monthly",
+        "price": "$5.99/mo",
+        "description": "Standard subscription billed monthly"
+      },
+      "yearly": {
+        "title": "Yearly",
+        "price": "$4.99/mo",
+        "total": "$59.88/yr",
+        "save": "Save $12",
+        "description": "Premium subscription billed annually"
+      }
     },
     "billing": {
       "title": "Billing Information",
       "fullName": "Full Name",
-      "fullNamePlaceholder": "John Smith",
-      "email": "Email Address",
-      "emailPlaceholder": "john@example.com",
+      "email": "Email",
       "address": "Address",
-      "addressPlaceholder": "123 Main St",
       "city": "City",
-      "cityPlaceholder": "New York",
       "zipCode": "Zip Code",
-      "zipCodePlaceholder": "10001",
       "country": "Country"
     },
     "card": {
+      "title": "Payment Details",
       "number": "Card Number",
-      "holder": "Cardholder Name",
-      "holderPlaceholder": "John Smith",
+      "name": "Cardholder Name",
       "expiry": "Expiry Date",
       "cvv": "CVV"
-    },
-    "validation": {
-      "cardNumberInvalid": "Please enter a valid card number",
-      "expiryDateInvalid": "Please enter a valid expiry date",
-      "cvvInvalid": "Please enter a valid CVV"
     },
     "confirmation": {
       "summary": "Order Summary",
       "plan": "Selected Plan",
       "amount": "Total Amount",
-      "billingTitle": "Billing Information",
-      "paymentTitle": "Payment Information",
-      "paymentMethod": "Credit Card",
-      "disclaimer": "By confirming your purchase, you agree to our Terms of Service and Privacy Policy. This is a simulated payment for demonstration purposes."
+      "billingTitle": "Billing Details",
+      "paymentTitle": "Payment Method",
+      "paymentMethod": "Credit/Debit Card",
+      "disclaimer": "By proceeding, your payment will be processed and your selected plan will be activated."
     },
     "success": {
-      "title": "Payment Successful",
-      "description": "Thank you for your payment. Your subscription has been activated.",
-      "congratulations": "Payment Successful!",
-      "planActivated": "Your {{plan}} has been activated successfully.",
-      "processed": "Payment processed successfully"
+      "congratulations": "Congratulations!",
+      "partialSuccess": "Payment Received",
+      "planActivated": "Your {{plan}} subscription has been activated",
+      "processed": "Your payment has been processed successfully",
+      "paymentComplete": "Your payment has been successfully completed",
+      "errorActivating": "There was an issue activating your subscription",
+      "tryAgainLater": "Please try again later or contact our support team",
+      "errorDetails": "Error details"
     },
-    "errors": {
-      "general": "An error occurred processing your payment",
-      "declined": "Your card was declined. Please try a different card.",
-      "invalidCard": "Please check your card details and try again."
-    }
-  },
-  "subscription": {
-    "plan": {
-      "updated": "Your {{plan}} has been updated successfully."
+    "actions": {
+      "continue": "Continue",
+      "back": "Back",
+      "upgrade": "Upgrade",
+      "confirm": "Purchase",
+      "done": "Done",
+      "processing": "Processing..."
     }
   }
 }

@@ -1,111 +1,78 @@
 
 {
-  "status": {
-    "title": "Abonelik Durumunuz",
-    "trial": "Deneme",
-    "active": "Aktif",
-    "expired": "Süresi Dolmuş",
-    "canceled": "İptal Edilmiş"
-  },
+  "title": "Abonelik",
+  "description": "Paketler ve abonelik yönetimi",
   "plan": {
-    "trial": "Deneme Planı",
-    "monthly": "Aylık Plan",
-    "yearly": "Yıllık Plan"
+    "trial": "Deneme",
+    "monthly": "Aylık",
+    "yearly": "Yıllık"
   },
-  "info": {
-    "trialRemaining": "Deneme sürenizde {{days}} gün kaldı",
-    "subscriptionRemaining": "Aboneliğinizde {{days}} gün kaldı",
-    "expired": "Aboneliğinizin süresi doldu",
-    "trialExpired": "Deneme süreniz doldu",
-    "renewalDate": "Bir sonraki yenileme {{date}} tarihinde"
-  },
-  "actions": {
-    "upgrade": "Planı Yükselt",
-    "renew": "Aboneliği Yenile",
-    "cancel": "Aboneliği İptal Et",
-    "changePlan": "Planı Değiştir",
-    "subscribe": "Şimdi Abone Ol"
-  },
-  "badge": {
+  "status": {
     "trial": "Deneme",
     "active": "Aktif",
     "expired": "Süresi Doldu",
-    "trialEnding": "Deneme Süresi Bitiyor",
-    "subscriptionEnding": "Süre Bitiyor"
+    "canceled": "İptal Edildi"
   },
-  "access": {
-    "restricted": {
-      "title": "Abonelik Gerekli",
-      "description": "Bu özellik sadece aktif abonelere açıktır.",
-      "moduleDescription": "{{moduleName}} modülü sadece aktif abonelere açıktır.",
-      "upgrade": "Tüm özelliklere erişmek ve finansal durumunuzu etkin bir şekilde yönetmeye devam etmek için planınızı yükseltin."
+  "badge": {
+    "trialEnding": "Deneme Süresi Bitiyor"
+  },
+  "info": {
+    "trialRemaining": "{{days}} gün deneme süresi kaldı",
+    "trialExpired": "Deneme süreniz sona erdi",
+    "subscriptionRemaining": "{{days}} gün kaldı",
+    "expired": "Aboneliğinizin süresi doldu"
+  },
+  "subscription": {
+    "plan": {
+      "current": "Mevcut Plan: {{plan}}",
+      "updated": "Abonelik planınız {{plan}} olarak güncellendi"
     }
   },
-  "plans": {
-    "title": "Mevcut Planlar",
-    "description": "Size en uygun planı seçin",
-    "features": {
-      "allAccess": "Tüm özelliklere erişim",
-      "unlimitedAccounts": "Sınırsız hesap",
-      "advancedAnalytics": "Gelişmiş analizler",
-      "prioritySupport": "Öncelikli destek"
-    },
-    "discount": "%{{percentage}} İndirim",
-    "pricing": {
-      "monthly": "{{price}}/{{period}}",
-      "period": {
-        "month": "ay",
-        "year": "yıl"
-      }
+  "feature": {
+    "access": {
+      "denied": "Bu özelliğe erişim için abonelik gerekiyor",
+      "upgrade": "Yükseltme"
     }
-  },
-  "debug": {
-    "pageViewed": "Abonelik sayfası görüntülendi",
-    "planUpgradeRequested": "Plan yükseltme isteği"
   },
   "payment": {
-    "title": "Ödeme Bilgileri",
-    "description": "{{plan}} planını etkinleştirmek için ödemenizi tamamlayın",
-    "included": "Neleri içeriyor",
-    "testCards": "Test kartı: 4111 1111 1111 1111 (başarılı) veya 4242 4242 4242 4242 (başarısız)",
-    "cardDetails": "Kart Bilgileri",
+    "title": "Ödeme İşlemi",
     "steps": {
-      "summary": "Özet",
+      "plan": "Plan",
       "billing": "Fatura",
       "payment": "Ödeme",
-      "confirmation": "Onay"
+      "confirm": "Onay",
+      "success": "Tamamlandı"
     },
-    "actions": {
-      "continue": "Devam Et",
-      "confirm": "Ödemeyi Onayla",
-      "processing": "İşleniyor...",
-      "done": "Panele Dön"
+    "plan": {
+      "title": "Plan Seçin",
+      "monthly": {
+        "title": "Aylık",
+        "price": "₺49/ay",
+        "description": "Aylık faturalandırılan standart abonelik"
+      },
+      "yearly": {
+        "title": "Yıllık",
+        "price": "₺39/ay",
+        "total": "₺468/yıl",
+        "save": "₺120 Tasarruf",
+        "description": "Yıllık faturalandırılan premium abonelik"
+      }
     },
     "billing": {
       "title": "Fatura Bilgileri",
       "fullName": "Ad Soyad",
-      "fullNamePlaceholder": "Ahmet Yılmaz",
-      "email": "E-posta Adresi",
-      "emailPlaceholder": "ahmet@ornek.com",
+      "email": "E-posta",
       "address": "Adres",
-      "addressPlaceholder": "Atatürk Cad. No:123",
       "city": "Şehir",
-      "cityPlaceholder": "İstanbul",
       "zipCode": "Posta Kodu",
-      "zipCodePlaceholder": "34000",
       "country": "Ülke"
     },
     "card": {
+      "title": "Ödeme Bilgileri",
       "number": "Kart Numarası",
-      "holder": "Kart Sahibi",
-      "holderPlaceholder": "Ahmet Yılmaz",
+      "name": "Kart Üzerindeki İsim",
       "expiry": "Son Kullanma Tarihi",
       "cvv": "CVV"
-    },
-    "validation": {
-      "cardNumberInvalid": "Lütfen geçerli bir kart numarası girin",
-      "expiryDateInvalid": "Lütfen geçerli bir son kullanma tarihi girin",
-      "cvvInvalid": "Lütfen geçerli bir CVV girin"
     },
     "confirmation": {
       "summary": "Sipariş Özeti",
@@ -113,25 +80,26 @@
       "amount": "Toplam Tutar",
       "billingTitle": "Fatura Bilgileri",
       "paymentTitle": "Ödeme Bilgileri",
-      "paymentMethod": "Kredi Kartı",
-      "disclaimer": "Satın alma işleminizi onaylayarak, Kullanım Koşulları ve Gizlilik Politikası'nı kabul etmiş olursunuz. Bu, demo amaçlı simüle edilmiş bir ödemedir."
+      "paymentMethod": "Kredi/Banka Kartı",
+      "disclaimer": "Devam ettiğinizde, ödemeniz işleme alınacak ve seçtiğiniz plan aktifleştirilecektir."
     },
     "success": {
-      "title": "Ödeme Başarılı",
-      "description": "Ödemeniz için teşekkür ederiz. Aboneliğiniz etkinleştirildi.",
-      "congratulations": "Ödeme Başarılı!",
-      "planActivated": "{{plan}} planınız başarıyla etkinleştirildi.",
-      "processed": "Ödeme başarıyla işlendi"
+      "congratulations": "Tebrikler!",
+      "partialSuccess": "Ödemeniz Alındı",
+      "planActivated": "{{plan}} aboneliğiniz etkinleştirildi",
+      "processed": "Ödemeniz başarıyla işlendi",
+      "paymentComplete": "Ödemeniz başarıyla tamamlandı",
+      "errorActivating": "Aboneliğinizi etkinleştirirken bir sorun oluştu",
+      "tryAgainLater": "Lütfen daha sonra tekrar deneyin veya destek ekibimizle iletişime geçin",
+      "errorDetails": "Hata detayları"
     },
-    "errors": {
-      "general": "Ödemeniz işlenirken bir hata oluştu",
-      "declined": "Kartınız reddedildi. Lütfen başka bir kart deneyin.",
-      "invalidCard": "Lütfen kart bilgilerinizi kontrol edip tekrar deneyin."
-    }
-  },
-  "subscription": {
-    "plan": {
-      "updated": "{{plan}} planınız başarıyla güncellendi."
+    "actions": {
+      "continue": "Devam Et",
+      "back": "Geri",
+      "upgrade": "Yükselt",
+      "confirm": "Satın Al",
+      "done": "Tamamlandı",
+      "processing": "İşleniyor..."
     }
   }
 }

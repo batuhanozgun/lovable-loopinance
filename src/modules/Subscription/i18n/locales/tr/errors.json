@@ -8,7 +8,8 @@
     "general": "Abonelik güncellenemedi",
     "planChange": "Abonelik planı değiştirilemedi",
     "invalidData": "Abonelik verileri geçersiz",
-    "missingUserId": "Kullanıcı bilgisi bulunamadı"
+    "missingUserId": "Kullanıcı bilgisi bulunamadı",
+    "databaseError": "Veritabanı hatası: Abonelik güncellenemiyor"
   },
   "access": {
     "denied": "Bu özelliğe erişiminiz yok",
@@ -16,6 +17,7 @@
   },
   "session": {
     "error": "Oturum bilgisi alınamadı",
-    "missing": "Oturum bulunamadı"
+    "missing": "Oturum bulunamadı",
+    "invalid": "Geçersiz oturum"
   }
 }
