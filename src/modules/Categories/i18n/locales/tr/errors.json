@@ -37,5 +37,14 @@
     "duplicateSubcategory": "Bu kategoride aynı isimde bir alt kategori zaten mevcut",
     "invalidCategoryId": "Geçersiz kategori ID'si",
     "invalidSubcategoryId": "Geçersiz alt kategori ID'si"
+  },
+  "template": {
+    "fetch": {
+      "failed": "Kategori şablonları yüklenemedi"
+    },
+    "import": {
+      "failed": "Şablondan kategori eklenemedi",
+      "invalidTemplate": "Geçersiz kategori şablonu"
+    }
   }
 }

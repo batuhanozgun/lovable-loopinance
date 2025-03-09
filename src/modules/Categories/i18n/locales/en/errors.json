@@ -37,5 +37,14 @@
     "duplicateSubcategory": "A subcategory with this name already exists in this category",
     "invalidCategoryId": "Invalid category ID",
     "invalidSubcategoryId": "Invalid subcategory ID"
+  },
+  "template": {
+    "fetch": {
+      "failed": "Failed to load category templates"
+    },
+    "import": {
+      "failed": "Failed to add category from template",
+      "invalidTemplate": "Invalid category template"
+    }
   }
 }

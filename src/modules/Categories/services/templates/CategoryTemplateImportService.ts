@@ -1,0 +1,96 @@
+
+import { BaseCategoryTemplateService } from './BaseCategoryTemplateService';
+import { CategoryManagementService } from '../CategoryManagementService';
+import { SubcategoryService } from '../SubcategoryService';
+import type { ICategory, ICreateCategoryData, ICreateSubCategoryData } from '../../types';
+import type { ICategoryTemplate, ISubCategoryTemplate } from '../../types/template';
+
+/**
+ * Şablonlardan kategori oluşturma servisi
+ */
+export class CategoryTemplateImportService extends BaseCategoryTemplateService {
+  private categoryService: CategoryManagementService;
+  private subcategoryService: SubcategoryService;
+
+  constructor() {
+    super('Categories.TemplateImport');
+    this.categoryService = new CategoryManagementService();
+    this.subcategoryService = new SubcategoryService();
+  }
+
+  /**
+   * Şablondan yeni bir kategori oluşturur
+   */
+  async createCategoryFromTemplate(templateId: string, userId: string): Promise<ICategory | null> {
+    try {
+      this.logger.debug('Şablondan kategori oluşturuluyor', { templateId, userId });
+      
+      // Şablon verisini getir
+      const { data: template, error } = await this.supabaseClient
+        .from('category_templates')
+        .select('*')
+        .eq('id', templateId)
+        .eq('is_active', true)
+        .single();
+      
+      if (error) {
+        this.logger.error('Şablon getirme hatası', error, { templateId });
+        return null;
+      }
+      
+      // Alt kategori şablonlarını getir
+      const { data: subCategoryTemplates, error: subCategoryError } = await this.supabaseClient
+        .from('subcategory_templates')
+        .select('*')
+        .eq('category_template_id', templateId)
+        .eq('is_active', true)
+        .order('sort_order', { ascending: true });
+      
+      if (subCategoryError) {
+        this.logger.error('Alt kategori şablonları getirme hatası', subCategoryError, { templateId });
+        return null;
+      }
+      
+      // Kategoriyi oluştur
+      const categoryData: ICreateCategoryData = {
+        name: template.name,
+        icon: template.icon,
+        user_id: userId
+      };
+      
+      const category = await this.categoryService.createCategory(categoryData);
+      
+      // Alt kategorileri oluştur
+      if (subCategoryTemplates && subCategoryTemplates.length > 0) {
+        this.logger.debug('Şablondan alt kategoriler oluşturuluyor', { 
+          categoryId: category.id, 
+          subCategoryCount: subCategoryTemplates.length 
+        });
+        
+        await Promise.all(subCategoryTemplates.map(async (subTemplate) => {
+          const subCategoryData: ICreateSubCategoryData = {
+            name: subTemplate.name,
+            category_id: category.id
+          };
+          
+          await this.subcategoryService.createSubCategory(subCategoryData);
+        }));
+      }
+      
+      // Güncel kategori verisini döndür
+      const updatedCategory = await this.categoryService.updateCategory(category.id, {});
+      
+      this.logger.debug('Şablondan kategori başarıyla oluşturuldu', { 
+        categoryId: updatedCategory.id,
+        templateId
+      });
+      
+      return updatedCategory;
+    } catch (error) {
+      this.logger.error('Şablondan kategori oluşturma hatası', error instanceof Error ? error : new Error('Bilinmeyen hata'), { templateId, userId });
+      return null;
+    }
+  }
+}
+
+export default CategoryTemplateImportService;

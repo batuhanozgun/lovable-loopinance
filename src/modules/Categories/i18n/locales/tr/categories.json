@@ -2,11 +2,16 @@
 {
   "title": "Kategoriler",
   "subtitle": "Harcama ve bütçe kategorilerinizi yönetin",
+  "tabs": {
+    "myCategories": "Kategorilerim",
+    "templateLibrary": "Kategori Kütüphanesi"
+  },
   "actions": {
     "create": "Yeni Kategori",
     "edit": "Düzenle",
     "delete": "Sil",
-    "move": "Taşı"
+    "move": "Taşı",
+    "import": "Kategorilerime Ekle"
   },
   "form": {
     "categoryName": "Kategori Adı",
@@ -19,11 +24,19 @@
     "noCategories": "Kategori bulunamadı",
     "addYourFirst": "İlk kategorinizi ekleyin",
     "dragToReorder": "Sıralamak için sürükleyin",
-    "noSubcategories": "Alt kategori yok"
+    "noSubcategories": "Alt kategori yok",
+    "withSubcategories": "{{count}} alt kategori",
+    "templateLibrary": "Hazır kategori şablonları",
+    "importFromTemplate": "Şablondan kategori ekle"
   },
   "empty": {
     "title": "Henüz kategori yok",
     "description": "İşlemlerinizi ve bütçelerinizi düzenlemek için kategoriler oluşturun",
-    "cta": "İlk kategorinizi oluşturun"
+    "cta": "İlk kategorinizi oluşturun",
+    "orImport": "veya hazır şablonlardan ekleyin"
+  },
+  "template": {
+    "title": "Kategori Şablonları",
+    "description": "Hızlı başlangıç için hazır kategoriler"
   }
 }

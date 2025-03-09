@@ -42,5 +42,12 @@
       "update": "Update Subcategory",
       "cancel": "Cancel"
     }
+  },
+  "template": {
+    "import": {
+      "success": "Category added successfully",
+      "successDescription": "Category {{categoryName}} has been added to your personal categories",
+      "failed": "Failed to add category"
+    }
   }
 }

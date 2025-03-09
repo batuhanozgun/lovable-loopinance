@@ -2,11 +2,16 @@
 {
   "title": "Categories",
   "subtitle": "Manage your spending and budget categories",
+  "tabs": {
+    "myCategories": "My Categories",
+    "templateLibrary": "Category Library"
+  },
   "actions": {
     "create": "New Category",
     "edit": "Edit",
     "delete": "Delete",
-    "move": "Move"
+    "move": "Move",
+    "import": "Add to My Categories"
   },
   "form": {
     "categoryName": "Category Name",
@@ -19,11 +24,19 @@
     "noCategories": "No categories found",
     "addYourFirst": "Add your first category",
     "dragToReorder": "Drag to reorder",
-    "noSubcategories": "No subcategories"
+    "noSubcategories": "No subcategories",
+    "withSubcategories": "{{count}} subcategories",
+    "templateLibrary": "Ready-to-use category templates",
+    "importFromTemplate": "Add category from template"
   },
   "empty": {
     "title": "No categories yet",
     "description": "Create categories to organize your transactions and budgets",
-    "cta": "Create your first category"
+    "cta": "Create your first category",
+    "orImport": "or import from templates"
+  },
+  "template": {
+    "title": "Category Templates",
+    "description": "Ready-to-use categories for a quick start"
   }
 }

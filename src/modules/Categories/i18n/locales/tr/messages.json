@@ -42,5 +42,12 @@
       "update": "Alt Kategori Güncelle",
       "cancel": "İptal"
     }
+  },
+  "template": {
+    "import": {
+      "success": "Kategori başarıyla eklendi",
+      "successDescription": "{{categoryName}} kategorisi kişisel kategorilerinize eklendi",
+      "failed": "Kategori eklenirken bir hata oluştu"
+    }
   }
 }
