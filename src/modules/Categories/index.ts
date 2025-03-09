@@ -18,7 +18,12 @@ export { useCategories, useCategory } from './hooks/queries/useCategoryQueries';
 export { useCategoryMutations } from './hooks/mutations/useCategoryMutations';
 
 // Servisler
-export { CategoryService } from './services/category.service';
+export {
+  CategoryManagementService,
+  CategoryQueryService,
+  CategoryOrganizationService,
+  SubcategoryService
+} from './services/category.service';
 
 // Logging
 export {
@@ -27,4 +32,3 @@ export {
   operationsLogger,
   serviceLogger
 } from './logging';
-
