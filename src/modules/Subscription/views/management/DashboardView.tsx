@@ -221,9 +221,7 @@ export const SubscriptionDashboardView: React.FC = () => {
           <CardContent>
             <div className="text-center py-8">
               <p className="text-muted-foreground">
-                {i18n.language.startsWith('tr') 
-                  ? "Kullanım istatistikleri yakında eklenecek"
-                  : "Usage statistics coming soon"}
+                {t('Subscription:dashboard.usageComingSoon')}
               </p>
             </div>
           </CardContent>

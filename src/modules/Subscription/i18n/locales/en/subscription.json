@@ -93,7 +93,8 @@
     "summary": "Subscription Summary",
     "nextBilling": "Next Billing",
     "usage": "Usage Statistics",
-    "featuresAccess": "Features Access"
+    "featuresAccess": "Features Access",
+    "usageComingSoon": "Usage statistics coming soon"
   },
   "info": {
     "trialRemaining": "{{days}} days remaining in your trial",
