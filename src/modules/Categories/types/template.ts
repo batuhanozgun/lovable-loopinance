@@ -4,6 +4,7 @@
  */
 export interface ICategoryTemplate {
   id: string;
+  // name can be multilingual (Record<string, string>) or a simple string
   name: Record<string, string> | string;
   icon: string | null;
   sort_order: number;
@@ -18,6 +19,7 @@ export interface ICategoryTemplate {
  */
 export interface ISubCategoryTemplate {
   id: string;
+  // name can be multilingual (Record<string, string>) or a simple string
   name: Record<string, string> | string;
   category_template_id: string;
   sort_order: number;

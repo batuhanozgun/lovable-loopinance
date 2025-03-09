@@ -2,7 +2,6 @@
 import { BaseCategoryTemplateService } from './BaseCategoryTemplateService';
 import type { ICategoryTemplate, SupportedLanguage } from '../../types/template';
 import { Json } from '@/integrations/supabase/types';
-import { getLocalizedName } from '../../utils/languageUtils';
 
 /**
  * Kategori şablonları ve alt kategori şablonlarını sorgulama işlemleri
@@ -14,6 +13,7 @@ export class CategoryTemplateQueryService extends BaseCategoryTemplateService {
 
   /**
    * Tüm kategori şablonlarını ve alt kategori şablonlarını getirir
+   * Veritabanından gelen çoklu dil verilerini korur
    */
   async getAllCategoryTemplates(language: SupportedLanguage = 'tr'): Promise<ICategoryTemplate[]> {
     try {
@@ -47,20 +47,15 @@ export class CategoryTemplateQueryService extends BaseCategoryTemplateService {
           if (subCategoryError) {
             this.logger.error('Alt kategori şablonlarını getirme hatası', subCategoryError, { categoryTemplateId: categoryTemplate.id });
             return { 
-              ...categoryTemplate, 
-              name: getLocalizedName(categoryTemplate.name as Record<string, string>, language),
+              ...categoryTemplate,
               sub_categories: [] 
             };
           }
           
-          // Şablon verisini işleyerek döndür - seçili dildeki isimleri kullan
+          // Şablon verisini işleyerek döndür - çoklu dil verilerini KORUYARAK
           return { 
-            ...categoryTemplate, 
-            name: getLocalizedName(categoryTemplate.name as Record<string, string>, language),
-            sub_categories: subCategoryTemplates?.map(subTemplate => ({
-              ...subTemplate,
-              name: getLocalizedName(subTemplate.name as Record<string, string>, language)
-            })) || [] 
+            ...categoryTemplate,
+            sub_categories: subCategoryTemplates || [] 
           };
         })
       );
@@ -74,6 +69,7 @@ export class CategoryTemplateQueryService extends BaseCategoryTemplateService {
   
   /**
    * Belirli bir kategori şablonunu detaylarıyla getirir
+   * Veritabanından gelen çoklu dil verilerini korur
    */
   async getCategoryTemplateById(id: string, language: SupportedLanguage = 'tr'): Promise<ICategoryTemplate | null> {
     try {
@@ -107,20 +103,15 @@ export class CategoryTemplateQueryService extends BaseCategoryTemplateService {
       if (subCategoryError) {
         this.logger.error('Alt kategori şablonları detayları getirme hatası', subCategoryError, { categoryTemplateId: id });
         return { 
-          ...categoryTemplate, 
-          name: getLocalizedName(categoryTemplate.name as Record<string, string>, language),
+          ...categoryTemplate,
           sub_categories: [] 
         };
       }
       
-      // Şablon verisini işleyerek döndür - seçili dildeki isimleri kullan
+      // Şablon verisini işleyerek döndür - çoklu dil verilerini KORUYARAK
       return { 
-        ...categoryTemplate, 
-        name: getLocalizedName(categoryTemplate.name as Record<string, string>, language),
-        sub_categories: subCategoryTemplates?.map(subTemplate => ({
-          ...subTemplate,
-          name: getLocalizedName(subTemplate.name as Record<string, string>, language)
-        })) || [] 
+        ...categoryTemplate,
+        sub_categories: subCategoryTemplates || []
       };
     } catch (error) {
       this.logger.error('Kategori şablonu detayları getirme işlemi başarısız oldu', error instanceof Error ? error : new Error('Bilinmeyen hata'), { categoryTemplateId: id });

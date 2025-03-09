@@ -24,11 +24,10 @@ export const TemplateItem: React.FC<TemplateItemProps> = ({
   const { t } = useTranslation(['Categories']);
   const subcategoriesCount = template.sub_categories?.length || 0;
   
-  // name artık doğrudan string olarak gelecek, Records<string, string> değil
-  // template.name artık stringdir, çünkü CategoryTemplateQueryService zaten dönüştürdü
+  // Çoklu dil desteği için ismi doğru şekilde işle
   const templateName = typeof template.name === 'string' 
     ? template.name 
-    : getLocalizedName(template.name as Record<string, string>, language, 'Unnamed Template');
+    : getLocalizedName(template.name, language, 'Unnamed Template');
 
   return (
     <Card className="w-full h-full flex flex-col transition-all hover:shadow-md">
@@ -50,7 +49,7 @@ export const TemplateItem: React.FC<TemplateItemProps> = ({
                   <li key={subCategory.id}>
                     {typeof subCategory.name === 'string' 
                       ? subCategory.name 
-                      : getLocalizedName(subCategory.name as Record<string, string>, language, subCategory.id)}
+                      : getLocalizedName(subCategory.name, language, subCategory.id)}
                   </li>
                 ))}
                 {subcategoriesCount > 3 && (

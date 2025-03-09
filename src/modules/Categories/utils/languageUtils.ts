@@ -16,12 +16,17 @@ export const getSafeLanguage = (lang: string): SupportedLanguage => {
 
 /**
  * Birden çok dil desteği olan bir isim nesnesinden, belirli bir dildeki ismi döndürür
+ * 
  * @param nameObj İsim nesnesi (farklı dillerde isimler içerir)
  * @param language İstenen dil
  * @param fallbackText Hiçbir isim bulunamazsa döndürülecek varsayılan metin
  * @returns Belirtilen dildeki isim veya bir alternatif 
  */
-export const getLocalizedName = (nameObj: Record<string, string> | undefined | null, language: SupportedLanguage, fallbackText = ''): string => {
+export const getLocalizedName = (
+  nameObj: Record<string, string> | undefined | null, 
+  language: SupportedLanguage, 
+  fallbackText = ''
+): string => {
   if (!nameObj) return fallbackText;
   
   // Belirtilen dilde isim varsa döndür
@@ -30,8 +35,8 @@ export const getLocalizedName = (nameObj: Record<string, string> | undefined | n
   }
   
   // Varsayılan dilde isim varsa döndür (Türkçe)
-  if (nameObj['tr']) {
-    return nameObj['tr'];
+  if (nameObj[DEFAULT_LANGUAGE_SETTINGS.defaultLanguage]) {
+    return nameObj[DEFAULT_LANGUAGE_SETTINGS.defaultLanguage];
   }
   
   // Herhangi bir dilde isim varsa ilkini döndür

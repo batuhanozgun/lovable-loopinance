@@ -7,12 +7,18 @@ import { TemplateItem } from './components/TemplateItem';
 import { useSessionService } from '@/modules/UserManagement/auth/hooks/useSessionService';
 import { Loader2 } from 'lucide-react';
 import { getSafeLanguage } from '../../utils/languageUtils';
+import { SupportedLanguage } from '../../types/template';
 
 export const CategoryTemplateList: React.FC = () => {
   const { t, i18n } = useTranslation(['Categories']);
-  // Dil değişikliğini takip edeceğiz ve bunu parametre olarak sorgulama geçireceğiz
-  const safeLanguage = getSafeLanguage(i18n.language);
-  const { categoryTemplates, isLoading: isLoadingTemplates } = useCategoryTemplates({ language: safeLanguage });
+  // Dil değişikliğini takip et
+  const safeLanguage = getSafeLanguage(i18n.language) as SupportedLanguage;
+  
+  // Şablonları getir - dil parametresini geçir
+  const { categoryTemplates, isLoading: isLoadingTemplates } = useCategoryTemplates({ 
+    language: safeLanguage 
+  });
+  
   const { getCurrentUserID } = useSessionService();
   const { importCategoryFromTemplate, isImporting } = useCategoryTemplateImportMutation();
   const [importingTemplateId, setImportingTemplateId] = React.useState<string | null>(null);
@@ -28,7 +34,11 @@ export const CategoryTemplateList: React.FC = () => {
       }
       
       // Dil parametresini de geçir
-      importCategoryFromTemplate({ templateId, userId, language: safeLanguage });
+      importCategoryFromTemplate({ 
+        templateId, 
+        userId, 
+        language: safeLanguage 
+      });
     } catch (error) {
       console.error('Error importing category:', error);
     } finally {
