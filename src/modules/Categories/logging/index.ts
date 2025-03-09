@@ -1,22 +1,16 @@
 
-import { createLogger } from '@/modules/Logging';
+import { categoriesLogger } from './categories.logger';
+import { uiLogger } from './ui.logger';
+import { operationsLogger } from './operations.logger';
+import { serviceLogger } from './service.logger';
 
-// Ana modül logger
-const logger = createLogger('Categories');
-
-// Alt modül loggerları
-const uiLogger = logger.createSubLogger('UI');
-const serviceLogger = logger.createSubLogger('Services');
-const categoryMutationLogger = logger.createSubLogger('Mutations');
-const categoryQueryLogger = logger.createSubLogger('Queries');
-
+// Tüm loggerları dışa aktar
 export {
-  logger as CategoriesLogger,
+  categoriesLogger,
   uiLogger,
-  serviceLogger,
-  categoryMutationLogger,
-  categoryQueryLogger
+  operationsLogger,
+  serviceLogger
 };
 
 // Varsayılan dışa aktarım
-export default logger;
+export default categoriesLogger;

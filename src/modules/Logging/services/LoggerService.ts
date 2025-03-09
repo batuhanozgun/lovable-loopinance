@@ -8,7 +8,7 @@ export class LoggerService implements ILogger {
   private context: string = '';
 
   private constructor() {
-    this.loggers.push(ConsoleLoggerService as unknown as ILogger);
+    this.loggers.push(new ConsoleLoggerService());
   }
 
   static getInstance(context?: string): LoggerService {
