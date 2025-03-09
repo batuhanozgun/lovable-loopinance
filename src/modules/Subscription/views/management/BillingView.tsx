@@ -10,6 +10,7 @@ import { formatCurrency } from '@/modules/Payment/utils/currencyUtils';
 import { Download, CreditCard, Plus } from 'lucide-react';
 import { viewsLogger } from '../../logging';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
 
 // Demo fatura verileri
 const getDemoInvoices = (locale: string, currency: string) => {
@@ -177,14 +178,5 @@ export const SubscriptionBillingView: React.FC = () => {
         </TabsContent>
       </Tabs>
     </div>
-  );
-};
-
-// Badge bileşeni
-const Badge = ({ children, variant }: { children: React.ReactNode; variant?: string }) => {
-  return (
-    <span className={`bg-${variant === 'outline' ? 'transparent' : `${variant}-100`} text-${variant === 'outline' ? 'muted-foreground' : `${variant}-800`} border border-${variant === 'outline' ? 'border' : `${variant}-200`} px-2 py-0.5 rounded-full text-xs`}>
-      {children}
-    </span>
   );
 };
