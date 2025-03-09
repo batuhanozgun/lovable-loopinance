@@ -19,6 +19,7 @@ import { initOAuthTranslations } from '@/modules/UserManagement/OAuth/i18n';
 import { initProfileTranslations } from '@/modules/UserManagement/Profile/i18n';
 import { initSubscriptionTranslations } from '@/modules/Subscription/i18n';
 import { initPaymentTranslations } from '@/modules/Payment/i18n';
+import { loadTranslations as loadCategoriesTranslations } from '@/modules/Categories/i18n';
 
 // i18n nesnesini yapılandır
 i18n
@@ -57,5 +58,6 @@ initOAuthTranslations();
 initProfileTranslations();
 initSubscriptionTranslations();
 initPaymentTranslations();
+loadCategoriesTranslations();
 
 export default i18n;

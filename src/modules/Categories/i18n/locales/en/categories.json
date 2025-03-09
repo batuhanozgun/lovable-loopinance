@@ -29,7 +29,8 @@
     "withSubcategories": "{{count}} subcategories",
     "templateLibrary": "Ready-to-use category templates",
     "importFromTemplate": "Add category from template",
-    "andMore": "and {{count}} more"
+    "andMore": "and {{count}} more",
+    "languageSelector": "View templates in"
   },
   "empty": {
     "title": "No categories yet",

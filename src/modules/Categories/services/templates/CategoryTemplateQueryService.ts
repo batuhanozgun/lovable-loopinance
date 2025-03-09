@@ -13,9 +13,9 @@ export class CategoryTemplateQueryService extends BaseCategoryTemplateService {
   /**
    * Tüm kategori şablonlarını ve alt kategori şablonlarını getirir
    */
-  async getAllCategoryTemplates(): Promise<ICategoryTemplate[]> {
+  async getAllCategoryTemplates(language = 'tr'): Promise<ICategoryTemplate[]> {
     try {
-      this.logger.debug('Kategori şablonları getiriliyor');
+      this.logger.debug('Kategori şablonları getiriliyor', { language });
       
       // Ana kategori şablonlarını getir
       const { data: categoryTemplates, error: categoryError } = await this.supabaseClient
@@ -47,7 +47,12 @@ export class CategoryTemplateQueryService extends BaseCategoryTemplateService {
             return { ...categoryTemplate, sub_categories: [] };
           }
           
-          return { ...categoryTemplate, sub_categories: subCategoryTemplates || [] };
+          return { 
+            ...categoryTemplate, 
+            sub_categories: subCategoryTemplates?.map(subTemplate => ({
+              ...subTemplate
+            })) || [] 
+          };
         })
       );
       
@@ -61,9 +66,9 @@ export class CategoryTemplateQueryService extends BaseCategoryTemplateService {
   /**
    * Belirli bir kategori şablonunu detaylarıyla getirir
    */
-  async getCategoryTemplateById(id: string): Promise<ICategoryTemplate | null> {
+  async getCategoryTemplateById(id: string, language = 'tr'): Promise<ICategoryTemplate | null> {
     try {
-      this.logger.debug('Kategori şablonu detayları getiriliyor', { categoryTemplateId: id });
+      this.logger.debug('Kategori şablonu detayları getiriliyor', { categoryTemplateId: id, language });
       
       // Kategori şablonunu getir
       const { data: categoryTemplate, error: categoryError } = await this.supabaseClient
@@ -95,7 +100,10 @@ export class CategoryTemplateQueryService extends BaseCategoryTemplateService {
         return { ...categoryTemplate, sub_categories: [] };
       }
       
-      return { ...categoryTemplate, sub_categories: subCategoryTemplates || [] };
+      return { 
+        ...categoryTemplate, 
+        sub_categories: subCategoryTemplates || [] 
+      };
     } catch (error) {
       this.logger.error('Kategori şablonu detayları getirme işlemi başarısız oldu', error instanceof Error ? error : new Error('Bilinmeyen hata'), { categoryTemplateId: id });
       return null;

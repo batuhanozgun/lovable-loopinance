@@ -1,18 +1,22 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { CategoryTemplateQueryService } from '../../services/templates';
-import type { ICategoryTemplate } from '../../types/template';
+import type { ICategoryTemplate, ITemplateViewOptions } from '../../types/template';
+import { useTranslation } from 'react-i18next';
 
 const categoryTemplateService = new CategoryTemplateQueryService();
 
 /**
  * Kategori şablonlarını getirmek için hook
  */
-export const useCategoryTemplates = () => {
+export const useCategoryTemplates = (options?: Partial<ITemplateViewOptions>) => {
+  const { i18n } = useTranslation();
+  const language = options?.language || i18n.language;
+
   const { data, isLoading, error } = useQuery({
-    queryKey: ['categoryTemplates'],
+    queryKey: ['categoryTemplates', language],
     queryFn: async (): Promise<ICategoryTemplate[]> => {
-      return categoryTemplateService.getAllCategoryTemplates();
+      return categoryTemplateService.getAllCategoryTemplates(language);
     }
   });
 
@@ -26,11 +30,14 @@ export const useCategoryTemplates = () => {
 /**
  * Belirli bir kategori şablonunu ID'ye göre getirmek için hook
  */
-export const useCategoryTemplateById = (id: string) => {
+export const useCategoryTemplateById = (id: string, options?: Partial<ITemplateViewOptions>) => {
+  const { i18n } = useTranslation();
+  const language = options?.language || i18n.language;
+
   const { data, isLoading, error } = useQuery({
-    queryKey: ['categoryTemplate', id],
+    queryKey: ['categoryTemplate', id, language],
     queryFn: async (): Promise<ICategoryTemplate | null> => {
-      return categoryTemplateService.getCategoryTemplateById(id);
+      return categoryTemplateService.getCategoryTemplateById(id, language);
     },
     enabled: !!id
   });

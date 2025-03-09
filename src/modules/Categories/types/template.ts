@@ -4,7 +4,7 @@
  */
 export interface ICategoryTemplate {
   id: string;
-  name: string;
+  name: Record<string, string>;
   icon: string | null;
   sort_order: number;
   is_active: boolean;
@@ -18,7 +18,7 @@ export interface ICategoryTemplate {
  */
 export interface ISubCategoryTemplate {
   id: string;
-  name: string;
+  name: Record<string, string>;
   category_template_id: string;
   sort_order: number;
   is_active: boolean;
@@ -32,4 +32,12 @@ export interface ISubCategoryTemplate {
 export interface ICreateCategoryFromTemplateData {
   templateId: string;
   userId: string;
+  language?: string;
+}
+
+/**
+ * Şablon liste görünümü için ayarlar
+ */
+export interface ITemplateViewOptions {
+  language: string;
 }

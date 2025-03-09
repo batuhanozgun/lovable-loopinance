@@ -29,7 +29,8 @@
     "withSubcategories": "{{count}} alt kategori",
     "templateLibrary": "Hazır kategori şablonları",
     "importFromTemplate": "Şablondan kategori ekle",
-    "andMore": "ve {{count}} daha"
+    "andMore": "ve {{count}} daha",
+    "languageSelector": "Şablonları şu dilde görüntüle"
   },
   "empty": {
     "title": "Henüz kategori yok",

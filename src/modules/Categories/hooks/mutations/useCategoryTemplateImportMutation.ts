@@ -13,11 +13,19 @@ const categoryTemplateImportService = new CategoryTemplateImportService();
 export const useCategoryTemplateImportMutation = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
-  const { t } = useTranslation(['Categories']);
+  const { t, i18n } = useTranslation(['Categories']);
 
   const mutation = useMutation({
-    mutationFn: async ({ templateId, userId }: { templateId: string; userId: string }): Promise<ICategory | null> => {
-      return categoryTemplateImportService.createCategoryFromTemplate(templateId, userId);
+    mutationFn: async ({ 
+      templateId, 
+      userId, 
+      language = i18n.language 
+    }: { 
+      templateId: string; 
+      userId: string;
+      language?: string;
+    }): Promise<ICategory | null> => {
+      return categoryTemplateImportService.createCategoryFromTemplate(templateId, userId, language);
     },
     onSuccess: (data) => {
       if (data) {

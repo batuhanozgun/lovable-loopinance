@@ -21,9 +21,9 @@ export class CategoryTemplateImportService extends BaseCategoryTemplateService {
   /**
    * Şablondan yeni bir kategori oluşturur
    */
-  async createCategoryFromTemplate(templateId: string, userId: string): Promise<ICategory | null> {
+  async createCategoryFromTemplate(templateId: string, userId: string, language = 'tr'): Promise<ICategory | null> {
     try {
-      this.logger.debug('Şablondan kategori oluşturuluyor', { templateId, userId });
+      this.logger.debug('Şablondan kategori oluşturuluyor', { templateId, userId, language });
       
       // Şablon verisini getir
       const { data: template, error } = await this.supabaseClient
@@ -51,9 +51,12 @@ export class CategoryTemplateImportService extends BaseCategoryTemplateService {
         return null;
       }
       
+      // Çoklu dil desteği için şablon isminden tercihe uygun dildeki ismi al
+      const categoryName = this.getLocalizedName(template.name, language);
+      
       // Kategoriyi oluştur
       const categoryData: ICreateCategoryData = {
-        name: template.name,
+        name: categoryName,
         icon: template.icon,
         user_id: userId
       };
@@ -68,8 +71,11 @@ export class CategoryTemplateImportService extends BaseCategoryTemplateService {
         });
         
         await Promise.all(subCategoryTemplates.map(async (subTemplate) => {
+          // Alt kategori için tercih edilen dildeki ismi al
+          const subCategoryName = this.getLocalizedName(subTemplate.name, language);
+          
           const subCategoryData: ICreateSubCategoryData = {
-            name: subTemplate.name,
+            name: subCategoryName,
             category_id: category.id
           };
           
@@ -82,12 +88,13 @@ export class CategoryTemplateImportService extends BaseCategoryTemplateService {
       
       this.logger.debug('Şablondan kategori başarıyla oluşturuldu', { 
         categoryId: updatedCategory.id,
-        templateId
+        templateId,
+        language
       });
       
       return updatedCategory;
     } catch (error) {
-      this.logger.error('Şablondan kategori oluşturma hatası', error instanceof Error ? error : new Error('Bilinmeyen hata'), { templateId, userId });
+      this.logger.error('Şablondan kategori oluşturma hatası', error instanceof Error ? error : new Error('Bilinmeyen hata'), { templateId, userId, language });
       return null;
     }
   }

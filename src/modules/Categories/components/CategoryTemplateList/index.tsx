@@ -5,16 +5,22 @@ import { useCategories } from '../../hooks/queries/useCategoryQueries';
 import { useCategoryTemplates } from '../../hooks/queries/useCategoryTemplateQueries';
 import { useCategoryTemplateImportMutation } from '../../hooks/mutations/useCategoryTemplateImportMutation';
 import { TemplateItem } from './components/TemplateItem';
+import { LanguageSelector } from './components/LanguageSelector';
 import { useSessionService } from '@/modules/UserManagement/auth/hooks/useSessionService';
 import { Loader2 } from 'lucide-react';
 
 export const CategoryTemplateList: React.FC = () => {
-  const { t } = useTranslation(['Categories']);
-  const { categoryTemplates, isLoading: isLoadingTemplates } = useCategoryTemplates();
+  const { t, i18n } = useTranslation(['Categories']);
+  const [language, setLanguage] = useState<string>(i18n.language);
+  const { categoryTemplates, isLoading: isLoadingTemplates } = useCategoryTemplates({ language });
   const { categories } = useCategories();
   const { getCurrentUserID } = useSessionService();
   const { importCategoryFromTemplate, isImporting } = useCategoryTemplateImportMutation();
   const [importingTemplateId, setImportingTemplateId] = useState<string | null>(null);
+  
+  const handleLanguageChange = (value: string) => {
+    setLanguage(value);
+  };
   
   const handleImportCategory = async (templateId: string) => {
     try {
@@ -26,7 +32,7 @@ export const CategoryTemplateList: React.FC = () => {
         return;
       }
       
-      importCategoryFromTemplate({ templateId, userId });
+      importCategoryFromTemplate({ templateId, userId, language });
     } catch (error) {
       console.error('Error importing category:', error);
     } finally {
@@ -52,15 +58,22 @@ export const CategoryTemplateList: React.FC = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-      {categoryTemplates.map((template) => (
-        <TemplateItem 
-          key={template.id} 
-          template={template} 
-          onImport={handleImportCategory}
-          isImporting={isImporting || importingTemplateId === template.id}
-        />
-      ))}
+    <div className="space-y-4">
+      <div className="flex justify-end">
+        <LanguageSelector value={language} onChange={handleLanguageChange} />
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {categoryTemplates.map((template) => (
+          <TemplateItem 
+            key={template.id} 
+            template={template}
+            language={language}
+            onImport={handleImportCategory}
+            isImporting={isImporting || importingTemplateId === template.id}
+          />
+        ))}
+      </div>
     </div>
   );
 };
