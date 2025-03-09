@@ -52,7 +52,7 @@
     },
     "discount": "%{{percentage}} İndirim",
     "pricing": {
-      "monthly": "{{price}}{{currency}}/{{period}}",
+      "monthly": "{{price}}/{{period}}",
       "period": {
         "month": "ay",
         "year": "yıl"

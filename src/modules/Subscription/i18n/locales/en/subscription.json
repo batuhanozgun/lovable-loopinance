@@ -52,7 +52,7 @@
     },
     "discount": "{{percentage}}% Discount",
     "pricing": {
-      "monthly": "{{price}}{{currency}}/{{period}}",
+      "monthly": "{{price}}/{{period}}",
       "period": {
         "month": "month",
         "year": "year"
