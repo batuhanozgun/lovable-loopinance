@@ -20,6 +20,7 @@ import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
 import "@/i18n/config";
 import { useToast } from "./hooks/use-toast";
+import { CategoriesView } from "@/modules/Categories/views/CategoriesView";
 
 const queryClient = new QueryClient();
 
@@ -137,6 +138,19 @@ const App = () => {
               isAuthenticated ? (
                 <Layout>
                   <ProfileView />
+                </Layout>
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          {/* Kategori rotası ekleyelim */}
+          <Route
+            path="/categories"
+            element={
+              isAuthenticated ? (
+                <Layout>
+                  <CategoriesView />
                 </Layout>
               ) : (
                 <Navigate to="/login" />
