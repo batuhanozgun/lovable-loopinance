@@ -25,9 +25,7 @@ export const TemplateItem: React.FC<TemplateItemProps> = ({
   const subcategoriesCount = template.sub_categories?.length || 0;
   
   // Çoklu dil desteği için ismi doğru şekilde işle
-  const templateName = typeof template.name === 'string' 
-    ? template.name 
-    : getLocalizedName(template.name, language, 'Unnamed Template');
+  const templateName = getLocalizedName(template.name, language, 'Unnamed Template');
 
   return (
     <Card className="w-full h-full flex flex-col transition-all hover:shadow-md">
@@ -47,9 +45,7 @@ export const TemplateItem: React.FC<TemplateItemProps> = ({
               <ul className="list-disc ml-5">
                 {template.sub_categories?.slice(0, 3).map((subCategory) => (
                   <li key={subCategory.id}>
-                    {typeof subCategory.name === 'string' 
-                      ? subCategory.name 
-                      : getLocalizedName(subCategory.name, language, subCategory.id)}
+                    {getLocalizedName(subCategory.name, language, subCategory.id)}
                   </li>
                 ))}
                 {subcategoriesCount > 3 && (

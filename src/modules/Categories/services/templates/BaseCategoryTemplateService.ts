@@ -4,7 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
 import { SupportedLanguage } from '../../types/template';
 import { Json } from '@/integrations/supabase/types';
-import { getLocalizedName } from '../../utils/languageUtils';
+import { getLocalizedName, safeJsonToStringRecord } from '../../utils/languageUtils';
 
 /**
  * Kategori şablonları için temel servis sınıfı
@@ -30,9 +30,9 @@ export class BaseCategoryTemplateService {
    * İsim alanlarından çoklu dil desteği için belirli dilde isim döndürür
    * Eğer belirtilen dilde bir isim yoksa, varsayılan dil (tr) veya mevcut herhangi bir dil döndürülür
    */
-  protected getNameForLanguage(nameObject: Record<string, string> | Json | null | undefined, language: SupportedLanguage = 'tr'): string {
-    // Json tipinden Record<string, string> tipine dönüştür
-    const nameRecord = nameObject as Record<string, string>;
+  protected getNameForLanguage(nameObject: Json | null | undefined, language: SupportedLanguage = 'tr'): string {
+    // Json tipini Record<string, string> tipine dönüştür
+    const nameRecord = safeJsonToStringRecord(nameObject);
     
     // Yardımcı fonksiyonu kullan
     return getLocalizedName(nameRecord, language, '');

@@ -4,8 +4,8 @@
  */
 export interface ICategoryTemplate {
   id: string;
-  // name can be multilingual (Record<string, string>) or a simple string
-  name: Record<string, string> | string;
+  // Sadece Record<string, string> kullanarak çoklu dil desteği sağlıyoruz
+  name: Record<string, string>;
   icon: string | null;
   sort_order: number;
   is_active: boolean;
@@ -19,8 +19,8 @@ export interface ICategoryTemplate {
  */
 export interface ISubCategoryTemplate {
   id: string;
-  // name can be multilingual (Record<string, string>) or a simple string
-  name: Record<string, string> | string;
+  // Sadece Record<string, string> kullanarak çoklu dil desteği sağlıyoruz
+  name: Record<string, string>;
   category_template_id: string;
   sort_order: number;
   is_active: boolean;

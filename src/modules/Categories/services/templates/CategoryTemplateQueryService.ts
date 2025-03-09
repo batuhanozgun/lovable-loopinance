@@ -2,6 +2,7 @@
 import { BaseCategoryTemplateService } from './BaseCategoryTemplateService';
 import type { ICategoryTemplate, SupportedLanguage } from '../../types/template';
 import { Json } from '@/integrations/supabase/types';
+import { safeJsonToStringRecord } from '../../utils/languageUtils';
 
 /**
  * Kategori şablonları ve alt kategori şablonlarını sorgulama işlemleri
@@ -48,14 +49,24 @@ export class CategoryTemplateQueryService extends BaseCategoryTemplateService {
             this.logger.error('Alt kategori şablonlarını getirme hatası', subCategoryError, { categoryTemplateId: categoryTemplate.id });
             return { 
               ...categoryTemplate,
+              // Json tipini Record<string, string> tipine güvenli şekilde dönüştür
+              name: safeJsonToStringRecord(categoryTemplate.name),
               sub_categories: [] 
             };
           }
           
+          // Alt kategorilerin name alanlarını Record<string, string> tipine dönüştür
+          const processedSubCategories = subCategoryTemplates ? subCategoryTemplates.map(subCategory => ({
+            ...subCategory,
+            name: safeJsonToStringRecord(subCategory.name as Json)
+          })) : [];
+          
           // Şablon verisini işleyerek döndür - çoklu dil verilerini KORUYARAK
           return { 
             ...categoryTemplate,
-            sub_categories: subCategoryTemplates || [] 
+            // Json tipini Record<string, string> tipine güvenli şekilde dönüştür
+            name: safeJsonToStringRecord(categoryTemplate.name),
+            sub_categories: processedSubCategories
           };
         })
       );
@@ -104,14 +115,24 @@ export class CategoryTemplateQueryService extends BaseCategoryTemplateService {
         this.logger.error('Alt kategori şablonları detayları getirme hatası', subCategoryError, { categoryTemplateId: id });
         return { 
           ...categoryTemplate,
+          // Json tipini Record<string, string> tipine güvenli şekilde dönüştür
+          name: safeJsonToStringRecord(categoryTemplate.name),
           sub_categories: [] 
         };
       }
       
+      // Alt kategorilerin name alanlarını Record<string, string> tipine dönüştür
+      const processedSubCategories = subCategoryTemplates ? subCategoryTemplates.map(subCategory => ({
+        ...subCategory,
+        name: safeJsonToStringRecord(subCategory.name as Json)
+      })) : [];
+      
       // Şablon verisini işleyerek döndür - çoklu dil verilerini KORUYARAK
       return { 
         ...categoryTemplate,
-        sub_categories: subCategoryTemplates || []
+        // Json tipini Record<string, string> tipine güvenli şekilde dönüştür
+        name: safeJsonToStringRecord(categoryTemplate.name),
+        sub_categories: processedSubCategories
       };
     } catch (error) {
       this.logger.error('Kategori şablonu detayları getirme işlemi başarısız oldu', error instanceof Error ? error : new Error('Bilinmeyen hata'), { categoryTemplateId: id });
