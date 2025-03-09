@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { CategoryTemplateQueryService } from '../../services/templates';
 import type { ICategoryTemplate, ITemplateViewOptions, SupportedLanguage } from '../../types/template';
 import { useTranslation } from 'react-i18next';
+import { DEFAULT_LANGUAGE_SETTINGS } from '../../types/template';
 
 const categoryTemplateService = new CategoryTemplateQueryService();
 
@@ -11,7 +12,15 @@ const categoryTemplateService = new CategoryTemplateQueryService();
  */
 export const useCategoryTemplates = (options?: Partial<ITemplateViewOptions>) => {
   const { i18n } = useTranslation();
-  const language = options?.language || i18n.language as SupportedLanguage;
+  
+  // Güvenli bir şekilde dil tipini döndür, eğer desteklenmiyorsa varsayılan dili kullan
+  const getSafeLanguage = (lang: string): SupportedLanguage => {
+    return DEFAULT_LANGUAGE_SETTINGS.supportedLanguages.includes(lang as SupportedLanguage) 
+      ? (lang as SupportedLanguage) 
+      : DEFAULT_LANGUAGE_SETTINGS.defaultLanguage;
+  };
+  
+  const language = options?.language || getSafeLanguage(i18n.language);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['categoryTemplates', language],
@@ -32,7 +41,15 @@ export const useCategoryTemplates = (options?: Partial<ITemplateViewOptions>) =>
  */
 export const useCategoryTemplateById = (id: string, options?: Partial<ITemplateViewOptions>) => {
   const { i18n } = useTranslation();
-  const language = options?.language || i18n.language as SupportedLanguage;
+  
+  // Güvenli bir şekilde dil tipini döndür, eğer desteklenmiyorsa varsayılan dili kullan
+  const getSafeLanguage = (lang: string): SupportedLanguage => {
+    return DEFAULT_LANGUAGE_SETTINGS.supportedLanguages.includes(lang as SupportedLanguage) 
+      ? (lang as SupportedLanguage) 
+      : DEFAULT_LANGUAGE_SETTINGS.defaultLanguage;
+  };
+  
+  const language = options?.language || getSafeLanguage(i18n.language);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['categoryTemplate', id, language],

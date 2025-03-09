@@ -5,6 +5,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
 import type { ICategory } from '../../types';
 import type { SupportedLanguage } from '../../types/template';
+import { DEFAULT_LANGUAGE_SETTINGS } from '../../types/template';
 
 const categoryTemplateImportService = new CategoryTemplateImportService();
 
@@ -14,13 +15,20 @@ const categoryTemplateImportService = new CategoryTemplateImportService();
 export const useCategoryTemplateImportMutation = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
-  const { t, i18n } = useTranslation(['Categories']);
+  const { t, i18n } = useTranslation(['Categories', 'Messages']);
+
+  // Güvenli bir şekilde dil tipini döndür, eğer desteklenmiyorsa varsayılan dili kullan
+  const getSafeLanguage = (lang: string): SupportedLanguage => {
+    return DEFAULT_LANGUAGE_SETTINGS.supportedLanguages.includes(lang as SupportedLanguage) 
+      ? (lang as SupportedLanguage) 
+      : DEFAULT_LANGUAGE_SETTINGS.defaultLanguage;
+  };
 
   const mutation = useMutation({
     mutationFn: async ({ 
       templateId, 
       userId, 
-      language = i18n.language as SupportedLanguage 
+      language = getSafeLanguage(i18n.language)
     }: { 
       templateId: string; 
       userId: string;
@@ -31,8 +39,8 @@ export const useCategoryTemplateImportMutation = () => {
     onSuccess: (data) => {
       if (data) {
         toast({
-          title: t('categories:messages.template.import.success'),
-          description: t('categories:messages.template.import.successDescription', { categoryName: data.name }),
+          title: t('messages:template.import.success'),
+          description: t('messages:template.import.successDescription', { categoryName: data.name }),
           // "success" variant olmadığı için default kullanıyoruz
           variant: 'default',
         });
@@ -42,8 +50,8 @@ export const useCategoryTemplateImportMutation = () => {
     },
     onError: (error) => {
       toast({
-        title: t('categories:messages.template.import.failed'),
-        description: error instanceof Error ? error.message : t('categories:errors.template.import.failed'),
+        title: t('messages:template.import.failed'),
+        description: error instanceof Error ? error.message : t('errors:template.import.failed'),
         variant: 'destructive',
       });
     }

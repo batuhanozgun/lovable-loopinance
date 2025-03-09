@@ -17,7 +17,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ value, onCha
       <span className="text-sm">{t('categories:labels.languageSelector')}:</span>
       <Select value={value} onValueChange={(val) => onChange(val as SupportedLanguage)}>
         <SelectTrigger className="w-[120px]">
-          <SelectValue placeholder="Dil seçin" />
+          <SelectValue placeholder={t('categories:labels.selectLanguage')} />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="tr">Türkçe</SelectItem>

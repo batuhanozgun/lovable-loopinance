@@ -1,6 +1,7 @@
 
 import { BaseCategoryTemplateService } from './BaseCategoryTemplateService';
 import type { ICategoryTemplate, SupportedLanguage } from '../../types/template';
+import { Json } from '@/integrations/supabase/types';
 
 /**
  * Kategori şablonları ve alt kategori şablonlarını sorgulama işlemleri
@@ -44,13 +45,19 @@ export class CategoryTemplateQueryService extends BaseCategoryTemplateService {
           
           if (subCategoryError) {
             this.logger.error('Alt kategori şablonlarını getirme hatası', subCategoryError, { categoryTemplateId: categoryTemplate.id });
-            return { ...categoryTemplate, sub_categories: [] };
+            return { 
+              ...categoryTemplate, 
+              name: categoryTemplate.name as Record<string, string>,
+              sub_categories: [] 
+            };
           }
           
           return { 
             ...categoryTemplate, 
+            name: categoryTemplate.name as Record<string, string>,
             sub_categories: subCategoryTemplates?.map(subTemplate => ({
-              ...subTemplate
+              ...subTemplate,
+              name: subTemplate.name as Record<string, string>
             })) || [] 
           };
         })
@@ -97,12 +104,20 @@ export class CategoryTemplateQueryService extends BaseCategoryTemplateService {
       
       if (subCategoryError) {
         this.logger.error('Alt kategori şablonları detayları getirme hatası', subCategoryError, { categoryTemplateId: id });
-        return { ...categoryTemplate, sub_categories: [] };
+        return { 
+          ...categoryTemplate, 
+          name: categoryTemplate.name as Record<string, string>,
+          sub_categories: [] 
+        };
       }
       
       return { 
         ...categoryTemplate, 
-        sub_categories: subCategoryTemplates || [] 
+        name: categoryTemplate.name as Record<string, string>,
+        sub_categories: subCategoryTemplates?.map(subTemplate => ({
+          ...subTemplate,
+          name: subTemplate.name as Record<string, string>
+        })) || [] 
       };
     } catch (error) {
       this.logger.error('Kategori şablonu detayları getirme işlemi başarısız oldu', error instanceof Error ? error : new Error('Bilinmeyen hata'), { categoryTemplateId: id });

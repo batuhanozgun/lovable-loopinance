@@ -3,6 +3,7 @@ import { createLogger } from '@/modules/Logging';
 import { supabase } from '@/integrations/supabase/client';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
 import { SupportedLanguage } from '../../types/template';
+import { Json } from '@/integrations/supabase/types';
 
 /**
  * Kategori şablonları için temel servis sınıfı
@@ -28,25 +29,28 @@ export class BaseCategoryTemplateService {
    * İsim alanlarından çoklu dil desteği için belirli dilde isim döndürür
    * Eğer belirtilen dilde bir isim yoksa, varsayılan dil (tr) veya mevcut herhangi bir dil döndürülür
    */
-  protected getLocalizedName(nameObject: Record<string, string> | null | undefined, language: SupportedLanguage = 'tr'): string {
+  protected getLocalizedName(nameObject: Record<string, string> | Json | null | undefined, language: SupportedLanguage = 'tr'): string {
     if (!nameObject) {
       return '';
     }
 
+    // Json tipinden Record<string, string> tipine dönüştür
+    const nameRecord = nameObject as Record<string, string>;
+
     // Belirtilen dilde isim varsa döndür
-    if (nameObject[language]) {
-      return nameObject[language];
+    if (nameRecord[language]) {
+      return nameRecord[language];
     }
 
     // Varsayılan olarak Türkçe ismi döndür (sistem dili)
-    if (nameObject['tr']) {
-      return nameObject['tr'];
+    if (nameRecord['tr']) {
+      return nameRecord['tr'];
     }
 
     // Herhangi bir dilde isim varsa ilkini döndür
-    const availableLanguage = Object.keys(nameObject)[0];
+    const availableLanguage = Object.keys(nameRecord)[0];
     if (availableLanguage) {
-      return nameObject[availableLanguage];
+      return nameRecord[availableLanguage];
     }
 
     // Hiçbir isim bulunamadıysa boş string döndür

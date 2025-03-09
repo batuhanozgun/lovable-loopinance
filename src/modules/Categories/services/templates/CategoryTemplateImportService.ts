@@ -4,6 +4,7 @@ import { CategoryManagementService } from '../CategoryManagementService';
 import { SubcategoryService } from '../SubcategoryService';
 import type { ICategory, ICreateCategoryData, ICreateSubCategoryData } from '../../types';
 import type { ICategoryTemplate, ISubCategoryTemplate, SupportedLanguage } from '../../types/template';
+import { Json } from '@/integrations/supabase/types';
 
 /**
  * Şablonlardan kategori oluşturma servisi
@@ -52,7 +53,7 @@ export class CategoryTemplateImportService extends BaseCategoryTemplateService {
       }
       
       // Çoklu dil desteği için şablon isminden tercihe uygun dildeki ismi al
-      const categoryName = this.getLocalizedName(template.name, language);
+      const categoryName = this.getLocalizedName(template.name as Record<string, string>, language);
       
       // Kategoriyi oluştur
       const categoryData: ICreateCategoryData = {
@@ -72,7 +73,7 @@ export class CategoryTemplateImportService extends BaseCategoryTemplateService {
         
         await Promise.all(subCategoryTemplates.map(async (subTemplate) => {
           // Alt kategori için tercih edilen dildeki ismi al
-          const subCategoryName = this.getLocalizedName(subTemplate.name, language);
+          const subCategoryName = this.getLocalizedName(subTemplate.name as Record<string, string>, language);
           
           const subCategoryData: ICreateSubCategoryData = {
             name: subCategoryName,
@@ -84,10 +85,10 @@ export class CategoryTemplateImportService extends BaseCategoryTemplateService {
       }
       
       // Güncel kategori verisini döndür
-      const updatedCategory = await this.categoryService.updateCategory(category.id, {});
+      const updatedCategory = await this.categoryService.getCategoryById(category.id);
       
       this.logger.debug('Şablondan kategori başarıyla oluşturuldu', { 
-        categoryId: updatedCategory.id,
+        categoryId: updatedCategory?.id,
         templateId,
         language
       });
