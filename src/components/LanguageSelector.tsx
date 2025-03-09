@@ -16,11 +16,11 @@ export const LanguageSelector = ({ className, ...props }: LanguageSelectorProps)
     const currentLang = i18n.language;
     const newLang = currentLang === "tr" ? "en" : "tr";
     
-    // Hızlı dil değişimi için Promise beklemeyelim ve sayfa yenilemesi yapmayalım
+    // Dil değişimini uygula
     i18n.changeLanguage(newLang);
     localStorage.setItem("preferredLanguage", newLang);
     
-    // Kullanıcıya bildirim gösterelim
+    // Kullanıcıya bildirim göster
     toast({
       title: newLang === "en" ? "Language changed" : "Dil değiştirildi",
       description: newLang === "en" ? "Using English now" : "Şimdi Türkçe kullanılıyor",

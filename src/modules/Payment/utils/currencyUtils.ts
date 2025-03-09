@@ -4,19 +4,28 @@
  * @param price Fiyat değeri
  * @param locale Locale değeri (tr-TR, en-US vb.)
  * @param currency Para birimi kodu (TRY, USD vb.)
- * @param displayCurrencySymbol Özel para birimi sembolü (₺, $, € vb.)
+ * @param displayCurrencySymbol Özel para birimi sembolü (₺, $, € vb.) - opsiyonel
  */
 export const formatCurrency = (
   price: number, 
   locale = 'tr-TR', 
-  currency = 'TRY', 
-  displayCurrencySymbol = '₺'
+  currency = locale === 'tr-TR' ? 'TRY' : 'USD', 
+  displayCurrencySymbol?: string
 ): string => {
-  return new Intl.NumberFormat(locale, {
+  // NumberFormat ile para birimini formatla
+  const formatted = new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: currency,
     minimumFractionDigits: 0,
-  }).format(price).replace(currency === 'TRY' ? '₺' : getSymbolFromCurrency(currency), displayCurrencySymbol);
+  }).format(price);
+  
+  // Eğer özel sembol belirtildiyse, para birimi sembolünü değiştir
+  if (displayCurrencySymbol) {
+    const currencySymbol = getSymbolFromCurrency(currency);
+    return formatted.replace(currencySymbol, displayCurrencySymbol);
+  }
+  
+  return formatted;
 };
 
 /**

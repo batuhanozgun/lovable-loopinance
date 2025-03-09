@@ -36,10 +36,15 @@ i18n
       }
     },
     fallbackLng: 'tr',
-    debug: false,
+    debug: process.env.NODE_ENV === 'development',
     interpolation: {
       escapeValue: false, // React zaten XSS koruma yapıyor
-    }
+    },
+    load: 'languageOnly', // Dil kodlarını yalnızca dil kodunu kullanarak yükle (tr-TR yerine sadece tr)
+    detection: {
+      order: ['localStorage', 'navigator'],
+      caches: ['localStorage'],
+    },
   });
 
 // Tüm modüllerin çevirilerini başlat

@@ -20,6 +20,8 @@ export const PlanSummaryStep: React.FC<PlanSummaryStepProps> = ({
   onNext 
 }) => {
   const { t, i18n } = useTranslation(['Payment', 'common', 'Subscription']);
+  const locale = i18n.language === 'tr' ? 'tr-TR' : 'en-US';
+  const currency = i18n.language === 'tr' ? 'TRY' : 'USD';
   
   return (
     <div className="space-y-4">
@@ -28,7 +30,7 @@ export const PlanSummaryStep: React.FC<PlanSummaryStepProps> = ({
           <div className="mb-4">
             <h3 className="text-lg font-semibold">{t(`Subscription:plan.${planType}`)}</h3>
             <p className="text-2xl font-bold mt-2">
-              {formatCurrency(planPrice, i18n.language === 'tr' ? 'tr-TR' : 'en-US')}
+              {formatCurrency(planPrice, locale, currency)}
               <span className="text-sm text-muted-foreground ml-1">
                 {planType === 'monthly'
                   ? t('Subscription:plans.pricing.period.month') 

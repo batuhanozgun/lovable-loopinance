@@ -12,29 +12,35 @@ import { SubscriptionPaymentDialog } from '../components/PaymentDialog/StepAdapt
 import { formatCurrency } from '@/modules/Payment/utils/currencyUtils';
 
 export const SubscriptionView: React.FC = () => {
-  const { t, i18n } = useTranslation(['Subscription', 'common']);
+  const { t, i18n } = useTranslation(['Subscription', 'common', 'SubscriptionErrors']);
   const { subscription, isLoading, isTrial } = useSubscription();
   const plansRef = useRef<HTMLDivElement>(null);
   const [paymentOpen, setPaymentOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlanType>(SubscriptionPlanType.MONTHLY);
   
   useEffect(() => {
-    viewsLogger.debug(t('Subscription:debug.pageViewed'));
-  }, [t]);
+    viewsLogger.debug('Abonelik sayfası görüntülendi');
+  }, []);
   
   const handleUpgrade = async (planType: SubscriptionPlanType) => {
-    viewsLogger.debug(t('Subscription:debug.planUpgradeRequested'), { planType });
+    viewsLogger.debug('Abonelik planı yükseltme istendi', { planType });
     setSelectedPlan(planType);
     setPaymentOpen(true);
   };
 
-  // Scroll to plans section
+  // Planlar bölümüne kaydır
   const scrollToPlans = () => {
     if (plansRef.current) {
       plansRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      viewsLogger.debug('Scrolled to plans section');
+      viewsLogger.debug('Planlar bölümüne kaydırıldı');
     }
   };
+
+  // Kullanıcının diline göre para birimi ve biçim belirle
+  const locale = i18n.language === 'tr' ? 'tr-TR' : 'en-US';
+  const currency = i18n.language === 'tr' ? 'TRY' : 'USD';
+  const monthlyPrice = i18n.language === 'tr' ? 49 : 4.99;
+  const yearlyPrice = i18n.language === 'tr' ? 39 : 3.99;
 
   return (
     <div className="container mx-auto p-4 max-w-3xl">
@@ -52,10 +58,10 @@ export const SubscriptionView: React.FC = () => {
               <div className="border border-border rounded-lg p-6 bg-card">
                 <h3 className="text-lg font-medium">{t('Subscription:plan.monthly')}</h3>
                 <p className="text-2xl font-bold mt-2">
-                  {t('Subscription:plans.pricing.monthly', {
-                    price: formatCurrency(49, i18n.language === 'tr' ? 'tr-TR' : 'en-US'),
-                    period: t('Subscription:plans.pricing.period.month')
-                  })}
+                  {formatCurrency(monthlyPrice, locale, currency)}
+                  <span className="text-sm text-muted-foreground ml-1">
+                    {t('Subscription:plans.pricing.period.month')}
+                  </span>
                 </p>
                 <ul className="mt-4 space-y-2">
                   <li className="flex items-center text-sm">
@@ -85,10 +91,13 @@ export const SubscriptionView: React.FC = () => {
                 </div>
                 <h3 className="text-lg font-medium">{t('Subscription:plan.yearly')}</h3>
                 <p className="text-2xl font-bold mt-2">
-                  {t('Subscription:plans.pricing.monthly', {
-                    price: formatCurrency(39, i18n.language === 'tr' ? 'tr-TR' : 'en-US'),
-                    period: t('Subscription:plans.pricing.period.month')
-                  })}
+                  {formatCurrency(yearlyPrice, locale, currency)}
+                  <span className="text-sm text-muted-foreground ml-1">
+                    {t('Subscription:plans.pricing.period.month')}
+                  </span>
+                </p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  {i18n.language === 'tr' ? 'Yıllık' : 'Billed annually'}: {formatCurrency(yearlyPrice * 12, locale, currency)}
                 </p>
                 <ul className="mt-4 space-y-2">
                   <li className="flex items-center text-sm">
