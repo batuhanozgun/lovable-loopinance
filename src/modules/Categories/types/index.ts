@@ -46,6 +46,22 @@ export interface IUpdateCategoryData {
 }
 
 /**
+ * Kategori sıralama işlemi
+ */
+export interface ICategoryOrder {
+  id: string;
+  sort_order: number;
+}
+
+/**
+ * Alt kategori sıralama işlemi
+ */
+export interface ISubCategoryOrder {
+  id: string;
+  sort_order: number;
+}
+
+/**
  * Yeni alt kategori oluşturma verisi
  */
 export interface ICreateSubCategoryData {

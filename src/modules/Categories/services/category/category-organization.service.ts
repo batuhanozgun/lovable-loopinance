@@ -1,129 +1,152 @@
 
-import { supabase } from '@/integrations/supabase/client';
-import { operationsLogger } from '../../logging';
-import { ICategoryOrder, ISubCategoryOrder } from '../../types';
+import { supabase } from "@/integrations/supabase/client";
+import { ICategoryOrder, ISubCategoryOrder } from "../../types";
+import { LoggerService } from "@/modules/Logging/services/LoggerService";
 
+const logger = LoggerService.getInstance('CategoryOrganizationService');
+
+/**
+ * Kategori ve alt kategorilerin organizasyonunu yöneten servis
+ */
 export class CategoryOrganizationService {
   /**
-   * Kategori sıralama güncellemesi
+   * Kategorilerin sıralama bilgisini günceller
    */
-  static async updateCategoryOrder(categories: ICategoryOrder[]): Promise<{ success: boolean; error?: string }> {
+  static async updateCategoryOrder(categoryOrders: ICategoryOrder[]): Promise<{success: boolean; error?: string}> {
     try {
-      operationsLogger.debug('Kategori sıralama güncellemesi başlatıldı', { count: categories.length });
+      logger.debug('updateCategoryOrder işlemi başlatılıyor', { count: categoryOrders.length });
       
-      // Kategorileri sırayla güncelle
-      for (const category of categories) {
-        const { error } = await supabase
+      // Supabase ile uyumlu olması için transaction içinde her bir kategori güncellenir
+      const promises = categoryOrders.map(order => {
+        return supabase
           .from('categories')
-          .update({ 
-            order: category.order 
-          })
-          .eq('id', category.id);
-        
-        if (error) {
-          operationsLogger.error('Kategori sıralama güncellemesi başarısız oldu', { 
-            error, 
-            categoryId: category.id 
-          });
-          return { 
-            success: false, 
-            error: error.message 
-          };
-        }
-      }
-      
-      operationsLogger.info('Kategori sıralama güncellemesi tamamlandı', { count: categories.length });
-      return { success: true };
-    } catch (error) {
-      operationsLogger.error('Kategori sıralama güncellemesi hatası', { error });
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Beklenmeyen bir hata oluştu' 
-      };
-    }
-  }
-  
-  /**
-   * Alt kategori sıralama güncellemesi
-   */
-  static async updateSubCategoryOrder(subCategories: ISubCategoryOrder[]): Promise<{ success: boolean; error?: string }> {
-    try {
-      operationsLogger.debug('Alt kategori sıralama güncellemesi başlatıldı', { count: subCategories.length });
-      
-      // Alt kategorileri sırayla güncelle
-      for (const subCategory of subCategories) {
-        const { error } = await supabase
-          .from('subcategories')
-          .update({ 
-            order: subCategory.order 
-          })
-          .eq('id', subCategory.id);
-        
-        if (error) {
-          operationsLogger.error('Alt kategori sıralama güncellemesi başarısız oldu', { 
-            error, 
-            subCategoryId: subCategory.id 
-          });
-          return { 
-            success: false, 
-            error: error.message 
-          };
-        }
-      }
-      
-      operationsLogger.info('Alt kategori sıralama güncellemesi tamamlandı', { count: subCategories.length });
-      return { success: true };
-    } catch (error) {
-      operationsLogger.error('Alt kategori sıralama güncellemesi hatası', { error });
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Beklenmeyen bir hata oluştu' 
-      };
-    }
-  }
-  
-  /**
-   * Alt kategorileri taşıma
-   */
-  static async moveSubCategories(
-    sourceId: string,
-    targetId: string | null
-  ): Promise<{ success: boolean; error?: string }> {
-    try {
-      operationsLogger.debug('Alt kategorileri taşıma işlemi başlatıldı', { 
-        sourceId, 
-        targetId: targetId || 'null' 
+          .update({ sort_order: order.sort_order })
+          .eq('id', order.id);
       });
       
-      const { error } = await supabase
-        .from('subcategories')
-        .update({ 
-          parent_id: targetId 
-        })
-        .eq('parent_id', sourceId);
+      const results = await Promise.all(promises);
       
-      if (error) {
-        operationsLogger.error('Alt kategorileri taşıma işlemi başarısız oldu', { 
-          error, 
-          sourceId, 
-          targetId 
-        });
+      // Hata kontrolü
+      const errors = results
+        .filter(result => result.error)
+        .map(result => result.error?.message);
+      
+      if (errors.length > 0) {
+        const errorMessage = `Kategori sıralaması güncellenirken hatalar oluştu: ${errors.join(', ')}`;
+        logger.error(errorMessage);
         return { 
-          success: false, 
-          error: error.message 
+          success: false,
+          error: errorMessage
         };
       }
       
-      operationsLogger.info('Alt kategorileri taşıma işlemi tamamlandı', { 
-        sourceId, 
-        targetId: targetId || 'null' 
+      logger.info('Kategori sıralaması başarıyla güncellendi', { 
+        count: categoryOrders.length 
       });
+      
       return { success: true };
     } catch (error) {
-      operationsLogger.error('Alt kategorileri taşıma işlemi hatası', { error });
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Beklenmeyen bir hata oluştu' 
+      const errorMessage = error instanceof Error ? error.message : 'Bilinmeyen bir hata oluştu';
+      logger.error('Kategori sıralaması güncellenirken hata oluştu', { error });
+      
+      return {
+        success: false,
+        error: errorMessage
+      };
+    }
+  }
+  
+  /**
+   * Alt kategorilerin sıralama bilgisini günceller
+   */
+  static async updateSubCategoryOrder(subCategoryOrders: ISubCategoryOrder[]): Promise<{success: boolean; error?: string}> {
+    try {
+      logger.debug('updateSubCategoryOrder işlemi başlatılıyor', { 
+        count: subCategoryOrders.length 
+      });
+      
+      // Supabase ile uyumlu olması için transaction içinde her bir alt kategori güncellenir
+      const promises = subCategoryOrders.map(order => {
+        return supabase
+          .from('sub_categories')
+          .update({ sort_order: order.sort_order })
+          .eq('id', order.id);
+      });
+      
+      const results = await Promise.all(promises);
+      
+      // Hata kontrolü
+      const errors = results
+        .filter(result => result.error)
+        .map(result => result.error?.message);
+      
+      if (errors.length > 0) {
+        const errorMessage = `Alt kategori sıralaması güncellenirken hatalar oluştu: ${errors.join(', ')}`;
+        logger.error(errorMessage);
+        return { 
+          success: false,
+          error: errorMessage
+        };
+      }
+      
+      logger.info('Alt kategori sıralaması başarıyla güncellendi', { 
+        count: subCategoryOrders.length 
+      });
+      
+      return { success: true };
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Bilinmeyen bir hata oluştu';
+      logger.error('Alt kategori sıralaması güncellenirken hata oluştu', { error });
+      
+      return {
+        success: false,
+        error: errorMessage
+      };
+    }
+  }
+  
+  /**
+   * Alt kategorileri bir kategoriden diğerine taşır
+   */
+  static async moveSubCategoriesToCategory(
+    sourceId: string,
+    targetId: string,
+    subCategoryIds: string[]
+  ): Promise<{success: boolean; error?: string}> {
+    try {
+      logger.debug('moveSubCategoriesToCategory işlemi başlatılıyor', { 
+        sourceId, 
+        targetId, 
+        subCategoryIds 
+      });
+      
+      const { error } = await supabase
+        .from('sub_categories')
+        .update({ category_id: targetId })
+        .in('id', subCategoryIds);
+      
+      if (error) {
+        logger.error('Alt kategoriler taşınırken hata oluştu', { error });
+        return {
+          success: false,
+          error: error.message
+        };
+      }
+      
+      logger.info('Alt kategoriler başarıyla taşındı', { 
+        sourceId, 
+        targetId, 
+        count: subCategoryIds.length 
+      });
+      
+      return { success: true };
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Bilinmeyen bir hata oluştu';
+      logger.error('Alt kategoriler taşınırken hata oluştu', { error });
+      
+      return {
+        success: false,
+        error: errorMessage
       };
     }
   }
