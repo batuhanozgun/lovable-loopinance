@@ -1,14 +1,19 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { ICategory } from '../../../types';
+import { ChevronDown, ChevronRight } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 interface SortableItemProps {
   category: ICategory;
 }
 
 export const SortableItem: React.FC<SortableItemProps> = ({ category }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const hasSubCategories = category.sub_categories && category.sub_categories.length > 0;
+  
   const {
     attributes,
     listeners,
@@ -22,18 +27,57 @@ export const SortableItem: React.FC<SortableItemProps> = ({ category }) => {
     transition
   };
 
+  const toggleExpand = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsExpanded(!isExpanded);
+  };
+
   return (
     <div
       ref={setNodeRef}
       style={style}
       {...attributes}
-      {...listeners}
-      className="p-3 bg-white rounded-lg shadow-sm border border-gray-200 cursor-grab hover:bg-gray-50 transition-colors"
+      className="mb-2"
     >
-      <div className="flex items-center justify-between">
-        <div className="font-medium">{category.name}</div>
-        {category.icon && <span className="text-gray-500">{category.icon}</span>}
+      <div 
+        {...listeners}
+        className="p-3 bg-white rounded-lg shadow-sm border border-gray-200 cursor-grab hover:bg-gray-50 transition-colors"
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            {hasSubCategories && (
+              <button 
+                onClick={toggleExpand}
+                className="p-1 rounded-md hover:bg-gray-100 transition-colors"
+              >
+                {isExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+              </button>
+            )}
+            <div className="font-medium">{category.name}</div>
+          </div>
+          <div className="flex items-center gap-2">
+            {hasSubCategories && (
+              <Badge variant="outline" className="text-xs">
+                {category.sub_categories?.length}
+              </Badge>
+            )}
+            {category.icon && <span className="text-gray-500">{category.icon}</span>}
+          </div>
+        </div>
       </div>
+      
+      {isExpanded && hasSubCategories && (
+        <div className="pl-8 mt-2 space-y-2">
+          {category.sub_categories?.map((subCategory) => (
+            <div 
+              key={subCategory.id}
+              className="p-2 bg-white rounded border border-gray-100 text-sm shadow-sm"
+            >
+              {subCategory.name}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

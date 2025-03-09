@@ -75,7 +75,7 @@ export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCateg
         items={categories.map(category => category.id)}
         strategy={verticalListSortingStrategy}
       >
-        <div className="space-y-2">
+        <div className="space-y-1">
           {categories.map((category) => (
             <SortableItem key={category.id} category={category} />
           ))}
