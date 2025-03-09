@@ -14,11 +14,13 @@ export const LanguageSelector = ({ className, ...props }: LanguageSelectorProps)
 
   const toggleLanguage = () => {
     const currentLang = i18n.language;
-    const newLang = currentLang === "tr" ? "en" : "tr";
+    const newLang = currentLang.startsWith("tr") ? "en" : "tr";
     
     // Dil değişimini uygula
     i18n.changeLanguage(newLang);
-    localStorage.setItem("preferredLanguage", newLang);
+    
+    // Kullanıcı tercihini kaydet
+    localStorage.setItem("i18nextLng", newLang);
     
     // Kullanıcıya bildirim göster
     toast({
@@ -36,7 +38,7 @@ export const LanguageSelector = ({ className, ...props }: LanguageSelectorProps)
       className={cn(className)}
       {...props}
     >
-      {i18n.language === "tr" ? "EN" : "TR"}
+      {i18n.language.startsWith("tr") ? "EN" : "TR"}
     </Button>
   );
 };

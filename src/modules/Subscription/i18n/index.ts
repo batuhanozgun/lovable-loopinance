@@ -1,13 +1,7 @@
 
 import i18n from 'i18next';
-
-// İngilizce kaynaklar
-import subscriptionEN from './locales/en/subscription.json';
-import errorsEN from './locales/en/errors.json';
-
-// Türkçe kaynaklar
-import subscriptionTR from './locales/tr/subscription.json';
-import errorsTR from './locales/tr/errors.json';
+import { subscriptionEN, errorsEN } from './locales/en';
+import { subscriptionTR, errorsTR } from './locales/tr';
 
 /**
  * Subscription modülü çevirilerini i18n nesnesine ekler
@@ -35,11 +29,11 @@ export const initSubscriptionTranslations = (): void => {
 // Subscription kaynak paketlerini ekleme yardımcı fonksiyonu
 function addSubscriptionResources() {
   try {
-    // İngilizce kaynakları ekle - namespace'leri düzeltiyoruz
+    // İngilizce kaynakları ekle
     i18n.addResourceBundle('en', 'Subscription', subscriptionEN, true, true);
     i18n.addResourceBundle('en', 'SubscriptionErrors', errorsEN, true, true);
 
-    // Türkçe kaynakları ekle - namespace'leri düzeltiyoruz
+    // Türkçe kaynakları ekle
     i18n.addResourceBundle('tr', 'Subscription', subscriptionTR, true, true);
     i18n.addResourceBundle('tr', 'SubscriptionErrors', errorsTR, true, true);
     

@@ -9,7 +9,7 @@
 export const formatCurrency = (
   price: number, 
   locale = 'tr-TR', 
-  currency = locale === 'tr-TR' ? 'TRY' : 'USD', 
+  currency = locale.startsWith('tr') ? 'TRY' : 'USD', 
   displayCurrencySymbol?: string
 ): string => {
   // NumberFormat ile para birimini formatla
@@ -38,7 +38,13 @@ export const getSymbolFromCurrency = (currencyCode: string): string => {
     'TRY': '₺',
     'GBP': '£',
     'JPY': '¥',
-    'CNY': '¥'
+    'CNY': '¥',
+    'AUD': 'A$',
+    'CAD': 'C$',
+    'CHF': 'Fr',
+    'INR': '₹',
+    'RUB': '₽',
+    'BRL': 'R$'
   };
   
   return symbols[currencyCode] || currencyCode;
