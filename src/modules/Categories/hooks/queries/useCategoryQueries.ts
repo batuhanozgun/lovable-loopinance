@@ -1,6 +1,6 @@
 
 import { useQuery } from '@tanstack/react-query';
-import { CategoryService } from '../../services/category.service';
+import { CategoryQueryService } from '../../services/CategoryQueryService';
 import { operationsLogger } from '../../logging';
 import type { ICategory } from '../../types';
 
@@ -9,12 +9,13 @@ import type { ICategory } from '../../types';
  */
 export const useCategories = () => {
   const logger = operationsLogger.createSubLogger('CategoriesHook');
+  const categoryService = new CategoryQueryService();
 
   const result = useQuery<ICategory[], Error>({
     queryKey: ['categories'],
     queryFn: async () => {
       logger.debug('Kategoriler getiriliyor');
-      const categories = await CategoryService.getAllCategories();
+      const categories = await categoryService.getAllCategories();
       logger.debug('Kategoriler başarıyla getirildi', { count: categories.length });
       return categories;
     },
@@ -38,12 +39,16 @@ export const useCategories = () => {
  */
 export const useCategory = (id: string) => {
   const logger = operationsLogger.createSubLogger('CategoryHook');
+  const categoryService = new CategoryQueryService();
 
   const result = useQuery<ICategory, Error>({
     queryKey: ['category', id],
     queryFn: async () => {
       logger.debug('Kategori getiriliyor', { id });
-      const category = await CategoryService.getCategoryById(id);
+      const category = await categoryService.getCategoryById(id);
+      if (!category) {
+        throw new Error(`Kategori bulunamadı: ${id}`);
+      }
       logger.debug('Kategori başarıyla getirildi', { id });
       return category;
     },
