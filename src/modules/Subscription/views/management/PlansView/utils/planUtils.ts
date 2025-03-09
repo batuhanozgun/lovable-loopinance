@@ -1,17 +1,17 @@
 
 import { TFunction } from 'i18next';
-import { ISubscription, SubscriptionPlanType } from '../../../../types/ISubscription';
+import { ISubscriptionSummary, SubscriptionPlanType } from '../../../../types/ISubscription';
 
 /**
  * Plan düğmesi metni alma yardımcı fonksiyonu
  */
 export const getButtonText = (
   planType: SubscriptionPlanType, 
-  subscription: ISubscription | null, 
+  subscription: ISubscriptionSummary | null, 
   t: TFunction
 ): string => {
   // Eğer şu anda aynı plana sahipse "Mevcut Plan" yaz
-  if (subscription?.plan === planType && subscription.status !== 'trial' && subscription.isActive) {
+  if (subscription?.plan === planType && !subscription.isTrial && subscription.isActive) {
     return t('Subscription:subscription.plan.current', { plan: '' }).replace(':', '');
   }
   
@@ -29,11 +29,11 @@ export const getButtonText = (
  */
 export const isButtonDisabled = (
   planType: SubscriptionPlanType, 
-  subscription: ISubscription | null
+  subscription: ISubscriptionSummary | null
 ): boolean => {
   return Boolean(
     subscription?.plan === planType && 
-    subscription.status !== 'trial' && 
+    !subscription.isTrial && 
     subscription.isActive
   );
 };

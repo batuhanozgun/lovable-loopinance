@@ -13,7 +13,7 @@ export const usePlanSelection = () => {
     viewsLogger.debug('Plan seçildi', { planType, currentPlan: subscription?.plan });
     
     // Eğer zaten aynı plana sahipse işlem yapma
-    if (subscription?.plan === planType && subscription.status !== 'trial' && subscription.isActive) {
+    if (subscription?.plan === planType && !subscription.isTrial && subscription.isActive) {
       return;
     }
     
