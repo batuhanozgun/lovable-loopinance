@@ -7,6 +7,7 @@ import { useCategoryTemplateImportMutation } from '../../hooks/mutations/useCate
 import { TemplateItem } from './components/TemplateItem';
 import { useSessionService } from '@/modules/UserManagement/auth/hooks/useSessionService';
 import { Loader2 } from 'lucide-react';
+import { SupportedLanguage, DEFAULT_LANGUAGE_SETTINGS } from '../../types/template';
 
 export const CategoryTemplateList: React.FC = () => {
   const { t, i18n } = useTranslation(['Categories']);
@@ -15,6 +16,13 @@ export const CategoryTemplateList: React.FC = () => {
   const { getCurrentUserID } = useSessionService();
   const { importCategoryFromTemplate, isImporting } = useCategoryTemplateImportMutation();
   const [importingTemplateId, setImportingTemplateId] = React.useState<string | null>(null);
+  
+  // Güvenli bir şekilde dil tipini döndür
+  const getSafeLanguage = (lang: string): SupportedLanguage => {
+    return DEFAULT_LANGUAGE_SETTINGS.supportedLanguages.includes(lang as SupportedLanguage) 
+      ? (lang as SupportedLanguage) 
+      : DEFAULT_LANGUAGE_SETTINGS.defaultLanguage;
+  };
   
   const handleImportCategory = async (templateId: string) => {
     try {
@@ -26,7 +34,9 @@ export const CategoryTemplateList: React.FC = () => {
         return;
       }
       
-      importCategoryFromTemplate({ templateId, userId, language: i18n.language });
+      // Güvenli şekilde dil tipini dönüştür
+      const safeLanguage = getSafeLanguage(i18n.language);
+      importCategoryFromTemplate({ templateId, userId, language: safeLanguage });
     } catch (error) {
       console.error('Error importing category:', error);
     } finally {
@@ -51,6 +61,9 @@ export const CategoryTemplateList: React.FC = () => {
     );
   }
 
+  // Güvenli şekilde dil tipini dönüştür (TemplateItem props için)
+  const safeLanguage = getSafeLanguage(i18n.language);
+
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -58,7 +71,7 @@ export const CategoryTemplateList: React.FC = () => {
           <TemplateItem 
             key={template.id} 
             template={template}
-            language={i18n.language}
+            language={safeLanguage}
             onImport={handleImportCategory}
             isImporting={isImporting || importingTemplateId === template.id}
           />
