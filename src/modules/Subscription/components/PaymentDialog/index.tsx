@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { StepIndicator } from './components/StepIndicator';
@@ -9,6 +10,7 @@ import { SuccessStep } from './steps/SuccessStep';
 import { usePaymentSimulation } from '../../hooks/usePaymentSimulation';
 import { SubscriptionPlanType } from '../../types/ISubscription';
 import { subscriptionLogger } from '../../logging';
+import { PaymentStep } from './types';
 
 interface PaymentDialogProps {
   open: boolean;
@@ -21,15 +23,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
   onOpenChange,
   selectedPlan
 }) => {
-  enum PaymentStep {
-    SUMMARY = 0,
-    BILLING = 1,
-    PAYMENT = 2,
-    CONFIRMATION = 3,
-    SUCCESS = 4
-  }
-  
-  const [currentStep, setCurrentStep] = useState(PaymentStep.SUMMARY);
+  const [currentStep, setCurrentStep] = useState<PaymentStep>(PaymentStep.SUMMARY);
   const [billingDetails, setBillingDetails] = useState({
     fullName: '',
     email: '',
@@ -76,11 +70,31 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
   };
   
   const nextStep = () => {
-    setCurrentStep(prevStep => prevStep + 1);
+    const steps = [
+      PaymentStep.SUMMARY,
+      PaymentStep.BILLING,
+      PaymentStep.PAYMENT,
+      PaymentStep.CONFIRMATION,
+      PaymentStep.SUCCESS
+    ];
+    const currentIndex = steps.indexOf(currentStep);
+    if (currentIndex < steps.length - 1) {
+      setCurrentStep(steps[currentIndex + 1]);
+    }
   };
   
   const prevStep = () => {
-    setCurrentStep(prevStep => prevStep - 1);
+    const steps = [
+      PaymentStep.SUMMARY,
+      PaymentStep.BILLING,
+      PaymentStep.PAYMENT,
+      PaymentStep.CONFIRMATION,
+      PaymentStep.SUCCESS
+    ];
+    const currentIndex = steps.indexOf(currentStep);
+    if (currentIndex > 0) {
+      setCurrentStep(steps[currentIndex - 1]);
+    }
   };
   
   const handlePayment = async () => {
@@ -122,16 +136,13 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[600px]">
         {currentStep !== PaymentStep.SUCCESS && (
-          <StepIndicator 
-            currentStep={currentStep} 
-            totalSteps={4} 
-          />
+          <StepIndicator currentStep={currentStep} />
         )}
         
         {currentStep === PaymentStep.SUMMARY && (
           <PlanSummaryStep 
             selectedPlan={selectedPlan} 
-            onContinue={nextStep} 
+            onNext={nextStep} 
           />
         )}
         
@@ -139,7 +150,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
           <BillingDetailsStep 
             billingDetails={billingDetails} 
             setBillingDetails={setBillingDetails} 
-            onContinue={nextStep} 
+            onNext={nextStep} 
             onBack={prevStep} 
           />
         )}
@@ -148,7 +159,7 @@ export const PaymentDialog: React.FC<PaymentDialogProps> = ({
           <PaymentDetailsStep 
             paymentDetails={paymentDetails} 
             setPaymentDetails={setPaymentDetails} 
-            onContinue={nextStep} 
+            onNext={nextStep} 
             onBack={prevStep} 
           />
         )}

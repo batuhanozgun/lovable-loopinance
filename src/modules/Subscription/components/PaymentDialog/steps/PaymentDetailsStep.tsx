@@ -17,7 +17,7 @@ interface PaymentDetailsStepProps {
   paymentDetails: PaymentDetailsFormData;
   setPaymentDetails: React.Dispatch<React.SetStateAction<PaymentDetailsFormData>>;
   onBack: () => void;
-  onNext: () => void;
+  onNext: () => void; // onContinue'dan onNext'e değiştirdik
 }
 
 export const PaymentDetailsStep: React.FC<PaymentDetailsStepProps> = ({

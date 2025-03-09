@@ -1,25 +1,26 @@
 
 import React from 'react';
-import { PaymentStep } from '../index';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
+import { PaymentStep } from '../types';
 
 interface StepIndicatorProps {
   currentStep: PaymentStep;
+  // totalSteps prop'unu kaldırdık çünkü sabit 4 adım var
 }
 
 export const StepIndicator: React.FC<StepIndicatorProps> = ({ currentStep }) => {
   const { t } = useTranslation(['Subscription']);
   
   const steps = [
-    { id: 'summary', label: t('Subscription:payment.steps.summary') },
-    { id: 'billing', label: t('Subscription:payment.steps.billing') },
-    { id: 'payment', label: t('Subscription:payment.steps.payment') },
-    { id: 'confirmation', label: t('Subscription:payment.steps.confirmation') },
+    { id: PaymentStep.SUMMARY, label: t('Subscription:payment.steps.summary') },
+    { id: PaymentStep.BILLING, label: t('Subscription:payment.steps.billing') },
+    { id: PaymentStep.PAYMENT, label: t('Subscription:payment.steps.payment') },
+    { id: PaymentStep.CONFIRMATION, label: t('Subscription:payment.steps.confirmation') },
   ];
   
-  const getStepStatus = (stepId: string) => {
-    const stepOrder = ['summary', 'billing', 'payment', 'confirmation'];
+  const getStepStatus = (stepId: PaymentStep) => {
+    const stepOrder = [PaymentStep.SUMMARY, PaymentStep.BILLING, PaymentStep.PAYMENT, PaymentStep.CONFIRMATION];
     const currentIndex = stepOrder.indexOf(currentStep);
     const stepIndex = stepOrder.indexOf(stepId);
     
@@ -58,9 +59,9 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({ currentStep }) => 
           className="absolute top-0 h-1 bg-primary transition-all duration-300"
           style={{ 
             width: `${
-              currentStep === 'summary' ? 0 : 
-              currentStep === 'billing' ? 33 : 
-              currentStep === 'payment' ? 66 : 100
+              currentStep === PaymentStep.SUMMARY ? 0 : 
+              currentStep === PaymentStep.BILLING ? 33 : 
+              currentStep === PaymentStep.PAYMENT ? 66 : 100
             }%` 
           }}
         ></div>

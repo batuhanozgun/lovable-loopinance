@@ -18,7 +18,7 @@ interface BillingDetailsStepProps {
   billingDetails: BillingDetailsFormData;
   setBillingDetails: React.Dispatch<React.SetStateAction<BillingDetailsFormData>>;
   onBack: () => void;
-  onNext: () => void;
+  onNext: () => void; // onContinue'dan onNext'e değiştirdik
 }
 
 export const BillingDetailsStep: React.FC<BillingDetailsStepProps> = ({

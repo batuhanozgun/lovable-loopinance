@@ -8,7 +8,7 @@ import { Check } from 'lucide-react';
 
 interface PlanSummaryStepProps {
   selectedPlan: SubscriptionPlanType;
-  onNext: () => void;
+  onNext: () => void; // onContinue'dan onNext'e değiştirdik
 }
 
 export const PlanSummaryStep: React.FC<PlanSummaryStepProps> = ({ 

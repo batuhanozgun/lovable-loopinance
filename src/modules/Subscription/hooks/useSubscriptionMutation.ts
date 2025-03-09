@@ -50,11 +50,14 @@ export const useSubscriptionMutation = (onSuccess?: () => void) => {
       }
       
       subscriptionLogger.info('Plan başarıyla güncellendi', { planType });
+      
+      // i18n t fonksiyonu için doğru parametre kullanımı:
+      const planKey = `Subscription:plan.${planType}`;
+      const translatedPlan = t(planKey);
+      
       toast({
         title: t('common:success'),
-        description: t('Subscription:subscription.plan.updated', { 
-          plan: t(`Subscription:plan.${planType}`) 
-        }, { defaultValue: `${planType} planına başarıyla geçildi` }),
+        description: t('Subscription:subscription.plan.updated', { plan: translatedPlan }),
       });
       
       if (onSuccess) {
