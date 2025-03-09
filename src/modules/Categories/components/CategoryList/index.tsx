@@ -10,7 +10,7 @@ import { useSubscription } from '@/modules/Subscription/hooks/useSubscription';
 import { SubscriptionPlanType } from '@/modules/Subscription/types/ISubscription';
 import { uiLogger } from '../../logging';
 import { CategoryItem } from './components/CategoryItem';
-import { EmptyState } from './EmptyState';
+import { EmptyState } from './components/EmptyState';
 import type { ICategory } from '../../types';
 import { ListHeader } from './components/ListHeader';
 import { CategoryForm } from '../CategoryForm';

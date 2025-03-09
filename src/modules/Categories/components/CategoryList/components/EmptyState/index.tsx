@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { FolderPlus } from 'lucide-react';
+import { uiLogger } from '../../../../logging';
 
 interface EmptyStateProps {
   onCreateCategory: () => void;
@@ -14,6 +15,12 @@ interface EmptyStateProps {
  */
 export const EmptyState: React.FC<EmptyStateProps> = ({ onCreateCategory }) => {
   const { t } = useTranslation(['Categories']);
+  const logger = uiLogger.createSubLogger('EmptyState');
+  
+  const handleCreateClick = () => {
+    logger.debug('Kategori oluştur butonuna tıklandı');
+    onCreateCategory();
+  };
   
   return (
     <Card className="w-full text-center">
@@ -29,7 +36,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ onCreateCategory }) => {
         </p>
       </CardContent>
       <CardFooter className="flex justify-center pb-8">
-        <Button size="lg" onClick={onCreateCategory}>
+        <Button size="lg" onClick={handleCreateClick}>
           <FolderPlus className="mr-2 h-5 w-5" />
           {t('Categories:empty.cta')}
         </Button>
@@ -37,3 +44,5 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ onCreateCategory }) => {
     </Card>
   );
 };
+
+export default EmptyState;
