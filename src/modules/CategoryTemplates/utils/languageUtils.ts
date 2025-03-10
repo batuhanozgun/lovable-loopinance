@@ -1,79 +1,95 @@
 
-import { SupportedLanguage, DEFAULT_LANGUAGE_SETTINGS } from '../types/template';
 import { Json } from '@/integrations/supabase/types';
+import { SupportedLanguage } from '../types/template';
 
 /**
- * Verilen dil kodunun desteklenen dil olup olmadığını kontrol eder
- * ve desteklenen bir dil kodu döndürür.
- * 
- * @param lang Kontrol edilecek dil kodu
- * @returns Desteklenen dil kodu (geçerli veya varsayılan)
+ * Kullanıcı arayüzü için çoklu dil formatından doğru dilde metni getirir
+ * @param nameObj İsim objesi (birden fazla dil içerebilir)
+ * @param language Tercih edilen dil
+ * @param fallbackText Dil bulunamadığında kullanılacak varsayılan metin
+ * @returns Dile göre isim
  */
-export const getSafeLanguage = (lang: string): SupportedLanguage => {
-  return DEFAULT_LANGUAGE_SETTINGS.supportedLanguages.includes(lang as SupportedLanguage) 
-    ? (lang as SupportedLanguage) 
-    : DEFAULT_LANGUAGE_SETTINGS.defaultLanguage;
-};
-
-/**
- * JSON tipindeki veriyi Record<string, string> tipine güvenli şekilde dönüştürür
- * 
- * @param jsonData JSON verisi
- * @returns Record<string, string> tipinde veri veya boş obje
- */
-export const safeJsonToStringRecord = (jsonData: Json | null | undefined): Record<string, string> => {
-  if (!jsonData || typeof jsonData !== 'object' || Array.isArray(jsonData)) {
-    return {};
-  }
+export function getLocalizedName(
+  nameObj: Record<string, string> | null | undefined,
+  language: SupportedLanguage,
+  fallbackText: string = 'İsimsiz'
+): string {
+  if (!nameObj) return fallbackText;
   
-  const result: Record<string, string> = {};
-  
-  // JSON objesi içindeki anahtarları dön
-  Object.entries(jsonData).forEach(([key, value]) => {
-    // Sadece string değerleri al
-    if (typeof value === 'string') {
-      result[key] = value;
-    } else if (value !== null && value !== undefined) {
-      // String olmayan değerleri string'e çevir
-      result[key] = String(value);
-    }
-  });
-  
-  return result;
-};
-
-/**
- * Belirtilen dildeki ismi döndürür
- * 
- * @param nameObj İsim nesnesi (farklı dillerde isimler içerir)
- * @param language İstenen dil
- * @param fallbackText Hiçbir isim bulunamazsa döndürülecek varsayılan metin
- * @returns Belirtilen dildeki isim veya bir alternatif 
- */
-export const getLocalizedName = (
-  nameObj: Record<string, string> | null | undefined, 
-  language: SupportedLanguage, 
-  fallbackText = ''
-): string => {
-  if (!nameObj || Object.keys(nameObj).length === 0) {
-    return fallbackText;
-  }
-  
-  // Belirtilen dilde isim varsa döndür
+  // Önce tercih edilen dili kontrol et
   if (nameObj[language]) {
     return nameObj[language];
   }
   
-  // Varsayılan dilde isim varsa döndür
-  if (nameObj[DEFAULT_LANGUAGE_SETTINGS.defaultLanguage]) {
-    return nameObj[DEFAULT_LANGUAGE_SETTINGS.defaultLanguage];
+  // Tercih edilen dil yoksa Türkçe'yi dene
+  if (nameObj['tr']) {
+    return nameObj['tr'];
   }
   
-  // Herhangi bir dilde isim varsa ilkini döndür
-  const firstLang = Object.keys(nameObj)[0];
-  if (firstLang) {
-    return nameObj[firstLang];
+  // Türkçe de yoksa İngilizce'yi dene
+  if (nameObj['en']) {
+    return nameObj['en'];
   }
   
+  // İlk bulduğun değeri kullan
+  const firstValue = Object.values(nameObj).find(value => !!value);
+  if (firstValue) {
+    return firstValue;
+  }
+  
+  // Hiçbir değer bulunamadıysa fallback metni kullan
   return fallbackText;
-};
+}
+
+/**
+ * Dili güvenli şekilde geçerli bir SupportedLanguage tipine dönüştürür
+ * @param language Dönüştürülecek dil değeri
+ * @returns Geçerli bir SupportedLanguage ('tr' veya 'en')
+ */
+export function getSafeLanguage(language: string | undefined): SupportedLanguage {
+  if (!language) return 'tr';
+  
+  // Alt kısmını alıp küçük harfe çevirelim (örn: en-US -> en)
+  const langCode = language.split('-')[0].toLowerCase();
+  
+  return (langCode === 'en') ? 'en' : 'tr';
+}
+
+/**
+ * Veritabanından gelen JSON tipi veriyi güvenli şekilde Record<string, string> tipine dönüştürür
+ * @param jsonData Veritabanından gelen JSON verisi
+ * @returns İşlenmiş Record<string, string> verisi veya boş obje
+ */
+export function safeJsonToStringRecord(jsonData: Json | null | undefined): Record<string, string> {
+  if (!jsonData) return {};
+  
+  try {
+    // Zaten obje ise ve string key/value'lara sahipse direkt döndür
+    if (typeof jsonData === 'object' && jsonData !== null) {
+      const result: Record<string, string> = {};
+      
+      // Her key için değeri string'e dönüştür
+      Object.entries(jsonData).forEach(([key, value]) => {
+        result[key] = String(value);
+      });
+      
+      return result;
+    }
+    
+    // JSON string ise parse et
+    if (typeof jsonData === 'string') {
+      try {
+        const parsed = JSON.parse(jsonData);
+        if (typeof parsed === 'object' && parsed !== null) {
+          return safeJsonToStringRecord(parsed);
+        }
+      } catch (e) {
+        console.error('JSON parse hatası:', e);
+      }
+    }
+  } catch (error) {
+    console.error('safeJsonToStringRecord hatası:', error);
+  }
+  
+  return {};
+}

@@ -28,9 +28,13 @@ export interface ICreateCategoryData {
 }
 
 export interface IUpdateCategoryData {
-  id: string;
   name?: string;
   icon?: string | null;
+}
+
+export interface ICategoryUpdateParams {
+  id: string;
+  data: IUpdateCategoryData;
 }
 
 export interface ICreateSubCategoryData {
@@ -39,26 +43,30 @@ export interface ICreateSubCategoryData {
 }
 
 export interface IUpdateSubCategoryData {
-  id: string;
   name?: string;
   sort_order?: number;
 }
 
+export interface ISubCategoryUpdateParams {
+  id: string;
+  data: IUpdateSubCategoryData;
+}
+
 // Kategori sıralama ile ilgili tipler
+export interface ICategoryOrder {
+  id: string;
+  sort_order: number;
+}
+
+export interface ISubCategoryOrder {
+  id: string;
+  sort_order: number;
+}
+
 export interface IReorderCategoriesData {
-  categories: Array<{
-    id: string;
-    sort_order: number;
-  }>;
+  categories: ICategoryOrder[];
 }
 
 export interface IReorderSubCategoriesData {
-  subCategories: Array<{
-    id: string;
-    sort_order: number;
-  }>;
+  subCategories: ISubCategoryOrder[];
 }
-
-// DEPRECATED: Şablon tipleri yeni modüle taşındı - @/modules/CategoryTemplates/types altında bulunabilir
-// Bu import sonraki fazda kaldırılacak
-export * from '@/modules/CategoryTemplates/types';

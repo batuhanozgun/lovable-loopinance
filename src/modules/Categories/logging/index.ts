@@ -1,20 +1,11 @@
 
-import { categoriesLogger } from './categories.logger';
-import { uiLogger } from './ui.logger';
-import { operationsLogger } from './operations.logger';
-import { serviceLogger } from './service.logger';
-import { formsLogger } from './forms.logger';
-import { eventsLogger } from './events.logger';
+import { createLogger } from '@/modules/Logging';
 
-// Tüm loggerları dışa aktar
-export {
-  categoriesLogger,
-  uiLogger,
-  operationsLogger,
-  serviceLogger,
-  formsLogger,
-  eventsLogger
-};
+// Ana kategori modülü loggerları
+export const categoriesLogger = createLogger('Categories');
+export const uiLogger = createLogger('Categories.UI');
+export const serviceLogger = createLogger('Categories.Service');
+export const formsLogger = createLogger('Categories.Forms');
 
 // Varsayılan dışa aktarım
 export default categoriesLogger;

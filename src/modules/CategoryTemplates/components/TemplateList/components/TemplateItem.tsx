@@ -5,7 +5,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Badge } from '@/components/ui/badge';
 import { useTranslation } from 'react-i18next';
 import { ICategoryTemplate, SupportedLanguage } from '../../../types/template';
-import { Check, Loader2, Plus } from 'lucide-react';
+import { Loader2, Plus } from 'lucide-react';
 import { getLocalizedName } from '../../../utils/languageUtils';
 
 interface TemplateItemProps {
@@ -45,7 +45,7 @@ export const TemplateItem: React.FC<TemplateItemProps> = ({
               <ul className="list-disc ml-5">
                 {template.sub_categories?.slice(0, 3).map((subCategory) => (
                   <li key={subCategory.id}>
-                    {getLocalizedName(subCategory.name, language, subCategory.id)}
+                    {getLocalizedName(subCategory.name, language, 'Unnamed Subcategory')}
                   </li>
                 ))}
                 {subcategoriesCount > 3 && (
