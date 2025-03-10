@@ -1,35 +1,31 @@
-
-// Temel kategori ve alt kategori tipleri
 export interface ICategory {
   id: string;
+  created_at?: string;
   name: string;
-  icon: string | null;
-  user_id: string;
-  sort_order: number;
-  created_at: string;
-  updated_at: string;
-  sub_categories?: ISubCategory[];
+  icon?: string | null;
+  sort_order?: number | null;
+  organization_id?: string | null;
+  sub_categories?: ISubCategory[] | null;
 }
 
 export interface ISubCategory {
   id: string;
+  created_at?: string;
   name: string;
   category_id: string;
-  sort_order: number;
-  created_at: string;
-  updated_at: string;
+  sort_order?: number | null;
 }
 
-// Kategori ve alt kategori oluşturma/güncelleme tipleri
 export interface ICreateCategoryData {
   name: string;
-  icon: string | null;
-  user_id: string;
+  icon?: string;
+  organization_id?: string;
 }
 
 export interface IUpdateCategoryData {
   name?: string;
   icon?: string | null;
+  sort_order?: number | null;
 }
 
 export interface ICategoryUpdateParams {
@@ -44,7 +40,7 @@ export interface ICreateSubCategoryData {
 
 export interface IUpdateSubCategoryData {
   name?: string;
-  sort_order?: number;
+  sort_order?: number | null;
 }
 
 export interface ISubCategoryUpdateParams {
@@ -52,26 +48,29 @@ export interface ISubCategoryUpdateParams {
   data: IUpdateSubCategoryData;
 }
 
-// Kategori sıralama ile ilgili tipler
+// Category order params interface
 export interface ICategoryOrder {
   id: string;
   sort_order: number;
 }
 
+// Sub-category order params interface
 export interface ISubCategoryOrder {
   id: string;
   sort_order: number;
 }
 
+// Reorder categories data interface
 export interface IReorderCategoriesData {
   categories: ICategoryOrder[];
 }
 
+// Reorder sub-categories data interface
 export interface IReorderSubCategoriesData {
   subCategories: ISubCategoryOrder[];
 }
 
-// Alt kategori taşıma işlemi için tip
+// Category move operation interface
 export interface ICategoryMoveOperation {
   sourceId: string;
   targetId: string;

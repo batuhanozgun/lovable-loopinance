@@ -23,7 +23,7 @@ export const CategoriesView: React.FC = () => {
   const { categories: categoryData, isLoading } = useCategories();
   
   // Sıralama mutation'ını al
-  const { updateCategoryOrder } = useCategoryOrderingMutations();
+  const { reorderCategories } = useCategoryOrderingMutations();
   
   // Kategorileri state'e kaydet
   useEffect(() => {
@@ -69,7 +69,7 @@ export const CategoriesView: React.FC = () => {
         <CategoryList 
           categories={categories} 
           setCategories={setCategories} 
-          updateCategoryOrder={updateCategoryOrder}
+          updateCategoryOrder={reorderCategories}
         />
       )}
     </div>

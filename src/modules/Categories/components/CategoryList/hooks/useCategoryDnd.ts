@@ -1,23 +1,17 @@
 
-import { ICategory, ICategoryOrder } from '@/modules/Categories/types';
-import { 
-  DragEndEvent, 
-  KeyboardSensor, 
-  PointerSensor, 
-  useSensor, 
-  useSensors
-} from '@dnd-kit/core';
-import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import { useSensors, useSensor, PointerSensor, DragEndEvent } from '@dnd-kit/core';
+import { arrayMove } from '@dnd-kit/sortable';
+import { ICategory } from '@/modules/Categories/types';
 import { operationsLogger } from '@/modules/Categories/logging';
 
 interface UseCategoryDndProps {
   categories: ICategory[];
   setCategories: React.Dispatch<React.SetStateAction<ICategory[]>>;
-  updateCategoryOrder: (data: ICategoryOrder[]) => void;
+  updateCategoryOrder: (data: { categories: { id: string; sort_order: number }[] }) => void;
 }
 
 /**
- * Kategori sürükle-bırak işlevselliğini yöneten hook
+ * Kategori listesi için sürükle-bırak işlevselliğini yöneten hook
  */
 export const useCategoryDnd = ({ 
   categories, 
@@ -25,62 +19,51 @@ export const useCategoryDnd = ({
   updateCategoryOrder 
 }: UseCategoryDndProps) => {
   const logger = operationsLogger.createSubLogger('CategoryDnd');
-
-  // DnD sensörlerini oluştur
+  
+  // Sürükle-bırak sensörlerini oluştur
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 5, // Sürükleme işleminin başlaması için gereken minimum mesafe
+        distance: 8,
       },
-    }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-
-  // Sürükleme bittiğinde tetiklenen işlev
+  
+  // Sürükle-bırak işlemi tamamlandığında çalışacak fonksiyon
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     
-    if (!over || active.id === over.id) {
-      return;
-    }
-
-    logger.debug('Kategori sıralama başlatıldı', { 
-      sourceId: active.id, 
-      targetId: over.id 
-    });
-
-    setCategories((items) => {
-      const oldIndex = items.findIndex(item => item.id === active.id);
-      const newIndex = items.findIndex(item => item.id === over.id);
+    if (!over) return;
+    
+    if (active.id !== over.id) {
+      const oldIndex = categories.findIndex(cat => cat.id === active.id);
+      const newIndex = categories.findIndex(cat => cat.id === over.id);
       
       if (oldIndex === -1 || newIndex === -1) {
-        logger.warn('Kategori sıralama başarısız: kategori bulunamadı', {
-          activeId: active.id,
-          overId: over.id,
-          oldIndex,
-          newIndex
-        });
-        return items;
+        logger.error('Geçersiz indeks değerleri', { oldIndex, newIndex });
+        return;
       }
       
-      const newItems = arrayMove(items, oldIndex, newIndex);
+      logger.debug('Kategori sıralama işlemi', { 
+        oldIndex,
+        newIndex,
+        movedCategory: categories[oldIndex].name
+      });
       
-      const sortData = newItems.map((category, index) => ({
+      const updatedCategories = arrayMove(categories, oldIndex, newIndex);
+      
+      // UI'da kategori sıralamasını güncelle
+      setCategories(updatedCategories);
+      
+      // Kategori sıralama bilgilerini oluştur
+      const categoryOrders = updatedCategories.map((category, index) => ({
         id: category.id,
         sort_order: index
       }));
       
-      try {
-        updateCategoryOrder(sortData);
-        logger.debug('Kategori sıralama başarılı', { categories: sortData.length });
-      } catch (error) {
-        logger.error('Kategori sıralama hatası', error instanceof Error ? error : new Error(String(error)));
-      }
-      
-      return newItems;
-    });
+      // Sunucuya kategorilerin sıralama bilgisini gönder
+      updateCategoryOrder({ categories: categoryOrders });
+    }
   };
 
   return {

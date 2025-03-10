@@ -12,7 +12,7 @@ import { operationsLogger } from '@/modules/Categories/logging';
 interface CategoryListProps {
   categories: ICategory[];
   setCategories: React.Dispatch<React.SetStateAction<ICategory[]>>;
-  updateCategoryOrder: (data: { id: string; sort_order: number }[]) => void;
+  updateCategoryOrder: (data: { categories: { id: string; sort_order: number }[] }) => void;
 }
 
 export const CategoryList: React.FC<CategoryListProps> = ({ 
