@@ -1,0 +1,33 @@
+
+{
+  "title": "Simple, Transparent Pricing",
+  "subtitle": "Choose the plan that works best for you and your financial goals",
+  "recommended": "RECOMMENDED",
+  "guarantee": "30-day money-back guarantee. Cancel anytime.",
+  "monthly": {
+    "title": "Monthly Plan",
+    "description": "Perfect for getting started",
+    "period": "/month",
+    "billing": "Billed monthly"
+  },
+  "yearly": {
+    "title": "Annual Plan",
+    "description": "Best value for committed users",
+    "period": "/month",
+    "billing": "Billed annually",
+    "discount": "Save %{percent}%",
+    "save": "You save"
+  },
+  "features": {
+    "allFeatures": "Access to all basic features",
+    "unlimitedAccounts": "Unlimited accounts & categories",
+    "analytics": "Financial insights & analytics",
+    "sync": "Multi-device synchronization",
+    "prioritySupport": "Priority customer support",
+    "extendedHistory": "Extended transaction history"
+  },
+  "cta": {
+    "getStarted": "Get Started",
+    "bestValue": "Get Best Value"
+  }
+}

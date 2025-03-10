@@ -1,58 +1,98 @@
 
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
-import { LanguageSelector } from "@/components/LanguageSelector";
+import { Button } from "@/components/ui/button";
+import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { useEventsLogger } from "../../logging/events.logger";
-import { useEffect } from "react";
-import { useAnalyticsLogger } from "../../logging/analytics.logger";
+import { LanguageSelector } from "@/components/LanguageSelector";
 
 export const LandingHeader = () => {
   const { t } = useTranslation("LandingPage");
-  const { logNavigation } = useEventsLogger();
-  const { logComponentView } = useAnalyticsLogger();
-  
-  useEffect(() => {
-    logComponentView('LandingHeader');
-  }, [logComponentView]);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const handleNavigation = (destination: string) => {
-    logNavigation(destination);
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
   };
-  
+
   return (
-    <header className="fixed top-0 left-0 w-full bg-background/80 backdrop-blur-sm py-4 px-6 flex items-center justify-between shadow-sm border-b z-50">
-      <div className="flex items-center">
-        <span className="text-xl font-bold bg-gradient-to-r from-[rgba(84,85,89,1)] via-[rgba(108,154,229,1)] to-[rgba(0,140,158,1)] dark:from-[hsla(210,13%,40%,1)] dark:via-[hsla(185,94%,7%,1)] dark:to-[hsla(185,100%,15%,1)] bg-clip-text text-transparent">{t("common:brandName")}</span>
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border">
+      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <Link to="/" className="text-xl font-bold">
+          Loopinance
+        </Link>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center space-x-8">
+          <Link to="/#features" className="text-sm hover:text-primary transition-colors">
+            {t("nav.features")}
+          </Link>
+          <Link to="/#pricing" className="text-sm hover:text-primary transition-colors">
+            {t("nav.pricing")}
+          </Link>
+          <Link to="/#about" className="text-sm hover:text-primary transition-colors">
+            {t("nav.about")}
+          </Link>
+        </nav>
+
+        {/* Desktop Actions */}
+        <div className="hidden md:flex items-center space-x-4">
+          <ThemeToggle />
+          <LanguageSelector />
+          <Button variant="outline" asChild>
+            <Link to="/login">{t("nav.login")}</Link>
+          </Button>
+          <Button asChild>
+            <Link to="/signup">{t("nav.signup")}</Link>
+          </Button>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <div className="flex items-center space-x-4 md:hidden">
+          <ThemeToggle />
+          <button onClick={toggleMenu} className="p-2">
+            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
-      <nav className="hidden md:flex items-center space-x-6">
-        <Link to="/" 
-              className="text-foreground hover:text-primary transition-colors"
-              onClick={() => handleNavigation('home')}>
-          {t("nav.home")}
-        </Link>
-        <Link to="#features" 
-              className="text-foreground hover:text-primary transition-colors"
-              onClick={() => handleNavigation('features')}>
-          {t("nav.features")}
-        </Link>
-        <Link to="#about" 
-              className="text-foreground hover:text-primary transition-colors"
-              onClick={() => handleNavigation('about')}>
-          {t("nav.about")}
-        </Link>
-      </nav>
-      <div className="flex items-center space-x-4">
-        <LanguageSelector variant="ghost" size="sm" />
-        <ThemeToggle variant="ghost" size="sm" />
-        <Button variant="ghost" size="sm" asChild onClick={() => handleNavigation('login')}>
-          <Link to="/login">{t("nav.login")}</Link>
-        </Button>
-        <Button size="sm" asChild onClick={() => handleNavigation('signup')}>
-          <Link to="/signup">{t("nav.signup")}</Link>
-        </Button>
-      </div>
+
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div className="md:hidden px-4 py-2 bg-background/95 backdrop-blur-md border-b border-border">
+          <nav className="flex flex-col space-y-4 py-4">
+            <Link
+              to="/#features"
+              className="px-2 py-1 hover:text-primary transition-colors"
+              onClick={toggleMenu}
+            >
+              {t("nav.features")}
+            </Link>
+            <Link
+              to="/#pricing"
+              className="px-2 py-1 hover:text-primary transition-colors"
+              onClick={toggleMenu}
+            >
+              {t("nav.pricing")}
+            </Link>
+            <Link
+              to="/#about"
+              className="px-2 py-1 hover:text-primary transition-colors"
+              onClick={toggleMenu}
+            >
+              {t("nav.about")}
+            </Link>
+            <div className="pt-2 flex flex-col space-y-2">
+              <LanguageSelector />
+              <Button variant="outline" className="w-full justify-center" asChild>
+                <Link to="/login">{t("nav.login")}</Link>
+              </Button>
+              <Button className="w-full justify-center" asChild>
+                <Link to="/signup">{t("nav.signup")}</Link>
+              </Button>
+            </div>
+          </nav>
+        </div>
+      )}
     </header>
   );
 };
