@@ -7,11 +7,11 @@ import { subscriptionLogger } from "../logging";
  */
 export class SubscriptionDateService {
   /**
-   * Deneme süresi için bitiş tarihini hesaplar (varsayılan 14 gün)
+   * Deneme süresi için bitiş tarihini hesaplar (6 ay)
    */
   static calculateTrialEndDate(startDate: Date = new Date()): Date {
     const endDate = new Date(startDate);
-    endDate.setDate(endDate.getDate() + 14); // 14 günlük deneme süresi
+    endDate.setMonth(endDate.getMonth() + 6); // 6 aylık deneme süresi
     return endDate;
   }
 
@@ -31,12 +31,12 @@ export class SubscriptionDateService {
         endDate.setDate(endDate.getDate() + 365);
         break;
       case SubscriptionPlanType.TRIAL:
-        // Deneme süresi için 14 gün ekle
-        endDate.setDate(endDate.getDate() + 14);
+        // Deneme süresi için 6 ay ekle
+        endDate.setMonth(endDate.getMonth() + 6);
         break;
       default:
-        subscriptionLogger.warn('Bilinmeyen plan tipi için varsayılan süre (14 gün) kullanılıyor', { planType });
-        endDate.setDate(endDate.getDate() + 14);
+        subscriptionLogger.warn('Bilinmeyen plan tipi için varsayılan süre (6 ay) kullanılıyor', { planType });
+        endDate.setMonth(endDate.getMonth() + 6);
     }
     
     return endDate;
