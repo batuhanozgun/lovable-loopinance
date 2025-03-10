@@ -17,6 +17,9 @@ export const LandingHeader = () => {
         <Link to="/" className="text-foreground hover:text-primary transition-colors">
           {t("LandingPage:nav.home")}
         </Link>
+        <Link to="/pricing" className="text-foreground hover:text-primary transition-colors">
+          {t("LandingPage:nav.pricing")}
+        </Link>
         <Link to="#features" className="text-foreground hover:text-primary transition-colors">
           {t("LandingPage:nav.features")}
         </Link>

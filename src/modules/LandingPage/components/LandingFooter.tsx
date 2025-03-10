@@ -23,7 +23,7 @@ export const LandingFooter = () => {
                 </Link>
               </li>
               <li>
-                <Link to="#" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/pricing" className="text-muted-foreground hover:text-foreground transition-colors">
                   {t("LandingPage:footer.product.pricing")}
                 </Link>
               </li>
