@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -6,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, Plus } from 'lucide-react';
 import { useStatement } from '../hooks/useStatement';
 import { useCashAccount } from '../hooks/useCashAccount';
-import { useTransactions } from '../hooks/useTransactions';
+import { useStatementTransactions } from '../hooks/transactions';
 import { CurrencyType } from '../types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { StatementDetails } from '../components/StatementDetails';
@@ -31,7 +30,7 @@ export const StatementDetailView: React.FC = () => {
     sortByAmount,
     filterByType,
     resetFilters
-  } = useTransactions(statementId);
+  } = useStatementTransactions(statementId);
 
   // Yükleme durumu
   if (isAccountLoading || isStatementLoading) {
@@ -121,3 +120,4 @@ export const StatementDetailView: React.FC = () => {
     </div>
   );
 };
+
