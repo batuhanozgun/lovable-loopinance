@@ -12,6 +12,7 @@ export class CategoryQueryService extends BaseCategoryService {
 
   /**
    * Kullanıcının tüm kategorilerini ve alt kategorilerini getirir
+   * N+1 sorunu yerine daha verimli bir yaklaşım kullanır
    */
   async getAllCategories(): Promise<ICategory[]> {
     try {
@@ -28,33 +29,51 @@ export class CategoryQueryService extends BaseCategoryService {
         return this.handleDbError(categoryError, 'Kategori listesi getirme');
       }
       
-      if (!categories) {
+      if (!categories || categories.length === 0) {
         return [];
       }
       
-      // Her kategori için alt kategorileri getir
-      const result = await Promise.all(
-        categories.map(async (category) => {
-          const { data: subCategories, error: subCategoryError } = await this.supabaseClient
-            .from('sub_categories')
-            .select('*')
-            .eq('category_id', category.id)
-            .eq('is_deleted', false)
-            .order('sort_order', { ascending: true });
-          
-          if (subCategoryError) {
-            this.logger.error('Alt kategorileri getirme hatası', subCategoryError, { categoryId: category.id });
-            return { ...category, sub_categories: [] };
-          }
-          
-          return { ...category, sub_categories: subCategories || [] };
-        })
-      );
+      // Tüm kategori ID'lerini al
+      const categoryIds = categories.map(category => category.id);
       
-      this.logger.debug('Kategoriler başarıyla getirildi', { count: result.length });
+      // Tek bir sorgu ile ilgili tüm alt kategorileri getir
+      const { data: allSubCategories, error: subCategoryError } = await this.supabaseClient
+        .from('sub_categories')
+        .select('*')
+        .in('category_id', categoryIds)
+        .eq('is_deleted', false)
+        .order('sort_order', { ascending: true });
+      
+      if (subCategoryError) {
+        this.logger.error('Alt kategorileri getirme hatası', subCategoryError);
+        // Alt kategori hatası olsa bile kategorileri gösterebiliriz
+        return categories.map(category => ({ ...category, sub_categories: [] }));
+      }
+      
+      // Alt kategorileri ana kategorilere göre gruplandır
+      const subCategoriesByParent = (allSubCategories || []).reduce((acc, subCategory) => {
+        const categoryId = subCategory.category_id;
+        if (!acc[categoryId]) {
+          acc[categoryId] = [];
+        }
+        acc[categoryId].push(subCategory);
+        return acc;
+      }, {} as Record<string, typeof allSubCategories>);
+      
+      // Her kategori için alt kategorileri ekle
+      const result = categories.map(category => ({
+        ...category,
+        sub_categories: subCategoriesByParent[category.id] || []
+      }));
+      
+      this.logger.debug('Kategoriler başarıyla getirildi', { 
+        categoriesCount: result.length,
+        subCategoriesCount: allSubCategories?.length || 0
+      });
+      
       return result;
     } catch (error) {
-      return this.handleDbError(error instanceof Error ? error : new Error('Bilinmeyen hata'), 'Kategori listesi getirme');
+      return this.handleDbError(error, 'Kategori listesi getirme');
     }
   }
   
@@ -83,21 +102,14 @@ export class CategoryQueryService extends BaseCategoryService {
       }
       
       // Alt kategorileri getir
-      const { data: subCategories, error: subCategoryError } = await this.supabaseClient
-        .from('sub_categories')
-        .select('*')
-        .eq('category_id', id)
-        .eq('is_deleted', false)
-        .order('sort_order', { ascending: true });
+      const subCategories = await this.getSubCategories(id);
       
-      if (subCategoryError) {
-        this.logger.error('Alt kategori detayları getirme hatası', subCategoryError, { categoryId: id });
-        return { ...category, sub_categories: [] };
-      }
-      
-      return { ...category, sub_categories: subCategories || [] };
+      return { ...category, sub_categories: subCategories };
     } catch (error) {
-      this.logger.error('Kategori detayları getirme işlemi başarısız oldu', error instanceof Error ? error : new Error('Bilinmeyen hata'), { categoryId: id });
+      this.logger.error('Kategori detayları getirme işlemi başarısız oldu', 
+        this.normalizeError(error), 
+        { categoryId: id }
+      );
       return null;
     }
   }

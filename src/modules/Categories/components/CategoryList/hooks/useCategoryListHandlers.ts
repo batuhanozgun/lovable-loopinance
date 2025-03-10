@@ -1,5 +1,4 @@
 
-import { useState } from 'react';
 import { ICategory, ICategoryUpdateParams, ISubCategory, ISubCategoryUpdateParams } from '@/modules/Categories/types';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
@@ -193,4 +192,3 @@ export const useCategoryListHandlers = ({ setCategories }: UseCategoryListHandle
     handleDeleteSubCategory
   };
 };
-

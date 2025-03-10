@@ -21,6 +21,10 @@ export class CategoryManagementService extends BaseCategoryService {
     try {
       this.logger.debug('Yeni kategori oluşturuluyor', { categoryData: data });
       
+      if (!this.validateCategoryData(data)) {
+        throw new Error('Geçersiz kategori verisi');
+      }
+      
       const { data: category, error } = await this.supabaseClient
         .from('categories')
         .insert(data)
@@ -34,7 +38,7 @@ export class CategoryManagementService extends BaseCategoryService {
       this.logger.debug('Kategori başarıyla oluşturuldu', { categoryId: category.id });
       return { ...category, sub_categories: [] };
     } catch (error) {
-      return this.handleDbError(error instanceof Error ? error : new Error('Bilinmeyen hata'), 'Kategori oluşturma');
+      return this.handleDbError(error, 'Kategori oluşturma');
     }
   }
   
@@ -44,6 +48,10 @@ export class CategoryManagementService extends BaseCategoryService {
   async updateCategory(id: string, data: IUpdateCategoryData): Promise<ICategory> {
     try {
       this.logger.debug('Kategori güncelleniyor', { categoryId: id, updateData: data });
+      
+      if (data.name && data.name.trim() === '') {
+        throw new Error('Kategori adı boş olamaz');
+      }
       
       const { data: category, error } = await this.supabaseClient
         .from('categories')
@@ -59,26 +67,18 @@ export class CategoryManagementService extends BaseCategoryService {
       this.logger.debug('Kategori başarıyla güncellendi', { categoryId: id });
       
       // Güncellenmiş kategori için alt kategorileri getir
-      const { data: subCategories, error: subCategoryError } = await this.supabaseClient
-        .from('sub_categories')
-        .select('*')
-        .eq('category_id', id)
-        .eq('is_deleted', false)
-        .order('sort_order', { ascending: true });
+      const subCategories = await this.getSubCategories(id);
       
-      if (subCategoryError) {
-        this.logger.error('Alt kategori detayları getirme hatası', subCategoryError, { categoryId: id });
-        return { ...category, sub_categories: [] };
-      }
-      
-      return { ...category, sub_categories: subCategories || [] };
+      return { ...category, sub_categories: subCategories };
     } catch (error) {
-      return this.handleDbError(error instanceof Error ? error : new Error('Bilinmeyen hata'), 'Kategori güncelleme', { categoryId: id });
+      return this.handleDbError(error, 'Kategori güncelleme', { categoryId: id });
     }
   }
   
   /**
    * Belirli bir kategori detaylarını getirir
+   * Bu metod zaten CategoryQueryService'de var, burada duplicate
+   * ama refactoring yaparken silmiyoruz, belki diğer kod buna bağlıdır
    */
   async getCategoryById(id: string): Promise<ICategory | null> {
     try {
@@ -102,21 +102,14 @@ export class CategoryManagementService extends BaseCategoryService {
       }
       
       // Alt kategorileri getir
-      const { data: subCategories, error: subCategoryError } = await this.supabaseClient
-        .from('sub_categories')
-        .select('*')
-        .eq('category_id', id)
-        .eq('is_deleted', false)
-        .order('sort_order', { ascending: true });
+      const subCategories = await this.getSubCategories(id);
       
-      if (subCategoryError) {
-        this.logger.error('Alt kategori detayları getirme hatası', subCategoryError, { categoryId: id });
-        return { ...category, sub_categories: [] };
-      }
-      
-      return { ...category, sub_categories: subCategories || [] };
+      return { ...category, sub_categories: subCategories };
     } catch (error) {
-      this.logger.error('Kategori detayları getirme hatası', error instanceof Error ? error : new Error('Bilinmeyen hata'), { categoryId: id });
+      this.logger.error('Kategori detayları getirme hatası', 
+        this.normalizeError(error), 
+        { categoryId: id }
+      );
       return null;
     }
   }
@@ -150,7 +143,7 @@ export class CategoryManagementService extends BaseCategoryService {
       
       this.logger.debug('Kategori başarıyla silindi', { categoryId: id });
     } catch (error) {
-      this.handleDbError(error instanceof Error ? error : new Error('Bilinmeyen hata'), 'Kategori silme', { categoryId: id });
+      this.handleDbError(error, 'Kategori silme', { categoryId: id });
     }
   }
 }

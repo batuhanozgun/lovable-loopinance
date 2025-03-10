@@ -1,5 +1,4 @@
 
-import { useState } from 'react';
 import { ICategory, ICategoryOrder } from '@/modules/Categories/types';
 import { 
   DragEndEvent, 
@@ -56,6 +55,16 @@ export const useCategoryDnd = ({
       const oldIndex = items.findIndex(item => item.id === active.id);
       const newIndex = items.findIndex(item => item.id === over.id);
       
+      if (oldIndex === -1 || newIndex === -1) {
+        logger.warn('Kategori sıralama başarısız: kategori bulunamadı', {
+          activeId: active.id,
+          overId: over.id,
+          oldIndex,
+          newIndex
+        });
+        return items;
+      }
+      
       const newItems = arrayMove(items, oldIndex, newIndex);
       
       const sortData = newItems.map((category, index) => ({
@@ -79,4 +88,3 @@ export const useCategoryDnd = ({
     handleDragEnd
   };
 };
-

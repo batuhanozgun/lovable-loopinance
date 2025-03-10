@@ -2,6 +2,7 @@
 import { createLogger } from '@/modules/Logging';
 import { supabase } from '@/integrations/supabase/client';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
+import { PostgrestError } from '@supabase/supabase-js';
 
 /**
  * Kategoriler için temel servis sınıfı
@@ -31,13 +32,61 @@ export class BaseCategoryService {
       data.name.trim().length > 0 &&
       typeof data.category_id === 'string';
   }
+
+  /**
+   * Alt kategorileri getir
+   */
+  protected async getSubCategories(categoryId: string) {
+    try {
+      const { data: subCategories, error } = await this.supabaseClient
+        .from('sub_categories')
+        .select('*')
+        .eq('category_id', categoryId)
+        .eq('is_deleted', false)
+        .order('sort_order', { ascending: true });
+
+      if (error) {
+        this.logger.error('Alt kategorileri getirme hatası', error, { categoryId });
+        return [];
+      }
+
+      return subCategories || [];
+    } catch (error) {
+      this.logger.error('Alt kategorileri getirme hatası', error instanceof Error ? error : new Error('Bilinmeyen hata'), { categoryId });
+      return [];
+    }
+  }
   
   /**
    * Veritabanı hatasını işleyip uygun şekilde loglayan yardımcı metod
    */
-  protected handleDbError(error: any, operation: string, additionalData?: Record<string, any>): never {
-    this.logger.error(`${operation} sırasında hata oluştu`, error, additionalData);
-    throw new Error(`${operation} sırasında hata: ${error.message || 'Bilinmeyen hata'}`);
+  protected handleDbError(error: PostgrestError | Error | unknown, operation: string, additionalData?: Record<string, any>): never {
+    let errorMessage: string;
+    let errorObject: Error;
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+      errorObject = error;
+    } else if (typeof error === 'object' && error !== null && 'message' in error) {
+      errorMessage = String((error as { message: unknown }).message);
+      errorObject = new Error(errorMessage);
+    } else {
+      errorMessage = 'Bilinmeyen hata';
+      errorObject = new Error(errorMessage);
+    }
+
+    this.logger.error(`${operation} sırasında hata oluştu`, errorObject, additionalData);
+    throw new Error(`${operation} sırasında hata: ${errorMessage}`);
+  }
+
+  /**
+   * Yakalanan hataları standart hale getirme
+   */
+  protected normalizeError(error: unknown): Error {
+    if (error instanceof Error) {
+      return error;
+    }
+    return new Error(typeof error === 'string' ? error : 'Bilinmeyen hata');
   }
 }
 

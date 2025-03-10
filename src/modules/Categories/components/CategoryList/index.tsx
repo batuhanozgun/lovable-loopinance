@@ -7,6 +7,7 @@ import { DraggableItem } from './components/DraggableItem';
 import { useTranslation } from 'react-i18next';
 import { useCategoryListHandlers, useCategoryDnd } from './hooks';
 import { EmptyState } from './components/EmptyState';
+import { operationsLogger } from '@/modules/Categories/logging';
 
 interface CategoryListProps {
   categories: ICategory[];
@@ -20,6 +21,7 @@ export const CategoryList: React.FC<CategoryListProps> = ({
   updateCategoryOrder 
 }) => {
   const { t } = useTranslation(['Categories']);
+  const logger = operationsLogger.createSubLogger('CategoryList');
   
   // Kategori işlemlerini yöneten hook
   const {
@@ -36,6 +38,7 @@ export const CategoryList: React.FC<CategoryListProps> = ({
   } = useCategoryDnd({ categories, setCategories, updateCategoryOrder });
 
   if (!categories || categories.length === 0) {
+    logger.debug('Kategori listesi boş, EmptyState gösteriliyor');
     return <EmptyState />;
   }
 
