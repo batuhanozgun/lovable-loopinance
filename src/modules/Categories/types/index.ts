@@ -70,3 +70,10 @@ export interface IReorderCategoriesData {
 export interface IReorderSubCategoriesData {
   subCategories: ISubCategoryOrder[];
 }
+
+// Alt kategori taşıma işlemi için tip
+export interface ICategoryMoveOperation {
+  sourceId: string;
+  targetId: string;
+  subCategoryIds: string[];
+}
