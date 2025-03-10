@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import { Pencil, Trash2 } from 'lucide-react';
 import { ISubCategory } from '@/modules/Categories/types';
-import { EditSubcategoryDialog } from '../EditSubcategoryDialog';
-import { DeleteSubcategoryDialog } from '../DeleteSubcategoryDialog';
+import { 
+  EditSubcategoryDialog, 
+  DeleteSubcategoryDialog 
+} from '@/modules/Categories/components/Dialogs';
 import { useDialogs } from './hooks/useDialogs';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';

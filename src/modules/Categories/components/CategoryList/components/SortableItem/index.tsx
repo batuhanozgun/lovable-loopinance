@@ -5,8 +5,10 @@ import { CSS } from '@dnd-kit/utilities';
 import { ICategory, ISubCategory } from '../../../../types';
 import { useDialogs } from './hooks/useDialogs';
 import { CategoryItem } from './components/CategoryItem';
-import { EditCategoryDialog } from './components/EditCategoryDialog';
-import { DeleteCategoryDialog } from './components/DeleteCategoryDialog';
+import { 
+  EditCategoryDialog, 
+  DeleteCategoryDialog 
+} from '@/modules/Categories/components/Dialogs';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
 
