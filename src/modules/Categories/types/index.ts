@@ -1,3 +1,4 @@
+
 export interface ICategory {
   id: string;
   created_at?: string;
@@ -5,6 +6,7 @@ export interface ICategory {
   icon?: string | null;
   sort_order?: number | null;
   organization_id?: string | null;
+  user_id?: string | null; // Eksik field ekleniyor
   sub_categories?: ISubCategory[] | null;
 }
 
@@ -20,6 +22,7 @@ export interface ICreateCategoryData {
   name: string;
   icon?: string;
   organization_id?: string;
+  user_id?: string; // Eksik field ekleniyor
 }
 
 export interface IUpdateCategoryData {
@@ -48,29 +51,29 @@ export interface ISubCategoryUpdateParams {
   data: IUpdateSubCategoryData;
 }
 
-// Category order params interface
+// Kategori sıralama arayüzü - reorder ifadesini kullanıyoruz
 export interface ICategoryOrder {
   id: string;
   sort_order: number;
 }
 
-// Sub-category order params interface
+// Alt kategori sıralama arayüzü - reorder ifadesini kullanıyoruz
 export interface ISubCategoryOrder {
   id: string;
   sort_order: number;
 }
 
-// Reorder categories data interface
+// Kategorileri yeniden sıralama veri arayüzü
 export interface IReorderCategoriesData {
   categories: ICategoryOrder[];
 }
 
-// Reorder sub-categories data interface
+// Alt kategorileri yeniden sıralama veri arayüzü
 export interface IReorderSubCategoriesData {
   subCategories: ISubCategoryOrder[];
 }
 
-// Category move operation interface
+// Kategori taşıma işlemi arayüzü
 export interface ICategoryMoveOperation {
   sourceId: string;
   targetId: string;

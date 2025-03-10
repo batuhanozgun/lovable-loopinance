@@ -1,10 +1,11 @@
 
+import { createLogger } from '@/modules/Logging';
 import { supabase } from '@/integrations/supabase/client';
-import { categoryLogger } from '../utils/CategoryLoggingService';
-import { categoryErrorHandler } from '../utils/CategoryErrorHandlingService';
-import { categoryValidator } from '../utils/CategoryValidationUtils';
-import { categoryQueryUtils } from '../utils/CategoryQueryUtils';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
+import { PostgrestError } from '@supabase/supabase-js';
+import { categoryQueryUtils } from '../utils/CategoryQueryUtils';
+import { categoryValidator } from '../utils/CategoryValidationUtils';
+import { categoryErrorHandler } from '../utils/CategoryErrorHandlingService';
 
 /**
  * Kategoriler için temel servis sınıfı
@@ -13,11 +14,20 @@ import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
 export class BaseCategoryService {
   protected logger: ModuleLogger;
   protected supabaseClient = supabase;
-  protected errorHandler = categoryErrorHandler;
-  protected validator = categoryValidator;
   protected queryUtils = categoryQueryUtils;
+  protected validator = categoryValidator;
+  protected errorHandler = categoryErrorHandler;
   
   constructor(moduleName: string) {
-    this.logger = categoryLogger.createLogger(moduleName);
+    this.logger = createLogger(moduleName);
+  }
+  
+  /**
+   * Alt kategorileri getir
+   */
+  protected async getSubCategories(categoryId: string) {
+    return this.queryUtils.getSubCategories(categoryId);
   }
 }
+
+export default BaseCategoryService;

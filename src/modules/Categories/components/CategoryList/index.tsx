@@ -12,13 +12,13 @@ import { operationsLogger } from '@/modules/Categories/logging';
 interface CategoryListProps {
   categories: ICategory[];
   setCategories: React.Dispatch<React.SetStateAction<ICategory[]>>;
-  updateCategoryOrder: (data: { categories: { id: string; sort_order: number }[] }) => void;
+  reorderCategories: (data: { categories: { id: string; sort_order: number }[] }) => void;
 }
 
 export const CategoryList: React.FC<CategoryListProps> = ({ 
   categories, 
   setCategories, 
-  updateCategoryOrder 
+  reorderCategories 
 }) => {
   const { t } = useTranslation(['Categories']);
   const logger = operationsLogger.createSubLogger('CategoryList');
@@ -35,7 +35,7 @@ export const CategoryList: React.FC<CategoryListProps> = ({
   const { 
     sensors, 
     handleDragEnd 
-  } = useCategoryDnd({ categories, setCategories, updateCategoryOrder });
+  } = useCategoryDnd({ categories, setCategories, reorderCategories });
 
   if (!categories || categories.length === 0) {
     logger.debug('Kategori listesi boş, EmptyState gösteriliyor');

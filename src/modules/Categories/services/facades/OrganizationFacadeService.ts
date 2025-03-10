@@ -1,13 +1,14 @@
 
 import { CategoryOrganizationService } from '../organization/CategoryOrganizationService';
-import type { 
-  ICategoryOrder, 
+import type {
+  ICategoryOrder,
   ISubCategoryOrder,
   ICategoryMoveOperation
 } from '../../types';
 
 /**
- * Organizasyon işlemleri için facade servis
+ * Kategori organizasyon işlemleri için facade servis
+ * Tüm organizasyon servisleri için tek bir giriş noktası sağlar
  */
 export class OrganizationFacadeService {
   private organizationService: CategoryOrganizationService;
@@ -16,20 +17,24 @@ export class OrganizationFacadeService {
     this.organizationService = new CategoryOrganizationService();
   }
   
-  async updateCategoryOrder(categoryOrders: ICategoryOrder[]): Promise<{success: boolean; error?: string}> {
-    return this.organizationService.updateCategoryOrder(categoryOrders);
+  // Reorder methods - yeni isimlerle
+  async reorderCategories(categoryOrders: { categories: ICategoryOrder[] }): Promise<{success: boolean; error?: string}> {
+    return this.organizationService.reorderCategories(categoryOrders.categories);
   }
   
-  async updateSubCategoryOrder(subCategoryOrders: ISubCategoryOrder[]): Promise<{success: boolean; error?: string}> {
-    return this.organizationService.updateSubCategoryOrder(subCategoryOrders);
+  async reorderSubCategories(subCategoryOrders: { subCategories: ISubCategoryOrder[] }): Promise<{success: boolean; error?: string}> {
+    return this.organizationService.reorderSubCategories(subCategoryOrders.subCategories);
   }
   
+  // Move methods
   async moveSubCategoriesToCategory(
-    sourceId: string,
-    targetId: string,
-    subCategoryIds: string[]
+    moveOperation: ICategoryMoveOperation
   ): Promise<{success: boolean; error?: string}> {
-    return this.organizationService.moveSubCategoriesToCategory(sourceId, targetId, subCategoryIds);
+    return this.organizationService.moveSubCategoriesToCategory(
+      moveOperation.sourceId,
+      moveOperation.targetId,
+      moveOperation.subCategoryIds
+    );
   }
 }
 

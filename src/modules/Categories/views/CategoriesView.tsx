@@ -7,7 +7,6 @@ import { loadTranslations } from '../i18n';
 import { ICategory } from '../types';
 import { useCategories } from '../hooks/queries/useCategoryQueries';
 import { useCategoryOrderingMutations } from '../hooks/mutations/useCategoryOrderingMutations';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
@@ -69,7 +68,7 @@ export const CategoriesView: React.FC = () => {
         <CategoryList 
           categories={categories} 
           setCategories={setCategories} 
-          updateCategoryOrder={reorderCategories}
+          reorderCategories={reorderCategories}
         />
       )}
     </div>

@@ -13,9 +13,9 @@ export class CategoryOrganizationService extends BaseCategoryService {
   /**
    * Kategorilerin sıralama bilgisini günceller
    */
-  async updateCategoryOrder(categoryOrders: ICategoryOrder[]): Promise<{success: boolean; error?: string}> {
+  async reorderCategories(categoryOrders: ICategoryOrder[]): Promise<{success: boolean; error?: string}> {
     try {
-      this.logger.debug('updateCategoryOrder işlemi başlatılıyor', { count: categoryOrders.length });
+      this.logger.debug('reorderCategories işlemi başlatılıyor', { count: categoryOrders.length });
       
       // Supabase ile uyumlu olması için transaction içinde her bir kategori güncellenir
       const promises = categoryOrders.map(order => {
@@ -60,9 +60,9 @@ export class CategoryOrganizationService extends BaseCategoryService {
   /**
    * Alt kategorilerin sıralama bilgisini günceller
    */
-  async updateSubCategoryOrder(subCategoryOrders: ISubCategoryOrder[]): Promise<{success: boolean; error?: string}> {
+  async reorderSubCategories(subCategoryOrders: ISubCategoryOrder[]): Promise<{success: boolean; error?: string}> {
     try {
-      this.logger.debug('updateSubCategoryOrder işlemi başlatılıyor', { 
+      this.logger.debug('reorderSubCategories işlemi başlatılıyor', { 
         count: subCategoryOrders.length 
       });
       

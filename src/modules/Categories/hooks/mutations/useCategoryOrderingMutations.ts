@@ -1,139 +1,85 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { organizationService } from '../../services/category.service';
-import { formsLogger } from '../../logging';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
 import type { 
   ICategoryOrder, 
-  ISubCategoryOrder,
+  ISubCategoryOrder, 
   IReorderCategoriesData,
   IReorderSubCategoriesData,
   ICategoryMoveOperation
 } from '../../types';
+import { organizationService } from '../../services/facades/OrganizationFacadeService';
 
 /**
- * Kategori ve alt kategori sıralama işlemleri için mutation hook'ları
+ * Kategori sıralama ve düzenleme için mutation hook'ları
  */
-export const useCategoryOrderingMutations = (invalidateCallback?: () => void) => {
+export const useCategoryOrderingMutations = () => {
   const queryClient = useQueryClient();
-  const logger = formsLogger.createSubLogger('CategoryOrderingMutations');
   const { toast } = useToast();
-  const { t } = useTranslation(['Messages']);
+  const { t } = useTranslation(['Categories', 'Messages']);
 
   // Kategori sıralama mutation'ı
-  const reorderCategories = useMutation({
-    mutationFn: async ({ categories }: IReorderCategoriesData) => {
-      logger.debug('Kategori sıralama isteği', { count: categories.length });
-      const result = await organizationService.updateCategoryOrder(categories);
-      if (!result.success) {
-        throw new Error(result.error || 'Kategori sıralama hatası');
-      }
-      logger.debug('Kategoriler başarıyla sıralandı');
-      return result;
+  const reorderCategoriesMutation = useMutation({
+    mutationFn: async (data: IReorderCategoriesData) => {
+      return organizationService.reorderCategories(data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories'] });
-      if (invalidateCallback) invalidateCallback();
-      
-      toast({
-        title: t('Messages:category.reorder.success'),
-        description: t('Messages:category.reorder.successDescription'),
-      });
     },
-    meta: {
-      onError: (error: Error) => {
-        logger.error('Kategori sıralama hatası', error);
-        
-        toast({
-          variant: "destructive",
-          title: t('Messages:category.reorder.error'),
-          description: error.message,
-        });
-      }
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: t('Categories:errors.reorder.failed'),
+        description: error instanceof Error ? error.message : String(error),
+      });
     }
   });
 
   // Alt kategori sıralama mutation'ı
-  const reorderSubCategories = useMutation({
-    mutationFn: async ({ subCategories }: IReorderSubCategoriesData) => {
-      logger.debug('Alt kategori sıralama isteği', { count: subCategories.length });
-      const result = await organizationService.updateSubCategoryOrder(subCategories);
-      if (!result.success) {
-        throw new Error(result.error || 'Alt kategori sıralama hatası');
-      }
-      logger.debug('Alt kategoriler başarıyla sıralandı');
-      return result;
+  const reorderSubCategoriesMutation = useMutation({
+    mutationFn: async (data: IReorderSubCategoriesData) => {
+      return organizationService.reorderSubCategories(data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories'] });
-      if (invalidateCallback) invalidateCallback();
-      
-      toast({
-        title: t('Messages:subcategory.reorder.success'),
-        description: t('Messages:subcategory.reorder.successDescription'),
-      });
     },
-    meta: {
-      onError: (error: Error) => {
-        logger.error('Alt kategori sıralama hatası', error);
-        
-        toast({
-          variant: "destructive",
-          title: t('Messages:subcategory.reorder.error'),
-          description: error.message,
-        });
-      }
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: t('Categories:errors.reorderSub.failed'),
+        description: error instanceof Error ? error.message : String(error),
+      });
     }
   });
 
-  // Alt kategorileri taşıma mutation'ı
-  const moveSubCategories = useMutation({
-    mutationFn: async ({ sourceId, targetId, subCategoryIds }: ICategoryMoveOperation) => {
-      logger.debug('Alt kategori taşıma isteği', { 
-        sourceId, 
-        targetId,
-        count: subCategoryIds.length
-      });
-      
-      const result = await organizationService.moveSubCategoriesToCategory(
-        sourceId, 
-        targetId, 
-        subCategoryIds
-      );
-      
-      if (!result.success) {
-        throw new Error(result.error || 'Alt kategori taşıma hatası');
-      }
-      
-      logger.debug('Alt kategoriler başarıyla taşındı');
-      return result;
+  // Alt kategori taşıma mutation'ı
+  const moveSubCategoriesMutation = useMutation({
+    mutationFn: async (data: ICategoryMoveOperation) => {
+      return organizationService.moveSubCategoriesToCategory(data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories'] });
-      if (invalidateCallback) invalidateCallback();
-      
       toast({
         title: t('Messages:subcategory.move.success'),
         description: t('Messages:subcategory.move.successDescription'),
       });
     },
-    meta: {
-      onError: (error: Error) => {
-        logger.error('Alt kategori taşıma hatası', error);
-        
-        toast({
-          variant: "destructive",
-          title: t('Messages:subcategory.move.error'),
-          description: error.message,
-        });
-      }
+    onError: (error) => {
+      toast({
+        variant: "destructive",
+        title: t('Categories:errors.move.failed'),
+        description: error instanceof Error ? error.message : String(error),
+      });
     }
   });
 
   return {
-    reorderCategories,
-    reorderSubCategories,
-    moveSubCategories
+    reorderCategories: reorderCategoriesMutation.mutate,
+    reorderSubCategories: reorderSubCategoriesMutation.mutate,
+    moveSubCategories: moveSubCategoriesMutation.mutate,
+    isReorderingCategories: reorderCategoriesMutation.isPending,
+    isReorderingSubCategories: reorderSubCategoriesMutation.isPending,
+    isMovingSubCategories: moveSubCategoriesMutation.isPending
   };
 };

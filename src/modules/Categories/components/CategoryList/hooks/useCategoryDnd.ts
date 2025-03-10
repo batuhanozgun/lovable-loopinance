@@ -7,7 +7,7 @@ import { operationsLogger } from '@/modules/Categories/logging';
 interface UseCategoryDndProps {
   categories: ICategory[];
   setCategories: React.Dispatch<React.SetStateAction<ICategory[]>>;
-  updateCategoryOrder: (data: { categories: { id: string; sort_order: number }[] }) => void;
+  reorderCategories: (data: { categories: { id: string; sort_order: number }[] }) => void;
 }
 
 /**
@@ -16,7 +16,7 @@ interface UseCategoryDndProps {
 export const useCategoryDnd = ({ 
   categories, 
   setCategories, 
-  updateCategoryOrder 
+  reorderCategories 
 }: UseCategoryDndProps) => {
   const logger = operationsLogger.createSubLogger('CategoryDnd');
   
@@ -62,7 +62,7 @@ export const useCategoryDnd = ({
       }));
       
       // Sunucuya kategorilerin sıralama bilgisini gönder
-      updateCategoryOrder({ categories: categoryOrders });
+      reorderCategories({ categories: categoryOrders });
     }
   };
 
