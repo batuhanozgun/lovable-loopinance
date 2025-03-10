@@ -1,28 +1,12 @@
 
 import { Toaster } from "@/components/ui/toaster";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { SignUp } from "@/modules/UserManagement/Signup/views/SignupView";
-import { Login } from "@/modules/UserManagement/Login/views/LoginView";
+import { BrowserRouter } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { SessionService } from "@/modules/UserManagement/auth";
-import { Layout } from "@/modules/AppLayout/components/Layout";
-import { DashboardView } from "@/modules/Dashboard";
-import { ProfileView } from "@/modules/UserManagement/Profile";
-import { SubscriptionView } from "@/modules/Subscription";
-import { 
-  SubscriptionDashboardView,
-  SubscriptionPlansView,
-  SubscriptionBillingView,
-  SubscriptionSettingsView
-} from "@/modules/Subscription/views/management";
-import Landing from "./pages/Landing";
-import PricingPage from "./pages/Pricing";
-import NotFound from "./pages/NotFound";
-import "@/i18n/config";
 import { useToast } from "./hooks/use-toast";
-import { CategoriesView } from "@/modules/Categories/views/CategoriesView";
-import CategoryTemplatesView from "@/modules/CategoryTemplates/views/CategoryTemplatesView";
+import "@/i18n/config";
+import { AppRoutes } from "@/modules/Routing";
 
 const queryClient = new QueryClient();
 
@@ -104,152 +88,7 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <Toaster />
       <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              isAuthenticated ? (
-                <Layout>
-                  <DashboardView />
-                </Layout>
-              ) : (
-                <Landing />
-              )
-            }
-          />
-          <Route
-            path="/pricing"
-            element={<PricingPage />}
-          />
-          <Route
-            path="/dashboard"
-            element={
-              isAuthenticated ? (
-                <Layout>
-                  <DashboardView />
-                </Layout>
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              isAuthenticated ? (
-                <Layout>
-                  <ProfileView />
-                </Layout>
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
-          <Route
-            path="/categories"
-            element={
-              isAuthenticated ? (
-                <Layout>
-                  <CategoriesView />
-                </Layout>
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
-          <Route
-            path="/category-templates"
-            element={
-              isAuthenticated ? (
-                <Layout>
-                  <CategoryTemplatesView />
-                </Layout>
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
-          <Route
-            path="/subscription"
-            element={
-              isAuthenticated ? (
-                <Layout>
-                  <SubscriptionView />
-                </Layout>
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
-          <Route
-            path="/subscription/dashboard"
-            element={
-              isAuthenticated ? (
-                <Layout>
-                  <SubscriptionDashboardView />
-                </Layout>
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
-          <Route
-            path="/subscription/plans"
-            element={
-              isAuthenticated ? (
-                <Layout>
-                  <SubscriptionPlansView />
-                </Layout>
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
-          <Route
-            path="/subscription/billing"
-            element={
-              isAuthenticated ? (
-                <Layout>
-                  <SubscriptionBillingView />
-                </Layout>
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
-          <Route
-            path="/subscription/settings"
-            element={
-              isAuthenticated ? (
-                <Layout>
-                  <SubscriptionSettingsView />
-                </Layout>
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
-          <Route
-            path="/signup"
-            element={!isAuthenticated ? <SignUp /> : <Navigate to="/dashboard" />}
-          />
-          <Route
-            path="/login"
-            element={!isAuthenticated ? <Login /> : <Navigate to="/dashboard" />}
-          />
-          <Route
-            path="*"
-            element={
-              isAuthenticated ? (
-                <Layout>
-                  <NotFound />
-                </Layout>
-              ) : (
-                <NotFound />
-              )
-            }
-          />
-        </Routes>
+        <AppRoutes isAuthenticated={isAuthenticated} isLoading={isLoading} />
       </BrowserRouter>
     </QueryClientProvider>
   );
