@@ -4,6 +4,10 @@
   "subtitle": "Finansal hedefleriniz için en uygun planı seçin",
   "recommended": "ÖNERİLEN",
   "guarantee": "30 gün para iade garantisi. İstediğiniz zaman iptal edebilirsiniz.",
+  "trial": {
+    "info": "14 günlük tüm özelliklere sahip ücretsiz deneme",
+    "description": "14 günlük ücretsiz deneme ile başlayın. Kredi kartı gerekmez."
+  },
   "monthly": {
     "title": "Aylık Plan",
     "description": "Başlamak için mükemmel",
@@ -19,7 +23,7 @@
     "save": "Kazancınız"
   },
   "features": {
-    "allFeatures": "Tüm temel özelliklere erişim",
+    "allFeatures": "Tüm özelliklere erişim",
     "unlimitedAccounts": "Sınırsız hesap ve kategoriler",
     "analytics": "Finansal içgörüler ve analizler",
     "sync": "Çoklu cihaz senkronizasyonu",

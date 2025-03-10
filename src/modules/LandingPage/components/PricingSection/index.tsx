@@ -4,10 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Check, BadgePercent, Shield } from 'lucide-react';
+import { Check, BadgePercent, Shield, Clock } from 'lucide-react';
 import { useSubscriptionPrice } from '@/modules/Subscription/views/management/shared/hooks/useSubscriptionPrice';
 import { useSubscriptionLocale } from '@/modules/Subscription/views/management/shared/hooks/useSubscriptionLocale';
 import { formatPrice } from '@/modules/Subscription/views/management/shared/utils/formatters';
+import { Badge } from '@/components/ui/badge';
 
 export const PricingSection = () => {
   const { t } = useTranslation('LandingPage');
@@ -22,11 +23,7 @@ export const PricingSection = () => {
     t('pricing.features.allFeatures'),
     t('pricing.features.unlimitedAccounts'),
     t('pricing.features.analytics'),
-    t('pricing.features.sync')
-  ];
-  
-  const premiumFeatures = [
-    ...features,
+    t('pricing.features.sync'),
     t('pricing.features.prioritySupport'),
     t('pricing.features.extendedHistory')
   ];
@@ -39,6 +36,12 @@ export const PricingSection = () => {
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             {t('pricing.subtitle')}
           </p>
+          <div className="flex items-center justify-center gap-2 mt-4">
+            <Badge variant="info" className="text-xs py-1">
+              <Clock className="h-3 w-3 mr-1" />
+              {t('pricing.trial.info')}
+            </Badge>
+          </div>
         </div>
         
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -114,7 +117,7 @@ export const PricingSection = () => {
               </div>
               
               <div className="space-y-3">
-                {premiumFeatures.map((feature, index) => (
+                {features.map((feature, index) => (
                   <div key={index} className="flex items-start">
                     <Check className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
                     <span className="text-sm">{feature}</span>
@@ -132,9 +135,15 @@ export const PricingSection = () => {
           </Card>
         </div>
         
-        <div className="mt-10 text-center flex items-center justify-center gap-2">
-          <Shield className="h-5 w-5 text-muted-foreground" />
-          <p className="text-sm text-muted-foreground">{t('pricing.guarantee')}</p>
+        <div className="mt-10 text-center">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <Clock className="h-5 w-5 text-blue-500" />
+            <p className="text-sm">{t('pricing.trial.description')}</p>
+          </div>
+          <div className="flex items-center justify-center gap-2">
+            <Shield className="h-5 w-5 text-muted-foreground" />
+            <p className="text-sm text-muted-foreground">{t('pricing.guarantee')}</p>
+          </div>
         </div>
       </div>
     </section>
