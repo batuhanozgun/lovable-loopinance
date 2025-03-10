@@ -1,5 +1,5 @@
 
-import { TransactionQueryService } from './TransactionQueryService';
+import { TransactionQueryService } from './query';
 import { TransactionCreationService } from './TransactionCreationService';
 import { TransactionBalanceService } from './TransactionBalanceService';
 
