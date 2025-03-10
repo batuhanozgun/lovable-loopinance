@@ -16,37 +16,16 @@ export const CashAccountForm: React.FC = () => {
   const {
     step,
     isSubmitting,
-    handleSubmit,
-    register,
-    watch,
-    setValue,
-    getValues,
-    reset,
-    trigger,
-    control,
-    formState,
+    onSubmit,
     goToNextStep,
     goToPreviousStep,
-    onSubmit,
-    closingDayType
+    closingDayType,
+    ...formMethods
   } = useCashAccountForm();
-  
-  // Form nesnesini birleştir
-  const form = {
-    register,
-    handleSubmit,
-    watch,
-    setValue,
-    getValues,
-    reset,
-    trigger,
-    control,
-    formState
-  };
   
   // Form gönderimi ve yönlendirme
   const handleFormSubmit = async () => {
-    const account = await onSubmit(getValues());
+    const account = await onSubmit(formMethods.getValues());
     if (account) {
       navigate('/cash-accounts');
     }
@@ -65,7 +44,7 @@ export const CashAccountForm: React.FC = () => {
       
       {step === 1 && (
         <AccountInfoStep
-          form={form}
+          form={formMethods}
           onNext={goToNextStep}
           onCancel={handleCancel}
         />
@@ -73,7 +52,7 @@ export const CashAccountForm: React.FC = () => {
       
       {step === 2 && (
         <ClosingDayStep
-          form={form}
+          form={formMethods}
           isSubmitting={isSubmitting}
           onBack={goToPreviousStep}
           onSubmit={handleFormSubmit}
