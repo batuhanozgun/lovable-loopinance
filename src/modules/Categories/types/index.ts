@@ -1,34 +1,35 @@
 
+// Temel kategori ve alt kategori tipleri
 export interface ICategory {
   id: string;
-  created_at?: string;
   name: string;
-  icon?: string | null;
-  sort_order?: number | null;
-  organization_id?: string | null;
-  user_id?: string | null; // Eksik field ekleniyor
-  sub_categories?: ISubCategory[] | null;
+  icon: string | null;
+  user_id: string;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+  sub_categories?: ISubCategory[];
 }
 
 export interface ISubCategory {
   id: string;
-  created_at?: string;
   name: string;
   category_id: string;
-  sort_order?: number | null;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
 }
 
+// Kategori ve alt kategori oluşturma/güncelleme tipleri
 export interface ICreateCategoryData {
   name: string;
-  icon?: string;
-  organization_id?: string;
-  user_id?: string; // Eksik field ekleniyor
+  icon: string | null;
+  user_id: string;
 }
 
 export interface IUpdateCategoryData {
   name?: string;
   icon?: string | null;
-  sort_order?: number | null;
 }
 
 export interface ICategoryUpdateParams {
@@ -43,7 +44,7 @@ export interface ICreateSubCategoryData {
 
 export interface IUpdateSubCategoryData {
   name?: string;
-  sort_order?: number | null;
+  sort_order?: number;
 }
 
 export interface ISubCategoryUpdateParams {
@@ -51,29 +52,26 @@ export interface ISubCategoryUpdateParams {
   data: IUpdateSubCategoryData;
 }
 
-// Kategori sıralama arayüzü - reorder ifadesini kullanıyoruz
+// Kategori sıralama ile ilgili tipler
 export interface ICategoryOrder {
   id: string;
   sort_order: number;
 }
 
-// Alt kategori sıralama arayüzü - reorder ifadesini kullanıyoruz
 export interface ISubCategoryOrder {
   id: string;
   sort_order: number;
 }
 
-// Kategorileri yeniden sıralama veri arayüzü
 export interface IReorderCategoriesData {
   categories: ICategoryOrder[];
 }
 
-// Alt kategorileri yeniden sıralama veri arayüzü
 export interface IReorderSubCategoriesData {
   subCategories: ISubCategoryOrder[];
 }
 
-// Kategori taşıma işlemi arayüzü
+// Alt kategori taşıma işlemi için tip
 export interface ICategoryMoveOperation {
   sourceId: string;
   targetId: string;

@@ -1,40 +1,26 @@
 
-// Re-export the facade services for easier imports
-import { categoryService } from './facades/CategoryFacadeService';
-import { subcategoryService } from './facades/SubcategoryFacadeService';
-import { organizationService } from './facades/OrganizationFacadeService';
+import { CategoryManagementService } from './CategoryManagementService';
+import { CategoryQueryService } from './CategoryQueryService';
+import { CategoryOrganizationService } from './CategoryOrganizationService';
+import { SubcategoryService } from './SubcategoryService';
+import { BaseCategoryService } from './BaseCategoryService';
 
-// Re-export utility services
-import { categoryErrorHandler } from './utils/CategoryErrorHandlingService';
-import { categoryLogger } from './utils/CategoryLoggingService';
-import { categoryValidator } from './utils/CategoryValidationUtils';
-import { categoryQueryUtils } from './utils/CategoryQueryUtils';
-
-// Export main services for use throughout the application
+// Kategori ile ilgili tüm servisleri dışa aktar
 export {
-  // Facade services
-  categoryService,
-  subcategoryService,
-  organizationService,
-  
-  // Utility services
-  categoryErrorHandler,
-  categoryLogger,
-  categoryValidator,
-  categoryQueryUtils
+  BaseCategoryService,
+  CategoryManagementService,
+  CategoryQueryService,
+  CategoryOrganizationService,
+  SubcategoryService
 };
 
-// Default export for convenience
+// Default export - daha kolaylık sağlar
 const CategoryServices = {
-  categoryService,
-  subcategoryService,
-  organizationService,
-  utilities: {
-    errorHandler: categoryErrorHandler,
-    logger: categoryLogger,
-    validator: categoryValidator,
-    queryUtils: categoryQueryUtils
-  }
+  BaseCategoryService,
+  CategoryManagementService,
+  CategoryQueryService,
+  CategoryOrganizationService,
+  SubcategoryService
 };
 
 export default CategoryServices;

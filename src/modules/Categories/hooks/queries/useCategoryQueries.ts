@@ -1,6 +1,6 @@
 
 import { useQuery } from '@tanstack/react-query';
-import { categoryService } from '../../services/category.service';
+import { CategoryQueryService } from '../../services/CategoryQueryService';
 import { operationsLogger } from '../../logging';
 import type { ICategory } from '../../types';
 
@@ -9,6 +9,7 @@ import type { ICategory } from '../../types';
  */
 export const useCategories = () => {
   const logger = operationsLogger.createSubLogger('CategoriesHook');
+  const categoryService = new CategoryQueryService();
 
   const result = useQuery<ICategory[], Error>({
     queryKey: ['categories'],
@@ -38,6 +39,7 @@ export const useCategories = () => {
  */
 export const useCategory = (id: string) => {
   const logger = operationsLogger.createSubLogger('CategoryHook');
+  const categoryService = new CategoryQueryService();
 
   const result = useQuery<ICategory, Error>({
     queryKey: ['category', id],

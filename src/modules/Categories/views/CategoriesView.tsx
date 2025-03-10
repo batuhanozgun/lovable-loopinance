@@ -7,6 +7,7 @@ import { loadTranslations } from '../i18n';
 import { ICategory } from '../types';
 import { useCategories } from '../hooks/queries/useCategoryQueries';
 import { useCategoryOrderingMutations } from '../hooks/mutations/useCategoryOrderingMutations';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
@@ -22,7 +23,7 @@ export const CategoriesView: React.FC = () => {
   const { categories: categoryData, isLoading } = useCategories();
   
   // Sıralama mutation'ını al
-  const { reorderCategories } = useCategoryOrderingMutations();
+  const { updateCategoryOrder } = useCategoryOrderingMutations();
   
   // Kategorileri state'e kaydet
   useEffect(() => {
@@ -68,7 +69,7 @@ export const CategoriesView: React.FC = () => {
         <CategoryList 
           categories={categories} 
           setCategories={setCategories} 
-          reorderCategories={reorderCategories}
+          updateCategoryOrder={updateCategoryOrder}
         />
       )}
     </div>
