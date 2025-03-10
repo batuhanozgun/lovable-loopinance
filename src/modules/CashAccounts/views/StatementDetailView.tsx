@@ -32,7 +32,7 @@ export const StatementDetailView: React.FC = () => {
     resetFilters
   } = useStatementTransactions(statementId);
 
-  // Yükleme durumu
+  // Yükleme durumu kontrolü
   if (isAccountLoading || isStatementLoading) {
     return (
       <div className="container py-6 space-y-6">
@@ -120,4 +120,3 @@ export const StatementDetailView: React.FC = () => {
     </div>
   );
 };
-
