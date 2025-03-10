@@ -1,23 +1,25 @@
 
 {
   "title": "Cash Accounts",
-  "description": "Manage your cash accounts",
-  "newAccount": "New Account",
+  "description": "Create a new cash account to track your daily expenses and income.",
   "noAccounts": "You don't have any cash accounts yet",
-  "createAccount": "Create Account",
+  "createAccount": "Create a Cash Account",
+  "newAccount": "New Account",
+  "accountBalance": "Account Balance",
   "accountDetails": "Account Details",
-  "actions": {
-    "viewStatements": "View Statements",
-    "viewTransactions": "View Transactions",
-    "edit": "Edit",
-    "delete": "Delete"
-  },
-  "statements": {
-    "title": "Account Statements",
-    "noStatements": "No statements found for this account"
-  },
-  "transactions": {
-    "title": "Account Transactions",
-    "noTransactions": "No transactions found for this account"
+  "currentBalance": "Current balance of your account",
+  "statements": "Statements",
+  "transactions": "Transactions",
+  "viewDetails": "View Details",
+  "newTransaction": "New Transaction",
+  "errors": {
+    "account": {
+      "list": {
+        "failed": "Failed to load accounts"
+      },
+      "detail": {
+        "failed": "Failed to load account details"
+      }
+    }
   }
 }

@@ -15,5 +15,7 @@
   "search": "Ara",
   "filter": "Filtrele",
   "add": "Ekle",
-  "remove": "Kaldır"
+  "remove": "Kaldır",
+  "back": "Geri",
+  "operationSuccessful": "İşlem başarıyla tamamlandı"
 }

@@ -78,4 +78,39 @@ export class CashAccountService {
       };
     }
   }
+
+  /**
+   * ID'ye göre belirli bir nakit hesabı getirir
+   */
+  static async getCashAccountById(id: string): Promise<CashAccountResponse> {
+    try {
+      this.logger.debug('Fetching cash account by ID', { id });
+      
+      const { data: account, error } = await supabase
+        .from('cash_accounts')
+        .select('*')
+        .eq('id', id)
+        .single();
+      
+      if (error) {
+        this.logger.error('Failed to fetch cash account by ID', { id, error });
+        return {
+          success: false,
+          error: error.message
+        };
+      }
+      
+      this.logger.info('Cash account fetched successfully', { id });
+      return {
+        success: true,
+        data: account as CashAccount
+      };
+    } catch (error) {
+      this.logger.error('Unexpected error fetching cash account by ID', { id, error });
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      };
+    }
+  }
 }

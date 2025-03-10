@@ -15,5 +15,7 @@
   "search": "Search",
   "filter": "Filter",
   "add": "Add",
-  "remove": "Remove"
+  "remove": "Remove",
+  "back": "Back",
+  "operationSuccessful": "Operation completed successfully"
 }

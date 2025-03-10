@@ -1,23 +1,25 @@
 
 {
   "title": "Nakit Hesaplar",
-  "description": "Nakit hesaplarınızı yönetin",
+  "description": "Günlük gider ve gelirlerinizi takip etmek için yeni bir nakit hesap oluşturun.",
+  "noAccounts": "Henüz hiç nakit hesabınız yok",
+  "createAccount": "Nakit Hesap Oluştur",
   "newAccount": "Yeni Hesap",
-  "noAccounts": "Henüz nakit hesabınız bulunmamaktadır",
-  "createAccount": "Hesap Oluştur",
+  "accountBalance": "Hesap Bakiyesi",
   "accountDetails": "Hesap Detayları",
-  "actions": {
-    "viewStatements": "Ekstreleri Görüntüle",
-    "viewTransactions": "İşlemleri Görüntüle",
-    "edit": "Düzenle",
-    "delete": "Sil"
-  },
-  "statements": {
-    "title": "Hesap Ekstreleri",
-    "noStatements": "Bu hesap için ekstre bulunamadı"
-  },
-  "transactions": {
-    "title": "Hesap İşlemleri",
-    "noTransactions": "Bu hesap için işlem bulunamadı"
+  "currentBalance": "Hesabınızın güncel bakiyesi",
+  "statements": "Ekstreler",
+  "transactions": "İşlemler",
+  "viewDetails": "Detayları Gör",
+  "newTransaction": "Yeni İşlem",
+  "errors": {
+    "account": {
+      "list": {
+        "failed": "Hesaplar yüklenirken hata oluştu"
+      },
+      "detail": {
+        "failed": "Hesap detayları yüklenirken hata oluştu"
+      }
+    }
   }
 }
