@@ -13,8 +13,8 @@ interface CategoryItemProps {
   listeners: any;
   onEditClick: (e: React.MouseEvent) => void;
   onDeleteClick: (e: React.MouseEvent) => void;
-  onEditSubCategory?: (subCategory: ISubCategory) => void;
-  onDeleteSubCategory?: (subCategoryId: string) => void;
+  onEditSubCategory?: (subCategory: ISubCategory) => Promise<void>;
+  onDeleteSubCategory?: (subCategoryId: string) => Promise<void>;
 }
 
 export const CategoryItem: React.FC<CategoryItemProps> = ({
@@ -38,14 +38,16 @@ export const CategoryItem: React.FC<CategoryItemProps> = ({
 
   const handleEditSubCategory = (updatedSubCategory: ISubCategory) => {
     if (onEditSubCategory) {
-      onEditSubCategory(updatedSubCategory);
+      return onEditSubCategory(updatedSubCategory);
     }
+    return Promise.resolve();
   };
 
   const handleDeleteSubCategory = (subCategoryId: string) => {
     if (onDeleteSubCategory) {
-      onDeleteSubCategory(subCategoryId);
+      return onDeleteSubCategory(subCategoryId);
     }
+    return Promise.resolve();
   };
 
   return (

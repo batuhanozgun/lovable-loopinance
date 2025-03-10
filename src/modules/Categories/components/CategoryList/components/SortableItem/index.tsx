@@ -12,10 +12,10 @@ import { useTranslation } from 'react-i18next';
 
 interface SortableItemProps {
   category: ICategory;
-  onEdit?: (category: ICategory) => void;
-  onDelete?: (categoryId: string) => void;
-  onEditSubCategory?: (categoryId: string, subCategory: ISubCategory) => void;
-  onDeleteSubCategory?: (categoryId: string, subCategoryId: string) => void;
+  onEdit?: (category: ICategory) => Promise<void>;
+  onDelete?: (categoryId: string) => Promise<void>;
+  onEditSubCategory?: (categoryId: string, subCategory: ISubCategory) => Promise<void>;
+  onDeleteSubCategory?: (categoryId: string, subCategoryId: string) => Promise<void>;
 }
 
 export const SortableItem: React.FC<SortableItemProps> = ({ 
@@ -47,9 +47,9 @@ export const SortableItem: React.FC<SortableItemProps> = ({
     transition
   };
 
-  const handleEditSave = () => {
+  const handleEditSave = async () => {
     if (onEdit && editName.trim()) {
-      onEdit({
+      await onEdit({
         ...category,
         name: editName.trim(),
         icon: editIcon
@@ -58,22 +58,22 @@ export const SortableItem: React.FC<SortableItemProps> = ({
     setIsEditDialogOpen(false);
   };
 
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = async () => {
     if (onDelete) {
-      onDelete(category.id);
+      await onDelete(category.id);
     }
     setIsDeleteDialogOpen(false);
   };
 
-  const handleEditSubCategory = (updatedSubCategory: ISubCategory) => {
+  const handleEditSubCategory = async (updatedSubCategory: ISubCategory) => {
     if (onEditSubCategory) {
-      onEditSubCategory(category.id, updatedSubCategory);
+      await onEditSubCategory(category.id, updatedSubCategory);
     }
   };
 
-  const handleDeleteSubCategory = (subCategoryId: string) => {
+  const handleDeleteSubCategory = async (subCategoryId: string) => {
     if (onDeleteSubCategory) {
-      onDeleteSubCategory(category.id, subCategoryId);
+      await onDeleteSubCategory(category.id, subCategoryId);
     }
   };
 
