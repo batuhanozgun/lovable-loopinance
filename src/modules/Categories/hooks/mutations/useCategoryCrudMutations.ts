@@ -1,6 +1,6 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { CategoryManagementService } from '../../services/CategoryManagementService';
+import { categoryService } from '../../services/category.service';
 import { formsLogger } from '../../logging';
 import type { ICreateCategoryData, IUpdateCategoryData, ICategoryUpdateParams, ICategory } from '../../types';
 
@@ -10,7 +10,6 @@ import type { ICreateCategoryData, IUpdateCategoryData, ICategoryUpdateParams, I
 export const useCategoryCrudMutations = (invalidateCallback?: () => void) => {
   const queryClient = useQueryClient();
   const logger = formsLogger.createSubLogger('CategoryMutations');
-  const categoryService = new CategoryManagementService();
 
   // Kategori oluşturma mutation'ı
   const createCategory = useMutation({

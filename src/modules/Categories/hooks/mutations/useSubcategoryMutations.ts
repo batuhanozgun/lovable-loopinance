@@ -1,6 +1,6 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { SubcategoryService } from '../../services/SubcategoryService';
+import { subcategoryService } from '../../services/category.service';
 import { formsLogger } from '../../logging';
 import type { 
   ICreateSubCategoryData, 
@@ -15,7 +15,6 @@ import type {
 export const useSubcategoryMutations = (invalidateCallback?: () => void) => {
   const queryClient = useQueryClient();
   const logger = formsLogger.createSubLogger('SubcategoryMutations');
-  const subcategoryService = new SubcategoryService();
 
   // Alt kategori oluşturma mutation'ı
   const createSubCategory = useMutation({
