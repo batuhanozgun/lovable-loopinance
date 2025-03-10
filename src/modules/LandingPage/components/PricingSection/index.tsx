@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Check, BadgePercent, Shield, Clock } from 'lucide-react';
+import { Check, BadgePercent, Shield, Clock, Star } from 'lucide-react';
 import { useSubscriptionPrice } from '@/modules/Subscription/views/management/shared/hooks/useSubscriptionPrice';
 import { useSubscriptionLocale } from '@/modules/Subscription/views/management/shared/hooks/useSubscriptionLocale';
 import { formatPrice } from '@/modules/Subscription/views/management/shared/utils/formatters';
@@ -37,8 +37,8 @@ export const PricingSection = () => {
             {t('pricing.subtitle')}
           </p>
           <div className="flex items-center justify-center gap-2 mt-4">
-            <Badge variant="info" className="text-xs py-1">
-              <Clock className="h-3 w-3 mr-1" />
+            <Badge variant="outline" className="bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 border-blue-200 dark:border-blue-800 px-3 py-1.5">
+              <Clock className="h-4 w-4 mr-2" />
               {t('pricing.trial.info')}
             </Badge>
           </div>
@@ -136,13 +136,15 @@ export const PricingSection = () => {
         </div>
         
         <div className="mt-10 text-center">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <Clock className="h-5 w-5 text-blue-500" />
-            <p className="text-sm">{t('pricing.trial.description')}</p>
-          </div>
-          <div className="flex items-center justify-center gap-2">
-            <Shield className="h-5 w-5 text-muted-foreground" />
-            <p className="text-sm text-muted-foreground">{t('pricing.guarantee')}</p>
+          <div className="flex flex-col items-center justify-center gap-3 p-4 bg-slate-50 dark:bg-slate-900 rounded-lg max-w-lg mx-auto">
+            <div className="flex items-center gap-2">
+              <Star className="h-5 w-5 text-blue-500" />
+              <p className="text-sm font-medium">{t('pricing.trial.description')}</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <Shield className="h-5 w-5 text-muted-foreground" />
+              <p className="text-sm text-muted-foreground">{t('pricing.guarantee')}</p>
+            </div>
           </div>
         </div>
       </div>

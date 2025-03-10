@@ -1,7 +1,7 @@
 
 {
   "title": "Basit, Şeffaf Fiyatlandırma",
-  "subtitle": "Finansal hedefleriniz için en uygun planı seçin",
+  "subtitle": "Tüm planlar aynı premium özellikleri içerir. Size en uygun ödeme planını seçin.",
   "recommended": "ÖNERİLEN",
   "guarantee": "30 gün para iade garantisi. İstediğiniz zaman iptal edebilirsiniz.",
   "trial": {
@@ -10,13 +10,13 @@
   },
   "monthly": {
     "title": "Aylık Plan",
-    "description": "Başlamak için mükemmel",
+    "description": "Esneklik için mükemmel",
     "period": "/ay",
     "billing": "Aylık ödeme"
   },
   "yearly": {
     "title": "Yıllık Plan",
-    "description": "Kararlı kullanıcılar için en iyi değer",
+    "description": "Yıllık ödeme ile tasarruf edin",
     "period": "/ay",
     "billing": "Yıllık ödeme",
     "discount": "%{{percent}} tasarruf",
