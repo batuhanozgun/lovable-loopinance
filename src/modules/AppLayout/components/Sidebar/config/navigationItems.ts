@@ -40,9 +40,15 @@ export const getNavigationItems = (): NavigationGroup[] => {
           icon: Home 
         },
         { 
+          label: 'AppLayout:navigation.cashAccounts', 
+          path: '/cash-accounts', 
+          icon: Wallet,
+          requiresSubscription: true
+        },
+        { 
           label: 'AppLayout:navigation.accounts', 
           path: '/accounts', 
-          icon: Wallet,
+          icon: CreditCard,
           requiresSubscription: true
         },
         { 

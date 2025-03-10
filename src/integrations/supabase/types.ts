@@ -9,6 +9,175 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      account_statements: {
+        Row: {
+          account_id: string
+          created_at: string
+          end_balance: number
+          end_date: string
+          expenses: number
+          id: string
+          income: number
+          start_balance: number
+          start_date: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          account_id: string
+          created_at?: string
+          end_balance: number
+          end_date: string
+          expenses?: number
+          id?: string
+          income?: number
+          start_balance: number
+          start_date: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string
+          created_at?: string
+          end_balance?: number
+          end_date?: string
+          expenses?: number
+          id?: string
+          income?: number
+          start_balance?: number
+          start_date?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "account_statements_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "cash_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      account_transactions: {
+        Row: {
+          account_id: string
+          amount: number
+          category_id: string | null
+          created_at: string
+          description: string | null
+          id: string
+          statement_id: string
+          subcategory_id: string | null
+          transaction_date: string
+          transaction_time: string
+          transaction_type: string
+          updated_at: string
+        }
+        Insert: {
+          account_id: string
+          amount: number
+          category_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          statement_id: string
+          subcategory_id?: string | null
+          transaction_date: string
+          transaction_time: string
+          transaction_type: string
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string
+          amount?: number
+          category_id?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          statement_id?: string
+          subcategory_id?: string | null
+          transaction_date?: string
+          transaction_time?: string
+          transaction_type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "account_transactions_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "cash_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "account_transactions_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "account_transactions_statement_id_fkey"
+            columns: ["statement_id"]
+            isOneToOne: false
+            referencedRelation: "account_statements"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "account_transactions_subcategory_id_fkey"
+            columns: ["subcategory_id"]
+            isOneToOne: false
+            referencedRelation: "sub_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cash_accounts: {
+        Row: {
+          account_type: string
+          closing_day_type: string
+          closing_day_value: number | null
+          created_at: string
+          currency: string
+          description: string | null
+          id: string
+          initial_balance: number
+          is_active: boolean
+          name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          account_type?: string
+          closing_day_type: string
+          closing_day_value?: number | null
+          created_at?: string
+          currency: string
+          description?: string | null
+          id?: string
+          initial_balance?: number
+          is_active?: boolean
+          name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          account_type?: string
+          closing_day_type?: string
+          closing_day_value?: number | null
+          created_at?: string
+          currency?: string
+          description?: string | null
+          id?: string
+          initial_balance?: number
+          is_active?: boolean
+          name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           created_at: string | null

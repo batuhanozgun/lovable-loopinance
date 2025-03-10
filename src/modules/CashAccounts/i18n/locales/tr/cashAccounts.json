@@ -1,0 +1,23 @@
+
+{
+  "title": "Nakit Hesaplar",
+  "description": "Nakit hesaplarınızı yönetin",
+  "newAccount": "Yeni Hesap",
+  "noAccounts": "Henüz nakit hesabınız bulunmamaktadır",
+  "createAccount": "Hesap Oluştur",
+  "accountDetails": "Hesap Detayları",
+  "actions": {
+    "viewStatements": "Ekstreleri Görüntüle",
+    "viewTransactions": "İşlemleri Görüntüle",
+    "edit": "Düzenle",
+    "delete": "Sil"
+  },
+  "statements": {
+    "title": "Hesap Ekstreleri",
+    "noStatements": "Bu hesap için ekstre bulunamadı"
+  },
+  "transactions": {
+    "title": "Hesap İşlemleri",
+    "noTransactions": "Bu hesap için işlem bulunamadı"
+  }
+}

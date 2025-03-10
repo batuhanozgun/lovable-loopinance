@@ -13,6 +13,7 @@ import {
 } from "@/modules/Subscription/views/management";
 import { CategoriesView } from "@/modules/Categories/views/CategoriesView";
 import CategoryTemplatesView from "@/modules/CategoryTemplates/views/CategoryTemplatesView";
+import { CashAccountsView, CreateCashAccountView } from "@/modules/CashAccounts";
 import Landing from "@/pages/Landing";
 import PricingPage from "@/pages/Pricing";
 import NotFound from "@/pages/NotFound";
@@ -101,6 +102,16 @@ export const routes: AppRoute[] = [
     path: "/category-templates",
     type: "private",
     element: <CategoryTemplatesView />
+  },
+  {
+    path: "/cash-accounts",
+    type: "private",
+    element: <CashAccountsView />
+  },
+  {
+    path: "/cash-accounts/new",
+    type: "private",
+    element: <CreateCashAccountView />
   },
   {
     path: "/subscription",
