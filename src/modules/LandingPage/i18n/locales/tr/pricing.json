@@ -15,7 +15,7 @@
     "description": "Kararlı kullanıcılar için en iyi değer",
     "period": "/ay",
     "billing": "Yıllık ödeme",
-    "discount": "%{percent}% tasarruf",
+    "discount": "%{{percent}} tasarruf",
     "save": "Kazancınız"
   },
   "features": {

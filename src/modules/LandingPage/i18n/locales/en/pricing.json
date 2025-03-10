@@ -15,7 +15,7 @@
     "description": "Best value for committed users",
     "period": "/month",
     "billing": "Billed annually",
-    "discount": "Save %{percent}%",
+    "discount": "Save {{percent}}%",
     "save": "You save"
   },
   "features": {
