@@ -20,7 +20,11 @@ export const CashAccountForm: React.FC = () => {
     register,
     watch,
     setValue,
-    errors,
+    getValues,
+    reset,
+    trigger,
+    control,
+    formState,
     goToNextStep,
     goToPreviousStep,
     onSubmit,
@@ -33,13 +37,17 @@ export const CashAccountForm: React.FC = () => {
     handleSubmit,
     watch,
     setValue,
-    formState: { errors }
+    getValues,
+    reset,
+    trigger,
+    control,
+    formState
   };
   
   // Form gönderimi ve yönlendirme
   const handleFormSubmit = async () => {
-    const result = await handleSubmit(onSubmit)();
-    if (result) {
+    const account = await onSubmit(getValues());
+    if (account) {
       navigate('/cash-accounts');
     }
   };

@@ -23,9 +23,9 @@ export interface CashAccountFormData {
     whole: string;
     decimal: string;
   };
-  currency: 'TRY' | 'USD' | 'EUR';
+  currency: CurrencyType;
   description?: string;
-  closingDayType: 'LAST_DAY' | 'LAST_BUSINESS_DAY' | 'SPECIFIC_DAY';
+  closingDayType: ClosingDayType;
   closingDayValue?: number;
 }
 
@@ -52,6 +52,6 @@ export enum CurrencyType {
  */
 export interface CashAccountResponse {
   success: boolean;
-  data?: CashAccount;
+  data?: CashAccount | CashAccount[];
   error?: string;
 }

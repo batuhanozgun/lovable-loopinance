@@ -29,8 +29,8 @@ export const AccountInfoStep: React.FC<AccountInfoStepProps> = ({ form, onNext, 
   const currency = watch('currency');
   
   // Para birimi değiştiğinde güncelle
-  const handleCurrencyChange = (value: CurrencyType) => {
-    setValue('currency', value);
+  const handleCurrencyChange = (value: string) => {
+    setValue('currency', value as CurrencyType);
   };
 
   return (
@@ -81,7 +81,7 @@ export const AccountInfoStep: React.FC<AccountInfoStepProps> = ({ form, onNext, 
             </Label>
             <Select
               value={currency}
-              onValueChange={(value) => handleCurrencyChange(value as CurrencyType)}
+              onValueChange={handleCurrencyChange}
             >
               <SelectTrigger id="currency" className={errors.currency ? 'border-red-500' : ''}>
                 <SelectValue placeholder={t('CashAccounts:forms.accountForm.currency.label')} />

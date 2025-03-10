@@ -23,13 +23,7 @@ export const useCashAccountForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   // React Hook Form
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setValue,
-    formState: { errors }
-  } = useForm<CashAccountFormData>({
+  const form = useForm<CashAccountFormData>({
     defaultValues: {
       name: '',
       initialBalance: {
@@ -40,6 +34,8 @@ export const useCashAccountForm = () => {
       closingDayType: ClosingDayType.LAST_DAY
     }
   });
+  
+  const { formState: { errors }, watch, setValue, getValues } = form;
   
   // İzlenen değerler
   const closingDayType = watch('closingDayType');
@@ -112,11 +108,7 @@ export const useCashAccountForm = () => {
   return {
     step,
     isSubmitting,
-    register,
-    handleSubmit,
-    errors,
-    watch,
-    setValue,
+    ...form,
     goToNextStep,
     goToPreviousStep,
     onSubmit,
