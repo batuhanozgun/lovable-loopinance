@@ -21,5 +21,17 @@
       "required": "Hesap kesim günü gereklidir",
       "range": "Hesap kesim günü 1 ile 28 arasında olmalıdır"
     }
+  },
+  "transaction": {
+    "amount": {
+      "required": "Tutar gereklidir",
+      "min": "Tutar 0'dan büyük olmalıdır"
+    },
+    "type": {
+      "required": "İşlem türü gereklidir"
+    },
+    "date": {
+      "required": "Tarih gereklidir"
+    }
   }
 }

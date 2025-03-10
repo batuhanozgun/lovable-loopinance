@@ -21,5 +21,17 @@
       "required": "Closing day is required",
       "range": "Closing day must be between 1 and 28"
     }
+  },
+  "transaction": {
+    "amount": {
+      "required": "Amount is required",
+      "min": "Amount must be greater than 0"
+    },
+    "type": {
+      "required": "Transaction type is required"
+    },
+    "date": {
+      "required": "Date is required"
+    }
   }
 }

@@ -13,16 +13,43 @@ export class TransactionQueryService {
   /**
    * Belirli bir ekstre için tüm işlemleri getirir
    */
-  static async getTransactionsByStatementId(statementId: string): Promise<TransactionListResponse> {
+  static async getTransactionsByStatementId(
+    statementId: string, 
+    options: { 
+      sortBy?: 'date' | 'amount', 
+      sortOrder?: 'asc' | 'desc',
+      transactionType?: 'income' | 'expense' | 'all'
+    } = {}
+  ): Promise<TransactionListResponse> {
     try {
-      this.logger.debug('Fetching transactions for statement', { statementId });
+      this.logger.debug('Fetching transactions for statement', { statementId, options });
       
-      const { data: transactions, error } = await supabase
+      const { 
+        sortBy = 'date', 
+        sortOrder = 'desc',
+        transactionType = 'all'
+      } = options;
+      
+      let query = supabase
         .from('account_transactions')
         .select('*')
-        .eq('statement_id', statementId)
-        .order('transaction_date', { ascending: false })
-        .order('transaction_time', { ascending: false });
+        .eq('statement_id', statementId);
+      
+      // Apply transaction type filter if not set to 'all'
+      if (transactionType !== 'all') {
+        query = query.eq('transaction_type', transactionType);
+      }
+      
+      // Apply sorting
+      if (sortBy === 'date') {
+        query = query
+          .order('transaction_date', { ascending: sortOrder === 'asc' })
+          .order('transaction_time', { ascending: sortOrder === 'asc' });
+      } else if (sortBy === 'amount') {
+        query = query.order('amount', { ascending: sortOrder === 'asc' });
+      }
+      
+      const { data: transactions, error } = await query;
       
       if (error) {
         this.logger.error('Failed to fetch statement transactions', { statementId, error });
@@ -32,7 +59,12 @@ export class TransactionQueryService {
         };
       }
       
-      this.logger.info('Statement transactions fetched successfully', { statementId, count: transactions.length });
+      this.logger.info('Statement transactions fetched successfully', { 
+        statementId, 
+        count: transactions.length,
+        filters: options
+      });
+      
       return {
         success: true,
         data: transactions as AccountTransaction[]
@@ -84,16 +116,63 @@ export class TransactionQueryService {
   /**
    * Belirli bir hesap için tüm işlemleri getirir
    */
-  static async getTransactionsByAccountId(accountId: string): Promise<TransactionListResponse> {
+  static async getTransactionsByAccountId(
+    accountId: string,
+    options: { 
+      sortBy?: 'date' | 'amount', 
+      sortOrder?: 'asc' | 'desc',
+      transactionType?: 'income' | 'expense' | 'all',
+      limit?: number,
+      startDate?: string,
+      endDate?: string
+    } = {}
+  ): Promise<TransactionListResponse> {
     try {
-      this.logger.debug('Fetching transactions for account', { accountId });
+      this.logger.debug('Fetching transactions for account', { accountId, options });
       
-      const { data: transactions, error } = await supabase
+      const { 
+        sortBy = 'date', 
+        sortOrder = 'desc',
+        transactionType = 'all',
+        limit,
+        startDate,
+        endDate
+      } = options;
+      
+      let query = supabase
         .from('account_transactions')
         .select('*')
-        .eq('account_id', accountId)
-        .order('transaction_date', { ascending: false })
-        .order('transaction_time', { ascending: false });
+        .eq('account_id', accountId);
+      
+      // Apply transaction type filter if not set to 'all'
+      if (transactionType !== 'all') {
+        query = query.eq('transaction_type', transactionType);
+      }
+      
+      // Apply date range filters if provided
+      if (startDate) {
+        query = query.gte('transaction_date', startDate);
+      }
+      
+      if (endDate) {
+        query = query.lte('transaction_date', endDate);
+      }
+      
+      // Apply sorting
+      if (sortBy === 'date') {
+        query = query
+          .order('transaction_date', { ascending: sortOrder === 'asc' })
+          .order('transaction_time', { ascending: sortOrder === 'asc' });
+      } else if (sortBy === 'amount') {
+        query = query.order('amount', { ascending: sortOrder === 'asc' });
+      }
+      
+      // Apply limit if provided
+      if (limit) {
+        query = query.limit(limit);
+      }
+      
+      const { data: transactions, error } = await query;
       
       if (error) {
         this.logger.error('Failed to fetch account transactions', { accountId, error });
@@ -103,7 +182,12 @@ export class TransactionQueryService {
         };
       }
       
-      this.logger.info('Account transactions fetched successfully', { accountId, count: transactions.length });
+      this.logger.info('Account transactions fetched successfully', { 
+        accountId, 
+        count: transactions.length,
+        filters: options
+      });
+      
       return {
         success: true,
         data: transactions as AccountTransaction[]

@@ -37,7 +37,22 @@
     "types": {
       "income": "Income",
       "expense": "Expense"
-    }
+    },
+    "new": "New Transaction",
+    "add": "Add Transaction",
+    "createSuccess": "Transaction created successfully",
+    "descriptionPlaceholder": "Enter a description for this transaction"
+  },
+  "filters": {
+    "sortByDateDesc": "Sort by date (newest first)",
+    "sortByDateAsc": "Sort by date (oldest first)",
+    "sortByAmountDesc": "Sort by amount (highest first)",
+    "sortByAmountAsc": "Sort by amount (lowest first)",
+    "showAll": "Show all transactions",
+    "showIncome": "Show income only",
+    "showExpenses": "Show expenses only",
+    "showingIncomeOnly": "Showing income only",
+    "showingExpenseOnly": "Showing expenses only"
   },
   "errors": {
     "account": {

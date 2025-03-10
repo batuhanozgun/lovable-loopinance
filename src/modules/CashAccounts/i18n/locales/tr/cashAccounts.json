@@ -37,7 +37,22 @@
     "types": {
       "income": "Gelir",
       "expense": "Gider"
-    }
+    },
+    "new": "Yeni İşlem",
+    "add": "İşlem Ekle",
+    "createSuccess": "İşlem başarıyla oluşturuldu",
+    "descriptionPlaceholder": "Bu işlem için bir açıklama girin"
+  },
+  "filters": {
+    "sortByDateDesc": "Tarihe göre sırala (en yeni önce)",
+    "sortByDateAsc": "Tarihe göre sırala (en eski önce)",
+    "sortByAmountDesc": "Tutara göre sırala (en yüksek önce)",
+    "sortByAmountAsc": "Tutara göre sırala (en düşük önce)",
+    "showAll": "Tüm işlemleri göster",
+    "showIncome": "Sadece gelirleri göster",
+    "showExpenses": "Sadece giderleri göster",
+    "showingIncomeOnly": "Sadece gelirler gösteriliyor",
+    "showingExpenseOnly": "Sadece giderler gösteriliyor"
   },
   "errors": {
     "account": {
