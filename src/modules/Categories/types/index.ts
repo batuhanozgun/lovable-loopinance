@@ -1,104 +1,64 @@
 
-/**
- * Kategori tipi tanımı
- */
+// Temel kategori ve alt kategori tipleri
 export interface ICategory {
   id: string;
   name: string;
   icon: string | null;
   user_id: string;
   sort_order: number;
-  is_deleted: boolean;
   created_at: string;
   updated_at: string;
   sub_categories?: ISubCategory[];
 }
 
-/**
- * Alt kategori tipi tanımı
- */
 export interface ISubCategory {
   id: string;
   name: string;
   category_id: string;
   sort_order: number;
-  is_deleted: boolean;
   created_at: string;
   updated_at: string;
 }
 
-/**
- * Yeni kategori oluşturma verisi
- */
+// Kategori ve alt kategori oluşturma/güncelleme tipleri
 export interface ICreateCategoryData {
   name: string;
-  icon?: string;
+  icon: string | null;
   user_id: string;
 }
 
-/**
- * Kategori güncelleme verisi
- */
 export interface IUpdateCategoryData {
+  id: string;
   name?: string;
-  icon?: string;
-  sort_order?: number;
+  icon?: string | null;
 }
 
-/**
- * Kategori güncelleme parametreleri
- */
-export interface ICategoryUpdateParams {
-  id: string;
-  data: IUpdateCategoryData;
-}
-
-/**
- * Kategori sıralama işlemi
- */
-export interface ICategoryOrder {
-  id: string;
-  sort_order: number;
-}
-
-/**
- * Alt kategori sıralama işlemi
- */
-export interface ISubCategoryOrder {
-  id: string;
-  sort_order: number;
-}
-
-/**
- * Yeni alt kategori oluşturma verisi
- */
 export interface ICreateSubCategoryData {
   name: string;
   category_id: string;
 }
 
-/**
- * Alt kategori güncelleme verisi
- */
 export interface IUpdateSubCategoryData {
+  id: string;
   name?: string;
   sort_order?: number;
-  category_id?: string;
 }
 
-/**
- * Alt kategori güncelleme parametreleri
- */
-export interface ISubCategoryUpdateParams {
-  id: string;
-  data: IUpdateSubCategoryData;
+// Kategori sıralama ile ilgili tipler
+export interface IReorderCategoriesData {
+  categories: Array<{
+    id: string;
+    sort_order: number;
+  }>;
 }
 
-/**
- * Taşıma işlemi verisi
- */
-export interface ICategoryMoveOperation {
-  sourceId: string;
-  targetId: string;
-  subCategoryIds: string[];
+export interface IReorderSubCategoriesData {
+  subCategories: Array<{
+    id: string;
+    sort_order: number;
+  }>;
 }
+
+// DEPRECATED: Şablon tipleri yeni modüle taşındı - @/modules/CategoryTemplates/types altında bulunabilir
+// Bu import sonraki fazda kaldırılacak
+export * from '@/modules/CategoryTemplates/types';

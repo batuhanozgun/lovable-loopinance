@@ -1,5 +1,5 @@
 
-import { Home, BarChart3, Settings, User, Wallet, Grid, List, CreditCard, Package, DollarSign, LayoutDashboard, FolderClosed } from 'lucide-react';
+import { Home, BarChart3, Settings, User, Wallet, Grid, List, CreditCard, Package, DollarSign, LayoutDashboard, FolderClosed, Bookmark } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 
 /**
@@ -55,6 +55,12 @@ export const getNavigationItems = (): NavigationGroup[] => {
           label: 'AppLayout:navigation.categories', 
           path: '/categories', 
           icon: FolderClosed,
+          requiresSubscription: true
+        },
+        { 
+          label: 'AppLayout:navigation.categoryTemplates', 
+          path: '/category-templates', 
+          icon: Bookmark,
           requiresSubscription: true
         },
         { 

@@ -1,61 +1,36 @@
 
 {
   "title": "Kategoriler",
-  "subtitle": "Harcama ve bütçe kategorilerinizi yönetin",
+  "myCategories": {
+    "title": "Kategorilerim",
+    "description": "Kendi kategorilerinizi yönetin ve düzenleyin"
+  },
   "tabs": {
     "myCategories": "Kategorilerim",
-    "templateLibrary": "Kategori Kütüphanesi"
-  },
-  "actions": {
-    "create": "Yeni Kategori",
-    "edit": "Düzenle",
-    "delete": "Sil",
-    "move": "Taşı",
-    "import": "Kategorilerime Ekle",
-    "importing": "Ekleniyor..."
-  },
-  "form": {
-    "categoryName": "Kategori Adı",
-    "subCategoryName": "Alt Kategori Adı",
-    "icon": "İkon Seç",
-    "submit": "Kaydet",
-    "cancel": "İptal",
-    "editCategory": "Kategori Düzenle"
-  },
-  "labels": {
-    "noCategories": "Kategori bulunamadı",
-    "addYourFirst": "İlk kategorinizi ekleyin",
-    "dragToReorder": "Sıralamak için sürükleyin",
-    "noSubcategories": "Alt kategori yok",
-    "withSubcategories": "{{count}} alt kategori",
-    "templateLibrary": "Hazır kategori şablonları",
-    "importFromTemplate": "Şablondan kategori ekle",
-    "andMore": "ve {{count}} daha",
-    "languageSelector": "Şablonları şu dilde görüntüle"
-  },
-  "empty": {
-    "title": "Henüz kategori yok",
-    "description": "İşlemlerinizi ve bütçelerinizi düzenlemek için kategoriler oluşturun",
-    "cta": "İlk kategorinizi oluşturun",
-    "orImport": "veya hazır şablonlardan ekleyin"
+    "templateLibrary": "Şablon Kütüphanesi"
   },
   "template": {
     "title": "Kategori Şablonları",
-    "description": "Hızlı başlangıç için hazır kategoriler"
+    "description": "Hazır kategori paketlerini hesabınıza ekleyin",
+    "browseTemplates": "Şablonları İncele"
   },
-  "delete": {
-    "title": "Kategoriyi sil",
-    "description": "Bu kategoriyi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
-    "warningSubcategories": "Bu kategori {{count}} alt kategori içeriyor. Hepsi silinecek!",
+  "actions": {
+    "add": "Yeni Kategori",
+    "edit": "Düzenle",
+    "delete": "Sil",
+    "save": "Kaydet",
     "cancel": "İptal",
-    "confirm": "Sil"
+    "confirm": "Onayla",
+    "import": "İçe Aktar",
+    "importing": "İçe Aktarılıyor..."
   },
-  "errors": {
-    "update": {
-      "failed": "Kategori güncellenemedi"
-    },
-    "delete": {
-      "failed": "Kategori silinemedi"
-    }
+  "labels": {
+    "withSubcategories": "{{count}} alt kategori",
+    "noSubcategories": "Alt kategori yok",
+    "andMore": "ve {{count}} daha fazla..."
+  },
+  "empty": {
+    "title": "Henüz şablon yok",
+    "description": "Şu anda kullanılabilir kategori şablonu bulunmuyor."
   }
 }

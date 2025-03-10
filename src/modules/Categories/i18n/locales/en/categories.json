@@ -1,61 +1,36 @@
 
 {
   "title": "Categories",
-  "subtitle": "Manage your spending and budget categories",
+  "myCategories": {
+    "title": "My Categories",
+    "description": "Manage and organize your personal categories"
+  },
   "tabs": {
     "myCategories": "My Categories",
-    "templateLibrary": "Category Library"
-  },
-  "actions": {
-    "create": "New Category",
-    "edit": "Edit",
-    "delete": "Delete",
-    "move": "Move",
-    "import": "Add to My Categories",
-    "importing": "Adding..."
-  },
-  "form": {
-    "categoryName": "Category Name",
-    "subCategoryName": "Subcategory Name",
-    "icon": "Choose Icon",
-    "submit": "Save",
-    "cancel": "Cancel",
-    "editCategory": "Edit Category"
-  },
-  "labels": {
-    "noCategories": "No categories found",
-    "addYourFirst": "Add your first category",
-    "dragToReorder": "Drag to reorder",
-    "noSubcategories": "No subcategories",
-    "withSubcategories": "{{count}} subcategories",
-    "templateLibrary": "Ready-to-use category templates",
-    "importFromTemplate": "Add category from template",
-    "andMore": "and {{count}} more",
-    "languageSelector": "View templates in"
-  },
-  "empty": {
-    "title": "No categories yet",
-    "description": "Create categories to organize your transactions and budgets",
-    "cta": "Create your first category",
-    "orImport": "or import from templates"
+    "templateLibrary": "Template Library"
   },
   "template": {
     "title": "Category Templates",
-    "description": "Ready-to-use categories for a quick start"
+    "description": "Add ready-to-use category packages to your account",
+    "browseTemplates": "Browse Templates"
   },
-  "delete": {
-    "title": "Delete Category",
-    "description": "Are you sure you want to delete this category? This action cannot be undone.",
-    "warningSubcategories": "This category contains {{count}} subcategories. All of them will be deleted!",
+  "actions": {
+    "add": "New Category",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
     "cancel": "Cancel",
-    "confirm": "Delete"
+    "confirm": "Confirm",
+    "import": "Import",
+    "importing": "Importing..."
   },
-  "errors": {
-    "update": {
-      "failed": "Failed to update category"
-    },
-    "delete": {
-      "failed": "Failed to delete category"
-    }
+  "labels": {
+    "withSubcategories": "{{count}} subcategories",
+    "noSubcategories": "No subcategories",
+    "andMore": "and {{count}} more..."
+  },
+  "empty": {
+    "title": "No templates yet",
+    "description": "There are no category templates available at the moment."
   }
 }

@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -21,6 +20,7 @@ import NotFound from "./pages/NotFound";
 import "@/i18n/config";
 import { useToast } from "./hooks/use-toast";
 import { CategoriesView } from "@/modules/Categories/views/CategoriesView";
+import CategoryTemplatesView from "@/modules/CategoryTemplates/views/CategoryTemplatesView";
 
 const queryClient = new QueryClient();
 
@@ -29,7 +29,6 @@ const App = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { toast } = useToast();
 
-  // Initialize theme from localStorage or system preference
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
     
@@ -43,21 +42,18 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    // İlk yükleme sırasında mevcut session'ı kontrol et
     const checkInitialSession = async () => {
       try {
         setIsLoading(true);
         
-        // Yükleme durumunu sınırlandırmak için timeout ekleyelim
         const timeoutId = setTimeout(() => {
           console.log("Session kontrolü zaman aşımına uğradı, varsayılan olarak oturum açılmamış kabul ediliyor");
           setIsAuthenticated(false);
           setIsLoading(false);
-        }, 5000); // 5 saniye sonra timeout
+        }, 5000);
         
         const sessionResponse = await SessionService.getCurrentSession();
         
-        // Timeout'u temizle
         clearTimeout(timeoutId);
         
         if (!sessionResponse.success) {
@@ -81,7 +77,6 @@ const App = () => {
     
     checkInitialSession();
     
-    // Auth state değişikliklerini dinle
     const subscription = SessionService.onAuthStateChange((authState) => {
       setIsAuthenticated(authState);
       setIsLoading(false);
@@ -144,13 +139,24 @@ const App = () => {
               )
             }
           />
-          {/* Kategori rotası ekleyelim */}
           <Route
             path="/categories"
             element={
               isAuthenticated ? (
                 <Layout>
                   <CategoriesView />
+                </Layout>
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/category-templates"
+            element={
+              isAuthenticated ? (
+                <Layout>
+                  <CategoryTemplatesView />
                 </Layout>
               ) : (
                 <Navigate to="/login" />
@@ -169,7 +175,6 @@ const App = () => {
               )
             }
           />
-          {/* Abonelik Yönetimi Route'ları */}
           <Route
             path="/subscription/dashboard"
             element={

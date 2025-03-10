@@ -3,12 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { categoriesLogger } from '../logging';
 import { CategoryList } from '../components/CategoryList';
-import { CategoryTemplateList } from '../components/CategoryTemplateList';
 import { loadTranslations } from '../i18n';
 import { ICategory } from '../types';
 import { useCategories } from '../hooks/queries/useCategoryQueries';
 import { useCategoryOrderingMutations } from '../hooks/mutations/useCategoryOrderingMutations';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 
 /**
  * Kategoriler görünümü
@@ -17,7 +18,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 export const CategoriesView: React.FC = () => {
   const { t } = useTranslation(['Categories']);
   const [categories, setCategories] = useState<ICategory[]>([]);
-  const [activeTab, setActiveTab] = useState<string>('my-categories');
   
   // Kategorileri getir
   const { categories: categoryData, isLoading } = useCategories();
@@ -46,38 +46,32 @@ export const CategoriesView: React.FC = () => {
     <div className="container mx-auto px-4 py-6">
       <h1 className="text-2xl font-bold mb-6">{t('Categories:title', 'Kategoriler')}</h1>
       
-      <Tabs defaultValue="my-categories" value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="mb-6">
-          <TabsTrigger value="my-categories">
-            {t('Categories:tabs.myCategories')}
-          </TabsTrigger>
-          <TabsTrigger value="template-library">
-            {t('Categories:tabs.templateLibrary')}
-          </TabsTrigger>
-        </TabsList>
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h2 className="text-xl font-semibold">{t('Categories:myCategories.title')}</h2>
+          <p className="text-muted-foreground">{t('Categories:myCategories.description')}</p>
+        </div>
         
-        <TabsContent value="my-categories">
-          {isLoading ? (
-            <div className="flex justify-center items-center h-40">
-              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
-            </div>
-          ) : (
-            <CategoryList 
-              categories={categories} 
-              setCategories={setCategories} 
-              updateCategoryOrder={updateCategoryOrder}
-            />
-          )}
-        </TabsContent>
-        
-        <TabsContent value="template-library">
-          <div className="mb-4">
-            <h2 className="text-xl font-semibold mb-1">{t('Categories:template.title')}</h2>
-            <p className="text-muted-foreground">{t('Categories:template.description')}</p>
-          </div>
-          <CategoryTemplateList />
-        </TabsContent>
-      </Tabs>
+        <Link 
+          to="/category-templates" 
+          className="flex items-center text-primary hover:underline"
+        >
+          {t('Categories:template.browseTemplates')}
+          <ArrowRight className="ml-1 h-4 w-4" />
+        </Link>
+      </div>
+      
+      {isLoading ? (
+        <div className="flex justify-center items-center h-40">
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+        </div>
+      ) : (
+        <CategoryList 
+          categories={categories} 
+          setCategories={setCategories} 
+          updateCategoryOrder={updateCategoryOrder}
+        />
+      )}
     </div>
   );
 };
