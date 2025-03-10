@@ -1,6 +1,6 @@
 
 import { useQuery } from '@tanstack/react-query';
-import { StatementService } from '../services/StatementService';
+import { StatementService } from '../services/statement';
 import { AccountStatement } from '../types';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
@@ -29,7 +29,7 @@ export const useStatements = (accountId: string | undefined) => {
         return [];
       }
       
-      return response.data as AccountStatement[];
+      return response.data || [];
     }
   });
 };

@@ -1,6 +1,6 @@
 
 import { useQuery } from '@tanstack/react-query';
-import { TransactionService } from '../services/TransactionService';
+import { TransactionService } from '../services/transaction';
 import { AccountTransaction } from '../types';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
@@ -29,7 +29,7 @@ export const useTransactions = (statementId: string | undefined) => {
         return [];
       }
       
-      return response.data as AccountTransaction[];
+      return response.data || [];
     }
   });
 };
