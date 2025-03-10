@@ -2,17 +2,15 @@
 import React from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { ICategory, ISubCategory } from '../../../../types';
+import { ICategory, ISubCategory } from '@/modules/Categories/types';
 import { useCategoryDialogs } from '@/modules/Categories/hooks/dialogs/useCategoryDialogs';
-import { CategoryItem } from './components/CategoryItem';
+import { CategoryItem } from '../CategoryItem';
 import { 
   EditCategoryDialog, 
   DeleteCategoryDialog 
 } from '@/modules/Categories/components/Dialogs';
-import { useToast } from '@/hooks/use-toast';
-import { useTranslation } from 'react-i18next';
 
-interface SortableItemProps {
+interface DraggableItemProps {
   category: ICategory;
   onEdit?: (category: ICategory) => Promise<void>;
   onDelete?: (categoryId: string) => Promise<void>;
@@ -20,15 +18,13 @@ interface SortableItemProps {
   onDeleteSubCategory?: (categoryId: string, subCategoryId: string) => Promise<void>;
 }
 
-export const SortableItem: React.FC<SortableItemProps> = ({ 
+export const DraggableItem: React.FC<DraggableItemProps> = ({ 
   category,
   onEdit,
   onDelete,
   onEditSubCategory,
   onDeleteSubCategory
 }) => {
-  const { t } = useTranslation(['Categories', 'Messages']);
-  const { toast } = useToast();
   const {
     isEditDialogOpen, setIsEditDialogOpen,
     isDeleteDialogOpen, setIsDeleteDialogOpen,
@@ -114,5 +110,3 @@ export const SortableItem: React.FC<SortableItemProps> = ({
     </div>
   );
 };
-
-export default SortableItem;

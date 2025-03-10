@@ -7,7 +7,6 @@ import {
   DeleteSubcategoryDialog 
 } from '@/modules/Categories/components/Dialogs';
 import { useSubcategoryDialogs } from '@/modules/Categories/hooks/dialogs/useSubcategoryDialogs';
-import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
 
 interface SubcategoryItemProps {
@@ -22,7 +21,6 @@ export const SubcategoryItem: React.FC<SubcategoryItemProps> = ({
   onDelete
 }) => {
   const { t } = useTranslation(['Categories']);
-  const { toast } = useToast();
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   

@@ -1,138 +1,126 @@
 
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { useCategoryMutations } from '../../../../hooks';
-import { eventsLogger } from '../../../../logging';
-import { BadgePlus, Edit, Trash, MoreVertical } from 'lucide-react';
+import { ChevronDown, ChevronRight, Pencil, Trash2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { SubCategoryList } from '../SubCategoryList';
-import { AccessRestrictedDialog } from '@/modules/Subscription/components/AccessRestrictedDialog';
-import type { ICategory } from '../../../../types';
+import { cn } from '@/lib/utils';
+import { ICategory, ISubCategory } from '@/modules/Categories/types';
+import { useTranslation } from 'react-i18next';
+import { SubcategoryItem } from '../SubcategoryItem';
 
 interface CategoryItemProps {
   category: ICategory;
-  isSubscriptionRequired: boolean;
+  attributes?: any;
+  listeners?: any;
+  onEditClick: (e: React.MouseEvent) => void;
+  onDeleteClick: (e: React.MouseEvent) => void;
+  onEditSubCategory?: (subCategory: ISubCategory) => Promise<void>;
+  onDeleteSubCategory?: (subCategoryId: string) => Promise<void>;
 }
 
-/**
- * Kategori öğesi bileşeni
- * Tek bir kategoriyi ve alt kategorilerini gösterir
- */
-export const CategoryItem: React.FC<CategoryItemProps> = ({ category, isSubscriptionRequired }) => {
+export const CategoryItem: React.FC<CategoryItemProps> = ({
+  category,
+  attributes,
+  listeners,
+  onEditClick,
+  onDeleteClick,
+  onEditSubCategory,
+  onDeleteSubCategory
+}) => {
   const { t } = useTranslation(['Categories']);
-  const { deleteCategory } = useCategoryMutations();
-  const [showSubCategoryForm, setShowSubCategoryForm] = useState(false);
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [showAccessRestrictedDialog, setShowAccessRestrictedDialog] = useState(false);
-  
-  const subCategories = category.sub_categories || [];
-  
-  // Kategoriyi sil
-  const handleDeleteCategory = () => {
-    eventsLogger.debug('Kategori silme isteği', { categoryId: category.id });
-    deleteCategory.mutate(category.id);
-    setShowDeleteDialog(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const hasSubCategories = category.sub_categories && category.sub_categories.length > 0;
+
+  const toggleExpand = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsExpanded(!isExpanded);
   };
-  
-  // Alt kategori ekle
-  const handleAddSubCategory = () => {
-    if (isSubscriptionRequired) {
-      setShowAccessRestrictedDialog(true);
-      return;
+
+  const handleEditSubCategory = (updatedSubCategory: ISubCategory) => {
+    if (onEditSubCategory) {
+      return onEditSubCategory(updatedSubCategory);
     }
-    eventsLogger.debug('Alt kategori ekleme formunu göster', { categoryId: category.id });
-    setShowSubCategoryForm(true);
+    return Promise.resolve();
   };
-  
+
+  const handleDeleteSubCategory = (subCategoryId: string) => {
+    if (onDeleteSubCategory) {
+      return onDeleteSubCategory(subCategoryId);
+    }
+    return Promise.resolve();
+  };
+
   return (
-    <Card>
-      <CardHeader className="pb-3 flex flex-row items-center justify-between">
-        <div className="flex items-center space-x-2">
-          {category.icon && (
-            <span className="text-xl">{category.icon}</span>
-          )}
-          <CardTitle>{category.name}</CardTitle>
-          {subCategories.length > 0 && (
-            <Badge variant="outline" className="ml-2">
-              {subCategories.length}
-            </Badge>
-          )}
-        </div>
-        
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <MoreVertical className="h-4 w-4" />
-              <span className="sr-only">Menü</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={handleAddSubCategory}>
-              <BadgePlus className="h-4 w-4 mr-2" />
-              {t('Categories:actions.create')}
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Edit className="h-4 w-4 mr-2" />
-              {t('Categories:actions.edit')}
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => setShowDeleteDialog(true)} className="text-destructive">
-              <Trash className="h-4 w-4 mr-2" />
-              {t('Categories:actions.delete')}
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </CardHeader>
-      
-      <CardContent>
-        {showSubCategoryForm && (
-          <div className="mb-4 p-4 border rounded-md">
-            {/* Alt kategori formu buraya gelecek */}
-            <div className="flex justify-end space-x-2 mt-4">
-              <Button variant="outline" onClick={() => setShowSubCategoryForm(false)}>
-                {t('Categories:form.cancel')}
-              </Button>
-              <Button type="submit">
-                {t('Categories:form.submit')}
-              </Button>
+    <>
+      <div 
+        {...attributes}
+        {...listeners}
+        className="p-3 bg-white rounded-lg shadow-sm border border-gray-200 cursor-grab hover:bg-gray-50 transition-colors relative"
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            {hasSubCategories && (
+              <button 
+                onClick={toggleExpand}
+                className="p-1 rounded-md hover:bg-gray-100 transition-colors"
+                type="button"
+              >
+                {isExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+              </button>
+            )}
+            <div className="font-medium">{category.name}</div>
+          </div>
+          <div className="flex items-center gap-2">
+            {hasSubCategories && (
+              <Badge variant="outline" className="text-xs">
+                {category.sub_categories?.length}
+              </Badge>
+            )}
+            {category.icon && <span className="text-gray-500">{category.icon}</span>}
+            <div className="flex gap-1 ml-2">
+              <button
+                type="button"
+                onClick={onEditClick}
+                className="p-1.5 rounded-md text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                title={t('Categories:actions.edit')}
+              >
+                <Pencil className="h-3.5 w-3.5" />
+              </button>
+              <button
+                type="button"
+                onClick={onDeleteClick}
+                className="p-1.5 rounded-md text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors"
+                title={t('Categories:actions.delete')}
+              >
+                <Trash2 className="h-3.5 w-3.5" />
+              </button>
             </div>
           </div>
+        </div>
+      </div>
+      
+      <div 
+        className={cn(
+          "pl-8 overflow-hidden transition-all duration-300", 
+          isExpanded 
+            ? "max-h-96 opacity-100 mt-2 space-y-2 animate-accordion-down" 
+            : "max-h-0 opacity-0 animate-accordion-up"
         )}
-        
-        {/* Alt kategoriler */}
-        <SubCategoryList 
-          categoryId={category.id}
-          subCategories={subCategories}
-          isSubscriptionRequired={isSubscriptionRequired}
-        />
-        
-        {subCategories.length === 0 && !showSubCategoryForm && (
-          <div className="text-center py-8 text-muted-foreground">
-            <p>{t('Categories:labels.noSubcategories')}</p>
-            <Button variant="outline" size="sm" className="mt-2" onClick={handleAddSubCategory}>
-              <BadgePlus className="h-4 w-4 mr-2" />
-              {t('Categories:actions.create')}
-            </Button>
+        onClick={(e) => e.stopPropagation()}
+      >
+        {hasSubCategories && category.sub_categories?.map((subCategory) => (
+          <div 
+            key={subCategory.id}
+            className="p-2 bg-white rounded border border-gray-100 text-sm shadow-sm"
+          >
+            <SubcategoryItem
+              subCategory={subCategory}
+              onEdit={handleEditSubCategory}
+              onDelete={handleDeleteSubCategory}
+            />
           </div>
-        )}
-        
-        {/* Abonelik gerekli uyarısı */}
-        {showAccessRestrictedDialog && (
-          <AccessRestrictedDialog
-            isOpen={showAccessRestrictedDialog}
-            onClose={() => setShowAccessRestrictedDialog(false)}
-            feature={t('Categories:title')}
-          />
-        )}
-        
-        {/* Silme onay diyaloğu */}
-        {/* Silme onay diyaloğu daha sonra eklenecek */}
-      </CardContent>
-    </Card>
+        ))}
+      </div>
+    </>
   );
 };
-
-export default CategoryItem;

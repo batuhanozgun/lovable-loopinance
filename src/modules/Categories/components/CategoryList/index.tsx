@@ -16,7 +16,7 @@ import {
   verticalListSortingStrategy
 } from '@dnd-kit/sortable';
 import { ICategory, ICategoryUpdateParams, ISubCategory, ISubCategoryUpdateParams } from '../../types';
-import { SortableItem } from './components/SortableItem';
+import { DraggableItem } from './components/DraggableItem';
 import { useTranslation } from 'react-i18next';
 import { useToast } from '@/hooks/use-toast';
 import { useCategoryCrudMutations } from '../../hooks/mutations/useCategoryCrudMutations';
@@ -28,7 +28,11 @@ interface CategoryListProps {
   updateCategoryOrder: (data: { id: string; sort_order: number }[]) => void;
 }
 
-export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCategories, updateCategoryOrder }) => {
+export const CategoryList: React.FC<CategoryListProps> = ({ 
+  categories, 
+  setCategories, 
+  updateCategoryOrder 
+}) => {
   const { t } = useTranslation(['Categories', 'Messages']);
   const { toast } = useToast();
   const { updateCategory, deleteCategory } = useCategoryCrudMutations();
@@ -138,7 +142,6 @@ export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCateg
         }
       };
       
-      // updateSubCategory.mutateAsync kullanarak alt kategori güncellemesi yapılıyor
       await updateSubCategory.mutateAsync(updateParams);
       
       setCategories(prevCategories => 
@@ -169,14 +172,11 @@ export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCateg
         title: t('Categories:errors.subcategory.update.failed'),
         description: error instanceof Error ? error.message : String(error),
       });
-      
-      throw error;
     }
   };
 
   const handleDeleteSubCategory = async (categoryId: string, subCategoryId: string) => {
     try {
-      // deleteSubCategory.mutateAsync kullanarak alt kategori silme işlemi yapılıyor
       await deleteSubCategory.mutateAsync(subCategoryId);
       
       setCategories(prevCategories => 
@@ -205,8 +205,6 @@ export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCateg
         title: t('Categories:errors.subcategory.delete.failed'),
         description: error instanceof Error ? error.message : String(error),
       });
-      
-      throw error;
     }
   };
 
@@ -226,7 +224,7 @@ export const CategoryList: React.FC<CategoryListProps> = ({ categories, setCateg
       >
         <div className="space-y-1">
           {categories.map((category) => (
-            <SortableItem 
+            <DraggableItem 
               key={category.id} 
               category={category} 
               onEdit={handleEditCategory}
