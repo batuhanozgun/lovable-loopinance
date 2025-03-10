@@ -3,7 +3,7 @@ import React from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { ICategory, ISubCategory } from '../../../../types';
-import { useDialogs } from './hooks/useDialogs';
+import { useCategoryDialogs } from '@/modules/Categories/hooks/dialogs/useCategoryDialogs';
 import { CategoryItem } from './components/CategoryItem';
 import { 
   EditCategoryDialog, 
@@ -34,7 +34,7 @@ export const SortableItem: React.FC<SortableItemProps> = ({
     isDeleteDialogOpen, setIsDeleteDialogOpen,
     editName, setEditName,
     editIcon, setEditIcon
-  } = useDialogs(category);
+  } = useCategoryDialogs(category);
   
   const {
     attributes,

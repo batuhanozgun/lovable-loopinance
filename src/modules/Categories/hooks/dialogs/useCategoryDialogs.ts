@@ -1,22 +1,25 @@
 
 import { useState, useEffect } from 'react';
-import { ISubCategory } from '@/modules/Categories/types';
+import { ICategory } from '../../types';
 
-export const useDialogs = (subCategory: ISubCategory) => {
+export const useCategoryDialogs = (category: ICategory) => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [editName, setEditName] = useState(subCategory.name);
+  const [editName, setEditName] = useState(category.name);
+  const [editIcon, setEditIcon] = useState(category.icon || '');
   
-  // Alt kategori değiştiğinde veya düzenleme dialogu açıldığında, düzenleme adını sıfırla
+  // Kategori değiştiğinde veya düzenleme dialogu açıldığında, düzenleme verilerini sıfırla
   useEffect(() => {
     if (isEditDialogOpen) {
-      setEditName(subCategory.name);
+      setEditName(category.name);
+      setEditIcon(category.icon || '');
     }
-  }, [subCategory.name, isEditDialogOpen]);
+  }, [category, isEditDialogOpen]);
   
   // Düzenleme dialogunun açılması için yardımcı fonksiyon
   const openEditDialog = () => {
-    setEditName(subCategory.name);
+    setEditName(category.name);
+    setEditIcon(category.icon || '');
     setIsEditDialogOpen(true);
   };
   
@@ -32,6 +35,8 @@ export const useDialogs = (subCategory: ISubCategory) => {
     isDeleteDialogOpen,
     setIsDeleteDialogOpen,
     editName,
-    setEditName
+    setEditName,
+    editIcon,
+    setEditIcon
   };
 };

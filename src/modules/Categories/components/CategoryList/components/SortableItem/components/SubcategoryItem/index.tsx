@@ -6,7 +6,7 @@ import {
   EditSubcategoryDialog, 
   DeleteSubcategoryDialog 
 } from '@/modules/Categories/components/Dialogs';
-import { useDialogs } from './hooks/useDialogs';
+import { useSubcategoryDialogs } from '@/modules/Categories/hooks/dialogs/useSubcategoryDialogs';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
 
@@ -33,7 +33,7 @@ export const SubcategoryItem: React.FC<SubcategoryItemProps> = ({
     setIsDeleteDialogOpen,
     editName,
     setEditName
-  } = useDialogs(subCategory);
+  } = useSubcategoryDialogs(subCategory);
 
   const handleEditSave = async () => {
     if (editName.trim()) {

@@ -1,9 +1,18 @@
 
-// Ana hooks exportları
+// Queries
 export { useCategories, useCategory } from './queries/useCategoryQueries';
+export { useCategoryTemplates } from './queries/useCategoryTemplateQueries';
+
+// Mutations
 export { 
-  useCategoryMutations,
   useCategoryCrudMutations,
   useSubcategoryMutations,
-  useCategoryOrderingMutations
-} from './mutations/useCategoryMutations';
+  useCategoryOrderingMutations,
+  useCategoryTemplateImportMutation
+} from './mutations';
+
+// Dialog hooks
+export {
+  useCategoryDialogs,
+  useSubcategoryDialogs
+} from './dialogs';
