@@ -12,6 +12,33 @@
   "transactions": "İşlemler",
   "viewDetails": "Detayları Gör",
   "newTransaction": "Yeni İşlem",
+  "statementDetails": "Ekstre Detayları",
+  "statementPeriod": "Ekstre Dönemi",
+  "statementStatus": "Durum",
+  "income": "Gelir",
+  "expenses": "Gider",
+  "startBalance": "Başlangıç Bakiyesi",
+  "endBalance": "Bitiş Bakiyesi",
+  "from": "Başlangıç",
+  "to": "Bitiş",
+  "status": {
+    "open": "Açık",
+    "closed": "Kapalı",
+    "pending": "Beklemede"
+  },
+  "noStatements": "Bu hesap için ekstre bulunmamaktadır",
+  "noTransactions": "Bu ekstre için işlem bulunmamaktadır",
+  "transaction": {
+    "date": "Tarih",
+    "amount": "Tutar",
+    "type": "Tür",
+    "description": "Açıklama",
+    "category": "Kategori",
+    "types": {
+      "income": "Gelir",
+      "expense": "Gider"
+    }
+  },
   "errors": {
     "account": {
       "list": {
@@ -19,6 +46,22 @@
       },
       "detail": {
         "failed": "Hesap detayları yüklenirken hata oluştu"
+      }
+    },
+    "statement": {
+      "list": {
+        "failed": "Ekstreler yüklenirken hata oluştu"
+      },
+      "detail": {
+        "failed": "Ekstre detayları yüklenirken hata oluştu"
+      }
+    },
+    "transaction": {
+      "list": {
+        "failed": "İşlemler yüklenirken hata oluştu"
+      },
+      "create": {
+        "failed": "İşlem oluşturulurken hata oluştu"
       }
     }
   }

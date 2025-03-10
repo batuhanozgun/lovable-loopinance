@@ -12,6 +12,33 @@
   "transactions": "Transactions",
   "viewDetails": "View Details",
   "newTransaction": "New Transaction",
+  "statementDetails": "Statement Details",
+  "statementPeriod": "Statement Period",
+  "statementStatus": "Status",
+  "income": "Income",
+  "expenses": "Expenses",
+  "startBalance": "Starting Balance",
+  "endBalance": "Ending Balance",
+  "from": "From",
+  "to": "To",
+  "status": {
+    "open": "Open",
+    "closed": "Closed",
+    "pending": "Pending"
+  },
+  "noStatements": "No statements available for this account",
+  "noTransactions": "No transactions available for this statement",
+  "transaction": {
+    "date": "Date",
+    "amount": "Amount",
+    "type": "Type",
+    "description": "Description",
+    "category": "Category",
+    "types": {
+      "income": "Income",
+      "expense": "Expense"
+    }
+  },
   "errors": {
     "account": {
       "list": {
@@ -19,6 +46,22 @@
       },
       "detail": {
         "failed": "Failed to load account details"
+      }
+    },
+    "statement": {
+      "list": {
+        "failed": "Failed to load statements"
+      },
+      "detail": {
+        "failed": "Failed to load statement details"
+      }
+    },
+    "transaction": {
+      "list": {
+        "failed": "Failed to load transactions"
+      },
+      "create": {
+        "failed": "Failed to create transaction"
       }
     }
   }

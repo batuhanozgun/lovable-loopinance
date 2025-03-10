@@ -1,4 +1,5 @@
 
+
 import { Database } from '@/integrations/supabase/types';
 
 /**
@@ -53,5 +54,66 @@ export enum CurrencyType {
 export interface CashAccountResponse {
   success: boolean;
   data?: CashAccount | CashAccount[];
+  error?: string;
+}
+
+/**
+ * Hesap ekstresi veri türü
+ */
+export type AccountStatement = Database['public']['Tables']['account_statements']['Row'];
+
+/**
+ * Yeni hesap ekstresi oluşturma için tip
+ */
+export type CreateAccountStatementData = Omit<
+  Database['public']['Tables']['account_statements']['Insert'],
+  'id' | 'created_at' | 'updated_at' | 'income' | 'expenses'
+>;
+
+/**
+ * Hesap ekstresi durum türü
+ */
+export enum StatementStatus {
+  OPEN = 'open',
+  CLOSED = 'closed',
+  PENDING = 'pending'
+}
+
+/**
+ * Hesap ekstresi servis işlem sonucu
+ */
+export interface AccountStatementResponse {
+  success: boolean;
+  data?: AccountStatement | AccountStatement[];
+  error?: string;
+}
+
+/**
+ * Hesap işlemi veri türü
+ */
+export type AccountTransaction = Database['public']['Tables']['account_transactions']['Row'];
+
+/**
+ * Yeni hesap işlemi oluşturma için tip
+ */
+export type CreateAccountTransactionData = Omit<
+  Database['public']['Tables']['account_transactions']['Insert'],
+  'id' | 'created_at' | 'updated_at'
+>;
+
+/**
+ * İşlem türü
+ */
+export enum TransactionType {
+  INCOME = 'income',
+  EXPENSE = 'expense'
+}
+
+/**
+ * Hesap işlemi servis işlem sonucu
+ */
+export interface AccountTransactionResponse {
+  success: boolean;
+  data?: AccountTransaction | AccountTransaction[];
   error?: string;
 }
