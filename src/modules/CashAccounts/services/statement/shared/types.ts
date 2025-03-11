@@ -47,3 +47,21 @@ export interface BatchStatementProcessResult {
   errorCount?: number;
   details?: AccountStatementProcessResult[];
 }
+
+/**
+ * Tekil ekstre cevap tipi
+ */
+export interface SingleStatementResponse {
+  success: boolean;
+  data?: AccountStatement | null;
+  error?: string;
+}
+
+/**
+ * Ekstre listesi cevap tipi
+ */
+export interface StatementListResponse {
+  success: boolean;
+  data?: AccountStatement[];
+  error?: string;
+}

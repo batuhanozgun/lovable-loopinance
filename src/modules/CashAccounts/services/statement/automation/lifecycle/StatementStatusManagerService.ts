@@ -3,6 +3,7 @@
  * Ekstre durum yönetimi servisi
  */
 import { format, isAfter, startOfDay } from 'date-fns';
+import { supabase } from '@/integrations/supabase/client';
 import { ILogger } from '@/modules/Logging/interfaces/ILogger';
 import { serviceLogger } from '../../../../logging';
 import { AccountStatement, StatementStatus } from '../../../../types';

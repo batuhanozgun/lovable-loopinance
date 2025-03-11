@@ -1,11 +1,12 @@
+
 import { supabase } from '@/integrations/supabase/client';
 import { 
   AccountStatement, 
   CreateAccountStatementData, 
   StatementStatus
-} from '../../types';
-import { SingleStatementResponse } from '../../types/statement/StatementResponses';
-import { serviceLogger } from '../../logging';
+} from '../../../../types';
+import { SingleStatementResponse } from '../../shared/types';
+import { serviceLogger } from '../../../../logging';
 import { format } from 'date-fns';
 
 /**

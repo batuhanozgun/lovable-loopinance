@@ -1,6 +1,7 @@
+
 import { supabase } from '@/integrations/supabase/client';
 import { AccountStatement } from '../../../../types';
-import { SingleStatementResponse, StatementListResponse } from '../../../shared/types';
+import { SingleStatementResponse, StatementListResponse } from '../../shared/types';
 import { serviceLogger } from '../../../../logging';
 import { PostgrestFilterBuilder } from '@supabase/postgrest-js';
 import { Database } from '@/integrations/supabase/types';
