@@ -388,7 +388,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      calculate_statement_period: {
+        Args: {
+          p_closing_day_type: string
+          p_closing_day_value?: number
+          p_reference_date?: string
+        }
+        Returns: {
+          start_date: string
+          end_date: string
+        }[]
+      }
+      check_accounts_statements: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
     }
     Enums: {
       subscription_plan_type: "trial" | "monthly" | "yearly"

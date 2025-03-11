@@ -16,7 +16,7 @@ export class StatementAutoCreationService {
   /**
    * Tüm aktif hesaplar için dönem kontrol ve ekstre yaratma
    */
-  static async checkAndCreateStatementsForAllAccounts(): Promise<{ success: boolean; message: string; details?: any[] }> {
+  static async checkAndCreateStatementsForAllAccounts() {
     try {
       this.logger.debug('Tüm hesaplar için ekstre kontrol işlemi başlatıldı');
       
@@ -93,9 +93,7 @@ export class StatementAutoCreationService {
   /**
    * Bir hesap için dönem kontrolü ve ekstre yaratma
    */
-  static async checkAndCreateStatementForAccount(
-    account: CashAccount
-  ): Promise<{ success: boolean; message: string; statementId?: string }> {
+  static async checkAndCreateStatementForAccount(account: CashAccount) {
     try {
       this.logger.debug('Hesap için ekstre kontrol işlemi başlatıldı', { accountId: account.id });
       
@@ -205,7 +203,7 @@ export class StatementAutoCreationService {
   /**
    * Dönem sonu gelmiş ekstreleri kapat ve yeni dönem için ekstre oluştur
    */
-  static async closeExpiredStatementsAndCreateNew(): Promise<{ success: boolean; message: string; details?: any[] }> {
+  static async closeExpiredStatementsAndCreateNew() {
     try {
       this.logger.debug('Dönem sonu gelmiş ekstreleri kapatma işlemi başlatıldı');
       
