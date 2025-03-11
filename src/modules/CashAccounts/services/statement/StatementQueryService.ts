@@ -1,9 +1,8 @@
 
 import { supabase } from '@/integrations/supabase/client';
-import { AccountStatement, StatementStatus } from '../../types';
+import { AccountStatement } from '../../types';
 import { SingleStatementResponse, StatementListResponse } from '../../types/statement/StatementResponses';
 import { serviceLogger } from '../../logging';
-import { StatementQueryFilters } from './query/StatementQueryFilters';
 
 /**
  * Ekstre sorgulama işlemleri için servis
@@ -14,33 +13,15 @@ export class StatementQueryService {
   /**
    * Belirli bir hesaba ait tüm ekstreleri getirir
    */
-  static async getStatementsByAccountId(
-    accountId: string,
-    options: {
-      status?: StatementStatus | 'all',
-      sortBy?: 'date' | 'balance',
-      sortOrder?: 'asc' | 'desc'
-    } = {}
-  ): Promise<StatementListResponse> {
+  static async getStatementsByAccountId(accountId: string): Promise<StatementListResponse> {
     try {
-      this.logger.debug('Fetching statements for account', { accountId, options });
+      this.logger.debug('Fetching statements for account', { accountId });
       
-      const {
-        status = 'all',
-        sortBy = 'date',
-        sortOrder = 'desc'
-      } = options;
-
-      let query = supabase
+      const { data: statements, error } = await supabase
         .from('account_statements')
         .select('*')
-        .eq('account_id', accountId);
-      
-      // Filtreleri uygula
-      query = StatementQueryFilters.applyStatusFilter(query, status);
-      query = StatementQueryFilters.applySortingFilter(query, sortBy, sortOrder);
-      
-      const { data: statements, error } = await query;
+        .eq('account_id', accountId)
+        .order('start_date', { ascending: false });
       
       if (error) {
         this.logger.error('Failed to fetch account statements', { accountId, error });
