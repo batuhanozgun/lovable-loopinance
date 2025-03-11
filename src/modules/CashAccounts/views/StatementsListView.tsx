@@ -11,6 +11,7 @@ import { useCashAccount } from '../hooks/useCashAccount';
 import { useStatements } from '../hooks/useStatements';
 import { StatementsList } from '../components/StatementsList';
 import { StatementOrchestrationService } from '../services/statement/automation/orchestration/StatementOrchestrationService';
+import { CurrencyType } from '../types';
 
 export const StatementsListView: React.FC = () => {
   const { t } = useTranslation(['CashAccounts', 'common']);
@@ -143,7 +144,7 @@ export const StatementsListView: React.FC = () => {
               <StatementsList 
                 statements={statements} 
                 isLoading={isStatementsLoading} 
-                currency={account.currency} 
+                currency={account.currency as CurrencyType} 
               />
             ) : (
               <Card className="p-6">

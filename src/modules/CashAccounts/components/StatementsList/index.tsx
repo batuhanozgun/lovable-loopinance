@@ -60,16 +60,16 @@ export const StatementsList: React.FC<StatementsListProps> = ({ statements, isLo
     <Card>
       <CardHeader>
         <CardTitle>{t('CashAccounts:statements.title')}</CardTitle>
-        <CardDescription>{t('CashAccounts:statements.title')}</CardDescription>
+        <CardDescription>{t('CashAccounts:statements.period')}</CardDescription>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>{t('CashAccounts:statements.title')}</TableHead>
-              <TableHead>{t('CashAccounts:statements.title')}</TableHead>
-              <TableHead>{t('CashAccounts:statements.title')}</TableHead>
-              <TableHead className="text-right">{t('CashAccounts:statements.title')}</TableHead>
+              <TableHead>{t('CashAccounts:statements.period')}</TableHead>
+              <TableHead>{t('CashAccounts:statements.endBalance')}</TableHead>
+              <TableHead>{t('CashAccounts:statements.status')}</TableHead>
+              <TableHead className="text-right">{t('CashAccounts:viewDetails')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
