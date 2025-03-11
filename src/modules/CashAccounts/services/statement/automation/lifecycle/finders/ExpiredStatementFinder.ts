@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import { supabase } from '@/integrations/supabase/client';
 import { ILogger } from '@/modules/Logging/interfaces/ILogger';
 import { serviceLogger } from '../../../../../logging';
-import { AccountStatement, StatementStatus } from '../../../../../types';
+import { AccountStatement, StatementStatus, CashAccount } from '../../../../../types';
 
 export class ExpiredStatementFinder {
   private logger: ILogger;
@@ -18,7 +18,7 @@ export class ExpiredStatementFinder {
   /**
    * Bitiş tarihi geçmiş açık ekstreleri bulur
    */
-  async findExpiredStatements(referenceDate: Date = new Date()): Promise<AccountStatement[] | null> {
+  async findExpiredStatements(referenceDate: Date = new Date()): Promise<(AccountStatement & { cash_accounts: CashAccount })[] | null> {
     try {
       this.logger.debug('Süresi dolmuş ekstreleri arama işlemi başlatıldı');
       
@@ -43,10 +43,11 @@ export class ExpiredStatementFinder {
       }
       
       this.logger.info(`${expiredStatements.length} adet süresi geçmiş ekstre bulundu`);
-      return expiredStatements as AccountStatement[];
+      return expiredStatements as (AccountStatement & { cash_accounts: CashAccount })[];
     } catch (error) {
       this.logger.error('Süresi geçmiş ekstreleri arama sırasında beklenmeyen hata', { error });
       return null;
     }
   }
 }
+
