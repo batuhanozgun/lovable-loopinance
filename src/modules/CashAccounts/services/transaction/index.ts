@@ -25,5 +25,11 @@ export class TransactionService {
   static updateTransaction = TransactionUpdateService.updateTransaction;
   static deleteTransaction = TransactionDeletionService.deleteTransaction;
   
+  // Bakiye güncelleme servisleri
   static updateStatementBalance = TransactionBalanceService.updateStatementBalance;
+  static cascadeBalanceUpdates = TransactionBalanceService.cascadeBalanceUpdates;
+  static updateStatementStartBalance = TransactionBalanceService.updateStatementStartBalance;
+  static findStatementsToUpdate = TransactionBalanceService.findStatementsToUpdate;
+  static handleTransactionChange = TransactionBalanceService.handleTransactionChange;
+  static recalculateAllStatements = TransactionBalanceService.recalculateAllStatements;
 }
