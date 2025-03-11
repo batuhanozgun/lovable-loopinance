@@ -3,6 +3,15 @@ import { supabase } from '@/integrations/supabase/client';
 import { AccountStatement } from '../../types';
 import { SingleStatementResponse, StatementListResponse } from '../../types/statement/StatementResponses';
 import { serviceLogger } from '../../logging';
+import { PostgrestFilterBuilder } from '@supabase/postgrest-js';
+import { Database } from '@/integrations/supabase/types';
+
+// Ekstre tablosu için sorgu builder tip tanımı
+type StatementQueryBuilder = PostgrestFilterBuilder<
+  Database['public'],
+  Database['public']['Tables']['account_statements']['Row'],
+  Database['public']['Tables']['account_statements']['Row'][]
+>;
 
 /**
  * Ekstre sorgulama işlemleri için servis
@@ -11,15 +20,20 @@ export class StatementQueryService {
   private static logger = serviceLogger;
 
   /**
+   * Temel Supabase sorgu oluşturucusu
+   */
+  private static createBaseQuery(): StatementQueryBuilder {
+    return supabase.from('account_statements').select('*');
+  }
+
+  /**
    * Belirli bir hesaba ait tüm ekstreleri getirir
    */
   static async getStatementsByAccountId(accountId: string): Promise<StatementListResponse> {
     try {
       this.logger.debug('Fetching statements for account', { accountId });
       
-      const { data: statements, error } = await supabase
-        .from('account_statements')
-        .select('*')
+      const { data: statements, error } = await this.createBaseQuery()
         .eq('account_id', accountId)
         .order('start_date', { ascending: false });
       
@@ -52,9 +66,7 @@ export class StatementQueryService {
     try {
       this.logger.debug('Fetching statement by ID', { id });
       
-      const { data: statement, error } = await supabase
-        .from('account_statements')
-        .select('*')
+      const { data: statement, error } = await this.createBaseQuery()
         .eq('id', id)
         .single();
       
@@ -87,9 +99,7 @@ export class StatementQueryService {
     try {
       this.logger.debug('Fetching current statement for account', { accountId });
       
-      const { data: statement, error } = await supabase
-        .from('account_statements')
-        .select('*')
+      const { data: statement, error } = await this.createBaseQuery()
         .eq('account_id', accountId)
         .eq('status', 'open')
         .order('start_date', { ascending: false })

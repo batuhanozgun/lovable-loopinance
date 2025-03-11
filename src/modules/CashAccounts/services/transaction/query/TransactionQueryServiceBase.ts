@@ -2,6 +2,15 @@
 import { supabase } from '@/integrations/supabase/client';
 import { serviceLogger } from '../../../logging';
 import { ILogger } from '@/modules/Logging/interfaces/ILogger';
+import { PostgrestFilterBuilder } from '@supabase/postgrest-js';
+import { Database } from '@/integrations/supabase/types';
+
+// İşlem tablosu için sorgu builder tip tanımı
+type TransactionQueryBuilder = PostgrestFilterBuilder<
+  Database['public'],
+  Database['public']['Tables']['account_transactions']['Row'],
+  Database['public']['Tables']['account_transactions']['Row'][]
+>;
 
 /**
  * İşlem sorguları için temel sınıf
@@ -12,7 +21,7 @@ export class TransactionQueryServiceBase {
   /**
    * Temel Supabase sorgu oluşturucusu
    */
-  protected static createBaseQuery() {
+  protected static createBaseQuery(): TransactionQueryBuilder {
     return supabase.from('account_transactions').select('*');
   }
 
