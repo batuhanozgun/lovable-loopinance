@@ -18,13 +18,19 @@ export const useStatements = (accountId: string | undefined) => {
     queryFn: async (): Promise<AccountStatement[]> => {
       if (!accountId) return [];
       
+      // API çağrısını yap ve sonucu logla
+      console.log(`[useStatements] Fetching statements for account ID: ${accountId}`);
       const response = await StatementService.getStatementsByAccountId(accountId);
       
+      // Yanıt durumunu logla
+      console.log(`[useStatements] Response:`, response);
+      
       if (!response.success) {
+        // Doğru çeviri anahtarını kullan
         toast({
           variant: 'destructive',
           title: t('common:error'),
-          description: response.error || t('CashAccounts:errors.statement.list.failed'),
+          description: response.error || t('CashAccounts:errors.statements.loadingFailed'),
         });
         return [];
       }

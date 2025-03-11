@@ -1,93 +1,74 @@
 
-/**
- * Tüm Ekstre servisleri için ana erişim noktası
- */
-
-// Core servisler
-import { StatementQueryService } from './core/query/StatementQueryService';
+import { AccountStatement } from '../../types';
+import { SingleStatementResponse, StatementListResponse } from './shared/types';
 import { StatementCreationService } from './core/creation/StatementCreationService';
 import { StatementUpdateService } from './core/update/StatementUpdateService';
 import { StatementPeriodService } from './core/period/StatementPeriodService';
-
-// Otomasyon servisleri
-import { StatementOrchestrationService } from './automation/orchestration/StatementOrchestrationService';
-import { 
-  StatementClosingService, 
-  StatementStatusManagerService,
-  ExpiredStatementFinder,
-  StatementClosingProcessor,
-  NextPeriodProcessor,
-  ClosingResultCollector
-} from './automation/lifecycle';
-import { AccountStatementCheckService } from './automation/checking/AccountStatementCheckService';
-import { SingleAccountStatementService } from './automation/checking/SingleAccountStatementService';
-import { StatementPeriodCheckService } from './automation/checking/StatementPeriodCheckService';
-import { StatementValidationService } from './automation/validation/StatementValidationService';
-
-// Shared içerikler
-export * from './shared/types';
-export * from './shared/constants';
-export * from './shared/utils';
-
-// Core servisler export
-export {
-  StatementQueryService,
-  StatementCreationService,
-  StatementUpdateService,
-  StatementPeriodService
-};
-
-// Otomasyon servisleri export
-export {
-  StatementOrchestrationService,
-  StatementClosingService,
-  StatementStatusManagerService,
-  AccountStatementCheckService,
-  SingleAccountStatementService,
-  StatementPeriodCheckService,
-  StatementValidationService,
-  // Lifecycle alt bileşenleri
-  ExpiredStatementFinder,
-  StatementClosingProcessor,
-  NextPeriodProcessor,
-  ClosingResultCollector
-};
+import { StatementQueryService } from './core/query/StatementQueryService';
+import { serviceLogger } from '../../logging';
 
 /**
- * Tüm Ekstre işlemleri için ana erişim noktası
+ * Ekstre işlemleri için ana servis
  */
 export class StatementService {
-  // Orkestrasyon servisi instance'ı
-  private static orchestrationService = new StatementOrchestrationService();
+  /**
+   * Belirli bir hesaba ait ekstreleri getirir
+   */
+  static async getStatementsByAccountId(accountId: string): Promise<StatementListResponse> {
+    try {
+      serviceLogger.debug('StatementService.getStatementsByAccountId called', { accountId });
+      const result = await StatementQueryService.getStatementsByAccountId(accountId);
+      
+      // Servis cevabını loglama
+      serviceLogger.debug('StatementQueryService.getStatementsByAccountId result', { 
+        success: result.success, 
+        dataLength: result.data?.length || 0,
+        error: result.error 
+      });
+      
+      return result;
+    } catch (error) {
+      serviceLogger.error('Error in StatementService.getStatementsByAccountId', { accountId, error });
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error in StatementService'
+      };
+    }
+  }
 
-  // Query işlemleri
-  static getStatementById = StatementQueryService.getStatementById;
-  static getStatementsByAccountId = StatementQueryService.getStatementsByAccountId;
-  static getCurrentStatement = StatementQueryService.getCurrentStatement;
-  
-  // Creation işlemleri
-  static createStatement = StatementCreationService.createStatement;
-  static createNextStatement = StatementCreationService.createNextStatement;
-  
-  // Update işlemleri
-  static updateStatementStatus = StatementUpdateService.updateStatementStatus;
-  static updateStatementBalances = StatementUpdateService.updateStatementBalances;
-  
-  // Period hesaplama işlemleri
-  static calculateNextPeriod = StatementPeriodService.calculateNextPeriod;
-  static calculateCurrentPeriod = StatementPeriodService.calculateCurrentPeriod;
-  static calculateNextMonthPeriod = StatementPeriodService.calculateNextMonthPeriod;
-  
-  // Otomasyon işlemleri (StatementAutoCreationService'den taşınan)
-  static checkAndCreateStatementsForAllAccounts = () => 
-    StatementService.orchestrationService.checkAndCreateStatementsForAllAccounts();
-    
-  static checkAndCreateStatementForAccount = (account) => 
-    StatementService.orchestrationService.checkAndCreateStatementForAccount(account);
-    
-  static closeExpiredStatementsAndCreateNew = () => 
-    StatementService.orchestrationService.closeExpiredStatementsAndCreateNew();
-    
-  static updateFutureStatementsStatus = () => 
-    StatementService.orchestrationService.updateFutureStatementsStatus();
+  /**
+   * ID'ye göre bir ekstre getirir
+   */
+  static async getStatementById(id: string): Promise<SingleStatementResponse> {
+    try {
+      return await StatementQueryService.getStatementById(id);
+    } catch (error) {
+      serviceLogger.error('Error in StatementService.getStatementById', { id, error });
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      };
+    }
+  }
+
+  /**
+   * Hesap için dönem yaratma servisi
+   */
+  static getPeriodService(): StatementPeriodService {
+    return new StatementPeriodService();
+  }
+
+  /**
+   * Ekstre oluşturma servisi
+   */
+  static getCreationService(): StatementCreationService {
+    return new StatementCreationService();
+  }
+
+  /**
+   * Ekstre güncelleme servisi
+   */
+  static getUpdateService(): StatementUpdateService {
+    return new StatementUpdateService();
+  }
 }

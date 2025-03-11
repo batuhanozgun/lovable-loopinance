@@ -28,7 +28,10 @@
     },
     "period": "Ekstre Dönemi",
     "status": "Durum",
-    "endBalance": "Dönem Sonu Bakiyesi"
+    "endBalance": "Dönem Sonu Bakiyesi",
+    "startBalance": "Dönem Başı Bakiyesi",
+    "income": "Gelir",
+    "expenses": "Gider"
   },
   "overview": {
     "balanceLabel": "Güncel Bakiye",
@@ -50,6 +53,23 @@
     },
     "statements": {
       "loadingFailed": "Ekstreler yüklenemedi"
+    },
+    "statement": {
+      "detail": {
+        "failed": "Ekstre detayları yüklenemedi"
+      },
+      "list": {
+        "failed": "Ekstreler listesini yüklerken hata oluştu"
+      }
     }
+  },
+  "startBalance": "Dönem Başı Bakiyesi",
+  "endBalance": "Dönem Sonu Bakiyesi",
+  "income": "Gelir",
+  "expenses": "Giderler",
+  "statementDetails": "Ekstre Detayları",
+  "statements": "Ekstreler",
+  "transaction": {
+    "new": "Yeni İşlem"
   }
 }

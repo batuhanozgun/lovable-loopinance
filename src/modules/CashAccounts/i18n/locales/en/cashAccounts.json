@@ -28,7 +28,10 @@
     },
     "period": "Statement Period",
     "status": "Status",
-    "endBalance": "End Balance"
+    "endBalance": "End Balance",
+    "startBalance": "Start Balance",
+    "income": "Income",
+    "expenses": "Expenses"
   },
   "overview": {
     "balanceLabel": "Current Balance",
@@ -50,6 +53,23 @@
     },
     "statements": {
       "loadingFailed": "Failed to load statements"
+    },
+    "statement": {
+      "detail": {
+        "failed": "Failed to load statement details"
+      },
+      "list": {
+        "failed": "Failed to load statements list"
+      }
     }
+  },
+  "startBalance": "Start Balance",
+  "endBalance": "End Balance",
+  "income": "Income",
+  "expenses": "Expenses",
+  "statementDetails": "Statement Details",
+  "statements": "Statements",
+  "transaction": {
+    "new": "New Transaction"
   }
 }

@@ -53,7 +53,7 @@ export const StatementDetails: React.FC<StatementDetailsProps> = ({ statement, i
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle>{t('CashAccounts:statementDetails')}</CardTitle>
+            <CardTitle>{t('CashAccounts:statements.title')}</CardTitle>
             <CardDescription>
               {format(new Date(statement.start_date), 'PPP', { locale: dateLocale })} - {format(new Date(statement.end_date), 'PPP', { locale: dateLocale })}
             </CardDescription>
@@ -66,21 +66,21 @@ export const StatementDetails: React.FC<StatementDetailsProps> = ({ statement, i
       <CardContent className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-1">
-            <p className="text-sm text-muted-foreground">{t('CashAccounts:startBalance')}</p>
+            <p className="text-sm text-muted-foreground">{t('CashAccounts:statements.startBalance')}</p>
             <p className="text-xl font-medium">{formatCurrency(statement.start_balance, currency)}</p>
           </div>
           <div className="space-y-1">
-            <p className="text-sm text-muted-foreground">{t('CashAccounts:endBalance')}</p>
+            <p className="text-sm text-muted-foreground">{t('CashAccounts:statements.endBalance')}</p>
             <p className="text-xl font-medium">{formatCurrency(statement.end_balance, currency)}</p>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-1">
-            <p className="text-sm text-muted-foreground">{t('CashAccounts:income')}</p>
+            <p className="text-sm text-muted-foreground">{t('CashAccounts:statements.income')}</p>
             <p className="text-xl font-medium text-green-600 dark:text-green-400">{formatCurrency(statement.income, currency)}</p>
           </div>
           <div className="space-y-1">
-            <p className="text-sm text-muted-foreground">{t('CashAccounts:expenses')}</p>
+            <p className="text-sm text-muted-foreground">{t('CashAccounts:statements.expenses')}</p>
             <p className="text-xl font-medium text-red-600 dark:text-red-400">{formatCurrency(statement.expenses, currency)}</p>
           </div>
         </div>
