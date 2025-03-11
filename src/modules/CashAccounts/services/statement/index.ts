@@ -11,8 +11,14 @@ import { StatementPeriodService } from './core/period/StatementPeriodService';
 
 // Otomasyon servisleri
 import { StatementOrchestrationService } from './automation/orchestration/StatementOrchestrationService';
-import { StatementClosingService } from './automation/lifecycle/StatementClosingService';
-import { StatementStatusManagerService } from './automation/lifecycle/StatementStatusManagerService';
+import { 
+  StatementClosingService, 
+  StatementStatusManagerService,
+  ExpiredStatementFinder,
+  StatementClosingProcessor,
+  NextPeriodProcessor,
+  ClosingResultCollector
+} from './automation/lifecycle';
 import { AccountStatementCheckService } from './automation/checking/AccountStatementCheckService';
 import { SingleAccountStatementService } from './automation/checking/SingleAccountStatementService';
 import { StatementPeriodCheckService } from './automation/checking/StatementPeriodCheckService';
@@ -39,7 +45,12 @@ export {
   AccountStatementCheckService,
   SingleAccountStatementService,
   StatementPeriodCheckService,
-  StatementValidationService
+  StatementValidationService,
+  // Lifecycle alt bileşenleri
+  ExpiredStatementFinder,
+  StatementClosingProcessor,
+  NextPeriodProcessor,
+  ClosingResultCollector
 };
 
 /**
