@@ -1,6 +1,6 @@
 
 import { supabase } from '@/integrations/supabase/client';
-import { CashAccount, StatementStatus } from '../../types';
+import { AccountStatement, CashAccount, StatementStatus } from '../../types';
 import { serviceLogger } from '../../logging';
 import { StatementPeriodService } from './StatementPeriodService';
 import { StatementCreationService } from './StatementCreationService';
