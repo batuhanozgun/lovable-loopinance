@@ -117,4 +117,42 @@ export class StatementQueryService {
       };
     }
   }
+  
+  /**
+   * Hesabın başlangıç bakiyesini getirir
+   */
+  static async getAccountInitialBalance(accountId: string): Promise<{ success: boolean, data?: number, error?: string }> {
+    try {
+      this.logger.debug('Fetching account initial balance', { accountId });
+      
+      const { data: account, error } = await supabase
+        .from('cash_accounts')
+        .select('initial_balance')
+        .eq('id', accountId)
+        .single();
+      
+      if (error) {
+        this.logger.error('Failed to fetch account initial balance', { accountId, error });
+        return {
+          success: false,
+          error: error.message
+        };
+      }
+      
+      this.logger.info('Account initial balance fetched successfully', { 
+        accountId, 
+        initialBalance: account.initial_balance 
+      });
+      return {
+        success: true,
+        data: account.initial_balance
+      };
+    } catch (error) {
+      this.logger.error('Unexpected error fetching account initial balance', { accountId, error });
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      };
+    }
+  }
 }
