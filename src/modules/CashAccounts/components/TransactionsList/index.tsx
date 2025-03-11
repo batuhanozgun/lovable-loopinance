@@ -1,241 +1,277 @@
 
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AccountTransaction, CurrencyType, TransactionType } from '@/modules/CashAccounts/types';
-import { formatCurrency } from '@/modules/CashAccounts/utils/currencyUtils';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { format } from 'date-fns';
-import { tr, enUS } from 'date-fns/locale';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
-import {
-  ArrowUpDown,
-  Filter,
-  ArrowDown,
-  ArrowUp,
-  X
+import { 
+  ArrowDownCircle, 
+  ArrowUpCircle, 
+  CalendarIcon, 
+  ChevronDown, 
+  Edit, 
+  Filter, 
+  MoreHorizontal, 
+  SortAsc, 
+  SortDesc, 
+  Trash2 
 } from 'lucide-react';
-import {
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Skeleton } from '@/components/ui/skeleton';
+import { 
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Badge } from '@/components/ui/badge';
+import { formatCurrency } from '../../utils/currencyUtils';
+import { TransactionType, AccountTransaction, CurrencyType } from '../../types';
+import { TransactionForm } from '../TransactionForm';
+import { DeleteTransactionDialog } from '../TransactionForm/components/DeleteTransactionDialog';
 
 interface TransactionsListProps {
   transactions: AccountTransaction[];
   isLoading: boolean;
   currency: CurrencyType;
-  onSortByDate?: (order: 'asc' | 'desc') => void;
-  onSortByAmount?: (order: 'asc' | 'desc') => void;
-  onFilterByType?: (type: 'income' | 'expense' | 'all') => void;
-  onResetFilters?: () => void;
-  activeFilters?: {
-    sortBy?: 'date' | 'amount';
-    sortOrder?: 'asc' | 'desc';
-    transactionType?: 'income' | 'expense' | 'all';
-  };
+  onSortByDate: (order: 'asc' | 'desc') => void;
+  onSortByAmount: (order: 'asc' | 'desc') => void;
+  onFilterByType: (type: 'income' | 'expense' | 'all') => void;
+  onResetFilters: () => void;
+  activeFilters: any;
+  statementId: string;
+  accountId: string;
+  isStatementOpen?: boolean;
 }
 
-export const TransactionsList: React.FC<TransactionsListProps> = ({ 
-  transactions, 
-  isLoading, 
+export const TransactionsList: React.FC<TransactionsListProps> = ({
+  transactions,
+  isLoading,
   currency,
   onSortByDate,
   onSortByAmount,
   onFilterByType,
   onResetFilters,
-  activeFilters
+  activeFilters,
+  statementId,
+  accountId,
+  isStatementOpen = false
 }) => {
-  const { t, i18n } = useTranslation(['CashAccounts']);
-  const dateLocale = i18n.language === 'tr' ? tr : enUS;
-  const [showFilters, setShowFilters] = useState(false);
+  const { t } = useTranslation(['CashAccounts', 'common']);
+
+  // İşlem düzenleme state'i
+  const [editingTransaction, setEditingTransaction] = useState<AccountTransaction | null>(null);
   
-  const hasFilters = Boolean(activeFilters && (
-    activeFilters.sortBy !== 'date' || 
-    activeFilters.sortOrder !== 'desc' || 
-    activeFilters.transactionType !== 'all'
-  ));
+  // İşlem silme state'i
+  const [deletingTransaction, setDeletingTransaction] = useState<AccountTransaction | null>(null);
 
   if (isLoading) {
     return (
-      <div className="space-y-4">
-        {[...Array(3)].map((_, i) => (
-          <Skeleton key={i} className="h-24 w-full" />
-        ))}
-      </div>
-    );
-  }
-
-  if (transactions.length === 0) {
-    return (
       <Card>
-        <CardContent className="pt-6">
-          <p className="text-center text-muted-foreground">{t('CashAccounts:noTransactions')}</p>
+        <CardHeader>
+          <CardTitle className="flex justify-between items-center">
+            <Skeleton className="h-8 w-40" />
+            <Skeleton className="h-8 w-32" />
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Skeleton className="h-64 w-full" />
         </CardContent>
       </Card>
     );
   }
 
-  const renderSortOrder = (field: 'date' | 'amount') => {
-    if (!activeFilters || activeFilters.sortBy !== field) return null;
-    
-    return activeFilters.sortOrder === 'asc' ? (
-      <ArrowUp className="h-4 w-4 ml-1" />
-    ) : (
-      <ArrowDown className="h-4 w-4 ml-1" />
-    );
+  const handleEditTransaction = (transaction: AccountTransaction) => {
+    setEditingTransaction(transaction);
   };
 
+  const handleDeleteTransaction = (transaction: AccountTransaction) => {
+    setDeletingTransaction(transaction);
+  };
+
+  const isFilterActive = activeFilters.transactionType !== 'all';
+
   return (
-    <Card>
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle>{t('CashAccounts:transactions')}</CardTitle>
-            <CardDescription>{t('CashAccounts:transaction.date')}</CardDescription>
-          </div>
-          
-          {(onSortByDate || onSortByAmount || onFilterByType) && (
-            <div className="flex items-center gap-2">
-              {hasFilters && onResetFilters && (
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={onResetFilters}
-                  title={t('common:reset')}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
+    <>
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="flex justify-between items-center">
+            <div className="flex items-center">
+              <span>{t('CashAccounts:transactions')}</span>
+              {isFilterActive && (
+                <Badge variant="outline" className="ml-2">
+                  {activeFilters.transactionType === 'income' 
+                    ? t('CashAccounts:filters.showingIncomeOnly') 
+                    : t('CashAccounts:filters.showingExpenseOnly')}
+                </Badge>
               )}
-              
+            </div>
+            <div className="flex space-x-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm">
-                    <Filter className="h-4 w-4 mr-2" />
-                    {t('common:filter')}
+                  <Button variant="outline" size="sm" className="h-8 gap-1">
+                    <SortAsc className="h-4 w-4" />
+                    <span className="hidden sm:inline">{t('common:sort')}</span>
+                    <ChevronDown className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  {onSortByDate && (
-                    <>
-                      <DropdownMenuItem onClick={() => onSortByDate('desc')}>
-                        {t('CashAccounts:filters.sortByDateDesc')}
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => onSortByDate('asc')}>
-                        {t('CashAccounts:filters.sortByDateAsc')}
-                      </DropdownMenuItem>
-                    </>
-                  )}
-                  
-                  {onSortByAmount && (
-                    <>
-                      <DropdownMenuItem onClick={() => onSortByAmount('desc')}>
-                        {t('CashAccounts:filters.sortByAmountDesc')}
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => onSortByAmount('asc')}>
-                        {t('CashAccounts:filters.sortByAmountAsc')}
-                      </DropdownMenuItem>
-                    </>
-                  )}
-                  
-                  {onFilterByType && (
-                    <>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={() => onFilterByType('all')}>
-                        {t('CashAccounts:filters.showAll')}
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => onFilterByType('income')}>
-                        {t('CashAccounts:filters.showIncome')}
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => onFilterByType('expense')}>
-                        {t('CashAccounts:filters.showExpenses')}
-                      </DropdownMenuItem>
-                    </>
-                  )}
+                  <DropdownMenuItem onClick={() => onSortByDate('desc')}>
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    <SortDesc className="mr-2 h-4 w-4" />
+                    {t('CashAccounts:filters.sortByDateDesc')}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onSortByDate('asc')}>
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    <SortAsc className="mr-2 h-4 w-4" />
+                    {t('CashAccounts:filters.sortByDateAsc')}
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => onSortByAmount('desc')}>
+                    <SortDesc className="mr-2 h-4 w-4" />
+                    {t('CashAccounts:filters.sortByAmountDesc')}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onSortByAmount('asc')}>
+                    <SortAsc className="mr-2 h-4 w-4" />
+                    {t('CashAccounts:filters.sortByAmountAsc')}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className="h-8 gap-1">
+                    <Filter className="h-4 w-4" />
+                    <span className="hidden sm:inline">{t('common:filter')}</span>
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => onFilterByType('all')}>
+                    {t('CashAccounts:filters.showAll')}
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => onFilterByType('income')}>
+                    <ArrowUpCircle className="mr-2 h-4 w-4 text-green-500" />
+                    {t('CashAccounts:filters.showIncome')}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => onFilterByType('expense')}>
+                    <ArrowDownCircle className="mr-2 h-4 w-4 text-red-500" />
+                    {t('CashAccounts:filters.showExpenses')}
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={onResetFilters}>
+                    {t('common:resetFilters')}
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {transactions.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              {t('CashAccounts:noTransactions')}
+            </div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>{t('CashAccounts:transaction.date')}</TableHead>
+                  <TableHead>{t('CashAccounts:transaction.type')}</TableHead>
+                  <TableHead>{t('CashAccounts:transaction.description')}</TableHead>
+                  <TableHead className="text-right">{t('CashAccounts:transaction.amount')}</TableHead>
+                  <TableHead className="text-right">{t('common:actions')}</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {transactions.map((transaction) => (
+                  <TableRow key={transaction.id}>
+                    <TableCell className="font-medium">
+                      {format(new Date(transaction.transaction_date), 'dd/MM/yyyy')}
+                      <div className="text-xs text-muted-foreground">
+                        {transaction.transaction_time?.substring(0, 5)}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      {transaction.transaction_type === TransactionType.INCOME ? (
+                        <div className="flex items-center text-green-500">
+                          <ArrowUpCircle className="mr-1 h-4 w-4" />
+                          {t('CashAccounts:transaction.types.income')}
+                        </div>
+                      ) : (
+                        <div className="flex items-center text-red-500">
+                          <ArrowDownCircle className="mr-1 h-4 w-4" />
+                          {t('CashAccounts:transaction.types.expense')}
+                        </div>
+                      )}
+                    </TableCell>
+                    <TableCell className="max-w-md truncate">
+                      {transaction.description || '-'}
+                    </TableCell>
+                    <TableCell className="text-right font-medium">
+                      <span className={transaction.transaction_type === TransactionType.INCOME ? 'text-green-600' : 'text-red-600'}>
+                        {transaction.transaction_type === TransactionType.EXPENSE ? '- ' : '+ '}
+                        {formatCurrency(transaction.amount, currency)}
+                      </span>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                            <span className="sr-only">{t('common:openMenu')}</span>
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem
+                            onClick={() => handleEditTransaction(transaction)}
+                            disabled={!isStatementOpen}
+                          >
+                            <Edit className="mr-2 h-4 w-4" />
+                            {t('common:edit')}
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => handleDeleteTransaction(transaction)}
+                            className="text-destructive focus:text-destructive"
+                            disabled={!isStatementOpen}
+                          >
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            {t('common:delete')}
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           )}
-        </div>
-        
-        {activeFilters && activeFilters.transactionType !== 'all' && (
-          <div className="flex items-center gap-2 mt-2">
-            <Badge variant="outline">
-              {t(`CashAccounts:filters.showing${activeFilters.transactionType.charAt(0).toUpperCase() + activeFilters.transactionType.slice(1)}Only`)}
-            </Badge>
-          </div>
-        )}
-      </CardHeader>
-      <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead 
-                className={onSortByDate ? "cursor-pointer" : ""}
-                onClick={onSortByDate ? () => onSortByDate(
-                  activeFilters?.sortBy === 'date' && activeFilters?.sortOrder === 'desc' ? 'asc' : 'desc'
-                ) : undefined}
-              >
-                <div className="flex items-center">
-                  {t('CashAccounts:transaction.date')}
-                  {onSortByDate && (
-                    activeFilters?.sortBy === 'date' ? renderSortOrder('date') : <ArrowUpDown className="h-4 w-4 ml-1" />
-                  )}
-                </div>
-              </TableHead>
-              <TableHead>{t('CashAccounts:transaction.description')}</TableHead>
-              <TableHead>{t('CashAccounts:transaction.type')}</TableHead>
-              <TableHead 
-                className={`text-right ${onSortByAmount ? "cursor-pointer" : ""}`}
-                onClick={onSortByAmount ? () => onSortByAmount(
-                  activeFilters?.sortBy === 'amount' && activeFilters?.sortOrder === 'desc' ? 'asc' : 'desc'
-                ) : undefined}
-              >
-                <div className="flex items-center justify-end">
-                  {t('CashAccounts:transaction.amount')}
-                  {onSortByAmount && (
-                    activeFilters?.sortBy === 'amount' ? renderSortOrder('amount') : <ArrowUpDown className="h-4 w-4 ml-1" />
-                  )}
-                </div>
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {transactions.map((transaction) => (
-              <TableRow key={transaction.id}>
-                <TableCell>
-                  {format(new Date(transaction.transaction_date), 'PP', { locale: dateLocale })}
-                </TableCell>
-                <TableCell>{transaction.description || '-'}</TableCell>
-                <TableCell>
-                  <span 
-                    className={transaction.transaction_type === TransactionType.INCOME 
-                      ? 'text-green-600 dark:text-green-400' 
-                      : 'text-red-600 dark:text-red-400'
-                    }
-                  >
-                    {t(`CashAccounts:transaction.types.${transaction.transaction_type}`)}
-                  </span>
-                </TableCell>
-                <TableCell className="text-right">
-                  <span 
-                    className={transaction.transaction_type === TransactionType.INCOME 
-                      ? 'text-green-600 dark:text-green-400' 
-                      : 'text-red-600 dark:text-red-400'
-                    }
-                  >
-                    {formatCurrency(transaction.amount, currency)}
-                  </span>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+      
+      {/* İşlem düzenleme formu */}
+      {editingTransaction && (
+        <TransactionForm
+          statementId={statementId}
+          accountId={accountId}
+          currency={currency}
+          isOpen={!!editingTransaction}
+          onClose={() => setEditingTransaction(null)}
+          transaction={editingTransaction}
+        />
+      )}
+      
+      {/* İşlem silme dialogu */}
+      {deletingTransaction && (
+        <DeleteTransactionDialog
+          isOpen={!!deletingTransaction}
+          onClose={() => setDeletingTransaction(null)}
+          transactionId={deletingTransaction.id}
+          statementId={statementId}
+        />
+      )}
+    </>
   );
 };

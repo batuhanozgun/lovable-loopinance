@@ -8,7 +8,11 @@ import { FormActionsProps } from "../types";
 /**
  * Form işlemleri bileşeni
  */
-export const FormActions: React.FC<FormActionsProps> = ({ onClose, isSubmitting }) => {
+export const FormActions: React.FC<FormActionsProps> = ({ 
+  onClose, 
+  isSubmitting, 
+  isEditMode = false 
+}) => {
   const { t } = useTranslation(["CashAccounts", "common"]);
 
   return (
@@ -18,13 +22,16 @@ export const FormActions: React.FC<FormActionsProps> = ({ onClose, isSubmitting 
         variant="outline"
         onClick={onClose}
         className="mr-2"
+        disabled={isSubmitting}
       >
         {t("common:cancel")}
       </Button>
       <Button type="submit" disabled={isSubmitting}>
         {isSubmitting
           ? t("common:loading")
-          : t("CashAccounts:transaction.add")}
+          : isEditMode 
+            ? t("CashAccounts:transaction.update") 
+            : t("CashAccounts:transaction.add")}
       </Button>
     </DialogFooter>
   );

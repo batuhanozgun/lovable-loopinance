@@ -1,6 +1,7 @@
 
 import { CurrencyType } from "../../../types";
 import { TransactionFormData } from "../validation/schema";
+import { AccountTransaction } from "../../../types";
 
 /**
  * İşlem formu bileşeni için prop tipleri
@@ -11,6 +12,7 @@ export interface TransactionFormProps {
   currency: CurrencyType;
   isOpen: boolean;
   onClose: () => void;
+  transaction?: AccountTransaction;
 }
 
 /**
@@ -51,6 +53,7 @@ export interface DescriptionFieldProps {
 export interface FormActionsProps {
   onClose: () => void;
   isSubmitting: boolean;
+  isEditMode?: boolean;
 }
 
 /**

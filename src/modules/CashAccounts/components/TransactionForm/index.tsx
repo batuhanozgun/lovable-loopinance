@@ -27,6 +27,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
   currency,
   isOpen,
   onClose,
+  transaction
 }) => {
   const { t } = useTranslation(["CashAccounts", "common"]);
   const { 
@@ -38,10 +39,12 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
     selectedCategoryId, 
     handleCategoryChange,
     onSubmit, 
-    isSubmitting 
+    isSubmitting,
+    isEditMode
   } = useTransactionFormSetup(
     accountId,
-    statementId
+    statementId,
+    transaction
   );
 
   const handleSubmit = async (data: any) => {
@@ -55,7 +58,11 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{t("CashAccounts:transaction.new")}</DialogTitle>
+          <DialogTitle>
+            {isEditMode 
+              ? t("CashAccounts:transaction.edit") 
+              : t("CashAccounts:transaction.new")}
+          </DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -86,7 +93,11 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
 
             <DescriptionField control={form.control} />
 
-            <FormActions onClose={onClose} isSubmitting={isSubmitting} />
+            <FormActions 
+              onClose={onClose} 
+              isSubmitting={isSubmitting} 
+              isEditMode={isEditMode}
+            />
           </form>
         </Form>
       </DialogContent>

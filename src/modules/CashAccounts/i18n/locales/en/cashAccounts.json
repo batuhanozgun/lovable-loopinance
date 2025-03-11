@@ -46,9 +46,18 @@
       "expense": "Expense"
     },
     "new": "New Transaction",
+    "edit": "Edit Transaction",
     "add": "Add Transaction",
+    "update": "Update",
     "createSuccess": "Transaction created successfully",
-    "descriptionPlaceholder": "Enter a description for this transaction"
+    "updateSuccess": "Transaction updated successfully",
+    "deleteSuccess": "Transaction deleted successfully",
+    "descriptionPlaceholder": "Enter a description for this transaction",
+    "delete": {
+      "title": "Delete Transaction",
+      "confirmation": "Are you sure you want to delete this transaction? This action cannot be undone.",
+      "confirm": "Yes, Delete"
+    }
   },
   "filters": {
     "sortByDateDesc": "Sort by date (newest first)",
@@ -84,6 +93,12 @@
       },
       "create": {
         "failed": "Failed to create transaction"
+      },
+      "update": {
+        "failed": "Failed to update transaction"
+      },
+      "delete": {
+        "failed": "Failed to delete transaction"
       }
     }
   }

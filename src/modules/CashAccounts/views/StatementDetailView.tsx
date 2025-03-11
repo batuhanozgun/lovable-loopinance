@@ -7,7 +7,7 @@ import { ArrowLeft, Plus } from 'lucide-react';
 import { useStatement } from '../hooks/useStatement';
 import { useCashAccount } from '../hooks/useCashAccount';
 import { useTransactions } from '../hooks/useTransactions';
-import { CurrencyType } from '../types';
+import { CurrencyType, StatementStatus } from '../types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { StatementDetails } from '../components/StatementDetails';
 import { TransactionsList } from '../components/TransactionsList';
@@ -69,6 +69,9 @@ export const StatementDetailView: React.FC = () => {
     );
   }
 
+  // Ekstre açık mı kontrol et
+  const isStatementOpen = statement.status === StatementStatus.OPEN;
+
   return (
     <div className="container py-6 space-y-6">
       <div className="flex items-center justify-between mb-6">
@@ -85,7 +88,7 @@ export const StatementDetailView: React.FC = () => {
         <Button 
           onClick={() => setIsTransactionFormOpen(true)} 
           size="sm"
-          disabled={statement.status !== 'open'}
+          disabled={!isStatementOpen}
         >
           <Plus className="mr-2 h-4 w-4" />
           {t('CashAccounts:transaction.new')}
@@ -107,6 +110,9 @@ export const StatementDetailView: React.FC = () => {
         onFilterByType={filterByType}
         onResetFilters={resetFilters}
         activeFilters={filters}
+        statementId={statementId || ''}
+        accountId={accountId || ''}
+        isStatementOpen={isStatementOpen}
       />
       
       {isTransactionFormOpen && (

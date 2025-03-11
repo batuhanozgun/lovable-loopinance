@@ -46,9 +46,18 @@
       "expense": "Gider"
     },
     "new": "Yeni İşlem",
+    "edit": "İşlemi Düzenle",
     "add": "İşlem Ekle",
+    "update": "Güncelle",
     "createSuccess": "İşlem başarıyla oluşturuldu",
-    "descriptionPlaceholder": "Bu işlem için bir açıklama girin"
+    "updateSuccess": "İşlem başarıyla güncellendi",
+    "deleteSuccess": "İşlem başarıyla silindi",
+    "descriptionPlaceholder": "Bu işlem için bir açıklama girin",
+    "delete": {
+      "title": "İşlemi Sil",
+      "confirmation": "Bu işlemi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
+      "confirm": "Evet, Sil"
+    }
   },
   "filters": {
     "sortByDateDesc": "Tarihe göre sırala (en yeni önce)",
@@ -84,6 +93,12 @@
       },
       "create": {
         "failed": "İşlem oluşturulurken hata oluştu"
+      },
+      "update": {
+        "failed": "İşlem güncellenirken hata oluştu"
+      },
+      "delete": {
+        "failed": "İşlem silinirken hata oluştu"
       }
     }
   }
