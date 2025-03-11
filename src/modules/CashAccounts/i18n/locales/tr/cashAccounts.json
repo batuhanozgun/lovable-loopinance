@@ -1,105 +1,34 @@
 
 {
   "title": "Nakit Hesaplar",
-  "description": "Günlük gider ve gelirlerinizi takip etmek için yeni bir nakit hesap oluşturun.",
-  "noAccounts": "Henüz hiç nakit hesabınız yok",
-  "createAccount": "Nakit Hesap Oluştur",
-  "newAccount": "Yeni Hesap",
-  "accountBalance": "Hesap Bakiyesi",
-  "accountDetails": "Hesap Detayları",
-  "currentBalance": "Hesabınızın güncel bakiyesi",
-  "statements": "Ekstreler",
-  "transactions": "İşlemler",
-  "viewDetails": "Detayları Gör",
-  "newTransaction": "Yeni İşlem",
-  "statementDetails": "Ekstre Detayları",
-  "statementPeriod": "Ekstre Dönemi",
-  "statementStatus": "Durum",
-  "income": "Gelir",
-  "expenses": "Gider",
-  "startBalance": "Başlangıç Bakiyesi",
-  "endBalance": "Bitiş Bakiyesi",
-  "from": "Başlangıç",
-  "to": "Bitiş",
-  "status": {
-    "open": "Açık",
-    "closed": "Kapalı",
-    "pending": "Beklemede",
-    "future": "Gelecek"
+  "newAccount": "Yeni Nakit Hesap",
+  "account": {
+    "title": "Hesap Detayları",
+    "balance": "Güncel Bakiye",
+    "initialBalance": "Başlangıç Bakiyesi",
+    "currency": "Para Birimi",
+    "closingDay": "Ekstre Kapanış Günü",
+    "createdAt": "Oluşturulma Tarihi"
   },
-  "noStatements": "Bu hesap için ekstre bulunmamaktadır",
-  "noTransactions": "Bu ekstre için işlem bulunmamaktadır",
-  "transaction": {
-    "date": "Tarih",
-    "time": "Saat",
-    "amount": "Tutar",
-    "type": "Tür",
-    "description": "Açıklama",
-    "category": "Kategori",
-    "subcategory": "Alt Kategori",
-    "selectCategory": "Kategori seçin",
-    "selectSubcategory": "Alt kategori seçin",
-    "noCategory": "Kategorisiz",
-    "noSubcategory": "Alt kategorisiz",
-    "types": {
-      "income": "Gelir",
-      "expense": "Gider"
+  "statements": {
+    "title": "Ekstreler",
+    "empty": {
+      "noStatements": "Bu hesap için henüz ekstre bulunmuyor",
+      "statementInfo": "Ekstreler, hesap kapanış günü ayarlarına göre otomatik olarak oluşturulur. Aşağıdaki düğmeyi kullanarak manuel olarak kontrol edebilir ve ekstre oluşturabilirsiniz."
     },
-    "new": "Yeni İşlem",
-    "edit": "İşlemi Düzenle",
-    "add": "İşlem Ekle",
-    "update": "Güncelle",
-    "createSuccess": "İşlem başarıyla oluşturuldu",
-    "updateSuccess": "İşlem başarıyla güncellendi",
-    "deleteSuccess": "İşlem başarıyla silindi",
-    "descriptionPlaceholder": "Bu işlem için bir açıklama girin",
-    "delete": {
-      "title": "İşlemi Sil",
-      "confirmation": "Bu işlemi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
-      "confirm": "Evet, Sil"
+    "buttons": {
+      "checkAndCreateStatement": "Kontrol Et & Ekstre Oluştur",
+      "createStatement": "Ekstre Oluştur"
+    },
+    "toasts": {
+      "newStatementCreated": "Yeni ekstre başarıyla oluşturuldu",
+      "statementCheckComplete": "Ekstre kontrolü tamamlandı, her şey güncel",
+      "statementCheckFailed": "Ekstre durumu kontrol edilemedi",
+      "statementCheckError": "Ekstre durumu kontrol edilirken bir hata oluştu"
     }
   },
-  "filters": {
-    "sortByDateDesc": "Tarihe göre sırala (en yeni önce)",
-    "sortByDateAsc": "Tarihe göre sırala (en eski önce)",
-    "sortByAmountDesc": "Tutara göre sırala (en yüksek önce)",
-    "sortByAmountAsc": "Tutara göre sırala (en düşük önce)",
-    "showAll": "Tüm işlemleri göster",
-    "showIncome": "Sadece gelirleri göster",
-    "showExpenses": "Sadece giderleri göster",
-    "showingIncomeOnly": "Sadece gelirler gösteriliyor",
-    "showingExpenseOnly": "Sadece giderler gösteriliyor"
-  },
-  "errors": {
-    "account": {
-      "list": {
-        "failed": "Hesaplar yüklenirken hata oluştu"
-      },
-      "detail": {
-        "failed": "Hesap detayları yüklenirken hata oluştu"
-      }
-    },
-    "statement": {
-      "list": {
-        "failed": "Ekstreler yüklenirken hata oluştu"
-      },
-      "detail": {
-        "failed": "Ekstre detayları yüklenirken hata oluştu"
-      }
-    },
-    "transaction": {
-      "list": {
-        "failed": "İşlemler yüklenirken hata oluştu"
-      },
-      "create": {
-        "failed": "İşlem oluşturulurken hata oluştu"
-      },
-      "update": {
-        "failed": "İşlem güncellenirken hata oluştu"
-      },
-      "delete": {
-        "failed": "İşlem silinirken hata oluştu"
-      }
-    }
+  "overview": {
+    "balanceLabel": "Güncel Bakiye",
+    "statementButton": "Ekstreleri Görüntüle"
   }
 }

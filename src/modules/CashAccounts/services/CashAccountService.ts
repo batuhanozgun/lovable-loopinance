@@ -2,12 +2,14 @@
 import { supabase } from '@/integrations/supabase/client';
 import { CashAccount, CashAccountResponse, CreateCashAccountData } from '../types';
 import { serviceLogger } from '../logging';
+import { SingleAccountStatementService } from './statement/automation/checking/SingleAccountStatementService';
 
 /**
  * Nakit Hesapları yönetmek için servis
  */
 export class CashAccountService {
   private static logger = serviceLogger;
+  private static singleAccountStatementService = new SingleAccountStatementService();
 
   /**
    * Yeni bir nakit hesap oluşturur
@@ -31,6 +33,31 @@ export class CashAccountService {
       }
       
       this.logger.info('Cash account created successfully', { id: accountData.id });
+      
+      // Hesap oluşturulduktan sonra ilk ekstreyi otomatik olarak oluştur
+      try {
+        const newAccount = accountData as CashAccount;
+        const statementResult = await this.singleAccountStatementService.checkAndCreateStatementForAccount(newAccount);
+        
+        if (statementResult.success) {
+          this.logger.info('Initial statement created automatically for new account', { 
+            accountId: newAccount.id, 
+            statementId: statementResult.statementId 
+          });
+        } else {
+          this.logger.warn('Failed to create initial statement for new account', { 
+            accountId: newAccount.id, 
+            error: statementResult.message 
+          });
+        }
+      } catch (statementError) {
+        // Ekstre oluşturma hatası hesap oluşturmayı etkilememelidir
+        this.logger.error('Error creating initial statement', { 
+          accountId: accountData.id, 
+          error: statementError 
+        });
+      }
+      
       return {
         success: true,
         data: accountData as CashAccount

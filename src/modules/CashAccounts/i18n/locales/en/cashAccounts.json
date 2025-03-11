@@ -1,105 +1,34 @@
 
 {
   "title": "Cash Accounts",
-  "description": "Create a new cash account to track your daily expenses and income.",
-  "noAccounts": "You don't have any cash accounts yet",
-  "createAccount": "Create a Cash Account",
-  "newAccount": "New Account",
-  "accountBalance": "Account Balance",
-  "accountDetails": "Account Details",
-  "currentBalance": "Current balance of your account",
-  "statements": "Statements",
-  "transactions": "Transactions",
-  "viewDetails": "View Details",
-  "newTransaction": "New Transaction",
-  "statementDetails": "Statement Details",
-  "statementPeriod": "Statement Period",
-  "statementStatus": "Status",
-  "income": "Income",
-  "expenses": "Expenses",
-  "startBalance": "Starting Balance",
-  "endBalance": "Ending Balance",
-  "from": "From",
-  "to": "To",
-  "status": {
-    "open": "Open",
-    "closed": "Closed",
-    "pending": "Pending",
-    "future": "Future"
+  "newAccount": "New Cash Account",
+  "account": {
+    "title": "Account Details",
+    "balance": "Current Balance",
+    "initialBalance": "Initial Balance",
+    "currency": "Currency",
+    "closingDay": "Statement Closing Day",
+    "createdAt": "Created At"
   },
-  "noStatements": "No statements available for this account",
-  "noTransactions": "No transactions available for this statement",
-  "transaction": {
-    "date": "Date",
-    "time": "Time",
-    "amount": "Amount",
-    "type": "Type",
-    "description": "Description",
-    "category": "Category",
-    "subcategory": "Subcategory",
-    "selectCategory": "Select a category",
-    "selectSubcategory": "Select a subcategory",
-    "noCategory": "No category",
-    "noSubcategory": "No subcategory",
-    "types": {
-      "income": "Income",
-      "expense": "Expense"
+  "statements": {
+    "title": "Statements",
+    "empty": {
+      "noStatements": "No statements available for this account yet",
+      "statementInfo": "Statements are created automatically based on account closing day settings. You can also manually check and create statements using the button below."
     },
-    "new": "New Transaction",
-    "edit": "Edit Transaction",
-    "add": "Add Transaction",
-    "update": "Update",
-    "createSuccess": "Transaction created successfully",
-    "updateSuccess": "Transaction updated successfully",
-    "deleteSuccess": "Transaction deleted successfully",
-    "descriptionPlaceholder": "Enter a description for this transaction",
-    "delete": {
-      "title": "Delete Transaction",
-      "confirmation": "Are you sure you want to delete this transaction? This action cannot be undone.",
-      "confirm": "Yes, Delete"
+    "buttons": {
+      "checkAndCreateStatement": "Check & Create Statement",
+      "createStatement": "Create Statement"
+    },
+    "toasts": {
+      "newStatementCreated": "New statement was successfully created",
+      "statementCheckComplete": "Statement check completed, everything is up to date",
+      "statementCheckFailed": "Failed to check statement status",
+      "statementCheckError": "An error occurred while checking statement status"
     }
   },
-  "filters": {
-    "sortByDateDesc": "Sort by date (newest first)",
-    "sortByDateAsc": "Sort by date (oldest first)",
-    "sortByAmountDesc": "Sort by amount (highest first)",
-    "sortByAmountAsc": "Sort by amount (lowest first)",
-    "showAll": "Show all transactions",
-    "showIncome": "Show income only",
-    "showExpenses": "Show expenses only",
-    "showingIncomeOnly": "Showing income only",
-    "showingExpenseOnly": "Showing expenses only"
-  },
-  "errors": {
-    "account": {
-      "list": {
-        "failed": "Failed to load accounts"
-      },
-      "detail": {
-        "failed": "Failed to load account details"
-      }
-    },
-    "statement": {
-      "list": {
-        "failed": "Failed to load statements"
-      },
-      "detail": {
-        "failed": "Failed to load statement details"
-      }
-    },
-    "transaction": {
-      "list": {
-        "failed": "Failed to load transactions"
-      },
-      "create": {
-        "failed": "Failed to create transaction"
-      },
-      "update": {
-        "failed": "Failed to update transaction"
-      },
-      "delete": {
-        "failed": "Failed to delete transaction"
-      }
-    }
+  "overview": {
+    "balanceLabel": "Current Balance",
+    "statementButton": "View Statements"
   }
 }
