@@ -1,21 +1,27 @@
 
 import { SupabaseQueryBuilder } from '@supabase/supabase-js';
 import { Database } from '@/integrations/supabase/types';
+import { BaseQueryFilters } from '../../query/BaseQueryFilters';
 
-type QueryBuilder = SupabaseQueryBuilder<Database['public'], Database['public']['Tables']['account_transactions'], Database['public']['Tables']['account_transactions']['Row']>;
+type TransactionTable = 'account_transactions';
+type TransactionQueryBuilder = SupabaseQueryBuilder<
+  Database['public'], 
+  TransactionTable,
+  Database['public']['Tables']['account_transactions']['Row']
+>;
 
 /**
  * İşlem sorguları için filtre yardımcıları
  */
-export class TransactionQueryFilters {
+export class TransactionQueryFilters extends BaseQueryFilters<'account_transactions'> {
   /**
    * Tarih aralığı filtresi uygular
    */
   static applyDateRangeFilter(
-    query: QueryBuilder,
+    query: TransactionQueryBuilder,
     startDate?: string,
     endDate?: string
-  ): QueryBuilder {
+  ): TransactionQueryBuilder {
     let filteredQuery = query;
     
     if (startDate) {
@@ -33,9 +39,9 @@ export class TransactionQueryFilters {
    * İşlem türü filtresi uygular
    */
   static applyTransactionTypeFilter(
-    query: QueryBuilder,
+    query: TransactionQueryBuilder,
     transactionType?: 'income' | 'expense' | 'all'
-  ): QueryBuilder {
+  ): TransactionQueryBuilder {
     if (transactionType && transactionType !== 'all') {
       return query.eq('transaction_type', transactionType);
     }
@@ -46,10 +52,10 @@ export class TransactionQueryFilters {
    * Sıralama filtresi uygular
    */
   static applySortingFilter(
-    query: QueryBuilder,
+    query: TransactionQueryBuilder,
     sortBy?: 'date' | 'amount',
     sortOrder?: 'asc' | 'desc'
-  ): QueryBuilder {
+  ): TransactionQueryBuilder {
     if (sortBy === 'date') {
       return query
         .order('transaction_date', { ascending: sortOrder === 'asc' })
@@ -64,9 +70,9 @@ export class TransactionQueryFilters {
    * Limit filtresi uygular
    */
   static applyLimitFilter(
-    query: QueryBuilder,
+    query: TransactionQueryBuilder,
     limit?: number
-  ): QueryBuilder {
+  ): TransactionQueryBuilder {
     if (limit) {
       return query.limit(limit);
     }
