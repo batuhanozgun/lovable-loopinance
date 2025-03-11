@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -88,7 +87,6 @@ export const StatementDetailView: React.FC = () => {
         <Button 
           onClick={() => setIsTransactionFormOpen(true)} 
           size="sm"
-          disabled={!isStatementOpen}
         >
           <Plus className="mr-2 h-4 w-4" />
           {t('CashAccounts:transaction.new')}

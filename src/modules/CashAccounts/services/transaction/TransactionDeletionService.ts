@@ -32,10 +32,10 @@ export class TransactionDeletionService {
         };
       }
       
-      // Ekstre durumunu kontrol et - şimdilik sadece açık ekstreler için silme izin ver
+      // Ekstre durumunu kontrol et
       const { data: statement, error: statementError } = await supabase
         .from('account_statements')
-        .select('status')
+        .select('status, account_id')
         .eq('id', transaction.statement_id)
         .single();
       
@@ -47,18 +47,6 @@ export class TransactionDeletionService {
         return {
           success: false,
           error: 'Failed to verify statement status'
-        };
-      }
-      
-      if (statement.status !== 'open') {
-        this.logger.warn('Cannot delete transaction in a closed statement', { 
-          transactionId, 
-          statementId: transaction.statement_id,
-          status: statement.status 
-        });
-        return {
-          success: false,
-          error: 'Cannot delete transactions in a closed statement'
         };
       }
       
@@ -77,9 +65,18 @@ export class TransactionDeletionService {
       }
       
       // İşlemi sildikten sonra ilgili ekstrenin bakiyesini güncelleme
-      await TransactionBalanceService.updateStatementBalance(transaction.statement_id);
+      // Kapalı ekstre ise, sonraki ekstreleri de cascade olarak güncelle
+      const isClosedStatement = statement.status === 'closed';
+      await TransactionBalanceService.handleTransactionChange(
+        transaction.statement_id,
+        statement.account_id,
+        isClosedStatement
+      );
       
-      this.logger.info('Transaction deleted successfully', { id: transactionId });
+      this.logger.info('Transaction deleted successfully', { 
+        id: transactionId,
+        inClosedStatement: isClosedStatement
+      });
       return {
         success: true
       };

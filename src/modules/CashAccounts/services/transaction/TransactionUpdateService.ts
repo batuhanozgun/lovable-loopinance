@@ -36,10 +36,10 @@ export class TransactionUpdateService {
         };
       }
       
-      // Ekstre durumunu kontrol et - şimdilik sadece açık ekstreler için güncelleme izin ver
+      // Ekstre durumunu kontrol et
       const { data: statement, error: statementError } = await supabase
         .from('account_statements')
-        .select('status')
+        .select('status, account_id')
         .eq('id', existingTransaction.statement_id)
         .single();
       
@@ -51,18 +51,6 @@ export class TransactionUpdateService {
         return {
           success: false,
           error: 'Failed to verify statement status'
-        };
-      }
-      
-      if (statement.status !== 'open') {
-        this.logger.warn('Cannot update transaction in a closed statement', { 
-          transactionId, 
-          statementId: existingTransaction.statement_id,
-          status: statement.status 
-        });
-        return {
-          success: false,
-          error: 'Cannot update transactions in a closed statement'
         };
       }
       
@@ -83,9 +71,18 @@ export class TransactionUpdateService {
       }
       
       // İşlemi güncelledikten sonra ilgili ekstrenin bakiyesini güncelleme
-      await TransactionBalanceService.updateStatementBalance(existingTransaction.statement_id);
+      // Kapalı ekstre ise, sonraki ekstreleri de cascade olarak güncelle
+      const isClosedStatement = statement.status === 'closed';
+      await TransactionBalanceService.handleTransactionChange(
+        existingTransaction.statement_id,
+        statement.account_id,
+        isClosedStatement
+      );
       
-      this.logger.info('Transaction updated successfully', { id: transactionId });
+      this.logger.info('Transaction updated successfully', { 
+        id: transactionId,
+        inClosedStatement: isClosedStatement
+      });
       return {
         success: true,
         data: updatedTransaction as AccountTransaction

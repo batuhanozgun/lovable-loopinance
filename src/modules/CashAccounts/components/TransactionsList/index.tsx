@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
@@ -227,7 +226,6 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem
                             onClick={() => handleEditTransaction(transaction)}
-                            disabled={!isStatementOpen}
                           >
                             <Edit className="mr-2 h-4 w-4" />
                             {t('common:edit')}
@@ -235,7 +233,6 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
                           <DropdownMenuItem
                             onClick={() => handleDeleteTransaction(transaction)}
                             className="text-destructive focus:text-destructive"
-                            disabled={!isStatementOpen}
                           >
                             <Trash2 className="mr-2 h-4 w-4" />
                             {t('common:delete')}
