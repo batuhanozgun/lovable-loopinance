@@ -2,11 +2,15 @@
 import { StatementQueryService } from './StatementQueryService';
 import { StatementCreationService } from './StatementCreationService';
 import { StatementUpdateService } from './StatementUpdateService';
+import { StatementPeriodService } from './StatementPeriodService';
+import { StatementAutoCreationService } from './StatementAutoCreationService';
 
 export {
   StatementQueryService,
   StatementCreationService,
-  StatementUpdateService
+  StatementUpdateService,
+  StatementPeriodService,
+  StatementAutoCreationService
 };
 
 /**
@@ -22,4 +26,12 @@ export class StatementService {
   
   static updateStatementStatus = StatementUpdateService.updateStatementStatus;
   static updateStatementBalances = StatementUpdateService.updateStatementBalances;
+  
+  static calculateNextPeriod = StatementPeriodService.calculateNextPeriod;
+  static calculateCurrentPeriod = StatementPeriodService.calculateCurrentPeriod;
+  static calculateNextMonthPeriod = StatementPeriodService.calculateNextMonthPeriod;
+  
+  static checkAndCreateStatementsForAllAccounts = StatementAutoCreationService.checkAndCreateStatementsForAllAccounts;
+  static checkAndCreateStatementForAccount = StatementAutoCreationService.checkAndCreateStatementForAccount;
+  static closeExpiredStatementsAndCreateNew = StatementAutoCreationService.closeExpiredStatementsAndCreateNew;
 }

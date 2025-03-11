@@ -1,47 +1,49 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, FileText, Plus } from 'lucide-react';
-import { useCashAccount } from '../hooks/useCashAccount';
-import { formatCurrency } from '../utils/currencyUtils';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ArrowLeft, Plus } from 'lucide-react';
+import { useCashAccount } from '../hooks/useCashAccount';
+import { useAccountStatements } from '../hooks/useAccountStatements';
+import { formatCurrency } from '../utils/currencyUtils';
 import { CurrencyType } from '../types';
+import { AccountStatementsSummary } from '../components/AccountStatementsSummary';
 
 /**
- * Nakit Hesap detay sayfası
+ * Hesap detay sayfası
  */
 export const CashAccountDetailView: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { accountId } = useParams<{ accountId: string }>();
   const { t } = useTranslation(['CashAccounts', 'common']);
-  const { data: account, isLoading, isError } = useCashAccount(id);
+  
+  const { data: account, isLoading: isAccountLoading } = useCashAccount(accountId);
+  const { 
+    statements, 
+    isLoading: isStatementsLoading, 
+    statistics 
+  } = useAccountStatements(account);
 
-  // Yükleme durumu için iskelet
-  if (isLoading) {
+  if (isAccountLoading) {
     return (
-      <div className="container py-6">
+      <div className="container py-6 space-y-6">
         <div className="flex items-center mb-6">
-          <Button variant="ghost" size="sm" asChild className="mr-2">
-            <Link to="/cash-accounts">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              {t('common:back')}
-            </Link>
-          </Button>
+          <Skeleton className="h-10 w-24 mr-2" />
           <Skeleton className="h-8 w-64" />
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Skeleton className="h-40" />
-          <Skeleton className="h-40" />
+        <div className="grid gap-6 md:grid-cols-3">
+          <Skeleton className="h-36 w-full" />
+          <Skeleton className="h-36 w-full" />
+          <Skeleton className="h-36 w-full" />
         </div>
+        <Skeleton className="h-64 w-full" />
       </div>
     );
   }
 
-  // Hata durumu
-  if (isError || !account) {
+  if (!account) {
     return (
       <div className="container py-6">
         <Button variant="ghost" size="sm" asChild className="mb-4">
@@ -59,63 +61,87 @@ export const CashAccountDetailView: React.FC = () => {
   }
 
   return (
-    <div className="container py-6">
-      <div className="flex items-center mb-6">
-        <Button variant="ghost" size="sm" asChild className="mr-2">
-          <Link to="/cash-accounts">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            {t('common:back')}
-          </Link>
-        </Button>
-        <h1 className="text-2xl font-bold">{account.name}</h1>
+    <div className="container py-6 space-y-6">
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center">
+          <Button variant="ghost" size="sm" asChild className="mr-2">
+            <Link to="/cash-accounts">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              {t('common:back')}
+            </Link>
+          </Button>
+          <h1 className="text-2xl font-bold">{account.name}</h1>
+        </div>
+        
+        <div className="flex gap-2">
+          <Button 
+            asChild
+            size="sm"
+            variant="outline"
+          >
+            <Link to={`/cash-accounts/${accountId}/statements`}>
+              {t('CashAccounts:account.statements')}
+            </Link>
+          </Button>
+        </div>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      <div className="grid gap-6 md:grid-cols-3">
         <Card>
-          <CardHeader>
-            <CardTitle>{t('CashAccounts:accountBalance')}</CardTitle>
-            <CardDescription>{t('CashAccounts:currentBalance')}</CardDescription>
+          <CardHeader className="py-3">
+            <CardTitle className="text-sm font-medium">
+              {t('CashAccounts:account.currentBalance')}
+            </CardTitle>
           </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">
-              {formatCurrency(account.initial_balance, account.currency as CurrencyType)}
+          <CardContent className="py-0">
+            <div className="text-2xl font-bold">
+              {formatCurrency(Number(statistics.totalBalance), account.currency as CurrencyType)}
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              {account.description || t('CashAccounts:account.mainAccount')}
             </p>
           </CardContent>
         </Card>
         
         <Card>
-          <CardHeader>
-            <CardTitle>{t('CashAccounts:accountDetails')}</CardTitle>
+          <CardHeader className="py-3">
+            <CardTitle className="text-sm font-medium">
+              {t('CashAccounts:account.totalIncome')}
+            </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2">
-            <div>
-              <p className="text-sm text-muted-foreground">{t('CashAccounts:forms.accountForm.currency')}</p>
-              <p>{account.currency}</p>
+          <CardContent className="py-0">
+            <div className="text-2xl font-bold text-green-600">
+              {formatCurrency(Number(statistics.totalIncome), account.currency as CurrencyType)}
             </div>
-            {account.description && (
-              <div>
-                <p className="text-sm text-muted-foreground">{t('CashAccounts:forms.accountForm.description')}</p>
-                <p>{account.description}</p>
-              </div>
-            )}
+            <p className="text-xs text-muted-foreground mt-1">
+              {t('CashAccounts:account.allTimeIncome')}
+            </p>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="py-3">
+            <CardTitle className="text-sm font-medium">
+              {t('CashAccounts:account.totalExpenses')}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="py-0">
+            <div className="text-2xl font-bold text-red-600">
+              {formatCurrency(Number(statistics.totalExpenses), account.currency as CurrencyType)}
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              {t('CashAccounts:account.allTimeExpenses')}
+            </p>
           </CardContent>
         </Card>
       </div>
       
-      <div className="flex flex-wrap gap-2">
-        <Button asChild>
-          <Link to={`/cash-accounts/${account.id}/transactions/new`}>
-            <Plus className="mr-2 h-4 w-4" />
-            {t('CashAccounts:newTransaction')}
-          </Link>
-        </Button>
-        <Button variant="outline" asChild>
-          <Link to={`/cash-accounts/${account.id}/statements`}>
-            <FileText className="mr-2 h-4 w-4" />
-            {t('CashAccounts:statements')}
-          </Link>
-        </Button>
-      </div>
+      <AccountStatementsSummary
+        accountId={accountId || ''}
+        isLoading={isStatementsLoading}
+        currency={account.currency as CurrencyType}
+        statistics={statistics}
+      />
     </div>
   );
 };
