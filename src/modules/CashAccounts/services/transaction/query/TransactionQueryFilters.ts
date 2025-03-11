@@ -1,12 +1,8 @@
 
-import { PostgrestFilterBuilder } from '@supabase/postgrest-js';
+import { SupabaseQueryBuilder } from '@supabase/supabase-js';
 import { Database } from '@/integrations/supabase/types';
 
-type QueryBuilder = PostgrestFilterBuilder<
-  Database['public'],
-  Database['public']['Tables']['account_transactions'],
-  Database['public']['Tables']['account_transactions']['Row']
->;
+type QueryBuilder = SupabaseQueryBuilder<Database['public'], Database['public']['Tables']['account_transactions'], Database['public']['Tables']['account_transactions']['Row']>;
 
 /**
  * İşlem sorguları için filtre yardımcıları
