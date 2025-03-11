@@ -1,4 +1,3 @@
-
 {
   "title": "Nakit Hesaplar",
   "description": "Günlük gider ve gelirlerinizi takip etmek için yeni bir nakit hesap oluşturun.",
@@ -24,7 +23,8 @@
   "status": {
     "open": "Açık",
     "closed": "Kapalı",
-    "pending": "Beklemede"
+    "pending": "Beklemede",
+    "future": "Gelecek"
   },
   "noStatements": "Bu hesap için ekstre bulunmamaktadır",
   "noTransactions": "Bu ekstre için işlem bulunmamaktadır",

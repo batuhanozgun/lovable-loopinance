@@ -1,5 +1,3 @@
-
-
 import { Database } from '@/integrations/supabase/types';
 
 /**
@@ -76,7 +74,8 @@ export type CreateAccountStatementData = Omit<
 export enum StatementStatus {
   OPEN = 'open',
   CLOSED = 'closed',
-  PENDING = 'pending'
+  PENDING = 'pending',
+  FUTURE = 'future'
 }
 
 /**

@@ -1,126 +1,107 @@
 
-import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
+// Mevcut supabase/functions/statement-check/index.ts dosyasının içeriğini güncelleyeceğim
+// Bu edge function Future statüsündeki ekstreleri güncelleme işlemini de ekleyecek
 
-// CORS başlıkları
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+}
 
-// Supabase istemcisini oluştur
-const supabaseClient = createClient(
-  Deno.env.get('SUPABASE_URL') ?? '',
-  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-);
+serve(async (req) => {
+  // CORS için OPTIONS request
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { headers: corsHeaders })
+  }
 
-/**
- * Belirli bir hesap için ekstre durumunu kontrol eder
- */
-const checkAccountStatements = async (accountId: string) => {
-  console.log(`${accountId} ID'li hesap için ekstre kontrolü başlatıldı`);
-  
   try {
-    // Hesap bilgilerini getir
-    const { data: account, error: accountError } = await supabaseClient
-      .from('cash_accounts')
-      .select('*')
-      .eq('id', accountId)
-      .eq('is_active', true)
-      .single();
-    
-    if (accountError) {
-      throw new Error(`Hesap bilgileri alınamadı: ${accountError.message}`);
-    }
-    
-    if (!account) {
-      return {
-        success: false,
-        message: 'Aktif hesap bulunamadı'
-      };
-    }
-    
-    // Ekstre işlemi için statement-process edge function'ı çağır
-    const response = await fetch(
-      `${Deno.env.get('SUPABASE_URL')}/functions/v1/statement-process`,
-      {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ 
-          source: 'manual-check',
-          accountId: account.id
-        })
+    // Supabase client oluştur
+    const supabaseClient = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
+      { 
+        global: { headers: { Authorization: req.headers.get('Authorization')! } },
       }
     );
     
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(`Edge function hatası: ${JSON.stringify(errorData)}`);
-    }
+    // Request body'den accountId'yi al
+    const { accountId } = await req.json();
     
-    const result = await response.json();
+    // Log
+    console.log(`statement-check: Checking statements for account: ${accountId || 'all accounts'}`);
     
-    return {
-      success: true,
-      message: `${account.name} hesabı için ekstre kontrolü tamamlandı`,
-      result
-    };
-  } catch (error) {
-    console.error(`Hesap ekstre kontrolünde hata: ${error.message}`);
-    return {
-      success: false,
-      message: `Ekstre kontrolünde hata: ${error.message}`
-    };
-  }
-};
-
-serve(async (req) => {
-  // CORS ön kontrol isteği
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
-  }
-  
-  if (req.method === 'POST') {
-    try {
-      // İstek gövdesini oku
-      const reqJson = await req.json();
-      const { accountId } = reqJson;
+    let result;
+    
+    // Eğer accountId varsa, o hesap için ekstre kontrol et
+    if (accountId) {
+      // Hesap bilgisini getir
+      const { data: account, error: accountError } = await supabaseClient
+        .from('cash_accounts')
+        .select('*')
+        .eq('id', accountId)
+        .single();
       
-      if (!accountId) {
-        return new Response(JSON.stringify({ 
-          success: false, 
-          error: 'Hesap ID (accountId) parametresi gerekli' 
-        }), {
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          status: 400
-        });
+      if (accountError) {
+        console.error(`statement-check: Error fetching account: ${accountError.message}`);
+        return new Response(
+          JSON.stringify({ success: false, message: 'Account not found', error: accountError.message }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
       }
       
-      const result = await checkAccountStatements(accountId);
+      // Hesap için ekstre kontrolü yap
+      const { data, error } = await supabaseClient.rpc('check_account_statement', { p_account_id: accountId });
       
-      return new Response(JSON.stringify(result), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: result.success ? 200 : 500
-      });
-    } catch (error) {
-      console.error('Edge function hatası:', error);
-      return new Response(JSON.stringify({ 
-        success: false, 
-        error: error.message 
-      }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 500
-      });
+      if (error) {
+        console.error(`statement-check: Error checking statement: ${error.message}`);
+        return new Response(
+          JSON.stringify({ success: false, message: 'Error checking statement', error: error.message }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+      
+      result = data;
+      console.log(`statement-check: Statement check completed for account ${accountId}`);
+    } else {
+      // Tüm hesaplar için ekstre kontrolü yap
+      const { data, error } = await supabaseClient.rpc('check_accounts_statements');
+      
+      if (error) {
+        console.error(`statement-check: Error checking all statements: ${error.message}`);
+        return new Response(
+          JSON.stringify({ success: false, message: 'Error checking all statements', error: error.message }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+      
+      result = data;
+      console.log(`statement-check: Statement check completed for all accounts`);
     }
-  } else {
-    return new Response(JSON.stringify({ 
-      error: 'POST metodu bekleniyor' 
-    }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      status: 405
-    });
+    
+    // Future statüsündeki ekstreleri kontrol et ve güncelle
+    try {
+      const { data: futureResult, error: futureError } = await supabaseClient.rpc('update_future_statements');
+      
+      if (futureError) {
+        console.error(`statement-check: Error updating future statements: ${futureError.message}`);
+      } else {
+        console.log(`statement-check: Future statements updated: ${JSON.stringify(futureResult)}`);
+      }
+    } catch (futureCheckError) {
+      console.error(`statement-check: Unexpected error updating future statements: ${futureCheckError.message}`);
+    }
+    
+    return new Response(
+      JSON.stringify({ success: true, message: 'Statement check completed', result }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  } catch (error) {
+    console.error(`statement-check: Unexpected error: ${error.message}`);
+    return new Response(
+      JSON.stringify({ success: false, message: 'Unexpected error', error: error.message }),
+      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
   }
 });

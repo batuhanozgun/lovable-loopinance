@@ -34,4 +34,5 @@ export class StatementService {
   static checkAndCreateStatementsForAllAccounts = StatementAutoCreationService.checkAndCreateStatementsForAllAccounts;
   static checkAndCreateStatementForAccount = StatementAutoCreationService.checkAndCreateStatementForAccount;
   static closeExpiredStatementsAndCreateNew = StatementAutoCreationService.closeExpiredStatementsAndCreateNew;
+  static updateFutureStatementsStatus = StatementAutoCreationService.updateFutureStatementsStatus;
 }

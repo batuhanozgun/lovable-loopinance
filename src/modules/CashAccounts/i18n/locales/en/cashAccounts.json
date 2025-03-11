@@ -1,4 +1,3 @@
-
 {
   "title": "Cash Accounts",
   "description": "Create a new cash account to track your daily expenses and income.",
@@ -24,7 +23,8 @@
   "status": {
     "open": "Open",
     "closed": "Closed",
-    "pending": "Pending"
+    "pending": "Pending",
+    "future": "Future"
   },
   "noStatements": "No statements available for this account",
   "noTransactions": "No transactions available for this statement",
