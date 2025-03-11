@@ -16,7 +16,9 @@ import CategoryTemplatesView from "@/modules/CategoryTemplates/views/CategoryTem
 import { 
   CashAccountsView, 
   CreateCashAccountView,
-  CashAccountDetailView
+  CashAccountDetailView,
+  StatementsListView,
+  StatementDetailView
 } from "@/modules/CashAccounts";
 import Landing from "@/pages/Landing";
 import PricingPage from "@/pages/Pricing";
@@ -121,6 +123,16 @@ export const routes: AppRoute[] = [
     path: "/cash-accounts/:id",
     type: "private",
     element: <CashAccountDetailView />
+  },
+  {
+    path: "/cash-accounts/:accountId/statements",
+    type: "private",
+    element: <StatementsListView />
+  },
+  {
+    path: "/cash-accounts/:accountId/statements/:statementId",
+    type: "private",
+    element: <StatementDetailView />
   },
   {
     path: "/subscription",
