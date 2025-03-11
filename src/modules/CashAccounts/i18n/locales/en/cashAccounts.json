@@ -1,3 +1,4 @@
+
 {
   "title": "Cash Accounts",
   "description": "Create a new cash account to track your daily expenses and income.",
@@ -30,10 +31,16 @@
   "noTransactions": "No transactions available for this statement",
   "transaction": {
     "date": "Date",
+    "time": "Time",
     "amount": "Amount",
     "type": "Type",
     "description": "Description",
     "category": "Category",
+    "subcategory": "Subcategory",
+    "selectCategory": "Select a category",
+    "selectSubcategory": "Select a subcategory",
+    "noCategory": "No category",
+    "noSubcategory": "No subcategory",
     "types": {
       "income": "Income",
       "expense": "Expense"

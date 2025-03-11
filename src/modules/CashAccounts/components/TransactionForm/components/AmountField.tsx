@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
   FormControl,
@@ -8,34 +8,98 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { AmountFieldProps } from "../types";
 
 /**
  * Tutar giriş alanı bileşeni
  */
-export const AmountField: React.FC<AmountFieldProps> = ({ control }) => {
+export const AmountField: React.FC<AmountFieldProps> = ({ control, currency }) => {
   const { t } = useTranslation(["CashAccounts", "common"]);
 
   return (
     <FormField
       control={control}
       name="amount"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>{t("CashAccounts:transaction.amount")}</FormLabel>
-          <FormControl>
-            <Input
-              placeholder="0.00"
-              type="number"
-              step="0.01"
-              min="0"
-              {...field}
-            />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-      )}
+      render={({ field }) => {
+        const [wholeValue, setWholeValue] = useState("");
+        const [decimalValue, setDecimalValue] = useState("");
+
+        // Form değeri değiştiğinde whole ve decimal kısımları ayrıştır
+        useEffect(() => {
+          if (field.value) {
+            const parts = field.value.toString().split('.');
+            setWholeValue(parts[0] ? parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".") : "");
+            setDecimalValue(parts[1] || "");
+          }
+        }, [field.value]);
+
+        // Tam sayı kısmını değiştir ve binlikler için formatlama yap
+        const handleWholeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+          const value = e.target.value.replace(/\./g, ""); // Noktalama işaretlerini kaldır
+          
+          if (value === "" || /^\d+$/.test(value)) {
+            const formatted = value ? Number(value).toLocaleString('tr-TR').replace(/,/g, ".") : "";
+            setWholeValue(formatted);
+            
+            const newValue = value + (decimalValue ? `.${decimalValue}` : "");
+            field.onChange(newValue || "");
+          }
+        };
+
+        // Ondalık kısmını değiştir (2 basamakla sınırla)
+        const handleDecimalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+          const value = e.target.value;
+          
+          if (value === "" || (/^\d{1,2}$/.test(value))) {
+            setDecimalValue(value);
+            
+            const newValue = (wholeValue ? wholeValue.replace(/\./g, "") : "0") + (value ? `.${value}` : "");
+            field.onChange(newValue);
+          }
+        };
+
+        // Para birimi sembolünü belirle
+        const getCurrencySymbol = () => {
+          switch (currency) {
+            case "TRY": return "₺";
+            case "USD": return "$";
+            case "EUR": return "€";
+            default: return "₺";
+          }
+        };
+
+        return (
+          <FormItem>
+            <FormLabel>{t("CashAccounts:transaction.amount")}</FormLabel>
+            <div className="flex items-center">
+              <div className="relative flex-1">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <span className="text-gray-500 dark:text-gray-400">{getCurrencySymbol()}</span>
+                </div>
+                <Input
+                  className="pl-8"
+                  placeholder="0"
+                  value={wholeValue}
+                  onChange={handleWholeChange}
+                  inputMode="numeric"
+                />
+              </div>
+              <span className="mx-2 text-lg">,</span>
+              <Input
+                className="w-20"
+                placeholder="00"
+                value={decimalValue}
+                onChange={handleDecimalChange}
+                inputMode="numeric"
+                maxLength={2}
+              />
+            </div>
+            <FormMessage />
+          </FormItem>
+        );
+      }}
     />
   );
 };

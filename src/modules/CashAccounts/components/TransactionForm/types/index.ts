@@ -19,6 +19,8 @@ export interface TransactionFormProps {
 export interface DateFieldProps {
   date: Date;
   setDate: (date: Date) => void;
+  time: { hour: string; minute: string };
+  setTime: (time: { hour: string; minute: string }) => void;
 }
 
 /**
@@ -33,6 +35,7 @@ export interface TransactionTypeFieldProps {
  */
 export interface AmountFieldProps {
   control: any;
+  currency: CurrencyType;
 }
 
 /**
@@ -48,4 +51,29 @@ export interface DescriptionFieldProps {
 export interface FormActionsProps {
   onClose: () => void;
   isSubmitting: boolean;
+}
+
+/**
+ * Kategori alanı için prop tipleri
+ */
+export interface CategoryFieldProps {
+  control: any;
+  selectedCategoryId: string;
+  onCategoryChange: (categoryId: string) => void;
+}
+
+/**
+ * Alt kategori alanı için prop tipleri
+ */
+export interface SubcategoryFieldProps {
+  control: any;
+  selectedCategoryId: string;
+}
+
+/**
+ * Zaman tipi
+ */
+export interface TimeInput {
+  hour: string;
+  minute: string;
 }

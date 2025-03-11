@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { TransactionType } from "../../../types";
 import { useTransactionForm } from "../../../hooks/useTransactionForm";
 import { createTransactionFormSchema, TransactionFormData } from "../validation/schema";
+import { TimeInput } from "../types";
 
 /**
  * İşlem formu kurulumu için hook
@@ -17,7 +18,14 @@ export const useTransactionFormSetup = (
 ) => {
   const { t } = useTranslation(["CashAccounts", "common"]);
   const { handleCreateTransaction, isSubmitting } = useTransactionForm();
+  
+  // Form state'leri
   const [date, setDate] = useState<Date>(new Date());
+  const [time, setTime] = useState<TimeInput>({
+    hour: format(new Date(), "HH"),
+    minute: format(new Date(), "mm")
+  });
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
 
   // Form doğrulama şeması
   const formSchema = createTransactionFormSchema(t);
@@ -29,11 +37,24 @@ export const useTransactionFormSetup = (
       amount: "",
       description: "",
       transactionType: TransactionType.INCOME,
+      categoryId: "",
+      subcategoryId: "",
     },
   });
 
+  // Kategori değişikliğini yönet
+  const handleCategoryChange = (categoryId: string) => {
+    setSelectedCategoryId(categoryId);
+    // Farklı bir kategori seçildiğinde alt kategori seçimini sıfırla
+    form.setValue("subcategoryId", "");
+  };
+
   // Form gönderme işlemi
   const onSubmit = async (data: TransactionFormData) => {
+    // Tarih ve saat bilgilerini birleştir
+    const transactionDate = format(date, "yyyy-MM-dd");
+    const transactionTime = `${time.hour}:${time.minute}:00`;
+
     // İşlem verisini formatla
     const transaction = {
       account_id: accountId,
@@ -41,8 +62,10 @@ export const useTransactionFormSetup = (
       amount: Number(data.amount),
       description: data.description || null,
       transaction_type: data.transactionType,
-      transaction_date: format(date, "yyyy-MM-dd"),
-      transaction_time: format(new Date(), "HH:mm:ss"),
+      transaction_date: transactionDate,
+      transaction_time: transactionTime,
+      category_id: data.categoryId || null,
+      subcategory_id: data.subcategoryId || null,
     };
 
     const success = await handleCreateTransaction(transaction);
@@ -58,6 +81,10 @@ export const useTransactionFormSetup = (
     form,
     date,
     setDate,
+    time,
+    setTime,
+    selectedCategoryId,
+    handleCategoryChange,
     onSubmit,
     isSubmitting,
   };

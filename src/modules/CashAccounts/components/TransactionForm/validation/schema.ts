@@ -16,6 +16,8 @@ export const createTransactionFormSchema = (t: (key: string) => string) => {
     transactionType: z.enum([TransactionType.INCOME, TransactionType.EXPENSE], {
       required_error: t("CashAccounts:validation.transaction.type.required"),
     }),
+    categoryId: z.string().optional(),
+    subcategoryId: z.string().optional(),
   });
 };
 

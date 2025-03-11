@@ -14,6 +14,8 @@ import { TransactionTypeField } from "./components/TransactionTypeField";
 import { AmountField } from "./components/AmountField";
 import { DateField } from "./components/DateField";
 import { DescriptionField } from "./components/DescriptionField";
+import { CategoryField } from "./components/CategoryField";
+import { SubcategoryField } from "./components/SubcategoryField";
 import { FormActions } from "./components/FormActions";
 
 /**
@@ -22,11 +24,22 @@ import { FormActions } from "./components/FormActions";
 export const TransactionForm: React.FC<TransactionFormProps> = ({
   statementId,
   accountId,
+  currency,
   isOpen,
   onClose,
 }) => {
   const { t } = useTranslation(["CashAccounts", "common"]);
-  const { form, date, setDate, onSubmit, isSubmitting } = useTransactionFormSetup(
+  const { 
+    form, 
+    date, 
+    setDate, 
+    time, 
+    setTime, 
+    selectedCategoryId, 
+    handleCategoryChange,
+    onSubmit, 
+    isSubmitting 
+  } = useTransactionFormSetup(
     accountId,
     statementId
   );
@@ -40,7 +53,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>{t("CashAccounts:transaction.new")}</DialogTitle>
         </DialogHeader>
@@ -50,8 +63,25 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
             <TransactionTypeField control={form.control} />
 
             <div className="grid grid-cols-2 gap-4">
-              <AmountField control={form.control} />
-              <DateField date={date} setDate={setDate} />
+              <AmountField control={form.control} currency={currency} />
+              <DateField 
+                date={date} 
+                setDate={setDate} 
+                time={time} 
+                setTime={setTime} 
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <CategoryField 
+                control={form.control} 
+                selectedCategoryId={selectedCategoryId}
+                onCategoryChange={handleCategoryChange}
+              />
+              <SubcategoryField 
+                control={form.control} 
+                selectedCategoryId={selectedCategoryId} 
+              />
             </div>
 
             <DescriptionField control={form.control} />

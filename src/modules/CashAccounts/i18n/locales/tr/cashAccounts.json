@@ -1,3 +1,4 @@
+
 {
   "title": "Nakit Hesaplar",
   "description": "Günlük gider ve gelirlerinizi takip etmek için yeni bir nakit hesap oluşturun.",
@@ -30,10 +31,16 @@
   "noTransactions": "Bu ekstre için işlem bulunmamaktadır",
   "transaction": {
     "date": "Tarih",
+    "time": "Saat",
     "amount": "Tutar",
     "type": "Tür",
     "description": "Açıklama",
     "category": "Kategori",
+    "subcategory": "Alt Kategori",
+    "selectCategory": "Kategori seçin",
+    "selectSubcategory": "Alt kategori seçin",
+    "noCategory": "Kategorisiz",
+    "noSubcategory": "Alt kategorisiz",
     "types": {
       "income": "Gelir",
       "expense": "Gider"
