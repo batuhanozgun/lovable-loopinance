@@ -25,10 +25,31 @@
       "statementCheckComplete": "Ekstre kontrolü tamamlandı, her şey güncel",
       "statementCheckFailed": "Ekstre durumu kontrol edilemedi",
       "statementCheckError": "Ekstre durumu kontrol edilirken bir hata oluştu"
-    }
+    },
+    "period": "Ekstre Dönemi",
+    "status": "Durum",
+    "endBalance": "Dönem Sonu Bakiyesi"
   },
   "overview": {
     "balanceLabel": "Güncel Bakiye",
     "statementButton": "Ekstreleri Görüntüle"
+  },
+  "status": {
+    "open": "Açık",
+    "closed": "Kapalı",
+    "pending": "Beklemede",
+    "future": "Gelecek"
+  },
+  "viewDetails": "Detayları Görüntüle",
+  "errors": {
+    "account": {
+      "notFound": "Hesap bulunamadı",
+      "detail": {
+        "failed": "Hesap detayları yüklenemedi"
+      }
+    },
+    "statements": {
+      "loadingFailed": "Ekstreler yüklenemedi"
+    }
   }
 }

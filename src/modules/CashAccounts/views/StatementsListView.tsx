@@ -140,7 +140,11 @@ export const StatementsListView: React.FC = () => {
             </Card>
           ) : (
             statements && statements.length > 0 ? (
-              <StatementsList statements={statements} accountId={accountId!} />
+              <StatementsList 
+                statements={statements} 
+                isLoading={isStatementsLoading} 
+                currency={account.currency} 
+              />
             ) : (
               <Card className="p-6">
                 <div className="text-center py-8">

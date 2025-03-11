@@ -37,7 +37,7 @@ export const StatementsList: React.FC<StatementsListProps> = ({ statements, isLo
     return (
       <Card>
         <CardContent className="pt-6">
-          <p className="text-center text-muted-foreground">{t('CashAccounts:noStatements')}</p>
+          <p className="text-center text-muted-foreground">{t('CashAccounts:statements.empty.noStatements')}</p>
         </CardContent>
       </Card>
     );
@@ -59,17 +59,17 @@ export const StatementsList: React.FC<StatementsListProps> = ({ statements, isLo
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t('CashAccounts:statements')}</CardTitle>
-        <CardDescription>{t('CashAccounts:statementPeriod')}</CardDescription>
+        <CardTitle>{t('CashAccounts:statements.title')}</CardTitle>
+        <CardDescription>{t('CashAccounts:statements.title')}</CardDescription>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>{t('CashAccounts:statementPeriod')}</TableHead>
-              <TableHead>{t('CashAccounts:endBalance')}</TableHead>
-              <TableHead>{t('CashAccounts:statementStatus')}</TableHead>
-              <TableHead className="text-right">{t('CashAccounts:viewDetails')}</TableHead>
+              <TableHead>{t('CashAccounts:statements.title')}</TableHead>
+              <TableHead>{t('CashAccounts:statements.title')}</TableHead>
+              <TableHead>{t('CashAccounts:statements.title')}</TableHead>
+              <TableHead className="text-right">{t('CashAccounts:statements.title')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

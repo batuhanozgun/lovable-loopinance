@@ -25,10 +25,31 @@
       "statementCheckComplete": "Statement check completed, everything is up to date",
       "statementCheckFailed": "Failed to check statement status",
       "statementCheckError": "An error occurred while checking statement status"
-    }
+    },
+    "period": "Statement Period",
+    "status": "Status",
+    "endBalance": "End Balance"
   },
   "overview": {
     "balanceLabel": "Current Balance",
     "statementButton": "View Statements"
+  },
+  "status": {
+    "open": "Open",
+    "closed": "Closed",
+    "pending": "Pending",
+    "future": "Future"
+  },
+  "viewDetails": "View Details",
+  "errors": {
+    "account": {
+      "notFound": "Account not found",
+      "detail": {
+        "failed": "Failed to load account details"
+      }
+    },
+    "statements": {
+      "loadingFailed": "Failed to load statements"
+    }
   }
 }
