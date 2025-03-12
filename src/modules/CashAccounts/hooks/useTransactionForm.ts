@@ -37,8 +37,18 @@ export const useTransactionForm = () => {
       console.log('Transaction service response:', response);
       
       if (!response.success) {
-        // Hata mesajını güvenli bir şekilde işle - response.error undefined olabilir
-        const errorMessage = response.error || t('CashAccounts:errors.transaction.create.failed');
+        // Hata mesajını işleme ve görüntüleme
+        let errorMessage = response.error || t('CashAccounts:errors.transaction.create.failed');
+        
+        // Özel hata durumlarını kontrol et
+        if (response.error?.includes('statement is closed')) {
+          errorMessage = t('CashAccounts:errors.transaction.create.statementClosed');
+        } else if (response.error?.includes('permission') || response.error?.includes('policy')) {
+          errorMessage = t('CashAccounts:errors.transaction.create.insufficientPermissions');
+        } else if (response.error?.includes('statement_id')) {
+          errorMessage = t('CashAccounts:errors.transaction.create.invalidStatementId');
+        }
+        
         logger.error('Transaction creation failed', { error: errorMessage });
         console.error('Transaction creation failed:', errorMessage);
         
@@ -110,7 +120,15 @@ export const useTransactionForm = () => {
       
       if (!response.success) {
         // Hata mesajını güvenli bir şekilde işle
-        const errorMessage = response.error || t('CashAccounts:errors.transaction.update.failed');
+        let errorMessage = response.error || t('CashAccounts:errors.transaction.update.failed');
+        
+        // Özel hata durumlarını kontrol et
+        if (response.error?.includes('statement is closed')) {
+          errorMessage = t('CashAccounts:errors.transaction.update.statementClosed');
+        } else if (response.error?.includes('permission') || response.error?.includes('policy')) {
+          errorMessage = t('CashAccounts:errors.transaction.update.insufficientPermissions');
+        }
+        
         logger.error('Transaction update failed', { error: errorMessage });
         console.error('Transaction update failed:', errorMessage);
         

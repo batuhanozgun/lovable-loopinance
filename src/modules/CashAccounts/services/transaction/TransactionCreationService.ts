@@ -63,6 +63,30 @@ export class TransactionCreationService {
         return { success: false, error: errorMsg };
       }
       
+      // Ekstrenin durumunu kontrol et (kapalı mı?)
+      const { data: statementData, error: statementError } = await supabase
+        .from('account_statements')
+        .select('status')
+        .eq('id', data.statement_id)
+        .single();
+      
+      if (statementError) {
+        this.logger.error('Failed to check statement status', { 
+          error: statementError.message,
+          details: statementError.details,
+          statementId: data.statement_id
+        });
+        console.error('Failed to check statement status:', statementError);
+        return { success: false, error: 'Failed to verify statement status' };
+      }
+      
+      if (statementData && statementData.status === 'closed') {
+        const errorMsg = 'Cannot add transaction - statement is closed';
+        this.logger.error(errorMsg);
+        console.error(errorMsg);
+        return { success: false, error: errorMsg };
+      }
+      
       // API çağrısı
       console.log('Making Supabase API call with validated data');
       const { data: transactionData, error: supabaseError } = await supabase

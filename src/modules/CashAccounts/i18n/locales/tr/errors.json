@@ -17,16 +17,23 @@
       "failed": "İşlem oluşturulamadı",
       "invalidAmount": "Geçersiz tutar formatı",
       "networkError": "İşlem oluştururken ağ hatası oluştu",
-      "missingField": "Gerekli alanlar eksik"
+      "missingField": "Gerekli alanlar eksik",
+      "statementClosed": "Kapalı dönemlere işlem eklenemez",
+      "invalidStatementId": "Geçersiz ekstre seçildi",
+      "insufficientPermissions": "Bu hesaba işlem ekleme yetkiniz yok"
     },
     "update": {
       "failed": "İşlem güncellenemedi",
       "invalidAmount": "Geçersiz tutar formatı",
       "networkError": "İşlem güncellenirken ağ hatası oluştu",
-      "idMissing": "İşlem ID'si eksik"
+      "idMissing": "İşlem ID'si eksik",
+      "statementClosed": "Kapalı dönemlerdeki işlemler değiştirilemez",
+      "insufficientPermissions": "Bu işlemi güncelleme yetkiniz yok"
     },
     "delete": {
-      "failed": "İşlem silinemedi"
+      "failed": "İşlem silinemedi",
+      "statementClosed": "Kapalı dönemlerden işlem silinemez",
+      "insufficientPermissions": "Bu işlemi silme yetkiniz yok"
     }
   }
 }

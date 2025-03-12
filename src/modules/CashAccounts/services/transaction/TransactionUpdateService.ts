@@ -54,6 +54,16 @@ export class TransactionUpdateService {
         };
       }
       
+      // Ekstre kapalı mı kontrol et
+      if (statement.status === 'closed') {
+        const errorMsg = 'Cannot update transaction - statement is closed';
+        this.logger.error(errorMsg);
+        return {
+          success: false,
+          error: errorMsg
+        };
+      }
+      
       // İşlemi güncelle
       const { data: updatedTransaction, error: updateError } = await supabase
         .from('account_transactions')

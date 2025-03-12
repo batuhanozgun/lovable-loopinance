@@ -50,6 +50,16 @@ export class TransactionDeletionService {
         };
       }
       
+      // Ekstre kapalı mı kontrol et
+      if (statement.status === 'closed') {
+        const errorMsg = 'Cannot delete transaction - statement is closed';
+        this.logger.error(errorMsg);
+        return {
+          success: false,
+          error: errorMsg
+        };
+      }
+      
       // Gerçek silme işlemi (şimdilik hard delete, ileride soft delete yapılabilir)
       const { error: deleteError } = await supabase
         .from('account_transactions')
