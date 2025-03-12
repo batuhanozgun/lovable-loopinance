@@ -29,9 +29,17 @@ export const AmountField: React.FC<AmountFieldProps> = ({ control, currency }) =
         // Form değeri değiştiğinde whole ve decimal kısımları ayrıştır
         useEffect(() => {
           if (field.value) {
-            const parts = field.value.toString().split('.');
-            setWholeValue(parts[0] ? formatNumberForDisplay(parts[0]) : "");
-            setDecimalValue(parts[1] || "");
+            const parts = field.value.toString().split(',');
+            if (parts.length > 1) {
+              // Virgül ile ayrılmış değer (Türkçe format)
+              setWholeValue(parts[0] ? formatNumberForDisplay(parts[0]) : "");
+              setDecimalValue(parts[1] || "");
+            } else {
+              // Nokta ile ayrılmış veya tek parça değer
+              const dotParts = field.value.toString().split('.');
+              setWholeValue(dotParts[0] ? formatNumberForDisplay(dotParts[0]) : "");
+              setDecimalValue(dotParts[1] || "");
+            }
           }
         }, [field.value]);
 
@@ -43,7 +51,7 @@ export const AmountField: React.FC<AmountFieldProps> = ({ control, currency }) =
             const formatted = value ? formatNumberForDisplay(value) : "";
             setWholeValue(formatted);
             
-            const newValue = value + (decimalValue ? `.${decimalValue}` : "");
+            const newValue = value + (decimalValue ? `,${decimalValue}` : "");
             field.onChange(newValue || "");
           }
         };
@@ -55,7 +63,7 @@ export const AmountField: React.FC<AmountFieldProps> = ({ control, currency }) =
           if (value === "" || (/^\d{1,2}$/.test(value))) {
             setDecimalValue(value);
             
-            const newValue = (wholeValue ? cleanNumberInput(wholeValue) : "0") + (value ? `.${value}` : "");
+            const newValue = (wholeValue ? cleanNumberInput(wholeValue) : "0") + (value ? `,${value}` : "");
             field.onChange(newValue);
           }
         };

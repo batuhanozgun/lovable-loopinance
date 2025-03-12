@@ -31,10 +31,6 @@ export const FormActions: React.FC<FormActionsProps> = ({
       <Button 
         type="submit" 
         disabled={isSubmitting}
-        onClick={() => {
-          logger.debug('Submit button clicked', { isEditMode });
-          console.log('Submit button clicked', { isEditMode });
-        }}
       >
         {isSubmitting
           ? t("common:loading")

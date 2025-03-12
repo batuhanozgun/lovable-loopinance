@@ -48,8 +48,9 @@ export class TransactionCreationService {
         return { success: false, error: errorMsg };
       }
       
-      if (data.amount === undefined || data.amount === null) {
-        const errorMsg = 'amount is required but missing or invalid';
+      // Amount doğrulama - sayı olmalı ve tam sayı değeri
+      if (data.amount === undefined || data.amount === null || isNaN(Number(data.amount)) || !Number.isInteger(data.amount)) {
+        const errorMsg = `amount is required but missing or invalid (received: ${data.amount}, type: ${typeof data.amount})`;
         this.logger.error(errorMsg);
         console.error(errorMsg);
         return { success: false, error: errorMsg };
@@ -91,10 +92,14 @@ export class TransactionCreationService {
       
       // İşlemi ekledikten sonra ilgili ekstrenin bakiyesini güncelleme
       console.log('Transaction created successfully, updating statement balance');
-      await StatementBalanceService.updateStatementBalance(transactionData.statement_id);
+      if (transactionData && transactionData.statement_id) {
+        await StatementBalanceService.updateStatementBalance(transactionData.statement_id);
+      } else {
+        console.warn('Transaction created but statement_id is missing for balance update');
+      }
       
-      this.logger.info('Account transaction created successfully', { id: transactionData.id });
-      console.log('Account transaction created successfully:', { id: transactionData.id });
+      this.logger.info('Account transaction created successfully', { id: transactionData?.id });
+      console.log('Account transaction created successfully:', { id: transactionData?.id });
       
       return {
         success: true,

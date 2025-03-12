@@ -65,3 +65,23 @@ export const parseLocalizedNumber = (amount: string): number => {
   const cleaned = amount.replace(/\./g, '').replace(',', '.');
   return parseFloat(cleaned);
 };
+
+/**
+ * Ondalıklı tutarı kuruş birimine (tam sayı) çevirir
+ * @param amount Ondalıklı tutar değeri (örneğin: 15.75)
+ * @returns Kuruş cinsinden tam sayı değeri (örneğin: 1575)
+ */
+export const convertAmountToCents = (amount: number): number => {
+  // Ondalıklı sayıyı 2 basamaklı yuvarlayıp kuruşa çevir (100 ile çarparak)
+  return Math.round(amount * 100);
+};
+
+/**
+ * Kuruş cinsinden tam sayı değerini ondalıklı TL değerine çevirir
+ * @param cents Kuruş cinsinden tam sayı değeri (örneğin: 1575)
+ * @returns Ondalıklı TL değeri (örneğin: 15.75)
+ */
+export const convertCentsToAmount = (cents: number): number => {
+  // Tam sayı değerini 100'e bölerek ondalıklı değere çevir
+  return cents / 100;
+};

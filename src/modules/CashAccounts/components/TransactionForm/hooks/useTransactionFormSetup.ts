@@ -9,7 +9,7 @@ import { useTransactionForm } from "../../../hooks/useTransactionForm";
 import { createTransactionFormSchema, TransactionFormData } from "../validation/schema";
 import { TimeInput } from "../types";
 import { AccountTransaction } from "../../../types";
-import { parseLocalizedNumber } from "../../../utils/amountUtils";
+import { parseLocalizedNumber, convertAmountToCents, convertCentsToAmount } from "../../../utils/amountUtils";
 import { serviceLogger } from "../../../logging";
 
 /**
@@ -83,7 +83,8 @@ export const useTransactionFormSetup = (
       
       // Form değerlerini ayarla
       form.reset({
-        amount: String(transaction.amount),
+        // Tutarı kuruş'tan TL'ye çeviriyoruz (veritabanında kuruş olarak saklanıyor)
+        amount: transaction.amount ? String(convertCentsToAmount(transaction.amount)) : "",
         description: transaction.description || '',
         transactionType: transaction.transaction_type as TransactionType,
         transactionDate: transactionDate,
@@ -118,19 +119,33 @@ export const useTransactionFormSetup = (
       const subcategoryId = data.subcategoryId === 'no-subcategory' ? null : data.subcategoryId;
       
       // Tutarı doğru formatla sayıya çevir (Türkçe yerelleştirme için)
-      const amount = parseLocalizedNumber(data.amount);
+      const parsedAmount = parseLocalizedNumber(data.amount);
       
-      if (isNaN(amount)) {
+      if (isNaN(parsedAmount)) {
         const errorMsg = "Geçersiz tutar formatı: " + data.amount;
         logger.error(errorMsg);
         console.error(errorMsg);
         return false;
       }
+      
+      // Ondalıklı tutarı kuruşa (cent) çevir - veritabanında tam sayı olarak saklanıyor
+      const amountInCents = convertAmountToCents(parsedAmount);
+      
+      logger.debug('Amount conversion', { 
+        original: data.amount, 
+        parsed: parsedAmount,
+        cents: amountInCents 
+      });
+      console.log('Amount conversion:', {
+        original: data.amount, 
+        parsed: parsedAmount,
+        cents: amountInCents
+      });
 
       if (isEditMode && transaction) {
         // Güncelleme işlemi
         const updatedTransaction = {
-          amount,
+          amount: amountInCents, // Kuruş olarak gönder
           description: data.description || null,
           transaction_type: data.transactionType,
           transaction_date: transactionDate,
@@ -156,7 +171,7 @@ export const useTransactionFormSetup = (
         const newTransaction = {
           account_id: accountId,
           statement_id: statementId,
-          amount,
+          amount: amountInCents, // Kuruş olarak gönder
           description: data.description || null,
           transaction_type: data.transactionType,
           transaction_date: transactionDate,
