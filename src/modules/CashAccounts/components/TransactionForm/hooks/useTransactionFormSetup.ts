@@ -34,8 +34,14 @@ export const useTransactionFormSetup = (
     isEditMode: formStateIsEditMode
   } = useFormState(t, transaction);
   
-  // Form değerleri hook'u
-  useFormValues(form, transaction, setDate, setTime, (categoryId) => handleCategoryChange(categoryId));
+  // Form değerleri hook'u - Parametre sıralamasını düzelttik
+  useFormValues(
+    form, 
+    setDate, 
+    setTime, 
+    (categoryId) => handleCategoryChange(categoryId),
+    transaction
+  );
   
   // Form gönderimi hook'u
   const {

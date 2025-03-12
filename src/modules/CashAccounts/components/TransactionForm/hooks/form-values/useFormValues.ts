@@ -13,10 +13,10 @@ import { serviceLogger } from "../../../../logging";
  */
 export const useFormValues = (
   form: UseFormReturn<TransactionFormData>,
-  transaction?: AccountTransaction,
   setDate: (date: Date) => void,
   setTime: (time: { hour: string; minute: string }) => void,
-  setSelectedCategoryId: (categoryId: string) => void
+  setSelectedCategoryId: (categoryId: string) => void,
+  transaction?: AccountTransaction
 ) => {
   const logger = serviceLogger;
   const isEditMode = !!transaction;
