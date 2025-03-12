@@ -52,6 +52,32 @@ export class StatementService {
   }
 
   /**
+   * Hesap ekstresinin gelir, gider ve bakiye bilgilerini günceller
+   */
+  static async updateStatementBalances(
+    id: string, 
+    income: number, 
+    expenses: number,
+    endBalance: number
+  ): Promise<SingleStatementResponse> {
+    try {
+      serviceLogger.debug('StatementService.updateStatementBalances called', { 
+        id, income, expenses, endBalance 
+      });
+      
+      return await StatementUpdateService.updateStatementBalances(id, income, expenses, endBalance);
+    } catch (error) {
+      serviceLogger.error('Error in StatementService.updateStatementBalances', { 
+        id, income, expenses, endBalance, error 
+      });
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      };
+    }
+  }
+
+  /**
    * Hesap için dönem yaratma servisi
    */
   static getPeriodService(): StatementPeriodService {
