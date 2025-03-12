@@ -33,6 +33,11 @@ export const SubcategoryField: React.FC<SubcategoryFieldProps> = ({
     (category) => category.id === selectedCategoryId
   );
   const subcategories = selectedCategory?.sub_categories || [];
+  
+  // Kategori seçili değilse alt kategori seçimini devre dışı bırak
+  const isDisabled = !selectedCategoryId || 
+                    selectedCategoryId === "no-category" || 
+                    subcategories.length === 0;
 
   return (
     <FormField
@@ -44,7 +49,7 @@ export const SubcategoryField: React.FC<SubcategoryFieldProps> = ({
           <Select
             value={field.value}
             onValueChange={field.onChange}
-            disabled={!selectedCategoryId || subcategories.length === 0}
+            disabled={isDisabled}
           >
             <FormControl>
               <SelectTrigger>

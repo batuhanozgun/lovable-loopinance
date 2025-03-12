@@ -9,6 +9,7 @@ import { useTransactionForm } from "../../../hooks/useTransactionForm";
 import { createTransactionFormSchema, TransactionFormData } from "../validation/schema";
 import { TimeInput } from "../types";
 import { AccountTransaction } from "../../../types";
+import { parseLocalizedNumber } from "../../../utils/amountUtils";
 
 /**
  * İşlem formu kurulumu için hook
@@ -91,11 +92,19 @@ export const useTransactionFormSetup = (
     // Özel değerleri null'a çevir
     const categoryId = data.categoryId === 'no-category' ? null : data.categoryId;
     const subcategoryId = data.subcategoryId === 'no-subcategory' ? null : data.subcategoryId;
+    
+    // Tutarı doğru formatla sayıya çevir (Türkçe yerelleştirme için)
+    const amount = parseLocalizedNumber(data.amount.toString());
+    
+    if (isNaN(amount)) {
+      console.error("Geçersiz tutar formatı:", data.amount);
+      return false;
+    }
 
     if (isEditMode && transaction) {
       // Güncelleme işlemi
       const updatedTransaction = {
-        amount: Number(data.amount),
+        amount: amount,
         description: data.description || null,
         transaction_type: data.transactionType,
         transaction_date: transactionDate,
@@ -111,7 +120,7 @@ export const useTransactionFormSetup = (
       const newTransaction = {
         account_id: accountId,
         statement_id: statementId,
-        amount: Number(data.amount),
+        amount: amount,
         description: data.description || null,
         transaction_type: data.transactionType,
         transaction_date: transactionDate,

@@ -8,9 +8,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { AmountFieldProps } from "../types";
+import { formatNumberForDisplay, cleanNumberInput } from "../../../utils/amountUtils";
 
 /**
  * Tutar giriş alanı bileşeni
@@ -30,17 +30,17 @@ export const AmountField: React.FC<AmountFieldProps> = ({ control, currency }) =
         useEffect(() => {
           if (field.value) {
             const parts = field.value.toString().split('.');
-            setWholeValue(parts[0] ? parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".") : "");
+            setWholeValue(parts[0] ? formatNumberForDisplay(parts[0]) : "");
             setDecimalValue(parts[1] || "");
           }
         }, [field.value]);
 
         // Tam sayı kısmını değiştir ve binlikler için formatlama yap
         const handleWholeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-          const value = e.target.value.replace(/\./g, ""); // Noktalama işaretlerini kaldır
+          const value = cleanNumberInput(e.target.value); // Noktalama işaretlerini kaldır
           
           if (value === "" || /^\d+$/.test(value)) {
-            const formatted = value ? Number(value).toLocaleString('tr-TR').replace(/,/g, ".") : "";
+            const formatted = value ? formatNumberForDisplay(value) : "";
             setWholeValue(formatted);
             
             const newValue = value + (decimalValue ? `.${decimalValue}` : "");
@@ -55,7 +55,7 @@ export const AmountField: React.FC<AmountFieldProps> = ({ control, currency }) =
           if (value === "" || (/^\d{1,2}$/.test(value))) {
             setDecimalValue(value);
             
-            const newValue = (wholeValue ? wholeValue.replace(/\./g, "") : "0") + (value ? `.${value}` : "");
+            const newValue = (wholeValue ? cleanNumberInput(wholeValue) : "0") + (value ? `.${value}` : "");
             field.onChange(newValue);
           }
         };
