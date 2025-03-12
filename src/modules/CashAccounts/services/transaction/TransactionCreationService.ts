@@ -65,55 +65,67 @@ export class TransactionCreationService {
       
       // API çağrısı
       console.log('Making Supabase API call with validated data');
-      const { data: transactionData, error } = await supabase
+      const { data: transactionData, error: supabaseError } = await supabase
         .from('account_transactions')
         .insert(data)
-        .select()
-        .single();
+        .select('*')
+        .maybeSingle();
       
-      if (error) {
+      // Hata durumunu kontrol et
+      if (supabaseError) {
         this.logger.error('Failed to create account transaction', { 
-          error: error.message,
-          details: error.details,
-          hint: error.hint,
-          code: error.code
+          error: supabaseError.message,
+          details: supabaseError.details,
+          hint: supabaseError.hint,
+          code: supabaseError.code
         });
         console.error('Supabase error creating transaction:', {
-          message: error.message,
-          details: error.details,
-          hint: error.hint,
-          code: error.code
+          message: supabaseError.message,
+          details: supabaseError.details,
+          hint: supabaseError.hint,
+          code: supabaseError.code
         });
         return {
           success: false,
-          error: error.message
+          error: supabaseError.message
+        };
+      }
+
+      // Eğer veri yoksa
+      if (!transactionData) {
+        const errorMsg = 'Transaction created but no data returned';
+        this.logger.error(errorMsg);
+        console.error(errorMsg);
+        return {
+          success: false,
+          error: errorMsg
         };
       }
       
       // İşlemi ekledikten sonra ilgili ekstrenin bakiyesini güncelleme
       console.log('Transaction created successfully, updating statement balance');
-      if (transactionData && transactionData.statement_id) {
+      if (transactionData.statement_id) {
         await StatementBalanceService.updateStatementBalance(transactionData.statement_id);
       } else {
         console.warn('Transaction created but statement_id is missing for balance update');
       }
       
-      this.logger.info('Account transaction created successfully', { id: transactionData?.id });
-      console.log('Account transaction created successfully:', { id: transactionData?.id });
+      this.logger.info('Account transaction created successfully', { id: transactionData.id });
+      console.log('Account transaction created successfully:', { id: transactionData.id });
       
       return {
         success: true,
         data: transactionData as AccountTransaction
       };
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      const errorStack = error instanceof Error ? error.stack : '';
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error creating transaction';
+      const errorStack = error instanceof Error ? error.stack : 'No stack trace available';
       
       this.logger.error('Unexpected error creating account transaction', { 
         error: errorMessage,
         stack: errorStack
       });
-      console.error('Unexpected error creating account transaction:', { 
+      console.error("Unexpected error creating account transaction:", { 
         error, 
         message: errorMessage,
         stack: errorStack
