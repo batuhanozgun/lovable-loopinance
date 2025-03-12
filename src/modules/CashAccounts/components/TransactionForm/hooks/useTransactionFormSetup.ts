@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -42,10 +41,21 @@ export const useTransactionFormSetup = (
       amount: "",
       description: "",
       transactionType: TransactionType.INCOME,
+      transactionDate: new Date(),
+      transactionTime: {
+        hour: format(new Date(), "HH"),
+        minute: format(new Date(), "mm")
+      },
       categoryId: "no-category",
       subcategoryId: "no-subcategory",
     },
   });
+
+  // Form değerlerini güncelleme
+  useEffect(() => {
+    form.setValue('transactionDate', date);
+    form.setValue('transactionTime', time);
+  }, [date, time, form]);
 
   // Düzenleme modu ise, mevcut işlem verilerini forma doldur
   useEffect(() => {
@@ -70,6 +80,11 @@ export const useTransactionFormSetup = (
         amount: String(transaction.amount),
         description: transaction.description || '',
         transactionType: transaction.transaction_type as TransactionType,
+        transactionDate: transactionDate,
+        transactionTime: {
+          hour: transaction.transaction_time ? transaction.transaction_time.split(':')[0] : format(transactionDate, "HH"),
+          minute: transaction.transaction_time ? transaction.transaction_time.split(':')[1] : format(transactionDate, "mm")
+        },
         categoryId: transaction.category_id || 'no-category',
         subcategoryId: transaction.subcategory_id || 'no-subcategory',
       });
@@ -79,67 +94,76 @@ export const useTransactionFormSetup = (
   // Kategori değişikliğini yönet
   const handleCategoryChange = (categoryId: string) => {
     setSelectedCategoryId(categoryId);
-    // Farklı bir kategori seçildiğinde alt kategori seçimini sıfırla
     form.setValue("subcategoryId", "no-subcategory");
   };
 
   // Form gönderme işlemi
   const onSubmit = async (data: TransactionFormData) => {
-    // Tarih ve saat bilgilerini birleştir
-    const transactionDate = format(date, "yyyy-MM-dd");
-    const transactionTime = `${time.hour}:${time.minute}:00`;
+    try {
+      // Tarih ve saat bilgilerini birleştir
+      const transactionDate = format(data.transactionDate, "yyyy-MM-dd");
+      const transactionTime = `${data.transactionTime.hour}:${data.transactionTime.minute}:00`;
 
-    // Özel değerleri null'a çevir
-    const categoryId = data.categoryId === 'no-category' ? null : data.categoryId;
-    const subcategoryId = data.subcategoryId === 'no-subcategory' ? null : data.subcategoryId;
-    
-    // Tutarı doğru formatla sayıya çevir (Türkçe yerelleştirme için)
-    const amount = parseLocalizedNumber(data.amount.toString());
-    
-    if (isNaN(amount)) {
-      console.error("Geçersiz tutar formatı:", data.amount);
-      return false;
-    }
-
-    if (isEditMode && transaction) {
-      // Güncelleme işlemi
-      const updatedTransaction = {
-        amount: amount,
-        description: data.description || null,
-        transaction_type: data.transactionType,
-        transaction_date: transactionDate,
-        transaction_time: transactionTime,
-        category_id: categoryId,
-        subcategory_id: subcategoryId,
-      };
-
-      const success = await handleUpdateTransaction(transaction.id, updatedTransaction);
-      return success;
-    } else {
-      // Yeni işlem oluşturma
-      const newTransaction = {
-        account_id: accountId,
-        statement_id: statementId,
-        amount: amount,
-        description: data.description || null,
-        transaction_type: data.transactionType,
-        transaction_date: transactionDate,
-        transaction_time: transactionTime,
-        category_id: categoryId,
-        subcategory_id: subcategoryId,
-      };
-
-      const success = await handleCreateTransaction(newTransaction);
-      if (success) {
-        form.reset({
-          amount: "",
-          description: "",
-          transactionType: TransactionType.INCOME,
-          categoryId: "no-category",
-          subcategoryId: "no-subcategory",
-        });
+      // Özel değerleri null'a çevir
+      const categoryId = data.categoryId === 'no-category' ? null : data.categoryId;
+      const subcategoryId = data.subcategoryId === 'no-subcategory' ? null : data.subcategoryId;
+      
+      // Tutarı doğru formatla sayıya çevir (Türkçe yerelleştirme için)
+      const amount = parseLocalizedNumber(data.amount);
+      
+      if (isNaN(amount)) {
+        console.error("Geçersiz tutar formatı:", data.amount);
+        return false;
       }
-      return success;
+
+      if (isEditMode && transaction) {
+        // Güncelleme işlemi
+        const updatedTransaction = {
+          amount,
+          description: data.description || null,
+          transaction_type: data.transactionType,
+          transaction_date: transactionDate,
+          transaction_time: transactionTime,
+          category_id: categoryId,
+          subcategory_id: subcategoryId,
+        };
+
+        const success = await handleUpdateTransaction(transaction.id, updatedTransaction);
+        return success;
+      } else {
+        // Yeni işlem oluşturma
+        const newTransaction = {
+          account_id: accountId,
+          statement_id: statementId,
+          amount,
+          description: data.description || null,
+          transaction_type: data.transactionType,
+          transaction_date: transactionDate,
+          transaction_time: transactionTime,
+          category_id: categoryId,
+          subcategory_id: subcategoryId,
+        };
+
+        const success = await handleCreateTransaction(newTransaction);
+        if (success) {
+          form.reset({
+            amount: "",
+            description: "",
+            transactionType: TransactionType.INCOME,
+            transactionDate: new Date(),
+            transactionTime: {
+              hour: format(new Date(), "HH"),
+              minute: format(new Date(), "mm")
+            },
+            categoryId: "no-category",
+            subcategoryId: "no-subcategory",
+          });
+        }
+        return success;
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+      return false;
     }
   };
 

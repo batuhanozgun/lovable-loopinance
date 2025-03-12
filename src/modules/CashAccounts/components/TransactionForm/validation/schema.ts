@@ -21,21 +21,21 @@ export const createTransactionFormSchema = (t: (key: string) => string) => {
       }, {
         message: t("CashAccounts:validation.transaction.amount.min"),
       }),
-    description: z.string().optional(),
     transactionType: z.enum([TransactionType.INCOME, TransactionType.EXPENSE], {
       required_error: t("CashAccounts:validation.transaction.type.required"),
     }),
+    transactionDate: z.date({
+      required_error: t("CashAccounts:validation.transaction.date.required"),
+    }),
+    transactionTime: z.object({
+      hour: z.string().min(1, t("CashAccounts:validation.transaction.time.required")),
+      minute: z.string().min(1, t("CashAccounts:validation.transaction.time.required")),
+    }),
+    description: z.string().optional(),
     categoryId: z.string().optional(),
     subcategoryId: z.string().optional(),
   });
 };
 
-/**
- * İşlem formu doğrulama şeması tipi
- */
 export type TransactionFormSchema = ReturnType<typeof createTransactionFormSchema>;
-
-/**
- * İşlem formu veri tipi
- */
 export type TransactionFormData = z.infer<TransactionFormSchema>;
