@@ -70,6 +70,36 @@
   "statementDetails": "Statement Details",
   "statements": "Statements",
   "transaction": {
-    "new": "New Transaction"
-  }
+    "new": "New Transaction",
+    "edit": "Edit Transaction",
+    "category": "Category",
+    "subcategory": "Subcategory",
+    "selectCategory": "Select a category",
+    "selectSubcategory": "Select a subcategory",
+    "noCategory": "No Category",
+    "noSubcategory": "No Subcategory",
+    "date": "Date",
+    "type": "Type",
+    "description": "Description",
+    "amount": "Amount",
+    "types": {
+      "income": "Income",
+      "expense": "Expense"
+    },
+    "createSuccess": "Transaction created successfully",
+    "updateSuccess": "Transaction updated successfully"
+  },
+  "filters": {
+    "sortByDateDesc": "Date (Newest first)",
+    "sortByDateAsc": "Date (Oldest first)",
+    "sortByAmountDesc": "Amount (Highest first)",
+    "sortByAmountAsc": "Amount (Lowest first)",
+    "showAll": "Show all transactions",
+    "showIncome": "Show income only",
+    "showExpenses": "Show expenses only",
+    "showingIncomeOnly": "Showing income only",
+    "showingExpenseOnly": "Showing expenses only"
+  },
+  "noTransactions": "No transactions found",
+  "transactions": "Transactions"
 }

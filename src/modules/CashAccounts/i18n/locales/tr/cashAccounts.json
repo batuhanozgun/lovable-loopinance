@@ -70,6 +70,36 @@
   "statementDetails": "Ekstre Detayları",
   "statements": "Ekstreler",
   "transaction": {
-    "new": "Yeni İşlem"
-  }
+    "new": "Yeni İşlem",
+    "edit": "İşlemi Düzenle",
+    "category": "Kategori",
+    "subcategory": "Alt Kategori",
+    "selectCategory": "Kategori seçin",
+    "selectSubcategory": "Alt kategori seçin",
+    "noCategory": "Kategori Yok",
+    "noSubcategory": "Alt Kategori Yok",
+    "date": "Tarih",
+    "type": "Tür",
+    "description": "Açıklama",
+    "amount": "Tutar",
+    "types": {
+      "income": "Gelir",
+      "expense": "Gider"
+    },
+    "createSuccess": "İşlem başarıyla oluşturuldu",
+    "updateSuccess": "İşlem başarıyla güncellendi"
+  },
+  "filters": {
+    "sortByDateDesc": "Tarih (Yeniden eskiye)",
+    "sortByDateAsc": "Tarih (Eskiden yeniye)",
+    "sortByAmountDesc": "Tutar (Yüksekten düşüğe)",
+    "sortByAmountAsc": "Tutar (Düşükten yükseğe)",
+    "showAll": "Tüm işlemleri göster",
+    "showIncome": "Sadece gelirleri göster",
+    "showExpenses": "Sadece giderleri göster",
+    "showingIncomeOnly": "Sadece gelirler gösteriliyor",
+    "showingExpenseOnly": "Sadece giderler gösteriliyor"
+  },
+  "noTransactions": "İşlem bulunamadı",
+  "transactions": "İşlemler"
 }

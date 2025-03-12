@@ -52,7 +52,7 @@ export const SubcategoryField: React.FC<SubcategoryFieldProps> = ({
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              <SelectItem value="">
+              <SelectItem value="no-subcategory">
                 {t("CashAccounts:transaction.noSubcategory")}
               </SelectItem>
               {subcategories.map((subcategory) => (

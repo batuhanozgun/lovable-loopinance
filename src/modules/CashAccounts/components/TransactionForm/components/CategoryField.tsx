@@ -50,7 +50,7 @@ export const CategoryField: React.FC<CategoryFieldProps> = ({
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              <SelectItem value="">
+              <SelectItem value="no-category">
                 {t("CashAccounts:transaction.noCategory")}
               </SelectItem>
               {categories.map((category) => (

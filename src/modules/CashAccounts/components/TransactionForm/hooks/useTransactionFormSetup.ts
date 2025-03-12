@@ -41,8 +41,8 @@ export const useTransactionFormSetup = (
       amount: "",
       description: "",
       transactionType: TransactionType.INCOME,
-      categoryId: "",
-      subcategoryId: "",
+      categoryId: "no-category",
+      subcategoryId: "no-subcategory",
     },
   });
 
@@ -69,8 +69,8 @@ export const useTransactionFormSetup = (
         amount: String(transaction.amount),
         description: transaction.description || '',
         transactionType: transaction.transaction_type as TransactionType,
-        categoryId: transaction.category_id || '',
-        subcategoryId: transaction.subcategory_id || '',
+        categoryId: transaction.category_id || 'no-category',
+        subcategoryId: transaction.subcategory_id || 'no-subcategory',
       });
     }
   }, [transaction, isEditMode, form]);
@@ -79,7 +79,7 @@ export const useTransactionFormSetup = (
   const handleCategoryChange = (categoryId: string) => {
     setSelectedCategoryId(categoryId);
     // Farklı bir kategori seçildiğinde alt kategori seçimini sıfırla
-    form.setValue("subcategoryId", "");
+    form.setValue("subcategoryId", "no-subcategory");
   };
 
   // Form gönderme işlemi
@@ -87,6 +87,10 @@ export const useTransactionFormSetup = (
     // Tarih ve saat bilgilerini birleştir
     const transactionDate = format(date, "yyyy-MM-dd");
     const transactionTime = `${time.hour}:${time.minute}:00`;
+
+    // Özel değerleri null'a çevir
+    const categoryId = data.categoryId === 'no-category' ? null : data.categoryId;
+    const subcategoryId = data.subcategoryId === 'no-subcategory' ? null : data.subcategoryId;
 
     if (isEditMode && transaction) {
       // Güncelleme işlemi
@@ -96,8 +100,8 @@ export const useTransactionFormSetup = (
         transaction_type: data.transactionType,
         transaction_date: transactionDate,
         transaction_time: transactionTime,
-        category_id: data.categoryId || null,
-        subcategory_id: data.subcategoryId || null,
+        category_id: categoryId,
+        subcategory_id: subcategoryId,
       };
 
       const success = await handleUpdateTransaction(transaction.id, updatedTransaction);
@@ -112,13 +116,19 @@ export const useTransactionFormSetup = (
         transaction_type: data.transactionType,
         transaction_date: transactionDate,
         transaction_time: transactionTime,
-        category_id: data.categoryId || null,
-        subcategory_id: data.subcategoryId || null,
+        category_id: categoryId,
+        subcategory_id: subcategoryId,
       };
 
       const success = await handleCreateTransaction(newTransaction);
       if (success) {
-        form.reset();
+        form.reset({
+          amount: "",
+          description: "",
+          transactionType: TransactionType.INCOME,
+          categoryId: "no-category",
+          subcategoryId: "no-subcategory",
+        });
       }
       return success;
     }
