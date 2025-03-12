@@ -3,7 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { CreateAccountTransactionData, AccountTransaction } from '../../types';
 import { SingleTransactionResponse } from '../../types/transaction/TransactionResponses';
 import { serviceLogger } from '../../logging';
-import { TransactionBalanceService } from './TransactionBalanceService';
+import { StatementBalanceService } from './statement-balance';
 
 /**
  * İşlem oluşturma servisi
@@ -33,7 +33,7 @@ export class TransactionCreationService {
       }
       
       // İşlemi ekledikten sonra ilgili ekstrenin bakiyesini güncelleme
-      await TransactionBalanceService.updateStatementBalance(transactionData.statement_id);
+      await StatementBalanceService.updateStatementBalance(transactionData.statement_id);
       
       this.logger.info('Account transaction created successfully', { id: transactionData.id });
       return {

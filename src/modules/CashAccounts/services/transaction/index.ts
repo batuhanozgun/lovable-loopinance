@@ -4,13 +4,15 @@ import { TransactionCreationService } from './TransactionCreationService';
 import { TransactionBalanceService } from './TransactionBalanceService';
 import { TransactionUpdateService } from './TransactionUpdateService';
 import { TransactionDeletionService } from './TransactionDeletionService';
+import { StatementBalanceService } from './statement-balance';
 
 export {
   TransactionQueryService,
   TransactionCreationService,
   TransactionBalanceService,
   TransactionUpdateService,
-  TransactionDeletionService
+  TransactionDeletionService,
+  StatementBalanceService
 };
 
 /**
@@ -26,10 +28,10 @@ export class TransactionService {
   static deleteTransaction = TransactionDeletionService.deleteTransaction;
   
   // Bakiye güncelleme servisleri
-  static updateStatementBalance = TransactionBalanceService.updateStatementBalance;
-  static cascadeBalanceUpdates = TransactionBalanceService.cascadeBalanceUpdates;
-  static updateStatementStartBalance = TransactionBalanceService.updateStatementStartBalance;
-  static findStatementsToUpdate = TransactionBalanceService.findStatementsToUpdate;
-  static handleTransactionChange = TransactionBalanceService.handleTransactionChange;
-  static recalculateAllStatements = TransactionBalanceService.recalculateAllStatements;
+  static updateStatementBalance = StatementBalanceService.updateStatementBalance;
+  static cascadeBalanceUpdates = StatementBalanceService.cascadeBalanceUpdates;
+  static updateStatementStartBalance = StatementBalanceService.updateStatementStartBalance;
+  static findStatementsToUpdate = StatementBalanceService.findStatementsToUpdate;
+  static handleTransactionChange = StatementBalanceService.handleTransactionChange;
+  static recalculateAllStatements = StatementBalanceService.recalculateAllStatements;
 }

@@ -3,7 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { AccountTransaction } from '../../types';
 import { SingleTransactionResponse } from '../../types/transaction/TransactionResponses';
 import { serviceLogger } from '../../logging';
-import { TransactionBalanceService } from './TransactionBalanceService';
+import { StatementBalanceService } from './statement-balance';
 
 /**
  * İşlem güncelleme servisi
@@ -73,7 +73,7 @@ export class TransactionUpdateService {
       // İşlemi güncelledikten sonra ilgili ekstrenin bakiyesini güncelleme
       // Kapalı ekstre ise, sonraki ekstreleri de cascade olarak güncelle
       const isClosedStatement = statement.status === 'closed';
-      await TransactionBalanceService.handleTransactionChange(
+      await StatementBalanceService.handleTransactionChange(
         existingTransaction.statement_id,
         statement.account_id,
         isClosedStatement
