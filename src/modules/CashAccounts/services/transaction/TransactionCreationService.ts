@@ -118,7 +118,8 @@ export class TransactionCreationService {
         data: transactionData as AccountTransaction
       };
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error creating transaction';
+      // Tüm hata tiplerini güvenli bir şekilde işle
+      const errorMessage = error instanceof Error ? error.message : String(error);
       const errorStack = error instanceof Error ? error.stack : 'No stack trace available';
       
       this.logger.error('Unexpected error creating account transaction', { 

@@ -77,6 +77,14 @@ export const useFormSubmission = (
         });
         console.log('Updating transaction:', { id: transaction.id, transaction: updatedTransaction });
         
+        // transaction ID tanımlı değilse güvenlikli kontrol
+        if (!transaction.id) {
+          const errorMsg = "Transaction ID is missing for update operation";
+          logger.error(errorMsg);
+          console.error(errorMsg);
+          return false;
+        }
+        
         const success = await handleUpdateTransaction(transaction.id, updatedTransaction);
         
         logger.debug('Update transaction result', { success });
@@ -108,7 +116,14 @@ export const useFormSubmission = (
         return success;
       }
     } catch (error) {
-      logger.error('Form submission error', { error: JSON.stringify(error) });
+      // Tüm hata tiplerini güvenli bir şekilde işle
+      const isErrorObject = error instanceof Error;
+      const errorMessage = isErrorObject ? error.message : String(error);
+      
+      logger.error('Form submission error', { 
+        error: errorMessage,
+        stack: isErrorObject ? error.stack : 'No stack trace available' 
+      });
       console.error("Form submission error:", error);
       return false;
     }

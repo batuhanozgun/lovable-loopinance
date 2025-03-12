@@ -11,5 +11,22 @@
       "networkError": "Hesapları getirirken ağ hatası oluştu",
       "unknownError": "Bilinmeyen bir hata oluştu"
     }
+  },
+  "transaction": {
+    "create": {
+      "failed": "İşlem oluşturulamadı",
+      "invalidAmount": "Geçersiz tutar formatı",
+      "networkError": "İşlem oluştururken ağ hatası oluştu",
+      "missingField": "Gerekli alanlar eksik"
+    },
+    "update": {
+      "failed": "İşlem güncellenemedi",
+      "invalidAmount": "Geçersiz tutar formatı",
+      "networkError": "İşlem güncellenirken ağ hatası oluştu",
+      "idMissing": "İşlem ID'si eksik"
+    },
+    "delete": {
+      "failed": "İşlem silinemedi"
+    }
   }
 }

@@ -37,13 +37,15 @@ export const useTransactionForm = () => {
       console.log('Transaction service response:', response);
       
       if (!response.success) {
-        logger.error('Transaction creation failed', { error: response.error });
-        console.error('Transaction creation failed:', response.error);
+        // Hata mesajını güvenli bir şekilde işle - response.error undefined olabilir
+        const errorMessage = response.error || t('CashAccounts:errors.transaction.create.failed');
+        logger.error('Transaction creation failed', { error: errorMessage });
+        console.error('Transaction creation failed:', errorMessage);
         
         toast({
           variant: 'destructive',
           title: t('common:error'),
-          description: response.error || t('CashAccounts:errors.transaction.create.failed'),
+          description: errorMessage
         });
         return false;
       }
@@ -62,8 +64,15 @@ export const useTransactionForm = () => {
       
       return true;
     } catch (error) {
+      // Tüm hata tiplerini güvenli bir şekilde işle
+      const isErrorObject = error instanceof Error;
+      const errorMessage = isErrorObject ? error.message : (
+        typeof error === 'string' ? error : t('CashAccounts:errors.transaction.create.failed')
+      );
+      
       logger.error('Unexpected error in transaction creation', { 
-        error: error instanceof Error ? error.message : 'Unknown error' 
+        error: errorMessage,
+        stack: isErrorObject ? error.stack : 'No stack trace available'
       });
       console.error('Unexpected error in transaction creation:', error);
       
@@ -100,13 +109,15 @@ export const useTransactionForm = () => {
       console.log('Transaction update response:', response);
       
       if (!response.success) {
-        logger.error('Transaction update failed', { error: response.error });
-        console.error('Transaction update failed:', response.error);
+        // Hata mesajını güvenli bir şekilde işle
+        const errorMessage = response.error || t('CashAccounts:errors.transaction.update.failed');
+        logger.error('Transaction update failed', { error: errorMessage });
+        console.error('Transaction update failed:', errorMessage);
         
         toast({
           variant: 'destructive',
           title: t('common:error'),
-          description: response.error || t('CashAccounts:errors.transaction.update.failed'),
+          description: errorMessage
         });
         return false;
       }
@@ -127,8 +138,15 @@ export const useTransactionForm = () => {
       
       return true;
     } catch (error) {
+      // Tüm hata tiplerini güvenli bir şekilde işle
+      const isErrorObject = error instanceof Error;
+      const errorMessage = isErrorObject ? error.message : (
+        typeof error === 'string' ? error : t('CashAccounts:errors.transaction.update.failed')
+      );
+      
       logger.error('Unexpected error in transaction update', { 
-        error: error instanceof Error ? error.message : 'Unknown error' 
+        error: errorMessage,
+        stack: isErrorObject ? error.stack : 'No stack trace available'
       });
       console.error('Unexpected error in transaction update:', error);
       

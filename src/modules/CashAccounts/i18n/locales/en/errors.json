@@ -11,5 +11,22 @@
       "networkError": "Network error while fetching accounts",
       "unknownError": "An unknown error occurred"
     }
+  },
+  "transaction": {
+    "create": {
+      "failed": "Failed to create transaction",
+      "invalidAmount": "Invalid amount format",
+      "networkError": "Network error while creating transaction",
+      "missingField": "Required fields are missing"
+    },
+    "update": {
+      "failed": "Failed to update transaction",
+      "invalidAmount": "Invalid amount format",
+      "networkError": "Network error while updating transaction",
+      "idMissing": "Transaction ID is missing"
+    },
+    "delete": {
+      "failed": "Failed to delete transaction"
+    }
   }
 }
