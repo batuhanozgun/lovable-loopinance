@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,6 +10,7 @@ import { createTransactionFormSchema, TransactionFormData } from "../validation/
 import { TimeInput } from "../types";
 import { AccountTransaction } from "../../../types";
 import { parseLocalizedNumber } from "../../../utils/amountUtils";
+import { serviceLogger } from "../../../logging";
 
 /**
  * İşlem formu kurulumu için hook
@@ -20,8 +22,12 @@ export const useTransactionFormSetup = (
 ) => {
   const { t } = useTranslation(["CashAccounts", "common"]);
   const { handleCreateTransaction, handleUpdateTransaction, isSubmitting } = useTransactionForm();
+  const logger = serviceLogger;
   
   const isEditMode = !!transaction;
+  
+  logger.debug('Transaction form setup', { accountId, statementId, isEditMode });
+  console.log('Transaction form setup:', { accountId, statementId, isEditMode });
   
   // Form state'leri
   const [date, setDate] = useState<Date>(new Date());
@@ -100,6 +106,9 @@ export const useTransactionFormSetup = (
   // Form gönderme işlemi
   const onSubmit = async (data: TransactionFormData) => {
     try {
+      logger.debug('Processing form submission', { formData: JSON.stringify(data) });
+      console.log('Processing form submission:', data);
+      
       // Tarih ve saat bilgilerini birleştir
       const transactionDate = format(data.transactionDate, "yyyy-MM-dd");
       const transactionTime = `${data.transactionTime.hour}:${data.transactionTime.minute}:00`;
@@ -112,7 +121,9 @@ export const useTransactionFormSetup = (
       const amount = parseLocalizedNumber(data.amount);
       
       if (isNaN(amount)) {
-        console.error("Geçersiz tutar formatı:", data.amount);
+        const errorMsg = "Geçersiz tutar formatı: " + data.amount;
+        logger.error(errorMsg);
+        console.error(errorMsg);
         return false;
       }
 
@@ -128,7 +139,17 @@ export const useTransactionFormSetup = (
           subcategory_id: subcategoryId,
         };
 
+        logger.debug('Updating transaction', { 
+          id: transaction.id, 
+          transaction: JSON.stringify(updatedTransaction) 
+        });
+        console.log('Updating transaction:', { id: transaction.id, transaction: updatedTransaction });
+        
         const success = await handleUpdateTransaction(transaction.id, updatedTransaction);
+        
+        logger.debug('Update transaction result', { success });
+        console.log('Update transaction result:', success);
+        
         return success;
       } else {
         // Yeni işlem oluşturma
@@ -144,7 +165,14 @@ export const useTransactionFormSetup = (
           subcategory_id: subcategoryId,
         };
 
+        logger.debug('Creating new transaction', { transaction: JSON.stringify(newTransaction) });
+        console.log('Creating new transaction:', newTransaction);
+        
         const success = await handleCreateTransaction(newTransaction);
+        
+        logger.debug('Create transaction result', { success });
+        console.log('Create transaction result:', success);
+        
         if (success) {
           form.reset({
             amount: "",
@@ -162,6 +190,7 @@ export const useTransactionFormSetup = (
         return success;
       }
     } catch (error) {
+      logger.error('Form submission error', { error: JSON.stringify(error) });
       console.error("Form submission error:", error);
       return false;
     }

@@ -32,6 +32,12 @@
     },
     "date": {
       "required": "Tarih gereklidir"
+    },
+    "time": {
+      "required": "Saat gereklidir"
+    },
+    "category": {
+      "required": "Kategori gereklidir"
     }
   }
 }

@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import { FormActionsProps } from "../types";
+import { serviceLogger } from "../../../logging";
 
 /**
  * Form işlemleri bileşeni
@@ -14,6 +15,7 @@ export const FormActions: React.FC<FormActionsProps> = ({
   isEditMode = false 
 }) => {
   const { t } = useTranslation(["CashAccounts", "common"]);
+  const logger = serviceLogger;
 
   return (
     <DialogFooter>
@@ -26,7 +28,14 @@ export const FormActions: React.FC<FormActionsProps> = ({
       >
         {t("common:cancel")}
       </Button>
-      <Button type="submit" disabled={isSubmitting}>
+      <Button 
+        type="submit" 
+        disabled={isSubmitting}
+        onClick={() => {
+          logger.debug('Submit button clicked', { isEditMode });
+          console.log('Submit button clicked', { isEditMode });
+        }}
+      >
         {isSubmitting
           ? t("common:loading")
           : isEditMode 

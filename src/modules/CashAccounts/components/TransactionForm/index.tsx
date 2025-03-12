@@ -17,6 +17,7 @@ import { DescriptionField } from "./components/DescriptionField";
 import { CategoryField } from "./components/CategoryField";
 import { SubcategoryField } from "./components/SubcategoryField";
 import { FormActions } from "./components/FormActions";
+import { serviceLogger } from "../../logging";
 
 /**
  * İşlem formu bileşeni
@@ -30,6 +31,8 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
   transaction
 }) => {
   const { t } = useTranslation(["CashAccounts", "common"]);
+  const logger = serviceLogger;
+  
   const { 
     form, 
     date, 
@@ -48,7 +51,14 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
   );
 
   const handleSubmit = async (data: any) => {
+    logger.debug('Form submitted with data', { formData: JSON.stringify(data) });
+    console.log('Form submitted with data:', data);
+    
     const success = await onSubmit(data);
+    
+    logger.debug('Form submission result', { success });
+    console.log('Form submission result:', success);
+    
     if (success) {
       onClose();
     }

@@ -32,6 +32,12 @@
     },
     "date": {
       "required": "Date is required"
+    },
+    "time": {
+      "required": "Time is required"
+    },
+    "category": {
+      "required": "Category is required"
     }
   }
 }

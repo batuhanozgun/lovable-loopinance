@@ -32,7 +32,9 @@ export const createTransactionFormSchema = (t: (key: string) => string) => {
       minute: z.string().min(1, t("CashAccounts:validation.transaction.time.required")),
     }),
     description: z.string().optional(),
-    categoryId: z.string().optional(),
+    categoryId: z.string({
+      required_error: t("CashAccounts:validation.transaction.category.required")
+    }),
     subcategoryId: z.string().optional(),
   });
 };
