@@ -72,6 +72,14 @@
   "transaction": {
     "new": "New Transaction",
     "edit": "Edit Transaction",
+    "add": "Add Transaction",
+    "update": "Update Transaction",
+    "delete": {
+      "title": "Delete Transaction",
+      "confirmation": "Are you sure you want to delete this transaction? This action cannot be undone.",
+      "confirm": "Delete"
+    },
+    "deleteSuccess": "Transaction deleted successfully",
     "category": "Category",
     "subcategory": "Subcategory",
     "selectCategory": "Select a category",

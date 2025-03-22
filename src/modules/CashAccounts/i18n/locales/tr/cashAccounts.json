@@ -72,6 +72,14 @@
   "transaction": {
     "new": "Yeni İşlem",
     "edit": "İşlemi Düzenle",
+    "add": "İşlem Ekle",
+    "update": "İşlemi Güncelle",
+    "delete": {
+      "title": "İşlemi Sil",
+      "confirmation": "Bu işlemi silmek istediğinizden emin misiniz? Bu eylem geri alınamaz.",
+      "confirm": "Sil"
+    },
+    "deleteSuccess": "İşlem başarıyla silindi",
     "category": "Kategori",
     "subcategory": "Alt Kategori",
     "selectCategory": "Kategori seçin",
