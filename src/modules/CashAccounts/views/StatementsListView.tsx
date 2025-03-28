@@ -47,14 +47,14 @@ export const StatementsListView: React.FC = () => {
         toast({
           title: t('common:success'),
           description: result.isNew 
-            ? t('CashAccounts:statements.toasts.newStatementCreated')
-            : t('CashAccounts:statements.toasts.statementCheckComplete'),
+            ? t('statements.toasts.newStatementCreated')
+            : t('statements.toasts.statementCheckComplete'),
         });
       } else {
         toast({
           variant: 'destructive',
           title: t('common:error'),
-          description: result.message || t('CashAccounts:statements.toasts.statementCheckFailed'),
+          description: result.message || t('statements.toasts.statementCheckFailed'),
         });
       }
       
@@ -66,7 +66,7 @@ export const StatementsListView: React.FC = () => {
         title: t('common:error'),
         description: error instanceof Error 
           ? error.message 
-          : t('CashAccounts:statements.toasts.statementCheckError'),
+          : t('statements.toasts.statementCheckError'),
       });
     }
   };
@@ -88,10 +88,10 @@ export const StatementsListView: React.FC = () => {
   if (accountError || !account) {
     return (
       <div className="container py-6">
-        <h1 className="text-2xl font-bold mb-4">{t('CashAccounts:statements.title')}</h1>
+        <h1 className="text-2xl font-bold mb-4">{t('statements.title')}</h1>
         <Card className="p-6 flex flex-col items-center justify-center text-center">
           <p className="text-destructive mb-4">
-            {t('CashAccounts:errors.account.notFound')}
+            {t('errors.account.notFound')}
           </p>
           <Button asChild>
             <Link to="/cash-accounts">
@@ -107,7 +107,7 @@ export const StatementsListView: React.FC = () => {
     <div className="container py-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">
-          {`${account.name} - ${t('CashAccounts:statements.title')}`}
+          {`${account.name} - ${t('statements.title')}`}
         </h1>
         
         <div className="flex gap-2">
@@ -117,7 +117,7 @@ export const StatementsListView: React.FC = () => {
             onClick={handleRefreshStatements}
           >
             <RefreshCw className="h-4 w-4 mr-2" />
-            {t('CashAccounts:statements.buttons.checkAndCreateStatement')}
+            {t('statements.buttons.checkAndCreateStatement')}
           </Button>
         </div>
       </div>
@@ -126,7 +126,7 @@ export const StatementsListView: React.FC = () => {
         <Card className="p-6">
           <div className="text-center">
             <p className="text-destructive mb-4">
-              {t('CashAccounts:errors.statements.loadingFailed')}
+              {t('errors.statements.loadingFailed')}
             </p>
             <Button onClick={() => refetchStatements()}>
               {t('common:buttons.tryAgain')}
@@ -150,14 +150,14 @@ export const StatementsListView: React.FC = () => {
               <Card className="p-6">
                 <div className="text-center py-8">
                   <p className="text-muted-foreground mb-6">
-                    {t('CashAccounts:statements.empty.noStatements')}
+                    {t('statements.empty.noStatements')}
                   </p>
                   <p className="text-sm text-muted-foreground mb-6">
-                    {t('CashAccounts:statements.empty.statementInfo')}
+                    {t('statements.empty.statementInfo')}
                   </p>
                   <Button onClick={handleRefreshStatements}>
                     <PlusCircle className="h-4 w-4 mr-2" />
-                    {t('CashAccounts:statements.buttons.createStatement')}
+                    {t('statements.buttons.createStatement')}
                   </Button>
                 </div>
               </Card>

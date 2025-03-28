@@ -20,7 +20,7 @@ interface StatementsListProps {
 }
 
 export const StatementsList: React.FC<StatementsListProps> = ({ statements, isLoading, currency }) => {
-  const { t, i18n } = useTranslation(['CashAccounts']);
+  const { t, i18n } = useTranslation(['CashAccounts', 'common']);
   const dateLocale = i18n.language === 'tr' ? tr : enUS;
 
   if (isLoading) {
@@ -37,7 +37,7 @@ export const StatementsList: React.FC<StatementsListProps> = ({ statements, isLo
     return (
       <Card>
         <CardContent className="pt-6">
-          <p className="text-center text-muted-foreground">{t('CashAccounts:statements.empty.noStatements')}</p>
+          <p className="text-center text-muted-foreground">{t('statements.empty.noStatements')}</p>
         </CardContent>
       </Card>
     );
@@ -59,17 +59,17 @@ export const StatementsList: React.FC<StatementsListProps> = ({ statements, isLo
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t('CashAccounts:statements.title')}</CardTitle>
-        <CardDescription>{t('CashAccounts:statements.period')}</CardDescription>
+        <CardTitle>{t('statements.title')}</CardTitle>
+        <CardDescription>{t('statements.period')}</CardDescription>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>{t('CashAccounts:statements.period')}</TableHead>
-              <TableHead>{t('CashAccounts:statements.endBalance')}</TableHead>
-              <TableHead>{t('CashAccounts:statements.status')}</TableHead>
-              <TableHead className="text-right">{t('CashAccounts:viewDetails')}</TableHead>
+              <TableHead>{t('statements.period')}</TableHead>
+              <TableHead>{t('statements.endBalance')}</TableHead>
+              <TableHead>{t('statements.status')}</TableHead>
+              <TableHead className="text-right">{t('viewDetails')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -81,14 +81,14 @@ export const StatementsList: React.FC<StatementsListProps> = ({ statements, isLo
                 <TableCell>{formatCurrency(statement.end_balance, currency)}</TableCell>
                 <TableCell>
                   <Badge variant={getStatusBadgeVariant(statement.status)}>
-                    {t(`CashAccounts:status.${statement.status}`)}
+                    {t(`status.${statement.status}`)}
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">
                   <Button size="sm" variant="ghost" asChild>
                     <Link to={`/cash-accounts/${statement.account_id}/statements/${statement.id}`}>
                       <Eye className="mr-2 h-4 w-4" />
-                      {t('CashAccounts:viewDetails')}
+                      {t('viewDetails')}
                     </Link>
                   </Button>
                 </TableCell>

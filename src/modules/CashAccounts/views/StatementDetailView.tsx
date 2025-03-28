@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -60,8 +61,8 @@ export const StatementDetailView: React.FC = () => {
         
         <div className="p-4 border border-destructive text-destructive rounded-md">
           {!account 
-            ? t('CashAccounts:errors.account.detail.failed')
-            : t('CashAccounts:errors.statement.detail.failed')
+            ? t('errors.account.detail.failed')
+            : t('errors.statement.detail.failed')
           }
         </div>
       </div>
@@ -81,7 +82,7 @@ export const StatementDetailView: React.FC = () => {
               {t('common:back')}
             </Link>
           </Button>
-          <h1 className="text-2xl font-bold">{account.name} - {t('CashAccounts:statements')}</h1>
+          <h1 className="text-2xl font-bold">{account.name} - {t('statements')}</h1>
         </div>
         
         <Button 
@@ -89,7 +90,7 @@ export const StatementDetailView: React.FC = () => {
           size="sm"
         >
           <Plus className="mr-2 h-4 w-4" />
-          {t('CashAccounts:transaction.new')}
+          {t('transaction.new')}
         </Button>
       </div>
       
