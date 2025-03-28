@@ -109,5 +109,6 @@
     "showingExpenseOnly": "Showing expenses only"
   },
   "noTransactions": "No transactions found",
-  "transactions": "Transactions"
+  "transactions": "Transactions",
+  "accountBalance": "Account Balance"
 }
