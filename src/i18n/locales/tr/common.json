@@ -17,5 +17,9 @@
   "add": "Ekle",
   "remove": "Kaldır",
   "back": "Geri",
-  "operationSuccessful": "İşlem başarıyla tamamlandı"
+  "operationSuccessful": "İşlem başarıyla tamamlandı",
+  "buttons": {
+    "tryAgain": "Tekrar Dene",
+    "backToAccounts": "Hesaplara Dön"
+  }
 }

@@ -17,5 +17,9 @@
   "add": "Add",
   "remove": "Remove",
   "back": "Back",
-  "operationSuccessful": "Operation completed successfully"
+  "operationSuccessful": "Operation completed successfully",
+  "buttons": {
+    "tryAgain": "Try Again",
+    "backToAccounts": "Back to Accounts"
+  }
 }
