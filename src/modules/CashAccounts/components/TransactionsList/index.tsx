@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
@@ -44,6 +45,206 @@ interface TransactionsListProps {
   isStatementOpen?: boolean;
 }
 
+// Yükleme durumu için iskelet bileşeni
+const TransactionsLoadingSkeleton = () => (
+  <Card>
+    <CardHeader>
+      <CardTitle className="flex justify-between items-center">
+        <Skeleton className="h-8 w-40" />
+        <Skeleton className="h-8 w-32" />
+      </CardTitle>
+    </CardHeader>
+    <CardContent>
+      <Skeleton className="h-64 w-full" />
+    </CardContent>
+  </Card>
+);
+
+// Sıralama için dropdown menü bileşeni
+const SortDropdownMenu = ({ onSortByDate, onSortByAmount }) => {
+  const { t } = useTranslation(['CashAccounts', 'common']);
+  
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="sm" className="h-8 gap-1">
+          <SortAsc className="h-4 w-4" />
+          <span className="hidden sm:inline">{t('common:sort')}</span>
+          <ChevronDown className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => onSortByDate('desc')}>
+          <CalendarIcon className="mr-2 h-4 w-4" />
+          <SortDesc className="mr-2 h-4 w-4" />
+          {t('CashAccounts:filters.sortByDateDesc')}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => onSortByDate('asc')}>
+          <CalendarIcon className="mr-2 h-4 w-4" />
+          <SortAsc className="mr-2 h-4 w-4" />
+          {t('CashAccounts:filters.sortByDateAsc')}
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => onSortByAmount('desc')}>
+          <SortDesc className="mr-2 h-4 w-4" />
+          {t('CashAccounts:filters.sortByAmountDesc')}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => onSortByAmount('asc')}>
+          <SortAsc className="mr-2 h-4 w-4" />
+          {t('CashAccounts:filters.sortByAmountAsc')}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+// Filtreleme için dropdown menü bileşeni
+const FilterDropdownMenu = ({ onFilterByType, onResetFilters }) => {
+  const { t } = useTranslation(['CashAccounts', 'common']);
+  
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="sm" className="h-8 gap-1">
+          <Filter className="h-4 w-4" />
+          <span className="hidden sm:inline">{t('common:filter')}</span>
+          <ChevronDown className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => onFilterByType('all')}>
+          {t('CashAccounts:filters.showAll')}
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => onFilterByType('income')}>
+          <ArrowUpCircle className="mr-2 h-4 w-4 text-green-500" />
+          {t('CashAccounts:filters.showIncome')}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => onFilterByType('expense')}>
+          <ArrowDownCircle className="mr-2 h-4 w-4 text-red-500" />
+          {t('CashAccounts:filters.showExpenses')}
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={onResetFilters}>
+          {t('common:resetFilters')}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+// Boş işlem listesi durumu
+const EmptyTransactionsState = () => {
+  const { t } = useTranslation(['CashAccounts']);
+  
+  return (
+    <div className="text-center py-8 text-muted-foreground">
+      {t('CashAccounts:noTransactions')}
+    </div>
+  );
+};
+
+// İşlem satırı bileşeni
+const TransactionRow = ({ transaction, currency, onEdit, onDelete }) => {
+  const { t } = useTranslation(['CashAccounts', 'common']);
+  
+  return (
+    <TableRow key={transaction.id}>
+      <TableCell className="font-medium">
+        {format(new Date(transaction.transaction_date), 'dd/MM/yyyy')}
+        <div className="text-xs text-muted-foreground">
+          {transaction.transaction_time?.substring(0, 5)}
+        </div>
+      </TableCell>
+      <TableCell>
+        {transaction.transaction_type === TransactionType.INCOME ? (
+          <div className="flex items-center text-green-500">
+            <ArrowUpCircle className="mr-1 h-4 w-4" />
+            {t('CashAccounts:transaction.types.income')}
+          </div>
+        ) : (
+          <div className="flex items-center text-red-500">
+            <ArrowDownCircle className="mr-1 h-4 w-4" />
+            {t('CashAccounts:transaction.types.expense')}
+          </div>
+        )}
+      </TableCell>
+      <TableCell className="max-w-md truncate">
+        {transaction.description || '-'}
+      </TableCell>
+      <TableCell className="text-right font-medium">
+        <span className={transaction.transaction_type === TransactionType.INCOME ? 'text-green-600' : 'text-red-600'}>
+          {transaction.transaction_type === TransactionType.EXPENSE ? '- ' : '+ '}
+          {formatCurrency(transaction.amount, currency)}
+        </span>
+      </TableCell>
+      <TableCell className="text-right">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+              <span className="sr-only">{t('common:openMenu')}</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem
+              onClick={() => onEdit(transaction)}
+            >
+              <Edit className="mr-2 h-4 w-4" />
+              {t('common:edit')}
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => onDelete(transaction)}
+              className="text-destructive focus:text-destructive"
+            >
+              <Trash2 className="mr-2 h-4 w-4" />
+              {t('common:delete')}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </TableCell>
+    </TableRow>
+  );
+};
+
+// Tablo başlığı bileşeni
+const TransactionsTableHeader = () => {
+  const { t } = useTranslation(['CashAccounts', 'common']);
+  
+  return (
+    <TableHeader>
+      <TableRow>
+        <TableHead>{t('CashAccounts:transaction.date')}</TableHead>
+        <TableHead>{t('CashAccounts:transaction.type')}</TableHead>
+        <TableHead>{t('CashAccounts:transaction.description')}</TableHead>
+        <TableHead className="text-right">{t('CashAccounts:transaction.amount')}</TableHead>
+        <TableHead className="text-right">{t('common:actions')}</TableHead>
+      </TableRow>
+    </TableHeader>
+  );
+};
+
+// İşlemler tablosu bileşeni
+const TransactionsTable = ({ transactions, currency, onEdit, onDelete }) => {
+  return (
+    <Table>
+      <TransactionsTableHeader />
+      <TableBody>
+        {transactions.map((transaction) => (
+          <TransactionRow 
+            key={transaction.id}
+            transaction={transaction} 
+            currency={currency}
+            onEdit={onEdit}
+            onDelete={onDelete}
+          />
+        ))}
+      </TableBody>
+    </Table>
+  );
+};
+
+// Ana bileşen
 export const TransactionsList: React.FC<TransactionsListProps> = ({
   transactions,
   isLoading,
@@ -66,19 +267,7 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
   const [deletingTransaction, setDeletingTransaction] = useState<AccountTransaction | null>(null);
 
   if (isLoading) {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex justify-between items-center">
-            <Skeleton className="h-8 w-40" />
-            <Skeleton className="h-8 w-32" />
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Skeleton className="h-64 w-full" />
-        </CardContent>
-      </Card>
-    );
+    return <TransactionsLoadingSkeleton />;
   }
 
   const handleEditTransaction = (transaction: AccountTransaction) => {
@@ -107,143 +296,27 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
               )}
             </div>
             <div className="flex space-x-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="h-8 gap-1">
-                    <SortAsc className="h-4 w-4" />
-                    <span className="hidden sm:inline">{t('common:sort')}</span>
-                    <ChevronDown className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => onSortByDate('desc')}>
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    <SortDesc className="mr-2 h-4 w-4" />
-                    {t('CashAccounts:filters.sortByDateDesc')}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => onSortByDate('asc')}>
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    <SortAsc className="mr-2 h-4 w-4" />
-                    {t('CashAccounts:filters.sortByDateAsc')}
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => onSortByAmount('desc')}>
-                    <SortDesc className="mr-2 h-4 w-4" />
-                    {t('CashAccounts:filters.sortByAmountDesc')}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => onSortByAmount('asc')}>
-                    <SortAsc className="mr-2 h-4 w-4" />
-                    {t('CashAccounts:filters.sortByAmountAsc')}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="h-8 gap-1">
-                    <Filter className="h-4 w-4" />
-                    <span className="hidden sm:inline">{t('common:filter')}</span>
-                    <ChevronDown className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => onFilterByType('all')}>
-                    {t('CashAccounts:filters.showAll')}
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => onFilterByType('income')}>
-                    <ArrowUpCircle className="mr-2 h-4 w-4 text-green-500" />
-                    {t('CashAccounts:filters.showIncome')}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => onFilterByType('expense')}>
-                    <ArrowDownCircle className="mr-2 h-4 w-4 text-red-500" />
-                    {t('CashAccounts:filters.showExpenses')}
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={onResetFilters}>
-                    {t('common:resetFilters')}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <SortDropdownMenu 
+                onSortByDate={onSortByDate} 
+                onSortByAmount={onSortByAmount} 
+              />
+              <FilterDropdownMenu 
+                onFilterByType={onFilterByType} 
+                onResetFilters={onResetFilters}
+              />
             </div>
           </CardTitle>
         </CardHeader>
         <CardContent>
           {transactions.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">
-              {t('CashAccounts:noTransactions')}
-            </div>
+            <EmptyTransactionsState />
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t('CashAccounts:transaction.date')}</TableHead>
-                  <TableHead>{t('CashAccounts:transaction.type')}</TableHead>
-                  <TableHead>{t('CashAccounts:transaction.description')}</TableHead>
-                  <TableHead className="text-right">{t('CashAccounts:transaction.amount')}</TableHead>
-                  <TableHead className="text-right">{t('common:actions')}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {transactions.map((transaction) => (
-                  <TableRow key={transaction.id}>
-                    <TableCell className="font-medium">
-                      {format(new Date(transaction.transaction_date), 'dd/MM/yyyy')}
-                      <div className="text-xs text-muted-foreground">
-                        {transaction.transaction_time?.substring(0, 5)}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      {transaction.transaction_type === TransactionType.INCOME ? (
-                        <div className="flex items-center text-green-500">
-                          <ArrowUpCircle className="mr-1 h-4 w-4" />
-                          {t('CashAccounts:transaction.types.income')}
-                        </div>
-                      ) : (
-                        <div className="flex items-center text-red-500">
-                          <ArrowDownCircle className="mr-1 h-4 w-4" />
-                          {t('CashAccounts:transaction.types.expense')}
-                        </div>
-                      )}
-                    </TableCell>
-                    <TableCell className="max-w-md truncate">
-                      {transaction.description || '-'}
-                    </TableCell>
-                    <TableCell className="text-right font-medium">
-                      <span className={transaction.transaction_type === TransactionType.INCOME ? 'text-green-600' : 'text-red-600'}>
-                        {transaction.transaction_type === TransactionType.EXPENSE ? '- ' : '+ '}
-                        {formatCurrency(transaction.amount, currency)}
-                      </span>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                            <span className="sr-only">{t('common:openMenu')}</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem
-                            onClick={() => handleEditTransaction(transaction)}
-                          >
-                            <Edit className="mr-2 h-4 w-4" />
-                            {t('common:edit')}
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() => handleDeleteTransaction(transaction)}
-                            className="text-destructive focus:text-destructive"
-                          >
-                            <Trash2 className="mr-2 h-4 w-4" />
-                            {t('common:delete')}
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <TransactionsTable 
+              transactions={transactions}
+              currency={currency}
+              onEdit={handleEditTransaction}
+              onDelete={handleDeleteTransaction}
+            />
           )}
         </CardContent>
       </Card>
