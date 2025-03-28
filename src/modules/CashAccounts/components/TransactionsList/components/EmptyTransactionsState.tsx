@@ -7,7 +7,7 @@ export const EmptyTransactionsState: React.FC = () => {
   
   return (
     <div className="text-center py-8 text-muted-foreground">
-      {t('CashAccounts:noTransactions')}
+      {t('noTransactions')}
     </div>
   );
 };

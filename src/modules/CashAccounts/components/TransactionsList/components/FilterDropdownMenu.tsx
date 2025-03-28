@@ -32,26 +32,26 @@ export const FilterDropdownMenu: React.FC<FilterDropdownMenuProps> = ({
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="sm" className="h-8 gap-1">
           <Filter className="h-4 w-4" />
-          <span className="hidden sm:inline">{t('common:filter')}</span>
+          <span className="hidden sm:inline">{t('filter', { ns: 'common' })}</span>
           <ChevronDown className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => onFilterByType('all')}>
-          {t('CashAccounts:filters.showAll')}
+          {t('filters.showAll')}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => onFilterByType('income')}>
           <ArrowUpCircle className="mr-2 h-4 w-4 text-green-500" />
-          {t('CashAccounts:filters.showIncome')}
+          {t('filters.showIncome')}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => onFilterByType('expense')}>
           <ArrowDownCircle className="mr-2 h-4 w-4 text-red-500" />
-          {t('CashAccounts:filters.showExpenses')}
+          {t('filters.showExpenses')}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={onResetFilters}>
-          {t('common:resetFilters')}
+          {t('resetFilters', { ns: 'common' })}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

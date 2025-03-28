@@ -21,5 +21,7 @@
   "buttons": {
     "tryAgain": "Tekrar Dene",
     "backToAccounts": "Hesaplara Dön"
-  }
+  },
+  "resetFilters": "Filtreleri Sıfırla",
+  "actions": "İşlemler"
 }

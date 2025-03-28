@@ -9,11 +9,11 @@ export const TransactionsTableHeader: React.FC = () => {
   return (
     <TableHeader>
       <TableRow>
-        <TableHead>{t('CashAccounts:transaction.date')}</TableHead>
-        <TableHead>{t('CashAccounts:transaction.type')}</TableHead>
-        <TableHead>{t('CashAccounts:transaction.description')}</TableHead>
-        <TableHead className="text-right">{t('CashAccounts:transaction.amount')}</TableHead>
-        <TableHead className="text-right">{t('common:actions')}</TableHead>
+        <TableHead>{t('transaction.date')}</TableHead>
+        <TableHead>{t('transaction.type')}</TableHead>
+        <TableHead>{t('transaction.description')}</TableHead>
+        <TableHead className="text-right">{t('transaction.amount')}</TableHead>
+        <TableHead className="text-right">{t('actions', { ns: 'common' })}</TableHead>
       </TableRow>
     </TableHeader>
   );
