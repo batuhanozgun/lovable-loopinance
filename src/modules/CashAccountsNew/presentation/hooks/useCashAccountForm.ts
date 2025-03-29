@@ -32,8 +32,12 @@ export const useCashAccountForm = () => {
   
   // Hesap oluşturma fonksiyonu
   const createCashAccount = async (formData: CashAccountFormData): Promise<CashAccount | null> => {
+    uiLogger.info('Creating cash account', { formData });
+    
     if (!userId) {
-      setFormError(t('errors.notAuthenticated'));
+      const errorMsg = t('errors.notAuthenticated');
+      uiLogger.error('User not authenticated', { error: errorMsg });
+      setFormError(errorMsg);
       return null;
     }
     
@@ -42,7 +46,14 @@ export const useCashAccountForm = () => {
       setFormError(null);
       
       // Form verilerini servise gönderilecek formata dönüştür
-      const initialBalance = Number(`${formData.initialBalance.whole}.${formData.initialBalance.decimal}`);
+      const initialBalance = Number(`${formData.initialBalance.whole || '0'}.${formData.initialBalance.decimal || '00'}`);
+      
+      uiLogger.info('Sending cash account data to service', { 
+        userId, 
+        name: formData.name, 
+        initialBalance,
+        currency: formData.currency
+      });
       
       // Servise istek gönder
       const result = await cashAccountService.createCashAccount({
@@ -57,20 +68,12 @@ export const useCashAccountForm = () => {
       
       if (!result.success) {
         const errorMessage = result.error || t('errors.account.create.failed');
+        uiLogger.error('Error from service', { error: errorMessage });
         setFormError(errorMessage);
-        toast({
-          title: t('common:error'),
-          description: errorMessage,
-          variant: 'destructive',
-        });
         return null;
       }
       
-      toast({
-        title: t('common:success'),
-        description: t('accountCreated'),
-      });
-      
+      uiLogger.info('Cash account created successfully', { account: result.data });
       return result.data as CashAccount;
     } catch (error) {
       uiLogger.error('Error creating cash account', error instanceof Error ? error : undefined);
@@ -78,11 +81,6 @@ export const useCashAccountForm = () => {
         error instanceof Error ? error.message : t('errors.account.create.unknownError');
       
       setFormError(errorMessage);
-      toast({
-        title: t('common:error'),
-        description: errorMessage,
-        variant: 'destructive',
-      });
       return null;
     } finally {
       setIsSubmitting(false);

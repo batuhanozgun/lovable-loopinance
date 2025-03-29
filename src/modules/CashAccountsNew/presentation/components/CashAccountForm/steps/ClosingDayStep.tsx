@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { UseFormReturn } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
 import { CashAccountFormSchema } from '../schema';
 import { ClosingDayType } from '../../../../shared/types';
 
@@ -30,34 +31,39 @@ export const ClosingDayStep: React.FC<ClosingDayStepProps> = ({ form }) => {
   }, [closingDayType, setValue, clearErrors]);
   
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <FormField
         control={control}
         name="closingDayType"
         render={({ field }) => (
-          <FormItem>
-            <FormLabel>{t('accountForm.closingDayType.label')}</FormLabel>
-            <Select
-              onValueChange={field.onChange}
-              defaultValue={field.value}
-            >
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder={t('accountForm.closingDayType.label')} />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent>
-                <SelectItem value={ClosingDayType.LAST_DAY}>
-                  {t('accountForm.closingDayType.options.lastDay')}
-                </SelectItem>
-                <SelectItem value={ClosingDayType.LAST_BUSINESS_DAY}>
-                  {t('accountForm.closingDayType.options.lastBusinessDay')}
-                </SelectItem>
-                <SelectItem value={ClosingDayType.SPECIFIC_DAY}>
-                  {t('accountForm.closingDayType.options.specificDay')}
-                </SelectItem>
-              </SelectContent>
-            </Select>
+          <FormItem className="space-y-3">
+            <FormLabel className="text-base font-medium">{t('accountForm.closingDayType.label')}</FormLabel>
+            <FormControl>
+              <RadioGroup
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                className="space-y-2"
+              >
+                <div className="flex items-center space-x-2 rounded-md border p-3">
+                  <RadioGroupItem value={ClosingDayType.LAST_DAY} id="last-day" />
+                  <Label htmlFor="last-day" className="flex-1 cursor-pointer font-normal">
+                    {t('accountForm.closingDayType.options.lastDay')}
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2 rounded-md border p-3">
+                  <RadioGroupItem value={ClosingDayType.LAST_BUSINESS_DAY} id="last-business-day" />
+                  <Label htmlFor="last-business-day" className="flex-1 cursor-pointer font-normal">
+                    {t('accountForm.closingDayType.options.lastBusinessDay')}
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2 rounded-md border p-3">
+                  <RadioGroupItem value={ClosingDayType.SPECIFIC_DAY} id="specific-day" />
+                  <Label htmlFor="specific-day" className="flex-1 cursor-pointer font-normal">
+                    {t('accountForm.closingDayType.options.specificDay')}
+                  </Label>
+                </div>
+              </RadioGroup>
+            </FormControl>
             <FormMessage />
           </FormItem>
         )}

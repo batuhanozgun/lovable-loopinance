@@ -10,8 +10,7 @@ import { cashAccountSchema, CashAccountFormSchema } from './schema';
 import { BasicInfoStep } from './steps/BasicInfoStep';
 import { ClosingDayStep } from './steps/ClosingDayStep';
 import { CashAccountFormData, CurrencyType, ClosingDayType } from '../../../shared/types';
-import { combineAmountParts } from '../../../shared/utils/amountUtils';
-import { cleanNumberInput } from '../../../shared/utils/amountUtils';
+import { uiLogger } from '../../../logging';
 
 interface CashAccountFormProps {
   defaultValues?: Partial<CashAccountFormData>;
@@ -81,6 +80,8 @@ export const CashAccountForm: React.FC<CashAccountFormProps> = ({
   
   // Formu gönder
   const handleFormSubmit = async (data: CashAccountFormSchema) => {
+    uiLogger.info('Form submitted with data', { data });
+    
     // Formu CashAccountFormData türüne dönüştür
     const formData: CashAccountFormData = {
       name: data.name,
@@ -103,17 +104,17 @@ export const CashAccountForm: React.FC<CashAccountFormProps> = ({
   const isLastStep = currentStep === steps.length - 1;
   
   return (
-    <Card className="w-full">
-      <CardHeader>
+    <Card className="w-full border-0 shadow-none">
+      <CardHeader className="px-0">
         <CardTitle>{t('accountForm.title')}</CardTitle>
         <CardDescription>{steps[currentStep].title}</CardDescription>
       </CardHeader>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleFormSubmit)}>
-          <CardContent>
+        <form onSubmit={form.handleSubmit(handleFormSubmit)} noValidate>
+          <CardContent className="px-0">
             {currentStepContent}
           </CardContent>
-          <CardFooter className="flex justify-between">
+          <CardFooter className="flex justify-between px-0">
             {isFirstStep ? (
               <Button type="button" variant="outline" onClick={onCancel}>
                 {t('accountForm.buttons.cancel')}
