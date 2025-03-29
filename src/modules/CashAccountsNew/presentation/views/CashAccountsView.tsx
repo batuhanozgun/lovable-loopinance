@@ -49,7 +49,7 @@ export const CashAccountsView: React.FC = () => {
           {t('title')}
         </h1>
         <Button asChild>
-          <Link to="/cash-accounts/new">
+          <Link to="/cash-accounts-new/new">
             <PlusCircle className="mr-2 h-4 w-4" />
             {t('newAccount')}
           </Link>

@@ -17,7 +17,7 @@ export const CreateCashAccountView: React.FC = () => {
   const { defaultFormData, createCashAccount, isSubmitting } = useCashAccountForm();
   
   const handleCancel = () => {
-    navigate('/cash-accounts');
+    navigate('/cash-accounts-new');
   };
   
   const handleSubmit = async (formData: typeof defaultFormData) => {
@@ -27,7 +27,7 @@ export const CreateCashAccountView: React.FC = () => {
     
     if (result) {
       uiLogger.info('Successfully created cash account', { accountId: result.id });
-      navigate('/cash-accounts');
+      navigate('/cash-accounts-new');
     }
   };
   

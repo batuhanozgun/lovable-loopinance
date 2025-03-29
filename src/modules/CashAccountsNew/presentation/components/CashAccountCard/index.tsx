@@ -2,7 +2,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { Wallet, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Pencil } from 'lucide-react';
 import { 
   Card, 
   CardContent, 
@@ -12,48 +12,48 @@ import {
   CardTitle 
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { CashAccount } from '../../../shared/types';
 import { formatCurrency } from '../../../shared/utils/currencyUtils';
-import { CashAccount, CurrencyType } from '../../../shared/types';
 
 interface CashAccountCardProps {
   account: CashAccount;
 }
 
+/**
+ * Nakit hesap kartı bileşeni
+ */
 export const CashAccountCard: React.FC<CashAccountCardProps> = ({ account }) => {
   const { t } = useTranslation(['CashAccountsNew', 'common']);
   
   return (
     <Card className="h-full flex flex-col">
       <CardHeader className="pb-2">
-        <div className="flex justify-between items-start">
-          <div className="flex-1">
-            <CardTitle className="text-xl font-bold truncate">{account.name}</CardTitle>
-            <CardDescription className="line-clamp-2 h-10">
-              {account.description || t('noDescription')}
-            </CardDescription>
-          </div>
-          <div className="bg-primary/10 p-2 rounded-full">
-            <Wallet className="h-5 w-5 text-primary" />
-          </div>
-        </div>
+        <CardTitle>{account.name}</CardTitle>
+        <CardDescription>
+          {account.description || t('noDescription')}
+        </CardDescription>
       </CardHeader>
-      
-      <CardContent className="pb-2 flex-grow">
-        <div className="space-y-1">
+      <CardContent className="pt-0 pb-2 flex-grow">
+        <div className="mt-2">
+          <div className="text-2xl font-bold">
+            {formatCurrency(account.initial_balance, account.currency)}
+          </div>
           <p className="text-sm text-muted-foreground">
-            {t('overview.balanceLabel')}
+            {t('balance')}
           </p>
-          <h3 className="text-2xl font-bold">
-            {formatCurrency(account.initial_balance, account.currency as CurrencyType)}
-          </h3>
         </div>
       </CardContent>
-      
-      <CardFooter className="pt-2">
-        <Button asChild className="w-full" variant="outline">
-          <Link to={`/cash-accounts/${account.id}`}>
-            {t('viewDetails')}
-            <ArrowUpRight className="ml-2 h-4 w-4" />
+      <CardFooter className="pt-0 flex justify-between">
+        <Button variant="outline" size="sm" asChild>
+          <Link to={`/cash-accounts-new/${account.id}`}>
+            <ArrowUpRight className="h-4 w-4 mr-2" />
+            {t('details')}
+          </Link>
+        </Button>
+        <Button variant="ghost" size="sm" asChild>
+          <Link to={`/cash-accounts-new/${account.id}?edit=true`}>
+            <Pencil className="h-4 w-4 mr-2" />
+            {t('edit')}
           </Link>
         </Button>
       </CardFooter>
