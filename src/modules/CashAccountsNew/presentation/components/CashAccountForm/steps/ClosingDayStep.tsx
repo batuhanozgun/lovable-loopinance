@@ -25,7 +25,7 @@ export const ClosingDayStep: React.FC<ClosingDayStepProps> = ({ form }) => {
   // Kapanış günü tipini izle ve SPECIFIC_DAY dışındaki tipler için değeri temizle
   useEffect(() => {
     if (closingDayType !== ClosingDayType.SPECIFIC_DAY) {
-      setValue('closingDayValue', undefined);
+      setValue('closingDayValue', null);
       clearErrors('closingDayValue');
     }
   }, [closingDayType, setValue, clearErrors]);
@@ -85,9 +85,9 @@ export const ClosingDayStep: React.FC<ClosingDayStepProps> = ({ form }) => {
                   {...field}
                   onChange={(e) => {
                     const value = parseInt(e.target.value, 10);
-                    field.onChange(isNaN(value) ? undefined : value);
+                    field.onChange(isNaN(value) ? null : value);
                   }}
-                  value={field.value === undefined ? '' : field.value}
+                  value={field.value === undefined || field.value === null ? '' : field.value}
                 />
               </FormControl>
               <FormDescription>
