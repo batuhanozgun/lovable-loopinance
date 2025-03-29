@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
-import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { cashAccountSchema, CashAccountFormSchema } from './schema';
 import { BasicInfoStep } from './steps/BasicInfoStep';
@@ -38,7 +37,7 @@ export const CashAccountForm: React.FC<CashAccountFormProps> = ({
     currency: defaultValues?.currency || CurrencyType.TRY,
     description: defaultValues?.description || '',
     closingDayType: defaultValues?.closingDayType || ClosingDayType.LAST_DAY,
-    closingDayValue: defaultValues?.closingDayValue
+    closingDayValue: defaultValues?.closingDayValue || null
   };
   
   // Form oluştur
@@ -80,6 +79,7 @@ export const CashAccountForm: React.FC<CashAccountFormProps> = ({
   
   // Formu gönder
   const handleFormSubmit = async (data: CashAccountFormSchema) => {
+    console.log('Form submitted with data', data);
     uiLogger.info('Form submitted with data', { data });
     
     // Formu CashAccountFormData türüne dönüştür
@@ -92,9 +92,10 @@ export const CashAccountForm: React.FC<CashAccountFormProps> = ({
       currency: data.currency,
       description: data.description || '',
       closingDayType: data.closingDayType,
-      closingDayValue: data.closingDayType === ClosingDayType.SPECIFIC_DAY ? data.closingDayValue : undefined
+      closingDayValue: data.closingDayType === ClosingDayType.SPECIFIC_DAY ? data.closingDayValue || undefined : undefined
     };
     
+    console.log('Converted form data', formData);
     await onSubmit(formData);
   };
   

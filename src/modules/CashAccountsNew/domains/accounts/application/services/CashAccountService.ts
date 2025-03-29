@@ -15,7 +15,7 @@ export class CashAccountService {
   /**
    * Kullanıcıya ait tüm nakit hesapları getirir
    */
-  async getCashAccounts(userId: string): Promise<CashAccountListResult> {
+  static async getCashAccounts(userId: string): Promise<CashAccountListResult> {
     try {
       accountsLogger.info('Fetching all cash accounts', { userId });
       
@@ -50,7 +50,7 @@ export class CashAccountService {
   /**
    * Belirli bir nakit hesabın detaylarını getirir
    */
-  async getCashAccount(accountId: string, userId: string): Promise<CashAccountResult> {
+  static async getCashAccount(accountId: string, userId: string): Promise<CashAccountResult> {
     try {
       accountsLogger.info('Fetching cash account details', { accountId, userId });
       
@@ -86,7 +86,7 @@ export class CashAccountService {
   /**
    * Yeni bir nakit hesap oluşturur
    */
-  async createCashAccount(data: CreateCashAccountData): Promise<CashAccountResult> {
+  static async createCashAccount(data: CreateCashAccountData): Promise<CashAccountResult> {
     try {
       accountsLogger.info('Creating new cash account', { accountName: data.name });
       
@@ -121,7 +121,7 @@ export class CashAccountService {
   /**
    * Nakit hesabı günceller
    */
-  async updateCashAccount(accountId: string, userId: string, data: Partial<CashAccount>): Promise<CashAccountResult> {
+  static async updateCashAccount(accountId: string, userId: string, data: Partial<CashAccount>): Promise<CashAccountResult> {
     try {
       accountsLogger.info('Updating cash account', { accountId, userId });
       
@@ -158,7 +158,7 @@ export class CashAccountService {
   /**
    * Nakit hesabı siler (soft delete)
    */
-  async deleteCashAccount(accountId: string, userId: string): Promise<CashAccountResult> {
+  static async deleteCashAccount(accountId: string, userId: string): Promise<CashAccountResult> {
     try {
       accountsLogger.info('Soft deleting cash account', { accountId, userId });
       
@@ -193,5 +193,5 @@ export class CashAccountService {
   }
 }
 
-// Servis singleton'ı export edelim
-export const cashAccountService = new CashAccountService();
+// Servis instance'ı export etmeyi kaldırıyoruz
+// export const cashAccountService = new CashAccountService();

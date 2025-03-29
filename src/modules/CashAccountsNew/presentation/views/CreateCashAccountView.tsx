@@ -26,10 +26,12 @@ export const CreateCashAccountView: React.FC = () => {
   };
   
   const handleSubmit = async (formData: CashAccountFormData) => {
+    console.log('Submitting form data', formData);
     uiLogger.info('Submitting cash account creation form', { formData });
     
     try {
       const result = await createCashAccount(formData);
+      console.log('Form submission result', result);
       
       if (result) {
         uiLogger.info('Successfully created cash account', { accountId: result.id });
@@ -46,6 +48,7 @@ export const CreateCashAccountView: React.FC = () => {
         });
       }
     } catch (error) {
+      console.error('Error in form submission', error);
       uiLogger.error('Error submitting form', { error });
       toast({
         variant: 'destructive',
