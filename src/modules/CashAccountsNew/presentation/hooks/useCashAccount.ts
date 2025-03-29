@@ -10,8 +10,7 @@ import { CashAccount } from '../../shared/types';
  * Belirli bir nakit hesabı getiren hook
  */
 export const useCashAccount = (accountId: string | undefined) => {
-  const { user } = useSessionUser();
-  const userId = user?.id;
+  const { userId } = useSessionUser();
   
   // Nakit hesabı getir
   const {

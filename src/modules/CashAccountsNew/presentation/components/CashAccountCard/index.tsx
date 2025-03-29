@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { formatCurrency } from '../../../shared/utils/currencyUtils';
-import { CashAccount } from '../../../shared/types';
+import { CashAccount, CurrencyType } from '../../../shared/types';
 
 interface CashAccountCardProps {
   account: CashAccount;
@@ -44,7 +44,7 @@ export const CashAccountCard: React.FC<CashAccountCardProps> = ({ account }) => 
             {t('overview.balanceLabel')}
           </p>
           <h3 className="text-2xl font-bold">
-            {formatCurrency(account.initial_balance, account.currency)}
+            {formatCurrency(account.initial_balance, account.currency as CurrencyType)}
           </h3>
         </div>
       </CardContent>
