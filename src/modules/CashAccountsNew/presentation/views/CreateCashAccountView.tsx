@@ -6,6 +6,8 @@ import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { useCashAccountForm } from '../hooks/useCashAccountForm';
 import { uiLogger } from '../../logging';
+import { CashAccountForm } from '../components/CashAccountForm';
+import { CashAccountFormData } from '../../shared/types';
 
 /**
  * Yeni nakit hesap oluşturma görünümü
@@ -20,13 +22,17 @@ export const CreateCashAccountView: React.FC = () => {
     navigate('/cash-accounts-new');
   };
   
-  const handleSubmit = async (formData: typeof defaultFormData) => {
+  const handleSubmit = async (formData: CashAccountFormData) => {
     uiLogger.info('Submitting cash account creation form');
     
     const result = await createCashAccount(formData);
     
     if (result) {
       uiLogger.info('Successfully created cash account', { accountId: result.id });
+      toast({
+        title: t('common:success'),
+        description: t('accountCreated'),
+      });
       navigate('/cash-accounts-new');
     }
   };
@@ -44,23 +50,12 @@ export const CreateCashAccountView: React.FC = () => {
       </div>
       
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-        <p className="text-lg mb-6">{t('createAccount.description')}</p>
-        
-        {/* Form burada eklencek */}
-        <div className="flex justify-end space-x-4 mt-6">
-          <Button 
-            variant="outline" 
-            onClick={handleCancel}
-          >
-            {t('common:cancel')}
-          </Button>
-          <Button 
-            disabled={isSubmitting}
-            onClick={() => handleSubmit(defaultFormData)}
-          >
-            {isSubmitting ? t('common:loading') : t('common:save')}
-          </Button>
-        </div>
+        <CashAccountForm
+          defaultValues={defaultFormData}
+          onSubmit={handleSubmit}
+          onCancel={handleCancel}
+          isSubmitting={isSubmitting}
+        />
       </div>
     </div>
   );
