@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '@/components/ui/form';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { cashAccountSchema, CashAccountFormSchema } from './schema';
 import { BasicInfoStep } from './steps/BasicInfoStep';
@@ -104,17 +104,19 @@ export const CashAccountForm: React.FC<CashAccountFormProps> = ({
   const isLastStep = currentStep === steps.length - 1;
   
   return (
-    <Card className="w-full border-0 shadow-none">
-      <CardHeader className="px-0">
-        <CardTitle>{t('accountForm.title')}</CardTitle>
-        <CardDescription>{steps[currentStep].title}</CardDescription>
-      </CardHeader>
+    <div className="w-full">
+      <div className="px-0 pb-4">
+        <h3 className="text-xl font-semibold leading-none tracking-tight">{t('accountForm.title')}</h3>
+        <p className="text-sm text-muted-foreground mt-1">{steps[currentStep].title}</p>
+      </div>
+      
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleFormSubmit)} noValidate>
-          <CardContent className="px-0">
+          <div className="space-y-6">
             {currentStepContent}
-          </CardContent>
-          <CardFooter className="flex justify-between px-0">
+          </div>
+          
+          <div className="flex justify-between pt-6">
             {isFirstStep ? (
               <Button type="button" variant="outline" onClick={onCancel}>
                 {t('accountForm.buttons.cancel')}
@@ -134,9 +136,9 @@ export const CashAccountForm: React.FC<CashAccountFormProps> = ({
                 {t('accountForm.buttons.next')}
               </Button>
             )}
-          </CardFooter>
+          </div>
         </form>
       </Form>
-    </Card>
+    </div>
   );
 };

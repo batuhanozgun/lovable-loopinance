@@ -9,6 +9,7 @@ import { useCashAccountForm } from '../hooks/useCashAccountForm';
 import { uiLogger } from '../../logging';
 import { CashAccountForm } from '../components/CashAccountForm';
 import { CashAccountFormData } from '../../shared/types';
+import { Card, CardContent } from '@/components/ui/card';
 
 /**
  * Yeni nakit hesap oluşturma görünümü
@@ -66,14 +67,16 @@ export const CreateCashAccountView: React.FC = () => {
         </Button>
       </div>
       
-      <div className="bg-white dark:bg-gray-800 p-4 md:p-6 rounded-lg shadow">
-        <CashAccountForm
-          defaultValues={defaultFormData}
-          onSubmit={handleSubmit}
-          onCancel={handleCancel}
-          isSubmitting={isSubmitting}
-        />
-      </div>
+      <Card className="border shadow">
+        <CardContent className="p-4 md:p-6">
+          <CashAccountForm
+            defaultValues={defaultFormData}
+            onSubmit={handleSubmit}
+            onCancel={handleCancel}
+            isSubmitting={isSubmitting}
+          />
+        </CardContent>
+      </Card>
     </div>
   );
 };
