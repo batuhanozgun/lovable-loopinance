@@ -12,7 +12,7 @@ import {
   CardTitle 
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { CashAccount } from '../../../shared/types';
+import { CashAccount, CurrencyType } from '../../../shared/types';
 import { formatCurrency } from '../../../shared/utils/currencyUtils';
 
 interface CashAccountCardProps {
@@ -36,7 +36,7 @@ export const CashAccountCard: React.FC<CashAccountCardProps> = ({ account }) => 
       <CardContent className="pt-0 pb-2 flex-grow">
         <div className="mt-2">
           <div className="text-2xl font-bold">
-            {formatCurrency(account.initial_balance, account.currency)}
+            {formatCurrency(account.initial_balance, account.currency as CurrencyType)}
           </div>
           <p className="text-sm text-muted-foreground">
             {t('balance')}
