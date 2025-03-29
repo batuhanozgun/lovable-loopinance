@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { CurrencyType } from '../../../shared/types';
-import { formatNumberForDisplay } from '../../../shared/utils/amountUtils';
+import { formatNumberForDisplay, cleanNumberInput } from '../../../shared/utils/amountUtils';
 import { getCurrencySymbol } from '../../../shared/utils/currencyUtils';
 
 interface CurrencyInputProps {
@@ -47,8 +47,19 @@ export const CurrencyInput: React.FC<CurrencyInputProps> = ({
                       className="pl-8 pr-0 rounded-r-none border-r-0"
                       onChange={(e) => {
                         // Yalnızca sayısal değerlere izin ver ve binlik ayırıcı gösterimi kullan
-                        const value = e.target.value.replace(/[^0-9]/g, '');
-                        field.onChange(formatNumberForDisplay(value));
+                        const rawValue = e.target.value.replace(/[^0-9]/g, '');
+                        if (rawValue === '') {
+                          field.onChange('0');
+                          return;
+                        }
+                        field.onChange(formatNumberForDisplay(rawValue));
+                      }}
+                      onBlur={(e) => {
+                        // Boş değer olması durumunda "0" olarak ayarla
+                        if (!field.value || field.value === '') {
+                          field.onChange('0');
+                        }
+                        if (field.onBlur) field.onBlur(e);
                       }}
                     />
                   </FormControl>
@@ -74,6 +85,16 @@ export const CurrencyInput: React.FC<CurrencyInputProps> = ({
                         // Yalnızca sayısal değerlere ve maksimum 2 karaktere izin ver
                         const value = e.target.value.replace(/[^0-9]/g, '').slice(0, 2);
                         field.onChange(value);
+                      }}
+                      onBlur={(e) => {
+                        // Boş değer olması durumunda "00" olarak ayarla
+                        // Tek basamaklı değer olması durumunda sonuna "0" ekle
+                        if (!field.value || field.value === '') {
+                          field.onChange('00');
+                        } else if (field.value.length === 1) {
+                          field.onChange(field.value + '0');
+                        }
+                        if (field.onBlur) field.onBlur(e);
                       }}
                     />
                   </FormControl>

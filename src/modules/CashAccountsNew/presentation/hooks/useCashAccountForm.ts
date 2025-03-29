@@ -6,6 +6,7 @@ import { CashAccountService } from '../../domains/accounts/application/services/
 import { CashAccountFormData, CashAccount, CurrencyType, ClosingDayType } from '../../shared/types';
 import { uiLogger } from '../../logging';
 import { useSessionUser } from '@/modules/Subscription/hooks/useSessionUser';
+import { combineAmountParts } from '../../shared/utils/amountUtils';
 
 /**
  * Nakit hesap form yönetimi için kullanılan hook
@@ -46,10 +47,15 @@ export const useCashAccountForm = () => {
       setFormError(null);
       
       // Form verilerini servise gönderilecek formata dönüştür
-      const initialBalance = Number(`${formData.initialBalance.whole || '0'}.${formData.initialBalance.decimal || '00'}`);
+      // combineAmountParts fonksiyonunu kullanarak güvenli sayı dönüşümü yap
+      const initialBalance = combineAmountParts(
+        formData.initialBalance.whole || '0', 
+        formData.initialBalance.decimal || '00'
+      );
       
       console.log('SUBMIT: formData.closingDayType', formData.closingDayType);
       console.log('SUBMIT: formData.closingDayValue', formData.closingDayValue);
+      console.log('SUBMIT: initialBalance', initialBalance);
       
       // Veriyi hazırla
       const accountData = {
