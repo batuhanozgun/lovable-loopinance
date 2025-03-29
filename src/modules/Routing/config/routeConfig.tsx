@@ -20,11 +20,6 @@ import {
   StatementsListView,
   StatementDetailView
 } from "@/modules/CashAccounts";
-import {
-  CashAccountsView as CashAccountsNewView,
-  CreateCashAccountView as CreateCashAccountNewView,
-  CashAccountDetailView as CashAccountDetailNewView
-} from "@/modules/CashAccountsNew";
 import Landing from "@/pages/Landing";
 import PricingPage from "@/pages/Pricing";
 import NotFound from "@/pages/NotFound";
@@ -138,22 +133,6 @@ export const routes: AppRoute[] = [
     path: "/cash-accounts/:accountId/statements/:statementId",
     type: "private",
     element: <StatementDetailView />
-  },
-  // Yeni Cash Accounts modülü rotaları
-  {
-    path: "/cash-accounts-new",
-    type: "private",
-    element: <CashAccountsNewView />
-  },
-  {
-    path: "/cash-accounts-new/new",
-    type: "private",
-    element: <CreateCashAccountNewView />
-  },
-  {
-    path: "/cash-accounts-new/:id",
-    type: "private",
-    element: <CashAccountDetailNewView />
   },
   {
     path: "/subscription",
