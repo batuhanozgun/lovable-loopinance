@@ -1,0 +1,25 @@
+
+{
+  "accountForm": {
+    "name": {
+      "required": "Account name is required",
+      "maxLength": "Account name must be less than 100 characters"
+    },
+    "initialBalance": {
+      "invalidFormat": "Initial balance must be a valid number"
+    },
+    "currency": {
+      "required": "Currency is required"
+    },
+    "description": {
+      "maxLength": "Description must be less than 250 characters"
+    },
+    "closingDayType": {
+      "required": "Closing day type is required"
+    },
+    "closingDayValue": {
+      "required": "Closing day is required",
+      "range": "Closing day must be between 1 and 28"
+    }
+  }
+}

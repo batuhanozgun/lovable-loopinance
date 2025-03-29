@@ -1,0 +1,15 @@
+
+{
+  "account": {
+    "create": {
+      "failed": "Hesap oluşturulamadı",
+      "networkError": "Hesap oluştururken ağ hatası oluştu",
+      "unknownError": "Bilinmeyen bir hata oluştu"
+    },
+    "fetch": {
+      "failed": "Hesaplar getirilemedi",
+      "networkError": "Hesapları getirirken ağ hatası oluştu",
+      "unknownError": "Bilinmeyen bir hata oluştu"
+    }
+  }
+}

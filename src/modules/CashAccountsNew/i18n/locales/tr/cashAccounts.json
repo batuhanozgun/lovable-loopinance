@@ -1,0 +1,32 @@
+
+{
+  "title": "Nakit Hesaplar",
+  "newAccount": "Yeni Nakit Hesap",
+  "description": "Nakit hesaplar günlük harcamalarınızı ve gelirlerinizi takip etmenize yardımcı olur",
+  "noAccounts": "Nakit hesap bulunamadı",
+  "noDescription": "Açıklama yok",
+  "viewDetails": "Detayları Görüntüle",
+  "overview": {
+    "balanceLabel": "Güncel Bakiye",
+    "statementButton": "Ekstreleri Görüntüle"
+  },
+  "account": {
+    "title": "Hesap Detayları",
+    "balance": "Güncel Bakiye",
+    "initialBalance": "Başlangıç Bakiyesi",
+    "currency": "Para Birimi",
+    "closingDay": "Ekstre Kapanış Günü",
+    "createdAt": "Oluşturulma Tarihi"
+  },
+  "errors": {
+    "account": {
+      "notFound": "Hesap bulunamadı",
+      "list": {
+        "failed": "Hesaplar yüklenemedi. Lütfen tekrar deneyin."
+      },
+      "detail": {
+        "failed": "Hesap detayları yüklenemedi"
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+
+{
+  "accountForm": {
+    "name": {
+      "required": "Hesap adı gereklidir",
+      "maxLength": "Hesap adı 100 karakterden az olmalıdır"
+    },
+    "initialBalance": {
+      "invalidFormat": "Başlangıç bakiyesi geçerli bir sayı olmalıdır"
+    },
+    "currency": {
+      "required": "Para birimi gereklidir"
+    },
+    "description": {
+      "maxLength": "Açıklama 250 karakterden az olmalıdır"
+    },
+    "closingDayType": {
+      "required": "Hesap kesim günü türü gereklidir"
+    },
+    "closingDayValue": {
+      "required": "Hesap kesim günü gereklidir",
+      "range": "Hesap kesim günü 1 ile 28 arasında olmalıdır"
+    }
+  }
+}
