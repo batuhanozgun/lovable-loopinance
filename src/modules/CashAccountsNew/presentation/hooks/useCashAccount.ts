@@ -1,7 +1,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect } from 'react';
-import { cashAccountService } from '../../domains/accounts/application/services/CashAccountService';
+import { CashAccountService } from '../../domains/accounts/application/services/CashAccountService';
 import { uiLogger } from '../../logging';
 import { useSessionUser } from '@/modules/Subscription/hooks/useSessionUser';
 import { CashAccount } from '../../shared/types';
@@ -27,7 +27,7 @@ export const useCashAccount = (accountId: string | undefined) => {
         return null;
       }
       
-      const result = await cashAccountService.getCashAccount(accountId, userId);
+      const result = await CashAccountService.getCashAccount(accountId, userId);
       
       if (!result.success) {
         throw new Error(result.error || 'Failed to fetch cash account');
