@@ -48,6 +48,19 @@ export const useCashAccountForm = () => {
       // Form verilerini servise gönderilecek formata dönüştür
       const initialBalance = Number(`${formData.initialBalance.whole || '0'}.${formData.initialBalance.decimal || '00'}`);
       
+      // Veriyi hazırla
+      const accountData = {
+        user_id: userId,
+        name: formData.name,
+        initial_balance: initialBalance,
+        currency: formData.currency,
+        description: formData.description || null,
+        closing_day_type: formData.closingDayType,
+        closing_day_value: formData.closingDayType === ClosingDayType.SPECIFIC_DAY 
+                            ? formData.closingDayValue 
+                            : null
+      };
+      
       uiLogger.info('Sending cash account data to service', { 
         userId, 
         name: formData.name, 
@@ -56,15 +69,7 @@ export const useCashAccountForm = () => {
       });
       
       // Servise istek gönder
-      const result = await cashAccountService.createCashAccount({
-        user_id: userId,
-        name: formData.name,
-        initial_balance: initialBalance,
-        currency: formData.currency,
-        description: formData.description,
-        closing_day_type: formData.closingDayType,
-        closing_day_value: formData.closingDayValue,
-      });
+      const result = await cashAccountService.createCashAccount(accountData);
       
       if (!result.success) {
         const errorMessage = result.error || t('errors.account.create.failed');

@@ -24,9 +24,13 @@ export const cashAccountSchema = z.object({
     .min(1, { message: 'validation:accountForm.closingDayValue.range' })
     .max(28, { message: 'validation:accountForm.closingDayValue.range' })
     .optional()
-    .refine((val) => {
+    .nullable()
+    .refine((val, ctx) => {
       // ClosingDayType.SPECIFIC_DAY için değer gerekli
-      return val !== undefined;
+      if (ctx.parent.closingDayType === ClosingDayType.SPECIFIC_DAY && val === undefined) {
+        return false;
+      }
+      return true;
     }, { message: 'validation:accountForm.closingDayValue.required' })
 });
 
