@@ -5,7 +5,13 @@
 import { supabase } from '@/integrations/supabase/client';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
 import { CashAccount } from '../../../cashAccountHomepage/types';
-import { AccountStatement, CreateAccountStatementData, SingleStatementResponse, StatementStatus } from '../../types';
+import { 
+  AccountStatement, 
+  CreateAccountStatementData, 
+  SingleStatementResponse, 
+  StatementStatus,
+  AccountFutureStatementStatus
+} from '../../types';
 import { StatementCreationService } from '../core/creation/StatementCreationService';
 import { StatementPeriodService } from '../core/period/StatementPeriodService';
 import { format, addMonths } from 'date-fns';
@@ -139,7 +145,8 @@ export class FutureStatementService {
       }
       
       // Future statement ihtiyacı yoksa işlem yapma
-      if (!data.needs_future_statements) {
+      const futureStatus = data as AccountFutureStatementStatus;
+      if (!futureStatus.needs_future_statements) {
         return {
           success: true,
           createdCount: 0
@@ -188,7 +195,7 @@ export class FutureStatementService {
       return await this.createRemainingFutureStatements(
         accountId, 
         referenceStatement, 
-        data.future_statements_to_create
+        futureStatus.future_statements_to_create
       );
     } catch (error) {
       this.logger.error('Eksik gelecek ekstreleri kontrol edilirken beklenmeyen hata', { accountId, error });

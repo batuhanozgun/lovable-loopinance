@@ -53,3 +53,25 @@ export interface StatementCheckResult {
   statementId?: string;
   isNew?: boolean;
 }
+
+/**
+ * Hesap için gelecek ekstre durumu
+ */
+export interface AccountFutureStatementStatus {
+  account_id: string;
+  open_count: number;
+  future_count: number;
+  required_future_count: number;
+  needs_future_statements: boolean;
+  future_statements_to_create: number;
+}
+
+/**
+ * Future ekstre güncelleme sonucu
+ */
+export interface UpdateFutureStatementsResult {
+  success: boolean;
+  updated: number;
+  statements: any[];
+  accounts_needing_statements?: AccountFutureStatementStatus[];
+}

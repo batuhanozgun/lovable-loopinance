@@ -8,7 +8,7 @@ import { FutureStatementService } from './FutureStatementService';
 import { StatementService } from '../StatementService';
 import { CashAccount } from '../../../cashAccountHomepage/types';
 import { toast } from 'sonner';
-import { i18n } from '@/i18n/config';
+import i18n from '@/i18n/config';
 
 /**
  * Ekstre otomasyonu için ana servis
