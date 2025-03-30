@@ -72,7 +72,7 @@ export const StatementsList: React.FC<StatementsListProps> = ({ statements, isLo
             <TableRow>
               <TableHead>{t('statements.period')}</TableHead>
               <TableHead>{t('statements.endBalance')}</TableHead>
-              <TableHead>{t('statements.status')}</TableHead>
+              <TableHead>{t('statements.status.title', 'Status')}</TableHead>
               <TableHead className="text-right">{t('statements.viewDetails')}</TableHead>
             </TableRow>
           </TableHeader>

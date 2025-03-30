@@ -27,6 +27,7 @@
       "statementCheckError": "Failed to check statements"
     },
     "status": {
+      "title": "Status",
       "open": "Open",
       "closed": "Closed",
       "future": "Future"

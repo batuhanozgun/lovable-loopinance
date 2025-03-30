@@ -27,6 +27,7 @@
       "statementCheckError": "Ekstreler kontrol edilirken bir hata oluştu"
     },
     "status": {
+      "title": "Durum",
       "open": "Açık",
       "closed": "Kapalı",
       "future": "Gelecek"
