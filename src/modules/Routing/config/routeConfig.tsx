@@ -20,7 +20,12 @@ import {
   StatementsListView,
   StatementDetailView
 } from "@/modules/CashAccounts";
-import { CashAccountsNewView, CreateCashAccountView } from "@/modules/CashAccountsNew";
+import { 
+  CashAccountsNewView, 
+  CreateCashAccountView,
+  StatementsListView as NewStatementsListView,
+  StatementDetailView as NewStatementDetailView
+} from "@/modules/CashAccountsNew";
 import Landing from "@/pages/Landing";
 import PricingPage from "@/pages/Pricing";
 import NotFound from "@/pages/NotFound";
@@ -145,6 +150,17 @@ export const routes: AppRoute[] = [
     path: "/nakit-hesaplar/new",
     type: "private",
     element: <CreateCashAccountView />
+  },
+  // Yeni ekstre rotaları
+  {
+    path: "/nakit-hesaplar/:accountId/statements",
+    type: "private",
+    element: <NewStatementsListView />
+  },
+  {
+    path: "/nakit-hesaplar/:accountId/statements/:statementId",
+    type: "private",
+    element: <NewStatementDetailView />
   },
   {
     path: "/subscription",

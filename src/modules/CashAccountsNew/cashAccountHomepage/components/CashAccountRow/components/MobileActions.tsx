@@ -34,32 +34,32 @@ export const MobileActions: React.FC<MobileActionsProps> = ({
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="h-8 w-8">
           <MoreVertical className="h-4 w-4" />
-          <span className="sr-only">{t('CashAccountsNew:actions')}</span>
+          <span className="sr-only">{t('actions')}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem asChild>
           <Link to={`/nakit-hesaplar/${id}/statements`}>
             <FileText className="mr-2 h-4 w-4" />
-            {t('CashAccountsNew:statements')}
+            {t('statements')}
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link to={`/nakit-hesaplar/${id}`}>
             <Eye className="mr-2 h-4 w-4" />
-            {t('CashAccountsNew:viewDetails')}
+            {t('viewDetails')}
           </Link>
         </DropdownMenuItem>
         {onEdit && (
           <DropdownMenuItem onClick={() => onEdit(account)}>
             <Edit className="mr-2 h-4 w-4" />
-            {t('CashAccountsNew:edit')}
+            {t('edit')}
           </DropdownMenuItem>
         )}
         {onDelete && (
           <DropdownMenuItem onClick={() => onDelete(account)}>
             <Trash2 className="mr-2 h-4 w-4" />
-            {t('CashAccountsNew:delete')}
+            {t('delete')}
           </DropdownMenuItem>
         )}
       </DropdownMenuContent>
