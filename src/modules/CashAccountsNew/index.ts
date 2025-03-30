@@ -7,10 +7,3 @@ export { initCashAccountsNewModule } from './config/moduleConfig';
 
 // Re-export from submodules
 export * from './cashAccountHomepage';
-
-/**
- * Initialize module
- */
-export const initCashAccountsNewModule = () => {
-  console.log('CashAccountsNew module initialized');
-};
