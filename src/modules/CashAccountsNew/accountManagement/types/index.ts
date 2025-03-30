@@ -36,6 +36,7 @@ export interface CreateCashAccountRequest {
   description?: string;
   closing_day_type: string;
   closing_day_value?: number;
+  user_id: string; // Eklenen user_id alanı
 }
 
 /**

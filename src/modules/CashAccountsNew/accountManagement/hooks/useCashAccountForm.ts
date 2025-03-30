@@ -7,6 +7,7 @@ import { CashAccountFormValues, ClosingDayType, CashAccountResponse, CreateCashA
 import { CashAccountManagementService } from '../services/CashAccountManagementService';
 import { CurrencyType } from '../../cashAccountHomepage/types';
 import { combineAmountParts } from '../utils/amountUtils';
+import { useSessionService } from '@/modules/UserManagement/auth/hooks/useSessionService';
 
 /**
  * Nakit hesap oluşturma formunu yöneten custom hook
@@ -16,6 +17,7 @@ export const useCashAccountForm = () => {
   const { toast } = useToast();
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { getCurrentUserID } = useSessionService(); // SessionService'ten kullanıcı kimliğini almak için
 
   // Form yönetimi için react-hook-form
   const form = useForm<CashAccountFormValues>({
@@ -46,6 +48,13 @@ export const useCashAccountForm = () => {
     setIsSubmitting(true);
 
     try {
+      // Kullanıcı kimliğini al
+      const userId = await getCurrentUserID();
+      
+      if (!userId) {
+        throw new Error('Kullanıcı kimliği bulunamadı');
+      }
+
       // Form verilerini API formatına dönüştür
       const initialBalance = combineAmountParts(
         values.initialBalance.whole,
@@ -60,7 +69,8 @@ export const useCashAccountForm = () => {
         closing_day_type: values.closingDayType,
         closing_day_value: values.closingDayType === ClosingDayType.SPECIFIC_DAY 
           ? values.closingDayValue 
-          : undefined
+          : undefined,
+        user_id: userId // Kullanıcı kimliğini ekle
       };
 
       // API çağrısı
