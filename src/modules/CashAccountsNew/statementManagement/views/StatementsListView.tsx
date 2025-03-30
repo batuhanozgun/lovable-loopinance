@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
-import { useCashAccount } from '@/modules/CashAccountsNew/cashAccountHomepage/hooks/useCashAccounts';
+import { useCashAccount } from '@/modules/CashAccountsNew/cashAccountHomepage/hooks';
 import { useStatements } from '../hooks/useStatements';
 import { StatementsList } from '../components/StatementsList';
 import { CurrencyType } from '@/modules/CashAccountsNew/cashAccountHomepage/types';
@@ -21,7 +21,7 @@ export const StatementsListView: React.FC = () => {
   const { toast } = useToast();
   
   // Hesap verilerini çekme
-  const { account, isLoading: isAccountLoading } = useCashAccount(accountId!);
+  const { data: account, isLoading: isAccountLoading } = useCashAccount(accountId!);
   
   // Ekstreleri çekme
   const { 

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { useStatement } from '../hooks/useStatement';
-import { useCashAccount } from '@/modules/CashAccountsNew/cashAccountHomepage/hooks/useCashAccounts';
+import { useCashAccount } from '@/modules/CashAccountsNew/cashAccountHomepage/hooks';
 import { CurrencyType } from '@/modules/CashAccountsNew/cashAccountHomepage/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { StatementDetails } from '../components/StatementDetails';
@@ -17,7 +17,7 @@ export const StatementDetailView: React.FC = () => {
   const { accountId, statementId } = useParams<{ accountId: string; statementId: string }>();
   const { t } = useTranslation(['CashAccountsNew', 'common']);
   
-  const { account, isLoading: isAccountLoading } = useCashAccount(accountId!);
+  const { data: account, isLoading: isAccountLoading } = useCashAccount(accountId);
   const { data: statement, isLoading: isStatementLoading } = useStatement(statementId);
 
   // Yükleme durumu
