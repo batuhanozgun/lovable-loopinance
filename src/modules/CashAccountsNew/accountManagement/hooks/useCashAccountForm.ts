@@ -12,7 +12,7 @@ import { combineAmountParts } from '../utils/amountUtils';
  * Nakit hesap oluşturma formunu yöneten custom hook
  */
 export const useCashAccountForm = () => {
-  const { t } = useTranslation(['CashAccountsNew']);
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -68,15 +68,15 @@ export const useCashAccountForm = () => {
 
       if (response.success) {
         toast({
-          title: t('accountManagement.success.title'),
-          description: t('accountManagement.success.description'),
+          title: t('CashAccountsNew:accountManagement.success.title'),
+          description: t('CashAccountsNew:accountManagement.success.description'),
         });
         return response;
       } else {
         toast({
           variant: 'destructive',
-          title: t('accountManagement.errors.create.title'),
-          description: response.error || t('accountManagement.errors.create.description'),
+          title: t('CashAccountsNew:accountManagement.errors.create.title'),
+          description: response.error || t('CashAccountsNew:accountManagement.errors.create.description'),
         });
         return null;
       }
@@ -84,8 +84,8 @@ export const useCashAccountForm = () => {
       console.error('Error creating cash account:', error);
       toast({
         variant: 'destructive',
-        title: t('accountManagement.errors.create.title'),
-        description: t('accountManagement.errors.create.unknownError'),
+        title: t('CashAccountsNew:accountManagement.errors.create.title'),
+        description: t('CashAccountsNew:accountManagement.errors.create.unknownError'),
       });
       return null;
     } finally {
