@@ -1,81 +1,130 @@
 
+/**
+ * Nakit hesap yönetimi servisi
+ */
 import { supabase } from '@/integrations/supabase/client';
-import { CreateCashAccountRequest, CashAccountResponse } from '../types';
-import { LoggerService } from '@/modules/Logging/services/LoggerService';
-import { SessionService } from '@/modules/UserManagement/auth/services/SessionService';
-import { useSessionService } from '@/modules/UserManagement/auth/hooks/useSessionService';
+import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
+import { CashAccount, CreateCashAccountData } from '../types';
+import { StatementService } from '../../statementManagement/services/StatementService';
 
 /**
- * Nakit hesap yönetimi için servis sınıfı
+ * Nakit hesapları yönetmek için servis
  */
 export class CashAccountManagementService {
-  private static logger = LoggerService.getInstance('CashAccountManagementService');
+  private static logger = new ModuleLogger('CashAccountsNew.CashAccountManagementService');
 
   /**
-   * Kullanıcı ID'sini alır
+   * Yeni bir nakit hesap oluşturur
    */
-  private static async getUserId(): Promise<string | null> {
+  static async createCashAccount(data: CreateCashAccountData): Promise<{
+    success: boolean;
+    data?: CashAccount;
+    error?: string;
+    statementId?: string;
+  }> {
     try {
-      const sessionResponse = await SessionService.getCurrentSession();
-      return sessionResponse.user?.id || null;
+      this.logger.debug('Creating new cash account', { data });
+      
+      const { data: accountData, error } = await supabase
+        .from('cash_accounts')
+        .insert(data)
+        .select()
+        .single();
+      
+      if (error) {
+        this.logger.error('Failed to create cash account', { error });
+        return {
+          success: false,
+          error: error.message
+        };
+      }
+      
+      this.logger.info('Cash account created successfully', { id: accountData.id });
+      
+      // Hesap oluşturulduktan sonra ilk ekstreyi otomatik olarak oluştur
+      let statementId;
+      try {
+        const newAccount = accountData as CashAccount;
+        
+        // Dönem tarihlerini hesapla
+        const period = StatementService.calculateNextPeriod(newAccount);
+        
+        // İlk ekstreyi oluştur
+        const statementResult = await StatementService.createNextStatement(
+          newAccount.id,
+          period.startDate,
+          period.endDate
+        );
+        
+        if (statementResult.success && statementResult.data) {
+          statementId = statementResult.data.id;
+          this.logger.info('Initial statement created automatically for new account', { 
+            accountId: newAccount.id, 
+            statementId: statementId
+          });
+        } else {
+          this.logger.warn('Failed to create initial statement for new account', { 
+            accountId: newAccount.id, 
+            error: statementResult.error 
+          });
+        }
+      } catch (statementError) {
+        // Ekstre oluşturma hatası hesap oluşturmayı etkilememelidir
+        this.logger.error('Error creating initial statement', { 
+          accountId: accountData.id, 
+          error: statementError 
+        });
+      }
+      
+      return {
+        success: true,
+        data: accountData as CashAccount,
+        statementId
+      };
     } catch (error) {
-      this.logger.error('Error getting user ID:', error);
-      return null;
+      this.logger.error('Unexpected error creating cash account', { error });
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      };
     }
   }
 
   /**
-   * Yeni bir nakit hesap oluşturur
-   * @param data Nakit hesap verileri
-   * @returns İşlem sonucu
+   * ID'ye göre belirli bir nakit hesabı getirir
    */
-  public static async createCashAccount(data: CreateCashAccountRequest): Promise<CashAccountResponse> {
+  static async getCashAccountById(id: string): Promise<{
+    success: boolean;
+    data?: CashAccount;
+    error?: string;
+  }> {
     try {
-      this.logger.debug('Creating cash account with data:', data);
-
-      // Kullanıcı ID'sini al
-      const userId = await this.getUserId();
-      if (!userId) {
-        this.logger.error('User ID not found');
-        return {
-          success: false,
-          error: 'User ID not found',
-        };
-      }
-
-      const { data: cashAccount, error } = await supabase
+      this.logger.debug('Fetching cash account by ID', { id });
+      
+      const { data: account, error } = await supabase
         .from('cash_accounts')
-        .insert({
-          name: data.name,
-          initial_balance: data.initial_balance,
-          currency: data.currency,
-          description: data.description,
-          closing_day_type: data.closing_day_type,
-          closing_day_value: data.closing_day_value,
-          account_type: 'Cash Account',
-          user_id: userId
-        })
-        .select()
+        .select('*')
+        .eq('id', id)
         .single();
-
+      
       if (error) {
-        this.logger.error('Error creating cash account:', error);
+        this.logger.error('Failed to fetch cash account by ID', { id, error });
         return {
           success: false,
-          error: error.message,
+          error: error.message
         };
       }
-
-      this.logger.debug('Cash account created successfully:', cashAccount);
+      
+      this.logger.info('Cash account fetched successfully', { id });
       return {
         success: true,
-        data: cashAccount,
+        data: account as CashAccount
       };
     } catch (error) {
-      this.logger.error('Unexpected error creating cash account:', error);
+      this.logger.error('Unexpected error fetching cash account by ID', { id, error });
       return {
         success: false,
-        error: 'Unexpected error creating cash account',
+        error: error instanceof Error ? error.message : 'Unknown error'
       };
     }
   }
