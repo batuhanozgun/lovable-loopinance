@@ -4,10 +4,12 @@ import i18n from 'i18next';
 // İngilizce kaynaklar
 import cashAccountsEN from './locales/en/cashAccounts.json';
 import errorsEN from './locales/en/errors.json';
+import accountManagementEN from './locales/en/accountManagement.json';
 
 // Türkçe kaynaklar
 import cashAccountsTR from './locales/tr/cashAccounts.json';
 import errorsTR from './locales/tr/errors.json';
+import accountManagementTR from './locales/tr/accountManagement.json';
 
 // CashAccountsNew modülü çevirilerini başlat
 export const initCashAccountsNewTranslations = () => {
@@ -36,12 +38,14 @@ function addCashAccountsNewResources() {
     // İngilizce kaynakları ekle
     i18n.addResourceBundle('en', 'CashAccountsNew', {
       ...cashAccountsEN,
+      ...accountManagementEN,
       errors: errorsEN
     }, true, true);
 
     // Türkçe kaynakları ekle
     i18n.addResourceBundle('tr', 'CashAccountsNew', {
       ...cashAccountsTR,
+      ...accountManagementTR,
       errors: errorsTR
     }, true, true);
     

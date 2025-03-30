@@ -1,3 +1,4 @@
+
 import { ReactNode } from "react";
 import { SignUp } from "@/modules/UserManagement/Signup/views/SignupView";
 import { Login } from "@/modules/UserManagement/Login/views/LoginView";
@@ -14,12 +15,12 @@ import { CategoriesView } from "@/modules/Categories/views/CategoriesView";
 import CategoryTemplatesView from "@/modules/CategoryTemplates/views/CategoryTemplatesView";
 import { 
   CashAccountsView, 
-  CreateCashAccountView,
+  CreateCashAccountView as OldCreateCashAccountView,
   CashAccountDetailView,
   StatementsListView,
   StatementDetailView
 } from "@/modules/CashAccounts";
-import { CashAccountsNewView } from "@/modules/CashAccountsNew";
+import { CashAccountsNewView, CreateCashAccountView } from "@/modules/CashAccountsNew";
 import Landing from "@/pages/Landing";
 import PricingPage from "@/pages/Pricing";
 import NotFound from "@/pages/NotFound";
@@ -117,7 +118,7 @@ export const routes: AppRoute[] = [
   {
     path: "/cash-accounts/new",
     type: "private",
-    element: <CreateCashAccountView />
+    element: <OldCreateCashAccountView />
   },
   {
     path: "/cash-accounts/:id",
@@ -134,11 +135,16 @@ export const routes: AppRoute[] = [
     type: "private",
     element: <StatementDetailView />
   },
-  // Yeni "nakit-hesaplar" rotası
+  // Yeni "nakit-hesaplar" rotaları
   {
     path: "/nakit-hesaplar",
     type: "private",
     element: <CashAccountsNewView />
+  },
+  {
+    path: "/nakit-hesaplar/new",
+    type: "private",
+    element: <CreateCashAccountView />
   },
   {
     path: "/subscription",
