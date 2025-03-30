@@ -6,8 +6,32 @@
   "description": "Gelir ve giderlerinizi takip etmek için ilk nakit hesabınızı oluşturun.",
   "noAccounts": "Nakit Hesap Bulunamadı",
   "accountBalance": "Hesap Bakiyesi",
-  "statements": "Ekstreler",
-  "viewDetails": "Detayları Görüntüle",
+  "statements": {
+    "title": "Ekstreler",
+    "period": "Ekstre Dönemi",
+    "startBalance": "Başlangıç Bakiyesi",
+    "endBalance": "Bitiş Bakiyesi",
+    "income": "Gelir",
+    "expenses": "Gider",
+    "viewDetails": "Detayları Görüntüle",
+    "empty": {
+      "noStatements": "Bu hesap için ekstre bulunamadı",
+      "statementInfo": "Ekstreler hesabınızın kapanış gününe göre oluşturulur. Daha sonra tekrar kontrol edin veya manuel olarak yeni bir ekstre oluşturun."
+    },
+    "buttons": {
+      "createStatement": "Ekstre Oluştur",
+      "refreshStatements": "Ekstreleri Kontrol Et"
+    },
+    "toasts": {
+      "statementCheckComplete": "Ekstreler kontrol edildi ve güncellendi",
+      "statementCheckError": "Ekstreler kontrol edilirken bir hata oluştu"
+    },
+    "status": {
+      "open": "Açık",
+      "closed": "Kapalı",
+      "future": "Gelecek"
+    }
+  },
   "edit": "Hesabı Düzenle",
   "delete": "Hesabı Sil",
   "actions": "İşlemler",
@@ -17,6 +41,15 @@
     "account": {
       "list": {
         "failed": "Nakit hesaplar yüklenemedi"
+      },
+      "detail": {
+        "failed": "Hesap detayları yüklenemedi"
+      },
+      "notFound": "Hesap bulunamadı"
+    },
+    "statement": {
+      "detail": {
+        "failed": "Ekstre detayları yüklenemedi"
       }
     },
     "sorting": {

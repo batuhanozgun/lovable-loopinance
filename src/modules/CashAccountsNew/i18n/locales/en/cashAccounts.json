@@ -6,8 +6,32 @@
   "description": "Create your first cash account to start tracking your expenses and income.",
   "noAccounts": "No Cash Accounts Found",
   "accountBalance": "Account Balance",
-  "statements": "Statements",
-  "viewDetails": "View Details",
+  "statements": {
+    "title": "Statements",
+    "period": "Statement Period",
+    "startBalance": "Starting Balance",
+    "endBalance": "Ending Balance",
+    "income": "Income",
+    "expenses": "Expenses",
+    "viewDetails": "View Details",
+    "empty": {
+      "noStatements": "No statements found for this account",
+      "statementInfo": "Statements are generated based on your account's closing day. Check back later or create a new statement manually."
+    },
+    "buttons": {
+      "createStatement": "Create Statement",
+      "refreshStatements": "Check Statements"
+    },
+    "toasts": {
+      "statementCheckComplete": "Statements have been checked and updated",
+      "statementCheckError": "Failed to check statements"
+    },
+    "status": {
+      "open": "Open",
+      "closed": "Closed",
+      "future": "Future"
+    }
+  },
   "edit": "Edit Account",
   "delete": "Delete Account",
   "actions": "Actions",
@@ -17,6 +41,15 @@
     "account": {
       "list": {
         "failed": "Failed to load cash accounts"
+      },
+      "detail": {
+        "failed": "Failed to load account details"
+      },
+      "notFound": "Account not found"
+    },
+    "statement": {
+      "detail": {
+        "failed": "Failed to load statement details"
       }
     },
     "sorting": {
