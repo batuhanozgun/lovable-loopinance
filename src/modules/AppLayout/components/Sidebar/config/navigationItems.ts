@@ -1,5 +1,4 @@
-
-import { Home, BarChart3, Settings, User, Wallet, Grid, List, CreditCard, Package, DollarSign, LayoutDashboard, FolderClosed, Bookmark } from 'lucide-react';
+import { Home, BarChart3, Settings, User, Wallet, Grid, List, CreditCard, Package, DollarSign, LayoutDashboard, FolderClosed, Bookmark, Banknote } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 
 /**
@@ -43,6 +42,12 @@ export const getNavigationItems = (): NavigationGroup[] => {
           label: 'AppLayout:navigation.cashAccounts', 
           path: '/cash-accounts', 
           icon: Wallet,
+          requiresSubscription: true
+        },
+        { 
+          label: 'AppLayout:navigation.nakitHesaplar', 
+          path: '/nakit-hesaplar', 
+          icon: Banknote,
           requiresSubscription: true
         },
         { 

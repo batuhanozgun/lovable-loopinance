@@ -1,4 +1,3 @@
-
 import { ReactNode } from "react";
 import { SignUp } from "@/modules/UserManagement/Signup/views/SignupView";
 import { Login } from "@/modules/UserManagement/Login/views/LoginView";
@@ -20,6 +19,7 @@ import {
   StatementsListView,
   StatementDetailView
 } from "@/modules/CashAccounts";
+import { CashAccountsNewView } from "@/modules/CashAccountsNew";
 import Landing from "@/pages/Landing";
 import PricingPage from "@/pages/Pricing";
 import NotFound from "@/pages/NotFound";
@@ -133,6 +133,12 @@ export const routes: AppRoute[] = [
     path: "/cash-accounts/:accountId/statements/:statementId",
     type: "private",
     element: <StatementDetailView />
+  },
+  // Yeni "nakit-hesaplar" rotası
+  {
+    path: "/nakit-hesaplar",
+    type: "private",
+    element: <CashAccountsNewView />
   },
   {
     path: "/subscription",

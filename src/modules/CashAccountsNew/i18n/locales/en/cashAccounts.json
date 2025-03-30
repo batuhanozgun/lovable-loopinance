@@ -1,0 +1,18 @@
+
+{
+  "title": "Cash Accounts",
+  "newAccount": "New Cash Account",
+  "createAccount": "Create Cash Account",
+  "description": "Create your first cash account to start tracking your expenses and income.",
+  "noAccounts": "No Cash Accounts Found",
+  "accountBalance": "Account Balance",
+  "statements": "Statements",
+  "viewDetails": "View Details",
+  "errors": {
+    "account": {
+      "list": {
+        "failed": "Failed to load cash accounts"
+      }
+    }
+  }
+}

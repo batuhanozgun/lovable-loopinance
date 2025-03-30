@@ -1,0 +1,18 @@
+
+{
+  "title": "Nakit Hesaplar",
+  "newAccount": "Yeni Nakit Hesap",
+  "createAccount": "Nakit Hesap Oluştur",
+  "description": "Gelir ve giderlerinizi takip etmek için ilk nakit hesabınızı oluşturun.",
+  "noAccounts": "Nakit Hesap Bulunamadı",
+  "accountBalance": "Hesap Bakiyesi",
+  "statements": "Ekstreler",
+  "viewDetails": "Detayları Görüntüle",
+  "errors": {
+    "account": {
+      "list": {
+        "failed": "Nakit hesaplar yüklenemedi"
+      }
+    }
+  }
+}

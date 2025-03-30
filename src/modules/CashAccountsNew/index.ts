@@ -1,10 +1,16 @@
 
 // CashAccountsNew module main entry point
-// This module is currently disabled but the directory structure is preserved for future use
+// This module will replace the CashAccounts module in the future
+
+export { CashAccountsNewView } from './views/CashAccountsNewView';
+export { initCashAccountsNewModule } from './config/moduleConfig';
+
+// Re-export from submodules
+export * from './cashAccountHomepage';
 
 /**
  * Initialize module
  */
 export const initCashAccountsNewModule = () => {
-  console.log('CashAccountsNew module structure preserved, but functionality is disabled');
+  console.log('CashAccountsNew module initialized');
 };
