@@ -5,34 +5,57 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { PlusCircle } from 'lucide-react';
 import { useCashAccounts } from '../hooks/useCashAccounts';
-import { CashAccountCard } from '../components/CashAccountCard';
+import { CashAccountRow } from '../components/CashAccountRow';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useToast } from '@/hooks/use-toast';
+import { CashAccount } from '../types';
 
 /**
  * Nakit Hesaplar ana görünümü
  */
 export const CashAccountsHomepageView: React.FC = () => {
   const { t } = useTranslation(['CashAccountsNew']);
+  const { toast } = useToast();
   const { data: accounts, isLoading, isError } = useCashAccounts();
+
+  // Düzenleme ve silme işlemleri için geçici işlevler
+  // Not: Bu işlevsellikler ileride uygulanacak
+  const handleEdit = (account: CashAccount) => {
+    toast({
+      title: t('CashAccountsNew:editNotImplemented'),
+      description: `${account.name} hesabını düzenleme işlevi henüz uygulanmadı.`,
+    });
+  };
+
+  const handleDelete = (account: CashAccount) => {
+    toast({
+      title: t('CashAccountsNew:deleteNotImplemented'),
+      description: `${account.name} hesabını silme işlevi henüz uygulanmadı.`,
+    });
+  };
 
   // Yükleme durumu için iskelet
   const renderSkeleton = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="border rounded-lg divide-y">
       {[1, 2, 3].map((item) => (
-        <div key={item} className="border rounded-lg p-4">
-          <Skeleton className="h-6 w-3/4 mb-2" />
-          <Skeleton className="h-4 w-1/2 mb-4" />
-          <Skeleton className="h-10 w-full mb-4" />
-          <div className="flex justify-between">
-            <Skeleton className="h-8 w-1/3" />
-            <Skeleton className="h-8 w-1/3" />
+        <div key={item} className="flex items-center justify-between py-4 px-4">
+          <div className="flex-1">
+            <Skeleton className="h-5 w-40 mb-2" />
+            <Skeleton className="h-3 w-60" />
+          </div>
+          <div className="flex items-center gap-4">
+            <div>
+              <Skeleton className="h-5 w-24 mb-1" />
+              <Skeleton className="h-3 w-16" />
+            </div>
+            <Skeleton className="h-8 w-24" />
           </div>
         </div>
       ))}
     </div>
   );
 
-  // Hesap kartlarını render et
+  // Hesap satırlarını render et
   const renderAccounts = () => {
     // Hesap yoksa boş durum göster
     if (!accounts || accounts.length === 0) {
@@ -55,9 +78,14 @@ export const CashAccountsHomepageView: React.FC = () => {
 
     // Hesapları göster
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="border rounded-lg divide-y overflow-hidden">
         {accounts.map((account) => (
-          <CashAccountCard key={account.id} account={account} />
+          <CashAccountRow 
+            key={account.id} 
+            account={account} 
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
         ))}
       </div>
     );

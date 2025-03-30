@@ -8,6 +8,11 @@
   "accountBalance": "Account Balance",
   "statements": "Statements",
   "viewDetails": "View Details",
+  "edit": "Edit Account",
+  "delete": "Delete Account",
+  "actions": "Actions",
+  "editNotImplemented": "Edit Not Implemented",
+  "deleteNotImplemented": "Delete Not Implemented",
   "errors": {
     "account": {
       "list": {

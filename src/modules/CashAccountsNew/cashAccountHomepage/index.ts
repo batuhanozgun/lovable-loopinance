@@ -3,4 +3,4 @@
 
 export { CashAccountsHomepageView } from './views/CashAccountsHomepageView';
 export { useCashAccounts } from './hooks/useCashAccounts';
-export { CashAccountCard } from './components/CashAccountCard';
+export { CashAccountRow } from './components/CashAccountRow';

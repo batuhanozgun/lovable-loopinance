@@ -8,6 +8,11 @@
   "accountBalance": "Hesap Bakiyesi",
   "statements": "Ekstreler",
   "viewDetails": "Detayları Görüntüle",
+  "edit": "Hesabı Düzenle",
+  "delete": "Hesabı Sil",
+  "actions": "İşlemler",
+  "editNotImplemented": "Düzenleme Uygulanmadı",
+  "deleteNotImplemented": "Silme Uygulanmadı",
   "errors": {
     "account": {
       "list": {
