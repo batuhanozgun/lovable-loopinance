@@ -38,7 +38,7 @@ export const CashAccountForm: React.FC = () => {
   return (
     <div className="container py-8">
       <h1 className="text-2xl font-bold mb-6">
-        {t('accountManagement.form.title')}
+        {t('form.title')}
       </h1>
       
       {step === 1 && (

@@ -68,15 +68,15 @@ export const useCashAccountForm = () => {
 
       if (response.success) {
         toast({
-          title: t('accountManagement.success.title'),
-          description: t('accountManagement.success.description'),
+          title: t('success.title'),
+          description: t('success.description'),
         });
         return response;
       } else {
         toast({
           variant: 'destructive',
-          title: t('accountManagement.errors.create.title'),
-          description: response.error || t('accountManagement.errors.create.description'),
+          title: t('errors.create.title'),
+          description: response.error || t('errors.create.description'),
         });
         return null;
       }
@@ -84,8 +84,8 @@ export const useCashAccountForm = () => {
       console.error('Error creating cash account:', error);
       toast({
         variant: 'destructive',
-        title: t('accountManagement.errors.create.title'),
-        description: t('accountManagement.errors.create.unknownError'),
+        title: t('errors.create.title'),
+        description: t('errors.create.unknownError'),
       });
       return null;
     } finally {
