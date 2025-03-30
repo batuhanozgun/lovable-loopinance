@@ -1,14 +1,13 @@
 
 /**
- * Ekstre dönemleri hesaplama servisi
+ * Ekstre dönem hesaplama işlemleri için servis
  */
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
-import { format, addMonths, endOfMonth, getDaysInMonth, isWeekend, subDays } from 'date-fns';
 import { CashAccount } from '../../../../cashAccountHomepage/types';
-import { ClosingDayType } from '../../../../accountManagement/types';
+import { format, addMonths, endOfMonth, getDaysInMonth, isWeekend, subDays } from 'date-fns';
 
 /**
- * Ekstre dönemleri hesaplama servisi
+ * Ekstre dönem hesaplama servisi
  */
 export class StatementPeriodService {
   private static logger = new ModuleLogger('CashAccountsNew.StatementPeriodService');
@@ -26,34 +25,34 @@ export class StatementPeriodService {
         closingDayType: account.closing_day_type 
       });
 
-      const currentMonth = currentDate.getMonth();
-      const currentYear = currentDate.getFullYear();
-      
       // Mevcut ayın son günü
-      const currentMonthEndDate = endOfMonth(new Date(currentYear, currentMonth));
+      const currentMonthEndDate = endOfMonth(currentDate);
       
       // Bir sonraki ay
       const nextMonth = addMonths(currentDate, 1);
-      const nextMonthEndDate = endOfMonth(nextMonth);
       
       // Dönem bitiş tarihi hesaplama
       let closingDate: Date;
       
       switch (account.closing_day_type) {
-        case ClosingDayType.LAST_DAY:
+        case 'lastDay':
           closingDate = currentMonthEndDate;
           break;
           
-        case ClosingDayType.LAST_BUSINESS_DAY:
+        case 'lastBusinessDay':
           closingDate = this.getLastBusinessDay(currentMonthEndDate);
           break;
           
-        case ClosingDayType.SPECIFIC_DAY:
+        case 'specificDay':
           if (!account.closing_day_value) {
             throw new Error('Belirli bir gün seçildi ancak değer belirtilmedi');
           }
           
-          closingDate = this.getSpecificDayDate(currentYear, currentMonth, account.closing_day_value);
+          closingDate = this.getSpecificDayDate(
+            currentDate.getFullYear(), 
+            currentDate.getMonth(), 
+            account.closing_day_value
+          );
           break;
           
         default:
@@ -61,7 +60,7 @@ export class StatementPeriodService {
           break;
       }
       
-      // Eğer mevcut tarih dönem bitiş tarihini geçmişse, bir sonraki ayın dönem hesaplamalarını yap
+      // Eğer mevcut tarih dönem bitiş tarihini geçmişse, bir sonraki ayın dönemini hesapla
       if (currentDate > closingDate) {
         return this.calculateNextPeriod(account, nextMonth);
       }
@@ -121,20 +120,24 @@ export class StatementPeriodService {
     let closingDate: Date;
     
     switch (account.closing_day_type) {
-      case ClosingDayType.LAST_DAY:
+      case 'lastDay':
         closingDate = previousMonthEndDate;
         break;
         
-      case ClosingDayType.LAST_BUSINESS_DAY:
+      case 'lastBusinessDay':
         closingDate = this.getLastBusinessDay(previousMonthEndDate);
         break;
         
-      case ClosingDayType.SPECIFIC_DAY:
+      case 'specificDay':
         if (!account.closing_day_value) {
           throw new Error('Belirli bir gün seçildi ancak değer belirtilmedi');
         }
         
-        closingDate = this.getSpecificDayDate(previousMonthYear, previousMonthMonth, account.closing_day_value);
+        closingDate = this.getSpecificDayDate(
+          previousMonthYear, 
+          previousMonthMonth, 
+          account.closing_day_value
+        );
         break;
         
       default:

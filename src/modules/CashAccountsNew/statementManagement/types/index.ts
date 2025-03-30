@@ -1,17 +1,25 @@
 
 /**
- * Ekstre Yönetim Modülü tip tanımlamaları
+ * Ekstre Yönetimi için tip tanımlamaları
  */
-
 import { Database } from '@/integrations/supabase/types';
 
 /**
- * Hesap ekstresi veri türü
+ * Ekstre durumu
+ */
+export enum StatementStatus {
+  OPEN = 'OPEN',
+  CLOSED = 'CLOSED',
+  FUTURE = 'FUTURE'
+}
+
+/**
+ * Ekstre veri türü
  */
 export type AccountStatement = Database['public']['Tables']['account_statements']['Row'];
 
 /**
- * Yeni hesap ekstresi oluşturma için tip
+ * Yeni ekstre oluşturma için veri türü
  */
 export type CreateAccountStatementData = Omit<
   Database['public']['Tables']['account_statements']['Insert'],
@@ -19,17 +27,7 @@ export type CreateAccountStatementData = Omit<
 >;
 
 /**
- * Hesap ekstresi durum türü
- */
-export enum StatementStatus {
-  OPEN = 'open',
-  CLOSED = 'closed',
-  PENDING = 'pending',
-  FUTURE = 'future'
-}
-
-/**
- * Tek bir ekstre yanıtı için tip tanımı
+ * Tek ekstre yanıt tipi
  */
 export interface SingleStatementResponse {
   success: boolean;
@@ -38,7 +36,7 @@ export interface SingleStatementResponse {
 }
 
 /**
- * Ekstre listesi yanıtı için tip tanımı
+ * Ekstre listesi yanıt tipi
  */
 export interface StatementListResponse {
   success: boolean;
@@ -47,19 +45,11 @@ export interface StatementListResponse {
 }
 
 /**
- * Ekstre kontrol işlemi sonuç tipi
+ * Ekstre işleme sonucu
  */
 export interface StatementCheckResult {
   success: boolean;
-  message?: string;
+  message: string;
   statementId?: string;
   isNew?: boolean;
-}
-
-/**
- * Ekstre dönem işlemi sonuç tipi
- */
-export interface StatementPeriodResult {
-  startDate: Date;
-  endDate: Date;
 }

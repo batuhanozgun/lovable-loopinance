@@ -406,6 +406,14 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: Json
       }
+      close_expired_statements: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
+      update_future_statements: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
     }
     Enums: {
       subscription_plan_type: "trial" | "monthly" | "yearly"
