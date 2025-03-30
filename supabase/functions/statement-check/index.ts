@@ -64,6 +64,23 @@ serve(async (req) => {
       
       result = data;
       console.log(`statement-check: Statement check completed for account ${accountId}`);
+      
+      // Future statement kontrolü ve ihtiyaç durumunu kontrol et
+      const { data: futureStatus, error: futureStatusError } = await supabaseClient.rpc(
+        'check_account_future_statements', 
+        { p_account_id: accountId }
+      );
+      
+      if (futureStatusError) {
+        console.error(`statement-check: Error checking future statements status: ${futureStatusError.message}`);
+      } else {
+        console.log(`statement-check: Future statements status: ${JSON.stringify(futureStatus)}`);
+        // Future statement ihtiyacını sonuca ekle
+        result = {
+          ...result,
+          futureStatus
+        };
+      }
     } else {
       // Tüm hesaplar için ekstre kontrolü yap
       const { data, error } = await supabaseClient.rpc('check_accounts_statements');
@@ -88,6 +105,12 @@ serve(async (req) => {
         console.error(`statement-check: Error updating future statements: ${futureError.message}`);
       } else {
         console.log(`statement-check: Future statements updated: ${JSON.stringify(futureResult)}`);
+        // Future statement güncellemelerini sonuca ekle
+        result = {
+          ...result,
+          futureUpdated: futureResult.updated,
+          accountsNeedingFutureStatements: futureResult.accounts_needing_statements
+        };
       }
     } catch (futureCheckError) {
       console.error(`statement-check: Unexpected error updating future statements: ${futureCheckError.message}`);

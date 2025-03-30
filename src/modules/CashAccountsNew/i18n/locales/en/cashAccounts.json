@@ -24,7 +24,8 @@
     },
     "toasts": {
       "statementCheckComplete": "Statements have been checked and updated",
-      "statementCheckError": "Failed to check statements"
+      "statementCheckError": "Failed to check statements",
+      "futureStatementsCreated": "{{count}} future statements created"
     },
     "status": {
       "title": "Status",

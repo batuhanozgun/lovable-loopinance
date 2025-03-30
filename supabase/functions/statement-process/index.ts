@@ -63,12 +63,26 @@ serve(async (req) => {
       
       console.log(`statement-process: Expired statements closed: ${JSON.stringify(expiredResult)}`);
       
+      // 3. Hesaplar için eksik gelecek ekstreler varsa işlem sonucuna ekle
+      let accountsNeedingFuture = [];
+      
+      // Future statements güncellenirken hesaplar için future statement ihtiyacı kontrol edildi mi?
+      if (futureResult && futureResult.accounts_needing_statements) {
+        accountsNeedingFuture = accountsNeedingFuture.concat(futureResult.accounts_needing_statements);
+      }
+      
+      // Kapatılan statementların hesapları için future statement ihtiyacı var mı?
+      if (expiredResult && expiredResult.accounts_needing_future) {
+        accountsNeedingFuture = accountsNeedingFuture.concat(expiredResult.accounts_needing_future);
+      }
+      
       return new Response(
         JSON.stringify({ 
           success: true, 
           message: 'Statement processing completed', 
           future: futureResult,
-          expired: expiredResult
+          expired: expiredResult,
+          accounts_needing_future: accountsNeedingFuture
         }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );

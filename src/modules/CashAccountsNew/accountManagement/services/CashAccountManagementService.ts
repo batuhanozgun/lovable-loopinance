@@ -6,6 +6,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
 import { CashAccount, CreateCashAccountData } from '../types';
 import { StatementService } from '../../statementManagement/services/StatementService';
+import { FutureStatementService } from '../../statementManagement/services/automation/FutureStatementService';
 
 /**
  * Nakit hesapları yönetmek için servis
@@ -62,6 +63,32 @@ export class CashAccountManagementService {
             accountId: newAccount.id, 
             statementId: statementId
           });
+          
+          // İlk ekstre oluşturulduktan sonra 11 adet gelecek ekstre oluştur
+          try {
+            const futureResult = await FutureStatementService.createFutureStatements(
+              newAccount.id,
+              statementResult.data
+            );
+            
+            if (futureResult.success) {
+              this.logger.info('Future statements created successfully', {
+                accountId: newAccount.id,
+                createdCount: futureResult.createdCount
+              });
+            } else {
+              this.logger.warn('Failed to create future statements', {
+                accountId: newAccount.id,
+                error: futureResult.error
+              });
+            }
+          } catch (futureError) {
+            // Gelecek ekstre oluşturma hatası hesap oluşturmayı etkilememelidir
+            this.logger.error('Error creating future statements', {
+              accountId: newAccount.id,
+              error: futureError
+            });
+          }
         } else {
           this.logger.warn('Failed to create initial statement for new account', { 
             accountId: newAccount.id, 

@@ -24,7 +24,8 @@
     },
     "toasts": {
       "statementCheckComplete": "Ekstreler kontrol edildi ve güncellendi",
-      "statementCheckError": "Ekstreler kontrol edilirken bir hata oluştu"
+      "statementCheckError": "Ekstreler kontrol edilirken bir hata oluştu",
+      "futureStatementsCreated": "{{count}} gelecek ekstre oluşturuldu"
     },
     "status": {
       "title": "Durum",

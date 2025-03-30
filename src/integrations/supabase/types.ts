@@ -402,6 +402,12 @@ export type Database = {
           end_date: string
         }[]
       }
+      check_account_future_statements: {
+        Args: {
+          p_account_id: string
+        }
+        Returns: Json
+      }
       check_accounts_statements: {
         Args: Record<PropertyKey, never>
         Returns: Json
