@@ -61,3 +61,10 @@ export const calculateClosingDate = (
       return new Date(year, month + 1, 0);
   }
 };
+
+/**
+ * Seçilebilir hesap kesim günlerini döndürür (1-28 arası)
+ */
+export const getClosingDayOptions = (): number[] => {
+  return Array.from({ length: 28 }, (_, i) => i + 1);
+};

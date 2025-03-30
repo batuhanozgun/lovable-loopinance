@@ -24,12 +24,16 @@ interface AccountInfoStepProps {
  */
 export const AccountInfoStep: React.FC<AccountInfoStepProps> = ({ form, onNext, onCancel }) => {
   const { t } = useTranslation(['CashAccountsNew']);
-  const { control, handleSubmit, formState: { errors } } = form;
+  const { control, handleSubmit, formState: { errors }, watch, setValue } = form;
 
   // Sonraki adıma geçiş için doğrulama
   const handleNextStep = handleSubmit(() => {
     onNext();
   });
+
+  // Form değerlerini izle
+  const currency = watch('currency');
+  const initialBalance = watch('initialBalance');
 
   return (
     <Form {...form}>
@@ -74,9 +78,9 @@ export const AccountInfoStep: React.FC<AccountInfoStepProps> = ({ form, onNext, 
                   <FormControl>
                     <CurrencyInput
                       id="initialBalance"
-                      value={field.value}
-                      onChange={field.onChange}
-                      currency={form.watch('currency')}
+                      value={initialBalance}
+                      onChange={(value) => setValue('initialBalance', value)}
+                      currency={currency}
                       wholePlaceholder={t('CashAccountsNew:accountManagement.form.initialBalance.wholePlaceholder')}
                       decimalPlaceholder={t('CashAccountsNew:accountManagement.form.initialBalance.decimalPlaceholder')}
                       error={errors.initialBalance?.message}

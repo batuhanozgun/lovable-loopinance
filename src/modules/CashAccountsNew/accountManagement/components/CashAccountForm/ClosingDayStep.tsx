@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { CashAccountFormValues, ClosingDayType } from '../../types';
 import { UseFormReturn } from 'react-hook-form';
+import { getClosingDayOptions } from '../../utils/closingDayUtils';
 
 interface ClosingDayStepProps {
   form: UseFormReturn<CashAccountFormValues>;
@@ -28,6 +29,7 @@ export const ClosingDayStep: React.FC<ClosingDayStepProps> = ({
   const { t } = useTranslation(['CashAccountsNew']);
   const { control, watch, handleSubmit } = form;
   const closingDayType = watch('closingDayType');
+  const closingDayOptions = getClosingDayOptions();
 
   // Form gönderimi işlemi
   const handleFormSubmit = handleSubmit(onSubmit);
