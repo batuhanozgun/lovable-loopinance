@@ -40,7 +40,7 @@ export const ClosingDayStep: React.FC<ClosingDayStepProps> = ({
         <Card className="max-w-2xl mx-auto">
           <CardHeader>
             <CardTitle>
-              {t('CashAccountsNew:accountManagement.form.steps.closingDay')}
+              {t('accountManagement.form.steps.closingDay')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -48,11 +48,11 @@ export const ClosingDayStep: React.FC<ClosingDayStepProps> = ({
             <FormField
               control={control}
               name="closingDayType"
-              rules={{ required: t('CashAccountsNew:accountManagement.validation.closingDayType.required') }}
+              rules={{ required: t('accountManagement.validation.closingDayType.required') }}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    {t('CashAccountsNew:accountManagement.form.closingDayType.label')}
+                    {t('accountManagement.form.closingDayType.label')}
                   </FormLabel>
                   <Select
                     value={field.value}
@@ -60,18 +60,18 @@ export const ClosingDayStep: React.FC<ClosingDayStepProps> = ({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder={t('CashAccountsNew:accountManagement.form.closingDayType.label')} />
+                        <SelectValue placeholder={t('accountManagement.form.closingDayType.label')} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       <SelectItem value={ClosingDayType.LAST_DAY}>
-                        {t('CashAccountsNew:accountManagement.form.closingDayType.options.lastDay')}
+                        {t('accountManagement.form.closingDayType.options.lastDay')}
                       </SelectItem>
                       <SelectItem value={ClosingDayType.LAST_BUSINESS_DAY}>
-                        {t('CashAccountsNew:accountManagement.form.closingDayType.options.lastBusinessDay')}
+                        {t('accountManagement.form.closingDayType.options.lastBusinessDay')}
                       </SelectItem>
                       <SelectItem value={ClosingDayType.SPECIFIC_DAY}>
-                        {t('CashAccountsNew:accountManagement.form.closingDayType.options.specificDay')}
+                        {t('accountManagement.form.closingDayType.options.specificDay')}
                       </SelectItem>
                     </SelectContent>
                   </Select>
@@ -86,27 +86,27 @@ export const ClosingDayStep: React.FC<ClosingDayStepProps> = ({
                 control={control}
                 name="closingDayValue"
                 rules={{
-                  required: t('CashAccountsNew:accountManagement.validation.closingDayValue.required'),
+                  required: t('accountManagement.validation.closingDayValue.required'),
                   min: {
                     value: 1,
-                    message: t('CashAccountsNew:accountManagement.validation.closingDayValue.range')
+                    message: t('accountManagement.validation.closingDayValue.range')
                   },
                   max: {
                     value: 28,
-                    message: t('CashAccountsNew:accountManagement.validation.closingDayValue.range')
+                    message: t('accountManagement.validation.closingDayValue.range')
                   }
                 }}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      {t('CashAccountsNew:accountManagement.form.closingDayValue.label')}
+                      {t('accountManagement.form.closingDayValue.label')}
                     </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
                         min={1}
                         max={28}
-                        placeholder={t('CashAccountsNew:accountManagement.form.closingDayValue.placeholder')}
+                        placeholder={t('accountManagement.form.closingDayValue.placeholder')}
                         {...field}
                         value={field.value || ''}
                         onChange={(e) => {
@@ -127,7 +127,7 @@ export const ClosingDayStep: React.FC<ClosingDayStepProps> = ({
               type="button"
               onClick={onBack}
             >
-              {t('CashAccountsNew:accountManagement.form.buttons.back')}
+              {t('accountManagement.form.buttons.back')}
             </Button>
             <Button 
               type="submit"
@@ -135,7 +135,7 @@ export const ClosingDayStep: React.FC<ClosingDayStepProps> = ({
             >
               {isSubmitting
                 ? t('common:loading')
-                : t('CashAccountsNew:accountManagement.form.buttons.create')}
+                : t('accountManagement.form.buttons.create')}
             </Button>
           </CardFooter>
         </Card>
