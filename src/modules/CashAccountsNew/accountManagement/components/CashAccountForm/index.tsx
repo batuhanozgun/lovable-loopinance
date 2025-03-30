@@ -10,7 +10,7 @@ import { ClosingDayStep } from './ClosingDayStep';
  * Nakit hesap oluşturma formu bileşeni
  */
 export const CashAccountForm: React.FC = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['CashAccountsNew']);
   const navigate = useNavigate();
   
   const {
@@ -38,7 +38,7 @@ export const CashAccountForm: React.FC = () => {
   return (
     <div className="container py-8">
       <h1 className="text-2xl font-bold mb-6">
-        {t('CashAccountsNew:accountManagement.form.title')}
+        {t('accountManagement.form.title')}
       </h1>
       
       {step === 1 && (

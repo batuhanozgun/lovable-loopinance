@@ -12,7 +12,7 @@ interface AccountBalanceProps {
  * Nakit hesap bakiyesini gösteren bileşen
  */
 export const AccountBalance: React.FC<AccountBalanceProps> = ({ account }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['CashAccountsNew']);
   const { initial_balance, currency } = account;
 
   return (
@@ -21,7 +21,7 @@ export const AccountBalance: React.FC<AccountBalanceProps> = ({ account }) => {
         {formatCurrency(initial_balance, currency as CurrencyType)}
       </div>
       <div className="text-xs text-muted-foreground">
-        {t('CashAccountsNew:accountBalance')}
+        {t('accountBalance')}
       </div>
     </div>
   );
