@@ -39,7 +39,7 @@ export const ClosingDayStep: React.FC<ClosingDayStepProps> = ({
         <Card className="max-w-2xl mx-auto">
           <CardHeader>
             <CardTitle>
-              {t('accountManagement:form.steps.closingDay')}
+              {t('form.steps.closingDay')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -50,7 +50,7 @@ export const ClosingDayStep: React.FC<ClosingDayStepProps> = ({
               render={({ field }) => (
                 <FormItem className="space-y-4">
                   <FormLabel className="text-base">
-                    {t('accountManagement:form.closingDayType.label')}
+                    {t('form.closingDayType.label')}
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
@@ -61,19 +61,19 @@ export const ClosingDayStep: React.FC<ClosingDayStepProps> = ({
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value={ClosingDayType.LAST_DAY} id="last-day" />
                         <Label htmlFor="last-day" className="font-normal cursor-pointer">
-                          {t('accountManagement:form.closingDayType.options.lastDay')}
+                          {t('form.closingDayType.options.lastDay')}
                         </Label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value={ClosingDayType.LAST_BUSINESS_DAY} id="last-business-day" />
                         <Label htmlFor="last-business-day" className="font-normal cursor-pointer">
-                          {t('accountManagement:form.closingDayType.options.lastBusinessDay')}
+                          {t('form.closingDayType.options.lastBusinessDay')}
                         </Label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value={ClosingDayType.SPECIFIC_DAY} id="specific-day" />
                         <Label htmlFor="specific-day" className="font-normal cursor-pointer">
-                          {t('accountManagement:form.closingDayType.options.specificDay')}
+                          {t('form.closingDayType.options.specificDay')}
                         </Label>
                       </div>
                     </RadioGroup>
@@ -89,27 +89,27 @@ export const ClosingDayStep: React.FC<ClosingDayStepProps> = ({
                 control={control}
                 name="closingDayValue"
                 rules={{
-                  required: t('validation.closingDayValue.required', { ns: 'CashAccounts' }),
+                  required: t('validation.closingDayValue.required'),
                   min: {
                     value: 1,
-                    message: t('validation.closingDayValue.range', { ns: 'CashAccounts' })
+                    message: t('validation.closingDayValue.range')
                   },
                   max: {
                     value: 28,
-                    message: t('validation.closingDayValue.range', { ns: 'CashAccounts' })
+                    message: t('validation.closingDayValue.range')
                   }
                 }}
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      {t('accountManagement:form.closingDayValue.label')}
+                      {t('form.closingDayValue.label')}
                     </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
                         min={1}
                         max={28}
-                        placeholder={t('accountManagement:form.closingDayValue.placeholder')}
+                        placeholder={t('form.closingDayValue.placeholder')}
                         {...field}
                         value={field.value || ''}
                         onChange={(e) => {
@@ -131,7 +131,7 @@ export const ClosingDayStep: React.FC<ClosingDayStepProps> = ({
               onClick={onBack}
               disabled={isSubmitting}
             >
-              {t('accountManagement:form.buttons.back')}
+              {t('form.buttons.back')}
             </Button>
             <Button 
               type="submit"
@@ -139,7 +139,7 @@ export const ClosingDayStep: React.FC<ClosingDayStepProps> = ({
             >
               {isSubmitting
                 ? t('loading', { ns: 'common' })
-                : t('accountManagement:form.buttons.create')}
+                : t('form.buttons.create')}
             </Button>
           </CardFooter>
         </Card>
