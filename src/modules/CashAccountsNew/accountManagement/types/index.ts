@@ -1,5 +1,6 @@
 
 import { CurrencyType } from '../../cashAccountHomepage/types';
+import { Database } from '@/integrations/supabase/types';
 
 /**
  * Kapanış günü tipleri
@@ -45,3 +46,16 @@ export interface CashAccountResponse {
   data?: any;
   error?: string;
 }
+
+/**
+ * Nakit Hesap veri türü - AccountManagement modülü içinde bağımsız olarak tanımlanmıştır
+ */
+export type CashAccount = Database['public']['Tables']['cash_accounts']['Row'];
+
+/**
+ * Yeni Nakit Hesap oluşturma için tip - AccountManagement modülü içinde bağımsız olarak tanımlanmıştır
+ */
+export type CreateCashAccountData = Omit<
+  Database['public']['Tables']['cash_accounts']['Insert'],
+  'id' | 'created_at' | 'updated_at' | 'is_active'
+>;
