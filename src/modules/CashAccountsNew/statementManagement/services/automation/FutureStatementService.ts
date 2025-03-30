@@ -24,6 +24,23 @@ export class FutureStatementService {
   private static REQUIRED_FUTURE_STATEMENTS = 11;
 
   /**
+   * AccountFutureStatementStatus tipinin geçerli olup olmadığını kontrol eder
+   */
+  private static isValidFutureStatus(data: unknown): data is AccountFutureStatementStatus {
+    if (!data || typeof data !== 'object') return false;
+    
+    const status = data as Partial<AccountFutureStatementStatus>;
+    return (
+      typeof status.account_id === 'string' &&
+      typeof status.open_count === 'number' &&
+      typeof status.future_count === 'number' &&
+      typeof status.required_future_count === 'number' &&
+      typeof status.needs_future_statements === 'boolean' &&
+      typeof status.future_statements_to_create === 'number'
+    );
+  }
+
+  /**
    * Hesap için gelecek ekstreleri oluşturur
    * @param accountId Hesap ID'si
    * @param currentStatement Mevcut ekstre (ekstre yoksa hesabın ilk ekstresidir)
@@ -131,7 +148,7 @@ export class FutureStatementService {
   ): Promise<{ success: boolean; createdCount: number; error?: string }> {
     try {
       // Hesabın future statement durumunu kontrol et
-      const { data, error } = await supabase.rpc('check_account_future_statements', {
+      const { data: rawData, error } = await supabase.rpc('check_account_future_statements', {
         p_account_id: accountId
       });
       
@@ -144,8 +161,20 @@ export class FutureStatementService {
         };
       }
       
+      // Veri geçerliliğini kontrol et ve doğru tipe dönüştür
+      if (!this.isValidFutureStatus(rawData)) {
+        this.logger.error('Geçersiz future statement durumu alındı', { accountId, data: rawData });
+        return {
+          success: false,
+          createdCount: 0,
+          error: 'Geçersiz future statement durumu'
+        };
+      }
+      
+      // Tip güvenli dönüşüm
+      const futureStatus = rawData as AccountFutureStatementStatus;
+      
       // Future statement ihtiyacı yoksa işlem yapma
-      const futureStatus = data as AccountFutureStatementStatus;
       if (!futureStatus.needs_future_statements) {
         return {
           success: true,
