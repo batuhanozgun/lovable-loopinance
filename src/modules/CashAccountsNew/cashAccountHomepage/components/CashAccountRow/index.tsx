@@ -30,6 +30,7 @@ interface CashAccountRowProps {
   account: CashAccount;
   onEdit?: (account: CashAccount) => void;
   onDelete?: (account: CashAccount) => void;
+  hasDragHandle?: boolean;
 }
 
 /**
@@ -38,7 +39,8 @@ interface CashAccountRowProps {
 export const CashAccountRow: React.FC<CashAccountRowProps> = ({ 
   account, 
   onEdit, 
-  onDelete 
+  onDelete,
+  hasDragHandle = false
 }) => {
   const { t } = useTranslation(['CashAccountsNew', 'common']);
   const isMobile = useIsMobile();
@@ -172,7 +174,7 @@ export const CashAccountRow: React.FC<CashAccountRowProps> = ({
   };
 
   return (
-    <div className="flex items-center justify-between py-3 px-4 border-b hover:bg-muted/20 transition-colors">
+    <div className={`flex items-center justify-between py-3 px-4 border hover:bg-muted/20 transition-colors ${hasDragHandle ? 'pl-10' : ''}`}>
       <div className="flex-1 min-w-0">
         <div className="flex flex-col md:flex-row md:items-center gap-1">
           <h3 className="text-base font-medium truncate">{name}</h3>

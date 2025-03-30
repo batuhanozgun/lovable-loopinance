@@ -18,6 +18,9 @@
       "list": {
         "failed": "Nakit hesaplar yüklenemedi"
       }
+    },
+    "sorting": {
+      "failed": "Hesap sıralaması güncellenirken bir hata oluştu"
     }
   }
 }

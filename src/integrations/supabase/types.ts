@@ -145,6 +145,7 @@ export type Database = {
           initial_balance: number
           is_active: boolean
           name: string
+          sort_order: number | null
           updated_at: string
           user_id: string
         }
@@ -159,6 +160,7 @@ export type Database = {
           initial_balance?: number
           is_active?: boolean
           name: string
+          sort_order?: number | null
           updated_at?: string
           user_id: string
         }
@@ -173,6 +175,7 @@ export type Database = {
           initial_balance?: number
           is_active?: boolean
           name?: string
+          sort_order?: number | null
           updated_at?: string
           user_id?: string
         }

@@ -18,6 +18,9 @@
       "list": {
         "failed": "Failed to load cash accounts"
       }
+    },
+    "sorting": {
+      "failed": "Failed to update account order"
     }
   }
 }

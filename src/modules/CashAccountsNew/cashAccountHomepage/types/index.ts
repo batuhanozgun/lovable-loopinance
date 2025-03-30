@@ -31,3 +31,11 @@ export interface CashAccountResponse {
   data?: CashAccount | CashAccount[];
   error?: string;
 }
+
+/**
+ * Nakit Hesap sıralama verisi
+ */
+export interface CashAccountOrder {
+  id: string;
+  sort_order: number;
+}

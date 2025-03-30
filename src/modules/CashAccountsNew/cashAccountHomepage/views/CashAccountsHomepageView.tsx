@@ -1,14 +1,17 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { PlusCircle } from 'lucide-react';
 import { useCashAccounts } from '../hooks/useCashAccounts';
-import { CashAccountRow } from '../components/CashAccountRow';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 import { CashAccount } from '../types';
+import { DndContext, closestCenter } from '@dnd-kit/core';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { DraggableCashAccountRow } from '../components/DraggableCashAccountRow';
+import { useCashAccountDnd } from '../hooks/useCashAccountDnd';
 
 /**
  * Nakit Hesaplar ana görünümü
@@ -16,10 +19,23 @@ import { CashAccount } from '../types';
 export const CashAccountsHomepageView: React.FC = () => {
   const { t } = useTranslation(['CashAccountsNew']);
   const { toast } = useToast();
-  const { data: accounts, isLoading, isError } = useCashAccounts();
+  const { data: fetchedAccounts, isLoading, isError } = useCashAccounts();
+  const [accounts, setAccounts] = useState<CashAccount[]>([]);
+
+  // Hesap verilerini state'e aktar
+  useEffect(() => {
+    if (fetchedAccounts) {
+      setAccounts(fetchedAccounts);
+    }
+  }, [fetchedAccounts]);
+
+  // Sürükle-bırak işlevselliğini yöneten hook
+  const { sensors, handleDragEnd } = useCashAccountDnd({
+    accounts,
+    setAccounts
+  });
 
   // Düzenleme ve silme işlemleri için geçici işlevler
-  // Not: Bu işlevsellikler ileride uygulanacak
   const handleEdit = (account: CashAccount) => {
     toast({
       title: t('CashAccountsNew:editNotImplemented'),
@@ -36,19 +52,21 @@ export const CashAccountsHomepageView: React.FC = () => {
 
   // Yükleme durumu için iskelet
   const renderSkeleton = () => (
-    <div className="border rounded-lg divide-y">
+    <div className="space-y-1">
       {[1, 2, 3].map((item) => (
-        <div key={item} className="flex items-center justify-between py-4 px-4">
-          <div className="flex-1">
-            <Skeleton className="h-5 w-40 mb-2" />
-            <Skeleton className="h-3 w-60" />
-          </div>
-          <div className="flex items-center gap-4">
-            <div>
-              <Skeleton className="h-5 w-24 mb-1" />
-              <Skeleton className="h-3 w-16" />
+        <div key={item} className="border rounded-lg">
+          <div className="flex items-center justify-between py-4 px-4">
+            <div className="flex-1">
+              <Skeleton className="h-5 w-40 mb-2" />
+              <Skeleton className="h-3 w-60" />
             </div>
-            <Skeleton className="h-8 w-24" />
+            <div className="flex items-center gap-4">
+              <div>
+                <Skeleton className="h-5 w-24 mb-1" />
+                <Skeleton className="h-3 w-16" />
+              </div>
+              <Skeleton className="h-8 w-24" />
+            </div>
           </div>
         </div>
       ))}
@@ -78,16 +96,27 @@ export const CashAccountsHomepageView: React.FC = () => {
 
     // Hesapları göster
     return (
-      <div className="border rounded-lg divide-y overflow-hidden">
-        {accounts.map((account) => (
-          <CashAccountRow 
-            key={account.id} 
-            account={account} 
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
-        ))}
-      </div>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          items={accounts.map(account => account.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          <div className="space-y-1 border rounded-lg overflow-hidden">
+            {accounts.map((account) => (
+              <DraggableCashAccountRow 
+                key={account.id} 
+                account={account} 
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
+            ))}
+          </div>
+        </SortableContext>
+      </DndContext>
     );
   };
 
