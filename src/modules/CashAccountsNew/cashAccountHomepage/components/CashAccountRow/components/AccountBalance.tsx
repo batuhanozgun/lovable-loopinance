@@ -21,7 +21,7 @@ export const AccountBalance: React.FC<AccountBalanceProps> = ({ account }) => {
         {formatCurrency(initial_balance, currency as CurrencyType)}
       </div>
       <div className="text-xs text-muted-foreground">
-        {t('accountBalance')}
+        {t('CashAccountsNew:accountBalance')}
       </div>
     </div>
   );

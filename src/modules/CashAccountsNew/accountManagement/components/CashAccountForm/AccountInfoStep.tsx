@@ -41,7 +41,7 @@ export const AccountInfoStep: React.FC<AccountInfoStepProps> = ({ form, onNext, 
         <Card className="max-w-2xl mx-auto">
           <CardHeader>
             <CardTitle>
-              {t('accountManagement.form.steps.basicInfo')}
+              {t('CashAccountsNew:accountManagement.form.steps.basicInfo')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -49,16 +49,16 @@ export const AccountInfoStep: React.FC<AccountInfoStepProps> = ({ form, onNext, 
             <FormField
               control={control}
               name="name"
-              rules={{ required: t('accountManagement.validation.name.required') }}
+              rules={{ required: t('CashAccountsNew:accountManagement.validation.name.required') }}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    {t('accountManagement.form.name.label')}
+                    {t('CashAccountsNew:accountManagement.form.name.label')}
                   </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
-                      placeholder={t('accountManagement.form.name.placeholder')}
+                      placeholder={t('CashAccountsNew:accountManagement.form.name.placeholder')}
                     />
                   </FormControl>
                   <FormMessage />
@@ -73,7 +73,7 @@ export const AccountInfoStep: React.FC<AccountInfoStepProps> = ({ form, onNext, 
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    {t('accountManagement.form.initialBalance.label')}
+                    {t('CashAccountsNew:accountManagement.form.initialBalance.label')}
                   </FormLabel>
                   <FormControl>
                     <CurrencyInput
@@ -81,8 +81,8 @@ export const AccountInfoStep: React.FC<AccountInfoStepProps> = ({ form, onNext, 
                       value={initialBalance}
                       onChange={(value) => setValue('initialBalance', value)}
                       currency={currency}
-                      wholePlaceholder={t('accountManagement.form.initialBalance.wholePlaceholder')}
-                      decimalPlaceholder={t('accountManagement.form.initialBalance.decimalPlaceholder')}
+                      wholePlaceholder={t('CashAccountsNew:accountManagement.form.initialBalance.wholePlaceholder')}
+                      decimalPlaceholder={t('CashAccountsNew:accountManagement.form.initialBalance.decimalPlaceholder')}
                       error={errors.initialBalance?.message}
                     />
                   </FormControl>
@@ -98,7 +98,7 @@ export const AccountInfoStep: React.FC<AccountInfoStepProps> = ({ form, onNext, 
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    {t('accountManagement.form.currency.label')}
+                    {t('CashAccountsNew:accountManagement.form.currency.label')}
                   </FormLabel>
                   <Select
                     value={field.value}
@@ -106,18 +106,18 @@ export const AccountInfoStep: React.FC<AccountInfoStepProps> = ({ form, onNext, 
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder={t('accountManagement.form.currency.label')} />
+                        <SelectValue placeholder={t('CashAccountsNew:accountManagement.form.currency.label')} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       <SelectItem value={CurrencyType.TRY}>
-                        {t('accountManagement.form.currency.options.try')}
+                        {t('CashAccountsNew:accountManagement.form.currency.options.try')}
                       </SelectItem>
                       <SelectItem value={CurrencyType.USD}>
-                        {t('accountManagement.form.currency.options.usd')}
+                        {t('CashAccountsNew:accountManagement.form.currency.options.usd')}
                       </SelectItem>
                       <SelectItem value={CurrencyType.EUR}>
-                        {t('accountManagement.form.currency.options.eur')}
+                        {t('CashAccountsNew:accountManagement.form.currency.options.eur')}
                       </SelectItem>
                     </SelectContent>
                   </Select>
@@ -133,13 +133,13 @@ export const AccountInfoStep: React.FC<AccountInfoStepProps> = ({ form, onNext, 
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    {t('accountManagement.form.description.label')}
+                    {t('CashAccountsNew:accountManagement.form.description.label')}
                   </FormLabel>
                   <FormControl>
                     <Textarea
                       {...field}
                       value={field.value || ''}
-                      placeholder={t('accountManagement.form.description.placeholder')}
+                      placeholder={t('CashAccountsNew:accountManagement.form.description.placeholder')}
                       className="resize-none"
                       rows={3}
                     />
@@ -155,10 +155,10 @@ export const AccountInfoStep: React.FC<AccountInfoStepProps> = ({ form, onNext, 
               type="button"
               onClick={onCancel}
             >
-              {t('accountManagement.form.buttons.cancel')}
+              {t('CashAccountsNew:accountManagement.form.buttons.cancel')}
             </Button>
             <Button type="submit">
-              {t('accountManagement.form.buttons.next')}
+              {t('CashAccountsNew:accountManagement.form.buttons.next')}
             </Button>
           </CardFooter>
         </Card>
