@@ -46,6 +46,7 @@ export const useTransactionFormSetup = (
   const [currentStatement, setCurrentStatement] = useState<AccountStatement | null>(null);
   const [statementError, setStatementError] = useState<string | null>(null);
   const [isLoadingStatement, setIsLoadingStatement] = useState<boolean>(false);
+  const [lockStatement, setLockStatement] = useState<boolean>(!!statementId);
   
   // Form doğrulama şeması
   const formSchema = createTransactionFormSchema(t);
@@ -78,7 +79,8 @@ export const useTransactionFormSetup = (
   
   // Tarih değişikliğinde uygun ekstreyi bul
   const updateStatementForDate = async (newDate: Date) => {
-    if (!statementId) { // Sadece statementId prop'u verilmemişse ekstre araması yap
+    // Eğer statement kilitli değilse (açık formdan gelmediyse) veya hiç statement yoksa yeni statement ara
+    if (!lockStatement || !currentStatementId) {
       try {
         setStatementError(null);
         setIsLoadingStatement(true);
@@ -107,7 +109,31 @@ export const useTransactionFormSetup = (
   
   // Form ilk yüklendiğinde ekstre kontrolü yap
   useEffect(() => {
-    if (!statementId) {
+    if (statementId) {
+      // Eğer bir statementId verilmişse, o ekstreyi yükle
+      const loadSpecificStatement = async () => {
+        try {
+          setIsLoadingStatement(true);
+          const foundStatement = await StatementFinderService.getStatementById(statementId);
+          if (foundStatement) {
+            setCurrentStatement(foundStatement);
+            console.log('Loaded specific statement:', foundStatement);
+          } else {
+            console.warn('Provided statement not found');
+            setStatementError(t("errors:statement.notFound"));
+            toast.error(t("errors:statement.notFound"));
+          }
+        } catch (error) {
+          console.error('Error loading specific statement:', error);
+          setStatementError(t("errors:statement.loadFailed"));
+        } finally {
+          setIsLoadingStatement(false);
+        }
+      };
+      
+      loadSpecificStatement();
+    } else {
+      // Statementid verilmemişse tarihe göre ekstre ara
       updateStatementForDate(date);
     }
   }, []); // Boş bağımlılık dizisi ile sadece bir kez çalışır
@@ -116,7 +142,19 @@ export const useTransactionFormSetup = (
   const handleDateChange = async (newDate: Date) => {
     setDate(newDate);
     form.setValue('transactionDate', newDate);
+    
+    // Statementid belirtilmiş olsa bile tarihi değiştirdiğimizde ekstre araması yap
     await updateStatementForDate(newDate);
+  };
+  
+  // StatementId kilidini açma/kapama fonksiyonu
+  const toggleStatementLock = () => {
+    setLockStatement(!lockStatement);
+    
+    // Kilit açıldıysa ve tarih değiştiyse yeni ekstre ara
+    if (lockStatement) {
+      updateStatementForDate(date);
+    }
   };
   
   // Form gönderme işleyicisi
@@ -147,6 +185,8 @@ export const useTransactionFormSetup = (
     statementId: currentStatementId,
     statement: currentStatement,
     isLoadingStatement,
-    statementError
+    statementError,
+    lockStatement,
+    toggleStatementLock
   };
 };

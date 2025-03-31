@@ -66,4 +66,29 @@ export class StatementFinderService {
       return null;
     }
   }
+
+  /**
+   * ID'ye göre belirli bir ekstreyi getir
+   */
+  static async getStatementById(statementId: string): Promise<AccountStatement | null> {
+    try {
+      console.log('Fetching statement by ID:', statementId);
+      
+      const { data: statement, error } = await supabase
+        .from('account_statements')
+        .select('*')
+        .eq('id', statementId)
+        .maybeSingle();
+      
+      if (error) {
+        console.error('Failed to fetch statement by ID:', error);
+        return null;
+      }
+      
+      return statement || null;
+    } catch (error) {
+      console.error('Unexpected error fetching statement by ID:', error);
+      return null;
+    }
+  }
 }

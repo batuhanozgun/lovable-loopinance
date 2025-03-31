@@ -10,7 +10,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle, Calendar, InfoIcon } from "lucide-react";
+import { AlertCircle, Calendar, InfoIcon, LockIcon, UnlockIcon } from "lucide-react";
 import { useTransactionFormSetup } from "../../hooks/useTransactionFormSetup";
 import { TransactionTypeField } from "./components/TransactionTypeField";
 import { AmountField } from "./components/AmountField";
@@ -25,6 +25,7 @@ import { format } from "date-fns";
 import { tr } from "date-fns/locale";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 
 interface TransactionFormProps {
   accountId: string;
@@ -63,7 +64,9 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
     statementId: currentStatementId,
     statement: currentStatement,
     isLoadingStatement,
-    statementError
+    statementError,
+    lockStatement,
+    toggleStatementLock
   } = useTransactionFormSetup(accountId, statementId);
 
   // Form gönderildiğinde onSubmit fonksiyonunu çalıştır
@@ -98,9 +101,29 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
 
         {!statementError && (
           <div className="mb-4 p-3 border rounded-md bg-muted/30">
-            <div className="flex items-center gap-2 mb-2">
-              <Calendar size={16} className="text-muted-foreground" />
-              <h3 className="text-sm font-medium">{t("CashAccountsNew:transaction.selectedStatement")}</h3>
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <Calendar size={16} className="text-muted-foreground" />
+                <h3 className="text-sm font-medium">{t("CashAccountsNew:transaction.selectedStatement")}</h3>
+              </div>
+              
+              {statementId && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-6 w-6"
+                  onClick={toggleStatementLock}
+                  title={lockStatement 
+                    ? t("CashAccountsNew:transaction.unlockStatement") 
+                    : t("CashAccountsNew:transaction.lockStatement")
+                  }
+                >
+                  {lockStatement 
+                    ? <LockIcon size={14} /> 
+                    : <UnlockIcon size={14} />
+                  }
+                </Button>
+              )}
             </div>
             
             {isLoadingStatement ? (
