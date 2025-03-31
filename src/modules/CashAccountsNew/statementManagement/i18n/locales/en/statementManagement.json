@@ -11,6 +11,21 @@
       "open": "Open",
       "closed": "Closed",
       "future": "Future"
+    },
+    "viewDetails": "View Details",
+    "empty": {
+      "noStatements": "No statements found for this account",
+      "statementInfo": "Statements help you track your transactions. Click the button below to create a new period."
+    },
+    "buttons": {
+      "refreshStatements": "Refresh Statements",
+      "createStatement": "Create Statement"
+    },
+    "toasts": {
+      "statementCheckComplete": "Statement check completed",
+      "newStatementCreated": "New statement created",
+      "statementCheckFailed": "Statement check failed",
+      "statementCheckError": "An error occurred while checking statements"
     }
   },
   "transactions": {
@@ -33,7 +48,8 @@
     "account": {
       "detail": {
         "failed": "Failed to load account details"
-      }
+      },
+      "notFound": "Account not found"
     },
     "statement": {
       "detail": {

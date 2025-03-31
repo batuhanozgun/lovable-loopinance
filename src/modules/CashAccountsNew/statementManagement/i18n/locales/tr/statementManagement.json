@@ -11,6 +11,21 @@
       "open": "Açık",
       "closed": "Kapalı",
       "future": "Gelecek"
+    },
+    "viewDetails": "Detayları Görüntüle",
+    "empty": {
+      "noStatements": "Hesap için ekstre bulunamadı",
+      "statementInfo": "Ekstreler, işlemlerinizi takip etmenize yardımcı olur. Yeni bir dönem oluşturmak için aşağıdaki butona tıklayabilirsiniz."
+    },
+    "buttons": {
+      "refreshStatements": "Ekstreleri Yenile",
+      "createStatement": "Ekstre Oluştur"
+    },
+    "toasts": {
+      "statementCheckComplete": "Ekstre kontrolü tamamlandı",
+      "newStatementCreated": "Yeni ekstre oluşturuldu",
+      "statementCheckFailed": "Ekstre kontrolü başarısız oldu",
+      "statementCheckError": "Ekstre kontrolü sırasında bir hata oluştu"
     }
   },
   "transactions": {
@@ -33,7 +48,8 @@
     "account": {
       "detail": {
         "failed": "Hesap detayları yüklenemedi"
-      }
+      },
+      "notFound": "Hesap bulunamadı"
     },
     "statement": {
       "detail": {

@@ -49,7 +49,7 @@ export const StatementsListView: React.FC = () => {
       if (result.success) {
         toast({
           title: t('common:success'),
-          description: result.message
+          description: result.message || t('statements.toasts.statementCheckComplete')
         });
         
         // Listeyi yenile
@@ -58,7 +58,7 @@ export const StatementsListView: React.FC = () => {
         toast({
           variant: 'destructive',
           title: t('common:error'),
-          description: result.message || t('statements.toasts.statementCheckError'),
+          description: result.message || t('statements.toasts.statementCheckFailed'),
         });
       }
     } catch (error) {
@@ -160,8 +160,8 @@ export const StatementsListView: React.FC = () => {
                     {t('statements.empty.statementInfo')}
                   </p>
                   <Button onClick={handleRefreshStatements} disabled={isProcessing}>
-                    <RefreshCw className={`h-4 w-4 mr-2 ${isProcessing ? 'animate-spin' : ''}`} />
-                    {t('statements.buttons.refreshStatements')}
+                    <PlusCircle className="h-4 w-4 mr-2" />
+                    {t('statements.buttons.createStatement')}
                   </Button>
                 </div>
               </Card>
