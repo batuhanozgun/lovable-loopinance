@@ -21,32 +21,5 @@
       "LAST_BUSINESS_DAY": "Last Business Day",
       "SPECIFIC_DAY": "Specific Day"
     }
-  },
-  "statements": {
-    "title": "Statements List",
-    "noStatements": "There are no statements for this account yet.",
-    "viewTransactions": "View Transactions",
-    "period": "Period",
-    "createdAt": "Created At",
-    "status": {
-      "title": "Status",
-      "open": "Open",
-      "closed": "Closed",
-      "future": "Future"
-    },
-    "income": "Income",
-    "expenses": "Expenses",
-    "balance": "Balance",
-    "currentBalance": "Current Balance",
-    "startBalance": "Opening Balance",
-    "endBalance": "Closing Balance",
-    "transactionCount": "Transaction Count",
-    "createTransaction": "New Transaction",
-    "closeStatement": "Close Statement",
-    "nextStatement": "Next Statement",
-    "previousStatement": "Previous Statement",
-    "transactions": "Transactions",
-    "summary": "Statement Summary",
-    "details": "Statement Details"
   }
 }

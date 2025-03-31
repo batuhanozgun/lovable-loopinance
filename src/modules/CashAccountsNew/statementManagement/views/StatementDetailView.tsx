@@ -15,7 +15,7 @@ import { StatementDetails } from '../components/StatementDetails';
  */
 export const StatementDetailView: React.FC = () => {
   const { accountId, statementId } = useParams<{ accountId: string; statementId: string }>();
-  const { t } = useTranslation(['CashAccountsNew', 'common']);
+  const { t } = useTranslation(['StatementManagement', 'common']);
   
   const { data: account, isLoading: isAccountLoading } = useCashAccount(accountId);
   const { data: statement, isLoading: isStatementLoading } = useStatement(statementId);

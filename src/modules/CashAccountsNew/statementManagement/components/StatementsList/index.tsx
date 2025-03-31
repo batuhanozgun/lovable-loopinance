@@ -24,7 +24,7 @@ interface StatementsListProps {
  * Ekstre listesi bileşeni
  */
 export const StatementsList: React.FC<StatementsListProps> = ({ statements, isLoading, currency }) => {
-  const { t, i18n } = useTranslation(['CashAccountsNew', 'common']);
+  const { t, i18n } = useTranslation(['StatementManagement', 'common']);
   const dateLocale = i18n.language === 'tr' ? tr : enUS;
 
   if (isLoading) {
@@ -72,7 +72,7 @@ export const StatementsList: React.FC<StatementsListProps> = ({ statements, isLo
             <TableRow>
               <TableHead>{t('statements.period')}</TableHead>
               <TableHead>{t('statements.endBalance')}</TableHead>
-              <TableHead>{t('statements.status.title', 'Status')}</TableHead>
+              <TableHead>{t('statements.status.title')}</TableHead>
               <TableHead className="text-right">{t('statements.viewDetails')}</TableHead>
             </TableRow>
           </TableHeader>

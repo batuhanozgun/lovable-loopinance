@@ -1,0 +1,18 @@
+
+{
+  "statement": {
+    "notFound": "Statement not found",
+    "detail": {
+      "failed": "Failed to load statement details"
+    },
+    "list": {
+      "failed": "Failed to load statements list"
+    },
+    "creation": {
+      "failed": "Failed to create statement"
+    },
+    "update": {
+      "failed": "Failed to update statement"
+    }
+  }
+}

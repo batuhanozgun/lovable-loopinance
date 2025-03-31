@@ -1,0 +1,42 @@
+
+{
+  "statements": {
+    "title": "Ekstre Listesi",
+    "noStatements": "Bu hesapta henüz ekstre bulunmamaktadır.",
+    "viewTransactions": "İşlemleri Görüntüle",
+    "period": "Dönem",
+    "createdAt": "Oluşturma Tarihi",
+    "status": {
+      "title": "Durum",
+      "open": "Açık",
+      "closed": "Kapalı",
+      "future": "Gelecek"
+    },
+    "income": "Gelir",
+    "expenses": "Gider",
+    "balance": "Bakiye",
+    "currentBalance": "Güncel Bakiye",
+    "startBalance": "Başlangıç Bakiyesi",
+    "endBalance": "Dönem Sonu Bakiyesi",
+    "transactionCount": "İşlem Sayısı",
+    "createTransaction": "Yeni İşlem",
+    "closeStatement": "Ekstreyi Kapat",
+    "nextStatement": "Sonraki Ekstre",
+    "previousStatement": "Önceki Ekstre",
+    "transactions": "İşlemler",
+    "summary": "Ekstre Özeti",
+    "details": "Ekstre Detayları",
+    "viewDetails": "Detayları Görüntüle",
+    "empty": {
+      "noStatements": "Bu hesapta henüz ekstre bulunmamaktadır.",
+      "statementInfo": "Ekstreler, işlemlerinizi belirli dönemlere göre düzenlemenize yardımcı olur. Hesap kesim günü ayarlarınıza göre otomatik olarak oluşturulurlar."
+    },
+    "buttons": {
+      "refreshStatements": "Ekstreleri Yenile"
+    },
+    "toasts": {
+      "statementCheckError": "Ekstreler kontrol edilirken bir hata oluştu",
+      "statementCheckComplete": "Ekstre kontrolü başarıyla tamamlandı"
+    }
+  }
+}

@@ -35,7 +35,7 @@ export const StatementInfoSection: React.FC<StatementInfoSectionProps> = ({
   lockStatement,
   toggleStatementLock
 }) => {
-  const { t } = useTranslation(["TransactionManagement", "common"]);
+  const { t } = useTranslation(["TransactionManagement", "StatementManagement", "common"]);
 
   // Hata durumu
   if (statementError) {
@@ -85,7 +85,7 @@ export const StatementInfoSection: React.FC<StatementInfoSectionProps> = ({
           <div className="space-y-1">
             <div className="flex items-center justify-between">
               <span className="text-xs text-muted-foreground">
-                {t("CashAccountsNew:statements.period")}:
+                {t("StatementManagement:statements.period")}:
               </span>
               <span className="text-xs font-medium">
                 {format(new Date(currentStatement.start_date), "d MMM yyyy", { locale: tr })} - {format(new Date(currentStatement.end_date), "d MMM yyyy", { locale: tr })}
@@ -93,15 +93,15 @@ export const StatementInfoSection: React.FC<StatementInfoSectionProps> = ({
             </div>
             <div className="flex items-center justify-between">
               <span className="text-xs text-muted-foreground">
-                {t("CashAccountsNew:statements.status.title")}:
+                {t("StatementManagement:statements.status.title")}:
               </span>
               <Badge variant="outline" className="text-xs">
-                {t(`CashAccountsNew:statements.status.${currentStatement.status.toLowerCase()}`)}
+                {t(`StatementManagement:statements.status.${currentStatement.status.toLowerCase()}`)}
               </Badge>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-xs text-muted-foreground">
-                {t("CashAccountsNew:statements.currentBalance")}:
+                {t("StatementManagement:statements.currentBalance")}:
               </span>
               <span className="text-xs font-semibold">
                 {formatCurrency(currentStatement.end_balance, currencyType)}

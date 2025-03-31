@@ -20,7 +20,7 @@ interface StatementDetailsProps {
  * Ekstre detay bileşeni
  */
 export const StatementDetails: React.FC<StatementDetailsProps> = ({ statement, isLoading, currency }) => {
-  const { t, i18n } = useTranslation(['CashAccountsNew', 'common']);
+  const { t, i18n } = useTranslation(['StatementManagement', 'common']);
   const dateLocale = i18n.language === 'tr' ? tr : enUS;
 
   if (isLoading || !statement) {

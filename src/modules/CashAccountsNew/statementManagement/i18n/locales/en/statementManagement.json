@@ -1,0 +1,42 @@
+
+{
+  "statements": {
+    "title": "Statements List",
+    "noStatements": "There are no statements for this account yet.",
+    "viewTransactions": "View Transactions",
+    "period": "Period",
+    "createdAt": "Created At",
+    "status": {
+      "title": "Status",
+      "open": "Open",
+      "closed": "Closed",
+      "future": "Future"
+    },
+    "income": "Income",
+    "expenses": "Expenses",
+    "balance": "Balance",
+    "currentBalance": "Current Balance",
+    "startBalance": "Opening Balance",
+    "endBalance": "Closing Balance",
+    "transactionCount": "Transaction Count",
+    "createTransaction": "New Transaction",
+    "closeStatement": "Close Statement",
+    "nextStatement": "Next Statement",
+    "previousStatement": "Previous Statement",
+    "transactions": "Transactions",
+    "summary": "Statement Summary",
+    "details": "Statement Details",
+    "viewDetails": "View Details",
+    "empty": {
+      "noStatements": "You don't have any statements for this account yet.",
+      "statementInfo": "Statements help you organize transactions by period. They're created automatically based on your account closing day settings."
+    },
+    "buttons": {
+      "refreshStatements": "Refresh Statements"
+    },
+    "toasts": {
+      "statementCheckError": "An error occurred while checking statements",
+      "statementCheckComplete": "Statement check completed successfully"
+    }
+  }
+}

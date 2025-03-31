@@ -14,7 +14,7 @@ import { StatementAutomationService } from '../services/automation/StatementAuto
 import { CurrencyType } from '../../cashAccountHomepage/types';
 
 export const StatementsListView: React.FC = () => {
-  const { t } = useTranslation(['CashAccountsNew', 'common']);
+  const { t } = useTranslation(['StatementManagement', 'common']);
   const { accountId } = useParams<{ accountId: string }>();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -130,7 +130,7 @@ export const StatementsListView: React.FC = () => {
         <Card className="p-6">
           <div className="text-center">
             <p className="text-destructive mb-4">
-              {t('errors.account.detail.failed')}
+              {t('errors.statement.list.failed')}
             </p>
             <Button onClick={() => refetchStatements()}>
               {t('common:buttons.tryAgain')}

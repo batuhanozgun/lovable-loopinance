@@ -13,6 +13,7 @@ import accountManagementTR from './locales/tr/accountManagement.json';
 
 // Alt modüllerin çeviri başlatma işlevlerini içe aktar
 import { initTransactionManagementTranslations } from '../transactionManagement/i18n';
+import { initStatementManagementTranslations } from '../statementManagement/i18n';
 
 // CashAccountsNew modülü çevirilerini başlat
 export const initCashAccountsNewTranslations = () => {
@@ -56,6 +57,7 @@ function addCashAccountsNewResources() {
     
     // Alt modüllerin çevirilerini de başlat
     initTransactionManagementTranslations();
+    initStatementManagementTranslations();
   } catch (error) {
     console.error("CashAccountsNew çevirileri eklenirken hata oluştu:", error);
   }

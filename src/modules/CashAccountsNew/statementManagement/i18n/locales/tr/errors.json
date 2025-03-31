@@ -1,0 +1,18 @@
+
+{
+  "statement": {
+    "notFound": "Ekstre bulunamadı",
+    "detail": {
+      "failed": "Ekstre detayları yüklenemedi"
+    },
+    "list": {
+      "failed": "Ekstre listesi yüklenemedi"
+    },
+    "creation": {
+      "failed": "Ekstre oluşturulamadı"
+    },
+    "update": {
+      "failed": "Ekstre güncellenemedi"
+    }
+  }
+}
