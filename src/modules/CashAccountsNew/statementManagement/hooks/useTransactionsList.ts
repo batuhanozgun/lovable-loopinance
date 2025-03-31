@@ -1,8 +1,7 @@
-
 import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
-import { AccountTransaction, TransactionFilters, TransactionType } from '../types/transaction';
+import { AccountTransaction, TransactionFilters, StatementTransactionType } from '../types/transaction';
 import { TransactionQueryService } from '../services/transaction/TransactionQueryService';
 
 /**
@@ -96,7 +95,7 @@ export const useTransactionsList = (statementId: string | undefined) => {
   };
 
   // Türe göre filtreleme
-  const filterByType = (type: TransactionType | 'all') => {
+  const filterByType = (type: StatementTransactionType | 'all') => {
     setFilters(prev => ({
       ...prev,
       type

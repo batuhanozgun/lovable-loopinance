@@ -9,10 +9,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { TransactionType } from '../../../types/transaction';
+import { StatementTransactionType } from '../../../types/transaction';
 
 interface FilterDropdownMenuProps {
-  onFilterByType: (type: TransactionType | 'all') => void;
+  onFilterByType: (type: StatementTransactionType | 'all') => void;
   onResetFilters: () => void;
 }
 
@@ -35,11 +35,11 @@ export const FilterDropdownMenu: React.FC<FilterDropdownMenuProps> = ({
           {t('transactions.filters.showAll')}
         </DropdownMenuItem>
         
-        <DropdownMenuItem onClick={() => onFilterByType(TransactionType.INCOME)}>
+        <DropdownMenuItem onClick={() => onFilterByType(StatementTransactionType.INCOME)}>
           {t('transactions.filters.showIncome')}
         </DropdownMenuItem>
         
-        <DropdownMenuItem onClick={() => onFilterByType(TransactionType.EXPENSE)}>
+        <DropdownMenuItem onClick={() => onFilterByType(StatementTransactionType.EXPENSE)}>
           {t('transactions.filters.showExpenses')}
         </DropdownMenuItem>
         

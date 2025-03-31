@@ -7,7 +7,7 @@ import { CurrencyType } from '../../cashAccountHomepage/types';
 /**
  * İşlem türü enum'u
  */
-export enum TransactionType {
+export enum StatementTransactionType {
   INCOME = "income",
   EXPENSE = "expense"
 }
@@ -20,7 +20,7 @@ export interface AccountTransaction {
   account_id: string;
   statement_id: string;
   amount: number;
-  transaction_type: TransactionType;
+  transaction_type: StatementTransactionType;
   transaction_date: string;
   transaction_time: string;
   description?: string;
@@ -43,7 +43,7 @@ export interface TransactionListResponse {
  * İşlem filtre durumu
  */
 export interface TransactionFilters {
-  type: TransactionType | 'all';
+  type: StatementTransactionType | 'all';
   sortByDate: 'asc' | 'desc' | null;
   sortByAmount: 'asc' | 'desc' | null;
 }
