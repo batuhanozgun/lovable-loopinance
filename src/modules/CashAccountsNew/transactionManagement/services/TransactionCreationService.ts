@@ -109,12 +109,16 @@ export class TransactionCreationService {
         let { income, expenses, end_balance } = statementData;
         
         // İşlem türüne göre ekstre değerlerini güncelle
+        let balanceChange = 0;
+        
         if (data.transaction_type === TransactionType.INCOME) {
           income = Number(income) + Number(data.amount);
           end_balance = Number(end_balance) + Number(data.amount);
+          balanceChange = Number(data.amount); // Pozitif değişim
         } else if (data.transaction_type === TransactionType.EXPENSE) {
           expenses = Number(expenses) + Number(data.amount);
           end_balance = Number(end_balance) - Number(data.amount);
+          balanceChange = -Number(data.amount); // Negatif değişim
         }
         
         // Ekstre güncelleme servisi ile bakiyeleri güncelle
@@ -134,6 +138,21 @@ export class TransactionCreationService {
             end_balance,
             statement_id: data.statement_id
           });
+          
+          // Zincirleme ekstre güncellemesi yap
+          console.log('Starting chain update for subsequent statements');
+          
+          const chainUpdateResult = await StatementService.updateStatementChain(
+            data.account_id,
+            data.statement_id,
+            balanceChange
+          );
+          
+          if (chainUpdateResult) {
+            console.log('Statement chain update completed successfully');
+          } else {
+            console.error('Failed to update statement chain');
+          }
         }
       } catch (updateError) {
         // Ekstre güncelleme hatası durumunda işlemi iptal etme, sadece loglama yapma

@@ -8,6 +8,7 @@ import { StatementCreationService } from './core/creation/StatementCreationServi
 import { StatementPeriodService } from './core/period/StatementPeriodService';
 import { StatementQueryService } from './core/query/StatementQueryService';
 import { StatementUpdateService } from './core/update/StatementUpdateService';
+import { StatementChainUpdateService } from './core/update/StatementChainUpdateService';
 import { CashAccount } from '../../cashAccountHomepage/types';
 import { 
   AccountStatement, 
@@ -97,5 +98,23 @@ export class StatementService {
     endBalance: number
   ): Promise<SingleStatementResponse> {
     return await StatementUpdateService.updateStatementBalances(id, income, expenses, endBalance);
+  }
+
+  /**
+   * Bir ekstreden başlayarak tüm sonraki ekstreleri günceller
+   * @param accountId Hesap ID
+   * @param startStatementId Başlangıç ekstre ID'si
+   * @param balanceChange Bakiye değişim miktarı (+ gelir, - gider)
+   */
+  static async updateStatementChain(
+    accountId: string,
+    startStatementId: string,
+    balanceChange: number
+  ): Promise<boolean> {
+    return await StatementChainUpdateService.updateStatementChain(
+      accountId,
+      startStatementId,
+      balanceChange
+    );
   }
 }
