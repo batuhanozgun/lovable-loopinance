@@ -20,7 +20,6 @@ import { initProfileTranslations } from '@/modules/UserManagement/Profile/i18n';
 import { initSubscriptionTranslations } from '@/modules/Subscription/i18n';
 import { initPaymentTranslations } from '@/modules/Payment/i18n';
 import { loadTranslations as loadCategoriesTranslations } from '@/modules/Categories/i18n';
-import { initCashAccountsTranslations } from '@/modules/CashAccounts/i18n';
 import { initCashAccountsNewTranslations } from '@/modules/CashAccountsNew/i18n';
 
 // i18n nesnesini yapılandır
@@ -61,7 +60,6 @@ initProfileTranslations();
 initSubscriptionTranslations();
 initPaymentTranslations();
 loadCategoriesTranslations();
-initCashAccountsTranslations(); // CashAccounts modülü çevirilerini başlat
 initCashAccountsNewTranslations(); // CashAccountsNew modülü çevirilerini başlat
 
 export default i18n;
