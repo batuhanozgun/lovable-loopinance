@@ -146,30 +146,34 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+            {/* İşlem Tipi */}
             <TransactionTypeField control={form.control} />
-
-            <div className="grid grid-cols-2 gap-4">
-              <AmountField control={form.control} currency={currencyType} />
-              <DateField 
-                date={date} 
-                setDate={setDate} 
-                time={time} 
-                setTime={setTime} 
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <CategoryField 
-                control={form.control} 
-                selectedCategoryId={selectedCategoryId}
-                onCategoryChange={handleCategoryChange}
-              />
-              <SubcategoryField 
-                control={form.control} 
-                selectedCategoryId={selectedCategoryId} 
-              />
-            </div>
-
+            
+            {/* Tarih */}
+            <DateField 
+              date={date} 
+              setDate={setDate} 
+              time={time} 
+              setTime={setTime} 
+            />
+            
+            {/* Kategori */}
+            <CategoryField 
+              control={form.control} 
+              selectedCategoryId={selectedCategoryId}
+              onCategoryChange={handleCategoryChange}
+            />
+            
+            {/* Alt Kategori */}
+            <SubcategoryField 
+              control={form.control} 
+              selectedCategoryId={selectedCategoryId} 
+            />
+            
+            {/* Tutar */}
+            <AmountField control={form.control} currency={currencyType} />
+            
+            {/* Açıklama */}
             <DescriptionField control={form.control} />
 
             <FormActions 
