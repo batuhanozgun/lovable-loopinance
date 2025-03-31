@@ -8,6 +8,7 @@
     "expenses": "Gider",
     "period": "Dönem",
     "status": {
+      "title": "Durum",
       "open": "Açık",
       "closed": "Kapalı",
       "future": "Gelecek"

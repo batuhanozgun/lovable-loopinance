@@ -8,6 +8,7 @@
     "expenses": "Expenses",
     "period": "Period",
     "status": {
+      "title": "Status",
       "open": "Open",
       "closed": "Closed",
       "future": "Future"
