@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -106,11 +106,11 @@ export const useTransactionFormSetup = (
   };
   
   // Form ilk yüklendiğinde ekstre kontrolü yap
-  useState(() => {
+  useEffect(() => {
     if (!statementId) {
       updateStatementForDate(date);
     }
-  });
+  }, []); // Boş bağımlılık dizisi ile sadece bir kez çalışır
   
   // Tarih değiştiğinde ekstre güncelle
   const handleDateChange = async (newDate: Date) => {
