@@ -1,42 +1,61 @@
 
 {
   "statements": {
-    "title": "Ekstre Listesi",
-    "noStatements": "Bu hesapta henüz ekstre bulunmamaktadır.",
-    "viewTransactions": "İşlemleri Görüntüle",
+    "title": "Ekstre",
+    "startBalance": "Açılış Bakiyesi",
+    "endBalance": "Kapanış Bakiyesi",
+    "income": "Gelir",
+    "expenses": "Gider",
     "period": "Dönem",
-    "createdAt": "Oluşturma Tarihi",
     "status": {
-      "title": "Durum",
       "open": "Açık",
       "closed": "Kapalı",
       "future": "Gelecek"
+    }
+  },
+  "transactions": {
+    "title": "İşlemler",
+    "new": "Yeni İşlem",
+    "edit": "İşlemi Düzenle",
+    "delete": "İşlemi Sil",
+    "empty": "Bu ekstre için işlem bulunamadı",
+    "filters": {
+      "showAll": "Tümünü Göster",
+      "showIncome": "Gelirleri Göster",
+      "showExpenses": "Giderleri Göster",
+      "sortByDateDesc": "Tarihe Göre Sırala (Yeni)",
+      "sortByDateAsc": "Tarihe Göre Sırala (Eski)",
+      "sortByAmountDesc": "Tutara Göre Sırala (Yüksek)",
+      "sortByAmountAsc": "Tutara Göre Sırala (Düşük)"
+    }
+  },
+  "errors": {
+    "account": {
+      "detail": {
+        "failed": "Hesap detayları yüklenemedi"
+      }
     },
-    "income": "Gelir",
-    "expenses": "Gider",
-    "balance": "Bakiye",
-    "currentBalance": "Güncel Bakiye",
-    "startBalance": "Başlangıç Bakiyesi",
-    "endBalance": "Dönem Sonu Bakiyesi",
-    "transactionCount": "İşlem Sayısı",
-    "createTransaction": "Yeni İşlem",
-    "closeStatement": "Ekstreyi Kapat",
-    "nextStatement": "Sonraki Ekstre",
-    "previousStatement": "Önceki Ekstre",
-    "transactions": "İşlemler",
-    "summary": "Ekstre Özeti",
-    "details": "Ekstre Detayları",
-    "viewDetails": "Detayları Görüntüle",
-    "empty": {
-      "noStatements": "Bu hesapta henüz ekstre bulunmamaktadır.",
-      "statementInfo": "Ekstreler, işlemlerinizi belirli dönemlere göre düzenlemenize yardımcı olur. Hesap kesim günü ayarlarınıza göre otomatik olarak oluşturulurlar."
+    "statement": {
+      "detail": {
+        "failed": "Ekstre detayları yüklenemedi"
+      },
+      "list": {
+        "failed": "Ekstreler yüklenemedi"
+      }
     },
-    "buttons": {
-      "refreshStatements": "Ekstreleri Yenile"
-    },
-    "toasts": {
-      "statementCheckError": "Ekstreler kontrol edilirken bir hata oluştu",
-      "statementCheckComplete": "Ekstre kontrolü başarıyla tamamlandı"
+    "transaction": {
+      "list": {
+        "failed": "İşlemler yüklenemedi"
+      },
+      "create": {
+        "failed": "İşlem oluşturulamadı"
+      },
+      "update": {
+        "failed": "İşlem güncellenemedi"
+      },
+      "delete": {
+        "failed": "İşlem silinemedi"
+      }
     }
   }
 }
