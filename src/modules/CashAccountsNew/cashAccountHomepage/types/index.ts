@@ -1,10 +1,11 @@
-
 import { Database } from '@/integrations/supabase/types';
 
 /**
  * Nakit Hesap veri türü
  */
-export type CashAccount = Database['public']['Tables']['cash_accounts']['Row'];
+export type CashAccount = Database['public']['Tables']['cash_accounts']['Row'] & {
+  current_balance?: number;
+};
 
 /**
  * Yeni Nakit Hesap oluşturma için tip

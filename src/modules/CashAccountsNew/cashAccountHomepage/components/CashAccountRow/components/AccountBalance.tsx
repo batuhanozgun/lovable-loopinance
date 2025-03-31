@@ -13,12 +13,15 @@ interface AccountBalanceProps {
  */
 export const AccountBalance: React.FC<AccountBalanceProps> = ({ account }) => {
   const { t } = useTranslation(['CashAccountHomepage']);
-  const { initial_balance, currency } = account;
+  const { current_balance, initial_balance, currency } = account;
+  
+  // Güncel bakiye değerini göster (eğer yoksa initial_balance'ı kullan)
+  const displayBalance = current_balance !== undefined ? current_balance : initial_balance;
 
   return (
     <div className="text-right">
       <div className="font-medium">
-        {formatCurrency(initial_balance, currency as CurrencyType)}
+        {formatCurrency(displayBalance, currency as CurrencyType)}
       </div>
       <div className="text-xs text-muted-foreground">
         {t('accountBalance')}
