@@ -1,14 +1,6 @@
 
 import i18n from 'i18next';
 
-// İngilizce kaynaklar
-import cashAccountsEN from './locales/en/cashAccounts.json';
-import errorsEN from './locales/en/errors.json';
-
-// Türkçe kaynaklar
-import cashAccountsTR from './locales/tr/cashAccounts.json';
-import errorsTR from './locales/tr/errors.json';
-
 // Alt modüllerin çeviri başlatma işlevlerini içe aktar
 import { initTransactionManagementTranslations } from '../transactionManagement/i18n';
 import { initStatementManagementTranslations } from '../statementManagement/i18n';
@@ -19,47 +11,35 @@ import { initCashAccountHomepageTranslations } from '../cashAccountHomepage/i18n
 export const initCashAccountsNewTranslations = () => {
   // i18n'in başlatılıp başlatılmadığını kontrol et
   if (!i18n.isInitialized) {
-    console.warn("i18n henüz başlatılmadı, CashAccountsNew çevirileri daha sonra eklenecek");
+    console.warn("i18n henüz başlatılmadı, CashAccountsNew alt modüllerinin çevirileri daha sonra eklenecek");
     
     // i18n başlatıldığında çevirileri ekle
     const originalInit = i18n.init;
     i18n.init = function(...args) {
       const result = originalInit.apply(this, args);
-      addCashAccountsNewResources();
+      initSubmoduleTranslations();
       return result;
     };
     
     return;
   }
   
-  // i18n zaten başlatılmışsa, çevirileri hemen ekle
-  addCashAccountsNewResources();
+  // i18n zaten başlatılmışsa, alt modüllerin çevirilerini hemen ekle
+  initSubmoduleTranslations();
 };
 
-// CashAccountsNew kaynak paketlerini ekleme yardımcı fonksiyonu
-function addCashAccountsNewResources() {
+// Alt modüllerin çevirilerini başlatan yardımcı fonksiyon
+function initSubmoduleTranslations() {
   try {
-    // İngilizce kaynakları ekle
-    i18n.addResourceBundle('en', 'CashAccountsNew', {
-      ...cashAccountsEN,
-      errors: errorsEN
-    }, true, true);
-
-    // Türkçe kaynakları ekle
-    i18n.addResourceBundle('tr', 'CashAccountsNew', {
-      ...cashAccountsTR,
-      errors: errorsTR
-    }, true, true);
-    
-    console.log("CashAccountsNew çevirileri başarıyla eklendi");
-    
-    // Alt modüllerin çevirilerini de başlat
+    // Alt modüllerin çevirilerini başlat
     initTransactionManagementTranslations();
     initStatementManagementTranslations();
     initAccountManagementTranslations();
     initCashAccountHomepageTranslations();
+    
+    console.log("CashAccountsNew alt modülleri çevirileri başarıyla eklendi");
   } catch (error) {
-    console.error("CashAccountsNew çevirileri eklenirken hata oluştu:", error);
+    console.error("CashAccountsNew alt modüllerinin çevirileri eklenirken hata oluştu:", error);
   }
 }
 

@@ -1,8 +1,0 @@
-
-{
-  "statement": {
-    "notFound": "Statement not found",
-    "createFirst": "You need to create a statement first",
-    "loadFailed": "Failed to load statements"
-  }
-}

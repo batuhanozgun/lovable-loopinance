@@ -1,8 +1,0 @@
-
-{
-  "statement": {
-    "notFound": "Ekstre bulunamadı",
-    "createFirst": "Önce bir ekstre oluşturmanız gerekiyor",
-    "loadFailed": "Ekstreler yüklenemedi"
-  }
-}
