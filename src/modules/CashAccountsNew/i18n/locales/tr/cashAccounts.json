@@ -70,6 +70,10 @@
     "noDescription": "Açıklama yok",
     "noTransactions": "İşlem bulunamadı",
     "selectedStatement": "Seçilen Ekstre",
-    "noStatementSelected": "Henüz bir ekstre seçilmedi"
+    "noStatementSelected": "Henüz bir ekstre seçilmedi",
+    "types": {
+      "income": "Gelir",
+      "expense": "Gider"
+    }
   }
 }
