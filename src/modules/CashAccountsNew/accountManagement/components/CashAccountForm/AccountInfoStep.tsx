@@ -22,7 +22,7 @@ interface AccountInfoStepProps {
  * Hesap bilgilerini içeren ilk adım
  */
 export const AccountInfoStep: React.FC<AccountInfoStepProps> = ({ form, onNext, onCancel }) => {
-  const { t } = useTranslation(['CashAccountsNew']);
+  const { t } = useTranslation(['AccountManagement']);
   const { control, handleSubmit, formState: { errors }, watch, setValue } = form;
 
   // Sonraki adıma geçiş için doğrulama

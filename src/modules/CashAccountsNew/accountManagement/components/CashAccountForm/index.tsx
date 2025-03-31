@@ -10,7 +10,7 @@ import { ClosingDayStep } from './ClosingDayStep';
  * Nakit hesap oluşturma formu bileşeni
  */
 export const CashAccountForm: React.FC = () => {
-  const { t } = useTranslation(['CashAccountsNew']);
+  const { t } = useTranslation(['AccountManagement']);
   const navigate = useNavigate();
   
   const {

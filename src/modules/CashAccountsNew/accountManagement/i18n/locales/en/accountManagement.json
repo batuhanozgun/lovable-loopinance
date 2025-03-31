@@ -1,0 +1,76 @@
+
+{
+  "title": "Cash Accounts",
+  "form": {
+    "title": "Create Cash Account",
+    "steps": {
+      "basicInfo": "Account Information",
+      "closingDay": "Closing Day Settings"
+    },
+    "name": {
+      "label": "Account Name",
+      "placeholder": "Enter account name"
+    },
+    "initialBalance": {
+      "label": "Initial Balance",
+      "wholePlaceholder": "0",
+      "decimalPlaceholder": "00"
+    },
+    "currency": {
+      "label": "Currency",
+      "options": {
+        "try": "Turkish Lira (₺)",
+        "usd": "US Dollar ($)",
+        "eur": "Euro (€)"
+      }
+    },
+    "description": {
+      "label": "Description (Optional)",
+      "placeholder": "Enter a description for this account"
+    },
+    "closingDayType": {
+      "label": "Closing Day Type",
+      "options": {
+        "lastDay": "Last Day of Month",
+        "lastBusinessDay": "Last Business Day of Month",
+        "specificDay": "Specific Day of Month"
+      }
+    },
+    "closingDayValue": {
+      "label": "Closing Day",
+      "placeholder": "Select a day (1-28)"
+    },
+    "buttons": {
+      "next": "Next",
+      "back": "Back",
+      "create": "Create Account",
+      "cancel": "Cancel"
+    }
+  },
+  "validation": {
+    "name": {
+      "required": "Account name is required",
+      "maxLength": "Account name must be less than 100 characters"
+    },
+    "initialBalance": {
+      "invalidFormat": "Initial balance must be a valid number"
+    },
+    "currency": {
+      "required": "Currency is required"
+    },
+    "description": {
+      "maxLength": "Description must be less than 250 characters"
+    },
+    "closingDayType": {
+      "required": "Closing day type is required"
+    },
+    "closingDayValue": {
+      "required": "Closing day is required",
+      "range": "Closing day must be between 1 and 28"
+    }
+  },
+  "success": {
+    "title": "Account Created",
+    "description": "Cash account has been successfully created."
+  }
+}

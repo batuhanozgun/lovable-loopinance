@@ -1,0 +1,8 @@
+
+{
+  "create": {
+    "title": "Hesap Oluşturulamadı",
+    "description": "Hesap oluştururken bir hata oluştu.",
+    "unknownError": "Bilinmeyen bir hata oluştu."
+  }
+}

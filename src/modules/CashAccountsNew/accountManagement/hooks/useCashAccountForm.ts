@@ -13,7 +13,7 @@ import { useSessionService } from '@/modules/UserManagement/auth/hooks/useSessio
  * Nakit hesap oluşturma formunu yöneten custom hook
  */
 export const useCashAccountForm = () => {
-  const { t } = useTranslation(['CashAccountsNew']);
+  const { t } = useTranslation(['AccountManagement']);
   const { toast } = useToast();
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);

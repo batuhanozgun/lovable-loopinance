@@ -26,7 +26,7 @@ export const ClosingDayStep: React.FC<ClosingDayStepProps> = ({
   onBack,
   onSubmit
 }) => {
-  const { t } = useTranslation(['CashAccountsNew', 'common']);
+  const { t } = useTranslation(['AccountManagement', 'common']);
   const { control, watch, handleSubmit } = form;
   const closingDayType = watch('closingDayType');
 

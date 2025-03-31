@@ -1,0 +1,8 @@
+
+{
+  "create": {
+    "title": "Failed to Create Account",
+    "description": "An error occurred while creating the account.",
+    "unknownError": "An unknown error occurred."
+  }
+}
