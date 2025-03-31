@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { FileText, Eye, Edit, Trash2, MoreVertical } from 'lucide-react';
+import { FileText, Eye, Edit, Trash2, MoreVertical, PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -16,6 +16,7 @@ interface MobileActionsProps {
   account: CashAccount;
   onEdit?: (account: CashAccount) => void;
   onDelete?: (account: CashAccount) => void;
+  onAddTransaction?: (account: CashAccount) => void;
 }
 
 /**
@@ -24,7 +25,8 @@ interface MobileActionsProps {
 export const MobileActions: React.FC<MobileActionsProps> = ({ 
   account, 
   onEdit, 
-  onDelete 
+  onDelete,
+  onAddTransaction
 }) => {
   const { t } = useTranslation(['CashAccountsNew', 'common']);
   const { id } = account;
@@ -38,6 +40,12 @@ export const MobileActions: React.FC<MobileActionsProps> = ({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
+        {onAddTransaction && (
+          <DropdownMenuItem onClick={() => onAddTransaction(account)}>
+            <PlusCircle className="mr-2 h-4 w-4" />
+            {t('CashAccountsNew:transaction.add')}
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem asChild>
           <Link to={`/nakit-hesaplar/${id}/statements`}>
             <FileText className="mr-2 h-4 w-4" />

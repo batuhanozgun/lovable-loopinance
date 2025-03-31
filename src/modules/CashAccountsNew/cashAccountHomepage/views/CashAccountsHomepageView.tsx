@@ -12,6 +12,8 @@ import { DndContext, closestCenter } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { DraggableCashAccountRow } from '../components/DraggableCashAccountRow';
 import { useCashAccountDnd } from '../hooks/useCashAccountDnd';
+import { TransactionForm } from '../../transactionManagement';
+import { StatementFinderService } from '../../transactionManagement/services/StatementFinderService';
 
 /**
  * Nakit Hesaplar ana görünümü
@@ -21,6 +23,11 @@ export const CashAccountsHomepageView: React.FC = () => {
   const { toast } = useToast();
   const { data: fetchedAccounts, isLoading, isError } = useCashAccounts();
   const [accounts, setAccounts] = useState<CashAccount[]>([]);
+
+  // İşlem formu modalı için state
+  const [isTransactionFormOpen, setIsTransactionFormOpen] = useState(false);
+  const [selectedAccount, setSelectedAccount] = useState<CashAccount | null>(null);
+  const [activeStatementId, setActiveStatementId] = useState<string | undefined>(undefined);
 
   // Hesap verilerini state'e aktar
   useEffect(() => {
@@ -35,7 +42,33 @@ export const CashAccountsHomepageView: React.FC = () => {
     setAccounts
   });
 
-  // Düzenleme ve silme işlemleri için geçici işlevler
+  // İşlem ekleme modalını aç
+  const handleAddTransaction = async (account: CashAccount) => {
+    setSelectedAccount(account);
+    
+    // Hesabın en son aktif ekstresini bul
+    try {
+      const statements = await StatementFinderService.findOpenStatements(account.id);
+      if (statements && statements.length > 0) {
+        setActiveStatementId(statements[0].id);
+        setIsTransactionFormOpen(true);
+      } else {
+        toast({
+          title: t('CashAccountsNew:errors.statement.notFound'),
+          description: t('CashAccountsNew:errors.statement.createFirst'),
+          variant: 'destructive'
+        });
+      }
+    } catch (error) {
+      console.error('Failed to find active statements:', error);
+      toast({
+        title: t('CashAccountsNew:errors.statement.loadFailed'),
+        variant: 'destructive'
+      });
+    }
+  };
+
+  // Diğer işlevler (düzenleme ve silme için geçici işlevler)
   const handleEdit = (account: CashAccount) => {
     toast({
       title: t('CashAccountsNew:editNotImplemented'),
@@ -48,6 +81,13 @@ export const CashAccountsHomepageView: React.FC = () => {
       title: t('CashAccountsNew:deleteNotImplemented'),
       description: `${account.name} hesabını silme işlevi henüz uygulanmadı.`,
     });
+  };
+
+  // İşlem formunu kapat
+  const handleCloseTransactionForm = () => {
+    setIsTransactionFormOpen(false);
+    setSelectedAccount(null);
+    setActiveStatementId(undefined);
   };
 
   // Yükleme durumu için iskelet
@@ -112,6 +152,7 @@ export const CashAccountsHomepageView: React.FC = () => {
                 account={account} 
                 onEdit={handleEdit}
                 onDelete={handleDelete}
+                onAddTransaction={handleAddTransaction}
               />
             ))}
           </div>
@@ -140,6 +181,17 @@ export const CashAccountsHomepageView: React.FC = () => {
         <div className="p-4 border border-destructive text-destructive rounded-md">
           {t('CashAccountsNew:errors.account.list.failed')}
         </div>
+      )}
+      
+      {/* İşlem formu modalı */}
+      {selectedAccount && (
+        <TransactionForm
+          isOpen={isTransactionFormOpen}
+          onClose={handleCloseTransactionForm}
+          accountId={selectedAccount.id}
+          statementId={activeStatementId}
+          currency={selectedAccount.currency}
+        />
       )}
     </div>
   );

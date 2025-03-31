@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { FileText, Eye, Edit, Trash2 } from 'lucide-react';
+import { FileText, Eye, Edit, Trash2, PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { 
   Tooltip, 
@@ -16,6 +16,7 @@ interface DesktopActionsProps {
   account: CashAccount;
   onEdit?: (account: CashAccount) => void;
   onDelete?: (account: CashAccount) => void;
+  onAddTransaction?: (account: CashAccount) => void;
 }
 
 /**
@@ -24,13 +25,34 @@ interface DesktopActionsProps {
 export const DesktopActions: React.FC<DesktopActionsProps> = ({ 
   account, 
   onEdit, 
-  onDelete 
+  onDelete,
+  onAddTransaction
 }) => {
   const { t } = useTranslation(['CashAccountsNew']);
   const { id } = account;
 
   return (
     <div className="flex items-center gap-1">
+      {onAddTransaction && (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8"
+                onClick={() => onAddTransaction(account)}
+              >
+                <PlusCircle className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{t('CashAccountsNew:transaction.add')}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )}
+
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>

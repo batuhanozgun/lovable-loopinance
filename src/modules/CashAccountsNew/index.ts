@@ -11,3 +11,4 @@ export { StatementsListView, StatementDetailView } from './statementManagement/v
 export * from './cashAccountHomepage';
 export * from './accountManagement';
 export * from './statementManagement';
+export * from './transactionManagement';

@@ -11,6 +11,7 @@ interface CashAccountRowProps {
   account: CashAccount;
   onEdit?: (account: CashAccount) => void;
   onDelete?: (account: CashAccount) => void;
+  onAddTransaction?: (account: CashAccount) => void;
   hasDragHandle?: boolean;
 }
 
@@ -21,6 +22,7 @@ export const CashAccountRow: React.FC<CashAccountRowProps> = ({
   account, 
   onEdit, 
   onDelete,
+  onAddTransaction,
   hasDragHandle = false
 }) => {
   const isMobile = useIsMobile();
@@ -36,13 +38,15 @@ export const CashAccountRow: React.FC<CashAccountRowProps> = ({
           <MobileActions 
             account={account} 
             onEdit={onEdit} 
-            onDelete={onDelete} 
+            onDelete={onDelete}
+            onAddTransaction={onAddTransaction} 
           />
         ) : (
           <DesktopActions 
             account={account} 
             onEdit={onEdit} 
             onDelete={onDelete}
+            onAddTransaction={onAddTransaction}
           />
         )}
       </div>
