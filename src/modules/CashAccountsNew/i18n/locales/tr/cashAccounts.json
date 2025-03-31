@@ -1,80 +1,83 @@
 
 {
-  "title": "Nakit Hesaplarım",
-  "new": "Yeni Nakit Hesap",
-  "settings": "Hesap Ayarları",
-  "details": "Hesap Detayları",
-  "create": "Hesap Oluştur",
-  "edit": "Hesabı Düzenle",
-  "delete": "Hesabı Sil",
-  "form": {
-    "name": "Hesap Adı",
-    "description": "Açıklama",
-    "currency": "Para Birimi",
-    "initialBalance": "Başlangıç Bakiyesi",
-    "closingDay": "Hesap Kapanış Günü",
-    "closingDayType": "Kapanış Günü Tipi",
-    "closingDayValue": "Kapanış Günü Değeri",
-    "submit": "Kaydet",
-    "cancel": "İptal"
-  },
-  "placeholders": {
-    "name": "Örn: Ziraat Bankası Vadesiz",
-    "description": "Hesap hakkında kısa bilgi"
-  },
-  "balance": {
-    "title": "Bakiye",
-    "available": "Kullanılabilir Bakiye",
-    "pending": "Bekleyen İşlemler",
-    "total": "Toplam Bakiye"
-  },
-  "closingDay": {
-    "title": "Kapanış Günü",
-    "lastDayOfMonth": "Ayın Son Günü",
-    "specificDay": "Belirli Bir Gün",
-    "day": "Gün"
+  "account": {
+    "title": "Nakit Hesaplar",
+    "create": "Yeni Nakit Hesap Oluştur",
+    "edit": "Nakit Hesabı Düzenle",
+    "balance": "Bakiye",
+    "actions": "İşlemler",
+    "noAccounts": "Henüz hiç nakit hesabınız yok. Bir tane oluşturmak ister misiniz?",
+    "createFirst": "İlk Hesabını Oluştur",
+    "view": "Hesabı Görüntüle",
+    "delete": "Hesabı Sil",
+    "sortOrder": "Sıralama Düzeni",
+    "accountType": "Hesap Türü",
+    "cashAccount": "Nakit Hesap",
+    "currencyInfo": "Hesabınız oluşturulduktan sonra para birimi değiştirilemez.",
+    "closingDayInfo": "Hesap kesim gününü seçin. Bu tarih, her ay hesap ekstrelerinizin ne zaman kapanacağını belirler.",
+    "closingDayType": {
+      "title": "Hesap Kesim Günü Türü",
+      "LAST_DAY": "Ayın Son Günü",
+      "LAST_BUSINESS_DAY": "Ayın Son İş Günü",
+      "SPECIFIC_DAY": "Belirli Bir Gün"
+    }
   },
   "statements": {
-    "title": "Ekstre",
+    "title": "Ekstre Listesi",
+    "noStatements": "Bu hesapta henüz ekstre bulunmamaktadır.",
+    "viewTransactions": "İşlemleri Görüntüle",
     "period": "Dönem",
-    "startBalance": "Başlangıç Bakiyesi",
-    "endBalance": "Bitiş Bakiyesi",
-    "income": "Gelir",
-    "expenses": "Gider",
-    "currentBalance": "Mevcut Bakiye",
+    "createdAt": "Oluşturma Tarihi",
     "status": {
       "title": "Durum",
       "open": "Açık",
       "closed": "Kapalı",
       "future": "Gelecek"
-    }
+    },
+    "income": "Gelir",
+    "expenses": "Gider",
+    "balance": "Bakiye",
+    "currentBalance": "Güncel Bakiye",
+    "startBalance": "Başlangıç Bakiyesi",
+    "endBalance": "Dönem Sonu Bakiyesi",
+    "transactionCount": "İşlem Sayısı",
+    "createTransaction": "Yeni İşlem",
+    "closeStatement": "Ekstreyi Kapat",
+    "nextStatement": "Sonraki Ekstre",
+    "previousStatement": "Önceki Ekstre",
+    "transactions": "İşlemler",
+    "summary": "Ekstre Özeti",
+    "details": "Ekstre Detayları"
   },
   "transaction": {
     "new": "Yeni İşlem",
     "edit": "İşlemi Düzenle",
-    "delete": "İşlemi Sil",
-    "add": "İşlem Ekle",
-    "type": "İşlem Tipi",
-    "date": "Tarih",
-    "time": "Saat",
-    "amount": "Tutar",
-    "description": "Açıklama",
-    "descriptionPlaceholder": "İşlem açıklaması girin",
-    "category": "Kategori",
-    "subcategory": "Alt Kategori",
-    "income": "Gelir",
-    "expense": "Gider",
-    "pickDate": "Tarih Seç",
-    "details": "İşlem Detayları",
-    "noCategory": "Kategorisiz",
-    "noSubcategory": "Alt Kategorisiz",
-    "noDescription": "Açıklama yok",
-    "noTransactions": "İşlem bulunamadı",
-    "selectedStatement": "Seçilen Ekstre",
-    "noStatementSelected": "Henüz bir ekstre seçilmedi",
+    "addNew": "Yeni İşlem Ekle",
+    "type": "İşlem Türü",
     "types": {
       "income": "Gelir",
       "expense": "Gider"
+    },
+    "amount": "Tutar",
+    "date": "Tarih",
+    "time": "Saat",
+    "pickDate": "Tarih Seç",
+    "category": "Kategori",
+    "chooseCategory": "Kategori Seç",
+    "subcategory": "Alt Kategori",
+    "chooseSubcategory": "Alt Kategori Seç",
+    "noSubcategories": "Bu kategori için alt kategori bulunmamaktadır",
+    "description": "Açıklama",
+    "cancel": "İptal",
+    "submit": "Kaydet",
+    "selectedStatement": "Seçilen Ekstre",
+    "noStatementSelected": "Ekstre seçilmedi",
+    "unlockStatement": "Ekstre kilidini aç",
+    "lockStatement": "Ekstreyi kilitle",
+    "warning": {
+      "closedStatement": "Kapalı bir ekstreye işlem ekliyorsunuz. Bu, ekstrenin kapanış bakiyesini ve sonraki ekstrelerin başlangıç ve kapanış bakiyelerini değiştirecektir.",
+      "futureStatement": "Gelecek döneme ait bir ekstreye işlem ekliyorsunuz. Bu işlemin gerçekleşme tarihinin ekstre dönemi içinde olduğundan emin olun.",
+      "unknownStatus": "Ekstre durumu '{{status}}' olan bir ekstreye işlem ekliyorsunuz."
     }
   }
 }

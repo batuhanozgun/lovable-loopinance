@@ -51,7 +51,7 @@ export class TransactionCreationService {
         return { success: false, error: errorMsg };
       }
       
-      // Ekstrenin durumunu kontrol et (kapalı mı?)
+      // Ekstrenin durumunu kontrol et (artık sadece bilgi olarak göstereceğiz, engelleme yapmıyoruz)
       const { data: statementData, error: statementError } = await supabase
         .from('account_statements')
         .select('status')
@@ -63,11 +63,7 @@ export class TransactionCreationService {
         return { success: false, error: 'Failed to verify statement status' };
       }
       
-      if (statementData && statementData.status === 'closed') {
-        const errorMsg = 'Cannot add transaction - statement is closed';
-        console.error(errorMsg);
-        return { success: false, error: errorMsg };
-      }
+      console.log('Statement status:', statementData?.status);
       
       // API çağrısı
       console.log('Making Supabase API call with validated data');

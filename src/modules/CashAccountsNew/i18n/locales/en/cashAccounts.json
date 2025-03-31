@@ -1,97 +1,83 @@
 
 {
-  "title": "Cash Accounts",
-  "newAccount": "New Cash Account",
-  "createAccount": "Create Cash Account",
-  "description": "Create your first cash account to start tracking your expenses and income.",
-  "noAccounts": "No Cash Accounts Found",
-  "accountBalance": "Account Balance",
+  "account": {
+    "title": "Cash Accounts",
+    "create": "Create New Cash Account",
+    "edit": "Edit Cash Account",
+    "balance": "Balance",
+    "actions": "Actions",
+    "noAccounts": "You don't have any cash accounts yet. Would you like to create one?",
+    "createFirst": "Create Your First Account",
+    "view": "View Account",
+    "delete": "Delete Account",
+    "sortOrder": "Sort Order",
+    "accountType": "Account Type",
+    "cashAccount": "Cash Account",
+    "currencyInfo": "Currency cannot be changed after account creation.",
+    "closingDayInfo": "Choose your account closing day. This determines when your statements close each month.",
+    "closingDayType": {
+      "title": "Closing Day Type",
+      "LAST_DAY": "Last Day of Month",
+      "LAST_BUSINESS_DAY": "Last Business Day",
+      "SPECIFIC_DAY": "Specific Day"
+    }
+  },
   "statements": {
-    "title": "Statements",
-    "period": "Statement Period",
-    "startBalance": "Starting Balance",
-    "endBalance": "Ending Balance",
-    "income": "Income",
-    "expenses": "Expenses",
-    "viewDetails": "View Details",
-    "empty": {
-      "noStatements": "No statements found for this account",
-      "statementInfo": "Statements are generated based on your account's closing day. Check back later or create a new statement manually."
-    },
-    "buttons": {
-      "createStatement": "Create Statement",
-      "refreshStatements": "Check Statements"
-    },
-    "toasts": {
-      "statementCheckComplete": "Statements have been checked and updated",
-      "statementCheckError": "Failed to check statements",
-      "futureStatementsCreated": "{{count}} future statements created"
-    },
+    "title": "Statements List",
+    "noStatements": "There are no statements for this account yet.",
+    "viewTransactions": "View Transactions",
+    "period": "Period",
+    "createdAt": "Created At",
     "status": {
       "title": "Status",
       "open": "Open",
       "closed": "Closed",
       "future": "Future"
-    }
-  },
-  "edit": "Edit Account",
-  "delete": "Delete Account",
-  "actions": "Actions",
-  "editNotImplemented": "Edit Not Implemented",
-  "deleteNotImplemented": "Delete Not Implemented",
-  "errors": {
-    "account": {
-      "list": {
-        "failed": "Failed to load cash accounts"
-      },
-      "detail": {
-        "failed": "Failed to load account details"
-      },
-      "notFound": "Account not found"
     },
-    "statement": {
-      "detail": {
-        "failed": "Failed to load statement details"
-      },
-      "notFound": "Statement not found",
-      "createFirst": "You need to create a statement first",
-      "loadFailed": "Failed to load statements"
-    },
-    "sorting": {
-      "failed": "Failed to update account order"
-    },
-    "transaction": {
-      "noValidStatement": "No valid statement found. Please create a statement first."
-    }
+    "income": "Income",
+    "expenses": "Expenses",
+    "balance": "Balance",
+    "currentBalance": "Current Balance",
+    "startBalance": "Opening Balance",
+    "endBalance": "Closing Balance",
+    "transactionCount": "Transaction Count",
+    "createTransaction": "New Transaction",
+    "closeStatement": "Close Statement",
+    "nextStatement": "Next Statement",
+    "previousStatement": "Previous Statement",
+    "transactions": "Transactions",
+    "summary": "Statement Summary",
+    "details": "Statement Details"
   },
   "transaction": {
     "new": "New Transaction",
     "edit": "Edit Transaction",
-    "add": "Add Transaction",
-    "update": "Update Transaction",
-    "delete": {
-      "title": "Delete Transaction",
-      "confirmation": "Are you sure you want to delete this transaction? This action cannot be undone.",
-      "confirm": "Delete"
-    },
-    "deleteSuccess": "Transaction deleted successfully",
-    "category": "Category",
-    "subcategory": "Subcategory",
-    "selectCategory": "Select a category",
-    "selectSubcategory": "Select a subcategory",
-    "noCategory": "No Category",
-    "noSubcategory": "No Subcategory",
-    "date": "Date",
-    "time": "Time",
-    "type": "Type",
-    "description": "Description",
-    "descriptionPlaceholder": "Enter transaction description",
-    "amount": "Amount",
+    "addNew": "Add New Transaction",
+    "type": "Transaction Type",
     "types": {
       "income": "Income",
       "expense": "Expense"
     },
-    "createSuccess": "Transaction created successfully",
-    "updateSuccess": "Transaction updated successfully"
+    "amount": "Amount",
+    "date": "Date",
+    "time": "Time",
+    "pickDate": "Pick a date",
+    "category": "Category",
+    "chooseCategory": "Choose Category",
+    "subcategory": "Subcategory",
+    "chooseSubcategory": "Choose Subcategory",
+    "noSubcategories": "No subcategories for this category",
+    "description": "Description",
+    "cancel": "Cancel",
+    "submit": "Save",
+    "selectedStatement": "Selected Statement",
+    "noStatementSelected": "No statement selected",
+    "unlockStatement": "Unlock statement",
+    "lockStatement": "Lock statement",
+    "warning": {
+      "closedStatement": "You are adding a transaction to a closed statement. This will change the closing balance of this statement and the opening and closing balances of subsequent statements.",
+      "futureStatement": "You are adding a transaction to a future statement period. Please ensure the transaction date falls within the statement period.",
+      "unknownStatus": "You are adding a transaction to a statement with status '{{status}}'."
+    }
   }
 }

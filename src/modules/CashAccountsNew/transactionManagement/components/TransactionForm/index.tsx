@@ -19,6 +19,7 @@ import { DescriptionField } from "./components/DescriptionField";
 import { CategoryField } from "./components/CategoryField";
 import { SubcategoryField } from "./components/SubcategoryField";
 import { FormActions } from "./components/FormActions";
+import { StatementWarning } from "./components/StatementWarning";
 import { formatCurrency } from "../../../cashAccountHomepage/utils/currencyUtils";
 import { CurrencyType } from "../../../cashAccountHomepage/types";
 import { format } from "date-fns";
@@ -132,32 +133,39 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
                 <Skeleton className="h-4 w-3/4" />
               </div>
             ) : currentStatement ? (
-              <div className="space-y-1">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-muted-foreground">
-                    {t("CashAccountsNew:statements.period")}:
-                  </span>
-                  <span className="text-xs font-medium">
-                    {format(new Date(currentStatement.start_date), "d MMM yyyy", { locale: tr })} - {format(new Date(currentStatement.end_date), "d MMM yyyy", { locale: tr })}
-                  </span>
+              <>
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground">
+                      {t("CashAccountsNew:statements.period")}:
+                    </span>
+                    <span className="text-xs font-medium">
+                      {format(new Date(currentStatement.start_date), "d MMM yyyy", { locale: tr })} - {format(new Date(currentStatement.end_date), "d MMM yyyy", { locale: tr })}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground">
+                      {t("CashAccountsNew:statements.status.title")}:
+                    </span>
+                    <Badge variant="outline" className="text-xs">
+                      {t(`CashAccountsNew:statements.status.${currentStatement.status.toLowerCase()}`)}
+                    </Badge>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground">
+                      {t("CashAccountsNew:statements.currentBalance")}:
+                    </span>
+                    <span className="text-xs font-semibold">
+                      {formatCurrency(currentStatement.end_balance, currencyType)}
+                    </span>
+                  </div>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-muted-foreground">
-                    {t("CashAccountsNew:statements.status.title")}:
-                  </span>
-                  <Badge variant="outline" className="text-xs">
-                    {t(`CashAccountsNew:statements.status.${currentStatement.status.toLowerCase()}`)}
-                  </Badge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-muted-foreground">
-                    {t("CashAccountsNew:statements.currentBalance")}:
-                  </span>
-                  <span className="text-xs font-semibold">
-                    {formatCurrency(currentStatement.end_balance, currencyType)}
-                  </span>
-                </div>
-              </div>
+                
+                {/* Ekstre durumuna göre uyarı mesajı */}
+                {currentStatement.status !== 'OPEN' && (
+                  <StatementWarning status={currentStatement.status} />
+                )}
+              </>
             ) : (
               <div className="flex items-center justify-center py-2 text-muted-foreground text-sm">
                 <InfoIcon size={14} className="mr-1" /> 
