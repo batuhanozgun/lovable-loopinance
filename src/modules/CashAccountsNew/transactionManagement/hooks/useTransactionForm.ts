@@ -54,9 +54,11 @@ export const useTransactionForm = () => {
       queryClient.invalidateQueries({ queryKey: ['statementTransactions', data.statement_id] });
       queryClient.invalidateQueries({ queryKey: ['statement', data.statement_id] });
       queryClient.invalidateQueries({ queryKey: ['statements', data.account_id] });
-      queryClient.invalidateQueries({ queryKey: ['cashAccounts'] });
       
-      console.log('Transaction created successfully');
+      // Ana sayfadaki hesap listesini güncellemek için doğru query key'i geçersiz kıl
+      queryClient.invalidateQueries({ queryKey: ['cashAccountsNew'] });
+      
+      console.log('Transaction created successfully, cache invalidated');
       
       toast({
         title: t('common:success'),
