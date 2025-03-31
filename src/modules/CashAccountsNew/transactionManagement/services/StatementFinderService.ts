@@ -42,31 +42,43 @@ export class StatementFinderService {
       const formattedDate = date.toISOString().split('T')[0];
       console.log('Finding statement for date:', formattedDate, 'in account:', accountId);
       
-      // Düzeltilmiş tarih karşılaştırma mantığı
-      // Tarih ekstrenin başlangıç tarihine eşit veya büyük VE bitiş tarihine eşit veya küçük olmalı
-      const { data: statement, error } = await supabase
+      // Düzeltilmiş tarih karşılaştırma mantığı:
+      // 1. Başlangıç tarihi (start_date), seçilen tarihten küçük veya eşit olmalı (<=)
+      // 2. Bitiş tarihi (end_date), seçilen tarihten büyük veya eşit olmalı (>=)
+      const { data: statements, error } = await supabase
         .from('account_statements')
         .select('*')
         .eq('account_id', accountId)
         .lte('start_date', formattedDate) // Başlangıç tarihi seçilen tarihten önce veya eşit
         .gte('end_date', formattedDate)   // Bitiş tarihi seçilen tarihten sonra veya eşit
-        .order('start_date', { ascending: false }) // En son ekstreyi seç
-        .limit(1)
-        .maybeSingle();
+        .order('start_date', { ascending: false });
       
       if (error) {
         console.error('Failed to find statement for date:', error);
         return null;
       }
       
-      // Bulunan ekstreyi kontrol et ve logla
-      if (statement) {
-        console.log('Found statement for date:', statement);
-      } else {
-        console.warn(`No statement found for date ${formattedDate} in account ${accountId}`);
+      // Bulunan tüm ekstreleri kontrol ediyoruz
+      if (statements && statements.length > 0) {
+        // Seçilen tarihin tam olarak içinde olduğu ekstreyi buluyoruz
+        for (const statement of statements) {
+          const startDate = new Date(statement.start_date);
+          const endDate = new Date(statement.end_date);
+          const selectedDate = new Date(formattedDate);
+          
+          if (selectedDate >= startDate && selectedDate <= endDate) {
+            console.log('Found statement for date:', statement);
+            return statement;
+          }
+        }
+        
+        // Eğer tam olarak uyuşan yoksa, ilk bulunan sonucu döndürüyoruz
+        console.log('No exact statement match, returning first result:', statements[0]);
+        return statements[0];
       }
       
-      return statement || null;
+      console.warn(`No statement found for date ${formattedDate} in account ${accountId}`);
+      return null;
     } catch (error) {
       console.error('Unexpected error finding statement for date:', error);
       return null;
