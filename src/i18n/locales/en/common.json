@@ -23,5 +23,6 @@
     "backToAccounts": "Back to Accounts"
   },
   "resetFilters": "Reset Filters",
-  "actions": "Actions"
+  "actions": "Actions",
+  "sort": "Sort"
 }

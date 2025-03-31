@@ -19,14 +19,14 @@ export const SortDropdownMenu: React.FC<SortDropdownMenuProps> = ({
   onSortByDate,
   onSortByAmount
 }) => {
-  const { t } = useTranslation('StatementManagement');
+  const { t } = useTranslation(['StatementManagement', 'common']);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="sm">
           <ArrowUpDown className="h-4 w-4 mr-2" />
-          {t('common:sort', { ns: 'common' })}
+          {t('sort', { ns: 'common' })}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56 bg-background">
