@@ -7,9 +7,11 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogFooter,
 } from "@/components/ui/dialog";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 import { useTransactionFormSetup } from "../../hooks/useTransactionFormSetup";
-import { TransactionFormProps } from "../../types";
 import { TransactionTypeField } from "./components/TransactionTypeField";
 import { AmountField } from "./components/AmountField";
 import { DateField } from "./components/DateField";
@@ -18,19 +20,27 @@ import { CategoryField } from "./components/CategoryField";
 import { SubcategoryField } from "./components/SubcategoryField";
 import { FormActions } from "./components/FormActions";
 
+interface TransactionFormProps {
+  accountId: string;
+  statementId?: string;
+  currency: string;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
 /**
  * İşlem formu bileşeni
  */
 export const TransactionForm: React.FC<TransactionFormProps> = ({
-  statementId,
   accountId,
+  statementId,
   currency,
   isOpen,
-  onClose,
-  transaction
+  onClose
 }) => {
-  const { t } = useTranslation(["CashAccountsNew", "common"]);
+  const { t } = useTranslation(["CashAccountsNew", "common", "errors"]);
   
+  // Transaction form hook'u ile form durumunu yönet
   const { 
     form, 
     date, 
@@ -41,45 +51,39 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
     handleCategoryChange,
     onSubmit, 
     isSubmitting,
-    statementId: resolvedStatementId
-  } = useTransactionFormSetup(
-    accountId,
-    statementId
-  );
+    statementId: currentStatementId,
+    statementError
+  } = useTransactionFormSetup(accountId, statementId);
 
-  // Ekstre ID'si bulunamadı uyarısı
-  const noStatementWarning = !resolvedStatementId && (
-    <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-md text-amber-800 text-sm">
-      {t("CashAccountsNew:errors.transaction.noValidStatement")}
-    </div>
-  );
-
+  // Form gönderildiğinde onSubmit fonksiyonunu çalıştır
   const handleSubmit = async (data: any) => {
+    console.log('Form submitted with data:', data);
+    
     const success = await onSubmit(data);
+    console.log('Form submission result:', success);
+    
     if (success) {
       onClose();
     }
   };
-
-  // Modal kapatıldığında formu sıfırla
-  useEffect(() => {
-    if (!isOpen) {
-      form.reset();
-    }
-  }, [isOpen, form]);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>
-            {transaction 
-              ? t("CashAccountsNew:transaction.edit") 
-              : t("CashAccountsNew:transaction.new")}
+            {t("CashAccountsNew:transaction.new")}
           </DialogTitle>
         </DialogHeader>
 
-        {noStatementWarning}
+        {statementError && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>
+              {statementError}
+            </AlertDescription>
+          </Alert>
+        )}
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
@@ -111,8 +115,8 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
 
             <FormActions 
               onClose={onClose} 
-              isSubmitting={isSubmitting} 
-              isEditMode={!!transaction}
+              isSubmitting={isSubmitting}
+              isDisabled={!currentStatementId}
             />
           </form>
         </Form>

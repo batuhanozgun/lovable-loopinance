@@ -7,39 +7,34 @@ import { DialogFooter } from "@/components/ui/dialog";
 interface FormActionsProps {
   onClose: () => void;
   isSubmitting: boolean;
-  isEditMode?: boolean;
+  isDisabled?: boolean;
 }
 
 /**
- * Form işlemleri bileşeni
+ * Form gönderim butonları bileşeni
  */
 export const FormActions: React.FC<FormActionsProps> = ({ 
   onClose, 
-  isSubmitting, 
-  isEditMode = false 
+  isSubmitting,
+  isDisabled = false
 }) => {
   const { t } = useTranslation(["CashAccountsNew", "common"]);
 
   return (
-    <DialogFooter>
-      <Button
-        type="button"
-        variant="outline"
+    <DialogFooter className="flex justify-end space-x-2">
+      <Button 
+        type="button" 
+        variant="outline" 
         onClick={onClose}
-        className="mr-2"
         disabled={isSubmitting}
       >
         {t("common:cancel")}
       </Button>
       <Button 
         type="submit" 
-        disabled={isSubmitting}
+        disabled={isSubmitting || isDisabled}
       >
-        {isSubmitting
-          ? t("common:loading")
-          : isEditMode 
-            ? t("CashAccountsNew:transaction.update") 
-            : t("CashAccountsNew:transaction.add")}
+        {isSubmitting ? t("common:processing") : t("CashAccountsNew:transaction.add")}
       </Button>
     </DialogFooter>
   );

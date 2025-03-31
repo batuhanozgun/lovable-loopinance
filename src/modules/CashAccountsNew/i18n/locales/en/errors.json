@@ -40,6 +40,6 @@
       "statementClosed": "Cannot delete transactions from a closed statement period",
       "insufficientPermissions": "You don't have permission to delete this transaction"
     },
-    "noValidStatement": "No valid statement found. Please create a statement first."
+    "noValidStatement": "No valid statement found for the selected date. Please select a different date or create a new statement."
   }
 }

@@ -8,6 +8,7 @@ import { Transaction, TransactionFormData, TransactionType } from "../types";
 import { createTransactionFormSchema } from "../validation/schema";
 import { useTransactionForm } from "./useTransactionForm";
 import { StatementFinderService } from "../services/StatementFinderService";
+import { toast } from "sonner";
 
 /**
  * İşlem formu kurulumu için ana hook
@@ -16,7 +17,7 @@ export const useTransactionFormSetup = (
   accountId: string,
   statementId?: string
 ) => {
-  const { t } = useTranslation(["CashAccountsNew", "common"]);
+  const { t } = useTranslation(["CashAccountsNew", "common", "errors"]);
   
   // Form durumu için değişkenler
   const [date, setDate] = useState<Date>(new Date());
@@ -26,6 +27,7 @@ export const useTransactionFormSetup = (
   });
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>("no-category");
   const [currentStatementId, setCurrentStatementId] = useState<string | null>(statementId || null);
+  const [statementError, setStatementError] = useState<string | null>(null);
   
   // Form doğrulama şeması
   const formSchema = createTransactionFormSchema(t);
@@ -60,18 +62,31 @@ export const useTransactionFormSetup = (
   const updateStatementForDate = async (newDate: Date) => {
     if (!statementId) { // Sadece statementId prop'u verilmemişse ekstre araması yap
       try {
+        setStatementError(null);
         const foundStatementId = await StatementFinderService.findStatementForDate(accountId, newDate);
+        
         if (foundStatementId) {
           setCurrentStatementId(foundStatementId);
+          console.log('Found statement for date:', foundStatementId);
         } else {
           console.warn('No statement found for the selected date');
-          // İstenirse burada bir uyarı gösterilebilir
+          setCurrentStatementId(null);
+          setStatementError(t("errors:transaction.noValidStatement"));
+          toast.error(t("errors:transaction.noValidStatement"));
         }
       } catch (error) {
         console.error('Error finding statement for date:', error);
+        setStatementError(t("errors:statement.loadFailed"));
       }
     }
   };
+  
+  // Form ilk yüklendiğinde ekstre kontrolü yap
+  useState(() => {
+    if (!statementId) {
+      updateStatementForDate(date);
+    }
+  });
   
   // Tarih değiştiğinde ekstre güncelle
   const handleDateChange = async (newDate: Date) => {
@@ -84,7 +99,7 @@ export const useTransactionFormSetup = (
   const handleSubmit = async (formData: TransactionFormData) => {
     // Eğer uygun statementId bulunamadıysa, uyarı göster
     if (!currentStatementId) {
-      console.error('No valid statement found for the selected date');
+      toast.error(t("errors:transaction.noValidStatement"));
       return false;
     }
     
@@ -105,6 +120,7 @@ export const useTransactionFormSetup = (
     handleCategoryChange,
     onSubmit: handleSubmit,
     isSubmitting,
-    statementId: currentStatementId
+    statementId: currentStatementId,
+    statementError
   };
 };

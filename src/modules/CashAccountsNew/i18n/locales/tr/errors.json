@@ -40,6 +40,6 @@
       "statementClosed": "Kapalı dönemlerden işlem silinemez",
       "insufficientPermissions": "Bu işlemi silme yetkiniz yok"
     },
-    "noValidStatement": "Geçerli bir ekstre bulunamadı. Lütfen önce bir ekstre oluşturun."
+    "noValidStatement": "Seçilen tarih için geçerli bir ekstre bulunamadı. Lütfen başka bir tarih seçin veya yeni bir ekstre oluşturun."
   }
 }

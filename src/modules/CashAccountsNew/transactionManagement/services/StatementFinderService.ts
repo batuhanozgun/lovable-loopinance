@@ -33,6 +33,7 @@ export class StatementFinderService {
 
   /**
    * Belirli bir tarih için uygun olan, açık durumda olan bir ekstre bulur
+   * Seçilen tarih, ekstrenin başlangıç ve bitiş tarihleri arasında olmalıdır
    */
   static async findStatementForDate(accountId: string, date: Date): Promise<string | null> {
     try {
@@ -40,13 +41,16 @@ export class StatementFinderService {
       
       const formattedDate = date.toISOString().split('T')[0];
       
+      // Düzeltilmiş tarih karşılaştırma mantığı:
+      // Seçilen tarih, ekstrenin başlangıç tarihine eşit veya daha sonra VE
+      // bitiş tarihine eşit veya daha önce olmalıdır
       const { data: statements, error } = await supabase
         .from('account_statements')
         .select('id')
         .eq('account_id', accountId)
         .eq('status', 'OPEN')
-        .lte('start_date', formattedDate)
-        .gte('end_date', formattedDate)
+        .lte('start_date', formattedDate) // Başlangıç tarihi seçilen tarihten önce veya eşit
+        .gte('end_date', formattedDate)   // Bitiş tarihi seçilen tarihten sonra veya eşit
         .maybeSingle();
       
       if (error) {
