@@ -12,6 +12,15 @@ import { toast } from "sonner";
 import { AccountStatement } from "../../statementManagement/types";
 
 /**
+ * Dakika değerini en yakın 15'in katına yuvarla
+ */
+const roundToNearest15Minutes = (minuteValue: number): string => {
+  const roundedMinute = Math.round(minuteValue / 15) * 15;
+  if (roundedMinute === 60) return '00';
+  return roundedMinute.toString().padStart(2, '0');
+};
+
+/**
  * İşlem formu kurulumu için ana hook
  */
 export const useTransactionFormSetup = (
@@ -20,11 +29,17 @@ export const useTransactionFormSetup = (
 ) => {
   const { t } = useTranslation(["CashAccountsNew", "common", "errors"]);
   
+  // Şu anki zaman
+  const now = new Date();
+  const currentHour = format(now, "HH");
+  const currentMinuteValue = parseInt(format(now, "mm"));
+  const roundedMinute = roundToNearest15Minutes(currentMinuteValue);
+  
   // Form durumu için değişkenler
-  const [date, setDate] = useState<Date>(new Date());
+  const [date, setDate] = useState<Date>(now);
   const [time, setTime] = useState<{hour: string, minute: string}>({
-    hour: format(new Date(), "HH"),
-    minute: format(new Date(), "mm")
+    hour: currentHour,
+    minute: roundedMinute
   });
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>("no-category");
   const [currentStatementId, setCurrentStatementId] = useState<string | null>(statementId || null);
@@ -42,10 +57,10 @@ export const useTransactionFormSetup = (
       amount: "",
       description: "",
       transactionType: TransactionType.INCOME,
-      transactionDate: new Date(),
+      transactionDate: now,
       transactionTime: {
-        hour: format(new Date(), "HH"),
-        minute: format(new Date(), "mm")
+        hour: currentHour,
+        minute: roundedMinute
       },
       categoryId: "no-category",
       subcategoryId: "no-subcategory",

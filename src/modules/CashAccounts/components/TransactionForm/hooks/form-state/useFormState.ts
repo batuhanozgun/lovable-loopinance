@@ -10,6 +10,15 @@ import { AccountTransaction } from "../../../../types";
 import { serviceLogger } from "../../../../logging";
 
 /**
+ * Dakika değerini en yakın 15'in katına yuvarla
+ */
+const roundToNearest15Minutes = (minuteValue: number): string => {
+  const roundedMinute = Math.round(minuteValue / 15) * 15;
+  if (roundedMinute === 60) return '00';
+  return roundedMinute.toString().padStart(2, '0');
+};
+
+/**
  * Form durumu ve ilk değerlerini yönetmek için hook
  */
 export const useFormState = (
@@ -22,11 +31,17 @@ export const useFormState = (
   logger.debug('Setting up transaction form state', { isEditMode });
   console.log('Setting up transaction form state:', { isEditMode });
 
+  // Şu anki zamanı al ve dakikayı yuvarla
+  const now = new Date();
+  const currentHour = format(now, "HH");
+  const currentMinuteValue = parseInt(format(now, "mm"));
+  const roundedMinute = roundToNearest15Minutes(currentMinuteValue);
+
   // Form state'leri
   const [date, setDate] = useState<Date>(new Date());
   const [time, setTime] = useState<TimeInput>({
-    hour: format(new Date(), "HH"),
-    minute: format(new Date(), "mm")
+    hour: currentHour,
+    minute: roundedMinute
   });
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
 
@@ -42,8 +57,8 @@ export const useFormState = (
       transactionType: TransactionType.INCOME,
       transactionDate: new Date(),
       transactionTime: {
-        hour: format(new Date(), "HH"),
-        minute: format(new Date(), "mm")
+        hour: currentHour,
+        minute: roundedMinute
       },
       categoryId: "no-category",
       subcategoryId: "no-subcategory",

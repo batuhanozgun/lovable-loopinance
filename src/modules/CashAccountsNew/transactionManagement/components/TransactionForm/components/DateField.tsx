@@ -41,6 +41,13 @@ export const DateField: React.FC<DateFieldProps> = ({
   // Dakika seçenekleri (00, 15, 30, 45)
   const minutes = ['00', '15', '30', '45'];
 
+  // Dakika değerini en yakın 15'in katına yuvarla
+  const roundToNearest15Minutes = (minuteValue: number): string => {
+    const roundedMinute = Math.round(minuteValue / 15) * 15;
+    if (roundedMinute === 60) return '00';
+    return roundedMinute.toString().padStart(2, '0');
+  };
+
   return (
     <div className="space-y-4">
       <FormItem className="flex flex-col">
