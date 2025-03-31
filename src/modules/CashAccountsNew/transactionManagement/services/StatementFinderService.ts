@@ -39,12 +39,27 @@ export class StatementFinderService {
    */
   static async findStatementForDate(accountId: string, date: Date): Promise<AccountStatement | null> {
     try {
-      const formattedDate = date.toISOString().split('T')[0];
-      console.log('Finding statement for date:', formattedDate, 'in account:', accountId);
+      // Düzeltilmiş tarih formatı (local vs. ISO farklarını elimine etmek için)
+      const selectedYear = date.getFullYear();
+      const selectedMonth = date.getMonth() + 1; // JavaScript'te ay 0-11 arası
+      const selectedDay = date.getDate();
       
-      // Düzeltilmiş tarih karşılaştırma mantığı:
-      // 1. Başlangıç tarihi (start_date), seçilen tarihten küçük veya eşit olmalı (<=)
-      // 2. Bitiş tarihi (end_date), seçilen tarihten büyük veya eşit olmalı (>=)
+      // YYYY-MM-DD formatında tarih oluştur
+      const formattedDate = `${selectedYear}-${String(selectedMonth).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}`;
+      
+      console.log('======== STATEMENT FINDER LOGS ========');
+      console.log('Input date object:', date);
+      console.log('Input date toString:', date.toString());
+      console.log('Input date toISOString:', date.toISOString());
+      console.log('Input date formatted (YYYY-MM-DD):', formattedDate);
+      console.log('For account:', accountId);
+      
+      // Query oluştur ve logla
+      console.log('Executing Supabase query with parameters:');
+      console.log('  - account_id =', accountId);
+      console.log('  - start_date <=', formattedDate);
+      console.log('  - end_date >=', formattedDate);
+      
       const { data: statements, error } = await supabase
         .from('account_statements')
         .select('*')
@@ -54,30 +69,42 @@ export class StatementFinderService {
         .order('start_date', { ascending: false });
       
       if (error) {
-        console.error('Failed to find statement for date:', error);
+        console.error('Query failed with error:', error);
         return null;
       }
       
-      // Bulunan tüm ekstreleri kontrol ediyoruz
+      console.log('Query returned', statements?.length || 0, 'statements');
+      console.log('Raw statements data:', JSON.stringify(statements, null, 2));
+      
+      // Bulunan tüm ekstreleri detaylı kontrol et
       if (statements && statements.length > 0) {
-        // Seçilen tarihin tam olarak içinde olduğu ekstreyi buluyoruz
+        console.log('Statements found, checking for exact matches...');
+        
+        // JavaScript Date nesneleri ile tam karşılaştırma
         for (const statement of statements) {
-          const startDate = new Date(statement.start_date);
-          const endDate = new Date(statement.end_date);
-          const selectedDate = new Date(formattedDate);
+          // Formatted dates for consistent comparison
+          const stStartFormatted = statement.start_date;
+          const stEndFormatted = statement.end_date;
           
-          if (selectedDate >= startDate && selectedDate <= endDate) {
-            console.log('Found statement for date:', statement);
+          console.log('Checking statement:', statement.id);
+          console.log('  - Period:', stStartFormatted, 'to', stEndFormatted);
+          console.log('  - Status:', statement.status);
+          console.log('  - Is selected date within range?', 
+            formattedDate >= stStartFormatted && formattedDate <= stEndFormatted ? 'YES' : 'NO');
+          
+          if (formattedDate >= stStartFormatted && formattedDate <= stEndFormatted) {
+            console.log('MATCH FOUND! Exact period match for date', formattedDate);
             return statement;
           }
         }
         
-        // Eğer tam olarak uyuşan yoksa, ilk bulunan sonucu döndürüyoruz
+        // Eğer tam olarak uyuşan yoksa
         console.log('No exact statement match, returning first result:', statements[0]);
         return statements[0];
       }
       
       console.warn(`No statement found for date ${formattedDate} in account ${accountId}`);
+      console.log('======== END STATEMENT FINDER LOGS ========');
       return null;
     } catch (error) {
       console.error('Unexpected error finding statement for date:', error);

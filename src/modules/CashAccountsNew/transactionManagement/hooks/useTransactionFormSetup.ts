@@ -82,15 +82,25 @@ export const useTransactionFormSetup = (
     // Eğer statement kilitli değilse (açık formdan gelmediyse) veya hiç statement yoksa yeni statement ara
     if (!lockStatement || !currentStatementId) {
       try {
+        console.log('======== UPDATE STATEMENT FOR DATE LOGS ========');
+        console.log('Updating statement for new date:', newDate);
+        console.log('Date toString:', newDate.toString());
+        console.log('Date toISOString:', newDate.toISOString());
+        console.log('Date formatted:', format(newDate, 'yyyy-MM-dd'));
+        
         setStatementError(null);
         setIsLoadingStatement(true);
         
         const foundStatement = await StatementFinderService.findStatementForDate(accountId, newDate);
         
         if (foundStatement) {
+          console.log('Statement found successfully:', foundStatement);
+          console.log('Setting currentStatementId:', foundStatement.id);
+          console.log('Statement period:', foundStatement.start_date, 'to', foundStatement.end_date);
+          console.log('Statement status:', foundStatement.status);
+          
           setCurrentStatementId(foundStatement.id);
           setCurrentStatement(foundStatement);
-          console.log('Found statement for date:', foundStatement);
         } else {
           console.warn('No statement found for the selected date');
           setCurrentStatementId(null);
@@ -98,26 +108,39 @@ export const useTransactionFormSetup = (
           setStatementError(t("TransactionManagement:errors.transaction.noValidStatement"));
           toast.error(t("TransactionManagement:errors.transaction.noValidStatement"));
         }
+        console.log('======== END UPDATE STATEMENT FOR DATE LOGS ========');
       } catch (error) {
         console.error('Error finding statement for date:', error);
         setStatementError(t("TransactionManagement:errors.statement.loadFailed"));
       } finally {
         setIsLoadingStatement(false);
       }
+    } else {
+      console.log('Statement is locked, not updating for new date:', newDate);
     }
   };
   
   // Form ilk yüklendiğinde ekstre kontrolü yap
   useEffect(() => {
+    console.log('======== INITIALIZATION LOGS ========');
+    console.log('useTransactionFormSetup initialized with:');
+    console.log('accountId:', accountId);
+    console.log('statementId:', statementId);
+    console.log('initial date:', date);
+    
     if (statementId) {
       // Eğer bir statementId verilmişse, o ekstreyi yükle
       const loadSpecificStatement = async () => {
         try {
           setIsLoadingStatement(true);
+          console.log('Loading specific statement with ID:', statementId);
+          
           const foundStatement = await StatementFinderService.getStatementById(statementId);
+          
           if (foundStatement) {
+            console.log('Specific statement loaded:', foundStatement);
+            console.log('Statement period:', foundStatement.start_date, 'to', foundStatement.end_date);
             setCurrentStatement(foundStatement);
-            console.log('Loaded specific statement:', foundStatement);
           } else {
             console.warn('Provided statement not found');
             setStatementError(t("TransactionManagement:errors.statement.notFound"));
@@ -134,12 +157,17 @@ export const useTransactionFormSetup = (
       loadSpecificStatement();
     } else {
       // Statementid verilmemişse tarihe göre ekstre ara
+      console.log('No statementId provided, searching by date:', date);
       updateStatementForDate(date);
     }
+    console.log('======== END INITIALIZATION LOGS ========');
   }, []); // Boş bağımlılık dizisi ile sadece bir kez çalışır
   
   // Tarih değiştiğinde ekstre güncelle
   const handleDateChange = async (newDate: Date) => {
+    console.log('Date changed to:', newDate);
+    console.log('Previous date was:', date);
+    
     setDate(newDate);
     form.setValue('transactionDate', newDate);
     
