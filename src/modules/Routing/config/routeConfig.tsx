@@ -14,17 +14,10 @@ import {
 import { CategoriesView } from "@/modules/Categories/views/CategoriesView";
 import CategoryTemplatesView from "@/modules/CategoryTemplates/views/CategoryTemplatesView";
 import { 
-  CashAccountsView, 
-  CreateCashAccountView as OldCreateCashAccountView,
-  CashAccountDetailView,
-  StatementsListView,
-  StatementDetailView
-} from "@/modules/CashAccounts";
-import { 
   CashAccountsNewView, 
   CreateCashAccountView,
-  StatementsListView as NewStatementsListView,
-  StatementDetailView as NewStatementDetailView
+  StatementsListView,
+  StatementDetailView
 } from "@/modules/CashAccountsNew";
 import Landing from "@/pages/Landing";
 import PricingPage from "@/pages/Pricing";
@@ -115,32 +108,7 @@ export const routes: AppRoute[] = [
     type: "private",
     element: <CategoryTemplatesView />
   },
-  {
-    path: "/cash-accounts",
-    type: "private",
-    element: <CashAccountsView />
-  },
-  {
-    path: "/cash-accounts/new",
-    type: "private",
-    element: <OldCreateCashAccountView />
-  },
-  {
-    path: "/cash-accounts/:id",
-    type: "private",
-    element: <CashAccountDetailView />
-  },
-  {
-    path: "/cash-accounts/:accountId/statements",
-    type: "private",
-    element: <StatementsListView />
-  },
-  {
-    path: "/cash-accounts/:accountId/statements/:statementId",
-    type: "private",
-    element: <StatementDetailView />
-  },
-  // Yeni "nakit-hesaplar" rotaları
+  // Nakit Hesaplar rotaları
   {
     path: "/nakit-hesaplar",
     type: "private",
@@ -151,16 +119,41 @@ export const routes: AppRoute[] = [
     type: "private",
     element: <CreateCashAccountView />
   },
-  // Yeni ekstre rotaları
   {
     path: "/nakit-hesaplar/:accountId/statements",
     type: "private",
-    element: <NewStatementsListView />
+    element: <StatementsListView />
   },
   {
     path: "/nakit-hesaplar/:accountId/statements/:statementId",
     type: "private",
-    element: <NewStatementDetailView />
+    element: <StatementDetailView />
+  },
+  // Eski nakit hesaplar için yönlendirmeler
+  {
+    path: "/cash-accounts",
+    type: "private",
+    element: <CashAccountsNewView />
+  },
+  {
+    path: "/cash-accounts/new",
+    type: "private",
+    element: <CreateCashAccountView />
+  },
+  {
+    path: "/cash-accounts/:id",
+    type: "private",
+    element: <CashAccountsNewView />
+  },
+  {
+    path: "/cash-accounts/:accountId/statements",
+    type: "private",
+    element: <StatementsListView />
+  },
+  {
+    path: "/cash-accounts/:accountId/statements/:statementId",
+    type: "private",
+    element: <StatementDetailView />
   },
   {
     path: "/subscription",

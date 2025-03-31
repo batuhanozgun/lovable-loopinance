@@ -1,10 +1,12 @@
 
-export { CashAccountsView } from './views/CashAccountsView';
-export { CreateCashAccountView } from './views/CreateCashAccountView';
-export { CashAccountDetailView } from './views/CashAccountDetailView';
-export { StatementsListView } from './views/StatementsListView';
-export { StatementDetailView } from './views/StatementDetailView';
+// Yeni modüle yönlendirme için yeniden dışa aktarımlar
+export { 
+  CashAccountsNewView as CashAccountsView,
+  CreateCashAccountView,
+  StatementDetailView,
+  StatementsListView
+} from '@/modules/CashAccountsNew';
 
-// Re-export services
+// Yeniden kullanılan servisler (geriye dönük uyumluluk için)
 export { StatementService } from './services/statement';
 export { TransactionService } from './services/transaction';
