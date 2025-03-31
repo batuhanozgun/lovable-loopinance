@@ -9,7 +9,6 @@ import { format } from 'date-fns';
 import { tr, enUS } from 'date-fns/locale';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
-import { TransactionsList } from '../TransactionsList';
 
 interface StatementDetailsProps {
   statement: AccountStatement | null;
@@ -54,52 +53,42 @@ export const StatementDetails: React.FC<StatementDetailsProps> = ({ statement, i
   };
 
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle>{t('statements.title')}</CardTitle>
-              <CardDescription>
-                {format(new Date(statement.start_date), 'PPP', { locale: dateLocale })} - {format(new Date(statement.end_date), 'PPP', { locale: dateLocale })}
-              </CardDescription>
-            </div>
-            <Badge variant={getStatusBadgeVariant(statement.status)}>
-              {t(`statements.status.${statement.status.toLowerCase()}`)}
-            </Badge>
+    <Card>
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle>{t('statements.title')}</CardTitle>
+            <CardDescription>
+              {format(new Date(statement.start_date), 'PPP', { locale: dateLocale })} - {format(new Date(statement.end_date), 'PPP', { locale: dateLocale })}
+            </CardDescription>
           </div>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <p className="text-sm text-muted-foreground">{t('statements.startBalance')}</p>
-              <p className="text-xl font-medium">{formatCurrency(statement.start_balance, currency)}</p>
-            </div>
-            <div className="space-y-1">
-              <p className="text-sm text-muted-foreground">{t('statements.endBalance')}</p>
-              <p className="text-xl font-medium">{formatCurrency(statement.end_balance, currency)}</p>
-            </div>
+          <Badge variant={getStatusBadgeVariant(statement.status)}>
+            {t(`statements.status.${statement.status.toLowerCase()}`)}
+          </Badge>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-1">
+            <p className="text-sm text-muted-foreground">{t('statements.startBalance')}</p>
+            <p className="text-xl font-medium">{formatCurrency(statement.start_balance, currency)}</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <p className="text-sm text-muted-foreground">{t('statements.income')}</p>
-              <p className="text-xl font-medium text-green-600 dark:text-green-400">{formatCurrency(statement.income, currency)}</p>
-            </div>
-            <div className="space-y-1">
-              <p className="text-sm text-muted-foreground">{t('statements.expenses')}</p>
-              <p className="text-xl font-medium text-red-600 dark:text-red-400">{formatCurrency(statement.expenses, currency)}</p>
-            </div>
+          <div className="space-y-1">
+            <p className="text-sm text-muted-foreground">{t('statements.endBalance')}</p>
+            <p className="text-xl font-medium">{formatCurrency(statement.end_balance, currency)}</p>
           </div>
-        </CardContent>
-      </Card>
-      
-      {/* Add TransactionsList component below statement summary */}
-      {statement && (
-        <TransactionsList 
-          statementId={statement.id} 
-          currency={currency} 
-        />
-      )}
-    </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-1">
+            <p className="text-sm text-muted-foreground">{t('statements.income')}</p>
+            <p className="text-xl font-medium text-green-600 dark:text-green-400">{formatCurrency(statement.income, currency)}</p>
+          </div>
+          <div className="space-y-1">
+            <p className="text-sm text-muted-foreground">{t('statements.expenses')}</p>
+            <p className="text-xl font-medium text-red-600 dark:text-red-400">{formatCurrency(statement.expenses, currency)}</p>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
