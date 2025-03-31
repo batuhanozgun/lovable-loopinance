@@ -30,7 +30,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
   isOpen,
   onClose
 }) => {
-  const { t } = useTranslation(["CashAccountsNew", "common", "errors"]);
+  const { t } = useTranslation(["TransactionManagement", "common"]);
   
   // string tipindeki currency'i CurrencyType enum'una dönüştür
   const currencyType = currency as CurrencyType;
@@ -59,7 +59,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>
-            {t("CashAccountsNew:transaction.new")}
+            {t("TransactionManagement:transaction.new")}
           </DialogTitle>
         </DialogHeader>
 

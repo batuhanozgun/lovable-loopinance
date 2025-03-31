@@ -33,7 +33,7 @@ export const DateField: React.FC<DateFieldProps> = ({
   time, 
   setTime 
 }) => {
-  const { t } = useTranslation(["CashAccountsNew", "common"]);
+  const { t } = useTranslation(["TransactionManagement", "common"]);
   
   // Saat seçenekleri (00-23)
   const hours = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0'));
@@ -51,7 +51,7 @@ export const DateField: React.FC<DateFieldProps> = ({
   return (
     <div className="space-y-4">
       <FormItem className="flex flex-col">
-        <FormLabel>{t("CashAccountsNew:transaction.date")}</FormLabel>
+        <FormLabel>{t("TransactionManagement:transaction.date")}</FormLabel>
         <Popover>
           <PopoverTrigger asChild>
             <Button
@@ -65,7 +65,7 @@ export const DateField: React.FC<DateFieldProps> = ({
               {date ? (
                 format(date, "PP", { locale: tr })
               ) : (
-                <span>{t("CashAccountsNew:transaction.pickDate")}</span>
+                <span>{t("TransactionManagement:transaction.pickDate")}</span>
               )}
             </Button>
           </PopoverTrigger>
@@ -81,7 +81,7 @@ export const DateField: React.FC<DateFieldProps> = ({
       </FormItem>
 
       <FormItem className="flex flex-col">
-        <FormLabel>{t("CashAccountsNew:transaction.time")}</FormLabel>
+        <FormLabel>{t("TransactionManagement:transaction.time")}</FormLabel>
         <div className="flex space-x-2 items-center">
           <div className="flex-1 flex items-center">
             <Clock className="mr-2 h-4 w-4 text-muted-foreground" />

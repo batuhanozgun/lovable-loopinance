@@ -20,7 +20,7 @@ interface AmountFieldProps {
  * Tutar giriş alanı bileşeni
  */
 export const AmountField: React.FC<AmountFieldProps> = ({ control, currency }) => {
-  const { t } = useTranslation(["CashAccountsNew", "common"]);
+  const { t } = useTranslation(["TransactionManagement", "common"]);
 
   return (
     <FormField
@@ -28,7 +28,7 @@ export const AmountField: React.FC<AmountFieldProps> = ({ control, currency }) =
       name="amount"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{t("CashAccountsNew:transaction.amount")}</FormLabel>
+          <FormLabel>{t("TransactionManagement:transaction.amount")}</FormLabel>
           <FormControl>
             <div className="relative">
               <Input

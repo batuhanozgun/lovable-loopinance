@@ -29,7 +29,7 @@ export const SubcategoryField: React.FC<SubcategoryFieldProps> = ({
   control,
   selectedCategoryId,
 }) => {
-  const { t } = useTranslation(["CashAccountsNew", "common"]);
+  const { t } = useTranslation(["TransactionManagement", "common"]);
   const { categories } = useCategories();
 
   // Seçili kategoriye ait alt kategorileri bul
@@ -49,7 +49,7 @@ export const SubcategoryField: React.FC<SubcategoryFieldProps> = ({
       name="subcategoryId"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{t("CashAccountsNew:transaction.subcategory")}</FormLabel>
+          <FormLabel>{t("TransactionManagement:transaction.subcategory")}</FormLabel>
           <Select
             value={field.value}
             onValueChange={field.onChange}
@@ -57,12 +57,12 @@ export const SubcategoryField: React.FC<SubcategoryFieldProps> = ({
           >
             <FormControl>
               <SelectTrigger>
-                <SelectValue placeholder={t("CashAccountsNew:transaction.selectSubcategory")} />
+                <SelectValue placeholder={t("TransactionManagement:transaction.selectSubcategory")} />
               </SelectTrigger>
             </FormControl>
             <SelectContent>
               <SelectItem value="no-subcategory">
-                {t("CashAccountsNew:transaction.noSubcategory")}
+                {t("TransactionManagement:transaction.noSubcategory")}
               </SelectItem>
               {subcategories.map((subcategory) => (
                 <SelectItem key={subcategory.id} value={subcategory.id}>

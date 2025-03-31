@@ -19,7 +19,7 @@ export const StatementWarning: React.FC<StatementWarningProps> = ({
   statementError, 
   isLoadingStatement 
 }) => {
-  const { t } = useTranslation(["CashAccountsNew", "errors"]);
+  const { t } = useTranslation(["TransactionManagement"]);
 
   // Yükleme durumu
   if (isLoadingStatement) {
@@ -27,7 +27,7 @@ export const StatementWarning: React.FC<StatementWarningProps> = ({
       <Alert className="mt-1">
         <Clock className="h-4 w-4 animate-spin" />
         <AlertDescription>
-          {t("CashAccountsNew:transaction.warning.loadingStatement")}
+          {t("TransactionManagement:transaction.warning.loadingStatement")}
         </AlertDescription>
       </Alert>
     );
@@ -51,7 +51,7 @@ export const StatementWarning: React.FC<StatementWarningProps> = ({
       <Alert variant="destructive" className="mt-1">
         <AlertCircle className="h-4 w-4" />
         <AlertDescription>
-          {t("CashAccountsNew:transaction.warning.noStatement")}
+          {t("TransactionManagement:transaction.warning.noStatement")}
         </AlertDescription>
       </Alert>
     );
@@ -63,7 +63,7 @@ export const StatementWarning: React.FC<StatementWarningProps> = ({
       <Alert className="mt-1 border-green-500">
         <Calendar className="h-4 w-4 text-green-500" />
         <AlertDescription>
-          {t("CashAccountsNew:transaction.warning.activeStatement")} 
+          {t("TransactionManagement:transaction.warning.activeStatement")} 
           ({new Date(statement.start_date).toLocaleDateString()} - {new Date(statement.end_date).toLocaleDateString()})
         </AlertDescription>
       </Alert>
@@ -76,7 +76,7 @@ export const StatementWarning: React.FC<StatementWarningProps> = ({
       <Alert variant="destructive" className="mt-1">
         <AlertCircle className="h-4 w-4" />
         <AlertDescription>
-          {t("CashAccountsNew:transaction.warning.closedStatement")}
+          {t("TransactionManagement:transaction.warning.closedStatement")}
         </AlertDescription>
       </Alert>
     );
@@ -88,7 +88,7 @@ export const StatementWarning: React.FC<StatementWarningProps> = ({
       <Alert className="mt-1 border-amber-500">
         <AlertTriangle className="h-4 w-4 text-amber-500" />
         <AlertDescription>
-          {t("CashAccountsNew:transaction.warning.futureStatement")}
+          {t("TransactionManagement:transaction.warning.futureStatement")}
         </AlertDescription>
       </Alert>
     );
@@ -99,7 +99,7 @@ export const StatementWarning: React.FC<StatementWarningProps> = ({
     <Alert className="mt-1">
       <Clock className="h-4 w-4" />
       <AlertDescription>
-        {t("CashAccountsNew:transaction.warning.unknownStatus", { status: statement.status })}
+        {t("TransactionManagement:transaction.warning.unknownStatus", { status: statement.status })}
       </AlertDescription>
     </Alert>
   );

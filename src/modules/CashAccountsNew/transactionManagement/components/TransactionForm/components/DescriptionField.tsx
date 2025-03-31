@@ -18,7 +18,7 @@ interface DescriptionFieldProps {
  * Açıklama giriş alanı bileşeni
  */
 export const DescriptionField: React.FC<DescriptionFieldProps> = ({ control }) => {
-  const { t } = useTranslation(["CashAccountsNew", "common"]);
+  const { t } = useTranslation(["TransactionManagement", "common"]);
 
   return (
     <FormField
@@ -26,10 +26,10 @@ export const DescriptionField: React.FC<DescriptionFieldProps> = ({ control }) =
       name="description"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{t("CashAccountsNew:transaction.description")}</FormLabel>
+          <FormLabel>{t("TransactionManagement:transaction.description")}</FormLabel>
           <FormControl>
             <Input
-              placeholder={t("CashAccountsNew:transaction.descriptionPlaceholder")}
+              placeholder={t("TransactionManagement:transaction.descriptionPlaceholder")}
               {...field}
             />
           </FormControl>

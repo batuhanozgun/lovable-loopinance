@@ -1,0 +1,33 @@
+
+{
+  "transaction": {
+    "create": {
+      "failed": "İşlem oluşturulamadı",
+      "invalidAmount": "Geçersiz tutar formatı",
+      "networkError": "İşlem oluştururken ağ hatası oluştu",
+      "missingField": "Gerekli alanlar eksik",
+      "statementClosed": "Kapalı dönemlere işlem eklenemez",
+      "invalidStatementId": "Geçersiz ekstre seçildi",
+      "insufficientPermissions": "Bu hesaba işlem ekleme yetkiniz yok"
+    },
+    "update": {
+      "failed": "İşlem güncellenemedi",
+      "invalidAmount": "Geçersiz tutar formatı",
+      "networkError": "İşlem güncellenirken ağ hatası oluştu",
+      "idMissing": "İşlem ID'si eksik",
+      "statementClosed": "Kapalı dönemlerdeki işlemler değiştirilemez",
+      "insufficientPermissions": "Bu işlemi güncelleme yetkiniz yok"
+    },
+    "delete": {
+      "failed": "İşlem silinemedi",
+      "statementClosed": "Kapalı dönemlerden işlem silinemez",
+      "insufficientPermissions": "Bu işlemi silme yetkiniz yok"
+    },
+    "noValidStatement": "Seçilen tarih için geçerli bir ekstre bulunamadı. Lütfen başka bir tarih seçin veya yeni bir ekstre oluşturun."
+  },
+  "statement": {
+    "notFound": "Ekstre bulunamadı",
+    "createFirst": "Önce bir ekstre oluşturmanız gerekiyor",
+    "loadFailed": "Ekstreler yüklenemedi"
+  }
+}

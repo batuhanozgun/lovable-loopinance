@@ -31,7 +31,7 @@ export const CategoryField: React.FC<CategoryFieldProps> = ({
   selectedCategoryId,
   onCategoryChange 
 }) => {
-  const { t } = useTranslation(["CashAccountsNew", "common"]);
+  const { t } = useTranslation(["TransactionManagement", "common"]);
   const { categories, isLoading } = useCategories();
 
   return (
@@ -40,7 +40,7 @@ export const CategoryField: React.FC<CategoryFieldProps> = ({
       name="categoryId"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{t("CashAccountsNew:transaction.category")}</FormLabel>
+          <FormLabel>{t("TransactionManagement:transaction.category")}</FormLabel>
           <Select
             value={field.value}
             onValueChange={(value) => {
@@ -51,12 +51,12 @@ export const CategoryField: React.FC<CategoryFieldProps> = ({
           >
             <FormControl>
               <SelectTrigger>
-                <SelectValue placeholder={t("CashAccountsNew:transaction.selectCategory")} />
+                <SelectValue placeholder={t("TransactionManagement:transaction.selectCategory")} />
               </SelectTrigger>
             </FormControl>
             <SelectContent>
               <SelectItem value="no-category">
-                {t("CashAccountsNew:transaction.noCategory")}
+                {t("TransactionManagement:transaction.noCategory")}
               </SelectItem>
               {categories.map((category) => (
                 <SelectItem key={category.id} value={category.id}>

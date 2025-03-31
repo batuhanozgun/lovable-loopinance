@@ -1,0 +1,37 @@
+
+{
+  "transaction": {
+    "new": "New Transaction",
+    "add": "Add Transaction",
+    "amount": "Amount",
+    "date": "Date",
+    "time": "Time",
+    "type": "Transaction Type",
+    "types": {
+      "income": "Income",
+      "expense": "Expense"
+    },
+    "category": "Category",
+    "subcategory": "Subcategory",
+    "description": "Description",
+    "descriptionPlaceholder": "Enter a description",
+    "selectCategory": "Select a category",
+    "selectSubcategory": "Select a subcategory",
+    "noCategory": "No Category",
+    "noSubcategory": "No Subcategory",
+    "pickDate": "Pick a date",
+    "createSuccess": "Transaction created successfully",
+    "selectedStatement": "Selected Statement Period",
+    "noStatementSelected": "No statement period selected",
+    "warning": {
+      "loadingStatement": "Loading statement information...",
+      "noStatement": "No valid statement found",
+      "activeStatement": "Active statement period",
+      "closedStatement": "This statement period is closed",
+      "futureStatement": "This is a future statement period",
+      "unknownStatus": "Statement status: {{status}}"
+    },
+    "lockStatement": "Lock statement selection",
+    "unlockStatement": "Unlock statement selection"
+  }
+}

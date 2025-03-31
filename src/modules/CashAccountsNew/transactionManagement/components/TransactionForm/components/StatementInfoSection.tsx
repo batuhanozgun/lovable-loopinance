@@ -35,7 +35,7 @@ export const StatementInfoSection: React.FC<StatementInfoSectionProps> = ({
   lockStatement,
   toggleStatementLock
 }) => {
-  const { t } = useTranslation(["CashAccountsNew", "common", "errors"]);
+  const { t } = useTranslation(["TransactionManagement", "common"]);
 
   // Hata durumu
   if (statementError) {
@@ -53,7 +53,7 @@ export const StatementInfoSection: React.FC<StatementInfoSectionProps> = ({
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <Calendar size={16} className="text-muted-foreground" />
-          <h3 className="text-sm font-medium">{t("CashAccountsNew:transaction.selectedStatement")}</h3>
+          <h3 className="text-sm font-medium">{t("TransactionManagement:transaction.selectedStatement")}</h3>
         </div>
         
         {statementId && (
@@ -63,8 +63,8 @@ export const StatementInfoSection: React.FC<StatementInfoSectionProps> = ({
             className="h-6 w-6"
             onClick={toggleStatementLock}
             title={lockStatement 
-              ? t("CashAccountsNew:transaction.unlockStatement") 
-              : t("CashAccountsNew:transaction.lockStatement")
+              ? t("TransactionManagement:transaction.unlockStatement") 
+              : t("TransactionManagement:transaction.lockStatement")
             }
           >
             {lockStatement 
@@ -119,7 +119,7 @@ export const StatementInfoSection: React.FC<StatementInfoSectionProps> = ({
       ) : (
         <div className="flex items-center justify-center py-2 text-muted-foreground text-sm">
           <InfoIcon size={14} className="mr-1" /> 
-          {t("CashAccountsNew:transaction.noStatementSelected")}
+          {t("TransactionManagement:transaction.noStatementSelected")}
         </div>
       )}
     </div>

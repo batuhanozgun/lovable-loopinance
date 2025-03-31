@@ -27,7 +27,7 @@ export const useTransactionFormSetup = (
   accountId: string,
   statementId?: string
 ) => {
-  const { t } = useTranslation(["CashAccountsNew", "common", "errors"]);
+  const { t } = useTranslation(["TransactionManagement", "common"]);
   
   // Şu anki zaman
   const now = new Date();
@@ -95,12 +95,12 @@ export const useTransactionFormSetup = (
           console.warn('No statement found for the selected date');
           setCurrentStatementId(null);
           setCurrentStatement(null);
-          setStatementError(t("errors:transaction.noValidStatement"));
-          toast.error(t("errors:transaction.noValidStatement"));
+          setStatementError(t("TransactionManagement:errors.transaction.noValidStatement"));
+          toast.error(t("TransactionManagement:errors.transaction.noValidStatement"));
         }
       } catch (error) {
         console.error('Error finding statement for date:', error);
-        setStatementError(t("errors:statement.loadFailed"));
+        setStatementError(t("TransactionManagement:errors.statement.loadFailed"));
       } finally {
         setIsLoadingStatement(false);
       }
@@ -120,12 +120,12 @@ export const useTransactionFormSetup = (
             console.log('Loaded specific statement:', foundStatement);
           } else {
             console.warn('Provided statement not found');
-            setStatementError(t("errors:statement.notFound"));
-            toast.error(t("errors:statement.notFound"));
+            setStatementError(t("TransactionManagement:errors.statement.notFound"));
+            toast.error(t("TransactionManagement:errors.statement.notFound"));
           }
         } catch (error) {
           console.error('Error loading specific statement:', error);
-          setStatementError(t("errors:statement.loadFailed"));
+          setStatementError(t("TransactionManagement:errors.statement.loadFailed"));
         } finally {
           setIsLoadingStatement(false);
         }
@@ -161,7 +161,7 @@ export const useTransactionFormSetup = (
   const handleSubmit = async (formData: TransactionFormData) => {
     // Eğer uygun statementId bulunamadıysa, uyarı göster
     if (!currentStatementId) {
-      toast.error(t("errors:transaction.noValidStatement"));
+      toast.error(t("TransactionManagement:errors.transaction.noValidStatement"));
       return false;
     }
     

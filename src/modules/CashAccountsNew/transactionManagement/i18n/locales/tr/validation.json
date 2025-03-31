@@ -1,0 +1,23 @@
+
+{
+  "validation": {
+    "transaction": {
+      "amount": {
+        "required": "Tutar zorunludur",
+        "min": "Tutar sıfırdan büyük olmalıdır"
+      },
+      "type": {
+        "required": "İşlem türü zorunludur"
+      },
+      "date": {
+        "required": "Tarih zorunludur"
+      },
+      "time": {
+        "required": "Saat zorunludur"
+      },
+      "category": {
+        "required": "Kategori zorunludur"
+      }
+    }
+  }
+}

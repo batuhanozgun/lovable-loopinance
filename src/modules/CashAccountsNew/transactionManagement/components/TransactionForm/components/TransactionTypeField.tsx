@@ -19,7 +19,7 @@ interface TransactionTypeFieldProps {
  * İşlem türü seçim alanı bileşeni
  */
 export const TransactionTypeField: React.FC<TransactionTypeFieldProps> = ({ control }) => {
-  const { t } = useTranslation(["CashAccountsNew", "common"]);
+  const { t } = useTranslation(["TransactionManagement", "common"]);
 
   return (
     <FormField
@@ -27,7 +27,7 @@ export const TransactionTypeField: React.FC<TransactionTypeFieldProps> = ({ cont
       name="transactionType"
       render={({ field }) => (
         <FormItem className="space-y-1">
-          <FormLabel>{t("CashAccountsNew:transaction.type")}</FormLabel>
+          <FormLabel>{t("TransactionManagement:transaction.type")}</FormLabel>
           <FormControl>
             <RadioGroup
               onValueChange={field.onChange}
@@ -43,7 +43,7 @@ export const TransactionTypeField: React.FC<TransactionTypeFieldProps> = ({ cont
                   htmlFor="income"
                   className="text-sm font-medium leading-none cursor-pointer text-green-600 dark:text-green-400"
                 >
-                  {t("CashAccountsNew:transaction.types.income")}
+                  {t("TransactionManagement:transaction.types.income")}
                 </label>
               </div>
               <div className="flex items-center space-x-1">
@@ -55,7 +55,7 @@ export const TransactionTypeField: React.FC<TransactionTypeFieldProps> = ({ cont
                   htmlFor="expense"
                   className="text-sm font-medium leading-none cursor-pointer text-red-600 dark:text-red-400"
                 >
-                  {t("CashAccountsNew:transaction.types.expense")}
+                  {t("TransactionManagement:transaction.types.expense")}
                 </label>
               </div>
             </RadioGroup>

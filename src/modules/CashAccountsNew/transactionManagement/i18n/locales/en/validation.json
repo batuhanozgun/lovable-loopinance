@@ -1,0 +1,23 @@
+
+{
+  "validation": {
+    "transaction": {
+      "amount": {
+        "required": "Amount is required",
+        "min": "Amount must be greater than zero"
+      },
+      "type": {
+        "required": "Transaction type is required"
+      },
+      "date": {
+        "required": "Date is required"
+      },
+      "time": {
+        "required": "Time is required"
+      },
+      "category": {
+        "required": "Category is required"
+      }
+    }
+  }
+}

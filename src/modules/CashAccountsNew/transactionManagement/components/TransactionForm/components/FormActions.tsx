@@ -18,7 +18,7 @@ export const FormActions: React.FC<FormActionsProps> = ({
   isSubmitting,
   isDisabled = false
 }) => {
-  const { t } = useTranslation(["CashAccountsNew", "common"]);
+  const { t } = useTranslation(["TransactionManagement", "common"]);
 
   return (
     <DialogFooter className="flex justify-end space-x-2">
@@ -34,7 +34,7 @@ export const FormActions: React.FC<FormActionsProps> = ({
         type="submit" 
         disabled={isSubmitting || isDisabled}
       >
-        {isSubmitting ? t("common:processing") : t("CashAccountsNew:transaction.add")}
+        {isSubmitting ? t("common:processing") : t("TransactionManagement:transaction.add")}
       </Button>
     </DialogFooter>
   );

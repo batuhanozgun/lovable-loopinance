@@ -11,7 +11,7 @@ import { format } from 'date-fns';
  * İşlem formu ve işlemleri için özel hook
  */
 export const useTransactionForm = () => {
-  const { t } = useTranslation(['CashAccountsNew', 'common']);
+  const { t } = useTranslation(['TransactionManagement', 'common']);
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -31,13 +31,13 @@ export const useTransactionForm = () => {
       
       if (!response.success) {
         // Hata mesajını işleme ve görüntüleme
-        let errorMessage = response.error || t('CashAccountsNew:errors.transaction.create.failed');
+        let errorMessage = response.error || t('TransactionManagement:errors.transaction.create.failed');
         
         // Özel hata durumlarını kontrol et
         if (response.error?.includes('statement is closed')) {
-          errorMessage = t('CashAccountsNew:errors.transaction.create.statementClosed');
+          errorMessage = t('TransactionManagement:errors.transaction.create.statementClosed');
         } else if (response.error?.includes('permission') || response.error?.includes('policy')) {
-          errorMessage = t('CashAccountsNew:errors.transaction.create.insufficientPermissions');
+          errorMessage = t('TransactionManagement:errors.transaction.create.insufficientPermissions');
         }
         
         console.error('Transaction creation failed:', errorMessage);
@@ -60,7 +60,7 @@ export const useTransactionForm = () => {
       
       toast({
         title: t('common:success'),
-        description: t('CashAccountsNew:transaction.createSuccess'),
+        description: t('TransactionManagement:transaction.createSuccess'),
       });
       
       return true;
@@ -73,7 +73,7 @@ export const useTransactionForm = () => {
       toast({
         variant: 'destructive',
         title: t('common:error'),
-        description: t('CashAccountsNew:errors.transaction.create.failed'),
+        description: t('TransactionManagement:errors.transaction.create.failed'),
       });
       return false;
     } finally {

@@ -14,3 +14,6 @@ export { StatementFinderService } from './services/StatementFinderService';
 
 // Types
 export * from './types';
+
+// i18n
+export { initTransactionManagementTranslations } from './i18n';

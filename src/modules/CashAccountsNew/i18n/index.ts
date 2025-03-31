@@ -11,6 +11,9 @@ import cashAccountsTR from './locales/tr/cashAccounts.json';
 import errorsTR from './locales/tr/errors.json';
 import accountManagementTR from './locales/tr/accountManagement.json';
 
+// Alt modüllerin çeviri başlatma işlevlerini içe aktar
+import { initTransactionManagementTranslations } from '../transactionManagement/i18n';
+
 // CashAccountsNew modülü çevirilerini başlat
 export const initCashAccountsNewTranslations = () => {
   // i18n'in başlatılıp başlatılmadığını kontrol et
@@ -50,6 +53,9 @@ function addCashAccountsNewResources() {
     }, true, true);
     
     console.log("CashAccountsNew çevirileri başarıyla eklendi");
+    
+    // Alt modüllerin çevirilerini de başlat
+    initTransactionManagementTranslations();
   } catch (error) {
     console.error("CashAccountsNew çevirileri eklenirken hata oluştu:", error);
   }
