@@ -6,9 +6,16 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Clock } from "lucide-react";
 import { format } from "date-fns";
 import { tr } from "date-fns/locale";
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 
 interface DateFieldProps {
   date: Date;
@@ -28,46 +35,22 @@ export const DateField: React.FC<DateFieldProps> = ({
 }) => {
   const { t } = useTranslation(["CashAccountsNew", "common"]);
   
-  // Saat ve dakika değişikliklerini işle
-  const handleHourChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setTime({ ...time, hour: e.target.value });
-  };
+  // Saat seçenekleri (00-23)
+  const hours = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0'));
   
-  const handleMinuteChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setTime({ ...time, minute: e.target.value });
-  };
-  
-  // Saat seçenekleri oluştur (00-23)
-  const hourOptions = Array.from({ length: 24 }, (_, i) => {
-    const hour = i.toString().padStart(2, "0");
-    return (
-      <option key={hour} value={hour}>
-        {hour}
-      </option>
-    );
-  });
-  
-  // Dakika seçenekleri oluştur (00-59)
-  const minuteOptions = Array.from({ length: 60 }, (_, i) => {
-    const minute = i.toString().padStart(2, "0");
-    return (
-      <option key={minute} value={minute}>
-        {minute}
-      </option>
-    );
-  });
+  // Dakika seçenekleri (00, 15, 30, 45)
+  const minutes = ['00', '15', '30', '45'];
 
   return (
-    <FormItem className="flex flex-col">
-      <FormLabel>{t("CashAccountsNew:transaction.date")}</FormLabel>
-      
-      <div className="grid grid-cols-5 gap-2">
+    <div className="space-y-4">
+      <FormItem className="flex flex-col">
+        <FormLabel>{t("CashAccountsNew:transaction.date")}</FormLabel>
         <Popover>
-          <PopoverTrigger asChild className="col-span-3">
+          <PopoverTrigger asChild>
             <Button
               variant="outline"
               className={cn(
-                "justify-start text-left font-normal",
+                "w-full justify-start text-left font-normal",
                 !date && "text-muted-foreground"
               )}
             >
@@ -79,7 +62,7 @@ export const DateField: React.FC<DateFieldProps> = ({
               )}
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto p-0">
+          <PopoverContent className="w-auto p-0 z-50">
             <Calendar
               mode="single"
               selected={date}
@@ -88,23 +71,49 @@ export const DateField: React.FC<DateFieldProps> = ({
             />
           </PopoverContent>
         </Popover>
-        
-        <select
-          className="border rounded h-10 px-3 col-span-1"
-          value={time.hour}
-          onChange={handleHourChange}
-        >
-          {hourOptions}
-        </select>
-        
-        <select
-          className="border rounded h-10 px-3 col-span-1"
-          value={time.minute}
-          onChange={handleMinuteChange}
-        >
-          {minuteOptions}
-        </select>
-      </div>
-    </FormItem>
+      </FormItem>
+
+      <FormItem className="flex flex-col">
+        <FormLabel>{t("CashAccountsNew:transaction.time")}</FormLabel>
+        <div className="flex space-x-2 items-center">
+          <div className="flex-1 flex items-center">
+            <Clock className="mr-2 h-4 w-4 text-muted-foreground" />
+            <Select 
+              value={time.hour} 
+              onValueChange={(value) => setTime({ ...time, hour: value })}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Saat" />
+              </SelectTrigger>
+              <SelectContent>
+                {hours.map((hour) => (
+                  <SelectItem key={hour} value={hour}>
+                    {hour}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <span>:</span>
+          <div className="flex-1">
+            <Select 
+              value={time.minute} 
+              onValueChange={(value) => setTime({ ...time, minute: value })}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Dakika" />
+              </SelectTrigger>
+              <SelectContent>
+                {minutes.map((minute) => (
+                  <SelectItem key={minute} value={minute}>
+                    {minute}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      </FormItem>
+    </div>
   );
 };
