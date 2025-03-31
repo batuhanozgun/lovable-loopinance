@@ -162,9 +162,11 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
                 </div>
                 
                 {/* Ekstre durumuna göre uyarı mesajı */}
-                {currentStatement.status !== 'OPEN' && (
-                  <StatementWarning status={currentStatement.status} />
-                )}
+                <StatementWarning 
+                  statement={currentStatement}
+                  statementError={null}
+                  isLoadingStatement={false}
+                />
               </>
             ) : (
               <div className="flex items-center justify-center py-2 text-muted-foreground text-sm">
