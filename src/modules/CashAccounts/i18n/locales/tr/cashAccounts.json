@@ -89,6 +89,7 @@
     "date": "Tarih",
     "type": "Tür",
     "description": "Açıklama",
+    "descriptionPlaceholder": "İşlem açıklaması girin",
     "amount": "Tutar",
     "types": {
       "income": "Gelir",

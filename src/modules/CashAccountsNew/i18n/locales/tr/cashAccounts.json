@@ -59,6 +59,7 @@
     "time": "Saat",
     "amount": "Tutar",
     "description": "Açıklama",
+    "descriptionPlaceholder": "İşlem açıklaması girin",
     "category": "Kategori",
     "subcategory": "Alt Kategori",
     "income": "Gelir",
