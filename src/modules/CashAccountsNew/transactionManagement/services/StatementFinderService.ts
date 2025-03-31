@@ -1,5 +1,6 @@
 
 import { supabase } from '@/integrations/supabase/client';
+import { AccountStatement } from '../../statementManagement/types';
 
 /**
  * Açık ekstre bulma servisi
@@ -34,8 +35,9 @@ export class StatementFinderService {
   /**
    * Belirli bir tarih için uygun olan, açık durumda olan bir ekstre bulur
    * Seçilen tarih, ekstrenin başlangıç ve bitiş tarihleri arasında olmalıdır
+   * Artık tüm ekstre bilgilerini döndürür, sadece ID değil
    */
-  static async findStatementForDate(accountId: string, date: Date): Promise<string | null> {
+  static async findStatementForDate(accountId: string, date: Date): Promise<AccountStatement | null> {
     try {
       console.log('Finding statement for date:', date, 'in account:', accountId);
       
@@ -44,9 +46,9 @@ export class StatementFinderService {
       // Düzeltilmiş tarih karşılaştırma mantığı:
       // Seçilen tarih, ekstrenin başlangıç tarihine eşit veya daha sonra VE
       // bitiş tarihine eşit veya daha önce olmalıdır
-      const { data: statements, error } = await supabase
+      const { data: statement, error } = await supabase
         .from('account_statements')
-        .select('id')
+        .select('*')
         .eq('account_id', accountId)
         .eq('status', 'OPEN')
         .lte('start_date', formattedDate) // Başlangıç tarihi seçilen tarihten önce veya eşit
@@ -58,7 +60,7 @@ export class StatementFinderService {
         return null;
       }
       
-      return statements?.id || null;
+      return statement || null;
     } catch (error) {
       console.error('Unexpected error finding statement for date:', error);
       return null;

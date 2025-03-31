@@ -1,32 +1,47 @@
 
 {
-  "title": "Nakit Hesaplar",
-  "newAccount": "Yeni Nakit Hesap",
-  "createAccount": "Nakit Hesap Oluştur",
-  "description": "Gelir ve giderlerinizi takip etmek için ilk nakit hesabınızı oluşturun.",
-  "noAccounts": "Nakit Hesap Bulunamadı",
-  "accountBalance": "Hesap Bakiyesi",
+  "title": "Nakit Hesaplarım",
+  "new": "Yeni Nakit Hesap",
+  "settings": "Hesap Ayarları",
+  "details": "Hesap Detayları",
+  "create": "Hesap Oluştur",
+  "edit": "Hesabı Düzenle",
+  "delete": "Hesabı Sil",
+  "form": {
+    "name": "Hesap Adı",
+    "description": "Açıklama",
+    "currency": "Para Birimi",
+    "initialBalance": "Başlangıç Bakiyesi",
+    "closingDay": "Hesap Kapanış Günü",
+    "closingDayType": "Kapanış Günü Tipi",
+    "closingDayValue": "Kapanış Günü Değeri",
+    "submit": "Kaydet",
+    "cancel": "İptal"
+  },
+  "placeholders": {
+    "name": "Örn: Ziraat Bankası Vadesiz",
+    "description": "Hesap hakkında kısa bilgi"
+  },
+  "balance": {
+    "title": "Bakiye",
+    "available": "Kullanılabilir Bakiye",
+    "pending": "Bekleyen İşlemler",
+    "total": "Toplam Bakiye"
+  },
+  "closingDay": {
+    "title": "Kapanış Günü",
+    "lastDayOfMonth": "Ayın Son Günü",
+    "specificDay": "Belirli Bir Gün",
+    "day": "Gün"
+  },
   "statements": {
-    "title": "Ekstreler",
-    "period": "Ekstre Dönemi",
+    "title": "Ekstre",
+    "period": "Dönem",
     "startBalance": "Başlangıç Bakiyesi",
     "endBalance": "Bitiş Bakiyesi",
     "income": "Gelir",
     "expenses": "Gider",
-    "viewDetails": "Detayları Görüntüle",
-    "empty": {
-      "noStatements": "Bu hesap için ekstre bulunamadı",
-      "statementInfo": "Ekstreler hesabınızın kapanış gününe göre oluşturulur. Daha sonra tekrar kontrol edin veya manuel olarak yeni bir ekstre oluşturun."
-    },
-    "buttons": {
-      "createStatement": "Ekstre Oluştur",
-      "refreshStatements": "Ekstreleri Kontrol Et"
-    },
-    "toasts": {
-      "statementCheckComplete": "Ekstreler kontrol edildi ve güncellendi",
-      "statementCheckError": "Ekstreler kontrol edilirken bir hata oluştu",
-      "futureStatementsCreated": "{{count}} gelecek ekstre oluşturuldu"
-    },
+    "currentBalance": "Mevcut Bakiye",
     "status": {
       "title": "Durum",
       "open": "Açık",
@@ -34,64 +49,27 @@
       "future": "Gelecek"
     }
   },
-  "edit": "Hesabı Düzenle",
-  "delete": "Hesabı Sil",
-  "actions": "İşlemler",
-  "editNotImplemented": "Düzenleme Uygulanmadı",
-  "deleteNotImplemented": "Silme Uygulanmadı",
-  "errors": {
-    "account": {
-      "list": {
-        "failed": "Nakit hesaplar yüklenemedi"
-      },
-      "detail": {
-        "failed": "Hesap detayları yüklenemedi"
-      },
-      "notFound": "Hesap bulunamadı"
-    },
-    "statement": {
-      "detail": {
-        "failed": "Ekstre detayları yüklenemedi"
-      },
-      "notFound": "Ekstre bulunamadı",
-      "createFirst": "Önce bir ekstre oluşturmanız gerekiyor",
-      "loadFailed": "Ekstreler yüklenemedi"
-    },
-    "sorting": {
-      "failed": "Hesap sıralaması güncellenirken bir hata oluştu"
-    },
-    "transaction": {
-      "noValidStatement": "Geçerli bir ekstre bulunamadı. Lütfen önce bir ekstre oluşturun."
-    }
-  },
   "transaction": {
     "new": "Yeni İşlem",
     "edit": "İşlemi Düzenle",
+    "delete": "İşlemi Sil",
     "add": "İşlem Ekle",
-    "update": "İşlemi Güncelle",
-    "delete": {
-      "title": "İşlemi Sil",
-      "confirmation": "Bu işlemi silmek istediğinizden emin misiniz? Bu eylem geri alınamaz.",
-      "confirm": "Sil"
-    },
-    "deleteSuccess": "İşlem başarıyla silindi",
-    "category": "Kategori",
-    "subcategory": "Alt Kategori",
-    "selectCategory": "Kategori seçin",
-    "selectSubcategory": "Alt kategori seçin",
-    "noCategory": "Kategori Yok",
-    "noSubcategory": "Alt Kategori Yok",
+    "type": "İşlem Tipi",
     "date": "Tarih",
     "time": "Saat",
-    "type": "Tür",
-    "description": "Açıklama",
-    "descriptionPlaceholder": "İşlem açıklaması girin",
     "amount": "Tutar",
-    "types": {
-      "income": "Gelir",
-      "expense": "Gider"
-    },
-    "createSuccess": "İşlem başarıyla oluşturuldu",
-    "updateSuccess": "İşlem başarıyla güncellendi"
+    "description": "Açıklama",
+    "category": "Kategori",
+    "subcategory": "Alt Kategori",
+    "income": "Gelir",
+    "expense": "Gider",
+    "pickDate": "Tarih Seç",
+    "details": "İşlem Detayları",
+    "noCategory": "Kategorisiz",
+    "noSubcategory": "Alt Kategorisiz",
+    "noDescription": "Açıklama yok",
+    "noTransactions": "İşlem bulunamadı",
+    "selectedStatement": "Seçilen Ekstre",
+    "noStatementSelected": "Henüz bir ekstre seçilmedi"
   }
 }

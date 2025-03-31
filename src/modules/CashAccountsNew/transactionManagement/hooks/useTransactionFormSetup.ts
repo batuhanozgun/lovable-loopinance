@@ -9,6 +9,7 @@ import { createTransactionFormSchema } from "../validation/schema";
 import { useTransactionForm } from "./useTransactionForm";
 import { StatementFinderService } from "../services/StatementFinderService";
 import { toast } from "sonner";
+import { AccountStatement } from "../../statementManagement/types";
 
 /**
  * İşlem formu kurulumu için ana hook
@@ -27,7 +28,9 @@ export const useTransactionFormSetup = (
   });
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>("no-category");
   const [currentStatementId, setCurrentStatementId] = useState<string | null>(statementId || null);
+  const [currentStatement, setCurrentStatement] = useState<AccountStatement | null>(null);
   const [statementError, setStatementError] = useState<string | null>(null);
+  const [isLoadingStatement, setIsLoadingStatement] = useState<boolean>(false);
   
   // Form doğrulama şeması
   const formSchema = createTransactionFormSchema(t);
@@ -63,20 +66,26 @@ export const useTransactionFormSetup = (
     if (!statementId) { // Sadece statementId prop'u verilmemişse ekstre araması yap
       try {
         setStatementError(null);
-        const foundStatementId = await StatementFinderService.findStatementForDate(accountId, newDate);
+        setIsLoadingStatement(true);
         
-        if (foundStatementId) {
-          setCurrentStatementId(foundStatementId);
-          console.log('Found statement for date:', foundStatementId);
+        const foundStatement = await StatementFinderService.findStatementForDate(accountId, newDate);
+        
+        if (foundStatement) {
+          setCurrentStatementId(foundStatement.id);
+          setCurrentStatement(foundStatement);
+          console.log('Found statement for date:', foundStatement);
         } else {
           console.warn('No statement found for the selected date');
           setCurrentStatementId(null);
+          setCurrentStatement(null);
           setStatementError(t("errors:transaction.noValidStatement"));
           toast.error(t("errors:transaction.noValidStatement"));
         }
       } catch (error) {
         console.error('Error finding statement for date:', error);
         setStatementError(t("errors:statement.loadFailed"));
+      } finally {
+        setIsLoadingStatement(false);
       }
     }
   };
@@ -121,6 +130,8 @@ export const useTransactionFormSetup = (
     onSubmit: handleSubmit,
     isSubmitting,
     statementId: currentStatementId,
+    statement: currentStatement,
+    isLoadingStatement,
     statementError
   };
 };
