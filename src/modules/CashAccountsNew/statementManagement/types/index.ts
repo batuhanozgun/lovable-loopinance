@@ -75,3 +75,6 @@ export interface UpdateFutureStatementsResult {
   statements: any[];
   accounts_needing_statements?: AccountFutureStatementStatus[];
 }
+
+// İşlem tiplerini dışa aktar
+export * from './transaction';

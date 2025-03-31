@@ -9,6 +9,7 @@ import { useCashAccount } from '@/modules/CashAccountsNew/cashAccountHomepage/ho
 import { CurrencyType } from '@/modules/CashAccountsNew/cashAccountHomepage/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { StatementDetails } from '../components/StatementDetails';
+import { TransactionsList } from '../components/TransactionsList';
 import { useState } from 'react';
 import { TransactionForm } from '@/modules/CashAccountsNew/transactionManagement';
 
@@ -33,6 +34,7 @@ export const StatementDetailView: React.FC = () => {
         </div>
         
         <Skeleton className="h-48 w-full" />
+        <Skeleton className="h-64 w-full" />
       </div>
     );
   }
@@ -71,7 +73,7 @@ export const StatementDetailView: React.FC = () => {
           <h1 className="text-2xl font-bold">{account.name} - {t('statements.title')}</h1>
         </div>
         
-        {/* Add New Transaction Button */}
+        {/* Yeni İşlem Ekle Butonu */}
         <Button 
           onClick={() => setIsTransactionFormOpen(true)}
           className="flex items-center"
@@ -87,7 +89,12 @@ export const StatementDetailView: React.FC = () => {
         currency={account.currency as CurrencyType} 
       />
       
-      {/* Transaction Form Dialog */}
+      <TransactionsList 
+        statementId={statementId || ''} 
+        currency={account.currency as CurrencyType} 
+      />
+      
+      {/* İşlem Form Dialogu */}
       {accountId && (
         <TransactionForm
           accountId={accountId}

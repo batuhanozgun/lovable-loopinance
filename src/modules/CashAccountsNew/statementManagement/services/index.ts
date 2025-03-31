@@ -13,5 +13,8 @@ export * from './core/update/StatementUpdateService';
 export * from './automation/FutureStatementService';
 export * from './automation/StatementAutomationService';
 
+// İşlem sorgulama servisleri
+export * from './transaction/TransactionQueryService';
+
 // Ana servis
 export * from './StatementService';

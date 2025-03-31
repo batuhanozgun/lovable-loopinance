@@ -3,17 +3,18 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody } from '@/components/ui/table';
-import { useTransactions } from '@/modules/CashAccounts/hooks/useTransactions';
-import { AccountTransaction, CurrencyType } from '@/modules/CashAccounts/types';
-import { 
+import { CurrencyType } from '@/modules/CashAccountsNew/cashAccountHomepage/types';
+import { useToast } from '@/hooks/use-toast';
+import {
   EmptyTransactionsState,
   FilterDropdownMenu,
   SortDropdownMenu,
   TransactionsLoadingSkeleton,
   TransactionsTableHeader,
   TransactionRow
-} from '@/modules/CashAccounts/components/TransactionsList/components';
-import { useToast } from '@/hooks/use-toast';
+} from './components';
+import { useTransactionsList } from '../../hooks/useTransactionsList';
+import { AccountTransaction } from '../../types/transaction';
 
 interface TransactionsListProps {
   statementId: string;
@@ -24,11 +25,11 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
   statementId, 
   currency 
 }) => {
-  const { t } = useTranslation(['StatementManagement', 'CashAccounts', 'common']);
+  const { t } = useTranslation('StatementManagement');
   const { toast } = useToast();
   const [selectedTransaction, setSelectedTransaction] = useState<AccountTransaction | null>(null);
   
-  // Use the existing hook from CashAccounts module for data fetching
+  // Veri çekme ve filtreleme işlemleri için kancamızı kullanıyoruz
   const { 
     data: transactions, 
     isLoading, 
@@ -37,28 +38,28 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
     sortByAmount,
     filterByType,
     resetFilters
-  } = useTransactions(statementId);
+  } = useTransactionsList(statementId);
 
-  // Handle edit click
+  // Düzenleme işlemi için
   const handleEditTransaction = (transaction: AccountTransaction) => {
     setSelectedTransaction(transaction);
-    // We'll implement the edit modal later
+    // Düzenleme modalı daha sonra uygulanacak
     toast({
-      title: t('common:info'),
-      description: t('common:featureComingSoon'),
+      title: t('common:info', { ns: 'common' }),
+      description: t('common:featureComingSoon', { ns: 'common' }),
     });
   };
 
-  // Handle delete click
+  // Silme işlemi için
   const handleDeleteTransaction = (transaction: AccountTransaction) => {
-    // We'll implement the delete confirmation later
+    // Silme onayı daha sonra uygulanacak
     toast({
-      title: t('common:info'),
-      description: t('common:featureComingSoon'),
+      title: t('common:info', { ns: 'common' }),
+      description: t('common:featureComingSoon', { ns: 'common' }),
     });
   };
 
-  // Show loading state
+  // Yükleme durumu
   if (isLoading) {
     return <TransactionsLoadingSkeleton />;
   }
@@ -67,7 +68,7 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
     <Card>
       <CardHeader>
         <div className="flex justify-between items-center">
-          <CardTitle>{t('CashAccounts:transactions')}</CardTitle>
+          <CardTitle>{t('transactions.title')}</CardTitle>
           <div className="flex space-x-2">
             <FilterDropdownMenu 
               onFilterByType={filterByType}
