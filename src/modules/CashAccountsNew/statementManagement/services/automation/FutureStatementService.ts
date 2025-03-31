@@ -2,43 +2,21 @@
 /**
  * Gelecek ekstre oluşturma servisi
  */
-import { supabase } from '@/integrations/supabase/client';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
-import { CashAccount } from '../../../cashAccountHomepage/types';
+import { AccountStatement } from '../../types';
+import { REQUIRED_FUTURE_STATEMENTS } from './future-statements/constants';
 import { 
-  AccountStatement, 
-  CreateAccountStatementData, 
-  SingleStatementResponse, 
-  StatementStatus,
-  AccountFutureStatementStatus
-} from '../../types';
-import { StatementCreationService } from '../core/creation/StatementCreationService';
-import { StatementPeriodService } from '../core/period/StatementPeriodService';
-import { format } from 'date-fns';
+  createFutureStatements,
+  createRemainingFutureStatements,
+  checkAndCreateMissingFutureStatements,
+  FutureStatementResult
+} from './future-statements';
 
 /**
  * Gelecek dönem ekstre oluşturma servisi
  */
 export class FutureStatementService {
   private static logger = new ModuleLogger('CashAccountsNew.FutureStatementService');
-  private static REQUIRED_FUTURE_STATEMENTS = 11;
-
-  /**
-   * AccountFutureStatementStatus tipinin geçerli olup olmadığını kontrol eder
-   */
-  private static isValidFutureStatus(data: unknown): data is AccountFutureStatementStatus {
-    if (!data || typeof data !== 'object') return false;
-    
-    const status = data as Partial<AccountFutureStatementStatus>;
-    return (
-      typeof status.account_id === 'string' &&
-      typeof status.open_count === 'number' &&
-      typeof status.future_count === 'number' &&
-      typeof status.required_future_count === 'number' &&
-      typeof status.needs_future_statements === 'boolean' &&
-      typeof status.future_statements_to_create === 'number'
-    );
-  }
 
   /**
    * Hesap için gelecek ekstreleri oluşturur
@@ -48,95 +26,8 @@ export class FutureStatementService {
   static async createFutureStatements(
     accountId: string,
     currentStatement: AccountStatement
-  ): Promise<{ success: boolean; createdCount: number; error?: string }> {
-    try {
-      this.logger.debug('Hesap için gelecek ekstreleri oluşturuluyor', {
-        accountId,
-        currentStatementId: currentStatement.id
-      });
-      
-      // Hesap bilgilerini al
-      const { data: account, error } = await supabase
-        .from('cash_accounts')
-        .select('*')
-        .eq('id', accountId)
-        .single();
-      
-      if (error) {
-        this.logger.error('Hesap bilgisi alınamadı', { accountId, error });
-        return {
-          success: false,
-          createdCount: 0,
-          error: error.message
-        };
-      }
-      
-      const cashAccount = account as CashAccount;
-      
-      // Mevcut ekstreden başlayarak gelecek ekstreleri oluştur
-      let lastStatement = currentStatement;
-      let createdCount = 0;
-      
-      for (let i = 0; i < this.REQUIRED_FUTURE_STATEMENTS; i++) {
-        // Bir sonraki dönemin tarihlerini hesapla 
-        const lastEndDate = new Date(lastStatement.end_date);
-        const nextStartDate = new Date(lastEndDate);
-        nextStartDate.setDate(nextStartDate.getDate() + 1);
-        
-        // Bir sonraki dönem için hesapla - addMonths burada kaldırıldı
-        const nextPeriod = StatementPeriodService.calculateNextPeriod(cashAccount, nextStartDate);
-        
-        // Gelecek ekstreyi oluştur
-        const newStatementData: CreateAccountStatementData = {
-          account_id: accountId,
-          start_date: format(nextPeriod.startDate, 'yyyy-MM-dd'),
-          end_date: format(nextPeriod.endDate, 'yyyy-MM-dd'),
-          start_balance: lastStatement.end_balance,
-          end_balance: lastStatement.end_balance,
-          status: StatementStatus.FUTURE
-        };
-        
-        // Ekstreyi veritabanına kaydet
-        const result = await StatementCreationService.createStatement(newStatementData);
-        
-        if (!result.success) {
-          this.logger.error('Gelecek ekstre oluşturulurken hata', { 
-            accountId, 
-            error: result.error,
-            iteration: i 
-          });
-          continue;
-        }
-        
-        // Başarılı ise son ekstre olarak ata
-        lastStatement = result.data!;
-        createdCount++;
-        
-        this.logger.debug('Gelecek ekstre oluşturuldu', { 
-          accountId, 
-          statementId: result.data!.id,
-          period: `${result.data!.start_date} - ${result.data!.end_date}`
-        });
-      }
-      
-      this.logger.info('Gelecek ekstre oluşturma tamamlandı', { 
-        accountId, 
-        createdCount,
-        expectedCount: this.REQUIRED_FUTURE_STATEMENTS
-      });
-      
-      return {
-        success: true,
-        createdCount
-      };
-    } catch (error) {
-      this.logger.error('Gelecek ekstre oluşturulurken beklenmeyen hata', { accountId, error });
-      return {
-        success: false,
-        createdCount: 0,
-        error: error instanceof Error ? error.message : 'Bilinmeyen hata'
-      };
-    }
+  ): Promise<FutureStatementResult> {
+    return await createFutureStatements(accountId, currentStatement, REQUIRED_FUTURE_STATEMENTS);
   }
 
   /**
@@ -144,95 +35,8 @@ export class FutureStatementService {
    */
   static async checkAndCreateMissingFutureStatements(
     accountId: string
-  ): Promise<{ success: boolean; createdCount: number; error?: string }> {
-    try {
-      // Hesabın future statement durumunu kontrol et
-      const { data: rawData, error } = await supabase.rpc('check_account_future_statements', {
-        p_account_id: accountId
-      });
-      
-      if (error) {
-        this.logger.error('Future statement durumu kontrol edilirken hata', { accountId, error });
-        return {
-          success: false,
-          createdCount: 0,
-          error: error.message
-        };
-      }
-      
-      // Veri geçerliliğini kontrol et ve doğru tipe dönüştür
-      if (!this.isValidFutureStatus(rawData)) {
-        this.logger.error('Geçersiz future statement durumu alındı', { accountId, data: rawData });
-        return {
-          success: false,
-          createdCount: 0,
-          error: 'Geçersiz future statement durumu'
-        };
-      }
-      
-      // Tip güvenli dönüşüm
-      const futureStatus = rawData as AccountFutureStatementStatus;
-      
-      // Future statement ihtiyacı yoksa işlem yapma
-      if (!futureStatus.needs_future_statements) {
-        return {
-          success: true,
-          createdCount: 0
-        };
-      }
-      
-      // Mevcut açık ekstreyi bul
-      const { data: statements, error: statementsError } = await supabase
-        .from('account_statements')
-        .select('*')
-        .eq('account_id', accountId)
-        .eq('status', StatementStatus.OPEN)
-        .order('end_date', { ascending: false })
-        .limit(1);
-      
-      if (statementsError || !statements || statements.length === 0) {
-        this.logger.error('Mevcut açık ekstre bulunamadı', { accountId, error: statementsError });
-        return {
-          success: false,
-          createdCount: 0,
-          error: statementsError?.message || 'Mevcut açık ekstre bulunamadı'
-        };
-      }
-      
-      // Son oluşturulan gelecek ekstreleri bul
-      const { data: futureStatements, error: futureError } = await supabase
-        .from('account_statements')
-        .select('*')
-        .eq('account_id', accountId)
-        .eq('status', StatementStatus.FUTURE)
-        .order('end_date', { ascending: false })
-        .limit(1);
-      
-      // Ekstre oluşturmaya başlamak için referans ekstreyi belirle
-      let referenceStatement: AccountStatement;
-      
-      if (futureError || !futureStatements || futureStatements.length === 0) {
-        // Gelecek ekstre yoksa, açık ekstreden başla
-        referenceStatement = statements[0] as AccountStatement;
-      } else {
-        // Varsa, son gelecek ekstreden devam et
-        referenceStatement = futureStatements[0] as AccountStatement;
-      }
-      
-      // Gerekli sayıda gelecek ekstre oluştur
-      return await this.createRemainingFutureStatements(
-        accountId, 
-        referenceStatement, 
-        futureStatus.future_statements_to_create
-      );
-    } catch (error) {
-      this.logger.error('Eksik gelecek ekstreleri kontrol edilirken beklenmeyen hata', { accountId, error });
-      return {
-        success: false,
-        createdCount: 0,
-        error: error instanceof Error ? error.message : 'Bilinmeyen hata'
-      };
-    }
+  ): Promise<FutureStatementResult> {
+    return await checkAndCreateMissingFutureStatements(accountId);
   }
 
   /**
@@ -242,89 +46,7 @@ export class FutureStatementService {
     accountId: string,
     referenceStatement: AccountStatement,
     countToCreate: number
-  ): Promise<{ success: boolean; createdCount: number; error?: string }> {
-    try {
-      // Hesap bilgilerini al
-      const { data: account, error } = await supabase
-        .from('cash_accounts')
-        .select('*')
-        .eq('id', accountId)
-        .single();
-      
-      if (error) {
-        this.logger.error('Hesap bilgisi alınamadı', { accountId, error });
-        return {
-          success: false,
-          createdCount: 0,
-          error: error.message
-        };
-      }
-      
-      const cashAccount = account as CashAccount;
-      
-      // Referans ekstreden başlayarak gelecek ekstreleri oluştur
-      let lastStatement = referenceStatement;
-      let createdCount = 0;
-      
-      for (let i = 0; i < countToCreate; i++) {
-        // Bir sonraki dönemin tarihlerini hesapla 
-        const lastEndDate = new Date(lastStatement.end_date);
-        const nextStartDate = new Date(lastEndDate);
-        nextStartDate.setDate(nextStartDate.getDate() + 1);
-        
-        // Bir sonraki dönem için hesapla - addMonths burada kaldırıldı
-        const nextPeriod = StatementPeriodService.calculateNextPeriod(cashAccount, nextStartDate);
-        
-        // Gelecek ekstreyi oluştur
-        const newStatementData: CreateAccountStatementData = {
-          account_id: accountId,
-          start_date: format(nextPeriod.startDate, 'yyyy-MM-dd'),
-          end_date: format(nextPeriod.endDate, 'yyyy-MM-dd'),
-          start_balance: lastStatement.end_balance,
-          end_balance: lastStatement.end_balance,
-          status: StatementStatus.FUTURE
-        };
-        
-        // Ekstreyi veritabanına kaydet
-        const result = await StatementCreationService.createStatement(newStatementData);
-        
-        if (!result.success) {
-          this.logger.error('Kalan gelecek ekstre oluşturulurken hata', { 
-            accountId, 
-            error: result.error,
-            iteration: i 
-          });
-          continue;
-        }
-        
-        // Başarılı ise son ekstre olarak ata
-        lastStatement = result.data!;
-        createdCount++;
-        
-        this.logger.debug('Kalan gelecek ekstre oluşturuldu', { 
-          accountId, 
-          statementId: result.data!.id,
-          period: `${result.data!.start_date} - ${result.data!.end_date}`
-        });
-      }
-      
-      this.logger.info('Kalan gelecek ekstre oluşturma tamamlandı', { 
-        accountId, 
-        createdCount,
-        requestedCount: countToCreate
-      });
-      
-      return {
-        success: true,
-        createdCount
-      };
-    } catch (error) {
-      this.logger.error('Kalan gelecek ekstre oluşturulurken beklenmeyen hata', { accountId, error });
-      return {
-        success: false,
-        createdCount: 0,
-        error: error instanceof Error ? error.message : 'Bilinmeyen hata'
-      };
-    }
+  ): Promise<FutureStatementResult> {
+    return await createRemainingFutureStatements(accountId, referenceStatement, countToCreate);
   }
 }
