@@ -1,6 +1,8 @@
 
 import { supabase } from '@/integrations/supabase/client';
 import { CreateTransactionData, SingleTransactionResponse, Transaction } from '../types';
+import { StatementService } from '../../statementManagement/services/StatementService';
+import { TransactionType } from '../types';
 
 /**
  * İşlem oluşturma servisi
@@ -54,7 +56,7 @@ export class TransactionCreationService {
       // Ekstrenin durumunu kontrol et (artık sadece bilgi olarak göstereceğiz, engelleme yapmıyoruz)
       const { data: statementData, error: statementError } = await supabase
         .from('account_statements')
-        .select('status')
+        .select('status, income, expenses, end_balance')
         .eq('id', data.statement_id)
         .single();
       
@@ -98,6 +100,45 @@ export class TransactionCreationService {
       }
       
       console.log('Account transaction created successfully:', { id: transactionData.id });
+      
+      // İşlem oluşturulduktan sonra ekstre bakiyelerini güncelle
+      try {
+        console.log('Updating statement balances after transaction creation');
+        
+        // Mevcut gelir, gider ve bakiye değerlerini al
+        let { income, expenses, end_balance } = statementData;
+        
+        // İşlem türüne göre ekstre değerlerini güncelle
+        if (data.transaction_type === TransactionType.INCOME) {
+          income = Number(income) + Number(data.amount);
+          end_balance = Number(end_balance) + Number(data.amount);
+        } else if (data.transaction_type === TransactionType.EXPENSE) {
+          expenses = Number(expenses) + Number(data.amount);
+          end_balance = Number(end_balance) - Number(data.amount);
+        }
+        
+        // Ekstre güncelleme servisi ile bakiyeleri güncelle
+        const updateResult = await StatementService.updateStatementBalances(
+          data.statement_id,
+          income,
+          expenses,
+          end_balance
+        );
+        
+        if (!updateResult.success) {
+          console.error('Failed to update statement balances:', updateResult.error);
+        } else {
+          console.log('Statement balances updated successfully:', {
+            income, 
+            expenses,
+            end_balance,
+            statement_id: data.statement_id
+          });
+        }
+      } catch (updateError) {
+        // Ekstre güncelleme hatası durumunda işlemi iptal etme, sadece loglama yapma
+        console.error('Error updating statement balances:', updateError);
+      }
       
       return {
         success: true,
