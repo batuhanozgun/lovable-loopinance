@@ -52,10 +52,46 @@
     "statement": {
       "detail": {
         "failed": "Ekstre detayları yüklenemedi"
-      }
+      },
+      "notFound": "Ekstre bulunamadı",
+      "createFirst": "Önce bir ekstre oluşturmanız gerekiyor",
+      "loadFailed": "Ekstreler yüklenemedi"
     },
     "sorting": {
       "failed": "Hesap sıralaması güncellenirken bir hata oluştu"
+    },
+    "transaction": {
+      "noValidStatement": "Geçerli bir ekstre bulunamadı. Lütfen önce bir ekstre oluşturun."
     }
+  },
+  "transaction": {
+    "new": "Yeni İşlem",
+    "edit": "İşlemi Düzenle",
+    "add": "İşlem Ekle",
+    "update": "İşlemi Güncelle",
+    "delete": {
+      "title": "İşlemi Sil",
+      "confirmation": "Bu işlemi silmek istediğinizden emin misiniz? Bu eylem geri alınamaz.",
+      "confirm": "Sil"
+    },
+    "deleteSuccess": "İşlem başarıyla silindi",
+    "category": "Kategori",
+    "subcategory": "Alt Kategori",
+    "selectCategory": "Kategori seçin",
+    "selectSubcategory": "Alt kategori seçin",
+    "noCategory": "Kategori Yok",
+    "noSubcategory": "Alt Kategori Yok",
+    "date": "Tarih",
+    "time": "Saat",
+    "type": "Tür",
+    "description": "Açıklama",
+    "descriptionPlaceholder": "İşlem açıklaması girin",
+    "amount": "Tutar",
+    "types": {
+      "income": "Gelir",
+      "expense": "Gider"
+    },
+    "createSuccess": "İşlem başarıyla oluşturuldu",
+    "updateSuccess": "İşlem başarıyla güncellendi"
   }
 }

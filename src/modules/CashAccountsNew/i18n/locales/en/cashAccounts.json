@@ -52,10 +52,46 @@
     "statement": {
       "detail": {
         "failed": "Failed to load statement details"
-      }
+      },
+      "notFound": "Statement not found",
+      "createFirst": "You need to create a statement first",
+      "loadFailed": "Failed to load statements"
     },
     "sorting": {
       "failed": "Failed to update account order"
+    },
+    "transaction": {
+      "noValidStatement": "No valid statement found. Please create a statement first."
     }
+  },
+  "transaction": {
+    "new": "New Transaction",
+    "edit": "Edit Transaction",
+    "add": "Add Transaction",
+    "update": "Update Transaction",
+    "delete": {
+      "title": "Delete Transaction",
+      "confirmation": "Are you sure you want to delete this transaction? This action cannot be undone.",
+      "confirm": "Delete"
+    },
+    "deleteSuccess": "Transaction deleted successfully",
+    "category": "Category",
+    "subcategory": "Subcategory",
+    "selectCategory": "Select a category",
+    "selectSubcategory": "Select a subcategory",
+    "noCategory": "No Category",
+    "noSubcategory": "No Subcategory",
+    "date": "Date",
+    "time": "Time",
+    "type": "Type",
+    "description": "Description",
+    "descriptionPlaceholder": "Enter transaction description",
+    "amount": "Amount",
+    "types": {
+      "income": "Income",
+      "expense": "Expense"
+    },
+    "createSuccess": "Transaction created successfully",
+    "updateSuccess": "Transaction updated successfully"
   }
 }
