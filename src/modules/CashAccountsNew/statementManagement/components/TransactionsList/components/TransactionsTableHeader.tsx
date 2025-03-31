@@ -12,10 +12,10 @@ export const TransactionsTableHeader: React.FC = () => {
   return (
     <TableHeader>
       <TableRow>
-        <TableHead className="w-[120px]">{t('common:date', { ns: 'common' })}</TableHead>
+        <TableHead className="w-[120px]">{t('transaction.date', { ns: 'TransactionManagement' })}</TableHead>
         <TableHead className="min-w-[200px]">{t('transaction.description', { ns: 'TransactionManagement' })}</TableHead>
-        <TableHead>{t('common:type', { ns: 'common' })}</TableHead>
-        <TableHead className="text-right">{t('common:amount', { ns: 'common' })}</TableHead>
+        <TableHead>{t('transaction.type', { ns: 'TransactionManagement' })}</TableHead>
+        <TableHead className="text-right">{t('transaction.amount', { ns: 'TransactionManagement' })}</TableHead>
         <TableHead className="text-right w-[60px]"></TableHead>
       </TableRow>
     </TableHeader>

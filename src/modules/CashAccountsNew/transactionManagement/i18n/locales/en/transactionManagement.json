@@ -6,7 +6,7 @@
     "amount": "Amount",
     "date": "Date",
     "time": "Time",
-    "type": "Transaction Type",
+    "type": "Type",
     "types": {
       "income": "Income",
       "expense": "Expense"

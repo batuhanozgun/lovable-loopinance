@@ -6,7 +6,7 @@
     "amount": "Tutar",
     "date": "Tarih",
     "time": "Saat",
-    "type": "İşlem Türü",
+    "type": "Tip",
     "types": {
       "income": "Gelir",
       "expense": "Gider"
