@@ -1,0 +1,14 @@
+
+{
+  "account": {
+    "list": {
+      "failed": "Hesaplar getirilemedi"
+    },
+    "detail": {
+      "failed": "Hesap detayları getirilemedi"
+    }
+  },
+  "sorting": {
+    "failed": "Hesap sıralaması güncellenemedi"
+  }
+}

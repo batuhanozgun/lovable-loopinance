@@ -25,7 +25,7 @@ export const useCashAccountDnd = ({
   setAccounts 
 }: UseCashAccountDndProps) => {
   const { toast } = useToast();
-  const { t } = useTranslation(['CashAccountsNew', 'common']);
+  const { t } = useTranslation(['CashAccountHomepage', 'common']);
 
   // DnD sensörlerini oluştur
   const sensors = useSensors(
@@ -70,14 +70,14 @@ export const useCashAccountDnd = ({
         toast({
           variant: 'destructive',
           title: t('common:error'),
-          description: result.error || t('CashAccountsNew:errors.sorting.failed'),
+          description: result.error || t('errors.sorting.failed'),
         });
       }
     } catch (error) {
       toast({
         variant: 'destructive',
         title: t('common:error'),
-        description: error instanceof Error ? error.message : t('CashAccountsNew:errors.sorting.failed'),
+        description: error instanceof Error ? error.message : t('errors.sorting.failed'),
       });
     }
   };

@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
  * Kullanıcının nakit hesaplarını getiren hook
  */
 export const useCashAccounts = () => {
-  const { t } = useTranslation(['CashAccountsNew', 'common']);
+  const { t } = useTranslation(['CashAccountHomepage', 'common']);
   const { toast } = useToast();
 
   return useQuery({
@@ -21,7 +21,7 @@ export const useCashAccounts = () => {
         toast({
           variant: 'destructive',
           title: t('common:error'),
-          description: response.error || t('CashAccountsNew:errors.account.list.failed'),
+          description: response.error || t('errors.account.list.failed'),
         });
         return [];
       }

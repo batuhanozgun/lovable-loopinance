@@ -1,0 +1,32 @@
+
+{
+  "title": "Nakit Hesaplar",
+  "newAccount": "Yeni Hesap Oluştur",
+  "createAccount": "İlk Hesabını Oluştur",
+  "noAccounts": "Henüz hiç nakit hesabınız yok. Bir tane oluşturmak ister misiniz?",
+  "description": "Finanslarınızı takip etmeye başlamak için bir nakit hesap oluşturun.",
+  "edit": "Hesabı Düzenle",
+  "delete": "Hesabı Sil",
+  "viewDetails": "Detayları Görüntüle",
+  "statements": "Ekstreler",
+  "actions": "İşlemler",
+  "accountBalance": "Bakiye",
+  "editNotImplemented": "Düzenleme Uygulanmadı",
+  "deleteNotImplemented": "Silme Uygulanmadı",
+  "transaction": {
+    "add": "İşlem Ekle"
+  },
+  "errors": {
+    "account": {
+      "list": {
+        "failed": "Hesaplar getirilemedi"
+      },
+      "detail": {
+        "failed": "Hesap detayları getirilemedi"
+      }
+    },
+    "sorting": {
+      "failed": "Hesap sıralaması güncellenemedi"
+    }
+  }
+}

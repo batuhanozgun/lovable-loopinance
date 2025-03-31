@@ -1,0 +1,32 @@
+
+{
+  "title": "Cash Accounts",
+  "newAccount": "Create New Account",
+  "createAccount": "Create Your First Account",
+  "noAccounts": "You don't have any cash accounts yet. Would you like to create one?",
+  "description": "Create a cash account to start tracking your finances.",
+  "edit": "Edit Account",
+  "delete": "Delete Account",
+  "viewDetails": "View Details",
+  "statements": "Statements",
+  "actions": "Actions",
+  "accountBalance": "Balance",
+  "editNotImplemented": "Edit Not Implemented",
+  "deleteNotImplemented": "Delete Not Implemented",
+  "transaction": {
+    "add": "Add Transaction"
+  },
+  "errors": {
+    "account": {
+      "list": {
+        "failed": "Failed to fetch accounts"
+      },
+      "detail": {
+        "failed": "Failed to fetch account details"
+      }
+    },
+    "sorting": {
+      "failed": "Failed to update account order"
+    }
+  }
+}

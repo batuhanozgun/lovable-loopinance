@@ -9,7 +9,7 @@ import { CashAccountManagementService } from '../../accountManagement/services/C
  * Belirli bir nakit hesabını ID'ye göre getiren hook
  */
 export const useCashAccount = (id: string | undefined) => {
-  const { t } = useTranslation(['CashAccountsNew', 'common']);
+  const { t } = useTranslation(['CashAccountHomepage', 'common']);
   const { toast } = useToast();
 
   return useQuery({

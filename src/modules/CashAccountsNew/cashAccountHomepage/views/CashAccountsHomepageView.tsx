@@ -19,7 +19,7 @@ import { StatementFinderService } from '../../transactionManagement/services/Sta
  * Nakit Hesaplar ana görünümü
  */
 export const CashAccountsHomepageView: React.FC = () => {
-  const { t } = useTranslation(['CashAccountsNew']);
+  const { t } = useTranslation(['CashAccountHomepage']);
   const { toast } = useToast();
   const { data: fetchedAccounts, isLoading, isError } = useCashAccounts();
   const [accounts, setAccounts] = useState<CashAccount[]>([]);
@@ -71,14 +71,14 @@ export const CashAccountsHomepageView: React.FC = () => {
   // Diğer işlevler (düzenleme ve silme için geçici işlevler)
   const handleEdit = (account: CashAccount) => {
     toast({
-      title: t('CashAccountsNew:editNotImplemented'),
+      title: t('editNotImplemented'),
       description: `${account.name} hesabını düzenleme işlevi henüz uygulanmadı.`,
     });
   };
 
   const handleDelete = (account: CashAccount) => {
     toast({
-      title: t('CashAccountsNew:deleteNotImplemented'),
+      title: t('deleteNotImplemented'),
       description: `${account.name} hesabını silme işlevi henüz uygulanmadı.`,
     });
   };
@@ -120,14 +120,14 @@ export const CashAccountsHomepageView: React.FC = () => {
       return (
         <div className="rounded-lg border border-dashed p-12 text-center">
           <h3 className="text-lg font-medium mb-2">
-            {t('CashAccountsNew:noAccounts')}
+            {t('noAccounts')}
           </h3>
           <p className="text-muted-foreground mb-4">
-            {t('CashAccountsNew:description')}
+            {t('description')}
           </p>
           <Button asChild>
             <Link to="/nakit-hesaplar/new">
-              {t('CashAccountsNew:createAccount')}
+              {t('createAccount')}
             </Link>
           </Button>
         </div>
@@ -165,12 +165,12 @@ export const CashAccountsHomepageView: React.FC = () => {
     <div className="container py-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">
-          {t('CashAccountsNew:title')}
+          {t('title')}
         </h1>
         <Button asChild>
           <Link to="/nakit-hesaplar/new">
             <PlusCircle className="mr-2 h-4 w-4" />
-            {t('CashAccountsNew:newAccount')}
+            {t('newAccount')}
           </Link>
         </Button>
       </div>
@@ -179,7 +179,7 @@ export const CashAccountsHomepageView: React.FC = () => {
       
       {isError && (
         <div className="p-4 border border-destructive text-destructive rounded-md">
-          {t('CashAccountsNew:errors.account.list.failed')}
+          {t('errors.account.list.failed')}
         </div>
       )}
       

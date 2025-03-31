@@ -28,7 +28,7 @@ export const MobileActions: React.FC<MobileActionsProps> = ({
   onDelete,
   onAddTransaction
 }) => {
-  const { t } = useTranslation(['CashAccountsNew', 'common']);
+  const { t } = useTranslation(['CashAccountHomepage', 'common']);
   const { id } = account;
 
   return (
@@ -43,7 +43,7 @@ export const MobileActions: React.FC<MobileActionsProps> = ({
         {onAddTransaction && (
           <DropdownMenuItem onClick={() => onAddTransaction(account)}>
             <PlusCircle className="mr-2 h-4 w-4" />
-            {t('CashAccountsNew:transaction.add')}
+            {t('CashAccountHomepage:transaction.add')}
           </DropdownMenuItem>
         )}
         <DropdownMenuItem asChild>

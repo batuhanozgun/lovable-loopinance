@@ -28,7 +28,7 @@ export const DesktopActions: React.FC<DesktopActionsProps> = ({
   onDelete,
   onAddTransaction
 }) => {
-  const { t } = useTranslation(['CashAccountsNew']);
+  const { t } = useTranslation(['CashAccountHomepage']);
   const { id } = account;
 
   return (
@@ -47,7 +47,7 @@ export const DesktopActions: React.FC<DesktopActionsProps> = ({
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              <p>{t('CashAccountsNew:transaction.add')}</p>
+              <p>{t('transaction.add')}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -68,7 +68,7 @@ export const DesktopActions: React.FC<DesktopActionsProps> = ({
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>{t('CashAccountsNew:statements')}</p>
+            <p>{t('statements')}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -88,7 +88,7 @@ export const DesktopActions: React.FC<DesktopActionsProps> = ({
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>{t('CashAccountsNew:viewDetails')}</p>
+            <p>{t('viewDetails')}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -107,7 +107,7 @@ export const DesktopActions: React.FC<DesktopActionsProps> = ({
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              <p>{t('CashAccountsNew:edit')}</p>
+              <p>{t('edit')}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -127,7 +127,7 @@ export const DesktopActions: React.FC<DesktopActionsProps> = ({
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              <p>{t('CashAccountsNew:delete')}</p>
+              <p>{t('delete')}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

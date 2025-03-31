@@ -1,45 +1,8 @@
 
 {
-  "account": {
-    "create": {
-      "failed": "Failed to create account",
-      "networkError": "Network error while creating account",
-      "unknownError": "An unknown error occurred"
-    },
-    "fetch": {
-      "failed": "Failed to fetch accounts",
-      "networkError": "Network error while fetching accounts",
-      "unknownError": "An unknown error occurred"
-    }
-  },
   "statement": {
     "notFound": "Statement not found",
     "createFirst": "You need to create a statement first",
     "loadFailed": "Failed to load statements"
-  },
-  "transaction": {
-    "create": {
-      "failed": "Failed to create transaction",
-      "invalidAmount": "Invalid amount format",
-      "networkError": "Network error while creating transaction",
-      "missingField": "Required fields are missing",
-      "statementClosed": "Cannot add transactions to a closed statement period",
-      "invalidStatementId": "Invalid statement selected", 
-      "insufficientPermissions": "You don't have permission to add transactions to this account"
-    },
-    "update": {
-      "failed": "Failed to update transaction",
-      "invalidAmount": "Invalid amount format",
-      "networkError": "Network error while updating transaction",
-      "idMissing": "Transaction ID is missing",
-      "statementClosed": "Cannot modify transactions in a closed statement period",
-      "insufficientPermissions": "You don't have permission to update this transaction"
-    },
-    "delete": {
-      "failed": "Failed to delete transaction",
-      "statementClosed": "Cannot delete transactions from a closed statement period",
-      "insufficientPermissions": "You don't have permission to delete this transaction"
-    },
-    "noValidStatement": "No valid statement found for the selected date. Please select a different date or create a new statement."
   }
 }
