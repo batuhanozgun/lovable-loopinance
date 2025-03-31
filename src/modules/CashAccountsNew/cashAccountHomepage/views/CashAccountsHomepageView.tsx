@@ -7,7 +7,7 @@ import { PlusCircle } from 'lucide-react';
 import { useCashAccounts } from '../hooks/useCashAccounts';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
-import { CashAccount } from '../types';
+import { CashAccount, CurrencyType } from '../types';
 import { DndContext, closestCenter } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { DraggableCashAccountRow } from '../components/DraggableCashAccountRow';
@@ -190,7 +190,7 @@ export const CashAccountsHomepageView: React.FC = () => {
           onClose={handleCloseTransactionForm}
           accountId={selectedAccount.id}
           statementId={activeStatementId}
-          currency={selectedAccount.currency}
+          currency={selectedAccount.currency as CurrencyType}
         />
       )}
     </div>
