@@ -1,4 +1,3 @@
-
 import { Home, BarChart3, Settings, User, CreditCard, Grid, List, Package, DollarSign, LayoutDashboard, FolderClosed, Bookmark, Banknote } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 
@@ -40,7 +39,7 @@ export const getNavigationItems = (): NavigationGroup[] => {
           icon: Home 
         },
         { 
-          label: 'AppLayout:navigation.nakitHesaplar', 
+          label: 'AppLayout:navigation.cashAccounts', 
           path: '/nakit-hesaplar', 
           icon: Banknote,
           requiresSubscription: true
