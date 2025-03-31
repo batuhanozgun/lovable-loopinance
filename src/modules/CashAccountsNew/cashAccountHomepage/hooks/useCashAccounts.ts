@@ -27,6 +27,9 @@ export const useCashAccounts = () => {
       }
       
       return response.data as CashAccount[];
-    }
+    },
+    // İşlem sonrası otomatik yenileme için ayarlar
+    staleTime: 0, // Verileri her zaman güncel olarak işaretle
+    refetchOnWindowFocus: true, // Pencere odaklandığında otomatik olarak yenile
   });
 };

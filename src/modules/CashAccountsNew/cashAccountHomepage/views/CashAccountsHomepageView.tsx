@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -21,25 +20,17 @@ import { StatementFinderService } from '../../transactionManagement/services/Sta
 export const CashAccountsHomepageView: React.FC = () => {
   const { t } = useTranslation(['CashAccountHomepage']);
   const { toast } = useToast();
-  const { data: fetchedAccounts, isLoading, isError } = useCashAccounts();
-  const [accounts, setAccounts] = useState<CashAccount[]>([]);
+  const { data: accounts, isLoading, isError, refetch } = useCashAccounts();
 
   // İşlem formu modalı için state
   const [isTransactionFormOpen, setIsTransactionFormOpen] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState<CashAccount | null>(null);
   const [activeStatementId, setActiveStatementId] = useState<string | undefined>(undefined);
 
-  // Hesap verilerini state'e aktar
-  useEffect(() => {
-    if (fetchedAccounts) {
-      setAccounts(fetchedAccounts);
-    }
-  }, [fetchedAccounts]);
-
   // Sürükle-bırak işlevselliğini yöneten hook
   const { sensors, handleDragEnd } = useCashAccountDnd({
-    accounts,
-    setAccounts
+    accounts: accounts || [],
+    setAccounts: () => refetch() // Sıralama değişince doğrudan verileri yeniden çek
   });
 
   // İşlem ekleme modalını aç
@@ -83,11 +74,14 @@ export const CashAccountsHomepageView: React.FC = () => {
     });
   };
 
-  // İşlem formunu kapat
+  // İşlem formunu kapat ve verileri yenile
   const handleCloseTransactionForm = () => {
     setIsTransactionFormOpen(false);
     setSelectedAccount(null);
     setActiveStatementId(undefined);
+    
+    // Form kapatıldığında verileri yenile
+    refetch();
   };
 
   // Yükleme durumu için iskelet

@@ -51,14 +51,17 @@ export const useTransactionForm = () => {
       }
       
       // İlgili sorguları geçersiz kılarak verileri yenile
-      queryClient.invalidateQueries({ queryKey: ['statementTransactions', data.statement_id] });
-      queryClient.invalidateQueries({ queryKey: ['statement', data.statement_id] });
-      queryClient.invalidateQueries({ queryKey: ['statements', data.account_id] });
+      console.log('Invalidating and refetching queries after transaction creation');
       
-      // Ana sayfadaki hesap listesini güncellemek için doğru query key'i geçersiz kıl
-      queryClient.invalidateQueries({ queryKey: ['cashAccountsNew'] });
+      // İşlem oluşturulduktan sonra tüm sorguları geçersiz kıl ve yeniden çek
+      await queryClient.invalidateQueries({ queryKey: ['statementTransactions', data.statement_id] });
+      await queryClient.invalidateQueries({ queryKey: ['statement', data.statement_id] });
+      await queryClient.invalidateQueries({ queryKey: ['statements', data.account_id] });
       
-      console.log('Transaction created successfully, cache invalidated');
+      // Ana sayfadaki hesap listesini güncellemek için doğru query key'i geçersiz kıl ve yeniden çek
+      await queryClient.refetchQueries({ queryKey: ['cashAccountsNew'] });
+      
+      console.log('Transaction created successfully, cache invalidated and refetched');
       
       toast({
         title: t('common:success'),
