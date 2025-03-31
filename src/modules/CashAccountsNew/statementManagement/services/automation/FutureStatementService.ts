@@ -14,7 +14,7 @@ import {
 } from '../../types';
 import { StatementCreationService } from '../core/creation/StatementCreationService';
 import { StatementPeriodService } from '../core/period/StatementPeriodService';
-import { format, addMonths } from 'date-fns';
+import { format } from 'date-fns';
 
 /**
  * Gelecek dönem ekstre oluşturma servisi
@@ -83,9 +83,8 @@ export class FutureStatementService {
         const nextStartDate = new Date(lastEndDate);
         nextStartDate.setDate(nextStartDate.getDate() + 1);
         
-        // Bir sonraki ay için dönem hesapla
-        const nextMonthDate = addMonths(nextStartDate, 1);
-        const nextPeriod = StatementPeriodService.calculateNextPeriod(cashAccount, nextMonthDate);
+        // Bir sonraki dönem için hesapla - addMonths burada kaldırıldı
+        const nextPeriod = StatementPeriodService.calculateNextPeriod(cashAccount, nextStartDate);
         
         // Gelecek ekstreyi oluştur
         const newStatementData: CreateAccountStatementData = {
@@ -273,9 +272,8 @@ export class FutureStatementService {
         const nextStartDate = new Date(lastEndDate);
         nextStartDate.setDate(nextStartDate.getDate() + 1);
         
-        // Bir sonraki ay için dönem hesapla
-        const nextMonthDate = addMonths(nextStartDate, 1);
-        const nextPeriod = StatementPeriodService.calculateNextPeriod(cashAccount, nextMonthDate);
+        // Bir sonraki dönem için hesapla - addMonths burada kaldırıldı
+        const nextPeriod = StatementPeriodService.calculateNextPeriod(cashAccount, nextStartDate);
         
         // Gelecek ekstreyi oluştur
         const newStatementData: CreateAccountStatementData = {
