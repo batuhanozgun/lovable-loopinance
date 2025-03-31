@@ -48,36 +48,5 @@
     "transactions": "Transactions",
     "summary": "Statement Summary",
     "details": "Statement Details"
-  },
-  "transaction": {
-    "new": "New Transaction",
-    "edit": "Edit Transaction",
-    "addNew": "Add New Transaction",
-    "type": "Transaction Type",
-    "types": {
-      "income": "Income",
-      "expense": "Expense"
-    },
-    "amount": "Amount",
-    "date": "Date",
-    "time": "Time",
-    "pickDate": "Pick a date",
-    "category": "Category",
-    "chooseCategory": "Choose Category",
-    "subcategory": "Subcategory",
-    "chooseSubcategory": "Choose Subcategory",
-    "noSubcategories": "No subcategories for this category",
-    "description": "Description",
-    "cancel": "Cancel",
-    "submit": "Save",
-    "selectedStatement": "Selected Statement",
-    "noStatementSelected": "No statement selected",
-    "unlockStatement": "Unlock statement",
-    "lockStatement": "Lock statement",
-    "warning": {
-      "closedStatement": "You are adding a transaction to a closed statement. This will change the closing balance of this statement and the opening and closing balances of subsequent statements.",
-      "futureStatement": "You are adding a transaction to a future statement period. Please ensure the transaction date falls within the statement period.",
-      "unknownStatus": "You are adding a transaction to a statement with status '{{status}}'."
-    }
   }
 }

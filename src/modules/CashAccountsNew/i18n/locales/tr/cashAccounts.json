@@ -48,36 +48,5 @@
     "transactions": "İşlemler",
     "summary": "Ekstre Özeti",
     "details": "Ekstre Detayları"
-  },
-  "transaction": {
-    "new": "Yeni İşlem",
-    "edit": "İşlemi Düzenle",
-    "addNew": "Yeni İşlem Ekle",
-    "type": "İşlem Türü",
-    "types": {
-      "income": "Gelir",
-      "expense": "Gider"
-    },
-    "amount": "Tutar",
-    "date": "Tarih",
-    "time": "Saat",
-    "pickDate": "Tarih Seç",
-    "category": "Kategori",
-    "chooseCategory": "Kategori Seç",
-    "subcategory": "Alt Kategori",
-    "chooseSubcategory": "Alt Kategori Seç",
-    "noSubcategories": "Bu kategori için alt kategori bulunmamaktadır",
-    "description": "Açıklama",
-    "cancel": "İptal",
-    "submit": "Kaydet",
-    "selectedStatement": "Seçilen Ekstre",
-    "noStatementSelected": "Ekstre seçilmedi",
-    "unlockStatement": "Ekstre kilidini aç",
-    "lockStatement": "Ekstreyi kilitle",
-    "warning": {
-      "closedStatement": "Kapalı bir ekstreye işlem ekliyorsunuz. Bu, ekstrenin kapanış bakiyesini ve sonraki ekstrelerin başlangıç ve kapanış bakiyelerini değiştirecektir.",
-      "futureStatement": "Gelecek döneme ait bir ekstreye işlem ekliyorsunuz. Bu işlemin gerçekleşme tarihinin ekstre dönemi içinde olduğundan emin olun.",
-      "unknownStatus": "Ekstre durumu '{{status}}' olan bir ekstreye işlem ekliyorsunuz."
-    }
   }
 }
