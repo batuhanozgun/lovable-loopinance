@@ -59,9 +59,7 @@ export const DeleteTransactionDialog: React.FC<DeleteTransactionDialogProps> = (
   return (
     <Dialog 
       open={isOpen} 
-      onOpenChange={(open) => {
-        if (!open) onClose();
-      }}
+      onOpenChange={onClose}
     >
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
