@@ -102,7 +102,7 @@ export class StatementBalanceCalculationService {
   }
 
   /**
-   * Ekstre zincirindeki tüm ekstreleri günceller (atomik işlem)
+   * Ekstre zincirindeki tüm ekstreleri günceller (sıralı işlem)
    * @param accountId Hesap ID
    * @param startStatementId Başlangıç ekstre ID
    * @param balanceChange Bakiye değişim miktarı
@@ -114,7 +114,7 @@ export class StatementBalanceCalculationService {
     balanceChange: number
   ): Promise<boolean> {
     try {
-      this.logger.debug('Starting atomic chain update for statements', { 
+      this.logger.debug('Starting chain update for statements', { 
         accountId, 
         startStatementId, 
         balanceChange 
@@ -152,17 +152,8 @@ export class StatementBalanceCalculationService {
         statementIds: affectedStatements.map(s => s.id)
       });
       
-      // Atomik işlem için begin transaction
-      // İşlem atomik olduğu için her ekstre tek tek güncellenir, 
-      // her biri için ayrı servis çağrısı yapılmaz.
-      const { error: txnError } = await supabase.rpc('begin_transaction');
-      if (txnError) {
-        this.logger.error('Failed to begin transaction for chain update', { error: txnError });
-        return false;
-      }
-      
       try {
-        // Her ekstrenin bakiyesini güncelle
+        // Her ekstrenin bakiyesini sırayla güncelle
         for (let i = 0; i < affectedStatements.length; i++) {
           const currentStatement = affectedStatements[i];
           
@@ -193,10 +184,14 @@ export class StatementBalanceCalculationService {
               .select();
             
             if (updateError) {
-              throw new Error(`Failed to update start statement: ${updateError.message}`);
+              this.logger.error('Failed to update start statement', { 
+                statementId: currentStatement.id,
+                error: updateError
+              });
+              return false;
             }
             
-            this.logger.debug('Updated start statement in transaction', { 
+            this.logger.debug('Updated start statement', { 
               statementId: currentStatement.id,
               newIncome,
               newExpenses,
@@ -225,10 +220,14 @@ export class StatementBalanceCalculationService {
               .select();
             
             if (updateError) {
-              throw new Error(`Failed to update subsequent statement: ${updateError.message}`);
+              this.logger.error('Failed to update subsequent statement', { 
+                statementId: currentStatement.id,
+                error: updateError
+              });
+              return false;
             }
             
-            this.logger.debug('Updated subsequent statement in transaction', { 
+            this.logger.debug('Updated subsequent statement', { 
               statementId: currentStatement.id,
               newStartBalance,
               newEndBalance
@@ -236,14 +235,7 @@ export class StatementBalanceCalculationService {
           }
         }
         
-        // İşlemi kaydet (commit)
-        const { error: commitError } = await supabase.rpc('commit_transaction');
-        if (commitError) {
-          this.logger.error('Failed to commit transaction for chain update', { error: commitError });
-          return false;
-        }
-        
-        this.logger.info('Successfully completed atomic statement chain update', { 
+        this.logger.info('Successfully completed statement chain update', { 
           accountId, 
           startStatementId,
           affectedStatementsCount: affectedStatements.length
@@ -251,13 +243,7 @@ export class StatementBalanceCalculationService {
         
         return true;
       } catch (chainError) {
-        // Hata durumunda işlemi geri al (rollback)
-        const { error: rollbackError } = await supabase.rpc('rollback_transaction');
-        if (rollbackError) {
-          this.logger.error('Failed to rollback transaction after chain update error', { error: rollbackError });
-        }
-        
-        this.logger.error('Error during statement chain update, transaction rolled back', { 
+        this.logger.error('Error during statement chain update', { 
           accountId, 
           startStatementId, 
           error: chainError 
