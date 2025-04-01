@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { tr, enUS } from 'date-fns/locale';
 import { format } from 'date-fns';

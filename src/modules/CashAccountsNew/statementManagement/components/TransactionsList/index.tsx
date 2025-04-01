@@ -77,6 +77,7 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
     if (!selectedTransaction) return;
     
     try {
+      // Silme işlemini başlat
       const success = await deleteTransaction(
         selectedTransaction.id,
         selectedTransaction.account_id,
@@ -84,10 +85,13 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
       );
       
       if (success) {
+        // Silme başarılı olduysa diyaloğu kapat
         handleCloseDeleteDialog();
       }
     } catch (error) {
       console.error("İşlem silme hatası:", error);
+      // Hata durumunda da diyaloğu kapatıyoruz
+      handleCloseDeleteDialog();
     }
   };
 
@@ -136,15 +140,17 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
         </CardContent>
       </Card>
       
-      {/* İşlem Silme Dialog */}
-      <DeleteTransactionDialog
-        isOpen={isDeleteDialogOpen}
-        isDeleting={isDeleting}
-        onClose={handleCloseDeleteDialog}
-        onConfirm={confirmDelete}
-        transaction={selectedTransaction}
-        currency={currency}
-      />
+      {/* İşlem Silme Dialog - Sadece isDeleteDialogOpen true ise render et */}
+      {isDeleteDialogOpen && (
+        <DeleteTransactionDialog
+          isOpen={isDeleteDialogOpen}
+          isDeleting={isDeleting}
+          onClose={handleCloseDeleteDialog}
+          onConfirm={confirmDelete}
+          transaction={selectedTransaction}
+          currency={currency}
+        />
+      )}
     </>
   );
 };
