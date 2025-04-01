@@ -13,8 +13,12 @@ import {
   TransactionsTableHeader,
   TransactionRow
 } from './components';
-import { useTransactionsList } from '../../hooks/useTransactionsList';
+import { 
+  useTransactionsList,
+  useTransactionDelete
+} from '../../hooks';
 import { AccountTransaction } from '../../types/transaction';
+import { DeleteTransactionDialog } from './components/DeleteTransactionDialog';
 
 interface TransactionsListProps {
   statementId: string;
@@ -28,6 +32,10 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
   const { t } = useTranslation('StatementManagement');
   const { toast } = useToast();
   const [selectedTransaction, setSelectedTransaction] = useState<AccountTransaction | null>(null);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  
+  // Silme hook'unu kullan
+  const { deleteTransaction, isDeleting } = useTransactionDelete();
   
   // Veri çekme ve filtreleme işlemleri için kancamızı kullanıyoruz
   const { 
@@ -52,11 +60,24 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
 
   // Silme işlemi için
   const handleDeleteTransaction = (transaction: AccountTransaction) => {
-    // Silme onayı daha sonra uygulanacak
-    toast({
-      title: t('common:info', { ns: 'common' }),
-      description: t('common:featureComingSoon', { ns: 'common' }),
-    });
+    setSelectedTransaction(transaction);
+    setIsDeleteDialogOpen(true);
+  };
+  
+  // Silme onayı işlemi
+  const confirmDelete = async () => {
+    if (!selectedTransaction) return;
+    
+    const success = await deleteTransaction(
+      selectedTransaction.id,
+      selectedTransaction.account_id,
+      selectedTransaction.statement_id
+    );
+    
+    if (success) {
+      setIsDeleteDialogOpen(false);
+      setSelectedTransaction(null);
+    }
   };
 
   // Yükleme durumu
@@ -65,42 +86,54 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex justify-between items-center">
-          <CardTitle>{t('transactions.title')}</CardTitle>
-          <div className="flex space-x-2">
-            <FilterDropdownMenu 
-              onFilterByType={filterByType}
-              onResetFilters={resetFilters}
-            />
-            <SortDropdownMenu 
-              onSortByDate={sortByDate}
-              onSortByAmount={sortByAmount}
-            />
+    <>
+      <Card>
+        <CardHeader>
+          <div className="flex justify-between items-center">
+            <CardTitle>{t('transactions.title')}</CardTitle>
+            <div className="flex space-x-2">
+              <FilterDropdownMenu 
+                onFilterByType={filterByType}
+                onResetFilters={resetFilters}
+              />
+              <SortDropdownMenu 
+                onSortByDate={sortByDate}
+                onSortByAmount={sortByAmount}
+              />
+            </div>
           </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-        {transactions && transactions.length > 0 ? (
-          <Table>
-            <TransactionsTableHeader />
-            <TableBody>
-              {transactions.map((transaction) => (
-                <TransactionRow 
-                  key={transaction.id}
-                  transaction={transaction} 
-                  currency={currency}
-                  onEdit={handleEditTransaction}
-                  onDelete={handleDeleteTransaction}
-                />
-              ))}
-            </TableBody>
-          </Table>
-        ) : (
-          <EmptyTransactionsState />
-        )}
-      </CardContent>
-    </Card>
+        </CardHeader>
+        <CardContent>
+          {transactions && transactions.length > 0 ? (
+            <Table>
+              <TransactionsTableHeader />
+              <TableBody>
+                {transactions.map((transaction) => (
+                  <TransactionRow 
+                    key={transaction.id}
+                    transaction={transaction} 
+                    currency={currency}
+                    onEdit={handleEditTransaction}
+                    onDelete={handleDeleteTransaction}
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <EmptyTransactionsState />
+          )}
+        </CardContent>
+      </Card>
+      
+      {/* İşlem Silme Dialog */}
+      <DeleteTransactionDialog
+        isOpen={isDeleteDialogOpen}
+        isDeleting={isDeleting}
+        onClose={() => setIsDeleteDialogOpen(false)}
+        onConfirm={confirmDelete}
+        transaction={selectedTransaction}
+        currency={currency}
+      />
+    </>
   );
 };

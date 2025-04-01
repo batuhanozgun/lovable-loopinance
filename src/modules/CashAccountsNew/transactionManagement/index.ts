@@ -10,6 +10,8 @@ export { useTransactionFormSetup } from './hooks/useTransactionFormSetup';
 
 // Services
 export { TransactionCreationService } from './services/TransactionCreationService';
+export { TransactionUpdateService } from './services/TransactionUpdateService';
+export { TransactionDeleteService } from './services/TransactionDeleteService';
 export { StatementFinderService } from './services/StatementFinderService';
 
 // Types

@@ -1,37 +1,21 @@
 
 {
   "transaction": {
-    "new": "Yeni İşlem",
-    "add": "İşlem Ekle",
-    "amount": "Tutar",
-    "date": "Tarih",
-    "time": "Saat",
-    "type": "Tip",
-    "types": {
-      "income": "Gelir",
-      "expense": "Gider"
-    },
-    "category": "Kategori",
-    "subcategory": "Alt Kategori",
-    "description": "Açıklama",
-    "descriptionPlaceholder": "Bir açıklama girin",
-    "selectCategory": "Bir kategori seçin",
-    "selectSubcategory": "Bir alt kategori seçin",
-    "noCategory": "Kategori Yok",
-    "noSubcategory": "Alt Kategori Yok",
-    "pickDate": "Bir tarih seçin",
-    "createSuccess": "İşlem başarıyla oluşturuldu",
-    "selectedStatement": "Seçilen Ekstre Dönemi",
-    "noStatementSelected": "Ekstre dönemi seçilmedi",
-    "warning": {
-      "loadingStatement": "Ekstre bilgileri yükleniyor...",
-      "noStatement": "Geçerli bir ekstre bulunamadı",
-      "activeStatement": "Aktif ekstre dönemi",
-      "closedStatement": "Bu ekstre dönemi kapalı",
-      "futureStatement": "Bu gelecek bir ekstre dönemidir",
-      "unknownStatus": "Ekstre durumu: {{status}}"
-    },
-    "lockStatement": "Ekstre seçimini kilitle",
-    "unlockStatement": "Ekstre seçimini aç"
+    "updateSuccess": "İşlem başarıyla güncellendi",
+    "deleteSuccess": "İşlem başarıyla silindi"
+  },
+  "errors": {
+    "transaction": {
+      "update": {
+        "failed": "İşlem güncellenirken bir hata oluştu",
+        "statementClosed": "Kapalı döneme ait işlemleri güncelleyemezsiniz",
+        "insufficientPermissions": "Bu işlemi güncelleme yetkiniz yok"
+      },
+      "delete": {
+        "failed": "İşlem silinirken bir hata oluştu",
+        "statementClosed": "Kapalı döneme ait işlemleri silemezsiniz",
+        "insufficientPermissions": "Bu işlemi silme yetkiniz yok"
+      }
+    }
   }
 }

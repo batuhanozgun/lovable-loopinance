@@ -1,77 +1,81 @@
 
 {
   "statements": {
-    "title": "Ekstre",
-    "startBalance": "Açılış Bakiyesi",
-    "endBalance": "Kapanış Bakiyesi",
+    "title": "Ekstreler",
+    "period": "Dönem",
     "income": "Gelir",
     "expenses": "Gider",
-    "period": "Dönem",
-    "status": {
-      "title": "Durum",
+    "balance": "Bakiye",
+    "status": "Durum",
+    "startDate": "Başlangıç",
+    "endDate": "Bitiş",
+    "details": "Detaylar",
+    "noStatements": "Henüz ekstre bulunmamaktadır",
+    "loadingStatements": "Ekstreler yükleniyor...",
+    "createStatement": "Ekstre Oluştur",
+    "statuses": {
       "open": "Açık",
       "closed": "Kapalı",
-      "future": "Gelecek"
-    },
-    "viewDetails": "Detayları Görüntüle",
-    "empty": {
-      "noStatements": "Hesap için ekstre bulunamadı",
-      "statementInfo": "Ekstreler, işlemlerinizi takip etmenize yardımcı olur. Yeni bir dönem oluşturmak için aşağıdaki butona tıklayabilirsiniz."
-    },
-    "buttons": {
-      "refreshStatements": "Ekstreleri Yenile",
-      "createStatement": "Ekstre Oluştur"
-    },
-    "toasts": {
-      "statementCheckComplete": "Ekstre kontrolü tamamlandı",
-      "newStatementCreated": "Yeni ekstre oluşturuldu",
-      "statementCheckFailed": "Ekstre kontrolü başarısız oldu",
-      "statementCheckError": "Ekstre kontrolü sırasında bir hata oluştu"
+      "pending": "Beklemede"
     }
   },
   "transactions": {
     "title": "İşlemler",
     "new": "Yeni İşlem",
-    "edit": "İşlemi Düzenle",
-    "delete": "İşlemi Sil",
-    "empty": "Bu ekstre için işlem bulunamadı",
-    "filters": {
-      "showAll": "Tümünü Göster",
-      "showIncome": "Gelirleri Göster",
-      "showExpenses": "Giderleri Göster",
-      "sortByDateDesc": "Tarihe Göre Sırala (Yeni)",
-      "sortByDateAsc": "Tarihe Göre Sırala (Eski)",
-      "sortByAmountDesc": "Tutara Göre Sırala (Yüksek)",
-      "sortByAmountAsc": "Tutara Göre Sırala (Düşük)"
+    "edit": "Düzenle",
+    "delete": {
+      "title": "İşlemi Sil",
+      "description": "Bu işlemi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz."
+    },
+    "date": "Tarih",
+    "description": "Açıklama",
+    "category": "Kategori",
+    "amount": "Tutar",
+    "actions": "İşlemler",
+    "type": "Tür",
+    "noTransactions": "Bu dönemde henüz işlem bulunmamaktadır",
+    "filter": {
+      "title": "Filtrele",
+      "all": "Tümü",
+      "income": "Gelirler",
+      "expense": "Giderler",
+      "reset": "Filtreleri Sıfırla"
+    },
+    "sort": {
+      "title": "Sırala",
+      "dateAsc": "Tarih (Eskiden Yeniye)",
+      "dateDesc": "Tarih (Yeniden Eskiye)",
+      "amountAsc": "Tutar (Azdan Çoka)",
+      "amountDesc": "Tutar (Çoktan Aza)",
+      "reset": "Sıralamayı Sıfırla"
     }
   },
   "errors": {
     "account": {
-      "detail": {
-        "failed": "Hesap detayları yüklenemedi"
+      "list": {
+        "failed": "Hesaplar yüklenirken bir hata oluştu"
       },
-      "notFound": "Hesap bulunamadı"
+      "detail": {
+        "failed": "Hesap bilgileri yüklenirken bir hata oluştu"
+      }
     },
     "statement": {
-      "detail": {
-        "failed": "Ekstre detayları yüklenemedi"
-      },
       "list": {
-        "failed": "Ekstreler yüklenemedi"
+        "failed": "Ekstreler yüklenirken bir hata oluştu"
+      },
+      "detail": {
+        "failed": "Ekstre bilgileri yüklenirken bir hata oluştu"
+      },
+      "create": {
+        "failed": "Ekstre oluşturulurken bir hata oluştu"
       }
     },
     "transaction": {
       "list": {
-        "failed": "İşlemler yüklenemedi"
+        "failed": "İşlemler yüklenirken bir hata oluştu"
       },
-      "create": {
-        "failed": "İşlem oluşturulamadı"
-      },
-      "update": {
-        "failed": "İşlem güncellenemedi"
-      },
-      "delete": {
-        "failed": "İşlem silinemedi"
+      "detail": {
+        "failed": "İşlem bilgileri yüklenirken bir hata oluştu"
       }
     }
   }
