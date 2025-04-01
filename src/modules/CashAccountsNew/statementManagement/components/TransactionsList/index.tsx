@@ -69,7 +69,10 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
   // Silme diyalogunu kapatma
   const handleCloseDeleteDialog = () => {
     setIsDeleteDialogOpen(false);
-    setSelectedTransaction(null);
+    setTimeout(() => {
+      // DOM'dan tamamen kaldırmak için selectedTransaction'ı gecikmeli olarak null'a ayarla
+      setSelectedTransaction(null);
+    }, 100);
   };
   
   // Silme onayı işlemi
@@ -84,13 +87,16 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
         selectedTransaction.statement_id
       );
       
-      if (success) {
-        // Silme başarılı olduysa diyaloğu kapat
-        handleCloseDeleteDialog();
+      // İşlem sonucuna bakılmaksızın diyaloğu kapat
+      handleCloseDeleteDialog();
+      
+      // Başarısız olduğunda kullanıcıya bildir (toast zaten service içinde gösteriliyor)
+      if (!success) {
+        console.error("İşlem silme başarısız oldu");
       }
     } catch (error) {
       console.error("İşlem silme hatası:", error);
-      // Hata durumunda da diyaloğu kapatıyoruz
+      // Hata durumunda diyaloğu kapat
       handleCloseDeleteDialog();
     }
   };
@@ -141,7 +147,7 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
       </Card>
       
       {/* İşlem Silme Dialog - Sadece isDeleteDialogOpen true ise render et */}
-      {isDeleteDialogOpen && (
+      {isDeleteDialogOpen && selectedTransaction && (
         <DeleteTransactionDialog
           isOpen={isDeleteDialogOpen}
           isDeleting={isDeleting}
