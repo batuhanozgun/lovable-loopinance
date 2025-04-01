@@ -13,9 +13,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { MoreHorizontal, Edit, Trash2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { AccountTransaction } from '../../../types/transaction';
+import { AccountTransaction, StatementTransactionType } from '../../../types/transaction';
 import { CurrencyType } from '@/modules/CashAccountsNew/cashAccountHomepage/types';
-import { TransactionType } from '@/modules/CashAccountsNew/transactionManagement/types';
 
 interface TransactionRowProps {
   transaction: AccountTransaction;
@@ -60,19 +59,19 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
         }
       </TableCell>
       <TableCell>
-        <Badge variant={transaction.transaction_type === TransactionType.INCOME ? 'success' : 'destructive'}>
-          {transaction.transaction_type === TransactionType.INCOME 
+        <Badge variant={transaction.transaction_type === StatementTransactionType.INCOME ? 'success' : 'destructive'}>
+          {transaction.transaction_type === StatementTransactionType.INCOME 
             ? t('statements.income') 
             : t('statements.expenses')
           }
         </Badge>
       </TableCell>
       <TableCell className={`text-right font-medium ${
-        transaction.transaction_type === TransactionType.INCOME 
+        transaction.transaction_type === StatementTransactionType.INCOME 
           ? 'text-green-600 dark:text-green-400' 
           : 'text-red-600 dark:text-red-400'
       }`}>
-        {transaction.transaction_type === TransactionType.INCOME ? '+' : '-'}
+        {transaction.transaction_type === StatementTransactionType.INCOME ? '+' : '-'}
         {formatAmount()}
       </TableCell>
       <TableCell className="text-right">

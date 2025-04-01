@@ -3,12 +3,6 @@
   "transaction": {
     "new": "Yeni İşlem",
     "add": "İşlem Ekle",
-    "edit": "İşlemi Düzenle",
-    "delete": {
-      "title": "İşlemi Sil",
-      "confirmation": "Bu işlemi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
-      "confirm": "Sil"
-    },
     "amount": "Tutar",
     "date": "Tarih",
     "time": "Saat",
@@ -25,11 +19,8 @@
     "selectSubcategory": "Bir alt kategori seçin",
     "noCategory": "Kategori Yok",
     "noSubcategory": "Alt Kategori Yok",
-    "noDescription": "Açıklama yok",
     "pickDate": "Bir tarih seçin",
     "createSuccess": "İşlem başarıyla oluşturuldu",
-    "updateSuccess": "İşlem başarıyla güncellendi",
-    "deleteSuccess": "İşlem başarıyla silindi",
     "selectedStatement": "Seçilen Ekstre Dönemi",
     "noStatementSelected": "Ekstre dönemi seçilmedi",
     "warning": {

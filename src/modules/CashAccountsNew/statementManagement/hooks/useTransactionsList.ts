@@ -1,10 +1,8 @@
-
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
-import { AccountTransaction, TransactionFilters } from '../types/transaction';
+import { AccountTransaction, TransactionFilters, StatementTransactionType } from '../types/transaction';
 import { TransactionQueryService } from '../services/transaction/TransactionQueryService';
-import { TransactionType } from '@/modules/CashAccountsNew/transactionManagement/types';
 
 /**
  * İşlem listesi verilerini ve işlemlerini yönetmek için özel kanca
@@ -22,52 +20,51 @@ export const useTransactionsList = (statementId: string | undefined) => {
   });
 
   // İşlemleri çekme
-  const fetchTransactions = useCallback(async () => {
-    if (!statementId) {
-      setTransactions([]);
-      setFilteredTransactions([]);
-      setIsLoading(false);
-      return;
-    }
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      if (!statementId) {
+        setTransactions([]);
+        setFilteredTransactions([]);
+        setIsLoading(false);
+        return;
+      }
 
-    setIsLoading(true);
-    
-    try {
-      const response = await TransactionQueryService.getTransactionsByStatementId(statementId);
+      setIsLoading(true);
       
-      if (response.success && response.data) {
-        setTransactions(response.data);
-        applyFilters(response.data, filters);
-      } else {
+      try {
+        const response = await TransactionQueryService.getTransactionsByStatementId(statementId);
+        
+        if (response.success && response.data) {
+          setTransactions(response.data);
+          applyFilters(response.data, filters);
+        } else {
+          toast({
+            title: t('common:error', { ns: 'common' }),
+            description: t('errors.transaction.list.failed'),
+            variant: 'destructive'
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching transactions:', error);
         toast({
           title: t('common:error', { ns: 'common' }),
           description: t('errors.transaction.list.failed'),
           variant: 'destructive'
         });
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error('Error fetching transactions:', error);
-      toast({
-        title: t('common:error', { ns: 'common' }),
-        description: t('errors.transaction.list.failed'),
-        variant: 'destructive'
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  }, [statementId, t, toast, filters]);
+    };
 
-  // İşlemleri yenileme
-  const refreshData = useCallback(() => {
     fetchTransactions();
-  }, [fetchTransactions]);
+  }, [statementId, t, toast]);
 
-  // İlk yükleme ve statementId değiştiğinde işlemleri çek
+  // Filtreler uygulandığında işlemleri filtrele
   useEffect(() => {
-    fetchTransactions();
-  }, [fetchTransactions]);
+    applyFilters(transactions, filters);
+  }, [filters, transactions]);
 
-  // Filtreleri uygulama
+  // Filtreleme ve sıralama
   const applyFilters = (transactions: AccountTransaction[], filters: TransactionFilters) => {
     let filtered = [...transactions];
 
@@ -97,13 +94,8 @@ export const useTransactionsList = (statementId: string | undefined) => {
     setFilteredTransactions(filtered);
   };
 
-  // Filtreler değiştiğinde işlemleri filtrele
-  useEffect(() => {
-    applyFilters(transactions, filters);
-  }, [filters, transactions]);
-
   // Türe göre filtreleme
-  const filterByType = (type: TransactionType | 'all') => {
+  const filterByType = (type: StatementTransactionType | 'all') => {
     setFilters(prev => ({
       ...prev,
       type
@@ -144,7 +136,6 @@ export const useTransactionsList = (statementId: string | undefined) => {
     filterByType,
     sortByDate,
     sortByAmount,
-    resetFilters,
-    refreshData
+    resetFilters
   };
 };

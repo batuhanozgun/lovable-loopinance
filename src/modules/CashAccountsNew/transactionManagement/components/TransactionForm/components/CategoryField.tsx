@@ -16,12 +16,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCategories } from "@/modules/Categories/hooks/queries/useCategoryQueries";
-import { UseFormSetValue } from "react-hook-form";
-import { TransactionFormData } from "../../../types";
 
 interface CategoryFieldProps {
   control: any;
-  setValue: UseFormSetValue<TransactionFormData>;
+  selectedCategoryId: string;
+  onCategoryChange: (categoryId: string) => void;
 }
 
 /**
@@ -29,15 +28,11 @@ interface CategoryFieldProps {
  */
 export const CategoryField: React.FC<CategoryFieldProps> = ({ 
   control, 
-  setValue 
+  selectedCategoryId,
+  onCategoryChange 
 }) => {
   const { t } = useTranslation(["TransactionManagement", "common"]);
   const { categories, isLoading } = useCategories();
-
-  // Kategori değişikliğinde alt kategoriyi sıfırla
-  const handleCategoryChange = (value: string) => {
-    setValue("subcategoryId", "no-subcategory", { shouldValidate: true });
-  };
 
   return (
     <FormField
@@ -50,7 +45,7 @@ export const CategoryField: React.FC<CategoryFieldProps> = ({
             value={field.value}
             onValueChange={(value) => {
               field.onChange(value);
-              handleCategoryChange(value);
+              onCategoryChange(value);
             }}
             disabled={isLoading}
           >

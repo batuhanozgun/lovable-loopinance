@@ -91,16 +91,15 @@ export const StatementDetailView: React.FC = () => {
       
       <TransactionsList 
         statementId={statementId || ''} 
-        currency={account.currency as CurrencyType}
-        accountId={accountId || ''}
+        currency={account.currency as CurrencyType} 
       />
       
       {/* İşlem Form Dialogu */}
       {accountId && (
         <TransactionForm
           accountId={accountId}
-          statementId={statementId || ''}
-          currency={account.currency as CurrencyType}
+          statementId={statementId}
+          currency={account.currency}
           isOpen={isTransactionFormOpen}
           onClose={() => setIsTransactionFormOpen(false)}
         />
