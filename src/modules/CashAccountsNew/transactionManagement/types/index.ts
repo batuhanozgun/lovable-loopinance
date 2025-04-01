@@ -29,19 +29,6 @@ export interface CreateTransactionData {
 }
 
 /**
- * İşlem güncelleme verisi tipi
- */
-export interface UpdateTransactionData {
-  amount?: number;
-  transaction_type?: TransactionType;
-  transaction_date?: string;
-  transaction_time?: string;
-  description?: string;
-  category_id?: string;
-  subcategory_id?: string;
-}
-
-/**
  * İşlem tipi
  */
 export interface Transaction {

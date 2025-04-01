@@ -13,14 +13,8 @@ import {
   TransactionsTableHeader,
   TransactionRow
 } from './components';
-import { 
-  useTransactionsList
-} from '../../hooks';
-import { 
-  useTransactionDelete 
-} from '@/modules/CashAccountsNew/transactionManagement';
+import { useTransactionsList } from '../../hooks/useTransactionsList';
 import { AccountTransaction } from '../../types/transaction';
-import { DeleteTransactionDialog } from './components/DeleteTransactionDialog';
 
 interface TransactionsListProps {
   statementId: string;
@@ -34,10 +28,6 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
   const { t } = useTranslation('StatementManagement');
   const { toast } = useToast();
   const [selectedTransaction, setSelectedTransaction] = useState<AccountTransaction | null>(null);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  
-  // Silme hook'unu kullan
-  const { deleteTransaction, isDeleting } = useTransactionDelete();
   
   // Veri çekme ve filtreleme işlemleri için kancamızı kullanıyoruz
   const { 
@@ -62,44 +52,11 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
 
   // Silme işlemi için
   const handleDeleteTransaction = (transaction: AccountTransaction) => {
-    setSelectedTransaction(transaction);
-    setIsDeleteDialogOpen(true);
-  };
-  
-  // Silme diyalogunu kapatma
-  const handleCloseDeleteDialog = () => {
-    setIsDeleteDialogOpen(false);
-  };
-  
-  // Silme onayı işlemi
-  const confirmDelete = async () => {
-    if (!selectedTransaction) return;
-    
-    try {
-      // Silme işlemini başlat
-      const success = await deleteTransaction(
-        selectedTransaction.id,
-        selectedTransaction.account_id,
-        selectedTransaction.statement_id
-      );
-      
-      // İşlem sonucuna bakılmaksızın diyaloğu kapat
-      handleCloseDeleteDialog();
-      
-      // Başarılı olduğunda selectedTransaction'ı null'a ayarla
-      if (success) {
-        setSelectedTransaction(null);
-      }
-      
-      // Başarısız olduğunda kullanıcıya bildir (toast zaten service içinde gösteriliyor)
-      if (!success) {
-        console.error("İşlem silme başarısız oldu");
-      }
-    } catch (error) {
-      console.error("İşlem silme hatası:", error);
-      // Hata durumunda diyaloğu kapat
-      handleCloseDeleteDialog();
-    }
+    // Silme onayı daha sonra uygulanacak
+    toast({
+      title: t('common:info', { ns: 'common' }),
+      description: t('common:featureComingSoon', { ns: 'common' }),
+    });
   };
 
   // Yükleme durumu
@@ -108,54 +65,42 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
   }
 
   return (
-    <>
-      <Card>
-        <CardHeader>
-          <div className="flex justify-between items-center">
-            <CardTitle>{t('transactions.title')}</CardTitle>
-            <div className="flex space-x-2">
-              <FilterDropdownMenu 
-                onFilterByType={filterByType}
-                onResetFilters={resetFilters}
-              />
-              <SortDropdownMenu 
-                onSortByDate={sortByDate}
-                onSortByAmount={sortByAmount}
-              />
-            </div>
+    <Card>
+      <CardHeader>
+        <div className="flex justify-between items-center">
+          <CardTitle>{t('transactions.title')}</CardTitle>
+          <div className="flex space-x-2">
+            <FilterDropdownMenu 
+              onFilterByType={filterByType}
+              onResetFilters={resetFilters}
+            />
+            <SortDropdownMenu 
+              onSortByDate={sortByDate}
+              onSortByAmount={sortByAmount}
+            />
           </div>
-        </CardHeader>
-        <CardContent>
-          {transactions && transactions.length > 0 ? (
-            <Table>
-              <TransactionsTableHeader />
-              <TableBody>
-                {transactions.map((transaction) => (
-                  <TransactionRow 
-                    key={transaction.id}
-                    transaction={transaction} 
-                    currency={currency}
-                    onEdit={handleEditTransaction}
-                    onDelete={handleDeleteTransaction}
-                  />
-                ))}
-              </TableBody>
-            </Table>
-          ) : (
-            <EmptyTransactionsState />
-          )}
-        </CardContent>
-      </Card>
-      
-      {/* İşlem Silme Dialog - her zaman render et, görünürlüğü isOpen ile kontrol et */}
-      <DeleteTransactionDialog
-        isOpen={isDeleteDialogOpen}
-        isDeleting={isDeleting}
-        onClose={handleCloseDeleteDialog}
-        onConfirm={confirmDelete}
-        transaction={selectedTransaction}
-        currency={currency}
-      />
-    </>
+        </div>
+      </CardHeader>
+      <CardContent>
+        {transactions && transactions.length > 0 ? (
+          <Table>
+            <TransactionsTableHeader />
+            <TableBody>
+              {transactions.map((transaction) => (
+                <TransactionRow 
+                  key={transaction.id}
+                  transaction={transaction} 
+                  currency={currency}
+                  onEdit={handleEditTransaction}
+                  onDelete={handleDeleteTransaction}
+                />
+              ))}
+            </TableBody>
+          </Table>
+        ) : (
+          <EmptyTransactionsState />
+        )}
+      </CardContent>
+    </Card>
   );
 };
