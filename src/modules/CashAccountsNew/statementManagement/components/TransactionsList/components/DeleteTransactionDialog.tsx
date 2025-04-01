@@ -4,15 +4,14 @@ import { useTranslation } from 'react-i18next';
 import { tr, enUS } from 'date-fns/locale';
 import { format } from 'date-fns';
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 import { CurrencyType } from '@/modules/CashAccountsNew/cashAccountHomepage/types';
 import { AccountTransaction, StatementTransactionType } from '../../../types/transaction';
 
@@ -58,18 +57,11 @@ export const DeleteTransactionDialog: React.FC<DeleteTransactionDialogProps> = (
     : t('statements.expenses');
   
   return (
-    <AlertDialog 
-      open={isOpen} 
-      onOpenChange={(open) => {
-        if (!open && !isDeleting) {
-          onClose();
-        }
-      }}
-    >
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>{t('transactions.delete.title')}</AlertDialogTitle>
-          <AlertDialogDescription>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>{t('transactions.delete.title')}</DialogTitle>
+          <DialogDescription>
             {t('transactions.delete.description')}
             <div className="mt-4 p-4 border rounded-md bg-muted/50">
               <div className="grid grid-cols-2 gap-2 text-sm">
@@ -94,35 +86,28 @@ export const DeleteTransactionDialog: React.FC<DeleteTransactionDialogProps> = (
                 )}
               </div>
             </div>
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel 
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="flex flex-row justify-end gap-2 sm:gap-0">
+          <Button
+            variant="outline"
+            onClick={onClose}
             disabled={isDeleting}
-            onClick={(e) => {
-              e.preventDefault();
-              if (!isDeleting) {
-                onClose();
-              }
-            }}
           >
             {t('common:cancel', { ns: 'common' })}
-          </AlertDialogCancel>
-          <AlertDialogAction 
-            onClick={(e) => {
-              e.preventDefault();
-              onConfirm();
-            }}
+          </Button>
+          <Button
+            variant="destructive"
+            onClick={onConfirm}
             disabled={isDeleting}
-            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
             {isDeleting 
               ? t('common:deleting', { ns: 'common' }) 
               : t('common:delete', { ns: 'common' })
             }
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };

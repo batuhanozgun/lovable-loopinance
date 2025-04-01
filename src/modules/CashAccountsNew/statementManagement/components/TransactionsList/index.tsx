@@ -68,12 +68,7 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
   
   // Silme diyalogunu kapatma
   const handleCloseDeleteDialog = () => {
-    if (!isDeleting) {
-      setIsDeleteDialogOpen(false);
-      setTimeout(() => {
-        setSelectedTransaction(null);
-      }, 100);
-    }
+    setIsDeleteDialogOpen(false);
   };
   
   // Silme onayı işlemi
@@ -87,10 +82,7 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
     );
     
     if (success) {
-      setIsDeleteDialogOpen(false);
-      setTimeout(() => {
-        setSelectedTransaction(null);
-      }, 100);
+      handleCloseDeleteDialog();
     }
   };
 
