@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { tr, enUS } from 'date-fns/locale';
 import { format } from 'date-fns';
@@ -59,14 +59,16 @@ export const DeleteTransactionDialog: React.FC<DeleteTransactionDialogProps> = (
   // Onay butonuna tıklandığında
   const handleConfirm = () => {
     onConfirm();
-    // Silme işlemi başarılı olsa da olmasa da dialog kapatılmayacak
-    // Çünkü onConfirm işlevi içinde başarılı olduğunda handleCloseDeleteDialog çağrılıyor
   };
   
   return (
     <Dialog 
       open={isOpen} 
-      onOpenChange={onClose}
+      onOpenChange={(open) => {
+        if (!open) {
+          onClose();
+        }
+      }}
     >
       <DialogContent className="sm:max-w-md">
         <DialogHeader>

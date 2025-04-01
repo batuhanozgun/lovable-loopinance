@@ -69,7 +69,6 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
   // Silme diyalogunu kapatma
   const handleCloseDeleteDialog = () => {
     setIsDeleteDialogOpen(false);
-    // Seçili işlemi temizle
     setSelectedTransaction(null);
   };
   
@@ -77,14 +76,18 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
   const confirmDelete = async () => {
     if (!selectedTransaction) return;
     
-    const success = await deleteTransaction(
-      selectedTransaction.id,
-      selectedTransaction.account_id,
-      selectedTransaction.statement_id
-    );
-    
-    if (success) {
-      handleCloseDeleteDialog();
+    try {
+      const success = await deleteTransaction(
+        selectedTransaction.id,
+        selectedTransaction.account_id,
+        selectedTransaction.statement_id
+      );
+      
+      if (success) {
+        handleCloseDeleteDialog();
+      }
+    } catch (error) {
+      console.error("İşlem silme hatası:", error);
     }
   };
 
