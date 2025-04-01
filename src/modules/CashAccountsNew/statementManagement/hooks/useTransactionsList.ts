@@ -1,6 +1,8 @@
+
 import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
+import { useQuery } from '@tanstack/react-query';
 import { AccountTransaction, TransactionFilters, StatementTransactionType } from '../types/transaction';
 import { TransactionQueryService } from '../services/transaction/TransactionQueryService';
 
@@ -10,62 +12,49 @@ import { TransactionQueryService } from '../services/transaction/TransactionQuer
 export const useTransactionsList = (statementId: string | undefined) => {
   const { t } = useTranslation('StatementManagement');
   const { toast } = useToast();
-  const [transactions, setTransactions] = useState<AccountTransaction[]>([]);
-  const [filteredTransactions, setFilteredTransactions] = useState<AccountTransaction[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [filters, setFilters] = useState<TransactionFilters>({
     type: 'all',
     sortByDate: 'desc',
     sortByAmount: null
   });
 
-  // İşlemleri çekme
-  useEffect(() => {
-    const fetchTransactions = async () => {
+  // React Query ile işlemleri çekme
+  const {
+    data: transactions = [],
+    isLoading,
+    isError,
+    error
+  } = useQuery({
+    queryKey: ['statementTransactions', statementId],
+    queryFn: async () => {
       if (!statementId) {
-        setTransactions([]);
-        setFilteredTransactions([]);
-        setIsLoading(false);
-        return;
+        return [];
       }
 
-      setIsLoading(true);
+      const response = await TransactionQueryService.getTransactionsByStatementId(statementId);
       
-      try {
-        const response = await TransactionQueryService.getTransactionsByStatementId(statementId);
-        
-        if (response.success && response.data) {
-          setTransactions(response.data);
-          applyFilters(response.data, filters);
-        } else {
-          toast({
-            title: t('common:error', { ns: 'common' }),
-            description: t('errors.transaction.list.failed'),
-            variant: 'destructive'
-          });
-        }
-      } catch (error) {
-        console.error('Error fetching transactions:', error);
-        toast({
-          title: t('common:error', { ns: 'common' }),
-          description: t('errors.transaction.list.failed'),
-          variant: 'destructive'
-        });
-      } finally {
-        setIsLoading(false);
+      if (response.success && response.data) {
+        return response.data;
+      } else {
+        throw new Error(response.error || t('errors.transaction.list.failed'));
       }
-    };
+    },
+    enabled: !!statementId
+  });
 
-    fetchTransactions();
-  }, [statementId, t, toast]);
-
-  // Filtreler uygulandığında işlemleri filtrele
+  // Hata durumunda toast göster
   useEffect(() => {
-    applyFilters(transactions, filters);
-  }, [filters, transactions]);
+    if (isError && error instanceof Error) {
+      toast({
+        title: t('common:error', { ns: 'common' }),
+        description: error.message,
+        variant: 'destructive'
+      });
+    }
+  }, [isError, error, toast, t]);
 
-  // Filtreleme ve sıralama
-  const applyFilters = (transactions: AccountTransaction[], filters: TransactionFilters) => {
+  // Filtrelenmiş işlemleri hesapla
+  const filteredTransactions = (() => {
     let filtered = [...transactions];
 
     // Tür filtresi
@@ -91,8 +80,8 @@ export const useTransactionsList = (statementId: string | undefined) => {
       });
     }
 
-    setFilteredTransactions(filtered);
-  };
+    return filtered;
+  })();
 
   // Türe göre filtreleme
   const filterByType = (type: StatementTransactionType | 'all') => {
