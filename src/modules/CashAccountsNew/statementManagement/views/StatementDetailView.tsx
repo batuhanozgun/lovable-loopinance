@@ -99,8 +99,8 @@ export const StatementDetailView: React.FC = () => {
       {accountId && (
         <TransactionForm
           accountId={accountId}
-          statementId={statementId}
-          currency={account.currency}
+          statementId={statementId || ''}
+          currency={account.currency as CurrencyType}
           isOpen={isTransactionFormOpen}
           onClose={() => setIsTransactionFormOpen(false)}
         />

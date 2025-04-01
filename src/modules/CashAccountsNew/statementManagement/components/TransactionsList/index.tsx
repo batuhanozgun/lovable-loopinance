@@ -15,7 +15,7 @@ import {
 } from './components';
 import { useTransactionsList } from '../../hooks/useTransactionsList';
 import { AccountTransaction } from '../../types/transaction';
-import { TransactionForm, useTransactionDeletion } from '@/modules/CashAccountsNew/transactionManagement';
+import { TransactionForm, useTransactionDeletion, TransactionType } from '@/modules/CashAccountsNew/transactionManagement';
 import { DeleteTransactionDialog } from '@/modules/CashAccountsNew/transactionManagement/components/DeleteTransactionDialog';
 
 interface TransactionsListProps {
@@ -134,7 +134,10 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
           currency={currency}
           isOpen={isEditFormOpen}
           onClose={handleCloseEditForm}
-          transaction={selectedTransaction}
+          transaction={{
+            ...selectedTransaction,
+            transaction_type: selectedTransaction.transaction_type as TransactionType
+          }}
         />
       )}
       
@@ -145,7 +148,7 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
           onClose={() => setIsDeleteDialogOpen(false)}
           onConfirm={handleConfirmDelete}
           amount={selectedTransaction.amount}
-          transactionType={selectedTransaction.transaction_type}
+          transactionType={selectedTransaction.transaction_type as TransactionType}
           currency={currency}
           description={selectedTransaction.description}
         />

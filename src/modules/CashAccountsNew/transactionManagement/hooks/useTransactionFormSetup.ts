@@ -25,7 +25,10 @@ const roundToNearest15Minutes = (minuteValue: number): string => {
  */
 export const useTransactionFormSetup = (
   accountId: string,
-  statementId?: string
+  statementId?: string,
+  options: {
+    initialFormValues?: TransactionFormData
+  } = {}
 ) => {
   const { t } = useTranslation(["TransactionManagement", "common"]);
   
@@ -54,7 +57,7 @@ export const useTransactionFormSetup = (
   // React Hook Form kurulumu
   const form = useForm<TransactionFormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: options.initialFormValues || {
       amount: "",
       description: "",
       transactionType: TransactionType.INCOME,
@@ -185,6 +188,32 @@ export const useTransactionFormSetup = (
     }
   };
   
+  // Statement seçim işlevi
+  const onStatementSelect = (selectedId: string) => {
+    if (selectedId === currentStatementId) return;
+    
+    const loadSelectedStatement = async () => {
+      try {
+        setIsLoadingStatement(true);
+        const foundStatement = await StatementFinderService.getStatementById(selectedId);
+        
+        if (foundStatement) {
+          setCurrentStatementId(selectedId);
+          setCurrentStatement(foundStatement);
+        } else {
+          setStatementError(t("TransactionManagement:errors.statement.notFound"));
+          toast.error(t("TransactionManagement:errors.statement.notFound"));
+        }
+      } catch (error) {
+        setStatementError(t("TransactionManagement:errors.statement.loadFailed"));
+      } finally {
+        setIsLoadingStatement(false);
+      }
+    };
+    
+    loadSelectedStatement();
+  };
+  
   // Form gönderme işleyicisi
   const handleSubmit = async (formData: TransactionFormData) => {
     // Eğer uygun statementId bulunamadıysa, uyarı göster
@@ -215,6 +244,7 @@ export const useTransactionFormSetup = (
     isLoadingStatement,
     statementError,
     lockStatement,
-    toggleStatementLock
+    toggleStatementLock,
+    onStatementSelect
   };
 };

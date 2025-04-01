@@ -30,31 +30,39 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
   const { transactionToFormData } = useTransactionUpdate();
   
   // Form kurulumu
+  const setupOptions = isEditMode && transaction 
+    ? { 
+        initialFormValues: transactionToFormData(transaction as Transaction)
+      }
+    : {};
+  
   const {
     form,
+    date,
+    setDate,
+    time,
+    setTime,
+    selectedCategoryId,
+    handleCategoryChange,
+    onSubmit,
+    isSubmitting,
     statement,
-    isLoading,
-    handleSubmit,
-    isStatementLocked,
-    toggleStatementLock,
-    onStatementSelect,
-  } = useTransactionFormSetup({
-    accountId,
-    statementId,
-    initialFormValues: isEditMode && transaction ? 
-      transactionToFormData(transaction as Transaction) : 
-      undefined
-  });
+    statementId: currentStatementId,
+    isLoadingStatement,
+    statementError,
+    lockStatement,
+    toggleStatementLock
+  } = useTransactionFormSetup(accountId, statementId);
   
   // İşlem formu kancası
-  const { submitTransaction, isSubmitting } = useTransactionForm();
+  const { handleCreateTransaction, prepareTransactionData } = useTransactionForm();
   
   // İşlem güncelleme kancası
   const { updateTransaction, isUpdating } = useTransactionUpdate();
 
   // Form gönderimi işlemi
-  const onSubmit = async (data: any) => {
-    if (!statement) return;
+  const handleSubmit = async (data: any) => {
+    if (!currentStatementId) return;
     
     let success = false;
     
@@ -63,11 +71,8 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
       success = await updateTransaction(transaction.id, data);
     } else {
       // Yeni işlem oluşturma
-      success = await submitTransaction({
-        ...data,
-        accountId,
-        statementId: statement.id,
-      });
+      const transactionData = prepareTransactionData(data, accountId, currentStatementId);
+      success = await handleCreateTransaction(transactionData);
     }
     
     if (success) {
@@ -94,28 +99,27 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
         <div className="space-y-6 py-4">
           {/* Ekstre bilgisi ve kilitleme */}
           <StatementInfoSection
-            statement={statement}
-            isLoading={isLoading}
-            isLocked={isStatementLocked}
+            isLoading={isLoadingStatement}
+            isLocked={lockStatement}
             onToggleLock={toggleStatementLock}
-            onStatementSelect={onStatementSelect}
             accountId={accountId}
-            selectedStatementId={statementId}
+            selectedStatementId={currentStatementId || ''}
+            statement={statement}
           />
           
           {/* İşlem formu içeriği */}
           <TransactionFormContent
             form={form}
             currency={currency}
-            handleSubmit={handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(handleSubmit)}
           />
         </div>
         
         <DialogFooter>
           <FormActions
-            onCancel={() => onClose()}
             isSubmitting={isSubmitting || isUpdating}
             isEditMode={isEditMode}
+            handleCancel={() => onClose()}
           />
         </DialogFooter>
       </DialogContent>

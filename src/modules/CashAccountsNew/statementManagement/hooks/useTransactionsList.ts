@@ -2,8 +2,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
-import { AccountTransaction, TransactionFilters, StatementTransactionType } from '../types/transaction';
+import { AccountTransaction, TransactionFilters } from '../types/transaction';
 import { TransactionQueryService } from '../services/transaction/TransactionQueryService';
+import { TransactionType } from '@/modules/CashAccountsNew/transactionManagement/types';
 
 /**
  * İşlem listesi verilerini ve işlemlerini yönetmek için özel kanca
@@ -102,7 +103,7 @@ export const useTransactionsList = (statementId: string | undefined) => {
   }, [filters, transactions]);
 
   // Türe göre filtreleme
-  const filterByType = (type: StatementTransactionType | 'all') => {
+  const filterByType = (type: TransactionType | 'all') => {
     setFilters(prev => ({
       ...prev,
       type

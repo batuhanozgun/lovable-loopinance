@@ -3,14 +3,7 @@
  * İşlem Yönetimi için tip tanımlamaları
  */
 import { CurrencyType } from '../../cashAccountHomepage/types';
-
-/**
- * İşlem türü enum'u
- */
-export enum StatementTransactionType {
-  INCOME = "income",
-  EXPENSE = "expense"
-}
+import { TransactionType } from '../../transactionManagement/types';
 
 /**
  * İşlem tipi
@@ -20,7 +13,7 @@ export interface AccountTransaction {
   account_id: string;
   statement_id: string;
   amount: number;
-  transaction_type: StatementTransactionType;
+  transaction_type: TransactionType;
   transaction_date: string;
   transaction_time: string;
   description?: string;
@@ -43,7 +36,7 @@ export interface TransactionListResponse {
  * İşlem filtre durumu
  */
 export interface TransactionFilters {
-  type: StatementTransactionType | 'all';
+  type: TransactionType | 'all';
   sortByDate: 'asc' | 'desc' | null;
   sortByAmount: 'asc' | 'desc' | null;
 }

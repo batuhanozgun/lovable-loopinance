@@ -1,41 +1,39 @@
 
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { Button } from "@/components/ui/button";
-import { DialogFooter } from "@/components/ui/dialog";
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Button } from '@/components/ui/button';
+import { Loader2 } from 'lucide-react';
 
-interface FormActionsProps {
-  onClose: () => void;
+export interface FormActionsProps {
   isSubmitting: boolean;
-  isDisabled?: boolean;
+  isEditMode: boolean;
+  handleCancel: () => void;
 }
 
-/**
- * Form gönderim butonları bileşeni
- */
-export const FormActions: React.FC<FormActionsProps> = ({ 
-  onClose, 
+export const FormActions: React.FC<FormActionsProps> = ({
   isSubmitting,
-  isDisabled = false
+  isEditMode,
+  handleCancel
 }) => {
-  const { t } = useTranslation(["TransactionManagement", "common"]);
-
+  const { t } = useTranslation(['TransactionManagement', 'common']);
+  
   return (
-    <DialogFooter className="flex justify-end space-x-2">
-      <Button 
-        type="button" 
-        variant="outline" 
-        onClick={onClose}
+    <>
+      <Button
+        type="button"
+        variant="outline"
+        onClick={handleCancel}
         disabled={isSubmitting}
       >
-        {t("common:cancel")}
+        {t('common:cancel', { ns: 'common' })}
       </Button>
-      <Button 
-        type="submit" 
-        disabled={isSubmitting || isDisabled}
-      >
-        {isSubmitting ? t("common:processing") : t("TransactionManagement:transaction.add")}
+      
+      <Button type="submit" disabled={isSubmitting}>
+        {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        {isEditMode
+          ? t('transaction.edit', { ns: 'TransactionManagement' })
+          : t('transaction.add', { ns: 'TransactionManagement' })}
       </Button>
-    </DialogFooter>
+    </>
   );
 };
