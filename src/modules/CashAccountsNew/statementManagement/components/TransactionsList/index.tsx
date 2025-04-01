@@ -69,6 +69,8 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
   // Silme diyalogunu kapatma
   const handleCloseDeleteDialog = () => {
     setIsDeleteDialogOpen(false);
+    // Seçili işlemi temizle
+    setSelectedTransaction(null);
   };
   
   // Silme onayı işlemi

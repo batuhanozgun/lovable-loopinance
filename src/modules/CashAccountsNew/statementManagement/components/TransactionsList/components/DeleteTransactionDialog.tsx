@@ -57,7 +57,12 @@ export const DeleteTransactionDialog: React.FC<DeleteTransactionDialogProps> = (
     : t('statements.expenses');
   
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+    <Dialog 
+      open={isOpen} 
+      onOpenChange={(open) => {
+        if (!open) onClose();
+      }}
+    >
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>{t('transactions.delete.title')}</DialogTitle>
