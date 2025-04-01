@@ -15,6 +15,7 @@ export interface StatementInfoSectionProps {
   accountId: string;
   selectedStatementId: string;
   statement: AccountStatement | null;
+  statementError?: string | null;
   onStatementSelect?: (statementId: string) => void;
 }
 
@@ -25,6 +26,7 @@ export const StatementInfoSection: React.FC<StatementInfoSectionProps> = ({
   accountId,
   selectedStatementId,
   statement,
+  statementError = null,
   onStatementSelect
 }) => {
   const { t } = useTranslation('TransactionManagement');
@@ -63,8 +65,9 @@ export const StatementInfoSection: React.FC<StatementInfoSectionProps> = ({
         </div>
         
         <StatementWarning 
-          isLoading={isLoading} 
-          statement={statement} 
+          isLoadingStatement={isLoading} 
+          statement={statement}
+          statementError={statementError}
         />
       </CardContent>
     </Card>

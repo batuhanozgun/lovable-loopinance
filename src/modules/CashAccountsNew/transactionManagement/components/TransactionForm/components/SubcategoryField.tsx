@@ -16,10 +16,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useCategories } from "@/modules/Categories/hooks/queries/useCategoryQueries";
+import { UseFormWatch } from "react-hook-form";
+import { TransactionFormData } from "../../../types";
 
 interface SubcategoryFieldProps {
   control: any;
-  selectedCategoryId: string;
+  watch: UseFormWatch<TransactionFormData>;
 }
 
 /**
@@ -27,10 +29,13 @@ interface SubcategoryFieldProps {
  */
 export const SubcategoryField: React.FC<SubcategoryFieldProps> = ({
   control,
-  selectedCategoryId,
+  watch
 }) => {
   const { t } = useTranslation(["TransactionManagement", "common"]);
   const { categories } = useCategories();
+  
+  // Watch kullanarak seçili kategoriyi izle
+  const selectedCategoryId = watch("categoryId");
 
   // Seçili kategoriye ait alt kategorileri bul
   const selectedCategory = categories.find(
