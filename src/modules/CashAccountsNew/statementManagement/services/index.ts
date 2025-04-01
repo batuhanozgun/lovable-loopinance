@@ -9,6 +9,7 @@ export * from './core/period/StatementPeriodService';
 export * from './core/query/StatementQueryService';
 export * from './core/update/StatementUpdateService';
 export * from './core/update/StatementChainUpdateService';
+export * from './core/calculation/StatementBalanceCalculationService';
 
 // Otomasyon servisleri
 export * from './automation/FutureStatementService';

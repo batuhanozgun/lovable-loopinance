@@ -9,6 +9,7 @@ import { StatementPeriodService } from './core/period/StatementPeriodService';
 import { StatementQueryService } from './core/query/StatementQueryService';
 import { StatementUpdateService } from './core/update/StatementUpdateService';
 import { StatementChainUpdateService } from './core/update/StatementChainUpdateService';
+import { StatementBalanceCalculationService } from './core/calculation/StatementBalanceCalculationService';
 import { CashAccount } from '../../cashAccountHomepage/types';
 import { 
   AccountStatement, 
@@ -115,6 +116,21 @@ export class StatementService {
       accountId,
       startStatementId,
       balanceChange
+    );
+  }
+  
+  /**
+   * Bir dönem için toplam gelir, gider ve net değişimi hesaplar
+   */
+  static async calculateTransactionTotals(
+    accountId: string,
+    startDate: string,
+    endDate: string
+  ): Promise<{ income: number, expenses: number, net: number }> {
+    return await StatementBalanceCalculationService.calculateTransactionTotals(
+      accountId, 
+      startDate, 
+      endDate
     );
   }
 }
