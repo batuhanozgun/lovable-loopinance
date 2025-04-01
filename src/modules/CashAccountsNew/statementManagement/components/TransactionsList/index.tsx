@@ -67,6 +67,7 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
   // Silme iletişim kutusunu kapat
   const handleCloseDeleteDialog = () => {
     setIsDeleteDialogOpen(false);
+    setSelectedTransaction(null);
   };
 
   // Yükleme durumu
