@@ -40,6 +40,15 @@ export interface TransactionListResponse {
 }
 
 /**
+ * Tek işlem yanıtı tipi
+ */
+export interface SingleTransactionResponse {
+  success: boolean;
+  data?: AccountTransaction;
+  error?: string;
+}
+
+/**
  * İşlem filtre durumu
  */
 export interface TransactionFilters {
