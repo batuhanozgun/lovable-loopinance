@@ -14,9 +14,11 @@ import {
   TransactionRow
 } from './components';
 import { 
-  useTransactionsList,
-  useTransactionDelete
+  useTransactionsList
 } from '../../hooks';
+import { 
+  useTransactionDelete 
+} from '@/modules/CashAccountsNew/transactionManagement';
 import { AccountTransaction } from '../../types/transaction';
 import { DeleteTransactionDialog } from './components/DeleteTransactionDialog';
 
