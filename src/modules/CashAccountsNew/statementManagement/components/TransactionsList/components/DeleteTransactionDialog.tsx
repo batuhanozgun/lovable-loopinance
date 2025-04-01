@@ -56,12 +56,17 @@ export const DeleteTransactionDialog: React.FC<DeleteTransactionDialogProps> = (
     ? t('statements.income')
     : t('statements.expenses');
   
+  // Onay butonuna tıklandığında
+  const handleConfirm = () => {
+    onConfirm();
+    // Silme işlemi başarılı olsa da olmasa da dialog kapatılmayacak
+    // Çünkü onConfirm işlevi içinde başarılı olduğunda handleCloseDeleteDialog çağrılıyor
+  };
+  
   return (
     <Dialog 
       open={isOpen} 
-      onOpenChange={(open) => {
-        if (!open) onClose();
-      }}
+      onOpenChange={onClose}
     >
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
@@ -103,7 +108,7 @@ export const DeleteTransactionDialog: React.FC<DeleteTransactionDialogProps> = (
           </Button>
           <Button
             variant="destructive"
-            onClick={onConfirm}
+            onClick={handleConfirm}
             disabled={isDeleting}
           >
             {isDeleting 
