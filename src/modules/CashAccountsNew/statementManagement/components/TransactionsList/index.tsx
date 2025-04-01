@@ -15,19 +15,26 @@ import {
 } from './components';
 import { useTransactionsList } from '../../hooks/useTransactionsList';
 import { AccountTransaction } from '../../types/transaction';
+import { TransactionForm, useTransactionDeletion } from '@/modules/CashAccountsNew/transactionManagement';
+import { DeleteTransactionDialog } from '@/modules/CashAccountsNew/transactionManagement/components/DeleteTransactionDialog';
 
 interface TransactionsListProps {
   statementId: string;
   currency: CurrencyType;
+  accountId: string;
 }
 
 export const TransactionsList: React.FC<TransactionsListProps> = ({ 
   statementId, 
-  currency 
+  currency,
+  accountId 
 }) => {
   const { t } = useTranslation('StatementManagement');
   const { toast } = useToast();
   const [selectedTransaction, setSelectedTransaction] = useState<AccountTransaction | null>(null);
+  const [isEditFormOpen, setIsEditFormOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const { deleteTransaction, isDeleting } = useTransactionDeletion();
   
   // Veri çekme ve filtreleme işlemleri için kancamızı kullanıyoruz
   const { 
@@ -37,26 +44,41 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
     sortByDate,
     sortByAmount,
     filterByType,
-    resetFilters
+    resetFilters,
+    refreshData
   } = useTransactionsList(statementId);
 
   // Düzenleme işlemi için
   const handleEditTransaction = (transaction: AccountTransaction) => {
     setSelectedTransaction(transaction);
-    // Düzenleme modalı daha sonra uygulanacak
-    toast({
-      title: t('common:info', { ns: 'common' }),
-      description: t('common:featureComingSoon', { ns: 'common' }),
-    });
+    setIsEditFormOpen(true);
   };
 
   // Silme işlemi için
   const handleDeleteTransaction = (transaction: AccountTransaction) => {
-    // Silme onayı daha sonra uygulanacak
-    toast({
-      title: t('common:info', { ns: 'common' }),
-      description: t('common:featureComingSoon', { ns: 'common' }),
-    });
+    setSelectedTransaction(transaction);
+    setIsDeleteDialogOpen(true);
+  };
+  
+  // İşlem silme onayı
+  const handleConfirmDelete = async () => {
+    if (!selectedTransaction) return;
+    
+    const success = await deleteTransaction(selectedTransaction.id);
+    if (success) {
+      setIsDeleteDialogOpen(false);
+      refreshData();
+    }
+  };
+  
+  // Düzenleme formunun kapatılması
+  const handleCloseEditForm = (updated: boolean = false) => {
+    setIsEditFormOpen(false);
+    setSelectedTransaction(null);
+    
+    if (updated) {
+      refreshData();
+    }
   };
 
   // Yükleme durumu
@@ -65,42 +87,69 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex justify-between items-center">
-          <CardTitle>{t('transactions.title')}</CardTitle>
-          <div className="flex space-x-2">
-            <FilterDropdownMenu 
-              onFilterByType={filterByType}
-              onResetFilters={resetFilters}
-            />
-            <SortDropdownMenu 
-              onSortByDate={sortByDate}
-              onSortByAmount={sortByAmount}
-            />
+    <>
+      <Card>
+        <CardHeader>
+          <div className="flex justify-between items-center">
+            <CardTitle>{t('transactions.title')}</CardTitle>
+            <div className="flex space-x-2">
+              <FilterDropdownMenu 
+                onFilterByType={filterByType}
+                onResetFilters={resetFilters}
+              />
+              <SortDropdownMenu 
+                onSortByDate={sortByDate}
+                onSortByAmount={sortByAmount}
+              />
+            </div>
           </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-        {transactions && transactions.length > 0 ? (
-          <Table>
-            <TransactionsTableHeader />
-            <TableBody>
-              {transactions.map((transaction) => (
-                <TransactionRow 
-                  key={transaction.id}
-                  transaction={transaction} 
-                  currency={currency}
-                  onEdit={handleEditTransaction}
-                  onDelete={handleDeleteTransaction}
-                />
-              ))}
-            </TableBody>
-          </Table>
-        ) : (
-          <EmptyTransactionsState />
-        )}
-      </CardContent>
-    </Card>
+        </CardHeader>
+        <CardContent>
+          {transactions && transactions.length > 0 ? (
+            <Table>
+              <TransactionsTableHeader />
+              <TableBody>
+                {transactions.map((transaction) => (
+                  <TransactionRow 
+                    key={transaction.id}
+                    transaction={transaction} 
+                    currency={currency}
+                    onEdit={handleEditTransaction}
+                    onDelete={handleDeleteTransaction}
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <EmptyTransactionsState />
+          )}
+        </CardContent>
+      </Card>
+      
+      {/* İşlem düzenleme formu */}
+      {selectedTransaction && accountId && (
+        <TransactionForm
+          accountId={accountId}
+          statementId={statementId}
+          currency={currency}
+          isOpen={isEditFormOpen}
+          onClose={handleCloseEditForm}
+          transaction={selectedTransaction}
+        />
+      )}
+      
+      {/* İşlem silme onay dialogu */}
+      {selectedTransaction && (
+        <DeleteTransactionDialog
+          isOpen={isDeleteDialogOpen}
+          onClose={() => setIsDeleteDialogOpen(false)}
+          onConfirm={handleConfirmDelete}
+          amount={selectedTransaction.amount}
+          transactionType={selectedTransaction.transaction_type}
+          currency={currency}
+          description={selectedTransaction.description}
+        />
+      )}
+    </>
   );
 };

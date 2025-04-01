@@ -1,94 +1,123 @@
 
-import React from "react";
-import { useTranslation } from "react-i18next";
+import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useTransactionFormSetup } from "../../hooks/useTransactionFormSetup";
-import { CurrencyType } from "../../../cashAccountHomepage/types";
-import { StatementInfoSection } from "./components/StatementInfoSection";
-import { TransactionFormContent } from "./components/TransactionFormContent";
+  DialogFooter,
+} from '@/components/ui/dialog';
+import { TransactionFormContent } from './components/TransactionFormContent';
+import { FormActions } from './components/FormActions';
+import { StatementInfoSection } from './components/StatementInfoSection';
+import { useTransactionForm } from '../../hooks/useTransactionForm';
+import { useTransactionFormSetup } from '../../hooks/useTransactionFormSetup';
+import { Transaction, TransactionFormProps } from '../../types';
+import { useTransactionUpdate } from '../../hooks/useTransactionUpdate';
 
-interface TransactionFormProps {
-  accountId: string;
-  statementId?: string;
-  currency: string;
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-/**
- * İşlem formu bileşeni
- */
 export const TransactionForm: React.FC<TransactionFormProps> = ({
   accountId,
   statementId,
   currency,
   isOpen,
-  onClose
+  onClose,
+  transaction
 }) => {
-  const { t } = useTranslation(["TransactionManagement", "common"]);
+  const { t } = useTranslation('TransactionManagement');
+  const isEditMode = !!transaction;
   
-  // string tipindeki currency'i CurrencyType enum'una dönüştür
-  const currencyType = currency as CurrencyType;
+  const { transactionToFormData } = useTransactionUpdate();
   
-  // Transaction form hook'u ile form durumunu yönet
-  const { 
-    form, 
-    date, 
-    setDate, 
-    time, 
-    setTime, 
-    selectedCategoryId, 
-    handleCategoryChange,
-    onSubmit, 
-    isSubmitting,
-    statementId: currentStatementId,
-    statement: currentStatement,
-    isLoadingStatement,
-    statementError,
-    lockStatement,
-    toggleStatementLock
-  } = useTransactionFormSetup(accountId, statementId);
+  // Form kurulumu
+  const {
+    form,
+    statement,
+    isLoading,
+    handleSubmit,
+    isStatementLocked,
+    toggleStatementLock,
+    onStatementSelect,
+  } = useTransactionFormSetup({
+    accountId,
+    statementId,
+    initialFormValues: isEditMode && transaction ? 
+      transactionToFormData(transaction as Transaction) : 
+      undefined
+  });
+  
+  // İşlem formu kancası
+  const { submitTransaction, isSubmitting } = useTransactionForm();
+  
+  // İşlem güncelleme kancası
+  const { updateTransaction, isUpdating } = useTransactionUpdate();
+
+  // Form gönderimi işlemi
+  const onSubmit = async (data: any) => {
+    if (!statement) return;
+    
+    let success = false;
+    
+    if (isEditMode && transaction) {
+      // İşlem güncelleme
+      success = await updateTransaction(transaction.id, data);
+    } else {
+      // Yeni işlem oluşturma
+      success = await submitTransaction({
+        ...data,
+        accountId,
+        statementId: statement.id,
+      });
+    }
+    
+    if (success) {
+      onClose(true); // true parametresi, işlemin başarıyla tamamlandığını belirtir
+    }
+  };
+  
+  // Dialog kapatıldığında formu sıfırla
+  useEffect(() => {
+    if (!isOpen) {
+      form.reset();
+    }
+  }, [isOpen, form]);
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px]">
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>
-            {t("TransactionManagement:transaction.new")}
+            {isEditMode ? t('transaction.edit') : t('transaction.add')}
           </DialogTitle>
         </DialogHeader>
-
-        {/* Ekstre Bilgileri Bölümü */}
-        <StatementInfoSection 
-          currencyType={currencyType}
-          statementId={statementId}
-          currentStatement={currentStatement}
-          isLoadingStatement={isLoadingStatement}
-          statementError={statementError}
-          lockStatement={lockStatement}
-          toggleStatementLock={toggleStatementLock}
-        />
-
-        {/* İşlem Formu İçerik Bölümü */}
-        <TransactionFormContent 
-          form={form}
-          date={date}
-          setDate={setDate}
-          time={time}
-          setTime={setTime}
-          selectedCategoryId={selectedCategoryId}
-          handleCategoryChange={handleCategoryChange}
-          onSubmit={onSubmit}
-          isSubmitting={isSubmitting}
-          isDisabled={!currentStatementId}
-          currency={currencyType}
-          onClose={onClose}
-        />
+        
+        <div className="space-y-6 py-4">
+          {/* Ekstre bilgisi ve kilitleme */}
+          <StatementInfoSection
+            statement={statement}
+            isLoading={isLoading}
+            isLocked={isStatementLocked}
+            onToggleLock={toggleStatementLock}
+            onStatementSelect={onStatementSelect}
+            accountId={accountId}
+            selectedStatementId={statementId}
+          />
+          
+          {/* İşlem formu içeriği */}
+          <TransactionFormContent
+            form={form}
+            currency={currency}
+            handleSubmit={handleSubmit(onSubmit)}
+          />
+        </div>
+        
+        <DialogFooter>
+          <FormActions
+            onCancel={() => onClose()}
+            isSubmitting={isSubmitting || isUpdating}
+            isEditMode={isEditMode}
+          />
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

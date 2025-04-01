@@ -91,7 +91,8 @@ export const StatementDetailView: React.FC = () => {
       
       <TransactionsList 
         statementId={statementId || ''} 
-        currency={account.currency as CurrencyType} 
+        currency={account.currency as CurrencyType}
+        accountId={accountId || ''}
       />
       
       {/* İşlem Form Dialogu */}
