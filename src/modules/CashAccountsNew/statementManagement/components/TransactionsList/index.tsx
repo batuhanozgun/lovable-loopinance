@@ -66,6 +66,16 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
     setIsDeleteDialogOpen(true);
   };
   
+  // Silme diyalogunu kapatma
+  const handleCloseDeleteDialog = () => {
+    if (!isDeleting) {
+      setIsDeleteDialogOpen(false);
+      setTimeout(() => {
+        setSelectedTransaction(null);
+      }, 100);
+    }
+  };
+  
   // Silme onayı işlemi
   const confirmDelete = async () => {
     if (!selectedTransaction) return;
@@ -78,7 +88,9 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
     
     if (success) {
       setIsDeleteDialogOpen(false);
-      setSelectedTransaction(null);
+      setTimeout(() => {
+        setSelectedTransaction(null);
+      }, 100);
     }
   };
 
@@ -131,7 +143,7 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
       <DeleteTransactionDialog
         isOpen={isDeleteDialogOpen}
         isDeleting={isDeleting}
-        onClose={() => setIsDeleteDialogOpen(false)}
+        onClose={handleCloseDeleteDialog}
         onConfirm={confirmDelete}
         transaction={selectedTransaction}
         currency={currency}

@@ -58,7 +58,14 @@ export const DeleteTransactionDialog: React.FC<DeleteTransactionDialogProps> = (
     : t('statements.expenses');
   
   return (
-    <AlertDialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+    <AlertDialog 
+      open={isOpen} 
+      onOpenChange={(open) => {
+        if (!open && !isDeleting) {
+          onClose();
+        }
+      }}
+    >
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{t('transactions.delete.title')}</AlertDialogTitle>
@@ -90,7 +97,15 @@ export const DeleteTransactionDialog: React.FC<DeleteTransactionDialogProps> = (
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isDeleting}>
+          <AlertDialogCancel 
+            disabled={isDeleting}
+            onClick={(e) => {
+              e.preventDefault();
+              if (!isDeleting) {
+                onClose();
+              }
+            }}
+          >
             {t('common:cancel', { ns: 'common' })}
           </AlertDialogCancel>
           <AlertDialogAction 
