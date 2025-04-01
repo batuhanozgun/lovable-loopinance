@@ -1,19 +1,18 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useToast } from '@/hooks/use-toast';
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
-import { StatementService } from '../../../services/StatementService';
+import { TransactionDeleteService } from '../../../services/transaction/TransactionDeleteService';
 import { AccountTransaction } from '../../../types/transaction';
 
 interface DeleteTransactionDialogProps {
@@ -31,7 +30,7 @@ export const DeleteTransactionDialog: React.FC<DeleteTransactionDialogProps> = (
 }) => {
   const { t } = useTranslation('StatementManagement');
   const { toast } = useToast();
-  const [isDeleting, setIsDeleting] = React.useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async () => {
     if (!transaction) return;
@@ -39,7 +38,7 @@ export const DeleteTransactionDialog: React.FC<DeleteTransactionDialogProps> = (
     setIsDeleting(true);
     
     try {
-      const response = await StatementService.deleteTransaction(transaction.id);
+      const response = await TransactionDeleteService.deleteTransaction(transaction.id);
       
       if (response.success) {
         toast({
@@ -67,26 +66,33 @@ export const DeleteTransactionDialog: React.FC<DeleteTransactionDialogProps> = (
     }
   };
 
+  const handleCancel = () => {
+    if (!isDeleting) {
+      onClose();
+    }
+  };
+
   return (
-    <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>{t('transactions.deleteConfirmation.title')}</AlertDialogTitle>
-          <AlertDialogDescription>
+    <Dialog open={isOpen} onOpenChange={handleCancel}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t('transactions.deleteConfirmation.title')}</DialogTitle>
+          <DialogDescription>
             {t('transactions.deleteConfirmation.description')}
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel disabled={isDeleting}>
-            {t('common:cancel', { ns: 'common' })}
-          </AlertDialogCancel>
-          <AlertDialogAction 
-            onClick={(e) => {
-              e.preventDefault();
-              handleDelete();
-            }}
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button 
+            variant="outline" 
+            onClick={handleCancel}
             disabled={isDeleting}
-            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+          >
+            {t('common:cancel', { ns: 'common' })}
+          </Button>
+          <Button 
+            variant="destructive"
+            onClick={handleDelete}
+            disabled={isDeleting}
           >
             {isDeleting ? (
               <>
@@ -96,9 +102,9 @@ export const DeleteTransactionDialog: React.FC<DeleteTransactionDialogProps> = (
             ) : (
               t('transactions.delete')
             )}
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
