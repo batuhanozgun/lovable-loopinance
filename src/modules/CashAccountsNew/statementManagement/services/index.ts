@@ -15,6 +15,7 @@ export * from './automation/StatementAutomationService';
 
 // İşlem sorgulama servisleri
 export * from './transaction/TransactionQueryService';
+export * from './transaction/TransactionDeleteService';
 
 // Ana servis
 export * from './StatementService';

@@ -8,6 +8,7 @@ import { StatementCreationService } from './core/creation/StatementCreationServi
 import { StatementPeriodService } from './core/period/StatementPeriodService';
 import { StatementQueryService } from './core/query/StatementQueryService';
 import { StatementUpdateService } from './core/update/StatementUpdateService';
+import { TransactionDeleteService } from './transaction/TransactionDeleteService';
 import { CashAccount } from '../../cashAccountHomepage/types';
 import { 
   AccountStatement, 
@@ -16,6 +17,7 @@ import {
   StatementListResponse, 
   StatementStatus 
 } from '../types';
+import { SingleTransactionResponse } from '../types/transaction';
 
 /**
  * Ekstre yönetim servisi
@@ -97,5 +99,12 @@ export class StatementService {
     endBalance: number
   ): Promise<SingleStatementResponse> {
     return await StatementUpdateService.updateStatementBalances(id, income, expenses, endBalance);
+  }
+
+  /**
+   * Belirtilen işlemi siler
+   */
+  static async deleteTransaction(id: string): Promise<SingleTransactionResponse> {
+    return await TransactionDeleteService.deleteTransaction(id);
   }
 }

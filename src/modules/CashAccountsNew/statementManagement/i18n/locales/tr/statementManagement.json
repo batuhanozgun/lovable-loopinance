@@ -34,6 +34,12 @@
     "new": "Yeni İşlem",
     "edit": "İşlemi Düzenle",
     "delete": "İşlemi Sil",
+    "deleting": "Siliniyor...",
+    "deleteSuccess": "İşlem başarıyla silindi",
+    "deleteConfirmation": {
+      "title": "İşlemi Sil",
+      "description": "Bu işlemi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz."
+    },
     "empty": "Bu ekstre için işlem bulunamadı",
     "filters": {
       "showAll": "Tümünü Göster",

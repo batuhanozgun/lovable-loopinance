@@ -14,5 +14,21 @@
     "update": {
       "failed": "Failed to update statement"
     }
+  },
+  "transaction": {
+    "notFound": "Transaction not found",
+    "list": {
+      "failed": "Failed to load transactions"
+    },
+    "create": {
+      "failed": "Failed to create transaction"
+    },
+    "update": {
+      "failed": "Failed to update transaction"
+    },
+    "delete": {
+      "failed": "Failed to delete transaction",
+      "statementClosed": "Cannot delete transactions from a closed statement"
+    }
   }
 }

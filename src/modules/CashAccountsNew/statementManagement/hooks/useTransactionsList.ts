@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+
+import { useState, useEffect, useCallback } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
 import { AccountTransaction, TransactionFilters, StatementTransactionType } from '../types/transaction';
@@ -20,44 +21,45 @@ export const useTransactionsList = (statementId: string | undefined) => {
   });
 
   // İşlemleri çekme
-  useEffect(() => {
-    const fetchTransactions = async () => {
-      if (!statementId) {
-        setTransactions([]);
-        setFilteredTransactions([]);
-        setIsLoading(false);
-        return;
-      }
+  const fetchTransactions = useCallback(async () => {
+    if (!statementId) {
+      setTransactions([]);
+      setFilteredTransactions([]);
+      setIsLoading(false);
+      return;
+    }
 
-      setIsLoading(true);
+    setIsLoading(true);
+    
+    try {
+      const response = await TransactionQueryService.getTransactionsByStatementId(statementId);
       
-      try {
-        const response = await TransactionQueryService.getTransactionsByStatementId(statementId);
-        
-        if (response.success && response.data) {
-          setTransactions(response.data);
-          applyFilters(response.data, filters);
-        } else {
-          toast({
-            title: t('common:error', { ns: 'common' }),
-            description: t('errors.transaction.list.failed'),
-            variant: 'destructive'
-          });
-        }
-      } catch (error) {
-        console.error('Error fetching transactions:', error);
+      if (response.success && response.data) {
+        setTransactions(response.data);
+        applyFilters(response.data, filters);
+      } else {
         toast({
           title: t('common:error', { ns: 'common' }),
           description: t('errors.transaction.list.failed'),
           variant: 'destructive'
         });
-      } finally {
-        setIsLoading(false);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching transactions:', error);
+      toast({
+        title: t('common:error', { ns: 'common' }),
+        description: t('errors.transaction.list.failed'),
+        variant: 'destructive'
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  }, [statementId, t, toast, filters]);
 
+  // İlk yükleme ve statementId değişikliklerinde işlemleri çek
+  useEffect(() => {
     fetchTransactions();
-  }, [statementId, t, toast]);
+  }, [fetchTransactions]);
 
   // Filtreler uygulandığında işlemleri filtrele
   useEffect(() => {
@@ -136,6 +138,7 @@ export const useTransactionsList = (statementId: string | undefined) => {
     filterByType,
     sortByDate,
     sortByAmount,
-    resetFilters
+    resetFilters,
+    refetch: fetchTransactions
   };
 };

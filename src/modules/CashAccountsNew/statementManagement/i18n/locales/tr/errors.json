@@ -14,5 +14,21 @@
     "update": {
       "failed": "Ekstre güncellenemedi"
     }
+  },
+  "transaction": {
+    "notFound": "İşlem bulunamadı",
+    "list": {
+      "failed": "İşlemler yüklenemedi"
+    },
+    "create": {
+      "failed": "İşlem oluşturulamadı"
+    },
+    "update": {
+      "failed": "İşlem güncellenemedi"
+    },
+    "delete": {
+      "failed": "İşlem silinemedi",
+      "statementClosed": "Kapalı ekstrelerdeki işlemler silinemez"
+    }
   }
 }

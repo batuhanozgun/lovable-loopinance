@@ -34,6 +34,12 @@
     "new": "New Transaction",
     "edit": "Edit Transaction",
     "delete": "Delete Transaction",
+    "deleting": "Deleting...",
+    "deleteSuccess": "Transaction deleted successfully",
+    "deleteConfirmation": {
+      "title": "Delete Transaction",
+      "description": "Are you sure you want to delete this transaction? This action cannot be undone."
+    },
     "empty": "No transactions found for this statement",
     "filters": {
       "showAll": "Show All",

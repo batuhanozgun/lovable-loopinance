@@ -5,3 +5,4 @@ export { SortDropdownMenu } from './SortDropdownMenu';
 export { TransactionsLoadingSkeleton } from './TransactionsLoadingSkeleton';
 export { TransactionsTableHeader } from './TransactionsTableHeader';
 export { TransactionRow } from './TransactionRow';
+export { DeleteTransactionDialog } from './DeleteTransactionDialog';

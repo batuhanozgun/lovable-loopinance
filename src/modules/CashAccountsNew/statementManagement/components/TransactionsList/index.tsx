@@ -11,7 +11,8 @@ import {
   SortDropdownMenu,
   TransactionsLoadingSkeleton,
   TransactionsTableHeader,
-  TransactionRow
+  TransactionRow,
+  DeleteTransactionDialog
 } from './components';
 import { useTransactionsList } from '../../hooks/useTransactionsList';
 import { AccountTransaction } from '../../types/transaction';
@@ -28,6 +29,7 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
   const { t } = useTranslation('StatementManagement');
   const { toast } = useToast();
   const [selectedTransaction, setSelectedTransaction] = useState<AccountTransaction | null>(null);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   
   // Veri çekme ve filtreleme işlemleri için kancamızı kullanıyoruz
   const { 
@@ -37,7 +39,8 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
     sortByDate,
     sortByAmount,
     filterByType,
-    resetFilters
+    resetFilters,
+    refetch
   } = useTransactionsList(statementId);
 
   // Düzenleme işlemi için
@@ -52,11 +55,19 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
 
   // Silme işlemi için
   const handleDeleteTransaction = (transaction: AccountTransaction) => {
-    // Silme onayı daha sonra uygulanacak
-    toast({
-      title: t('common:info', { ns: 'common' }),
-      description: t('common:featureComingSoon', { ns: 'common' }),
-    });
+    setSelectedTransaction(transaction);
+    setIsDeleteDialogOpen(true);
+  };
+
+  // Silme işlemi tamamlandıktan sonra
+  const handleDeleteSuccess = () => {
+    refetch();
+  };
+  
+  // Silme iletişim kutusunu kapat
+  const handleCloseDeleteDialog = () => {
+    setIsDeleteDialogOpen(false);
+    setSelectedTransaction(null);
   };
 
   // Yükleme durumu
@@ -101,6 +112,14 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
           <EmptyTransactionsState />
         )}
       </CardContent>
+
+      {/* İşlem Silme İletişim Kutusu */}
+      <DeleteTransactionDialog
+        transaction={selectedTransaction}
+        isOpen={isDeleteDialogOpen}
+        onClose={handleCloseDeleteDialog}
+        onSuccess={handleDeleteSuccess}
+      />
     </Card>
   );
 };
