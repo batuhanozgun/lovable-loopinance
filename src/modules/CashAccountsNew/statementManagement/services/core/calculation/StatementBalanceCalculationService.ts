@@ -48,9 +48,11 @@ export class StatementBalanceCalculationService {
       let expenses = 0;
       
       transactions?.forEach(transaction => {
-        if (transaction.transaction_type === 'INCOME') {
+        // Burada veritabanından gelen işlem tiplerini kontrol ediyoruz
+        // Veritabanında 'income' ve 'expense' olarak saklanıyor
+        if (transaction.transaction_type.toLowerCase() === 'income') {
           income += Number(transaction.amount);
-        } else if (transaction.transaction_type === 'EXPENSE') {
+        } else if (transaction.transaction_type.toLowerCase() === 'expense') {
           expenses += Number(transaction.amount);
         }
       });

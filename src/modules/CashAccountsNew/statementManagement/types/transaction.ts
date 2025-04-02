@@ -1,4 +1,3 @@
-
 /**
  * İşlem Yönetimi için tip tanımlamaları
  */
@@ -63,9 +62,8 @@ export interface TransactionFilters {
 export const transformTransactionData = (data: any): AccountTransaction => {
   return {
     ...data,
-    transaction_type: data.transaction_type === 'income' 
+    transaction_type: data.transaction_type.toLowerCase() === 'income' 
       ? StatementTransactionType.INCOME 
       : StatementTransactionType.EXPENSE
   };
 };
-
