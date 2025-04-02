@@ -8,6 +8,7 @@ import { StatementCreationService } from './core/creation/StatementCreationServi
 import { StatementPeriodService } from './core/period/StatementPeriodService';
 import { StatementQueryService } from './core/query/StatementQueryService';
 import { StatementUpdateService } from './core/update/StatementUpdateService';
+import { StatementBalanceCalculationService } from './core/calculation/StatementBalanceCalculationService';
 import { TransactionDeleteService } from './transaction/TransactionDeleteService';
 import { CashAccount } from '../../cashAccountHomepage/types';
 import { 
@@ -99,6 +100,19 @@ export class StatementService {
     endBalance: number
   ): Promise<SingleStatementResponse> {
     return await StatementUpdateService.updateStatementBalances(id, income, expenses, endBalance);
+  }
+
+  /**
+   * Belirtilen ekstrenin bakiyelerini yeniden hesaplar ve günceller
+   */
+  static async recalculateStatementBalance(
+    statementId: string,
+    accountId: string
+  ): Promise<SingleStatementResponse> {
+    return await StatementBalanceCalculationService.calculateAndUpdateStatementBalance(
+      statementId,
+      accountId
+    );
   }
 
   /**

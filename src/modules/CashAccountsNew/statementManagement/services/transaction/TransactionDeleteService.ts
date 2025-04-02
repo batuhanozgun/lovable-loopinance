@@ -6,6 +6,7 @@
 import { supabase } from '@/integrations/supabase/client';
 import { ILogger } from '@/modules/Logging/interfaces/ILogger';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
+import { StatementService } from '../StatementService';
 import { 
   StatementTransactionResponse, 
   AccountTransaction,
@@ -22,6 +23,26 @@ export class TransactionDeleteService {
    */
   static async deleteTransaction(id: string): Promise<StatementTransactionResponse> {
     try {
+      // Önce işlemi getir (silmeden önce statement_id ve account_id değerlerini almak için)
+      const { data: transactionData, error: getError } = await supabase
+        .from('account_transactions')
+        .select('id, statement_id, account_id')
+        .eq('id', id)
+        .single();
+      
+      if (getError || !transactionData) {
+        this.logger.error('İşlem bilgileri alınırken hata oluştu', { 
+          id,
+          error: getError?.message 
+        });
+        
+        return {
+          success: false,
+          error: getError?.message || 'İşlem bulunamadı'
+        };
+      }
+      
+      // İşlemi sil
       const { data, error } = await supabase
         .from('account_transactions')
         .delete()
@@ -42,6 +63,12 @@ export class TransactionDeleteService {
       }
 
       this.logger.info('İşlem başarıyla silindi', { id });
+      
+      // İşlem silindikten sonra ilgili ekstrenin bakiyelerini yeniden hesapla
+      await StatementService.recalculateStatementBalance(
+        transactionData.statement_id,
+        transactionData.account_id
+      );
       
       // Veriyi doğru enum tipine dönüştürüyoruz
       const transformedData = transformTransactionData(data);

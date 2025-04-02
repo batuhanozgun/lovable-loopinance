@@ -1,6 +1,7 @@
 
 import { supabase } from '@/integrations/supabase/client';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
+import { StatementService } from '../../statementManagement/services/StatementService';
 import { CreateTransactionData, Transaction, TransactionResponse } from '../types';
 
 /**
@@ -33,6 +34,13 @@ export class TransactionCreationService {
       }
       
       this.logger.info('Transaction created successfully', { id: transaction.id });
+      
+      // İşlem oluşturulduktan sonra ekstre bakiyelerini güncelle
+      await StatementService.recalculateStatementBalance(
+        data.statement_id,
+        data.account_id
+      );
+      
       return {
         success: true,
         data: transaction as Transaction
