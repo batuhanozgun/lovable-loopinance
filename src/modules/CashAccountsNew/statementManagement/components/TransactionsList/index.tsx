@@ -34,9 +34,13 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   
-  // Diyalog kapandıktan sonra body stilini düzeltecek useEffect hook'u
+  // Diyalog açıkken/kapandığında CSS sınıfını ekleyip kaldıracak useEffect hook'u
   useEffect(() => {
-    if (!isDeleteDialogOpen) {
+    if (isDeleteDialogOpen) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+      // Ek önlem olarak pointer-events'i doğrudan da ayarla
       document.body.style.pointerEvents = 'auto';
     }
   }, [isDeleteDialogOpen]);

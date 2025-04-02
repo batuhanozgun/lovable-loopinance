@@ -73,6 +73,11 @@
   body {
     @apply bg-background text-foreground;
   }
+  
+  /* Modal dialog açıkken de kapandıktan sonra da pointer-events'in doğru çalışması için kural */
+  body:not(.modal-open) {
+    pointer-events: auto !important;
+  }
 }
 
 @layer utilities {
