@@ -58,11 +58,26 @@ export async function createFutureStatements(
     for (let i = 0; i < requiredCount; i++) {
       // Bir sonraki dönemin tarihlerini hesapla 
       const lastEndDate = new Date(lastStatement.end_date);
+      
+      // Bir sonraki başlangıç tarihi, son bitiş tarihinden bir gün sonra
       const nextStartDate = new Date(lastEndDate);
       nextStartDate.setDate(nextStartDate.getDate() + 1);
       
-      // Bir sonraki dönem için hesapla
+      // Bir sonraki dönemi, doğrudan nextStartDate'i kullanarak hesapla
+      // Bu, belirli bir gün seçildiğinde, doğru ayın doğru gününü bulacaktır
       const nextPeriod = StatementPeriodService.calculateNextPeriod(cashAccount, nextStartDate);
+      
+      // Hata ayıklama için dönem bilgilerini logla
+      logger.debug('Gelecek ekstre dönem hesaplaması', {
+        accountId,
+        iteration: i,
+        lastEndDate: format(lastEndDate, 'yyyy-MM-dd'),
+        nextStartDate: format(nextStartDate, 'yyyy-MM-dd'),
+        calculatedPeriodStart: format(nextPeriod.startDate, 'yyyy-MM-dd'),
+        calculatedPeriodEnd: format(nextPeriod.endDate, 'yyyy-MM-dd'),
+        closingDayType: cashAccount.closing_day_type,
+        closingDayValue: cashAccount.closing_day_value
+      });
       
       // Gelecek ekstreyi oluştur
       const newStatementData: CreateAccountStatementData = {

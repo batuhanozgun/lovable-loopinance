@@ -57,6 +57,18 @@ export async function createRemainingFutureStatements(
       // Bir sonraki dönem için hesapla
       const nextPeriod = StatementPeriodService.calculateNextPeriod(cashAccount, nextStartDate);
       
+      // Hata ayıklama için dönem bilgilerini logla
+      logger.debug('Gelecek ekstre dönem hesaplaması', {
+        accountId,
+        iteration: i,
+        lastEndDate: format(lastEndDate, 'yyyy-MM-dd'),
+        nextStartDate: format(nextStartDate, 'yyyy-MM-dd'),
+        calculatedPeriodStart: format(nextPeriod.startDate, 'yyyy-MM-dd'),
+        calculatedPeriodEnd: format(nextPeriod.endDate, 'yyyy-MM-dd'),
+        closingDayType: cashAccount.closing_day_type,
+        closingDayValue: cashAccount.closing_day_value
+      });
+      
       // Gelecek ekstreyi oluştur
       const newStatementData: CreateAccountStatementData = {
         account_id: accountId,

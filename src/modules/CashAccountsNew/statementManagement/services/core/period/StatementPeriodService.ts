@@ -25,14 +25,11 @@ export class StatementPeriodService {
         closingDayType: account.closing_day_type 
       });
 
-      // Mevcut ayın son günü
-      const currentMonthEndDate = endOfMonth(currentDate);
-      
-      // Bir sonraki ay
-      const nextMonth = addMonths(currentDate, 1);
-      
       // Dönem bitiş tarihi hesaplama
       let closingDate: Date;
+      
+      // Mevcut ayın son günü
+      const currentMonthEndDate = endOfMonth(currentDate);
       
       switch (account.closing_day_type) {
         case 'lastDay':
@@ -53,16 +50,20 @@ export class StatementPeriodService {
             currentDate.getMonth(), 
             account.closing_day_value
           );
+          
+          // Eğer hesaplanan gün geçmişte kalmışsa, bir sonraki aya geç
+          if (closingDate < currentDate) {
+            closingDate = this.getSpecificDayDate(
+              currentDate.getFullYear(),
+              currentDate.getMonth() + 1,
+              account.closing_day_value
+            );
+          }
           break;
           
         default:
           closingDate = currentMonthEndDate;
           break;
-      }
-      
-      // Eğer mevcut tarih dönem bitiş tarihini geçmişse, bir sonraki ayın dönemini hesapla
-      if (currentDate > closingDate) {
-        return this.calculateNextPeriod(account, nextMonth);
       }
       
       // Dönem başlangıç tarihi, bir önceki dönemin bitiş tarihinin ertesi günü
