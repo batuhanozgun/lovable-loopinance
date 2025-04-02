@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { PlusCircle, RefreshCw } from 'lucide-react';
+import { PlusCircle, RefreshCw, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -109,9 +109,17 @@ export const StatementsListView: React.FC = () => {
   return (
     <div className="container py-6">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">
-          {`${account.name} - ${t('statements.title')}`}
-        </h1>
+        <div className="flex items-center">
+          <Button variant="ghost" size="sm" asChild className="mr-4">
+            <Link to="/nakit-hesaplar">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              {t('common:back')}
+            </Link>
+          </Button>
+          <h1 className="text-2xl font-bold">
+            {`${account.name} - ${t('statements.title')}`}
+          </h1>
+        </div>
         
         <div className="flex gap-2">
           <Button 
