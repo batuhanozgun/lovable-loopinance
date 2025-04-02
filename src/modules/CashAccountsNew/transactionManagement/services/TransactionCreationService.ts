@@ -1,161 +1,47 @@
 
 import { supabase } from '@/integrations/supabase/client';
-import { CreateTransactionData, SingleTransactionResponse, Transaction } from '../types';
-import { StatementService } from '../../statementManagement/services/StatementService';
-import { TransactionType } from '../types';
+import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
+import { CreateTransactionData, Transaction, TransactionResponse } from '../types';
 
 /**
  * İşlem oluşturma servisi
  */
 export class TransactionCreationService {
+  private static logger = new ModuleLogger('CashAccountsNew.TransactionCreationService');
+
   /**
-   * Yeni bir hesap işlemi oluşturur
+   * Yeni bir işlem oluşturur ve kaydeder
+   * @param data İşlem verileri
+   * @returns İşlem sonucu
    */
-  static async createTransaction(data: CreateTransactionData): Promise<SingleTransactionResponse> {
+  static async createTransaction(data: CreateTransactionData): Promise<TransactionResponse> {
     try {
-      console.log('TransactionCreationService - Creating transaction with data:', data);
+      this.logger.debug('Creating new transaction', { data });
       
-      // Veri doğrulama kontrolü
-      if (!data.account_id) {
-        const errorMsg = 'account_id is required but missing';
-        console.error(errorMsg);
-        return { success: false, error: errorMsg };
-      }
-      
-      if (!data.statement_id) {
-        const errorMsg = 'statement_id is required but missing';
-        console.error(errorMsg);
-        return { success: false, error: errorMsg };
-      }
-      
-      if (!data.transaction_date) {
-        const errorMsg = 'transaction_date is required but missing';
-        console.error(errorMsg);
-        return { success: false, error: errorMsg };
-      }
-      
-      if (!data.transaction_time) {
-        const errorMsg = 'transaction_time is required but missing';
-        console.error(errorMsg);
-        return { success: false, error: errorMsg };
-      }
-      
-      // Amount doğrulama - sayı olmalı ve tam sayı değeri
-      if (data.amount === undefined || data.amount === null || isNaN(Number(data.amount))) {
-        const errorMsg = `amount is required but missing or invalid (received: ${data.amount}, type: ${typeof data.amount})`;
-        console.error(errorMsg);
-        return { success: false, error: errorMsg };
-      }
-      
-      if (!data.transaction_type) {
-        const errorMsg = 'transaction_type is required but missing';
-        console.error(errorMsg);
-        return { success: false, error: errorMsg };
-      }
-      
-      // Ekstrenin durumunu kontrol et (artık sadece bilgi olarak göstereceğiz, engelleme yapmıyoruz)
-      const { data: statementData, error: statementError } = await supabase
-        .from('account_statements')
-        .select('status, income, expenses, end_balance')
-        .eq('id', data.statement_id)
+      const { data: transaction, error } = await supabase
+        .from('account_transactions')
+        .insert([data])
+        .select()
         .single();
       
-      if (statementError) {
-        console.error('Failed to check statement status:', statementError);
-        return { success: false, error: 'Failed to verify statement status' };
-      }
-      
-      console.log('Statement status:', statementData?.status);
-      
-      // API çağrısı
-      console.log('Making Supabase API call with validated data');
-      const { data: transactionData, error: supabaseError } = await supabase
-        .from('account_transactions')
-        .insert(data)
-        .select('*')
-        .maybeSingle();
-      
-      // Hata durumunu kontrol et
-      if (supabaseError) {
-        console.error('Supabase error creating transaction:', {
-          message: supabaseError.message,
-          details: supabaseError.details,
-          hint: supabaseError.hint,
-          code: supabaseError.code
-        });
+      if (error) {
+        this.logger.error('Failed to create transaction', { error });
         return {
           success: false,
-          error: supabaseError.message
-        };
-      }
-
-      // Eğer veri yoksa
-      if (!transactionData) {
-        const errorMsg = 'Transaction created but no data returned';
-        console.error(errorMsg);
-        return {
-          success: false,
-          error: errorMsg
+          error: error.message
         };
       }
       
-      console.log('Account transaction created successfully:', { id: transactionData.id });
-      
-      // İşlem oluşturulduktan sonra ekstre bakiyelerini güncelle
-      try {
-        console.log('Updating statement balances after transaction creation');
-        
-        // Mevcut gelir, gider ve bakiye değerlerini al
-        let { income, expenses, end_balance } = statementData;
-        
-        // İşlem türüne göre ekstre değerlerini güncelle
-        if (data.transaction_type === TransactionType.INCOME) {
-          income = Number(income) + Number(data.amount);
-          end_balance = Number(end_balance) + Number(data.amount);
-        } else if (data.transaction_type === TransactionType.EXPENSE) {
-          expenses = Number(expenses) + Number(data.amount);
-          end_balance = Number(end_balance) - Number(data.amount);
-        }
-        
-        // Ekstre güncelleme servisi ile bakiyeleri güncelle
-        const updateResult = await StatementService.updateStatementBalances(
-          data.statement_id,
-          income,
-          expenses,
-          end_balance
-        );
-        
-        if (!updateResult.success) {
-          console.error('Failed to update statement balances:', updateResult.error);
-        } else {
-          console.log('Statement balances updated successfully:', {
-            income, 
-            expenses,
-            end_balance,
-            statement_id: data.statement_id
-          });
-        }
-      } catch (updateError) {
-        // Ekstre güncelleme hatası durumunda işlemi iptal etme, sadece loglama yapma
-        console.error('Error updating statement balances:', updateError);
-      }
-      
+      this.logger.info('Transaction created successfully', { id: transaction.id });
       return {
         success: true,
-        data: transactionData as Transaction
+        data: transaction as Transaction
       };
     } catch (error) {
-      // Tüm hata tiplerini güvenli bir şekilde işle
-      const errorMessage = error instanceof Error ? error.message : String(error);
-      
-      console.error("Unexpected error creating account transaction:", { 
-        error, 
-        message: errorMessage
-      });
-      
+      this.logger.error('Unexpected error creating transaction', { error });
       return {
         success: false,
-        error: errorMessage
+        error: error instanceof Error ? error.message : 'Unknown error'
       };
     }
   }

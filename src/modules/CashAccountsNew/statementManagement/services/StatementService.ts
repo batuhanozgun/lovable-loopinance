@@ -17,7 +17,7 @@ import {
   StatementListResponse, 
   StatementStatus 
 } from '../types';
-import { SingleTransactionResponse } from '../types/transaction';
+import { StatementTransactionResponse } from '../types/transaction';
 
 /**
  * Ekstre yönetim servisi
@@ -104,7 +104,7 @@ export class StatementService {
   /**
    * Belirtilen işlemi siler
    */
-  static async deleteTransaction(id: string): Promise<SingleTransactionResponse> {
+  static async deleteTransaction(id: string): Promise<StatementTransactionResponse> {
     return await TransactionDeleteService.deleteTransaction(id);
   }
 }

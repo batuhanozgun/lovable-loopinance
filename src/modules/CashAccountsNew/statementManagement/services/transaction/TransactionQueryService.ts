@@ -4,7 +4,7 @@
  */
 import { supabase } from '@/integrations/supabase/client';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
-import { AccountTransaction, TransactionListResponse } from '../../types/transaction';
+import { AccountTransaction, TransactionListResponse, transformTransactionData } from '../../types/transaction';
 
 export class TransactionQueryService {
   private static logger = new ModuleLogger('CashAccountsNew.TransactionQueryService');
@@ -31,10 +31,13 @@ export class TransactionQueryService {
         };
       }
       
+      // Verileri doğru enum tipine dönüştürüyoruz
+      const transformedData = transactions.map(transaction => transformTransactionData(transaction));
+      
       this.logger.info('Account transactions fetched successfully', { accountId, count: transactions.length });
       return {
         success: true,
-        data: transactions as AccountTransaction[]
+        data: transformedData
       };
     } catch (error) {
       this.logger.error('Unexpected error fetching account transactions', { accountId, error });
@@ -67,10 +70,13 @@ export class TransactionQueryService {
         };
       }
       
+      // Verileri doğru enum tipine dönüştürüyoruz
+      const transformedData = transactions.map(transaction => transformTransactionData(transaction));
+      
       this.logger.info('Statement transactions fetched successfully', { statementId, count: transactions.length });
       return {
         success: true,
-        data: transactions as AccountTransaction[]
+        data: transformedData
       };
     } catch (error) {
       this.logger.error('Unexpected error fetching statement transactions', { statementId, error });
@@ -102,10 +108,13 @@ export class TransactionQueryService {
         };
       }
       
+      // Veriyi doğru enum tipine dönüştürüyoruz
+      const transformedData = transformTransactionData(transaction);
+      
       this.logger.info('Transaction fetched successfully', { id });
       return {
         success: true,
-        data: [transaction] as AccountTransaction[]
+        data: [transformedData]
       };
     } catch (error) {
       this.logger.error('Unexpected error fetching transaction by ID', { id, error });

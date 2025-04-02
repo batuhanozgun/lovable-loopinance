@@ -6,7 +6,11 @@
 import { supabase } from '@/integrations/supabase/client';
 import { ILogger } from '@/modules/Logging/interfaces/ILogger';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
-import { SingleTransactionResponse } from '../../types/transaction';
+import { 
+  StatementTransactionResponse, 
+  AccountTransaction,
+  transformTransactionData 
+} from '../../types/transaction';
 
 export class TransactionDeleteService {
   private static logger = new ModuleLogger('CashAccountsNew.TransactionDeleteService');
@@ -16,7 +20,7 @@ export class TransactionDeleteService {
    * @param id Silinecek işlem ID'si
    * @returns İşlemin başarılı olup olmadığını belirten yanıt
    */
-  static async deleteTransaction(id: string): Promise<SingleTransactionResponse> {
+  static async deleteTransaction(id: string): Promise<StatementTransactionResponse> {
     try {
       const { data, error } = await supabase
         .from('account_transactions')
@@ -39,9 +43,12 @@ export class TransactionDeleteService {
 
       this.logger.info('İşlem başarıyla silindi', { id });
       
+      // Veriyi doğru enum tipine dönüştürüyoruz
+      const transformedData = transformTransactionData(data);
+      
       return {
         success: true,
-        data
+        data: transformedData
       };
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Bilinmeyen hata';

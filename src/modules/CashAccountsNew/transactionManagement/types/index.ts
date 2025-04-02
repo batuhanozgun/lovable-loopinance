@@ -63,9 +63,9 @@ export interface TransactionFormData {
 }
 
 /**
- * İşlem yanıtı tipi
+ * İşlem yanıtı tipi - TransactionResponse olarak yeniden adlandırıldı çakışmayı önlemek için
  */
-export interface SingleTransactionResponse {
+export interface TransactionResponse {
   success: boolean;
   data?: Transaction | null;
   error?: string;

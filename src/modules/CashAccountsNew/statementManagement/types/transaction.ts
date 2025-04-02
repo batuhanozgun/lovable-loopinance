@@ -40,9 +40,9 @@ export interface TransactionListResponse {
 }
 
 /**
- * Tek işlem yanıtı tipi
+ * Tek işlem yanıtı tipi - Çakışmayı önlemek için yeniden adlandırıldı
  */
-export interface SingleTransactionResponse {
+export interface StatementTransactionResponse {
   success: boolean;
   data?: AccountTransaction;
   error?: string;
@@ -56,3 +56,16 @@ export interface TransactionFilters {
   sortByDate: 'asc' | 'desc' | null;
   sortByAmount: 'asc' | 'desc' | null;
 }
+
+/**
+ * Veri dönüşüm yardımcı fonksiyonu
+ */
+export const transformTransactionData = (data: any): AccountTransaction => {
+  return {
+    ...data,
+    transaction_type: data.transaction_type === 'income' 
+      ? StatementTransactionType.INCOME 
+      : StatementTransactionType.EXPENSE
+  };
+};
+
