@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody } from '@/components/ui/table';
@@ -33,6 +33,13 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
   const [selectedTransaction, setSelectedTransaction] = useState<AccountTransaction | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  
+  // Diyalog kapandıktan sonra body stilini düzeltecek useEffect hook'u
+  useEffect(() => {
+    if (!isDeleteDialogOpen) {
+      document.body.style.pointerEvents = 'auto';
+    }
+  }, [isDeleteDialogOpen]);
   
   // Veri çekme ve filtreleme işlemleri için kancamızı kullanıyoruz
   const { 
