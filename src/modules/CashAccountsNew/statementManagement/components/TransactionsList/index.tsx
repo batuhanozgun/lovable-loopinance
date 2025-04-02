@@ -66,7 +66,10 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
   const handleConfirmDelete = async () => {
     if (!selectedTransaction) return;
     
-    // Önce UI durumu güncelleme
+    // Önce diyaloğu kapatıp sonra silme işlemini başlatalım
+    setIsDeleteDialogOpen(false);
+    
+    // Bir sonraki adımda UI durumunu güncelleyelim
     setIsDeleting(true);
     
     try {
