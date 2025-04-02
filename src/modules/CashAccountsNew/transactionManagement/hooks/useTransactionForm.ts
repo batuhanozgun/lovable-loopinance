@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast';
@@ -54,12 +53,23 @@ export const useTransactionForm = () => {
       console.log('Invalidating and refetching queries after transaction creation');
       
       // İşlem oluşturulduktan sonra tüm sorguları geçersiz kıl ve yeniden çek
+      // Query key isimlerini tam olarak doğru şekilde belirtelim
       await queryClient.invalidateQueries({ queryKey: ['statementTransactions', data.statement_id] });
-      await queryClient.invalidateQueries({ queryKey: ['statement', data.statement_id] });
-      await queryClient.invalidateQueries({ queryKey: ['statements', data.account_id] });
+      await queryClient.invalidateQueries({ queryKey: ['cashAccountStatementNew', data.statement_id] });
+      await queryClient.invalidateQueries({ queryKey: ['accountStatements', data.account_id] });
       
-      // Ana sayfadaki hesap listesini güncellemek için doğru query key'i geçersiz kıl ve yeniden çek
-      await queryClient.refetchQueries({ queryKey: ['cashAccountsNew'] });
+      // Hesap listesini güncelleyelim
+      await queryClient.invalidateQueries({ queryKey: ['cashAccounts'] });
+      
+      // Verilerin anında güncellenmesi için refetch işlemini zorlayalım
+      await queryClient.refetchQueries({ 
+        queryKey: ['statementTransactions', data.statement_id],
+        exact: true 
+      });
+      await queryClient.refetchQueries({ 
+        queryKey: ['cashAccountStatementNew', data.statement_id],
+        exact: true 
+      });
       
       console.log('Transaction created successfully, cache invalidated and refetched');
       

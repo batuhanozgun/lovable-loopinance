@@ -10,8 +10,9 @@ import { CurrencyType } from '@/modules/CashAccountsNew/cashAccountHomepage/type
 import { Skeleton } from '@/components/ui/skeleton';
 import { StatementDetails } from '../components/StatementDetails';
 import { TransactionsList } from '../components/TransactionsList';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { TransactionForm } from '@/modules/CashAccountsNew/transactionManagement';
+import { useQueryClient } from '@tanstack/react-query';
 
 /**
  * Ekstre detay sayfası
@@ -20,9 +21,38 @@ export const StatementDetailView: React.FC = () => {
   const { accountId, statementId } = useParams<{ accountId: string; statementId: string }>();
   const { t } = useTranslation(['StatementManagement', 'common']);
   const [isTransactionFormOpen, setIsTransactionFormOpen] = useState(false);
+  const queryClient = useQueryClient();
   
   const { data: account, isLoading: isAccountLoading } = useCashAccount(accountId);
-  const { data: statement, isLoading: isStatementLoading } = useStatement(statementId);
+  const { data: statement, isLoading: isStatementLoading, refetch: refetchStatement } = useStatement(statementId);
+
+  // İşlem formunu açma işleyicisi
+  const handleOpenTransactionForm = useCallback(() => {
+    setIsTransactionFormOpen(true);
+  }, []);
+
+  // İşlem formunu kapatma işleyicisi - form kapatıldığında verileri yenile
+  const handleCloseTransactionForm = useCallback(async () => {
+    setIsTransactionFormOpen(false);
+    
+    // Form kapatıldığında tüm verileri yenileyelim
+    if (statementId) {
+      // Ekstre verilerini ve işlem listesini yenile
+      await queryClient.refetchQueries({ 
+        queryKey: ['cashAccountStatementNew', statementId],
+        exact: true 
+      });
+      await queryClient.refetchQueries({ 
+        queryKey: ['statementTransactions', statementId],
+        exact: true 
+      });
+      
+      // Manuel olarak refetch fonksiyonlarını da çağıralım
+      if (refetchStatement) {
+        await refetchStatement();
+      }
+    }
+  }, [statementId, queryClient, refetchStatement]);
 
   // Yükleme durumu
   if (isAccountLoading || isStatementLoading) {
@@ -75,7 +105,7 @@ export const StatementDetailView: React.FC = () => {
         
         {/* Yeni İşlem Ekle Butonu */}
         <Button 
-          onClick={() => setIsTransactionFormOpen(true)}
+          onClick={handleOpenTransactionForm}
           className="flex items-center"
         >
           <Plus className="h-4 w-4 mr-2" />
@@ -101,7 +131,7 @@ export const StatementDetailView: React.FC = () => {
           statementId={statementId}
           currency={account.currency}
           isOpen={isTransactionFormOpen}
-          onClose={() => setIsTransactionFormOpen(false)}
+          onClose={handleCloseTransactionForm}
         />
       )}
     </div>

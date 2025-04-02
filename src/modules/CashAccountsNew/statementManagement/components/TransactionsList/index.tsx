@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody } from '@/components/ui/table';
@@ -18,6 +18,7 @@ import { useTransactionsList } from '../../hooks/useTransactionsList';
 import { AccountTransaction } from '../../types/transaction';
 import { Loader2 } from 'lucide-react';
 import { StatementService } from '../../services/StatementService';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface TransactionsListProps {
   statementId: string;
@@ -30,6 +31,7 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
 }) => {
   const { t } = useTranslation('StatementManagement');
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [selectedTransaction, setSelectedTransaction] = useState<AccountTransaction | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -73,6 +75,20 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
     setIsDeleteDialogOpen(true);
   };
 
+  // Tüm verileri yenileme işlemi
+  const refreshAllData = useCallback(async () => {
+    if (statementId) {
+      // İşlem listesini yenile
+      await refetch();
+      
+      // Ekstre verilerini yenile
+      await queryClient.refetchQueries({ 
+        queryKey: ['cashAccountStatementNew', statementId],
+        exact: true 
+      });
+    }
+  }, [statementId, refetch, queryClient]);
+
   // Silme işlemini onaylama
   const handleConfirmDelete = async () => {
     if (!selectedTransaction) return;
@@ -91,7 +107,9 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
           title: t('common:success', { ns: 'common' }),
           description: t('transactions.deleteSuccess'),
         });
-        refetch();
+        
+        // Tüm ilgili verileri yenile
+        await refreshAllData();
       } else {
         toast({
           title: t('common:error', { ns: 'common' }),
