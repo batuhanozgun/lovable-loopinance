@@ -66,8 +66,7 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
   const handleConfirmDelete = async () => {
     if (!selectedTransaction) return;
     
-    // Dialog'u önceden kapat
-    setIsDeleteDialogOpen(false);
+    // Önce UI durumu güncelleme
     setIsDeleting(true);
     
     try {
@@ -98,12 +97,6 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
     }
   };
   
-  // Silme iletişim kutusunu kapat
-  const handleCloseDeleteDialog = () => {
-    setIsDeleteDialogOpen(false);
-    setSelectedTransaction(null);
-  };
-
   // Yükleme durumu
   if (isLoading) {
     return <TransactionsLoadingSkeleton />;

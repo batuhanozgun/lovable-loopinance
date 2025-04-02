@@ -28,6 +28,11 @@ export const DeleteTransactionDialog: React.FC<DeleteTransactionDialogProps> = (
 }) => {
   const { t } = useTranslation('StatementManagement');
 
+  const handleConfirm = () => {
+    setIsOpen(false); // Önce diyaloğu kapat
+    onConfirm(); // Sonra silme işlemini başlat
+  };
+
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogContent>
@@ -42,7 +47,7 @@ export const DeleteTransactionDialog: React.FC<DeleteTransactionDialogProps> = (
             {t('common:cancel', { ns: 'common' })}
           </AlertDialogCancel>
           <AlertDialogAction 
-            onClick={onConfirm}
+            onClick={handleConfirm}
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
           >
             {t('transactions.delete')}
