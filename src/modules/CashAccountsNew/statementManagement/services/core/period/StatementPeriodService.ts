@@ -27,6 +27,48 @@ export class StatementPeriodService {
       currentDate: format(currentDate, 'yyyy-MM-dd')
     });
     
+    // Özel gün seçeneği için özel hesaplama
+    if (account.closing_day_type === 'specificDay' && account.closing_day_value) {
+      const currentDay = currentDate.getDate();
+      const closingDay = account.closing_day_value;
+      
+      let startDate: Date;
+      let endDate: Date;
+      
+      // Bugünkü günün kapanış gününe göre durumunu kontrol et
+      if (currentDay < closingDay) {
+        // Bugün kapanış gününden küçükse, bu ay içindeki kapanış gününde dönem biter
+        endDate = SpecificDayCalculator.calculateSpecificDayEndDate(currentDate, closingDay);
+        
+        // Başlangıç tarihi, bir önceki ayın kapanış gününden bir gün sonrasıdır
+        startDate = SpecificDayCalculator.calculateSpecificDayStartDate(currentDate, closingDay);
+      } 
+      else if (currentDay === closingDay) {
+        // Bugün kapanış gününe eşitse, bugün dönem biter
+        endDate = SpecificDayCalculator.calculateSpecificDayEndDate(currentDate, closingDay);
+        
+        // Başlangıç tarihi, bir önceki ayın kapanış gününden bir gün sonrasıdır
+        startDate = SpecificDayCalculator.calculateSpecificDayStartDate(currentDate, closingDay);
+      }
+      else {
+        // Bugün kapanış gününden büyükse, bir sonraki aydaki kapanış gününde dönem biter
+        endDate = SpecificDayCalculator.calculateSpecificDayEndDate(currentDate, closingDay);
+        
+        // Başlangıç tarihi, bu aydaki kapanış gününden bir gün sonrasıdır
+        startDate = SpecificDayCalculator.calculateSpecificDayStartDate(currentDate, closingDay);
+      }
+      
+      this.logger.debug('Belirli gün seçeneği için dönem hesaplandı', {
+        currentDay, 
+        closingDay,
+        startDate: format(startDate, 'yyyy-MM-dd'), 
+        endDate: format(endDate, 'yyyy-MM-dd')
+      });
+      
+      return { startDate, endDate };
+    }
+    
+    // Diğer seçenekler için standart hesaplama
     return PeriodCalculator.calculateNextPeriod(account, currentDate);
   }
 
@@ -48,19 +90,5 @@ export class StatementPeriodService {
     currentDate: Date = new Date()
   ): { startDate: Date; endDate: Date } {
     return PeriodCalculator.calculateCurrentPeriod(account, currentDate);
-  }
-
-  /**
-   * Belirli bir günün tarihini döndürür, eğer gün ay içinde yoksa ayın son gününü döndürür
-   */
-  private static getSpecificDayDate(year: number, month: number, day: number): Date {
-    return SpecificDayCalculator.getSpecificDayDate(year, month, day);
-  }
-
-  /**
-   * Ayın son iş gününü hesaplar (hafta sonlarını dikkate alır)
-   */
-  private static getLastBusinessDay(lastDayOfMonth: Date): Date {
-    return SpecificDayCalculator.getLastBusinessDay(lastDayOfMonth);
   }
 }

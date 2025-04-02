@@ -43,12 +43,11 @@ export class SpecificDayCalculator {
     const currentMonth = currentDate.getMonth();
     const currentDay = currentDate.getDate();
     
-    // Eğer bugünün günü kapanış gününe eşit veya büyükse, bu ayki kapanış mevcut tarihte gerçekleşir
-    // Bu durumda önceki ayın kapanış tarihi önceki aydadır
-    if (currentDay >= closingDay) {
+    // Eğer bugünün günü kapanış gününden küçükse, önceki kapanış tarihi önceki aydadır
+    if (currentDay < closingDay) {
       return this.getSpecificDayDate(currentYear, currentMonth - 1, closingDay);
     } 
-    // Eğer bugünün günü kapanış gününden küçükse, önceki kapanış bu ayda olmuştur
+    // Eğer bugünün günü kapanış gününe eşit veya büyükse, önceki kapanış bu aydadır
     else {
       return this.getSpecificDayDate(currentYear, currentMonth, closingDay);
     }
@@ -62,36 +61,44 @@ export class SpecificDayCalculator {
     const currentMonth = currentDate.getMonth();
     const currentDay = currentDate.getDate();
     
-    // Eğer bugünün günü kapanış gününe eşit veya büyükse, sonraki kapanış bir sonraki ayda olur
-    if (currentDay >= closingDay) {
-      return this.getSpecificDayDate(currentYear, currentMonth + 1, closingDay);
-    } 
     // Eğer bugünün günü kapanış gününden küçükse, sonraki kapanış bu ayda olur
-    else {
+    if (currentDay < closingDay) {
       return this.getSpecificDayDate(currentYear, currentMonth, closingDay);
+    } 
+    // Eğer bugünün günü kapanış gününe eşit veya büyükse, sonraki kapanış bir sonraki ayda olur
+    else {
+      return this.getSpecificDayDate(currentYear, currentMonth + 1, closingDay);
     }
   }
 
   /**
    * Belirli gün için dönemin başlangıç tarihini hesaplar
+   * Düzeltilmiş mantık: Önceki dönem kapanış tarihinden bir gün sonrası
    */
   static calculateSpecificDayStartDate(currentDate: Date, closingDay: number): Date {
     const currentYear = currentDate.getFullYear();
     const currentMonth = currentDate.getMonth();
     const currentDay = currentDate.getDate();
     
-    // Eğer bugünün günü kapanış gününden küçükse, bu ay içindeki bir önceki kapanış tarihinden sonraki gün başlangıçtır
+    // Önceki dönem kapanış tarihi
+    let previousClosingDate: Date;
+    
+    // Eğer bugünün günü kapanış gününden küçükse, önceki kapanış tarihi önceki aydadır
     if (currentDay < closingDay) {
-      // Önceki ayın kapanış tarihine 1 gün ekle
-      const previousClosingDate = this.getPreviousMonthClosingDate(currentDate, closingDay);
-      return addDays(previousClosingDate, 1);
+      previousClosingDate = this.getSpecificDayDate(currentYear, currentMonth - 1, closingDay);
     } 
-    // Eğer bugünün günü kapanış gününe eşit veya büyükse, bu ayki kapanış tarihinden sonraki gün başlangıçtır
-    else {
-      // Bu ayki kapanış tarihine 1 gün ekle
-      const thisMonthClosingDate = this.getSpecificDayDate(currentYear, currentMonth, closingDay);
-      return addDays(thisMonthClosingDate, 1);
+    // Eğer bugünün günü kapanış gününe eşitse, önceki kapanış tarihi önceki aydadır
+    // Bu, dönem kapanışı olan günün, bir sonraki dönemin başlangıcı olmamasını sağlar
+    else if (currentDay === closingDay) {
+      previousClosingDate = this.getSpecificDayDate(currentYear, currentMonth - 1, closingDay);
     }
+    // Eğer bugünün günü kapanış gününden büyükse, önceki kapanış bu aydadır
+    else {
+      previousClosingDate = this.getSpecificDayDate(currentYear, currentMonth, closingDay);
+    }
+    
+    // Önceki dönem kapanış tarihine 1 gün ekleyerek başlangıç tarihini bul
+    return addDays(previousClosingDate, 1);
   }
 
   /**
@@ -105,8 +112,12 @@ export class SpecificDayCalculator {
     // Eğer bugünün günü kapanış gününden küçükse, bu ayki kapanış tarihi bitiş tarihidir
     if (currentDay < closingDay) {
       return this.getSpecificDayDate(currentYear, currentMonth, closingDay);
-    } 
-    // Eğer bugünün günü kapanış gününe eşit veya büyükse, sonraki aydaki kapanış tarihi bitiş tarihidir
+    }
+    // Eğer bugünün günü kapanış gününe eşitse, bu ayki kapanış tarihi bitiş tarihidir
+    else if (currentDay === closingDay) {
+      return this.getSpecificDayDate(currentYear, currentMonth, closingDay);
+    }
+    // Eğer bugünün günü kapanış gününden büyükse, sonraki aydaki kapanış tarihi bitiş tarihidir
     else {
       return this.getSpecificDayDate(currentYear, currentMonth + 1, closingDay);
     }

@@ -12,7 +12,7 @@ import {
 } from '../../../types';
 import { StatementCreationService } from '../../core/creation/StatementCreationService';
 import { StatementPeriodService } from '../../core/period/StatementPeriodService';
-import { format, addMonths } from 'date-fns';
+import { format, addMonths, addDays } from 'date-fns';
 import { FutureStatementResult } from './types';
 
 const logger = new ModuleLogger('CashAccountsNew.CreateFutureStatements');
@@ -54,25 +54,44 @@ export async function createFutureStatements(
     // Mevcut ekstreden başlayarak gelecek ekstreleri oluştur
     let lastStatement = currentStatement;
     let createdCount = 0;
-    
-    // Mevcut ekstre tarihini referans olarak al
-    let referenceDate = new Date(lastStatement.end_date);
-    
+        
     for (let i = 0; i < requiredCount; i++) {
-      // Her bir ayı bir sonraki aya ilerlet
-      // Böylece doğru ayın doğru günü için hesaplama yapılır
-      referenceDate = addMonths(referenceDate, 1);
+      // Son ekstrenin bitiş tarihini alarak yeni bir başlangıç tarihi hesapla
+      const previousEndDate = new Date(lastStatement.end_date);
       
-      // İlgili ayın başlangıç ve bitiş tarihlerini hesapla
-      const nextPeriod = StatementPeriodService.calculateNextPeriod(cashAccount, referenceDate);
+      // Yeni başlangıç tarihi, önceki bitiş tarihinden bir gün sonrası olmalı
+      const startDate = addDays(previousEndDate, 1);
+      
+      // Son ekstrenin bitiş tarihinden bir ay sonrasını referans alarak bitiş tarihini hesapla
+      const referenceDate = addMonths(previousEndDate, 1);
+      
+      // İlgili ayın kapanış gününü hesapla
+      let endDate: Date;
+      
+      if (cashAccount.closing_day_type === 'specificDay' && cashAccount.closing_day_value) {
+        // SpecificDay için referans ayın gününü al
+        const referenceYear = referenceDate.getFullYear();
+        const referenceMonth = referenceDate.getMonth();
+        endDate = new Date(referenceYear, referenceMonth, cashAccount.closing_day_value);
+        
+        // Eğer belirtilen gün ayda yoksa, ayın son gününü al
+        const daysInMonth = new Date(referenceYear, referenceMonth + 1, 0).getDate();
+        if (cashAccount.closing_day_value > daysInMonth) {
+          endDate = new Date(referenceYear, referenceMonth, daysInMonth);
+        }
+      } else {
+        // Diğer kapanış türleri için normal hesaplama yap
+        const nextPeriod = StatementPeriodService.calculateNextPeriod(cashAccount, referenceDate);
+        endDate = nextPeriod.endDate;
+      }
       
       // Hata ayıklama için dönem bilgilerini logla
       logger.debug('Gelecek ekstre dönem hesaplaması', {
         accountId,
         iteration: i,
-        referenceDate: format(referenceDate, 'yyyy-MM-dd'),
-        calculatedPeriodStart: format(nextPeriod.startDate, 'yyyy-MM-dd'),
-        calculatedPeriodEnd: format(nextPeriod.endDate, 'yyyy-MM-dd'),
+        lastStatementEndDate: lastStatement.end_date,
+        calculatedStartDate: format(startDate, 'yyyy-MM-dd'),
+        calculatedEndDate: format(endDate, 'yyyy-MM-dd'),
         closingDayType: cashAccount.closing_day_type,
         closingDayValue: cashAccount.closing_day_value
       });
@@ -80,8 +99,8 @@ export async function createFutureStatements(
       // Gelecek ekstreyi oluştur
       const newStatementData: CreateAccountStatementData = {
         account_id: accountId,
-        start_date: format(nextPeriod.startDate, 'yyyy-MM-dd'),
-        end_date: format(nextPeriod.endDate, 'yyyy-MM-dd'),
+        start_date: format(startDate, 'yyyy-MM-dd'),
+        end_date: format(endDate, 'yyyy-MM-dd'),
         start_balance: lastStatement.end_balance,
         end_balance: lastStatement.end_balance,
         status: StatementStatus.FUTURE
