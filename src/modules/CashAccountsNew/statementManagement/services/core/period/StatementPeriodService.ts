@@ -5,7 +5,7 @@
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
 import { CashAccount } from '../../../../cashAccountHomepage/types';
 import { format } from 'date-fns';
-import { PeriodCalculator, SpecificDayCalculator } from './calculators';
+import { PeriodCalculator, ClosingDateCalculator, SpecificDayCalculator } from './calculators';
 
 /**
  * Ekstre dönem hesaplama servisi
@@ -20,6 +20,13 @@ export class StatementPeriodService {
     account: CashAccount,
     currentDate: Date = new Date()
   ): { startDate: Date; endDate: Date } {
+    this.logger.debug('calculateNextPeriod çağrıldı', {
+      accountId: account.id,
+      closingDayType: account.closing_day_type,
+      closingDayValue: account.closing_day_value,
+      currentDate: format(currentDate, 'yyyy-MM-dd')
+    });
+    
     return PeriodCalculator.calculateNextPeriod(account, currentDate);
   }
 

@@ -2,7 +2,7 @@
 /**
  * Hesap kapanış tarihi hesaplama servisi
  */
-import { endOfMonth } from 'date-fns';
+import { endOfMonth, addMonths } from 'date-fns';
 import { CashAccount } from '../../../../../cashAccountHomepage/types';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
 import { SpecificDayCalculator } from './SpecificDayCalculator';
@@ -48,20 +48,7 @@ export class ClosingDateCalculator {
           throw new Error('Belirli bir gün seçildi ancak değer belirtilmedi');
         }
         
-        closingDate = SpecificDayCalculator.getSpecificDayDate(
-          currentYear, 
-          currentMonth, 
-          account.closing_day_value
-        );
-        
-        // Eğer hesaplanan gün geçmişte kalmışsa, bir sonraki aya geç
-        if (closingDate < currentDate) {
-          closingDate = SpecificDayCalculator.getSpecificDayDate(
-            currentYear,
-            currentMonth + 1,
-            account.closing_day_value
-          );
-        }
+        closingDate = SpecificDayCalculator.calculateSpecificDayEndDate(currentDate, account.closing_day_value);
         break;
         
       default:
@@ -107,11 +94,7 @@ export class ClosingDateCalculator {
           throw new Error('Belirli bir gün seçildi ancak değer belirtilmedi');
         }
         
-        closingDate = SpecificDayCalculator.getSpecificDayDate(
-          previousMonthYear, 
-          previousMonthMonth, 
-          account.closing_day_value
-        );
+        closingDate = SpecificDayCalculator.getPreviousMonthClosingDate(currentDate, account.closing_day_value);
         break;
         
       default:

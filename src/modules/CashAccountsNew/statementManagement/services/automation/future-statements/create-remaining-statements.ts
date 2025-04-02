@@ -12,7 +12,7 @@ import {
 } from '../../../types';
 import { StatementCreationService } from '../../core/creation/StatementCreationService';
 import { StatementPeriodService } from '../../core/period/StatementPeriodService';
-import { format } from 'date-fns';
+import { format, addMonths } from 'date-fns';
 import { FutureStatementResult } from './types';
 
 const logger = new ModuleLogger('CashAccountsNew.CreateRemainingStatements');
@@ -48,21 +48,21 @@ export async function createRemainingFutureStatements(
     let lastStatement = referenceStatement;
     let createdCount = 0;
     
+    // Referans ekstre tarihini başlangıç noktası olarak al
+    let referenceDate = new Date(lastStatement.end_date);
+    
     for (let i = 0; i < countToCreate; i++) {
-      // Bir sonraki dönemin tarihlerini hesapla 
-      const lastEndDate = new Date(lastStatement.end_date);
-      const nextStartDate = new Date(lastEndDate);
-      nextStartDate.setDate(nextStartDate.getDate() + 1);
+      // Her bir ayı bir sonraki aya ilerlet
+      referenceDate = addMonths(referenceDate, 1);
       
-      // Bir sonraki dönem için hesapla
-      const nextPeriod = StatementPeriodService.calculateNextPeriod(cashAccount, nextStartDate);
+      // İlgili ayın başlangıç ve bitiş tarihlerini hesapla
+      const nextPeriod = StatementPeriodService.calculateNextPeriod(cashAccount, referenceDate);
       
       // Hata ayıklama için dönem bilgilerini logla
       logger.debug('Gelecek ekstre dönem hesaplaması', {
         accountId,
         iteration: i,
-        lastEndDate: format(lastEndDate, 'yyyy-MM-dd'),
-        nextStartDate: format(nextStartDate, 'yyyy-MM-dd'),
+        referenceDate: format(referenceDate, 'yyyy-MM-dd'),
         calculatedPeriodStart: format(nextPeriod.startDate, 'yyyy-MM-dd'),
         calculatedPeriodEnd: format(nextPeriod.endDate, 'yyyy-MM-dd'),
         closingDayType: cashAccount.closing_day_type,

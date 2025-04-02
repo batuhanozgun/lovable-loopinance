@@ -2,10 +2,11 @@
 /**
  * Hesap dönem hesaplama servisi
  */
-import { addMonths, format } from 'date-fns';
+import { addMonths, format, addDays } from 'date-fns';
 import { CashAccount } from '../../../../../cashAccountHomepage/types';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
 import { ClosingDateCalculator } from './ClosingDateCalculator';
+import { SpecificDayCalculator } from './SpecificDayCalculator';
 
 /**
  * Hesap dönem hesaplama servisi
@@ -17,18 +18,21 @@ export class PeriodCalculator {
    * Dönem başlangıç tarihini hesaplar
    */
   static calculateStartDate(
-    previousClosingDate: Date | null
+    account: CashAccount,
+    currentDate: Date,
+    previousClosingDate: Date | null = null
   ): Date {
     if (!previousClosingDate) {
+      if (account.closing_day_type === 'specificDay' && account.closing_day_value) {
+        return SpecificDayCalculator.calculateSpecificDayStartDate(currentDate, account.closing_day_value);
+      }
+
       // İlk dönem için, bugünün ayının başlangıcını al
-      const today = new Date();
-      return new Date(today.getFullYear(), today.getMonth(), 1);
+      return new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
     }
     
     // Önceki dönem kapanış tarihinden sonraki gün
-    const nextDay = new Date(previousClosingDate);
-    nextDay.setDate(nextDay.getDate() + 1);
-    return nextDay;
+    return addDays(previousClosingDate, 1);
   }
 
   /**
@@ -41,16 +45,18 @@ export class PeriodCalculator {
     try {
       this.logger.debug('Hesap için sonraki dönem hesaplanıyor', { 
         accountId: account.id, 
-        closingDayType: account.closing_day_type 
+        closingDayType: account.closing_day_type,
+        closingDayValue: account.closing_day_value,
+        currentDate: format(currentDate, 'yyyy-MM-dd')
       });
 
       // Dönem bitiş tarihi hesaplama
       const closingDate = ClosingDateCalculator.calculateClosingDate(account, currentDate);
       
       // Dönem başlangıç tarihi, bir önceki dönemin bitiş tarihinin ertesi günü
-      // veya ilk dönem için bugün
+      // veya ilk dönem için bugünün ayının başlangıcı
       const previousPeriodEndDate = ClosingDateCalculator.calculatePreviousMonthClosingDate(account, currentDate);
-      const startDate = this.calculateStartDate(previousPeriodEndDate);
+      const startDate = this.calculateStartDate(account, currentDate, previousPeriodEndDate);
       
       this.logger.info('Hesap için sonraki dönem hesaplandı', { 
         accountId: account.id, 
@@ -86,7 +92,42 @@ export class PeriodCalculator {
     account: CashAccount,
     currentDate: Date = new Date()
   ): { startDate: Date; endDate: Date } {
-    // Bir sonraki dönemi hesapla
+    // Özellikle specificDay seçeneği için özel hesaplama
+    if (account.closing_day_type === 'specificDay' && account.closing_day_value) {
+      const currentDay = currentDate.getDate();
+      const closingDay = account.closing_day_value;
+      
+      // Eğer bugünün günü kapanış gününden küçükse
+      if (currentDay < closingDay) {
+        const startDate = SpecificDayCalculator.calculateSpecificDayStartDate(currentDate, closingDay);
+        const endDate = SpecificDayCalculator.calculateSpecificDayEndDate(currentDate, closingDay);
+        
+        this.logger.debug('Özel gün seçeneği için aktif dönem hesaplandı (bugün < kapanış günü)', {
+          currentDay,
+          closingDay,
+          startDate: format(startDate, 'yyyy-MM-dd'),
+          endDate: format(endDate, 'yyyy-MM-dd')
+        });
+        
+        return { startDate, endDate };
+      } 
+      // Eğer bugünün günü kapanış gününe eşit veya büyükse
+      else {
+        const startDate = SpecificDayCalculator.calculateSpecificDayStartDate(currentDate, closingDay);
+        const endDate = SpecificDayCalculator.calculateSpecificDayEndDate(currentDate, closingDay);
+        
+        this.logger.debug('Özel gün seçeneği için aktif dönem hesaplandı (bugün >= kapanış günü)', {
+          currentDay,
+          closingDay,
+          startDate: format(startDate, 'yyyy-MM-dd'),
+          endDate: format(endDate, 'yyyy-MM-dd')
+        });
+        
+        return { startDate, endDate };
+      }
+    }
+    
+    // Diğer seçenekler için standart hesaplama
     const nextPeriod = this.calculateNextPeriod(account, currentDate);
     
     // Eğer mevcut tarih bir sonraki dönemin başlangıç tarihinden önceyse,

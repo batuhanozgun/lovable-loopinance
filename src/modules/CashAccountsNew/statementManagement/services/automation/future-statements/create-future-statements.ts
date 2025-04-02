@@ -12,7 +12,7 @@ import {
 } from '../../../types';
 import { StatementCreationService } from '../../core/creation/StatementCreationService';
 import { StatementPeriodService } from '../../core/period/StatementPeriodService';
-import { format } from 'date-fns';
+import { format, addMonths } from 'date-fns';
 import { FutureStatementResult } from './types';
 
 const logger = new ModuleLogger('CashAccountsNew.CreateFutureStatements');
@@ -55,24 +55,22 @@ export async function createFutureStatements(
     let lastStatement = currentStatement;
     let createdCount = 0;
     
+    // Mevcut ekstre tarihini referans olarak al
+    let referenceDate = new Date(lastStatement.end_date);
+    
     for (let i = 0; i < requiredCount; i++) {
-      // Bir sonraki dönemin tarihlerini hesapla 
-      const lastEndDate = new Date(lastStatement.end_date);
+      // Her bir ayı bir sonraki aya ilerlet
+      // Böylece doğru ayın doğru günü için hesaplama yapılır
+      referenceDate = addMonths(referenceDate, 1);
       
-      // Bir sonraki başlangıç tarihi, son bitiş tarihinden bir gün sonra
-      const nextStartDate = new Date(lastEndDate);
-      nextStartDate.setDate(nextStartDate.getDate() + 1);
-      
-      // Bir sonraki dönemi, doğrudan nextStartDate'i kullanarak hesapla
-      // Bu, belirli bir gün seçildiğinde, doğru ayın doğru gününü bulacaktır
-      const nextPeriod = StatementPeriodService.calculateNextPeriod(cashAccount, nextStartDate);
+      // İlgili ayın başlangıç ve bitiş tarihlerini hesapla
+      const nextPeriod = StatementPeriodService.calculateNextPeriod(cashAccount, referenceDate);
       
       // Hata ayıklama için dönem bilgilerini logla
       logger.debug('Gelecek ekstre dönem hesaplaması', {
         accountId,
         iteration: i,
-        lastEndDate: format(lastEndDate, 'yyyy-MM-dd'),
-        nextStartDate: format(nextStartDate, 'yyyy-MM-dd'),
+        referenceDate: format(referenceDate, 'yyyy-MM-dd'),
         calculatedPeriodStart: format(nextPeriod.startDate, 'yyyy-MM-dd'),
         calculatedPeriodEnd: format(nextPeriod.endDate, 'yyyy-MM-dd'),
         closingDayType: cashAccount.closing_day_type,
