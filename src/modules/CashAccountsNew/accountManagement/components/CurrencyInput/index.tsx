@@ -93,38 +93,38 @@ export const CurrencyInput: React.FC<CurrencyInputProps> = ({
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1.5">
       {label && (
-        <Label htmlFor={id} className="block text-sm font-medium">
+        <Label htmlFor={id} className="block text-xs font-medium">
           {label}
         </Label>
       )}
       <div className="flex items-center">
         <div className="relative flex-1">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <span className="text-gray-500 dark:text-gray-400">{getCurrencySymbol(currency)}</span>
+          <div className="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
+            <span className="text-gray-500 dark:text-gray-400 text-xs">{getCurrencySymbol(currency)}</span>
           </div>
           <Input
             id={id}
             type="text"
             inputMode="numeric"
-            className={`pl-8 ${error ? 'border-red-500' : ''}`}
+            className={`pl-6 h-8 text-sm ${error ? 'border-red-500' : ''}`}
             value={wholeValue}
             onChange={handleWholeChange}
             placeholder={wholePlaceholder}
           />
         </div>
-        <span className="mx-2 text-lg">,</span>
+        <span className="mx-1 text-base">,</span>
         <Input
           type="text"
           inputMode="numeric"
-          className={`w-20 ${error ? 'border-red-500' : ''}`}
+          className={`w-16 h-8 text-sm ${error ? 'border-red-500' : ''}`}
           value={decimalValue}
           onChange={handleDecimalChange}
           placeholder={decimalPlaceholder}
         />
       </div>
-      {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
+      {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
     </div>
   );
 };

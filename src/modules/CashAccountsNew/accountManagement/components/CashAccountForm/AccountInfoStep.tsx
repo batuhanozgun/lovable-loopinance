@@ -37,13 +37,13 @@ export const AccountInfoStep: React.FC<AccountInfoStepProps> = ({ form, onNext, 
   return (
     <Form {...form}>
       <form onSubmit={handleNextStep}>
-        <Card className="max-w-2xl mx-auto">
-          <CardHeader>
-            <CardTitle>
+        <Card className="max-w-xl mx-auto shadow-sm">
+          <CardHeader className="pb-3 pt-4">
+            <CardTitle className="text-lg">
               {t('form.steps.basicInfo')}
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-3 pb-3 pt-0">
             {/* Hesap Adı */}
             <FormField
               control={control}
@@ -51,16 +51,17 @@ export const AccountInfoStep: React.FC<AccountInfoStepProps> = ({ form, onNext, 
               rules={{ required: t('validation.name.required') }}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
+                  <FormLabel className="text-sm">
                     {t('form.name.label')}
                   </FormLabel>
                   <FormControl>
                     <Input
                       {...field}
                       placeholder={t('form.name.placeholder')}
+                      className="h-8 text-sm"
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />
@@ -71,7 +72,7 @@ export const AccountInfoStep: React.FC<AccountInfoStepProps> = ({ form, onNext, 
               name="initialBalance"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
+                  <FormLabel className="text-sm">
                     {t('form.initialBalance.label')}
                   </FormLabel>
                   <FormControl>
@@ -85,7 +86,7 @@ export const AccountInfoStep: React.FC<AccountInfoStepProps> = ({ form, onNext, 
                       error={errors.initialBalance?.message}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />
@@ -96,7 +97,7 @@ export const AccountInfoStep: React.FC<AccountInfoStepProps> = ({ form, onNext, 
               name="currency"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
+                  <FormLabel className="text-sm">
                     {t('form.currency.label')}
                   </FormLabel>
                   <Select
@@ -104,23 +105,23 @@ export const AccountInfoStep: React.FC<AccountInfoStepProps> = ({ form, onNext, 
                     onValueChange={(value) => field.onChange(value as CurrencyType)}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="h-8 text-sm">
                         <SelectValue placeholder={t('form.currency.label')} />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
-                      <SelectItem value={CurrencyType.TRY}>
+                    <SelectContent className="text-xs">
+                      <SelectItem value={CurrencyType.TRY} className="text-xs">
                         {t('form.currency.options.try')}
                       </SelectItem>
-                      <SelectItem value={CurrencyType.USD}>
+                      <SelectItem value={CurrencyType.USD} className="text-xs">
                         {t('form.currency.options.usd')}
                       </SelectItem>
-                      <SelectItem value={CurrencyType.EUR}>
+                      <SelectItem value={CurrencyType.EUR} className="text-xs">
                         {t('form.currency.options.eur')}
                       </SelectItem>
                     </SelectContent>
                   </Select>
-                  <FormMessage />
+                  <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />
@@ -131,7 +132,7 @@ export const AccountInfoStep: React.FC<AccountInfoStepProps> = ({ form, onNext, 
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>
+                  <FormLabel className="text-sm">
                     {t('form.description.label')}
                   </FormLabel>
                   <FormControl>
@@ -139,24 +140,28 @@ export const AccountInfoStep: React.FC<AccountInfoStepProps> = ({ form, onNext, 
                       {...field}
                       value={field.value || ''}
                       placeholder={t('form.description.placeholder')}
-                      className="resize-none"
-                      rows={3}
+                      className="resize-none h-20 text-sm"
+                      rows={2}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />
           </CardContent>
-          <CardFooter className="flex justify-between">
+          <CardFooter className="flex justify-between py-3">
             <Button
               variant="outline"
               type="button"
               onClick={onCancel}
+              className="h-8 text-xs px-3"
             >
               {t('form.buttons.cancel')}
             </Button>
-            <Button type="submit">
+            <Button 
+              type="submit"
+              className="h-8 text-xs px-3"
+            >
               {t('form.buttons.next')}
             </Button>
           </CardFooter>

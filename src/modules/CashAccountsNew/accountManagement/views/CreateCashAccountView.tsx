@@ -6,5 +6,9 @@ import { CashAccountForm } from '../components/CashAccountForm';
  * Nakit hesap oluşturma sayfası
  */
 export const CreateCashAccountView: React.FC = () => {
-  return <CashAccountForm />;
+  return (
+    <div className="py-2">
+      <CashAccountForm />
+    </div>
+  );
 };
