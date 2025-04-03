@@ -1,153 +1,148 @@
 
 /**
  * Ekstre zincirleme güncelleme servisi
+ * Bir ekstrenin bakiyesindeki değişikliğin sonraki ekstrelere zincirleme olarak yansımasını sağlar
  */
 import { supabase } from '@/integrations/supabase/client';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
-import { SingleStatementResponse } from '../../../types';
-import { StatementQueryService } from '../query/StatementQueryService';
+import { StatementBalanceCalculationService } from '../calculation/StatementBalanceCalculationService';
 import { StatementUpdateService } from '../update/StatementUpdateService';
+import { SingleStatementResponse, AccountStatement } from '../../../types';
 
-/**
- * Belirli bir ekstreden sonraki ekstrelerin bakiyelerini zincirleme olarak güncelleme servisi
- */
 export class StatementCascadeUpdateService {
   private static logger = new ModuleLogger('CashAccountsNew.StatementCascadeUpdateService');
 
   /**
-   * Belirtilen ekstreden sonraki tüm ekstrelerin bakiyelerini günceller
+   * Belirli bir ekstreden sonraki tüm ekstreleri zincirleme olarak günceller
+   * @param statementId Başlangıç ekstre ID'si
+   * @param accountId Hesap ID'si
+   * @returns İşlem sonucu
    */
   static async updateSubsequentStatements(
-    currentStatementId: string,
+    statementId: string,
     accountId: string
   ): Promise<SingleStatementResponse> {
     try {
-      this.logger.debug('Updating subsequent statements', { 
-        currentStatementId, 
-        accountId 
-      });
+      this.logger.debug('Zincirleme ekstre güncellemesi başlatılıyor', { statementId, accountId });
       
-      // 1. Referans ekstreyi getir
-      const currentStatementResult = await StatementQueryService.getStatementById(currentStatementId);
+      // Önce değişiklik yapılan ekstrenin güncel bilgilerini alalım
+      const { data: currentStatement, error: currentError } = await supabase
+        .from('account_statements')
+        .select('id, end_date, end_balance')
+        .eq('id', statementId)
+        .single();
       
-      if (!currentStatementResult.success || !currentStatementResult.data) {
-        return currentStatementResult;
-      }
-      
-      const currentStatement = currentStatementResult.data;
-      
-      // 2. Bu ekstreden sonraki tüm ekstreleri tarih sırasına göre getir (en eskiden en yeniye)
-      const { data: subsequentStatements, error } = await supabase
-        .from('cash_account_statements')
-        .select('*')
-        .eq('account_id', accountId)
-        .gt('start_date', currentStatement.end_date)
-        .order('start_date', { ascending: true });
-      
-      if (error) {
-        this.logger.error('Failed to get subsequent statements', { 
-          currentStatementId, 
-          accountId, 
-          error 
-        });
+      if (currentError || !currentStatement) {
+        this.logger.error('Mevcut ekstre bilgileri alınamadı', { statementId, error: currentError });
         return {
           success: false,
-          error: error.message
+          error: currentError?.message || 'Ekstre bulunamadı'
         };
       }
       
+      // Sonraki ekstreleri tarih sırasına göre getirelim
+      const { data: subsequentStatements, error: subError } = await supabase
+        .from('account_statements')
+        .select('id, start_date, end_date, start_balance, end_balance')
+        .eq('account_id', accountId)
+        .gt('start_date', currentStatement.end_date) // Mevcut ekstrenin bitiş tarihinden sonraki ekstreler
+        .order('start_date', { ascending: true });
+      
+      if (subError) {
+        this.logger.error('Sonraki ekstreler alınamadı', { accountId, error: subError });
+        return {
+          success: false,
+          error: subError.message
+        };
+      }
+      
+      // Sonraki ekstre yoksa işlem tamamlandı
       if (!subsequentStatements || subsequentStatements.length === 0) {
-        this.logger.info('No subsequent statements found', { 
-          currentStatementId, 
-          accountId 
-        });
+        this.logger.info('Güncellenecek sonraki ekstre bulunmadı', { statementId, accountId });
         return {
           success: true,
-          data: currentStatement
+          data: null
         };
       }
       
-      // 3. Her bir ekstreyi sırayla güncelleyelim
-      this.logger.debug(`Found ${subsequentStatements.length} subsequent statements to update`);
+      this.logger.info('Sonraki ekstreler güncelleniyor', { 
+        count: subsequentStatements.length,
+        statements: subsequentStatements.map(s => s.id)
+      });
       
+      // Önceki ekstrenin kapanış bakiyesi
       let previousEndBalance = currentStatement.end_balance;
-      let updatedStatement = currentStatement;
       
+      // Her bir sonraki ekstre için zincirleme güncelleme yapalım
       for (const statement of subsequentStatements) {
-        // Önceki ekstrenin bitiş bakiyesini, bu ekstrenin başlangıç bakiyesi olarak kullan
-        const startBalance = previousEndBalance;
-        
-        // Gelir ve giderleri getir
-        const { data: transactions, error: txError } = await supabase
-          .from('cash_account_transactions')
-          .select('amount, transaction_type')
-          .eq('statement_id', statement.id);
-        
-        if (txError) {
-          this.logger.error('Failed to get transactions for subsequent statement', { 
-            statementId: statement.id, 
-            error: txError 
-          });
-          continue; // Hata olsa bile diğer ekstreleri güncellemeye devam et
+        // Başlangıç bakiyesini önceki ekstrenin kapanış bakiyesine eşitleyelim
+        if (statement.start_balance !== previousEndBalance) {
+          // Ekstre başlangıç bakiyesini güncelle
+          const { data: updatedStatement, error: updateError } = await supabase
+            .from('account_statements')
+            .update({ 
+              start_balance: previousEndBalance,
+              // Bitiş bakiyesini de ön hesaplama olarak güncelleyelim
+              // Bu sonraki adımda daha doğru bir şekilde hesaplanacak
+              end_balance: previousEndBalance + (statement.end_balance - statement.start_balance)
+            })
+            .eq('id', statement.id)
+            .select()
+            .single();
+          
+          if (updateError) {
+            this.logger.error('Ekstre başlangıç bakiyesi güncellenirken hata oluştu', { 
+              statementId: statement.id, 
+              error: updateError 
+            });
+            continue; // Hataya rağmen diğer ekstreleri güncellemeye devam edelim
+          }
         }
         
-        // Gelir ve giderleri topla
-        const totals = transactions.reduce(
-          (acc, tx) => {
-            if (tx.transaction_type === 'income') {
-              acc.income += Number(tx.amount);
-            } else if (tx.transaction_type === 'expense') {
-              acc.expenses += Number(tx.amount);
-            }
-            return acc;
-          },
-          { income: 0, expenses: 0 }
-        );
-        
-        // Bitiş bakiyesini hesapla
-        const endBalance = Number(startBalance) + totals.income - totals.expenses;
-        
-        // Bakiyeleri güncelle
-        const updateResult = await StatementUpdateService.updateStatementBalances(
+        // Ekstrenin gerçek gelir/gider bakiyelerini yeniden hesaplayalım
+        await StatementBalanceCalculationService.calculateAndUpdateStatementBalance(
           statement.id,
-          totals.income,
-          totals.expenses,
-          endBalance
+          accountId
         );
         
-        if (!updateResult.success) {
-          this.logger.error('Failed to update subsequent statement', { 
+        // Güncellenmiş ekstrenin yeni kapanış bakiyesini alalım (sonraki ekstre için kullanılacak)
+        const { data: refreshedStatement, error: refreshError } = await supabase
+          .from('account_statements')
+          .select('end_balance')
+          .eq('id', statement.id)
+          .single();
+        
+        if (refreshError || !refreshedStatement) {
+          this.logger.error('Güncellenmiş ekstre bilgileri alınamadı', { 
             statementId: statement.id, 
-            error: updateResult.error 
+            error: refreshError 
           });
-          continue; // Hata olsa bile diğer ekstreleri güncellemeye devam et
+          continue;
         }
         
-        // Bir sonraki ekstre için bitiş bakiyesini referans olarak kaydet
-        previousEndBalance = endBalance;
-        updatedStatement = updateResult.data!;
-        
-        this.logger.debug(`Updated subsequent statement ${statement.id}`, { 
-          startBalance, 
-          income: totals.income, 
-          expenses: totals.expenses, 
-          endBalance 
-        });
+        // Bir sonraki ekstre için önceki kapanış bakiyesini güncelleyelim
+        previousEndBalance = refreshedStatement.end_balance;
       }
+      
+      this.logger.info('Zincirleme ekstre güncellemesi tamamlandı', { 
+        statementId,
+        accountId,
+        updatedCount: subsequentStatements.length
+      });
       
       return {
         success: true,
-        data: updatedStatement
+        data: null
       };
     } catch (error) {
-      this.logger.error('Unexpected error updating subsequent statements', { 
-        currentStatementId, 
-        accountId, 
-        error 
+      this.logger.error('Zincirleme ekstre güncellemesi sırasında beklenmeyen hata', {
+        statementId,
+        accountId,
+        error
       });
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : 'Bilinmeyen hata'
       };
     }
   }

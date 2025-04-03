@@ -1,4 +1,5 @@
 
+
 import { supabase } from '@/integrations/supabase/client';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
 import { StatementService } from '../../statementManagement/services/StatementService';
@@ -20,7 +21,7 @@ export class TransactionCreationService {
       this.logger.debug('Creating new transaction', { data });
       
       const { data: transaction, error } = await supabase
-        .from('cash_account_transactions')
+        .from('account_transactions')
         .insert([data])
         .select()
         .single();

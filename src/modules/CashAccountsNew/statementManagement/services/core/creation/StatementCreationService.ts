@@ -1,20 +1,19 @@
 
 /**
- * Ekstre oluşturma servisi
+ * Ekstre oluşturma işlemleri için servis
  */
 import { supabase } from '@/integrations/supabase/client';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
 import { 
   AccountStatement, 
   CreateAccountStatementData, 
-  SingleStatementResponse 
+  SingleStatementResponse,
+  StatementStatus
 } from '../../../types';
-import { CashAccount } from '../../../../cashAccountHomepage/types';
-import { StatementPeriodService } from '../period/StatementPeriodService';
-import { isValidDate } from '../shared/utils';
+import { format } from 'date-fns';
 
 /**
- * Hesap ekstresi oluşturma servisi
+ * Ekstre oluşturma işlemleri için servis
  */
 export class StatementCreationService {
   private static logger = new ModuleLogger('CashAccountsNew.StatementCreationService');
@@ -24,40 +23,29 @@ export class StatementCreationService {
    */
   static async createStatement(data: CreateAccountStatementData): Promise<SingleStatementResponse> {
     try {
-      this.logger.debug('Creating new statement', { data });
+      this.logger.debug('Creating new account statement', { data });
       
-      // Tarih kontrolü
-      if (!isValidDate(data.start_date) || !isValidDate(data.end_date)) {
-        this.logger.error('Invalid dates for statement', { data });
-        return {
-          success: false,
-          error: 'Geçersiz başlangıç veya bitiş tarihi'
-        };
-      }
-      
-      // Ekstre veritabanına kaydet
-      const { data: statement, error } = await supabase
-        .from('cash_account_statements')
-        .insert([data])
+      const { data: statementData, error } = await supabase
+        .from('account_statements')
+        .insert(data)
         .select()
         .single();
       
       if (error) {
-        this.logger.error('Failed to create statement', { error });
+        this.logger.error('Failed to create account statement', { error });
         return {
           success: false,
           error: error.message
         };
       }
       
-      this.logger.info('Statement created successfully', { id: statement.id });
-      
+      this.logger.info('Account statement created successfully', { id: statementData.id });
       return {
         success: true,
-        data: statement as AccountStatement
+        data: statementData as AccountStatement
       };
     } catch (error) {
-      this.logger.error('Unexpected error creating statement', { error });
+      this.logger.error('Unexpected error creating account statement', { error });
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error'
@@ -66,8 +54,8 @@ export class StatementCreationService {
   }
 
   /**
-   * Belirli bir hesap için yeni bir dönem başlatır
-   * Önceki dönemin bitiş bakiyesini kullanır veya yeni bir başlangıç bakiyesi belirler
+   * Belirli bir hesap için yeni bir dönem başlatır (ekstre oluşturur)
+   * Önceki dönemin bitiş bakiyesini kullanır
    */
   static async createNextStatement(
     accountId: string,
@@ -76,67 +64,51 @@ export class StatementCreationService {
     previousStatement?: AccountStatement
   ): Promise<SingleStatementResponse> {
     try {
-      this.logger.debug('Creating next statement', { 
+      this.logger.debug('Creating next statement period', { 
         accountId, 
-        startDate, 
-        endDate,
-        hasPreviousStatement: !!previousStatement
+        startDate: format(startDate, 'yyyy-MM-dd'),
+        endDate: format(endDate, 'yyyy-MM-dd'),
+        previousStatementId: previousStatement?.id 
       });
       
-      // Başlangıç bakiyesini belirle
-      const startBalance = previousStatement 
-        ? previousStatement.end_balance 
-        : await this.getAccountInitialBalance(accountId);
-      
-      if (startBalance === null) {
-        this.logger.error('Failed to determine start balance', { accountId });
-        return {
-          success: false,
-          error: 'Başlangıç bakiyesi belirlenemedi'
-        };
+      // Önceki ekstre yoksa, hesabın başlangıç bakiyesini alma
+      let startBalance = 0;
+      if (!previousStatement) {
+        const { data: account, error: accountError } = await supabase
+          .from('cash_accounts')
+          .select('initial_balance')
+          .eq('id', accountId)
+          .single();
+        
+        if (accountError) {
+          this.logger.error('Failed to fetch account initial balance', { accountId, error: accountError });
+          return {
+            success: false,
+            error: accountError.message
+          };
+        }
+        
+        startBalance = account.initial_balance;
+      } else {
+        startBalance = previousStatement.end_balance;
       }
       
-      // Yeni ekstre verilerini oluştur
-      const newStatementData: CreateAccountStatementData = {
+      const newStatement: CreateAccountStatementData = {
         account_id: accountId,
-        start_date: startDate.toISOString().split('T')[0],  // YYYY-MM-DD formatı
-        end_date: endDate.toISOString().split('T')[0],      // YYYY-MM-DD formatı
+        start_date: format(startDate, 'yyyy-MM-dd'),
+        end_date: format(endDate, 'yyyy-MM-dd'),
         start_balance: startBalance,
-        end_balance: startBalance,  // Başlangıçta başlangıç bakiyesi ile aynı
-        status: 'OPEN'
+        end_balance: startBalance, // Başlangıçta bitiş bakiyesi, başlangıç bakiyesi ile aynıdır
+        status: StatementStatus.OPEN
       };
       
-      // Yeni ekstreyi oluştur
-      return await this.createStatement(newStatementData);
+      return await this.createStatement(newStatement);
     } catch (error) {
       this.logger.error('Unexpected error creating next statement', { accountId, error });
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error'
       };
-    }
-  }
-  
-  /**
-   * Hesabın başlangıç bakiyesini getirir
-   */
-  private static async getAccountInitialBalance(accountId: string): Promise<number | null> {
-    try {
-      const { data, error } = await supabase
-        .from('cash_accounts')
-        .select('initial_balance')
-        .eq('id', accountId)
-        .single();
-      
-      if (error) {
-        this.logger.error('Failed to get account initial balance', { accountId, error });
-        return null;
-      }
-      
-      return data.initial_balance;
-    } catch (error) {
-      this.logger.error('Unexpected error getting account initial balance', { accountId, error });
-      return null;
     }
   }
 }

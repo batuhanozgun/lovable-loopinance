@@ -1,80 +1,95 @@
 
 /**
  * İşlem silme servisi
+ * Hesap ekstrelerindeki işlemleri silmek için kullanılır
  */
 import { supabase } from '@/integrations/supabase/client';
+import { ILogger } from '@/modules/Logging/interfaces/ILogger';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
-import { StatementTransactionResponse } from '../../types/transaction';
-import { StatementBalanceCalculationService } from '../core/calculation/StatementBalanceCalculationService';
+import { StatementService } from '../StatementService';
+import { 
+  StatementTransactionResponse, 
+  AccountTransaction,
+  transformTransactionData 
+} from '../../types/transaction';
 
-/**
- * İşlem silme servisi
- */
 export class TransactionDeleteService {
   private static logger = new ModuleLogger('CashAccountsNew.TransactionDeleteService');
-  
+
   /**
-   * Belirtilen işlemi siler ve bağlı olduğu ekstreleri günceller
+   * Belirtilen ID'ye sahip işlemi siler
+   * @param id Silinecek işlem ID'si
+   * @returns İşlemin başarılı olup olmadığını belirten yanıt
    */
   static async deleteTransaction(id: string): Promise<StatementTransactionResponse> {
     try {
-      this.logger.debug('Deleting transaction', { id });
-      
-      // Önce işlem bilgilerini getir (silmeden önce)
-      const { data: transaction, error: getError } = await supabase
-        .from('cash_account_transactions')
+      // Önce işlemi getir (silmeden önce statement_id ve account_id değerlerini almak için)
+      const { data: transactionData, error: getError } = await supabase
+        .from('account_transactions')
         .select('id, statement_id, account_id')
         .eq('id', id)
         .single();
       
-      if (getError) {
-        this.logger.error('Failed to get transaction before delete', { id, error: getError });
+      if (getError || !transactionData) {
+        this.logger.error('İşlem bilgileri alınırken hata oluştu', { 
+          id,
+          error: getError?.message 
+        });
+        
         return {
           success: false,
-          error: getError.message
+          error: getError?.message || 'İşlem bulunamadı'
         };
       }
       
       // İşlemi sil
-      const { error: deleteError } = await supabase
-        .from('cash_account_transactions')
+      const { data, error } = await supabase
+        .from('account_transactions')
         .delete()
-        .eq('id', id);
-      
-      if (deleteError) {
-        this.logger.error('Failed to delete transaction', { id, error: deleteError });
+        .match({ id })
+        .select()
+        .single();
+
+      if (error) {
+        this.logger.error('İşlem silinirken hata oluştu', { 
+          id,
+          error: error.message 
+        });
+        
         return {
           success: false,
-          error: deleteError.message
+          error: error.message
         };
       }
+
+      this.logger.info('İşlem başarıyla silindi', { id });
       
-      this.logger.info('Transaction deleted successfully', { id });
+      // İşlem silindikten sonra ilgili ekstrenin bakiyelerini yeniden hesapla
+      // ve zincirleme güncelleme yap (true parametresi ile)
+      await StatementService.recalculateStatementBalance(
+        transactionData.statement_id,
+        transactionData.account_id,
+        true
+      );
       
-      // İşlem silindikten sonra ekstre bakiyelerini güncelle
-      try {
-        await StatementBalanceCalculationService.calculateAndUpdateStatementBalance(
-          transaction.statement_id,
-          transaction.account_id,
-          true  // Zincirleme güncelleme yap
-        );
-      } catch (calcError) {
-        // İşlem silme başarılı olsa bile, bakiye hesaplama hatası loglanmalı
-        this.logger.error('Error recalculating balances after delete', { 
-          transactionId: id, 
-          statementId: transaction.statement_id,
-          error: calcError 
-        });
-      }
+      // Veriyi doğru enum tipine dönüştürüyoruz
+      const transformedData = transformTransactionData(data);
       
       return {
-        success: true
+        success: true,
+        data: transformedData
       };
     } catch (error) {
-      this.logger.error('Unexpected error deleting transaction', { id, error });
+      const errorMessage = error instanceof Error ? error.message : 'Bilinmeyen hata';
+      
+      this.logger.error('İşlem silme servisi hatası', { 
+        id, 
+        error: errorMessage 
+      });
+      
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: errorMessage
       };
     }
   }
