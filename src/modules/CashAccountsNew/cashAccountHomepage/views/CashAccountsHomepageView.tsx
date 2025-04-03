@@ -162,9 +162,9 @@ export const CashAccountsHomepageView: React.FC = () => {
         <h1 className="text-lg font-semibold">
           {t('title')}
         </h1>
-        <Button asChild size="sm">
+        <Button asChild size="sm" className="h-8 text-xs px-3">
           <Link to="/nakit-hesaplar/new">
-            <PlusCircle className="mr-1.5 h-4 w-4" />
+            <PlusCircle className="mr-1 h-3.5 w-3.5" />
             {t('newAccount')}
           </Link>
         </Button>
