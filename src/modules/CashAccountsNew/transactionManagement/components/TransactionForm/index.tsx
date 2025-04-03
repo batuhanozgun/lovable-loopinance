@@ -11,6 +11,7 @@ import { useTransactionFormSetup } from "../../hooks/useTransactionFormSetup";
 import { CurrencyType } from "../../../cashAccountHomepage/types";
 import { StatementInfoSection } from "./components/StatementInfoSection";
 import { TransactionFormContent } from "./components/TransactionFormContent";
+import { Transaction } from "../../types";
 
 interface TransactionFormProps {
   accountId: string;
@@ -18,6 +19,7 @@ interface TransactionFormProps {
   currency: string;
   isOpen: boolean;
   onClose: () => void;
+  transaction?: Transaction; // Düzenleme modu için
 }
 
 /**
@@ -28,7 +30,8 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
   statementId,
   currency,
   isOpen,
-  onClose
+  onClose,
+  transaction
 }) => {
   const { t } = useTranslation(["TransactionManagement", "common"]);
   
@@ -51,15 +54,19 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
     isLoadingStatement,
     statementError,
     lockStatement,
-    toggleStatementLock
-  } = useTransactionFormSetup(accountId, statementId);
+    toggleStatementLock,
+    isEditMode
+  } = useTransactionFormSetup(accountId, statementId, transaction);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>
-            {t("TransactionManagement:transaction.new")}
+            {isEditMode 
+              ? t("TransactionManagement:transaction.edit") 
+              : t("TransactionManagement:transaction.new")
+            }
           </DialogTitle>
         </DialogHeader>
 
@@ -88,6 +95,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
           isDisabled={!currentStatementId}
           currency={currencyType}
           onClose={onClose}
+          isEditMode={isEditMode}
         />
       </DialogContent>
     </Dialog>

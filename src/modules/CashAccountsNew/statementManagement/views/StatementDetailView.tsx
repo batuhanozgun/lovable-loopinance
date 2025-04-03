@@ -1,147 +1,94 @@
 
-import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ChevronLeft, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Plus } from 'lucide-react';
+import { TransactionForm } from '../../transactionManagement/components/TransactionForm';
 import { useStatement } from '../hooks/useStatement';
-import { useCashAccount } from '@/modules/CashAccountsNew/cashAccountHomepage/hooks';
-import { CurrencyType } from '@/modules/CashAccountsNew/cashAccountHomepage/types';
-import { Skeleton } from '@/components/ui/skeleton';
 import { StatementDetails } from '../components/StatementDetails';
 import { TransactionsList } from '../components/TransactionsList';
-import { useState, useCallback, useRef } from 'react';
-import { TransactionForm } from '@/modules/CashAccountsNew/transactionManagement';
-import { useQueryClient } from '@tanstack/react-query';
 
-/**
- * Ekstre detay sayfası
- */
 export const StatementDetailView: React.FC = () => {
+  const { t } = useTranslation('StatementManagement');
+  const navigate = useNavigate();
   const { accountId, statementId } = useParams<{ accountId: string; statementId: string }>();
-  const { t } = useTranslation(['StatementManagement', 'common']);
-  const [isTransactionFormOpen, setIsTransactionFormOpen] = useState(false);
-  const queryClient = useQueryClient();
-  const transactionsListRef = useRef<{ refetch?: () => Promise<void> }>({}); // İşlem listesi bileşenine referans
   
-  const { data: account, isLoading: isAccountLoading } = useCashAccount(accountId);
-  const { data: statement, isLoading: isStatementLoading, refetch: refetchStatement } = useStatement(statementId);
-
-  // İşlem formunu açma işleyicisi
-  const handleOpenTransactionForm = useCallback(() => {
-    setIsTransactionFormOpen(true);
-  }, []);
-
-  // İşlem formunu kapatma işleyicisi - form kapatıldığında verileri yenile
-  const handleCloseTransactionForm = useCallback(async () => {
-    setIsTransactionFormOpen(false);
-    
-    // Form kapatıldığında tüm verileri yenileyelim
-    if (statementId) {
-      // Ekstre verilerini yenile
-      await queryClient.refetchQueries({ 
-        queryKey: ['cashAccountStatementNew', statementId],
-        exact: true 
-      });
-      
-      // Manuel olarak ekstre refetch fonksiyonunu çağıralım
-      if (refetchStatement) {
-        await refetchStatement();
-      }
-      
-      // İşlem listesini yenile
-      if (transactionsListRef.current && transactionsListRef.current.refetch) {
-        await transactionsListRef.current.refetch();
-      }
+  const [isNewTransactionOpen, setIsNewTransactionOpen] = useState(false);
+  const [refetchTransactions, setRefetchTransactions] = useState<(() => Promise<void>) | null>(null);
+  
+  // Statement detaylarını getirme
+  const { data: statement, isLoading, refetch } = useStatement(
+    accountId as string, 
+    statementId as string
+  );
+  
+  // Statement'da yapılan değişiklikler sonrası işlemleri de yenile
+  useEffect(() => {
+    if (refetchTransactions) {
+      refetchTransactions();
     }
-  }, [statementId, queryClient, refetchStatement]);
-
-  // İşlem listesi bileşenindeki refetch fonksiyonunu tanımlayan callback
-  const setTransactionsListRefetch = useCallback((refetch: () => Promise<void>) => {
-    transactionsListRef.current = { refetch };
-  }, []);
-
-  // Yükleme durumu
-  if (isAccountLoading || isStatementLoading) {
-    return (
-      <div className="container py-6 space-y-6">
-        <div className="flex items-center mb-6">
-          <Skeleton className="h-10 w-24 mr-2" />
-          <Skeleton className="h-8 w-64" />
-        </div>
-        
-        <Skeleton className="h-48 w-full" />
-        <Skeleton className="h-64 w-full" />
-      </div>
-    );
-  }
-
-  // Hesap veya ekstre bulunamama durumu
-  if (!account || !statement) {
-    return (
-      <div className="container py-6">
-        <Button variant="ghost" size="sm" asChild className="mb-4">
-          <Link to={`/nakit-hesaplar/${accountId}/statements`}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            {t('common:back')}
-          </Link>
-        </Button>
-        
-        <div className="p-4 border border-destructive text-destructive rounded-md">
-          {!account 
-            ? t('errors.account.detail.failed')
-            : t('errors.statement.detail.failed')
-          }
-        </div>
-      </div>
-    );
-  }
-
+  }, [statement, refetchTransactions]);
+  
+  const handleBack = () => {
+    navigate(`/nakit-hesaplar/${accountId}/statements`);
+  };
+  
+  const handleCloseTransactionForm = () => {
+    setIsNewTransactionOpen(false);
+    
+    // Form kapandıktan sonra verileri yenile
+    setTimeout(() => {
+      refetch();
+      if (refetchTransactions) {
+        refetchTransactions();
+      }
+    }, 500);
+  };
+  
   return (
-    <div className="container py-6 space-y-6">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center">
-          <Button variant="ghost" size="sm" asChild className="mr-4">
-            <Link to={`/nakit-hesaplar/${accountId}/statements`}>
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              {t('common:back')}
-            </Link>
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="flex items-center gap-2">
+          <Button 
+            variant="outline" 
+            size="icon" 
+            onClick={handleBack}
+            aria-label={t('common:back')}
+          >
+            <ChevronLeft className="h-4 w-4" />
           </Button>
-          <h1 className="text-2xl font-bold">{account.name} - {t('statements.title')}</h1>
+          <h1 className="text-2xl font-bold">{t('statements.detailsTitle')}</h1>
         </div>
         
-        {/* Yeni İşlem Ekle Butonu */}
-        <Button 
-          onClick={handleOpenTransactionForm}
-          className="flex items-center"
-        >
+        <Button onClick={() => setIsNewTransactionOpen(true)}>
           <Plus className="h-4 w-4 mr-2" />
           {t('transactions.new')}
         </Button>
       </div>
       
+      {/* Statement Detayları */}
       <StatementDetails 
         statement={statement} 
-        isLoading={isStatementLoading} 
-        currency={account.currency as CurrencyType} 
+        isLoading={isLoading}
       />
       
+      {/* İşlem Listesi */}
       <TransactionsList 
-        statementId={statementId || ''} 
-        currency={account.currency as CurrencyType}
-        setRefetchCallback={setTransactionsListRefetch}
+        statementId={statementId as string} 
+        accountId={accountId as string}
+        currency={statement?.account?.currency || 'TRY'}
+        setRefetchCallback={setRefetchTransactions}
       />
       
-      {/* İşlem Form Dialogu */}
-      {accountId && (
-        <TransactionForm
-          accountId={accountId}
-          statementId={statementId}
-          currency={account.currency}
-          isOpen={isTransactionFormOpen}
-          onClose={handleCloseTransactionForm}
-        />
-      )}
+      {/* Yeni İşlem Formu */}
+      <TransactionForm
+        accountId={accountId as string}
+        statementId={statementId as string}
+        currency={statement?.account?.currency || 'TRY'}
+        isOpen={isNewTransactionOpen}
+        onClose={handleCloseTransactionForm}
+      />
     </div>
   );
 };

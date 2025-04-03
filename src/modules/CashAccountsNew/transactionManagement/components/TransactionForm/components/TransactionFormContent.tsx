@@ -24,6 +24,7 @@ interface TransactionFormContentProps {
   isDisabled: boolean;
   currency: CurrencyType;
   onClose: () => void;
+  isEditMode?: boolean;
 }
 
 /**
@@ -41,8 +42,11 @@ export const TransactionFormContent: React.FC<TransactionFormContentProps> = ({
   isSubmitting,
   isDisabled,
   currency,
-  onClose
+  onClose,
+  isEditMode = false
 }) => {
+  const { t } = useTranslation(["TransactionManagement", "common"]);
+
   const handleSubmit = async (data: any) => {
     console.log('Form submitted with data:', data);
     
@@ -92,6 +96,7 @@ export const TransactionFormContent: React.FC<TransactionFormContentProps> = ({
           onClose={onClose} 
           isSubmitting={isSubmitting}
           isDisabled={isDisabled}
+          isEditMode={isEditMode}
         />
       </form>
     </Form>

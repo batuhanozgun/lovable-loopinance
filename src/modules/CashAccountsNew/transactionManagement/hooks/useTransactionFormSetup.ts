@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
@@ -10,6 +9,7 @@ import { useTransactionForm } from "./useTransactionForm";
 import { StatementFinderService } from "../services/StatementFinderService";
 import { toast } from "sonner";
 import { AccountStatement } from "../../statementManagement/types";
+import { useTransactionEdit } from "./useTransactionEdit";
 
 /**
  * Dakika değerini en yakın 15'in katına yuvarla
@@ -25,9 +25,13 @@ const roundToNearest15Minutes = (minuteValue: number): string => {
  */
 export const useTransactionFormSetup = (
   accountId: string,
-  statementId?: string
+  statementId?: string,
+  transaction?: Transaction
 ) => {
   const { t } = useTranslation(["TransactionManagement", "common"]);
+  
+  // Düzenleme modu kontrolü
+  const isEditMode = !!transaction;
   
   // Şu anki zaman
   const now = new Date();
@@ -36,12 +40,26 @@ export const useTransactionFormSetup = (
   const roundedMinute = roundToNearest15Minutes(currentMinuteValue);
   
   // Form durumu için değişkenler
-  const [date, setDate] = useState<Date>(now);
-  const [time, setTime] = useState<{hour: string, minute: string}>({
-    hour: currentHour,
-    minute: roundedMinute
-  });
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string>("no-category");
+  const [date, setDate] = useState<Date>(
+    isEditMode ? new Date(transaction!.transaction_date) : now
+  );
+  
+  // Saat ayarı - eğer düzenleme moduysa, işlemin zamanını al
+  const initialTime = isEditMode
+    ? (() => {
+        const [hour, minute] = transaction!.transaction_time.substring(0, 5).split(':');
+        return { hour, minute };
+      })()
+    : { hour: currentHour, minute: roundedMinute };
+  
+  const [time, setTime] = useState<{hour: string, minute: string}>(initialTime);
+  
+  // Kategori ayarı
+  const initialCategoryId = isEditMode 
+    ? (transaction!.category_id || "no-category") 
+    : "no-category";
+  
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>(initialCategoryId);
   const [currentStatementId, setCurrentStatementId] = useState<string | null>(statementId || null);
   const [currentStatement, setCurrentStatement] = useState<AccountStatement | null>(null);
   const [statementError, setStatementError] = useState<string | null>(null);
@@ -51,25 +69,42 @@ export const useTransactionFormSetup = (
   // Form doğrulama şeması
   const formSchema = createTransactionFormSchema(t);
 
+  // Form varsayılan değerleri
+  const defaultValues = isEditMode
+    ? {
+        amount: transaction!.amount.toString(),
+        description: transaction!.description || "",
+        transactionType: transaction!.transaction_type,
+        transactionDate: date,
+        transactionTime: time,
+        categoryId: initialCategoryId,
+        subcategoryId: transaction!.subcategory_id || "no-subcategory",
+      }
+    : {
+        amount: "",
+        description: "",
+        transactionType: TransactionType.INCOME,
+        transactionDate: now,
+        transactionTime: {
+          hour: currentHour,
+          minute: roundedMinute
+        },
+        categoryId: "no-category",
+        subcategoryId: "no-subcategory",
+      };
+
   // React Hook Form kurulumu
   const form = useForm<TransactionFormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      amount: "",
-      description: "",
-      transactionType: TransactionType.INCOME,
-      transactionDate: now,
-      transactionTime: {
-        hour: currentHour,
-        minute: roundedMinute
-      },
-      categoryId: "no-category",
-      subcategoryId: "no-subcategory",
-    },
+    defaultValues: defaultValues,
   });
 
-  // Transaction form hook'u
-  const { handleCreateTransaction, prepareTransactionData, isSubmitting } = useTransactionForm();
+  // Transaction form hook'ları
+  const { handleCreateTransaction, prepareTransactionData, isSubmitting: isCreating } = useTransactionForm();
+  const { handleUpdateTransaction, prepareUpdateData, isSubmitting: isUpdating, findStatementForDate } = useTransactionEdit();
+  
+  // İşlem oluşturma/güncelleme durumu
+  const isSubmitting = isEditMode ? isUpdating : isCreating;
   
   // Kategori değişikliğini yönet
   const handleCategoryChange = (categoryId: string) => {
@@ -127,6 +162,7 @@ export const useTransactionFormSetup = (
     console.log('accountId:', accountId);
     console.log('statementId:', statementId);
     console.log('initial date:', date);
+    console.log('isEditMode:', isEditMode);
     
     if (statementId) {
       // Eğer bir statementId verilmişse, o ekstreyi yükle
@@ -193,11 +229,55 @@ export const useTransactionFormSetup = (
       return false;
     }
     
-    // Form verilerini API formatına dönüştür
-    const transactionData = prepareTransactionData(formData, accountId, currentStatementId);
-    
-    // İşlemi oluştur
-    return await handleCreateTransaction(transactionData);
+    // Eğer düzenleme moduysa
+    if (isEditMode && transaction) {
+      console.log('Executing in EDIT mode for transaction:', transaction.id);
+      
+      try {
+        // Form verilerini API formatına dönüştür
+        const updateData = prepareUpdateData(formData, accountId, currentStatementId);
+        
+        // Tarih değişikliği var mı kontrol et
+        let targetStatementId = currentStatementId;
+        
+        // Tarih değişikliği varsa ve ekstre kilidi açıksa, uygun ekstreyi bul
+        if (!lockStatement) {
+          const dateChanged = format(date, 'yyyy-MM-dd') !== format(new Date(transaction.transaction_date), 'yyyy-MM-dd');
+          
+          if (dateChanged) {
+            const foundStatementId = await findStatementForDate(accountId, date);
+            if (foundStatementId) {
+              targetStatementId = foundStatementId;
+            } else {
+              toast.error(t("TransactionManagement:errors.transaction.noValidStatement"));
+              return false;
+            }
+          }
+        }
+        
+        // İşlemi güncelle
+        return await handleUpdateTransaction(
+          transaction.id,
+          updateData,
+          transaction.statement_id,
+          targetStatementId,
+          accountId
+        );
+      } catch (error) {
+        console.error('Error during transaction update:', error);
+        toast.error(t("common:errors.unexpectedError"));
+        return false;
+      }
+    } else {
+      // Yeni işlem oluşturma
+      console.log('Executing in CREATE mode');
+      
+      // Form verilerini API formatına dönüştür
+      const transactionData = prepareTransactionData(formData, accountId, currentStatementId);
+      
+      // İşlemi oluştur
+      return await handleCreateTransaction(transactionData);
+    }
   };
 
   return {
@@ -215,6 +295,7 @@ export const useTransactionFormSetup = (
     isLoadingStatement,
     statementError,
     lockStatement,
-    toggleStatementLock
+    toggleStatementLock,
+    isEditMode
   };
 };
