@@ -1,3 +1,4 @@
+
 import { supabase } from '@/integrations/supabase/client';
 import { CashAccount, CashAccountResponse, CashAccountOrder } from '../types';
 
@@ -92,7 +93,7 @@ export class CashAccountService {
 
       // Açık olan en güncel ekstreleri getir
       const { data: statements, error } = await supabase
-        .from('account_statements')
+        .from('cash_account_statements')
         .select('account_id, end_balance')
         .eq('status', 'OPEN')
         .in('account_id', accountIds)
