@@ -23,7 +23,7 @@ export const useTransactionsList = (statementId: string | undefined) => {
   const {
     data: transactions = [],
     isLoading,
-    refetch,
+    refetch: tanstackRefetch,
     error
   } = useQuery({
     queryKey: ['statementTransactions', statementId],
@@ -49,6 +49,11 @@ export const useTransactionsList = (statementId: string | undefined) => {
       }
     }
   });
+
+  // Adaptör fonksiyon: Promise<void> dönen bir fonksiyon oluşturuyoruz
+  const refetch = useCallback(async (): Promise<void> => {
+    await tanstackRefetch();
+  }, [tanstackRefetch]);
 
   // Filtreler uygulandığında işlemleri filtrele
   useEffect(() => {
