@@ -21,7 +21,7 @@ export const HeaderBranding: React.FC<HeaderBrandingProps> = ({ className }) => 
         size="icon"
         aria-label={t('AppLayout:sidebar.toggleMenu')}
         onClick={() => toggleSidebar()}
-        className="text-foreground md:hidden h-8 w-8"
+        className="text-foreground md:hidden h-8 w-8 hover:bg-muted/60"
       >
         <Menu size={18} />
       </Button>

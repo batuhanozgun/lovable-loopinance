@@ -33,9 +33,9 @@ export const LanguageSelector = ({ className, ...props }: LanguageSelectorProps)
   return (
     <Button
       variant="ghost"
-      size="sm"
+      size="icon"
       onClick={toggleLanguage}
-      className={cn(className)}
+      className={cn("h-8 w-8 rounded-full text-xs font-medium hover:bg-muted/60", className)}
       {...props}
     >
       {i18n.language.startsWith("tr") ? "EN" : "TR"}
