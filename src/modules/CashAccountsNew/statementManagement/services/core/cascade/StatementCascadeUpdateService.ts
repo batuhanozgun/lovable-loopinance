@@ -79,7 +79,7 @@ export class StatementCascadeUpdateService {
         if (statement.start_balance !== previousEndBalance) {
           // Ekstre başlangıç bakiyesini güncelle
           const { data: updatedStatement, error: updateError } = await supabase
-            .from('account_statements')
+            .from('cash_account_statements')
             .update({ 
               start_balance: previousEndBalance,
               // Bitiş bakiyesini de ön hesaplama olarak güncelleyelim
@@ -107,7 +107,7 @@ export class StatementCascadeUpdateService {
         
         // Güncellenmiş ekstrenin yeni kapanış bakiyesini alalım (sonraki ekstre için kullanılacak)
         const { data: refreshedStatement, error: refreshError } = await supabase
-          .from('account_statements')
+          .from('cash_account_statements')
           .select('end_balance')
           .eq('id', statement.id)
           .single();
