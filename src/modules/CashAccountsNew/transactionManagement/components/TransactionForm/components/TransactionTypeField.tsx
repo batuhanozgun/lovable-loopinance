@@ -5,10 +5,10 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { ArrowUpCircle, ArrowDownCircle } from "lucide-react";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { TransactionType } from "../../../types";
 
 interface TransactionTypeFieldProps {
@@ -16,7 +16,7 @@ interface TransactionTypeFieldProps {
 }
 
 /**
- * İşlem türü seçim alanı bileşeni
+ * İşlem türü seçim alanı bileşeni (ToggleGroup kullanarak modernize edildi)
  */
 export const TransactionTypeField: React.FC<TransactionTypeFieldProps> = ({ control }) => {
   const { t } = useTranslation(["TransactionManagement", "common"]);
@@ -26,41 +26,38 @@ export const TransactionTypeField: React.FC<TransactionTypeFieldProps> = ({ cont
       control={control}
       name="transactionType"
       render={({ field }) => (
-        <FormItem className="space-y-1">
-          <FormLabel className="text-xs mb-0.5">{t("TransactionManagement:transaction.type")}</FormLabel>
+        <FormItem>
           <FormControl>
-            <RadioGroup
-              onValueChange={field.onChange}
-              defaultValue={field.value}
-              className="flex space-x-2"
+            <ToggleGroup
+              type="single"
+              value={field.value}
+              onValueChange={(value) => {
+                if (value) field.onChange(value);
+              }}
+              className="justify-start"
             >
-              <div className="flex items-center space-x-1">
-                <RadioGroupItem
-                  value={TransactionType.INCOME}
-                  id="income"
-                  className="h-3.5 w-3.5"
-                />
-                <label
-                  htmlFor="income"
-                  className="text-xs font-medium leading-none cursor-pointer text-green-600 dark:text-green-400"
-                >
+              <ToggleGroupItem 
+                value={TransactionType.INCOME} 
+                aria-label={t("TransactionManagement:transaction.types.income")}
+                className="flex items-center gap-1 border border-green-200 data-[state=on]:bg-green-100 data-[state=on]:text-green-700 dark:data-[state=on]:bg-green-800/30 dark:data-[state=on]:text-green-400 dark:border-green-800"
+              >
+                <ArrowUpCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
+                <span className="text-xs font-medium">
                   {t("TransactionManagement:transaction.types.income")}
-                </label>
-              </div>
-              <div className="flex items-center space-x-1">
-                <RadioGroupItem
-                  value={TransactionType.EXPENSE}
-                  id="expense"
-                  className="h-3.5 w-3.5"
-                />
-                <label
-                  htmlFor="expense"
-                  className="text-xs font-medium leading-none cursor-pointer text-red-600 dark:text-red-400"
-                >
+                </span>
+              </ToggleGroupItem>
+              
+              <ToggleGroupItem 
+                value={TransactionType.EXPENSE} 
+                aria-label={t("TransactionManagement:transaction.types.expense")}
+                className="flex items-center gap-1 border border-red-200 data-[state=on]:bg-red-100 data-[state=on]:text-red-700 dark:data-[state=on]:bg-red-800/30 dark:data-[state=on]:text-red-400 dark:border-red-800"
+              >
+                <ArrowDownCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
+                <span className="text-xs font-medium">
                   {t("TransactionManagement:transaction.types.expense")}
-                </label>
-              </div>
-            </RadioGroup>
+                </span>
+              </ToggleGroupItem>
+            </ToggleGroup>
           </FormControl>
           <FormMessage className="text-[10px]" />
         </FormItem>
