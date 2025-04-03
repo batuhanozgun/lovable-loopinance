@@ -6,3 +6,5 @@ export { TransactionsLoadingSkeleton } from './TransactionsLoadingSkeleton';
 export { TransactionsTableHeader } from './TransactionsTableHeader';
 export { TransactionRow } from './TransactionRow';
 export { DeleteTransactionDialog } from './DeleteTransactionDialog';
+export { TransactionsHeader } from './TransactionsHeader';
+export { TransactionsContent } from './TransactionsContent';
