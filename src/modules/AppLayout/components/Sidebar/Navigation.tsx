@@ -21,7 +21,7 @@ import { Separator } from '@/components/ui/separator';
  * Sidebar için ana navigasyon bileşeni.
  * İkonlar ve yönlendirmeleri içerir, erişim kontrolünü yönetir.
  */
-export const Navigation: React.FC = () => {
+export const Navigation = () => {
   const { t } = useTranslation(['AppLayout', 'common', 'Subscription']);
   const logger = LoggerService.getInstance('AppLayout.Navigation');
   const location = useLocation();
@@ -164,7 +164,7 @@ export const Navigation: React.FC = () => {
             })}
             
             {groupIndex < navGroups.length - 1 && isExpanded && (
-              <Separator className="my-1.5" /> {/* azaltıldı */}
+              <Separator className="my-1.5" /> /* azaltıldı */
             )}
           </div>
         ))}
