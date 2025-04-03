@@ -1,7 +1,12 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { 
+  Tooltip, 
+  TooltipContent, 
+  TooltipTrigger,
+  TooltipProvider 
+} from '@/components/ui/tooltip';
 
 interface IconButtonProps {
   icon: React.ReactNode;
@@ -19,22 +24,24 @@ export const IconButton: React.FC<IconButtonProps> = ({
   disabled = false
 }) => {
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Button 
-          variant={variant} 
-          size="icon" 
-          onClick={onClick}
-          disabled={disabled}
-          className="h-8 w-8"
-        >
-          {icon}
-          <span className="sr-only">{label}</span>
-        </Button>
-      </TooltipTrigger>
-      <TooltipContent>
-        <p>{label}</p>
-      </TooltipContent>
-    </Tooltip>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button 
+            variant={variant} 
+            size="icon" 
+            onClick={onClick}
+            disabled={disabled}
+            className="h-8 w-8"
+          >
+            {icon}
+            <span className="sr-only">{label}</span>
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>{label}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };
