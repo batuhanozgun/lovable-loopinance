@@ -6,7 +6,7 @@ import { formatCurrency } from '@/utils/formatters/currencyFormatter';
 import { CurrencyType } from '@/modules/CashAccountsNew/cashAccountHomepage/types';
 import { AccountTransaction, StatementTransactionType } from '../../../types/transaction';
 import { TransactionRow } from './TransactionRow';
-import { EmptyTransactions } from './EmptyTransactions';
+import { EmptyTransactionsState } from './EmptyTransactionsState';
 
 interface TransactionsContentProps {
   transactions: AccountTransaction[];
@@ -28,7 +28,7 @@ export const TransactionsContent: React.FC<TransactionsContentProps> = ({
 
   // İşlemler boşsa
   if (!transactions || transactions.length === 0) {
-    return <EmptyTransactions />;
+    return <EmptyTransactionsState />;
   }
 
   return (
