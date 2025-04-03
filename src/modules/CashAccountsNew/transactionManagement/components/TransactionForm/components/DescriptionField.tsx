@@ -31,7 +31,7 @@ export const DescriptionField: React.FC<DescriptionFieldProps> = ({ control }) =
             <Input
               placeholder={t("TransactionManagement:transaction.descriptionPlaceholder")}
               {...field}
-              className="h-8 text-xs"
+              className="h-8 !text-xs placeholder:!text-xs"
             />
           </FormControl>
           <FormMessage className="text-[10px]" />

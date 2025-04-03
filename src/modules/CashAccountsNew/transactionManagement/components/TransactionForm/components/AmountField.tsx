@@ -34,7 +34,7 @@ export const AmountField: React.FC<AmountFieldProps> = ({ control, currency }) =
               <Input
                 placeholder="0,00"
                 {...field}
-                className="pl-7 h-8 text-xs"
+                className="pl-7 h-8 !text-xs placeholder:!text-xs"
               />
               <div className="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none text-muted-foreground text-xs">
                 {currency === "TRY" ? "₺" : currency === "USD" ? "$" : "€"}
