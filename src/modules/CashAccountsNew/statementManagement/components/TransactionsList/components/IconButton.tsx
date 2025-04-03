@@ -25,16 +25,26 @@ export const IconButton: React.FC<IconButtonProps> = ({
   disabled = false,
   size = 'icon'
 }) => {
+  // Button'un size prop'unu yönetme
+  const buttonSize = size === 'xs' ? undefined : size === 'sm' ? 'sm' : 'icon';
+  
+  // Custom class name oluşturma
+  const sizeClassName = size === 'xs' 
+    ? "h-5 w-5 p-0" 
+    : size === 'sm' 
+      ? "h-6 w-6 p-0" 
+      : "h-7 w-7 p-0";
+
   return (
     <TooltipProvider>
       <Tooltip delayDuration={300}>
         <TooltipTrigger asChild>
           <Button 
             variant={variant} 
-            size={size} 
+            size={buttonSize}
             onClick={onClick}
             disabled={disabled}
-            className={size === 'xs' ? "h-5 w-5 p-0" : size === 'sm' ? "h-6 w-6 p-0" : "h-7 w-7 p-0"}
+            className={sizeClassName}
           >
             {icon}
             <span className="sr-only">{label}</span>
