@@ -74,7 +74,7 @@ export class StatementQueryService {
       
       const { data: statement, error } = await this.createBaseQuery()
         .eq('id', id)
-        .maybeSingle();
+        .single();
       
       if (error) {
         this.logger.error('Failed to fetch statement by ID', { id, error });

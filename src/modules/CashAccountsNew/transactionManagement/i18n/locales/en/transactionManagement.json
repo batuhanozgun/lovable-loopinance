@@ -3,9 +3,6 @@
   "transaction": {
     "new": "New Transaction",
     "add": "Add Transaction",
-    "edit": "Edit Transaction",
-    "update": "Update",
-    "updateSuccess": "Transaction updated successfully",
     "amount": "Amount",
     "date": "Date",
     "time": "Time",
@@ -36,12 +33,5 @@
     },
     "lockStatement": "Lock statement selection",
     "unlockStatement": "Unlock statement selection"
-  },
-  "errors": {
-    "transaction": {
-      "update": {
-        "failed": "Error updating transaction"
-      }
-    }
   }
 }

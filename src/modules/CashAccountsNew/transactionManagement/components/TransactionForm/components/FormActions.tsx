@@ -8,7 +8,6 @@ interface FormActionsProps {
   onClose: () => void;
   isSubmitting: boolean;
   isDisabled?: boolean;
-  isEditMode?: boolean;
 }
 
 /**
@@ -17,8 +16,7 @@ interface FormActionsProps {
 export const FormActions: React.FC<FormActionsProps> = ({ 
   onClose, 
   isSubmitting,
-  isDisabled = false,
-  isEditMode = false
+  isDisabled = false
 }) => {
   const { t } = useTranslation(["TransactionManagement", "common"]);
 
@@ -36,12 +34,7 @@ export const FormActions: React.FC<FormActionsProps> = ({
         type="submit" 
         disabled={isSubmitting || isDisabled}
       >
-        {isSubmitting 
-          ? t("common:processing") 
-          : isEditMode 
-            ? t("TransactionManagement:transaction.update")
-            : t("TransactionManagement:transaction.add")
-        }
+        {isSubmitting ? t("common:processing") : t("TransactionManagement:transaction.add")}
       </Button>
     </DialogFooter>
   );

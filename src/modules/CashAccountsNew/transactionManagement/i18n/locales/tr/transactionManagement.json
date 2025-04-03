@@ -3,9 +3,6 @@
   "transaction": {
     "new": "Yeni İşlem",
     "add": "İşlem Ekle",
-    "edit": "İşlemi Düzenle",
-    "update": "Güncelle",
-    "updateSuccess": "İşlem başarıyla güncellendi",
     "amount": "Tutar",
     "date": "Tarih",
     "time": "Saat",
@@ -36,12 +33,5 @@
     },
     "lockStatement": "Ekstre seçimini kilitle",
     "unlockStatement": "Ekstre seçimini aç"
-  },
-  "errors": {
-    "transaction": {
-      "update": {
-        "failed": "İşlem güncellenirken hata oluştu"
-      }
-    }
   }
 }

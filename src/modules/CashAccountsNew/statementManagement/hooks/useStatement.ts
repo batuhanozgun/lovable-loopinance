@@ -7,7 +7,6 @@ import { AccountStatement } from '../types';
 
 /**
  * Belirli bir ekstreyi getiren hook
- * @param id Ekstre ID'si
  */
 export const useStatement = (id: string | undefined) => {
   const { t } = useTranslation(['CashAccountsNew', 'common']);

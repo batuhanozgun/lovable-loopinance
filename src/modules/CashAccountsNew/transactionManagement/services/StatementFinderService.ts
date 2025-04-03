@@ -13,11 +13,6 @@ export class StatementFinderService {
     try {
       console.log('Finding open statements for account:', accountId);
       
-      if (!accountId) {
-        console.error('Invalid accountId provided');
-        return [];
-      }
-      
       const { data: statements, error } = await supabase
         .from('account_statements')
         .select('id, start_date, end_date')
@@ -44,12 +39,6 @@ export class StatementFinderService {
    */
   static async findStatementForDate(accountId: string, date: Date): Promise<AccountStatement | null> {
     try {
-      // Parametre kontrolü
-      if (!accountId || !date) {
-        console.error('Invalid parameters provided to findStatementForDate:', { accountId, date });
-        return null;
-      }
-      
       // Düzeltilmiş tarih formatı (local vs. ISO farklarını elimine etmek için)
       const selectedYear = date.getFullYear();
       const selectedMonth = date.getMonth() + 1; // JavaScript'te ay 0-11 arası
@@ -85,40 +74,38 @@ export class StatementFinderService {
       }
       
       console.log('Query returned', statements?.length || 0, 'statements');
-      
-      if (!statements || statements.length === 0) {
-        console.warn(`No statement found for date ${formattedDate} in account ${accountId}`);
-        console.log('======== END STATEMENT FINDER LOGS ========');
-        return null;
-      }
-      
       console.log('Raw statements data:', JSON.stringify(statements, null, 2));
       
       // Bulunan tüm ekstreleri detaylı kontrol et
-      console.log('Statements found, checking for exact matches...');
-      
-      // JavaScript Date nesneleri ile tam karşılaştırma
-      for (const statement of statements) {
-        // Formatted dates for consistent comparison
-        const stStartFormatted = statement.start_date;
-        const stEndFormatted = statement.end_date;
+      if (statements && statements.length > 0) {
+        console.log('Statements found, checking for exact matches...');
         
-        console.log('Checking statement:', statement.id);
-        console.log('  - Period:', stStartFormatted, 'to', stEndFormatted);
-        console.log('  - Status:', statement.status);
-        console.log('  - Is selected date within range?', 
-          formattedDate >= stStartFormatted && formattedDate <= stEndFormatted ? 'YES' : 'NO');
-        
-        if (formattedDate >= stStartFormatted && formattedDate <= stEndFormatted) {
-          console.log('MATCH FOUND! Exact period match for date', formattedDate);
-          return statement;
+        // JavaScript Date nesneleri ile tam karşılaştırma
+        for (const statement of statements) {
+          // Formatted dates for consistent comparison
+          const stStartFormatted = statement.start_date;
+          const stEndFormatted = statement.end_date;
+          
+          console.log('Checking statement:', statement.id);
+          console.log('  - Period:', stStartFormatted, 'to', stEndFormatted);
+          console.log('  - Status:', statement.status);
+          console.log('  - Is selected date within range?', 
+            formattedDate >= stStartFormatted && formattedDate <= stEndFormatted ? 'YES' : 'NO');
+          
+          if (formattedDate >= stStartFormatted && formattedDate <= stEndFormatted) {
+            console.log('MATCH FOUND! Exact period match for date', formattedDate);
+            return statement;
+          }
         }
+        
+        // Eğer tam olarak uyuşan yoksa
+        console.log('No exact statement match, returning first result:', statements[0]);
+        return statements[0];
       }
       
-      // Eğer tam olarak uyuşan yoksa
-      console.log('No exact statement match, returning first result:', statements[0]);
+      console.warn(`No statement found for date ${formattedDate} in account ${accountId}`);
       console.log('======== END STATEMENT FINDER LOGS ========');
-      return statements[0];
+      return null;
     } catch (error) {
       console.error('Unexpected error finding statement for date:', error);
       return null;
@@ -130,12 +117,6 @@ export class StatementFinderService {
    */
   static async getStatementById(statementId: string): Promise<AccountStatement | null> {
     try {
-      // Parametre kontrolü
-      if (!statementId) {
-        console.error('Invalid statementId provided to getStatementById');
-        return null;
-      }
-      
       console.log('Fetching statement by ID:', statementId);
       
       const { data: statement, error } = await supabase
@@ -149,13 +130,7 @@ export class StatementFinderService {
         return null;
       }
       
-      if (!statement) {
-        console.warn(`No statement found with ID ${statementId}`);
-        return null;
-      }
-      
-      console.log('Statement found:', statement);
-      return statement;
+      return statement || null;
     } catch (error) {
       console.error('Unexpected error fetching statement by ID:', error);
       return null;

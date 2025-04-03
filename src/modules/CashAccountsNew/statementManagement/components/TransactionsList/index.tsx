@@ -5,7 +5,6 @@ import { CurrencyType } from '@/modules/CashAccountsNew/cashAccountHomepage/type
 import { useTransactionsList } from '../../hooks/useTransactionsList';
 import { AccountTransaction } from '../../types/transaction';
 import { useTransactionDelete } from './hooks/useTransactionDelete';
-import { TransactionForm } from '../../../transactionManagement/components/TransactionForm';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
 import { 
@@ -18,14 +17,12 @@ import {
 interface TransactionsListProps {
   statementId: string;
   currency: CurrencyType;
-  accountId: string; // Eklendi - işlem düzenleme için gerekli
   setRefetchCallback?: (refetch: () => Promise<void>) => void;
 }
 
 export const TransactionsList: React.FC<TransactionsListProps> = ({ 
   statementId, 
   currency,
-  accountId, // Eklendi
   setRefetchCallback
 }) => {
   const { t } = useTranslation('StatementManagement');
@@ -50,7 +47,7 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
     }
   }, [setRefetchCallback, refetch]);
   
-  // İşlem silme işlemleri için kancamız
+  // İşlem silme işlemleri için kancamız - artık tüm durum yönetimi burada
   const {
     selectedTransaction,
     isDeleteDialogOpen,
@@ -60,24 +57,14 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
     handleConfirmDelete
   } = useTransactionDelete(refetch);
 
-  // İşlem düzenleme durumu
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [editingTransaction, setEditingTransaction] = useState<AccountTransaction | null>(null);
-
   // Düzenleme işlemi için
   const handleEditTransaction = (transaction: AccountTransaction) => {
-    setEditingTransaction(transaction);
-    setIsEditModalOpen(true);
+    // Düzenleme modalı daha sonra uygulanacak
+    toast({
+      title: t('common:info', { ns: 'common' }),
+      description: t('common:featureComingSoon', { ns: 'common' }),
+    });
   };
-
-  // Düzenleme modalını kapatma
-  const handleCloseEditModal = useCallback(() => {
-    setIsEditModalOpen(false);
-    // Modal kapandıktan sonra verileri yenile
-    setTimeout(() => {
-      refetch();
-    }, 500);
-  }, [refetch]);
   
   // Yükleme durumu
   if (isLoading) {
@@ -108,22 +95,6 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
         setIsOpen={handleCloseDeleteDialog}
         onConfirm={handleConfirmDelete}
       />
-
-      {/* İşlem Düzenleme Formu */}
-      {editingTransaction && (
-        <TransactionForm
-          accountId={accountId}
-          statementId={statementId}
-          currency={currency}
-          isOpen={isEditModalOpen}
-          onClose={handleCloseEditModal}
-          transaction={{
-            ...editingTransaction,
-            // AccountTransaction tipini Transaction tipine dönüştür
-            transaction_type: editingTransaction.transaction_type
-          }}
-        />
-      )}
     </Card>
   );
 };

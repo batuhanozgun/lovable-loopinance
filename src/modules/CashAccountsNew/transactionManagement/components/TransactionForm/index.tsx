@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import {
   Dialog,
@@ -11,7 +11,6 @@ import { useTransactionFormSetup } from "../../hooks/useTransactionFormSetup";
 import { CurrencyType } from "../../../cashAccountHomepage/types";
 import { StatementInfoSection } from "./components/StatementInfoSection";
 import { TransactionFormContent } from "./components/TransactionFormContent";
-import { Transaction } from "../../types";
 
 interface TransactionFormProps {
   accountId: string;
@@ -19,7 +18,6 @@ interface TransactionFormProps {
   currency: string;
   isOpen: boolean;
   onClose: () => void;
-  transaction?: Transaction; // Düzenleme modu için
 }
 
 /**
@@ -30,8 +28,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
   statementId,
   currency,
   isOpen,
-  onClose,
-  transaction
+  onClose
 }) => {
   const { t } = useTranslation(["TransactionManagement", "common"]);
   
@@ -54,29 +51,15 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
     isLoadingStatement,
     statementError,
     lockStatement,
-    toggleStatementLock,
-    isEditMode
-  } = useTransactionFormSetup(
-    isOpen ? accountId : '',  // İletişim kutusu açıksa accountId'yi gönder
-    isOpen ? statementId : undefined,  // İletişim kutusu açıksa statementId'yi gönder
-    isOpen ? transaction : undefined   // İletişim kutusu açıksa transaction'ı gönder
-  );
-  
-  // Dialog kapanırken form sıfırlama
-  const handleDialogClose = () => {
-    form.reset(); // Formu sıfırla
-    onClose();    // Dialog'u kapat
-  };
+    toggleStatementLock
+  } = useTransactionFormSetup(accountId, statementId);
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleDialogClose}>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>
-            {isEditMode 
-              ? t("TransactionManagement:transaction.edit") 
-              : t("TransactionManagement:transaction.new")
-            }
+            {t("TransactionManagement:transaction.new")}
           </DialogTitle>
         </DialogHeader>
 
@@ -104,8 +87,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
           isSubmitting={isSubmitting}
           isDisabled={!currentStatementId}
           currency={currencyType}
-          onClose={handleDialogClose}
-          isEditMode={isEditMode}
+          onClose={onClose}
         />
       </DialogContent>
     </Dialog>
