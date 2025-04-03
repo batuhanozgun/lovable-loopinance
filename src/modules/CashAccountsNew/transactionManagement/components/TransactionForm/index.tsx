@@ -66,7 +66,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
           </DialogTitle>
         </DialogHeader>
 
-        <ScrollArea className={isMobile ? "max-h-[calc(85vh-80px)]" : ""}>
+        <ScrollArea className={isMobile ? "max-h-[65vh]" : ""}>
           <div className="pr-4">
             {/* Ekstre Bilgileri Bölümü */}
             <StatementInfoSection 
