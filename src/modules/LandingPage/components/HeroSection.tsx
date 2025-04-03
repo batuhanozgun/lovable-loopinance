@@ -50,7 +50,7 @@ export const HeroSection = () => {
               </Link>
             </Button>
             <Button variant="outline" size="sm" asChild className="text-sm px-3 py-1 h-8">
-              <Link to="#features">{t("hero.cta.secondary")}</Link>
+              <Link to="/features">{t("hero.cta.secondary")}</Link>
             </Button>
           </div>
         </div>
