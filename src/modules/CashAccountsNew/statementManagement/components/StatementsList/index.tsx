@@ -29,9 +29,9 @@ export const StatementsList: React.FC<StatementsListProps> = ({ statements, isLo
 
   if (isLoading) {
     return (
-      <div className="space-y-4">
+      <div className="space-y-3">
         {[...Array(3)].map((_, i) => (
-          <Skeleton key={i} className="h-24 w-full" />
+          <Skeleton key={i} className="h-20 w-full" />
         ))}
       </div>
     );
@@ -40,8 +40,8 @@ export const StatementsList: React.FC<StatementsListProps> = ({ statements, isLo
   if (statements.length === 0) {
     return (
       <Card>
-        <CardContent className="pt-6">
-          <p className="text-center text-muted-foreground">{t('statements.empty.noStatements')}</p>
+        <CardContent className="pt-4 px-4 py-3">
+          <p className="text-center text-muted-foreground text-sm">{t('statements.empty.noStatements')}</p>
         </CardContent>
       </Card>
     );
@@ -62,36 +62,36 @@ export const StatementsList: React.FC<StatementsListProps> = ({ statements, isLo
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>{t('statements.title')}</CardTitle>
-        <CardDescription>{t('statements.period')}</CardDescription>
+      <CardHeader className="px-4 py-3">
+        <CardTitle className="text-base">{t('statements.title')}</CardTitle>
+        <CardDescription className="text-xs">{t('statements.period')}</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-0">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>{t('statements.period')}</TableHead>
-              <TableHead>{t('statements.endBalance')}</TableHead>
-              <TableHead>{t('statements.status.title')}</TableHead>
-              <TableHead className="text-right">{t('statements.viewDetails')}</TableHead>
+              <TableHead className="text-xs">{t('statements.period')}</TableHead>
+              <TableHead className="text-xs">{t('statements.endBalance')}</TableHead>
+              <TableHead className="text-xs">{t('statements.status.title')}</TableHead>
+              <TableHead className="text-right text-xs">{t('statements.viewDetails')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {statements.map((statement) => (
               <TableRow key={statement.id}>
-                <TableCell>
+                <TableCell className="py-2 text-xs">
                   {format(new Date(statement.start_date), 'PP', { locale: dateLocale })} - {format(new Date(statement.end_date), 'PP', { locale: dateLocale })}
                 </TableCell>
-                <TableCell>{formatCurrency(statement.end_balance, currency)}</TableCell>
-                <TableCell>
-                  <Badge variant={getStatusBadgeVariant(statement.status)}>
+                <TableCell className="py-2 text-xs">{formatCurrency(statement.end_balance, currency)}</TableCell>
+                <TableCell className="py-2">
+                  <Badge variant={getStatusBadgeVariant(statement.status)} className="text-xs py-0.5 h-5">
                     {t(`statements.status.${statement.status.toLowerCase()}`)}
                   </Badge>
                 </TableCell>
-                <TableCell className="text-right">
-                  <Button size="sm" variant="ghost" asChild>
+                <TableCell className="text-right py-2">
+                  <Button size="sm" variant="ghost" asChild className="h-7 text-xs">
                     <Link to={`/nakit-hesaplar/${statement.account_id}/statements/${statement.id}`}>
-                      <Eye className="mr-2 h-4 w-4" />
+                      <Eye className="mr-1.5 h-3 w-3" />
                       {t('statements.viewDetails')}
                     </Link>
                   </Button>

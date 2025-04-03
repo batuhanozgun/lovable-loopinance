@@ -77,11 +77,11 @@ export const StatementsListView: React.FC = () => {
   // Yükleme durumu
   if (isAccountLoading) {
     return (
-      <div className="container py-6">
-        <Skeleton className="h-8 w-64 mb-4" />
-        <Skeleton className="h-12 w-full mb-4" />
-        <Card className="p-6">
-          <Skeleton className="h-32 w-full" />
+      <div className="container py-4">
+        <Skeleton className="h-6 w-56 mb-3" />
+        <Skeleton className="h-10 w-full mb-3" />
+        <Card className="p-4">
+          <Skeleton className="h-28 w-full" />
         </Card>
       </div>
     );
@@ -90,13 +90,13 @@ export const StatementsListView: React.FC = () => {
   // Hata durumu
   if (accountError || !account) {
     return (
-      <div className="container py-6">
-        <h1 className="text-2xl font-bold mb-4">{t('statements.title')}</h1>
-        <Card className="p-6 flex flex-col items-center justify-center text-center">
-          <p className="text-destructive mb-4">
+      <div className="container py-4">
+        <h1 className="text-xl font-semibold mb-3">{t('statements.title')}</h1>
+        <Card className="p-4 flex flex-col items-center justify-center text-center">
+          <p className="text-destructive mb-3 text-sm">
             {t('errors.account.notFound')}
           </p>
-          <Button asChild>
+          <Button asChild size="sm" className="h-8 text-xs">
             <Link to="/nakit-hesaplar">
               {t('common:buttons.backToAccounts')}
             </Link>
@@ -107,16 +107,16 @@ export const StatementsListView: React.FC = () => {
   }
   
   return (
-    <div className="container py-6">
-      <div className="flex justify-between items-center mb-6">
+    <div className="container py-4">
+      <div className="flex justify-between items-center mb-4">
         <div className="flex items-center">
-          <Button variant="ghost" size="sm" asChild className="mr-4">
+          <Button variant="ghost" size="sm" asChild className="mr-3 h-7">
             <Link to="/nakit-hesaplar">
-              <ArrowLeft className="mr-2 h-4 w-4" />
+              <ArrowLeft className="mr-1.5 h-3 w-3" />
               {t('common:back')}
             </Link>
           </Button>
-          <h1 className="text-2xl font-bold">
+          <h1 className="text-xl font-semibold">
             {`${account.name} - ${t('statements.title')}`}
           </h1>
         </div>
@@ -127,20 +127,21 @@ export const StatementsListView: React.FC = () => {
             size="sm"
             onClick={handleRefreshStatements}
             disabled={isProcessing}
+            className="h-7 text-xs"
           >
-            <RefreshCw className={`h-4 w-4 mr-2 ${isProcessing ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`h-3 w-3 mr-1.5 ${isProcessing ? 'animate-spin' : ''}`} />
             {t('statements.buttons.refreshStatements')}
           </Button>
         </div>
       </div>
       
       {statementsError ? (
-        <Card className="p-6">
+        <Card className="p-4">
           <div className="text-center">
-            <p className="text-destructive mb-4">
+            <p className="text-destructive mb-3 text-sm">
               {t('errors.statement.list.failed')}
             </p>
-            <Button onClick={() => refetchStatements()}>
+            <Button onClick={() => refetchStatements()} size="sm" className="h-8 text-xs">
               {t('common:buttons.tryAgain')}
             </Button>
           </div>
@@ -148,8 +149,8 @@ export const StatementsListView: React.FC = () => {
       ) : (
         <>
           {isStatementsLoading ? (
-            <Card className="p-6">
-              <Skeleton className="h-32 w-full" />
+            <Card className="p-4">
+              <Skeleton className="h-28 w-full" />
             </Card>
           ) : (
             statements && statements.length > 0 ? (
@@ -159,16 +160,21 @@ export const StatementsListView: React.FC = () => {
                 currency={account.currency as CurrencyType} 
               />
             ) : (
-              <Card className="p-6">
-                <div className="text-center py-8">
-                  <p className="text-muted-foreground mb-6">
+              <Card className="p-4">
+                <div className="text-center py-6">
+                  <p className="text-muted-foreground mb-4 text-sm">
                     {t('statements.empty.noStatements')}
                   </p>
-                  <p className="text-sm text-muted-foreground mb-6">
+                  <p className="text-xs text-muted-foreground mb-4">
                     {t('statements.empty.statementInfo')}
                   </p>
-                  <Button onClick={handleRefreshStatements} disabled={isProcessing}>
-                    <PlusCircle className="h-4 w-4 mr-2" />
+                  <Button 
+                    onClick={handleRefreshStatements} 
+                    disabled={isProcessing}
+                    size="sm"
+                    className="h-8 text-xs"
+                  >
+                    <PlusCircle className="h-3 w-3 mr-1.5" />
                     {t('statements.buttons.createStatement')}
                   </Button>
                 </div>

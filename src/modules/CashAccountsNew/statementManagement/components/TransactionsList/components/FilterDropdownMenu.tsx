@@ -25,25 +25,25 @@ export const FilterDropdownMenu: React.FC<FilterDropdownMenuProps> = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm">
-          <Filter className="h-4 w-4 mr-2" />
+        <Button variant="outline" size="sm" className="h-7 text-xs">
+          <Filter className="h-3 w-3 mr-1.5" />
           {t('common:filter', { ns: 'common' })}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48 bg-background">
-        <DropdownMenuItem onClick={() => onFilterByType('all')}>
+        <DropdownMenuItem onClick={() => onFilterByType('all')} className="text-xs">
           {t('transactions.filters.showAll')}
         </DropdownMenuItem>
         
-        <DropdownMenuItem onClick={() => onFilterByType(StatementTransactionType.INCOME)}>
+        <DropdownMenuItem onClick={() => onFilterByType(StatementTransactionType.INCOME)} className="text-xs">
           {t('transactions.filters.showIncome')}
         </DropdownMenuItem>
         
-        <DropdownMenuItem onClick={() => onFilterByType(StatementTransactionType.EXPENSE)}>
+        <DropdownMenuItem onClick={() => onFilterByType(StatementTransactionType.EXPENSE)} className="text-xs">
           {t('transactions.filters.showExpenses')}
         </DropdownMenuItem>
         
-        <DropdownMenuItem onClick={onResetFilters}>
+        <DropdownMenuItem onClick={onResetFilters} className="text-xs">
           {t('common:resetFilters', { ns: 'common' })}
         </DropdownMenuItem>
       </DropdownMenuContent>

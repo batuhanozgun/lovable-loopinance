@@ -22,9 +22,9 @@ export const TransactionsHeader: React.FC<TransactionsHeaderProps> = ({
   const { t } = useTranslation('StatementManagement');
 
   return (
-    <CardHeader>
+    <CardHeader className="px-4 py-3">
       <div className="flex justify-between items-center">
-        <CardTitle>{t('transactions.title')}</CardTitle>
+        <CardTitle className="text-base">{t('transactions.title')}</CardTitle>
         <div className="flex space-x-2">
           <FilterDropdownMenu 
             onFilterByType={filterByType}

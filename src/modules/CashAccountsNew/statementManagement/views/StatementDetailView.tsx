@@ -64,14 +64,14 @@ export const StatementDetailView: React.FC = () => {
   // Yükleme durumu
   if (isAccountLoading || isStatementLoading) {
     return (
-      <div className="container py-6 space-y-6">
-        <div className="flex items-center mb-6">
-          <Skeleton className="h-10 w-24 mr-2" />
-          <Skeleton className="h-8 w-64" />
+      <div className="container py-4 space-y-4">
+        <div className="flex items-center mb-4">
+          <Skeleton className="h-8 w-20 mr-2" />
+          <Skeleton className="h-6 w-48" />
         </div>
         
-        <Skeleton className="h-48 w-full" />
-        <Skeleton className="h-64 w-full" />
+        <Skeleton className="h-36 w-full" />
+        <Skeleton className="h-52 w-full" />
       </div>
     );
   }
@@ -79,15 +79,15 @@ export const StatementDetailView: React.FC = () => {
   // Hesap veya ekstre bulunamama durumu
   if (!account || !statement) {
     return (
-      <div className="container py-6">
-        <Button variant="ghost" size="sm" asChild className="mb-4">
+      <div className="container py-4">
+        <Button variant="ghost" size="sm" asChild className="mb-3">
           <Link to={`/nakit-hesaplar/${accountId}/statements`}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
+            <ArrowLeft className="mr-2 h-3 w-3" />
             {t('common:back')}
           </Link>
         </Button>
         
-        <div className="p-4 border border-destructive text-destructive rounded-md">
+        <div className="p-3 border border-destructive text-destructive rounded-md text-sm">
           {!account 
             ? t('errors.account.detail.failed')
             : t('errors.statement.detail.failed')
@@ -98,24 +98,25 @@ export const StatementDetailView: React.FC = () => {
   }
 
   return (
-    <div className="container py-6 space-y-6">
-      <div className="flex items-center justify-between mb-6">
+    <div className="container py-4 space-y-4">
+      <div className="flex items-center justify-between mb-4">
         <div className="flex items-center">
-          <Button variant="ghost" size="sm" asChild className="mr-4">
+          <Button variant="ghost" size="sm" asChild className="mr-3">
             <Link to={`/nakit-hesaplar/${accountId}/statements`}>
-              <ArrowLeft className="mr-2 h-4 w-4" />
+              <ArrowLeft className="mr-1.5 h-3 w-3" />
               {t('common:back')}
             </Link>
           </Button>
-          <h1 className="text-2xl font-bold">{account.name} - {t('statements.title')}</h1>
+          <h1 className="text-xl font-semibold">{account.name} - {t('statements.title')}</h1>
         </div>
         
         {/* Yeni İşlem Ekle Butonu */}
         <Button 
           onClick={handleOpenTransactionForm}
-          className="flex items-center"
+          className="flex items-center h-8 text-xs"
+          size="sm"
         >
-          <Plus className="h-4 w-4 mr-2" />
+          <Plus className="h-3 w-3 mr-1.5" />
           {t('transactions.new')}
         </Button>
       </div>

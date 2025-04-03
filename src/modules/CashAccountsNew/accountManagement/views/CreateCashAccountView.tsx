@@ -7,7 +7,7 @@ import { CashAccountForm } from '../components/CashAccountForm';
  */
 export const CreateCashAccountView: React.FC = () => {
   return (
-    <div className="py-2">
+    <div className="py-1">
       <CashAccountForm />
     </div>
   );

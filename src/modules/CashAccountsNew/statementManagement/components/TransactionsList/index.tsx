@@ -99,7 +99,7 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
   }
 
   return (
-    <Card>
+    <Card className="overflow-hidden">
       <TransactionsHeader
         filterByType={filterByType}
         sortByDate={sortByDate}

@@ -51,10 +51,10 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
   
   return (
     <Card className={`overflow-hidden ${isIncome ? 'border-l-4 border-l-green-500' : 'border-l-4 border-l-red-500'}`}>
-      <div className="flex justify-between items-center p-4">
+      <div className="flex justify-between items-center p-3">
         <div className="flex-1">
-          <div className="flex items-center space-x-2">
-            <h3 className="font-medium text-sm">
+          <div className="flex items-center space-x-1.5">
+            <h3 className="font-medium text-xs">
               {formattedDate} - {formattedTime}
             </h3>
             
@@ -64,27 +64,27 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
           </div>
           
           {transaction.description && (
-            <p className="text-sm text-muted-foreground mt-1">
+            <p className="text-xs text-muted-foreground mt-1">
               {transaction.description}
             </p>
           )}
         </div>
         
         <div className="flex items-center space-x-2">
-          <div className={`font-medium ${isIncome ? 'text-green-600' : 'text-red-600'}`}>
+          <div className={`font-medium text-xs ${isIncome ? 'text-green-600' : 'text-red-600'}`}>
             {formatAmount(Math.abs(transaction.amount))}
           </div>
           
           <div className="flex">
             <IconButton
-              icon={<Pencil className="h-4 w-4" />}
+              icon={<Pencil className="h-3 w-3" />}
               label={t('transactions.edit')}
               onClick={onEdit}
               disabled={disabled}
             />
             
             <IconButton
-              icon={<Trash2 className="h-4 w-4" />}
+              icon={<Trash2 className="h-3 w-3" />}
               label={t('transactions.delete')}
               onClick={onDelete}
               variant="destructive"

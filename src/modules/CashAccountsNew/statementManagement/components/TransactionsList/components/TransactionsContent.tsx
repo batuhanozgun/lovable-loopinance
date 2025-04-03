@@ -32,7 +32,7 @@ export const TransactionsContent: React.FC<TransactionsContentProps> = ({
   }
 
   return (
-    <ScrollArea className="h-[400px] p-4">
+    <ScrollArea className="h-[300px] px-4 pb-4">
       <div className="space-y-2">
         {transactions.map((transaction) => (
           <TransactionRow

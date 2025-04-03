@@ -25,20 +25,20 @@ export const IconButton: React.FC<IconButtonProps> = ({
 }) => {
   return (
     <TooltipProvider>
-      <Tooltip>
+      <Tooltip delayDuration={300}>
         <TooltipTrigger asChild>
           <Button 
             variant={variant} 
             size="icon" 
             onClick={onClick}
             disabled={disabled}
-            className="h-8 w-8"
+            className="h-6 w-6"
           >
             {icon}
             <span className="sr-only">{label}</span>
           </Button>
         </TooltipTrigger>
-        <TooltipContent>
+        <TooltipContent className="text-xs py-1 px-2">
           <p>{label}</p>
         </TooltipContent>
       </Tooltip>

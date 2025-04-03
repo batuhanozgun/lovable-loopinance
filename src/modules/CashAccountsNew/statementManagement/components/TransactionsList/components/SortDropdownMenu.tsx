@@ -24,25 +24,25 @@ export const SortDropdownMenu: React.FC<SortDropdownMenuProps> = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm">
-          <ArrowUpDown className="h-4 w-4 mr-2" />
+        <Button variant="outline" size="sm" className="h-7 text-xs">
+          <ArrowUpDown className="h-3 w-3 mr-1.5" />
           {t('sort', { ns: 'common' })}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56 bg-background">
-        <DropdownMenuItem onClick={() => onSortByDate('desc')}>
+      <DropdownMenuContent align="end" className="w-48 bg-background">
+        <DropdownMenuItem onClick={() => onSortByDate('desc')} className="text-xs">
           {t('transactions.filters.sortByDateDesc')}
         </DropdownMenuItem>
         
-        <DropdownMenuItem onClick={() => onSortByDate('asc')}>
+        <DropdownMenuItem onClick={() => onSortByDate('asc')} className="text-xs">
           {t('transactions.filters.sortByDateAsc')}
         </DropdownMenuItem>
         
-        <DropdownMenuItem onClick={() => onSortByAmount('desc')}>
+        <DropdownMenuItem onClick={() => onSortByAmount('desc')} className="text-xs">
           {t('transactions.filters.sortByAmountDesc')}
         </DropdownMenuItem>
         
-        <DropdownMenuItem onClick={() => onSortByAmount('asc')}>
+        <DropdownMenuItem onClick={() => onSortByAmount('asc')} className="text-xs">
           {t('transactions.filters.sortByAmountAsc')}
         </DropdownMenuItem>
       </DropdownMenuContent>
