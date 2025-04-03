@@ -1,8 +1,9 @@
 
-export { EmptyTransactionsState } from './EmptyTransactionsState';
-export { FilterDropdownMenu } from './FilterDropdownMenu';
-export { SortDropdownMenu } from './SortDropdownMenu';
-export { TransactionsLoadingSkeleton } from './TransactionsLoadingSkeleton';
-export { TransactionsTableHeader } from './TransactionsTableHeader';
-export { TransactionRow } from './TransactionRow';
-export { DeleteTransactionDialog } from './DeleteTransactionDialog';
+export * from './EmptyTransactionsState';
+export * from './FilterDropdownMenu';
+export * from './SortDropdownMenu';
+export * from './TransactionsLoadingSkeleton';
+export * from './TransactionsTableHeader';
+export * from './TransactionRow';
+export * from './DeleteTransactionDialog';
+export * from './EditTransactionDialog';

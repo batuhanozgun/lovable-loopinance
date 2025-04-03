@@ -1,124 +1,40 @@
 
 /**
- * Ekstre işlemleri için ana servis
+ * Ekstre yönetimi için ana servis
  */
-import { ILogger } from '@/modules/Logging/interfaces/ILogger';
-import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
-import { StatementCreationService } from './core/creation/StatementCreationService';
-import { StatementPeriodService } from './core/period/StatementPeriodService';
+import { TransactionQueryService } from './transaction/TransactionQueryService';
+import { TransactionDeleteService } from './transaction/TransactionDeleteService';
+import { TransactionUpdateService } from './transaction/TransactionUpdateService';
 import { StatementQueryService } from './core/query/StatementQueryService';
 import { StatementUpdateService } from './core/update/StatementUpdateService';
+import { StatementCreationService } from './core/creation/StatementCreationService';
 import { StatementBalanceCalculationService } from './core/calculation/StatementBalanceCalculationService';
-import { TransactionDeleteService } from './transaction/TransactionDeleteService';
-import { CashAccount } from '../../cashAccountHomepage/types';
-import { 
-  AccountStatement, 
-  CreateAccountStatementData, 
-  SingleStatementResponse, 
-  StatementListResponse, 
-  StatementStatus 
-} from '../types';
-import { StatementTransactionResponse } from '../types/transaction';
+import { FutureStatementService } from './automation/FutureStatementService';
 
-/**
- * Ekstre yönetim servisi
- * Tüm ekstre işlemlerini organize eder
- */
 export class StatementService {
-  private static logger = new ModuleLogger('CashAccountsNew.StatementService');
+  // Ekstre sorgulama
+  static getAccountStatements = StatementQueryService.getAccountStatements;
+  static getAccountStatement = StatementQueryService.getAccountStatement;
 
-  /**
-   * Yeni bir hesap ekstresi oluşturur
-   */
-  static async createStatement(data: CreateAccountStatementData): Promise<SingleStatementResponse> {
-    return await StatementCreationService.createStatement(data);
-  }
+  // Ekstre oluşturma
+  static createStatement = StatementCreationService.createStatement;
 
-  /**
-   * Belirli bir hesap için yeni bir dönem başlatır (ekstre oluşturur)
-   * Önceki dönemin bitiş bakiyesini kullanır
-   */
-  static async createNextStatement(
-    accountId: string,
-    startDate: Date,
-    endDate: Date,
-    previousStatement?: AccountStatement
-  ): Promise<SingleStatementResponse> {
-    return await StatementCreationService.createNextStatement(
-      accountId,
-      startDate,
-      endDate,
-      previousStatement
-    );
-  }
+  // Ekstre güncelleme
+  static updateStatement = StatementUpdateService.updateStatement;
 
-  /**
-   * Bir sonraki dönem için başlangıç ve bitiş tarihlerini hesaplar
-   */
-  static calculateNextPeriod(
-    account: CashAccount,
-    currentDate: Date = new Date()
-  ): { startDate: Date; endDate: Date } {
-    return StatementPeriodService.calculateNextPeriod(account, currentDate);
-  }
+  // Ekstre bakiye hesaplama
+  static recalculateStatementBalance = StatementBalanceCalculationService.recalculateStatementBalance;
 
-  /**
-   * Belirli bir hesaba ait tüm ekstreleri getirir
-   */
-  static async getStatementsByAccountId(accountId: string): Promise<StatementListResponse> {
-    return await StatementQueryService.getStatementsByAccountId(accountId);
-  }
+  // İşlem sorgulama
+  static getTransactionsByStatementId = TransactionQueryService.getTransactionsByStatementId;
+  
+  // İşlem silme
+  static deleteTransaction = TransactionDeleteService.deleteTransaction;
+  
+  // İşlem güncelleme
+  static updateTransaction = TransactionUpdateService.updateTransaction;
 
-  /**
-   * ID'ye göre belirli bir hesap ekstresini getirir
-   */
-  static async getStatementById(id: string): Promise<SingleStatementResponse> {
-    return await StatementQueryService.getStatementById(id);
-  }
-
-  /**
-   * Belirli bir hesap için mevcut aktif dönem ekstresini getirir
-   */
-  static async getCurrentStatement(accountId: string): Promise<SingleStatementResponse> {
-    return await StatementQueryService.getCurrentStatement(accountId);
-  }
-
-  /**
-   * Hesap ekstresinin durumunu günceller
-   */
-  static async updateStatementStatus(id: string, status: StatementStatus): Promise<SingleStatementResponse> {
-    return await StatementUpdateService.updateStatementStatus(id, status);
-  }
-
-  /**
-   * Hesap ekstresinin gelir, gider ve bakiye bilgilerini günceller
-   */
-  static async updateStatementBalances(
-    id: string, 
-    income: number, 
-    expenses: number,
-    endBalance: number
-  ): Promise<SingleStatementResponse> {
-    return await StatementUpdateService.updateStatementBalances(id, income, expenses, endBalance);
-  }
-
-  /**
-   * Belirtilen ekstrenin bakiyelerini yeniden hesaplar ve günceller
-   */
-  static async recalculateStatementBalance(
-    statementId: string,
-    accountId: string
-  ): Promise<SingleStatementResponse> {
-    return await StatementBalanceCalculationService.calculateAndUpdateStatementBalance(
-      statementId,
-      accountId
-    );
-  }
-
-  /**
-   * Belirtilen işlemi siler
-   */
-  static async deleteTransaction(id: string): Promise<StatementTransactionResponse> {
-    return await TransactionDeleteService.deleteTransaction(id);
-  }
+  // Gelecek ekstre oluşturma
+  static checkAccountFutureStatements = FutureStatementService.checkAccountFutureStatements;
+  static createFutureStatementsForAccount = FutureStatementService.createFutureStatementsForAccount;
 }

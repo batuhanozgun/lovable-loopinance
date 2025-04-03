@@ -1,84 +1,108 @@
 
 {
   "statements": {
-    "title": "Statement",
-    "startBalance": "Opening Balance",
-    "endBalance": "Closing Balance",
-    "income": "Income",
-    "expenses": "Expenses",
+    "title": "Statement Periods",
+    "detail": "Statement Detail",
     "period": "Period",
-    "status": {
-      "title": "Status",
+    "periods": "Periods",
+    "status": "Status",
+    "statuses": {
       "open": "Open",
       "closed": "Closed",
       "future": "Future"
     },
-    "viewDetails": "View Details",
-    "empty": {
-      "noStatements": "No statements found for this account",
-      "statementInfo": "Statements help you track your transactions. Click the button below to create a new period."
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "startBalance": "Starting Balance",
+    "endBalance": "Ending Balance",
+    "income": "Income",
+    "expenses": "Expenses",
+    "transactions": "Transactions",
+    "noTransactions": "No transactions for this statement period yet.",
+    "type": "Transaction Type",
+    "view": "View",
+    "loading": "Loading statement periods...",
+    "noStatements": "No statement periods yet.",
+    "createStatement": "Create Statement",
+    "createSuccess": "Statement created successfully.",
+    "closeStatement": "Close Statement",
+    "closeConfirmation": {
+      "title": "Close Statement?",
+      "description": "You are about to close this statement period. This action cannot be undone and you will not be able to add new transactions to a closed statement."
     },
-    "buttons": {
-      "refreshStatements": "Refresh Statements",
-      "createStatement": "Create Statement"
-    },
-    "toasts": {
-      "statementCheckComplete": "Statement check completed",
-      "newStatementCreated": "New statement created",
-      "statementCheckFailed": "Statement check failed",
-      "statementCheckError": "An error occurred while checking statements"
-    }
+    "closeSuccess": "Statement closed successfully."
   },
   "transactions": {
     "title": "Transactions",
     "new": "New Transaction",
+    "add": "Add Transaction",
     "edit": "Edit Transaction",
-    "delete": "Delete Transaction",
-    "deleting": "Deleting...",
-    "deleteSuccess": "Transaction deleted successfully",
+    "save": "Save",
+    "delete": "Delete",
+    "date": "Date",
+    "amount": "Amount",
+    "type": "Type",
+    "description": "Description",
+    "category": "Category",
+    "subcategory": "Subcategory",
+    "actions": "Actions",
+    "filter": "Filter",
+    "filterByType": "Filter by Type",
+    "sort": "Sort",
+    "sortByDate": "Sort by Date",
+    "sortByAmount": "Sort by Amount",
+    "resetFilters": "Reset Filters",
+    "ascending": "Ascending",
+    "descending": "Descending",
+    "all": "All",
+    "time": "Time",
+    "selectCategory": "Select Category",
+    "selectSubcategory": "Select Subcategory",
+    "noCategory": "No Category",
+    "noSubcategory": "No Subcategory",
+    "descriptionPlaceholder": "Enter a description (optional)",
+    "deleting": "Deleting transaction...",
+    "deleteSuccess": "Transaction deleted successfully.",
+    "updateSuccess": "Transaction updated successfully.",
     "deleteConfirmation": {
-      "title": "Delete Transaction",
-      "description": "Are you sure you want to delete this transaction? This action cannot be undone."
-    },
-    "empty": "No transactions found for this statement",
-    "filters": {
-      "showAll": "Show All",
-      "showIncome": "Show Income",
-      "showExpenses": "Show Expenses",
-      "sortByDateDesc": "Sort by Date (Newest)",
-      "sortByDateAsc": "Sort by Date (Oldest)",
-      "sortByAmountDesc": "Sort by Amount (Highest)",
-      "sortByAmountAsc": "Sort by Amount (Lowest)"
+      "title": "Delete Transaction?",
+      "description": "You are about to delete this transaction. This action cannot be undone."
     }
   },
   "errors": {
     "account": {
       "detail": {
-        "failed": "Failed to load account details"
-      },
-      "notFound": "Account not found"
+        "failed": "Failed to load account details."
+      }
     },
     "statement": {
       "detail": {
-        "failed": "Failed to load statement details"
+        "failed": "Failed to load statement details."
       },
       "list": {
-        "failed": "Failed to load statements"
+        "failed": "Failed to load statements."
+      },
+      "create": {
+        "failed": "Failed to create statement."
+      },
+      "close": {
+        "failed": "Failed to close statement."
       }
     },
     "transaction": {
       "list": {
-        "failed": "Failed to load transactions"
+        "failed": "Failed to load transactions."
       },
       "create": {
-        "failed": "Failed to create transaction"
+        "failed": "Failed to create transaction."
       },
       "update": {
-        "failed": "Failed to update transaction"
+        "failed": "Failed to update transaction."
       },
       "delete": {
-        "failed": "Failed to delete transaction"
-      }
+        "failed": "Failed to delete transaction."
+      },
+      "invalidAmount": "Invalid amount format. Please enter a valid number."
     }
   }
 }
