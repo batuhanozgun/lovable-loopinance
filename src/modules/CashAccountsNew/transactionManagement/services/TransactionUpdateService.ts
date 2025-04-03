@@ -1,4 +1,5 @@
 
+
 import { supabase } from "@/integrations/supabase/client";
 import { Transaction, TransactionType, TransactionResponse } from "../types";
 import { StatementFinderService } from "./StatementFinderService";
@@ -26,7 +27,7 @@ export class TransactionUpdateService {
 
       // Mevcut işlemi getir
       const { data: existingTransaction, error: fetchError } = await supabase
-        .from('account_transactions')
+        .from('cash_account_transactions')
         .select('*')
         .eq('id', transactionId)
         .single();
@@ -91,7 +92,7 @@ export class TransactionUpdateService {
 
       // İşlemi güncelle
       const { data, error } = await supabase
-        .from('account_transactions')
+        .from('cash_account_transactions')
         .update(updateData)
         .eq('id', transactionId)
         .select()
@@ -169,3 +170,4 @@ export class TransactionUpdateService {
     }
   }
 }
+
