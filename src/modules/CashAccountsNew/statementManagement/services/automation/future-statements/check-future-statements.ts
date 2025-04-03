@@ -1,4 +1,3 @@
-
 /**
  * Gelecek ekstre durumu kontrol işlemleri
  */
@@ -59,7 +58,7 @@ export async function checkAndCreateMissingFutureStatements(
     
     // Mevcut açık ekstreyi bul
     const { data: statements, error: statementsError } = await supabase
-      .from('account_statements')
+      .from('cash_account_statements')
       .select('*')
       .eq('account_id', accountId)
       .eq('status', StatementStatus.OPEN)
@@ -77,7 +76,7 @@ export async function checkAndCreateMissingFutureStatements(
     
     // Son oluşturulan gelecek ekstreleri bul
     const { data: futureStatements, error: futureError } = await supabase
-      .from('account_statements')
+      .from('cash_account_statements')
       .select('*')
       .eq('account_id', accountId)
       .eq('status', StatementStatus.FUTURE)

@@ -24,7 +24,7 @@ export class StatementUpdateService {
       this.logger.debug('Updating statement status', { id, status });
       
       const { data: statement, error } = await supabase
-        .from('account_statements')
+        .from('cash_account_statements')
         .update({ status })
         .eq('id', id)
         .select()
@@ -65,7 +65,7 @@ export class StatementUpdateService {
       this.logger.debug('Updating statement balances', { id, income, expenses, endBalance });
       
       const { data: statement, error } = await supabase
-        .from('account_statements')
+        .from('cash_account_statements')
         .update({ income, expenses, end_balance: endBalance })
         .eq('id', id)
         .select()

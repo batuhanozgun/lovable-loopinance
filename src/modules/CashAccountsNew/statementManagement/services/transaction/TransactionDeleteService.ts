@@ -25,7 +25,7 @@ export class TransactionDeleteService {
     try {
       // Önce işlemi getir (silmeden önce statement_id ve account_id değerlerini almak için)
       const { data: transactionData, error: getError } = await supabase
-        .from('account_transactions')
+        .from('cash_account_transactions')
         .select('id, statement_id, account_id')
         .eq('id', id)
         .single();
@@ -44,7 +44,7 @@ export class TransactionDeleteService {
       
       // İşlemi sil
       const { data, error } = await supabase
-        .from('account_transactions')
+        .from('cash_account_transactions')
         .delete()
         .match({ id })
         .select()

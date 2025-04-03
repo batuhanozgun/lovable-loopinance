@@ -17,7 +17,7 @@ export class TransactionQueryService {
       this.logger.debug('Fetching transactions for account', { accountId });
       
       const { data: transactions, error } = await supabase
-        .from('account_transactions')
+        .from('cash_account_transactions')
         .select('*')
         .eq('account_id', accountId)
         .order('transaction_date', { ascending: false })
@@ -56,7 +56,7 @@ export class TransactionQueryService {
       this.logger.debug('Fetching transactions for statement', { statementId });
       
       const { data: transactions, error } = await supabase
-        .from('account_transactions')
+        .from('cash_account_transactions')
         .select('*')
         .eq('statement_id', statementId)
         .order('transaction_date', { ascending: false })
@@ -95,7 +95,7 @@ export class TransactionQueryService {
       this.logger.debug('Fetching transaction by ID', { id });
       
       const { data: transaction, error } = await supabase
-        .from('account_transactions')
+        .from('cash_account_transactions')
         .select('*')
         .eq('id', id)
         .single();

@@ -1,4 +1,3 @@
-
 /**
  * Ekstre sorgulama işlemleri için servis
  */
@@ -15,8 +14,8 @@ import { Database } from '@/integrations/supabase/types';
 // Ekstre tablosu için sorgu builder tip tanımı
 type StatementQueryBuilder = PostgrestFilterBuilder<
   Database['public'],
-  Database['public']['Tables']['account_statements']['Row'],
-  Database['public']['Tables']['account_statements']['Row'][]
+  Database['public']['Tables']['cash_account_statements']['Row'],
+  Database['public']['Tables']['cash_account_statements']['Row'][]
 >;
 
 /**
@@ -29,7 +28,7 @@ export class StatementQueryService {
    * Temel Supabase sorgu oluşturucusu
    */
   private static createBaseQuery(): StatementQueryBuilder {
-    return supabase.from('account_statements').select('*');
+    return supabase.from('cash_account_statements').select('*');
   }
 
   /**

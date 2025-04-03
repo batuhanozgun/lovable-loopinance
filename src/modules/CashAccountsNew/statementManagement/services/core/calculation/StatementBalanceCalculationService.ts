@@ -29,7 +29,7 @@ export class StatementBalanceCalculationService {
       
       // Ekstredeki tüm işlemleri getir
       const { data: transactions, error: transactionsError } = await supabase
-        .from('account_transactions')
+        .from('cash_account_transactions')
         .select('amount, transaction_type')
         .eq('statement_id', statementId)
         .eq('account_id', accountId);
@@ -62,7 +62,7 @@ export class StatementBalanceCalculationService {
       
       // Ekstrenin başlangıç bakiyesini getir
       const { data: statement, error: statementError } = await supabase
-        .from('account_statements')
+        .from('cash_account_statements')
         .select('start_balance')
         .eq('id', statementId)
         .single();

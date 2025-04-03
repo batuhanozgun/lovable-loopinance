@@ -27,7 +27,7 @@ export class StatementCascadeUpdateService {
       
       // Önce değişiklik yapılan ekstrenin güncel bilgilerini alalım
       const { data: currentStatement, error: currentError } = await supabase
-        .from('account_statements')
+        .from('cash_account_statements')
         .select('id, end_date, end_balance')
         .eq('id', statementId)
         .single();
@@ -42,7 +42,7 @@ export class StatementCascadeUpdateService {
       
       // Sonraki ekstreleri tarih sırasına göre getirelim
       const { data: subsequentStatements, error: subError } = await supabase
-        .from('account_statements')
+        .from('cash_account_statements')
         .select('id, start_date, end_date, start_balance, end_balance')
         .eq('account_id', accountId)
         .gt('start_date', currentStatement.end_date) // Mevcut ekstrenin bitiş tarihinden sonraki ekstreler

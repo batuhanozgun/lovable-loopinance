@@ -26,7 +26,7 @@ export class StatementCreationService {
       this.logger.debug('Creating new account statement', { data });
       
       const { data: statementData, error } = await supabase
-        .from('account_statements')
+        .from('cash_account_statements')
         .insert(data)
         .select()
         .single();

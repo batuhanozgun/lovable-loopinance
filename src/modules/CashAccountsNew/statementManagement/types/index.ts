@@ -16,13 +16,13 @@ export enum StatementStatus {
 /**
  * Ekstre veri türü
  */
-export type AccountStatement = Database['public']['Tables']['account_statements']['Row'];
+export type AccountStatement = Database['public']['Tables']['cash_account_statements']['Row'];
 
 /**
  * Yeni ekstre oluşturma için veri türü
  */
 export type CreateAccountStatementData = Omit<
-  Database['public']['Tables']['account_statements']['Insert'],
+  Database['public']['Tables']['cash_account_statements']['Insert'],
   'id' | 'created_at' | 'updated_at' | 'income' | 'expenses'
 >;
 
