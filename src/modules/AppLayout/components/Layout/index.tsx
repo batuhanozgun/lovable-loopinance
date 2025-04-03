@@ -31,7 +31,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
             className="flex-1 bg-background pb-14 md:pb-0 flex flex-col"
             style={{ height: `calc(100vh - ${HEADER_HEIGHT.desktop}px)` }}
           >
-            <PageContainer className="flex-1 overflow-y-auto">
+            <PageContainer className="flex-1 overflow-y-auto relative z-10">
               {children}
             </PageContainer>
           </main>

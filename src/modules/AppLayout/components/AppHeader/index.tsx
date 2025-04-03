@@ -21,7 +21,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
   return (
     <header className={cn(
       "flex items-center pl-3 border-b bg-background/95 backdrop-blur-sm shadow-sm",
-      "sticky top-0 z-10 transition-all duration-200 h-12", 
+      "sticky top-0 z-40 transition-all duration-200 h-12", 
       className
     )}>
       <div className="flex w-full items-center justify-between">

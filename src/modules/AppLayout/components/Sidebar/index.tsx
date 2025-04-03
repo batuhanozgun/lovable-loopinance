@@ -117,8 +117,7 @@ export const Sidebar: React.FC = () => {
         {isExpanded && (
           <div 
             className={cn(
-              "fixed inset-0 bg-black/50 animate-fade-in cursor-pointer",
-              `z-[${Z_INDEX.BACKDROP}]`
+              "fixed inset-0 bg-black/50 animate-fade-in cursor-pointer z-40"
             )}
             onClick={handleBackdropClick}
             aria-hidden="true"
@@ -127,11 +126,10 @@ export const Sidebar: React.FC = () => {
         
         <aside 
           className={cn(
-            "fixed top-0 left-0 h-screen flex flex-col shadow-lg",
+            "fixed top-0 left-0 h-screen flex flex-col shadow-lg z-50",
             CSS_CLASSES.COLORS.BG,
             "border-r",
             CSS_CLASSES.COLORS.BORDER,
-            `z-[${Z_INDEX.SIDEBAR_MOBILE}]`,
             isExpanded ? "animate-slide-in-left" : "animate-slide-out-left -translate-x-full",
             // Mobilde header altında başlamasını sağla
             "mt-12" // Header yüksekliği kadar margin-top - küçültüldü
@@ -172,3 +170,4 @@ export const Sidebar: React.FC = () => {
     </aside>
   );
 };
+
