@@ -7,43 +7,43 @@ export const FeatureSection = () => {
 
   const features = [
     {
-      icon: <BarChart3 className="h-10 w-10 text-primary" />,
+      icon: <BarChart3 className="h-8 w-8 text-primary" />,
       title: t("features.tracking.title"),
       description: t("features.tracking.description"),
     },
     {
-      icon: <Rotate3D className="h-10 w-10 text-primary" />,
+      icon: <Rotate3D className="h-8 w-8 text-primary" />,
       title: t("features.sync.title"),
       description: t("features.sync.description"),
     },
     {
-      icon: <ArrowDownRight className="h-10 w-10 text-primary" />,
+      icon: <ArrowDownRight className="h-8 w-8 text-primary" />,
       title: t("features.insights.title"),
       description: t("features.insights.description"),
     },
     {
-      icon: <Lock className="h-10 w-10 text-primary" />,
+      icon: <Lock className="h-8 w-8 text-primary" />,
       title: t("features.security.title"),
       description: t("features.security.description"),
     },
   ];
 
   return (
-    <section id="features" className="py-20 px-6 bg-muted">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold mb-4">{t("features.title")}</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+    <section id="features" className="py-12 px-4 bg-muted">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl font-bold mb-3">{t("features.title")}</h2>
+          <p className="text-base text-muted-foreground max-w-xl mx-auto">
             {t("features.subtitle")}
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, index) => (
-            <div key={index} className="bg-background p-6 rounded-lg shadow-sm">
-              <div className="mb-4">{feature.icon}</div>
-              <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-              <p className="text-muted-foreground">{feature.description}</p>
+            <div key={index} className="bg-background p-4 rounded-lg shadow-sm">
+              <div className="mb-3">{feature.icon}</div>
+              <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
+              <p className="text-sm text-muted-foreground">{feature.description}</p>
             </div>
           ))}
         </div>

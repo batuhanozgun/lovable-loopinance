@@ -10,12 +10,14 @@ import { useScrollTracking } from "../hooks/useScrollTracking";
 import { useEffect } from "react";
 import { useAnalyticsLogger } from "../logging/analytics.logger";
 import { initLandingPageTranslations } from "../i18n";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // Initialize translations
 initLandingPageTranslations();
 
 export const LandingView = () => {
   const { logComponentView } = useAnalyticsLogger();
+  const isMobile = useIsMobile();
   
   // Use our tracking hooks
   usePageAnalytics();
@@ -30,7 +32,7 @@ export const LandingView = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <LandingHeader />
-      <main className="flex-1 pt-16">
+      <main className={`flex-1 ${isMobile ? 'pt-14' : 'pt-16'}`}>
         <HeroSection />
         <FeatureSection />
         <PricingSection />

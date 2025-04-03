@@ -29,52 +29,52 @@ export const PricingSection = () => {
   ];
   
   return (
-    <section id="pricing" className="py-20 px-6 bg-background">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold mb-4">{t('pricing.title')}</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+    <section id="pricing" className="py-12 px-4 bg-background">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl font-bold mb-3">{t('pricing.title')}</h2>
+          <p className="text-base text-muted-foreground max-w-xl mx-auto">
             {t('pricing.subtitle')}
           </p>
-          <div className="flex items-center justify-center gap-2 mt-4">
-            <Badge variant="outline" className="bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 border-blue-200 dark:border-blue-800 px-3 py-1.5">
-              <Clock className="h-4 w-4 mr-2" />
+          <div className="flex items-center justify-center gap-1.5 mt-3">
+            <Badge variant="outline" className="bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 border-blue-200 dark:border-blue-800 px-2 py-1 text-xs">
+              <Clock className="h-3 w-3 mr-1" />
               {t('pricing.trial.info')}
             </Badge>
           </div>
         </div>
         
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
           {/* Monthly Plan Card */}
           <Card className="border border-border flex flex-col h-full">
-            <CardHeader className="pb-2">
-              <CardTitle>{t('pricing.monthly.title')}</CardTitle>
-              <CardDescription>{t('pricing.monthly.description')}</CardDescription>
+            <CardHeader className="pb-1 p-4">
+              <CardTitle className="text-lg">{t('pricing.monthly.title')}</CardTitle>
+              <CardDescription className="text-xs">{t('pricing.monthly.description')}</CardDescription>
             </CardHeader>
-            <CardContent className="flex-grow">
-              <div className="mb-6">
-                <p className="text-3xl font-bold">
+            <CardContent className="flex-grow p-4">
+              <div className="mb-4">
+                <p className="text-2xl font-bold">
                   {formattedMonthlyPrice}
-                  <span className="text-sm text-muted-foreground ml-1">
+                  <span className="text-xs text-muted-foreground ml-1">
                     {t('pricing.monthly.period')}
                   </span>
                 </p>
-                <p className="text-sm text-muted-foreground mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   {t('pricing.monthly.billing')}
                 </p>
               </div>
               
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {features.map((feature, index) => (
                   <div key={index} className="flex items-start">
-                    <Check className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
-                    <span className="text-sm">{feature}</span>
+                    <Check className="h-3 w-3 text-green-500 mr-1.5 flex-shrink-0 mt-0.5" />
+                    <span className="text-xs">{feature}</span>
                   </div>
                 ))}
               </div>
             </CardContent>
-            <CardFooter>
-              <Button className="w-full" asChild>
+            <CardFooter className="p-4">
+              <Button className="w-full text-xs py-1 h-8" size="sm" asChild>
                 <Link to="/signup?plan=monthly">
                   {t('pricing.cta.getStarted')}
                 </Link>
@@ -84,49 +84,49 @@ export const PricingSection = () => {
           
           {/* Yearly Plan Card */}
           <Card className="border-2 border-primary flex flex-col h-full relative overflow-hidden">
-            <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs py-1 px-3 rounded-bl-lg">
+            <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-[10px] py-0.5 px-2 rounded-bl-lg">
               {t('pricing.recommended')}
             </div>
             
-            <CardHeader className="pb-2">
-              <div className="flex items-center gap-2 mb-1">
-                <CardTitle>{t('pricing.yearly.title')}</CardTitle>
-                <BadgePercent className="h-5 w-5 text-primary" />
+            <CardHeader className="pb-1 p-4">
+              <div className="flex items-center gap-1.5 mb-0.5">
+                <CardTitle className="text-lg">{t('pricing.yearly.title')}</CardTitle>
+                <BadgePercent className="h-4 w-4 text-primary" />
               </div>
-              <CardDescription>{t('pricing.yearly.description')}</CardDescription>
+              <CardDescription className="text-xs">{t('pricing.yearly.description')}</CardDescription>
             </CardHeader>
-            <CardContent className="flex-grow">
-              <div className="mb-6">
-                <div className="flex items-center gap-2">
-                  <p className="text-3xl font-bold">
+            <CardContent className="flex-grow p-4">
+              <div className="mb-4">
+                <div className="flex items-center gap-1.5">
+                  <p className="text-2xl font-bold">
                     {formattedYearlyPrice}
-                    <span className="text-sm text-muted-foreground ml-1">
+                    <span className="text-xs text-muted-foreground ml-1">
                       {t('pricing.yearly.period')}
                     </span>
                   </p>
-                  <span className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 text-xs px-2 py-1 rounded-full">
+                  <span className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 text-[10px] px-1.5 py-0.5 rounded-full">
                     {t('pricing.yearly.discount', { percent: yearlyDiscount })}
                   </span>
                 </div>
-                <p className="text-sm text-muted-foreground mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   {t('pricing.yearly.billing')}
                 </p>
-                <p className="text-sm text-primary font-medium mt-2">
+                <p className="text-xs text-primary font-medium mt-1.5">
                   {t('pricing.yearly.save')} {formattedYearlySavings}
                 </p>
               </div>
               
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {features.map((feature, index) => (
                   <div key={index} className="flex items-start">
-                    <Check className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
-                    <span className="text-sm">{feature}</span>
+                    <Check className="h-3 w-3 text-green-500 mr-1.5 flex-shrink-0 mt-0.5" />
+                    <span className="text-xs">{feature}</span>
                   </div>
                 ))}
               </div>
             </CardContent>
-            <CardFooter>
-              <Button variant="gradient" className="w-full" asChild>
+            <CardFooter className="p-4">
+              <Button variant="gradient" className="w-full text-xs py-1 h-8" size="sm" asChild>
                 <Link to="/signup?plan=yearly">
                   {t('pricing.cta.bestValue')}
                 </Link>
@@ -135,15 +135,15 @@ export const PricingSection = () => {
           </Card>
         </div>
         
-        <div className="mt-10 text-center">
-          <div className="flex flex-col items-center justify-center gap-3 p-4 bg-slate-50 dark:bg-slate-900 rounded-lg max-w-lg mx-auto">
-            <div className="flex items-center gap-2">
-              <Star className="h-5 w-5 text-blue-500" />
-              <p className="text-sm font-medium">{t('pricing.trial.description')}</p>
+        <div className="mt-8 text-center">
+          <div className="flex flex-col items-center justify-center gap-2 p-3 bg-slate-50 dark:bg-slate-900 rounded-lg max-w-md mx-auto">
+            <div className="flex items-center gap-1.5">
+              <Star className="h-3 w-3 text-blue-500" />
+              <p className="text-xs font-medium">{t('pricing.trial.description')}</p>
             </div>
-            <div className="flex items-center gap-2">
-              <Shield className="h-5 w-5 text-muted-foreground" />
-              <p className="text-sm text-muted-foreground">{t('pricing.guarantee')}</p>
+            <div className="flex items-center gap-1.5">
+              <Shield className="h-3 w-3 text-muted-foreground" />
+              <p className="text-xs text-muted-foreground">{t('pricing.guarantee')}</p>
             </div>
           </div>
         </div>
