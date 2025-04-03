@@ -62,15 +62,15 @@ export const TransactionEditForm: React.FC<TransactionEditFormProps> = ({
   
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px]">
-        <DialogHeader>
-          <DialogTitle>
+      <DialogContent className="sm:max-w-[450px] p-4">
+        <DialogHeader className="pb-2">
+          <DialogTitle className="text-base">
             {t("TransactionManagement:transaction.edit")}
           </DialogTitle>
         </DialogHeader>
         
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-3">
             {/* İşlem Tipi */}
             <TransactionTypeField control={form.control} />
             

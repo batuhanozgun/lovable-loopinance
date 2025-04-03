@@ -21,18 +21,20 @@ export const FormActions: React.FC<FormActionsProps> = ({
   const { t } = useTranslation(["TransactionManagement", "common"]);
 
   return (
-    <DialogFooter className="flex justify-end space-x-2">
+    <DialogFooter className="flex justify-end space-x-2 pt-1">
       <Button 
         type="button" 
         variant="outline" 
         onClick={onClose}
         disabled={isSubmitting}
+        className="h-7 text-xs px-3"
       >
         {t("common:cancel")}
       </Button>
       <Button 
         type="submit" 
         disabled={isSubmitting || isDisabled}
+        className="h-7 text-xs px-3"
       >
         {isSubmitting ? t("common:processing") : t("TransactionManagement:transaction.add")}
       </Button>

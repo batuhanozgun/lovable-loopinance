@@ -28,20 +28,20 @@ export const AmountField: React.FC<AmountFieldProps> = ({ control, currency }) =
       name="amount"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{t("TransactionManagement:transaction.amount")}</FormLabel>
+          <FormLabel className="text-xs mb-1">{t("TransactionManagement:transaction.amount")}</FormLabel>
           <FormControl>
             <div className="relative">
               <Input
                 placeholder="0,00"
                 {...field}
-                className="pl-8"
+                className="pl-7 h-8 text-xs"
               />
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-muted-foreground">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none text-muted-foreground text-xs">
                 {currency === "TRY" ? "₺" : currency === "USD" ? "$" : "€"}
               </div>
             </div>
           </FormControl>
-          <FormMessage />
+          <FormMessage className="text-[10px]" />
         </FormItem>
       )}
     />

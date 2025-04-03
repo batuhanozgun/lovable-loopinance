@@ -40,7 +40,7 @@ export const CategoryField: React.FC<CategoryFieldProps> = ({
       name="categoryId"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{t("TransactionManagement:transaction.category")}</FormLabel>
+          <FormLabel className="text-xs mb-1">{t("TransactionManagement:transaction.category")}</FormLabel>
           <Select
             value={field.value}
             onValueChange={(value) => {
@@ -50,22 +50,22 @@ export const CategoryField: React.FC<CategoryFieldProps> = ({
             disabled={isLoading}
           >
             <FormControl>
-              <SelectTrigger>
+              <SelectTrigger className="h-8 text-xs">
                 <SelectValue placeholder={t("TransactionManagement:transaction.selectCategory")} />
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              <SelectItem value="no-category">
+              <SelectItem value="no-category" className="text-xs">
                 {t("TransactionManagement:transaction.noCategory")}
               </SelectItem>
               {categories.map((category) => (
-                <SelectItem key={category.id} value={category.id}>
+                <SelectItem key={category.id} value={category.id} className="text-xs">
                   {category.name}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
-          <FormMessage />
+          <FormMessage className="text-[10px]" />
         </FormItem>
       )}
     />

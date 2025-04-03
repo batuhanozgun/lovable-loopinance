@@ -49,19 +49,19 @@ export const DateField: React.FC<DateFieldProps> = ({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       <FormItem className="flex flex-col">
-        <FormLabel>{t("TransactionManagement:transaction.date")}</FormLabel>
+        <FormLabel className="text-xs mb-1">{t("TransactionManagement:transaction.date")}</FormLabel>
         <Popover>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
               className={cn(
-                "w-full justify-start text-left font-normal",
+                "w-full justify-start text-left font-normal h-8 text-xs",
                 !date && "text-muted-foreground"
               )}
             >
-              <CalendarIcon className="mr-2 h-4 w-4" />
+              <CalendarIcon className="mr-2 h-3 w-3" />
               {date ? (
                 format(date, "PP", { locale: tr })
               ) : (
@@ -81,20 +81,20 @@ export const DateField: React.FC<DateFieldProps> = ({
       </FormItem>
 
       <FormItem className="flex flex-col">
-        <FormLabel>{t("TransactionManagement:transaction.time")}</FormLabel>
+        <FormLabel className="text-xs mb-1">{t("TransactionManagement:transaction.time")}</FormLabel>
         <div className="flex space-x-2 items-center">
           <div className="flex-1 flex items-center">
-            <Clock className="mr-2 h-4 w-4 text-muted-foreground" />
+            <Clock className="mr-2 h-3 w-3 text-muted-foreground" />
             <Select 
               value={time.hour} 
               onValueChange={(value) => setTime({ ...time, hour: value })}
             >
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="w-full h-8 text-xs">
                 <SelectValue placeholder="Saat" />
               </SelectTrigger>
               <SelectContent>
                 {hours.map((hour) => (
-                  <SelectItem key={hour} value={hour}>
+                  <SelectItem key={hour} value={hour} className="text-xs">
                     {hour}
                   </SelectItem>
                 ))}
@@ -107,12 +107,12 @@ export const DateField: React.FC<DateFieldProps> = ({
               value={time.minute} 
               onValueChange={(value) => setTime({ ...time, minute: value })}
             >
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="w-full h-8 text-xs">
                 <SelectValue placeholder="Dakika" />
               </SelectTrigger>
               <SelectContent>
                 {minutes.map((minute) => (
-                  <SelectItem key={minute} value={minute}>
+                  <SelectItem key={minute} value={minute} className="text-xs">
                     {minute}
                   </SelectItem>
                 ))}

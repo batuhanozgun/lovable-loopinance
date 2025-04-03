@@ -56,9 +56,9 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px]">
-        <DialogHeader>
-          <DialogTitle>
+      <DialogContent className="sm:max-w-[450px] p-4">
+        <DialogHeader className="pb-2">
+          <DialogTitle className="text-base">
             {t("TransactionManagement:transaction.new")}
           </DialogTitle>
         </DialogHeader>

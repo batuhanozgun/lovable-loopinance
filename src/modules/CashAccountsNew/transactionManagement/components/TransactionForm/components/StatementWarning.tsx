@@ -24,9 +24,9 @@ export const StatementWarning: React.FC<StatementWarningProps> = ({
   // Yükleme durumu
   if (isLoadingStatement) {
     return (
-      <Alert className="mt-1">
-        <Clock className="h-4 w-4 animate-spin" />
-        <AlertDescription>
+      <Alert className="mt-1 p-1.5">
+        <Clock className="h-3 w-3 animate-spin" />
+        <AlertDescription className="text-[10px]">
           {t("TransactionManagement:transaction.warning.loadingStatement")}
         </AlertDescription>
       </Alert>
@@ -36,9 +36,9 @@ export const StatementWarning: React.FC<StatementWarningProps> = ({
   // Hata durumu
   if (statementError) {
     return (
-      <Alert variant="destructive" className="mt-1">
-        <AlertCircle className="h-4 w-4" />
-        <AlertDescription>
+      <Alert variant="destructive" className="mt-1 p-1.5">
+        <AlertCircle className="h-3 w-3" />
+        <AlertDescription className="text-[10px]">
           {statementError}
         </AlertDescription>
       </Alert>
@@ -48,9 +48,9 @@ export const StatementWarning: React.FC<StatementWarningProps> = ({
   // Ekstre bulunamadı
   if (!statement) {
     return (
-      <Alert variant="destructive" className="mt-1">
-        <AlertCircle className="h-4 w-4" />
-        <AlertDescription>
+      <Alert variant="destructive" className="mt-1 p-1.5">
+        <AlertCircle className="h-3 w-3" />
+        <AlertDescription className="text-[10px]">
           {t("TransactionManagement:transaction.warning.noStatement")}
         </AlertDescription>
       </Alert>
@@ -60,9 +60,9 @@ export const StatementWarning: React.FC<StatementWarningProps> = ({
   // Ekstre durumuna göre uyarı göster
   if (statement.status === 'OPEN') {
     return (
-      <Alert className="mt-1 border-green-500">
-        <Calendar className="h-4 w-4 text-green-500" />
-        <AlertDescription>
+      <Alert className="mt-1 p-1.5 border-green-500">
+        <Calendar className="h-3 w-3 text-green-500" />
+        <AlertDescription className="text-[10px]">
           {t("TransactionManagement:transaction.warning.activeStatement")} 
           ({new Date(statement.start_date).toLocaleDateString()} - {new Date(statement.end_date).toLocaleDateString()})
         </AlertDescription>
@@ -73,9 +73,9 @@ export const StatementWarning: React.FC<StatementWarningProps> = ({
   // CLOSED durumu için uyarı
   if (statement.status === 'CLOSED') {
     return (
-      <Alert variant="destructive" className="mt-1">
-        <AlertCircle className="h-4 w-4" />
-        <AlertDescription>
+      <Alert variant="destructive" className="mt-1 p-1.5">
+        <AlertCircle className="h-3 w-3" />
+        <AlertDescription className="text-[10px]">
           {t("TransactionManagement:transaction.warning.closedStatement")}
         </AlertDescription>
       </Alert>
@@ -85,9 +85,9 @@ export const StatementWarning: React.FC<StatementWarningProps> = ({
   // FUTURE durumu için uyarı
   if (statement.status === 'FUTURE') {
     return (
-      <Alert className="mt-1 border-amber-500">
-        <AlertTriangle className="h-4 w-4 text-amber-500" />
-        <AlertDescription>
+      <Alert className="mt-1 p-1.5 border-amber-500">
+        <AlertTriangle className="h-3 w-3 text-amber-500" />
+        <AlertDescription className="text-[10px]">
           {t("TransactionManagement:transaction.warning.futureStatement")}
         </AlertDescription>
       </Alert>
@@ -96,9 +96,9 @@ export const StatementWarning: React.FC<StatementWarningProps> = ({
 
   // Bilinmeyen durumlar için varsayılan uyarı
   return (
-    <Alert className="mt-1">
-      <Clock className="h-4 w-4" />
-      <AlertDescription>
+    <Alert className="mt-1 p-1.5">
+      <Clock className="h-3 w-3" />
+      <AlertDescription className="text-[10px]">
         {t("TransactionManagement:transaction.warning.unknownStatus", { status: statement.status })}
       </AlertDescription>
     </Alert>

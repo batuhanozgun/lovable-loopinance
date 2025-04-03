@@ -49,29 +49,29 @@ export const SubcategoryField: React.FC<SubcategoryFieldProps> = ({
       name="subcategoryId"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{t("TransactionManagement:transaction.subcategory")}</FormLabel>
+          <FormLabel className="text-xs mb-1">{t("TransactionManagement:transaction.subcategory")}</FormLabel>
           <Select
             value={field.value}
             onValueChange={field.onChange}
             disabled={isDisabled}
           >
             <FormControl>
-              <SelectTrigger>
+              <SelectTrigger className="h-8 text-xs">
                 <SelectValue placeholder={t("TransactionManagement:transaction.selectSubcategory")} />
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              <SelectItem value="no-subcategory">
+              <SelectItem value="no-subcategory" className="text-xs">
                 {t("TransactionManagement:transaction.noSubcategory")}
               </SelectItem>
               {subcategories.map((subcategory) => (
-                <SelectItem key={subcategory.id} value={subcategory.id}>
+                <SelectItem key={subcategory.id} value={subcategory.id} className="text-xs">
                   {subcategory.name}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
-          <FormMessage />
+          <FormMessage className="text-[10px]" />
         </FormItem>
       )}
     />

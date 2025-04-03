@@ -40,7 +40,7 @@ export const StatementInfoSection: React.FC<StatementInfoSectionProps> = ({
   // Hata durumu
   if (statementError) {
     return (
-      <Alert variant="destructive">
+      <Alert variant="destructive" className="p-2 text-xs">
         <AlertDescription>
           {statementError}
         </AlertDescription>
@@ -49,18 +49,18 @@ export const StatementInfoSection: React.FC<StatementInfoSectionProps> = ({
   }
 
   return (
-    <div className="mb-4 p-3 border rounded-md bg-muted/30">
-      <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-2">
-          <Calendar size={16} className="text-muted-foreground" />
-          <h3 className="text-sm font-medium">{t("TransactionManagement:transaction.selectedStatement")}</h3>
+    <div className="mb-3 p-2 border rounded-md bg-muted/30">
+      <div className="flex items-center justify-between mb-1">
+        <div className="flex items-center gap-1.5">
+          <Calendar size={14} className="text-muted-foreground" />
+          <h3 className="text-xs font-medium">{t("TransactionManagement:transaction.selectedStatement")}</h3>
         </div>
         
         {statementId && (
           <Button
             variant="ghost"
             size="icon"
-            className="h-6 w-6"
+            className="h-5 w-5"
             onClick={toggleStatementLock}
             title={lockStatement 
               ? t("TransactionManagement:transaction.unlockStatement") 
@@ -68,42 +68,42 @@ export const StatementInfoSection: React.FC<StatementInfoSectionProps> = ({
             }
           >
             {lockStatement 
-              ? <LockIcon size={14} /> 
-              : <UnlockIcon size={14} />
+              ? <LockIcon size={12} /> 
+              : <UnlockIcon size={12} />
             }
           </Button>
         )}
       </div>
       
       {isLoadingStatement ? (
-        <div className="space-y-2">
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-3/4" />
+        <div className="space-y-1">
+          <Skeleton className="h-3 w-full" />
+          <Skeleton className="h-3 w-3/4" />
         </div>
       ) : currentStatement ? (
         <>
-          <div className="space-y-1">
+          <div className="space-y-0.5">
             <div className="flex items-center justify-between">
-              <span className="text-xs text-muted-foreground">
+              <span className="text-[10px] text-muted-foreground">
                 {t("StatementManagement:statements.period")}:
               </span>
-              <span className="text-xs font-medium">
+              <span className="text-[10px] font-medium">
                 {format(new Date(currentStatement.start_date), "d MMM yyyy", { locale: tr })} - {format(new Date(currentStatement.end_date), "d MMM yyyy", { locale: tr })}
               </span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-xs text-muted-foreground">
+              <span className="text-[10px] text-muted-foreground">
                 {t("StatementManagement:statements.status.title")}:
               </span>
-              <Badge variant="outline" className="text-xs">
+              <Badge variant="outline" className="text-[10px] h-4 py-0 px-1.5">
                 {t(`StatementManagement:statements.status.${currentStatement.status.toLowerCase()}`)}
               </Badge>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-xs text-muted-foreground">
+              <span className="text-[10px] text-muted-foreground">
                 {t("StatementManagement:statements.currentBalance")}:
               </span>
-              <span className="text-xs font-semibold">
+              <span className="text-[10px] font-semibold">
                 {formatCurrency(currentStatement.end_balance, currencyType)}
               </span>
             </div>
@@ -117,8 +117,8 @@ export const StatementInfoSection: React.FC<StatementInfoSectionProps> = ({
           />
         </>
       ) : (
-        <div className="flex items-center justify-center py-2 text-muted-foreground text-sm">
-          <InfoIcon size={14} className="mr-1" /> 
+        <div className="flex items-center justify-center py-1 text-muted-foreground text-[10px]">
+          <InfoIcon size={12} className="mr-1" /> 
           {t("TransactionManagement:transaction.noStatementSelected")}
         </div>
       )}

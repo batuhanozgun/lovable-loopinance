@@ -56,7 +56,7 @@ export const TransactionFormContent: React.FC<TransactionFormContentProps> = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-3">
         {/* İşlem Tipi */}
         <TransactionTypeField control={form.control} />
         

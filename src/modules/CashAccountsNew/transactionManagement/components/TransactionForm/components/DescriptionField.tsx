@@ -26,14 +26,15 @@ export const DescriptionField: React.FC<DescriptionFieldProps> = ({ control }) =
       name="description"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{t("TransactionManagement:transaction.description")}</FormLabel>
+          <FormLabel className="text-xs mb-1">{t("TransactionManagement:transaction.description")}</FormLabel>
           <FormControl>
             <Input
               placeholder={t("TransactionManagement:transaction.descriptionPlaceholder")}
               {...field}
+              className="h-8 text-xs"
             />
           </FormControl>
-          <FormMessage />
+          <FormMessage className="text-[10px]" />
         </FormItem>
       )}
     />
