@@ -79,36 +79,36 @@ const PricingPage = () => {
     <div className="min-h-screen flex flex-col">
       <LandingHeader />
       
-      <main className="flex-1 pt-16">
-        {/* Hero Section */}
-        <section className="py-16 px-6 bg-gradient-to-b from-background to-muted/30">
+      <main className="flex-1 pt-14">
+        {/* Hero Section - daha kompakt */}
+        <section className="py-10 px-4 sm:px-6 bg-gradient-to-b from-background to-muted/30">
           <div className="max-w-3xl mx-auto text-center">
             <Badge 
               variant="outline" 
-              className="bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 border-blue-200 dark:border-blue-800 px-3 py-1.5 mb-4"
+              className="bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 border-blue-200 dark:border-blue-800 px-2 py-1 mb-3 text-xs"
             >
-              <Clock className="h-4 w-4 mr-2" />
+              <Clock className="h-3 w-3 mr-1" />
               {isTurkish ? "6 Ay Ücretsiz Deneme" : "6-Month Free Trial"}
             </Badge>
             
-            <h1 className="text-4xl font-bold mb-4">{t('pricing.title')}</h1>
-            <p className="text-lg text-muted-foreground mb-6">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-3">{t('pricing.title')}</h1>
+            <p className="text-base text-muted-foreground mb-4">
               {t('pricing.subtitle')}
             </p>
             
-            <div className="bg-blue-50 dark:bg-blue-900/30 p-6 rounded-lg border border-blue-100 dark:border-blue-800 mt-8 max-w-2xl mx-auto">
-              <div className="flex items-start gap-4">
-                <Calendar className="h-6 w-6 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-1" />
+            <div className="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg border border-blue-100 dark:border-blue-800 mt-6 max-w-2xl mx-auto">
+              <div className="flex items-start gap-3">
+                <Calendar className="h-5 w-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-1" />
                 <div className="text-left">
-                  <h3 className="font-bold text-lg mb-1">
+                  <h3 className="font-bold text-base mb-1">
                     {isTurkish ? "6 Aylık Tam Erişim" : "6-Month Full Access"}
                   </h3>
-                  <p className="text-muted-foreground">
+                  <p className="text-sm text-muted-foreground">
                     {isTurkish 
                       ? "Kayıt olduğunuzda otomatik olarak 6 aylık premium deneme süreci başlar. Kredi kartı bilgilerinizi girmek zorunda değilsiniz. Deneme süresince tüm premium özelliklere erişebilirsiniz." 
                       : "When you sign up, you automatically get 6 months of premium access. No credit card required. You'll have access to all premium features during the trial."}
                   </p>
-                  <p className="mt-3 font-medium text-blue-700 dark:text-blue-300">
+                  <p className="mt-2 text-sm font-medium text-blue-700 dark:text-blue-300">
                     {isTurkish 
                       ? "Deneme süresindeki kullanımınız için ücret alınmaz" 
                       : "You won't be charged for your usage during the trial period"}
@@ -119,49 +119,49 @@ const PricingPage = () => {
           </div>
         </section>
         
-        {/* Pricing Section */}
-        <section id="pricing" className="py-16 px-6 bg-background">
+        {/* Pricing Section - daha kompakt */}
+        <section id="pricing" className="py-10 px-4 sm:px-6 bg-background">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold mb-4 text-center">
+            <h2 className="text-xl sm:text-2xl font-bold mb-3 text-center">
               {isTurkish ? "Deneme Sonrası Planlarımız" : "Our Plans After Trial"}
             </h2>
-            <p className="text-center text-muted-foreground mb-10 max-w-2xl mx-auto">
+            <p className="text-center text-sm text-muted-foreground mb-8 max-w-2xl mx-auto">
               {isTurkish 
                 ? "6 aylık ücretsiz deneme süreniz sona erdiğinde, aşağıdaki planlardan birini seçebilirsiniz. Tüm planlar aynı premium özellikleri içerir." 
                 : "After your 6-month free trial ends, you can choose one of the following plans. All plans include the same premium features."}
             </p>
             
-            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-              {/* Monthly Plan Card */}
+            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              {/* Monthly Plan Card - kompakt */}
               <Card className="border border-border flex flex-col h-full">
-                <CardHeader className="pb-2">
-                  <CardTitle>{t('pricing.monthly.title')}</CardTitle>
-                  <CardDescription>{t('pricing.monthly.description')}</CardDescription>
+                <CardHeader className="pb-2 pt-4 px-4">
+                  <CardTitle className="text-lg">{t('pricing.monthly.title')}</CardTitle>
+                  <CardDescription className="text-xs">{t('pricing.monthly.description')}</CardDescription>
                 </CardHeader>
-                <CardContent className="flex-grow">
-                  <div className="mb-6">
-                    <p className="text-3xl font-bold">
+                <CardContent className="flex-grow px-4 pt-2 pb-4">
+                  <div className="mb-4">
+                    <p className="text-2xl font-bold">
                       {formattedMonthlyPrice}
-                      <span className="text-sm text-muted-foreground ml-1">
+                      <span className="text-xs text-muted-foreground ml-1">
                         {t('pricing.monthly.period')}
                       </span>
                     </p>
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       {t('pricing.monthly.billing')}
                     </p>
                   </div>
                   
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     {features.map((feature, index) => (
                       <div key={index} className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
-                        <span className="text-sm">{feature}</span>
+                        <Check className="h-4 w-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                        <span className="text-xs">{feature}</span>
                       </div>
                     ))}
                   </div>
                 </CardContent>
-                <CardFooter>
-                  <Button className="w-full" asChild>
+                <CardFooter className="pt-0 pb-4 px-4">
+                  <Button size="sm" className="w-full text-xs h-8" asChild>
                     <Link to="/signup?plan=monthly">
                       {t('pricing.cta.getStarted')}
                     </Link>
@@ -169,51 +169,51 @@ const PricingPage = () => {
                 </CardFooter>
               </Card>
               
-              {/* Yearly Plan Card */}
+              {/* Yearly Plan Card - kompakt */}
               <Card className="border-2 border-primary flex flex-col h-full relative overflow-hidden">
-                <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs py-1 px-3 rounded-bl-lg">
+                <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs py-0.5 px-2 rounded-bl-lg">
                   {t('pricing.recommended')}
                 </div>
                 
-                <CardHeader className="pb-2">
+                <CardHeader className="pb-2 pt-4 px-4">
                   <div className="flex items-center gap-2 mb-1">
-                    <CardTitle>{t('pricing.yearly.title')}</CardTitle>
-                    <BadgePercent className="h-5 w-5 text-primary" />
+                    <CardTitle className="text-lg">{t('pricing.yearly.title')}</CardTitle>
+                    <BadgePercent className="h-4 w-4 text-primary" />
                   </div>
-                  <CardDescription>{t('pricing.yearly.description')}</CardDescription>
+                  <CardDescription className="text-xs">{t('pricing.yearly.description')}</CardDescription>
                 </CardHeader>
-                <CardContent className="flex-grow">
-                  <div className="mb-6">
+                <CardContent className="flex-grow px-4 pt-2 pb-4">
+                  <div className="mb-4">
                     <div className="flex items-center gap-2">
-                      <p className="text-3xl font-bold">
+                      <p className="text-2xl font-bold">
                         {formattedYearlyPrice}
-                        <span className="text-sm text-muted-foreground ml-1">
+                        <span className="text-xs text-muted-foreground ml-1">
                           {t('pricing.yearly.period')}
                         </span>
                       </p>
-                      <span className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 text-xs px-2 py-1 rounded-full">
+                      <span className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 text-xs px-1.5 py-0.5 rounded-full">
                         {t('pricing.yearly.discount', { percent: yearlyDiscount })}
                       </span>
                     </div>
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       {t('pricing.yearly.billing')}
                     </p>
-                    <p className="text-sm text-primary font-medium mt-2">
+                    <p className="text-xs text-primary font-medium mt-2">
                       {t('pricing.yearly.save')} {formattedYearlySavings}
                     </p>
                   </div>
                   
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     {features.map((feature, index) => (
                       <div key={index} className="flex items-start">
-                        <Check className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
-                        <span className="text-sm">{feature}</span>
+                        <Check className="h-4 w-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                        <span className="text-xs">{feature}</span>
                       </div>
                     ))}
                   </div>
                 </CardContent>
-                <CardFooter>
-                  <Button variant="gradient" className="w-full" asChild>
+                <CardFooter className="pt-0 pb-4 px-4">
+                  <Button variant="gradient" size="sm" className="w-full text-xs h-8" asChild>
                     <Link to="/signup?plan=yearly">
                       {t('pricing.cta.bestValue')}
                     </Link>
@@ -222,38 +222,38 @@ const PricingPage = () => {
               </Card>
             </div>
             
-            <div className="mt-10 text-center">
-              <div className="flex flex-col items-center justify-center gap-3 p-4 bg-slate-50 dark:bg-slate-900 rounded-lg max-w-lg mx-auto">
-                <div className="flex items-center gap-2">
-                  <Star className="h-5 w-5 text-blue-500" />
-                  <p className="text-sm font-medium">{t('pricing.trial.description')}</p>
+            <div className="mt-8 text-center">
+              <div className="flex flex-col items-center justify-center gap-2 p-3 bg-slate-50 dark:bg-slate-900 rounded-lg max-w-lg mx-auto">
+                <div className="flex items-center gap-1.5">
+                  <Star className="h-4 w-4 text-blue-500" />
+                  <p className="text-xs font-medium">{t('pricing.trial.description')}</p>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Shield className="h-5 w-5 text-muted-foreground" />
-                  <p className="text-sm text-muted-foreground">{t('pricing.guarantee')}</p>
+                <div className="flex items-center gap-1.5">
+                  <Shield className="h-4 w-4 text-muted-foreground" />
+                  <p className="text-xs text-muted-foreground">{t('pricing.guarantee')}</p>
                 </div>
               </div>
             </div>
           </div>
         </section>
         
-        {/* Trial Experience */}
-        <section className="py-16 px-6 bg-muted/30">
+        {/* Trial Experience - daha kompakt */}
+        <section className="py-10 px-4 sm:px-6 bg-muted/30">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8 text-center">
+            <h2 className="text-xl sm:text-2xl font-bold mb-6 text-center">
               {isTurkish ? "6 Aylık Deneyiminiz" : "Your 6-Month Experience"}
             </h2>
             
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-3 gap-4">
               <Card className="bg-card border-border">
-                <CardContent className="pt-6">
-                  <div className="rounded-full w-12 h-12 bg-blue-100 dark:bg-blue-900 flex items-center justify-center mb-4">
-                    <Clock className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                <CardContent className="pt-4 px-4 pb-4">
+                  <div className="rounded-full w-10 h-10 bg-blue-100 dark:bg-blue-900 flex items-center justify-center mb-3">
+                    <Clock className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                   </div>
-                  <h3 className="font-bold text-lg mb-2">
+                  <h3 className="font-bold text-sm mb-1.5">
                     {isTurkish ? "Tam Erişim" : "Full Access"}
                   </h3>
-                  <p className="text-muted-foreground text-sm">
+                  <p className="text-muted-foreground text-xs">
                     {isTurkish 
                       ? "Tüm premium özelliklere 6 ay boyunca tamamen ücretsiz erişin." 
                       : "Access all premium features completely free for 6 months."}
@@ -262,14 +262,14 @@ const PricingPage = () => {
               </Card>
               
               <Card className="bg-card border-border">
-                <CardContent className="pt-6">
-                  <div className="rounded-full w-12 h-12 bg-blue-100 dark:bg-blue-900 flex items-center justify-center mb-4">
-                    <Shield className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                <CardContent className="pt-4 px-4 pb-4">
+                  <div className="rounded-full w-10 h-10 bg-blue-100 dark:bg-blue-900 flex items-center justify-center mb-3">
+                    <Shield className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                   </div>
-                  <h3 className="font-bold text-lg mb-2">
+                  <h3 className="font-bold text-sm mb-1.5">
                     {isTurkish ? "Risk Yok" : "No Risk"}
                   </h3>
-                  <p className="text-muted-foreground text-sm">
+                  <p className="text-muted-foreground text-xs">
                     {isTurkish 
                       ? "Kredi kartı gerekmez. Deneme süresi boyunca hiçbir ücret alınmaz." 
                       : "No credit card required. You won't be charged during the trial period."}
@@ -278,14 +278,14 @@ const PricingPage = () => {
               </Card>
               
               <Card className="bg-card border-border">
-                <CardContent className="pt-6">
-                  <div className="rounded-full w-12 h-12 bg-blue-100 dark:bg-blue-900 flex items-center justify-center mb-4">
-                    <ArrowRight className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                <CardContent className="pt-4 px-4 pb-4">
+                  <div className="rounded-full w-10 h-10 bg-blue-100 dark:bg-blue-900 flex items-center justify-center mb-3">
+                    <ArrowRight className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                   </div>
-                  <h3 className="font-bold text-lg mb-2">
+                  <h3 className="font-bold text-sm mb-1.5">
                     {isTurkish ? "Kolay Geçiş" : "Easy Transition"}
                   </h3>
-                  <p className="text-muted-foreground text-sm">
+                  <p className="text-muted-foreground text-xs">
                     {isTurkish 
                       ? "Deneme bitiminde istediğiniz planı seçebilir veya kullanıma devam etmeyebilirsiniz." 
                       : "Choose your preferred plan after the trial or simply stop using the service."}
@@ -294,8 +294,8 @@ const PricingPage = () => {
               </Card>
             </div>
             
-            <div className="mt-12 text-center">
-              <Button size="lg" asChild>
+            <div className="mt-8 text-center">
+              <Button size="sm" className="h-8 px-4 text-xs" asChild>
                 <Link to="/signup">
                   {isTurkish 
                     ? "Hemen 6 Aylık Ücretsiz Denemeye Başlayın" 
@@ -306,36 +306,36 @@ const PricingPage = () => {
           </div>
         </section>
         
-        {/* FAQ Section */}
-        <section className="py-16 px-6 bg-background">
+        {/* FAQ Section - daha kompakt */}
+        <section className="py-10 px-4 sm:px-6 bg-background">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8 text-center">
+            <h2 className="text-xl sm:text-2xl font-bold mb-6 text-center">
               {isTurkish ? "Sıkça Sorulan Sorular" : "Frequently Asked Questions"}
             </h2>
             
             <Accordion type="single" collapsible className="w-full">
               {faqItems.map((item, i) => (
                 <AccordionItem key={i} value={`item-${i}`}>
-                  <AccordionTrigger className="text-left">
-                    <div className="flex items-center gap-2">
-                      <HelpCircle className="h-5 w-5 text-muted-foreground" />
+                  <AccordionTrigger className="text-left text-sm py-3">
+                    <div className="flex items-center gap-1.5">
+                      <HelpCircle className="h-4 w-4 text-muted-foreground" />
                       <span>{item.question}</span>
                     </div>
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pl-7">
+                  <AccordionContent className="text-muted-foreground pl-6 text-xs">
                     {item.answer}
                   </AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>
             
-            <div className="mt-12 text-center">
-              <p className="text-muted-foreground mb-4">
+            <div className="mt-8 text-center">
+              <p className="text-xs text-muted-foreground mb-3">
                 {isTurkish 
                   ? "Başka sorularınız mı var?" 
                   : "Have more questions?"}
               </p>
-              <Button variant="outline" asChild>
+              <Button variant="outline" size="sm" className="h-8 text-xs" asChild>
                 <Link to="/contact">
                   {isTurkish ? "Bize Ulaşın" : "Contact Us"}
                 </Link>
