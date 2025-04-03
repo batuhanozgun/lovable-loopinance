@@ -23,11 +23,13 @@ import { useQueryClient } from '@tanstack/react-query';
 interface TransactionsListProps {
   statementId: string;
   currency: CurrencyType;
+  setRefetchCallback?: (refetch: () => Promise<void>) => void;
 }
 
 export const TransactionsList: React.FC<TransactionsListProps> = ({ 
   statementId, 
-  currency 
+  currency,
+  setRefetchCallback
 }) => {
   const { t } = useTranslation('StatementManagement');
   const { toast } = useToast();
@@ -58,6 +60,13 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
     resetFilters,
     refetch
   } = useTransactionsList(statementId);
+
+  // refetch fonksiyonunu üst bileşene bildiriyoruz
+  useEffect(() => {
+    if (setRefetchCallback && refetch) {
+      setRefetchCallback(refetch);
+    }
+  }, [setRefetchCallback, refetch]);
 
   // Düzenleme işlemi için
   const handleEditTransaction = (transaction: AccountTransaction) => {

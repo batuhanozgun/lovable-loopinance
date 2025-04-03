@@ -10,7 +10,7 @@ import { CurrencyType } from '@/modules/CashAccountsNew/cashAccountHomepage/type
 import { Skeleton } from '@/components/ui/skeleton';
 import { StatementDetails } from '../components/StatementDetails';
 import { TransactionsList } from '../components/TransactionsList';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { TransactionForm } from '@/modules/CashAccountsNew/transactionManagement';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -22,6 +22,7 @@ export const StatementDetailView: React.FC = () => {
   const { t } = useTranslation(['StatementManagement', 'common']);
   const [isTransactionFormOpen, setIsTransactionFormOpen] = useState(false);
   const queryClient = useQueryClient();
+  const transactionsListRef = useRef<{ refetch?: () => Promise<void> }>({}); // İşlem listesi bileşenine referans
   
   const { data: account, isLoading: isAccountLoading } = useCashAccount(accountId);
   const { data: statement, isLoading: isStatementLoading, refetch: refetchStatement } = useStatement(statementId);
@@ -37,22 +38,28 @@ export const StatementDetailView: React.FC = () => {
     
     // Form kapatıldığında tüm verileri yenileyelim
     if (statementId) {
-      // Ekstre verilerini ve işlem listesini yenile
+      // Ekstre verilerini yenile
       await queryClient.refetchQueries({ 
         queryKey: ['cashAccountStatementNew', statementId],
         exact: true 
       });
-      await queryClient.refetchQueries({ 
-        queryKey: ['statementTransactions', statementId],
-        exact: true 
-      });
       
-      // Manuel olarak refetch fonksiyonlarını da çağıralım
+      // Manuel olarak ekstre refetch fonksiyonunu çağıralım
       if (refetchStatement) {
         await refetchStatement();
       }
+      
+      // İşlem listesini yenile
+      if (transactionsListRef.current && transactionsListRef.current.refetch) {
+        await transactionsListRef.current.refetch();
+      }
     }
   }, [statementId, queryClient, refetchStatement]);
+
+  // İşlem listesi bileşenindeki refetch fonksiyonunu tanımlayan callback
+  const setTransactionsListRefetch = useCallback((refetch: () => Promise<void>) => {
+    transactionsListRef.current = { refetch };
+  }, []);
 
   // Yükleme durumu
   if (isAccountLoading || isStatementLoading) {
@@ -121,7 +128,8 @@ export const StatementDetailView: React.FC = () => {
       
       <TransactionsList 
         statementId={statementId || ''} 
-        currency={account.currency as CurrencyType} 
+        currency={account.currency as CurrencyType}
+        setRefetchCallback={setTransactionsListRefetch}
       />
       
       {/* İşlem Form Dialogu */}
