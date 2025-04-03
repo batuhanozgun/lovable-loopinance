@@ -40,8 +40,8 @@ export const StatementInfoSection: React.FC<StatementInfoSectionProps> = ({
   // Hata durumu
   if (statementError) {
     return (
-      <Alert variant="destructive" className="p-2 text-xs">
-        <AlertDescription>
+      <Alert variant="destructive" className="p-2 text-xs flex items-center gap-1.5">
+        <AlertDescription className="pl-0">
           {statementError}
         </AlertDescription>
       </Alert>
