@@ -1,10 +1,10 @@
-
 import { useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
 import { format, parse } from "date-fns";
+import { useQueryClient } from '@tanstack/react-query';
 import { 
   Transaction, 
   TransactionFormData, 
@@ -22,6 +22,7 @@ export const useTransactionEdit = (
 ) => {
   const { t } = useTranslation("TransactionManagement");
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   // İşlem tarihinden Date objesi oluştur
@@ -82,6 +83,36 @@ export const useTransactionEdit = (
     };
   }, []);
   
+  // Tüm verileri yenileme işlemi
+  const refreshAllData = useCallback(async (statementId?: string, accountId?: string) => {
+    if (!statementId) return;
+    
+    // İşlem listesini yenile
+    if (onSuccess) {
+      await onSuccess();
+    }
+    
+    // Ekstre verilerini yenile
+    await queryClient.refetchQueries({ 
+      queryKey: ['cashAccountStatementNew', statementId],
+      exact: true 
+    });
+
+    // Diğer ilgili verileri yenile
+    if (accountId) {
+      await queryClient.refetchQueries({ 
+        queryKey: ['statements', accountId],
+        exact: true 
+      });
+      
+      // Hesap listesini de yenileyelim
+      await queryClient.refetchQueries({ 
+        queryKey: ['cashAccounts'],
+        exact: true 
+      });
+    }
+  }, [queryClient, onSuccess]);
+  
   // İşlem güncelleme fonksiyonu
   const handleUpdateTransaction = useCallback(async (formData: TransactionFormData) => {
     setIsSubmitting(true);
@@ -111,6 +142,12 @@ export const useTransactionEdit = (
         description: t("transaction.updateSuccess.description"),
       });
       
+      // İşlem başarılı olduktan sonra tüm ilgili verileri yenile
+      await refreshAllData(
+        transaction.statement_id,
+        transaction.account_id
+      );
+      
       // Başarı callback'ini çağır
       if (onSuccess) {
         await onSuccess();
@@ -130,7 +167,7 @@ export const useTransactionEdit = (
     } finally {
       setIsSubmitting(false);
     }
-  }, [transaction.id, prepareTransactionData, toast, t, onSuccess]);
+  }, [transaction.id, transaction.statement_id, transaction.account_id, prepareTransactionData, toast, t, onSuccess, refreshAllData]);
   
   // Tarih ve zaman durumu için state'ler
   const [date, setDate] = useState<Date>(transactionDate);
