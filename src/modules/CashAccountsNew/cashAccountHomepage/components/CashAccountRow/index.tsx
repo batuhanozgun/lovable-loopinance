@@ -28,10 +28,10 @@ export const CashAccountRow: React.FC<CashAccountRowProps> = ({
   const isMobile = useIsMobile();
   
   return (
-    <div className={`flex items-center justify-between py-3 px-4 border hover:bg-muted/20 transition-colors ${hasDragHandle ? 'pl-10' : ''}`}>
+    <div className={`flex items-center justify-between py-2 px-3 border hover:bg-muted/20 transition-colors ${hasDragHandle ? 'pl-8' : ''}`}>
       <AccountDetails account={account} />
       
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2">
         <AccountBalance account={account} />
         
         {isMobile ? (

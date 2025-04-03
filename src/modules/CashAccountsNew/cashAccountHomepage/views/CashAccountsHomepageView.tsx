@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -86,20 +87,20 @@ export const CashAccountsHomepageView: React.FC = () => {
 
   // Yükleme durumu için iskelet
   const renderSkeleton = () => (
-    <div className="space-y-1">
+    <div className="space-y-0.5">
       {[1, 2, 3].map((item) => (
         <div key={item} className="border rounded-lg">
-          <div className="flex items-center justify-between py-4 px-4">
+          <div className="flex items-center justify-between py-3 px-3">
             <div className="flex-1">
-              <Skeleton className="h-5 w-40 mb-2" />
-              <Skeleton className="h-3 w-60" />
+              <Skeleton className="h-4 w-32 mb-1.5" />
+              <Skeleton className="h-3 w-48" />
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <div>
-                <Skeleton className="h-5 w-24 mb-1" />
-                <Skeleton className="h-3 w-16" />
+                <Skeleton className="h-4 w-20 mb-1" />
+                <Skeleton className="h-2.5 w-14" />
               </div>
-              <Skeleton className="h-8 w-24" />
+              <Skeleton className="h-6 w-20" />
             </div>
           </div>
         </div>
@@ -112,14 +113,14 @@ export const CashAccountsHomepageView: React.FC = () => {
     // Hesap yoksa boş durum göster
     if (!accounts || accounts.length === 0) {
       return (
-        <div className="rounded-lg border border-dashed p-12 text-center">
-          <h3 className="text-lg font-medium mb-2">
+        <div className="rounded-lg border border-dashed p-8 text-center">
+          <h3 className="text-base font-medium mb-2">
             {t('noAccounts')}
           </h3>
-          <p className="text-muted-foreground mb-4">
+          <p className="text-sm text-muted-foreground mb-3">
             {t('description')}
           </p>
-          <Button asChild>
+          <Button asChild size="sm">
             <Link to="/nakit-hesaplar/new">
               {t('createAccount')}
             </Link>
@@ -139,7 +140,7 @@ export const CashAccountsHomepageView: React.FC = () => {
           items={accounts.map(account => account.id)}
           strategy={verticalListSortingStrategy}
         >
-          <div className="space-y-1 border rounded-lg overflow-hidden">
+          <div className="space-y-0.5 border rounded-lg overflow-hidden">
             {accounts.map((account) => (
               <DraggableCashAccountRow 
                 key={account.id} 
@@ -156,14 +157,14 @@ export const CashAccountsHomepageView: React.FC = () => {
   };
 
   return (
-    <div className="container py-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">
+    <div className="container py-4">
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-lg font-semibold">
           {t('title')}
         </h1>
-        <Button asChild>
+        <Button asChild size="sm">
           <Link to="/nakit-hesaplar/new">
-            <PlusCircle className="mr-2 h-4 w-4" />
+            <PlusCircle className="mr-1.5 h-4 w-4" />
             {t('newAccount')}
           </Link>
         </Button>
@@ -172,7 +173,7 @@ export const CashAccountsHomepageView: React.FC = () => {
       {isLoading ? renderSkeleton() : renderAccounts()}
       
       {isError && (
-        <div className="p-4 border border-destructive text-destructive rounded-md">
+        <div className="p-3 border border-destructive text-destructive rounded-md text-sm">
           {t('errors.account.list.failed')}
         </div>
       )}

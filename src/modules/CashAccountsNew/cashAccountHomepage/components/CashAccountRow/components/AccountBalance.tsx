@@ -19,8 +19,8 @@ export const AccountBalance: React.FC<AccountBalanceProps> = ({ account }) => {
   const displayBalance = current_balance !== undefined ? current_balance : initial_balance;
 
   return (
-    <div className="text-right">
-      <div className="font-medium">
+    <div className="text-right mr-1">
+      <div className="text-sm font-medium">
         {formatCurrency(displayBalance, currency as CurrencyType)}
       </div>
       <div className="text-xs text-muted-foreground">

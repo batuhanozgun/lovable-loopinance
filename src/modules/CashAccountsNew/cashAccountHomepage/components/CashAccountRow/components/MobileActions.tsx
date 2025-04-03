@@ -34,39 +34,39 @@ export const MobileActions: React.FC<MobileActionsProps> = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-8 w-8">
-          <MoreVertical className="h-4 w-4" />
+        <Button variant="ghost" size="icon" className="h-6 w-6">
+          <MoreVertical className="h-3.5 w-3.5" />
           <span className="sr-only">{t('actions')}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" className="text-xs">
         {onAddTransaction && (
           <DropdownMenuItem onClick={() => onAddTransaction(account)}>
-            <PlusCircle className="mr-2 h-4 w-4" />
+            <PlusCircle className="mr-1.5 h-3.5 w-3.5" />
             {t('CashAccountHomepage:transaction.add')}
           </DropdownMenuItem>
         )}
         <DropdownMenuItem asChild>
           <Link to={`/nakit-hesaplar/${id}/statements`}>
-            <FileText className="mr-2 h-4 w-4" />
+            <FileText className="mr-1.5 h-3.5 w-3.5" />
             {t('statements')}
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link to={`/nakit-hesaplar/${id}`}>
-            <Eye className="mr-2 h-4 w-4" />
+            <Eye className="mr-1.5 h-3.5 w-3.5" />
             {t('viewDetails')}
           </Link>
         </DropdownMenuItem>
         {onEdit && (
           <DropdownMenuItem onClick={() => onEdit(account)}>
-            <Edit className="mr-2 h-4 w-4" />
+            <Edit className="mr-1.5 h-3.5 w-3.5" />
             {t('edit')}
           </DropdownMenuItem>
         )}
         {onDelete && (
           <DropdownMenuItem onClick={() => onDelete(account)}>
-            <Trash2 className="mr-2 h-4 w-4" />
+            <Trash2 className="mr-1.5 h-3.5 w-3.5" />
             {t('delete')}
           </DropdownMenuItem>
         )}

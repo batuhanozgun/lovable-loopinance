@@ -16,10 +16,10 @@ export const AccountDetails: React.FC<AccountDetailsProps> = ({ account }) => {
 
   return (
     <div className="flex-1 min-w-0">
-      <div className="flex flex-col md:flex-row md:items-center gap-1">
-        <h3 className="text-base font-medium truncate">{name}</h3>
+      <div className="flex flex-col md:flex-row md:items-center gap-0.5">
+        <h3 className="text-sm font-medium truncate">{name}</h3>
         {description && !isMobile && (
-          <p className="text-sm text-muted-foreground hidden md:block md:ml-2">
+          <p className="text-xs text-muted-foreground hidden md:block md:ml-2">
             {description}
           </p>
         )}

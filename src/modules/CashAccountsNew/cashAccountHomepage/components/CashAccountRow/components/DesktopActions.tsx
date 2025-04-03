@@ -32,7 +32,7 @@ export const DesktopActions: React.FC<DesktopActionsProps> = ({
   const { id } = account;
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-0.5">
       {onAddTransaction && (
         <TooltipProvider>
           <Tooltip>
@@ -40,13 +40,13 @@ export const DesktopActions: React.FC<DesktopActionsProps> = ({
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8"
+                className="h-6 w-6"
                 onClick={() => onAddTransaction(account)}
               >
-                <PlusCircle className="h-4 w-4" />
+                <PlusCircle className="h-3.5 w-3.5" />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent className="text-xs">
               <p>{t('transaction.add')}</p>
             </TooltipContent>
           </Tooltip>
@@ -59,15 +59,15 @@ export const DesktopActions: React.FC<DesktopActionsProps> = ({
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8"
+              className="h-6 w-6"
               asChild
             >
               <Link to={`/nakit-hesaplar/${id}/statements`}>
-                <FileText className="h-4 w-4" />
+                <FileText className="h-3.5 w-3.5" />
               </Link>
             </Button>
           </TooltipTrigger>
-          <TooltipContent>
+          <TooltipContent className="text-xs">
             <p>{t('statements')}</p>
           </TooltipContent>
         </Tooltip>
@@ -79,15 +79,15 @@ export const DesktopActions: React.FC<DesktopActionsProps> = ({
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8"
+              className="h-6 w-6"
               asChild
             >
               <Link to={`/nakit-hesaplar/${id}`}>
-                <Eye className="h-4 w-4" />
+                <Eye className="h-3.5 w-3.5" />
               </Link>
             </Button>
           </TooltipTrigger>
-          <TooltipContent>
+          <TooltipContent className="text-xs">
             <p>{t('viewDetails')}</p>
           </TooltipContent>
         </Tooltip>
@@ -100,13 +100,13 @@ export const DesktopActions: React.FC<DesktopActionsProps> = ({
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8"
+                className="h-6 w-6"
                 onClick={() => onEdit(account)}
               >
-                <Edit className="h-4 w-4" />
+                <Edit className="h-3.5 w-3.5" />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent className="text-xs">
               <p>{t('edit')}</p>
             </TooltipContent>
           </Tooltip>
@@ -120,13 +120,13 @@ export const DesktopActions: React.FC<DesktopActionsProps> = ({
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8"
+                className="h-6 w-6"
                 onClick={() => onDelete(account)}
               >
-                <Trash2 className="h-4 w-4" />
+                <Trash2 className="h-3.5 w-3.5" />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent className="text-xs">
               <p>{t('delete')}</p>
             </TooltipContent>
           </Tooltip>

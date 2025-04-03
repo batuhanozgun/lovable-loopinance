@@ -38,11 +38,11 @@ export const DraggableCashAccountRow: React.FC<DraggableCashAccountRowProps> = (
   return (
     <div ref={setNodeRef} style={style} className="relative">
       <div 
-        className="absolute left-2 top-1/2 -translate-y-1/2 cursor-grab active:cursor-grabbing" 
+        className="absolute left-1.5 top-1/2 -translate-y-1/2 cursor-grab active:cursor-grabbing" 
         {...attributes} 
         {...listeners}
       >
-        <GripVertical className="h-5 w-5 text-muted-foreground" />
+        <GripVertical className="h-4 w-4 text-muted-foreground" />
       </div>
       
       <CashAccountRow 
