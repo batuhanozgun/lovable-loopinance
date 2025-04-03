@@ -18,7 +18,7 @@ export const LandingFooter = () => {
             <h4 className="font-semibold text-xs mb-2">{t("LandingPage:footer.product.title")}</h4>
             <ul className="space-y-1">
               <li>
-                <Link to="#features" className="text-[10px] text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/features" className="text-[10px] text-muted-foreground hover:text-foreground transition-colors">
                   {t("LandingPage:footer.product.features")}
                 </Link>
               </li>
@@ -28,7 +28,7 @@ export const LandingFooter = () => {
                 </Link>
               </li>
               <li>
-                <Link to="#" className="text-[10px] text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/faq" className="text-[10px] text-muted-foreground hover:text-foreground transition-colors">
                   {t("LandingPage:footer.product.faq")}
                 </Link>
               </li>
@@ -38,17 +38,17 @@ export const LandingFooter = () => {
             <h4 className="font-semibold text-xs mb-2">{t("LandingPage:footer.company.title")}</h4>
             <ul className="space-y-1">
               <li>
-                <Link to="#" className="text-[10px] text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/about" className="text-[10px] text-muted-foreground hover:text-foreground transition-colors">
                   {t("LandingPage:footer.company.about")}
                 </Link>
               </li>
               <li>
-                <Link to="#" className="text-[10px] text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/team" className="text-[10px] text-muted-foreground hover:text-foreground transition-colors">
                   {t("LandingPage:footer.company.team")}
                 </Link>
               </li>
               <li>
-                <Link to="#" className="text-[10px] text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/contact" className="text-[10px] text-muted-foreground hover:text-foreground transition-colors">
                   {t("LandingPage:footer.company.contact")}
                 </Link>
               </li>
@@ -58,12 +58,12 @@ export const LandingFooter = () => {
             <h4 className="font-semibold text-xs mb-2">{t("LandingPage:footer.legal.title")}</h4>
             <ul className="space-y-1">
               <li>
-                <Link to="#" className="text-[10px] text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/privacy-policy" className="text-[10px] text-muted-foreground hover:text-foreground transition-colors">
                   {t("LandingPage:footer.legal.privacy")}
                 </Link>
               </li>
               <li>
-                <Link to="#" className="text-[10px] text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/terms-of-service" className="text-[10px] text-muted-foreground hover:text-foreground transition-colors">
                   {t("LandingPage:footer.legal.terms")}
                 </Link>
               </li>

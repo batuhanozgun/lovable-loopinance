@@ -23,6 +23,15 @@ import Landing from "@/pages/Landing";
 import PricingPage from "@/pages/Pricing";
 import NotFound from "@/pages/NotFound";
 
+// Landing page routes
+import Features from "@/pages/Features";
+import About from "@/pages/About";
+import FAQ from "@/pages/FAQ";
+import Team from "@/pages/Team";
+import Contact from "@/pages/Contact";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import TermsOfService from "@/pages/TermsOfService";
+
 // Rota türleri
 export type RouteType = "private" | "public" | "conditional";
 
@@ -85,6 +94,50 @@ export const routes: AppRoute[] = [
     type: "public",
     element: <Login />,
     redirectTo: "/dashboard"
+  },
+  
+  // Landing page rotaları
+  {
+    path: "/features",
+    type: "public",
+    element: <Features />,
+    redirectTo: undefined
+  },
+  {
+    path: "/about",
+    type: "public",
+    element: <About />,
+    redirectTo: undefined
+  },
+  {
+    path: "/faq",
+    type: "public",
+    element: <FAQ />,
+    redirectTo: undefined
+  },
+  {
+    path: "/team",
+    type: "public",
+    element: <Team />,
+    redirectTo: undefined
+  },
+  {
+    path: "/contact",
+    type: "public",
+    element: <Contact />,
+    redirectTo: undefined
+  },
+  {
+    path: "/privacy-policy",
+    type: "public",
+    element: <PrivacyPolicy />,
+    redirectTo: undefined
+  },
+  {
+    path: "/terms-of-service",
+    type: "public",
+    element: <TermsOfService />,
+    redirectTo: undefined
   },
   
   // Özel rotalar (kimlik doğrulama gerektirir)
