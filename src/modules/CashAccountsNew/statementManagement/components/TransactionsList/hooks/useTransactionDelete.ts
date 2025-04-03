@@ -20,6 +20,11 @@ export const useTransactionDelete = (onSuccess?: () => Promise<void>) => {
     setIsDeleteDialogOpen(true);
   }, []);
 
+  // İşlem silme diyaloğunu kapatma
+  const handleCloseDeleteDialog = useCallback(() => {
+    setIsDeleteDialogOpen(false);
+  }, []);
+
   // Tüm verileri yenileme işlemi
   const refreshAllData = useCallback(async (statementId?: string, accountId?: string) => {
     if (!statementId) return;
@@ -48,16 +53,14 @@ export const useTransactionDelete = (onSuccess?: () => Promise<void>) => {
   const handleConfirmDelete = useCallback(async () => {
     if (!selectedTransaction) return;
     
-    // Önce diyaloğu kapatıp sonra silme işlemini başlatalım
-    setIsDeleteDialogOpen(false);
-    
-    // Bir sonraki adımda UI durumunu güncelleyelim
+    // Silme işlemini başlatalım
     setIsDeleting(true);
     
     try {
       const response = await StatementService.deleteTransaction(selectedTransaction.id);
       
       if (response.success) {
+        // İşlem başarıyla silindi
         toast({
           title: t('common:success', { ns: 'common' }),
           description: t('transactions.deleteSuccess'),
@@ -84,6 +87,8 @@ export const useTransactionDelete = (onSuccess?: () => Promise<void>) => {
       });
     } finally {
       setIsDeleting(false);
+      setIsDeleteDialogOpen(false); // İşlem bittikten sonra diyaloğu kapat
+      setSelectedTransaction(null); // Seçili işlemi temizle
     }
   }, [selectedTransaction, toast, t, refreshAllData]);
 
@@ -91,8 +96,8 @@ export const useTransactionDelete = (onSuccess?: () => Promise<void>) => {
     selectedTransaction,
     isDeleteDialogOpen,
     isDeleting,
-    setIsDeleteDialogOpen,
     handleDeleteTransaction,
+    handleCloseDeleteDialog,
     handleConfirmDelete
   };
 };

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useCallback } from 'react';
 import { Card } from '@/components/ui/card';
 import { CurrencyType } from '@/modules/CashAccountsNew/cashAccountHomepage/types';
@@ -26,9 +27,6 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
 }) => {
   const { t } = useTranslation('StatementManagement');
   const { toast } = useToast();
-  const [selectedTransaction, setSelectedTransaction] = useState<AccountTransaction | null>(null);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
 
   // Veri çekme ve filtreleme işlemleri için kancamızı kullanıyoruz
   const { 
@@ -49,39 +47,25 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
     }
   }, [setRefetchCallback, refetch]);
   
-  // İşlem silme işlemleri için kancamız
+  // İşlem silme işlemleri için kancamız - artık tüm durum yönetimi burada
   const {
-    setIsDeleteDialogOpen: setDeleteDialogVisibility,
-    handleConfirmDelete: confirmDeleteTransaction
+    selectedTransaction,
+    isDeleteDialogOpen,
+    isDeleting,
+    handleDeleteTransaction,
+    handleCloseDeleteDialog,
+    handleConfirmDelete
   } = useTransactionDelete(refetch);
 
   // Düzenleme işlemi için
   const handleEditTransaction = (transaction: AccountTransaction) => {
-    setSelectedTransaction(transaction);
     // Düzenleme modalı daha sonra uygulanacak
     toast({
       title: t('common:info', { ns: 'common' }),
       description: t('common:featureComingSoon', { ns: 'common' }),
     });
   };
-
-  // Silme işlemi için
-  const handleDeleteTransaction = (transaction: AccountTransaction) => {
-    setSelectedTransaction(transaction);
-    setIsDeleteDialogOpen(true);
-  };
   
-  // Diyalog açıkken/kapandığında CSS sınıfını ekleyip kaldıracak useEffect hook'u
-  useEffect(() => {
-    if (isDeleteDialogOpen) {
-      document.body.classList.add('modal-open');
-    } else {
-      document.body.classList.remove('modal-open');
-      // Ek önlem olarak pointer-events'i doğrudan da ayarla
-      document.body.style.pointerEvents = 'auto';
-    }
-  }, [isDeleteDialogOpen]);
-
   // Yükleme durumu
   if (isLoading) {
     return <TransactionsLoadingSkeleton />;
@@ -108,8 +92,8 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
       <DeleteTransactionDialog
         transaction={selectedTransaction}
         isOpen={isDeleteDialogOpen}
-        setIsOpen={setDeleteDialogVisibility}
-        onConfirm={confirmDeleteTransaction}
+        setIsOpen={handleCloseDeleteDialog}
+        onConfirm={handleConfirmDelete}
       />
     </Card>
   );
