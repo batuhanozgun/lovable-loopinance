@@ -1,63 +1,51 @@
 
 /**
- * Ekstre sorgulama işlemleri için servis
+ * Ekstre sorgulama servisi
  */
 import { supabase } from '@/integrations/supabase/client';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
 import { 
   AccountStatement, 
   SingleStatementResponse, 
-  StatementListResponse
+  StatementListResponse, 
+  StatementStatus 
 } from '../../../types';
-import { PostgrestFilterBuilder } from '@supabase/postgrest-js';
-import { Database } from '@/integrations/supabase/types';
-
-// Ekstre tablosu için sorgu builder tip tanımı
-type StatementQueryBuilder = PostgrestFilterBuilder<
-  Database['public'],
-  Database['public']['Tables']['account_statements']['Row'],
-  Database['public']['Tables']['account_statements']['Row'][]
->;
 
 /**
- * Ekstre sorgulama işlemleri için servis
+ * Ekstre sorgulama servisi
  */
 export class StatementQueryService {
   private static logger = new ModuleLogger('CashAccountsNew.StatementQueryService');
 
   /**
-   * Temel Supabase sorgu oluşturucusu
-   */
-  private static createBaseQuery(): StatementQueryBuilder {
-    return supabase.from('account_statements').select('*');
-  }
-
-  /**
-   * Belirli bir hesaba ait tüm ekstreleri getirir
+   * Hesap ID'sine göre tüm ekstreleri getirir
    */
   static async getStatementsByAccountId(accountId: string): Promise<StatementListResponse> {
     try {
-      this.logger.debug('Fetching statements for account', { accountId });
+      this.logger.debug('Getting statements by account ID', { accountId });
       
-      const { data: statements, error } = await this.createBaseQuery()
+      const { data, error } = await supabase
+        .from('cash_account_statements')
+        .select('*')
         .eq('account_id', accountId)
         .order('start_date', { ascending: false });
       
       if (error) {
-        this.logger.error('Failed to fetch account statements', { accountId, error });
+        this.logger.error('Failed to get statements by account ID', { accountId, error });
         return {
           success: false,
           error: error.message
         };
       }
       
-      this.logger.info('Account statements fetched successfully', { accountId, count: statements.length });
+      this.logger.info(`Found ${data.length} statements for account`, { accountId });
+      
       return {
         success: true,
-        data: statements as AccountStatement[]
+        data: data as AccountStatement[]
       };
     } catch (error) {
-      this.logger.error('Unexpected error fetching account statements', { accountId, error });
+      this.logger.error('Unexpected error getting statements by account ID', { accountId, error });
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error'
@@ -66,31 +54,32 @@ export class StatementQueryService {
   }
 
   /**
-   * ID'ye göre belirli bir hesap ekstresini getirir
+   * ID'ye göre belirli bir ekstreyi getirir
    */
   static async getStatementById(id: string): Promise<SingleStatementResponse> {
     try {
-      this.logger.debug('Fetching statement by ID', { id });
+      this.logger.debug('Getting statement by ID', { id });
       
-      const { data: statement, error } = await this.createBaseQuery()
+      const { data, error } = await supabase
+        .from('cash_account_statements')
+        .select('*')
         .eq('id', id)
         .single();
       
       if (error) {
-        this.logger.error('Failed to fetch statement by ID', { id, error });
+        this.logger.error('Failed to get statement by ID', { id, error });
         return {
           success: false,
           error: error.message
         };
       }
       
-      this.logger.info('Statement fetched successfully', { id });
       return {
         success: true,
-        data: statement as AccountStatement
+        data: data as AccountStatement
       };
     } catch (error) {
-      this.logger.error('Unexpected error fetching statement by ID', { id, error });
+      this.logger.error('Unexpected error getting statement by ID', { id, error });
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error'
@@ -103,30 +92,94 @@ export class StatementQueryService {
    */
   static async getCurrentStatement(accountId: string): Promise<SingleStatementResponse> {
     try {
-      this.logger.debug('Fetching current statement for account', { accountId });
+      this.logger.debug('Getting current statement for account', { accountId });
       
-      const { data: statement, error } = await this.createBaseQuery()
+      // Önce OPEN durumunda olan ekstreyi deneyelim
+      const { data: openStatement, error: openError } = await supabase
+        .from('cash_account_statements')
+        .select('*')
         .eq('account_id', accountId)
-        .eq('status', 'open')
-        .order('start_date', { ascending: false })
+        .eq('status', StatementStatus.OPEN)
+        .order('end_date', { ascending: true })
         .limit(1)
         .maybeSingle();
       
-      if (error) {
-        this.logger.error('Failed to fetch current statement', { accountId, error });
+      if (openError) {
+        this.logger.error('Failed to get open statement', { accountId, error: openError });
         return {
           success: false,
-          error: error.message
+          error: openError.message
         };
       }
       
-      this.logger.info('Current statement fetched successfully', { accountId, statementId: statement?.id });
+      // Eğer OPEN durumunda ekstre varsa, onu döndür
+      if (openStatement) {
+        return {
+          success: true,
+          data: openStatement as AccountStatement
+        };
+      }
+      
+      // OPEN durumunda ekstre yoksa, FUTURE durumundaki ilk ekstreyi deneyelim
+      const { data: futureStatement, error: futureError } = await supabase
+        .from('cash_account_statements')
+        .select('*')
+        .eq('account_id', accountId)
+        .eq('status', StatementStatus.FUTURE)
+        .order('start_date', { ascending: true })
+        .limit(1)
+        .maybeSingle();
+      
+      if (futureError) {
+        this.logger.error('Failed to get future statement', { accountId, error: futureError });
+        return {
+          success: false,
+          error: futureError.message
+        };
+      }
+      
+      // Eğer FUTURE durumunda ekstre varsa, onu döndür
+      if (futureStatement) {
+        return {
+          success: true,
+          data: futureStatement as AccountStatement
+        };
+      }
+      
+      // Son olarak, en son CLOSED durumundaki ekstreyi deneyelim
+      const { data: closedStatement, error: closedError } = await supabase
+        .from('cash_account_statements')
+        .select('*')
+        .eq('account_id', accountId)
+        .eq('status', StatementStatus.CLOSED)
+        .order('end_date', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      
+      if (closedError) {
+        this.logger.error('Failed to get closed statement', { accountId, error: closedError });
+        return {
+          success: false,
+          error: closedError.message
+        };
+      }
+      
+      // Eğer CLOSED durumunda ekstre varsa, onu döndür
+      if (closedStatement) {
+        return {
+          success: true,
+          data: closedStatement as AccountStatement
+        };
+      }
+      
+      // Hiçbir ekstre bulunamazsa, hata döndür
+      this.logger.warn('No statement found for account', { accountId });
       return {
-        success: true,
-        data: statement as AccountStatement || null
+        success: false,
+        error: 'Bu hesap için ekstre bulunamadı'
       };
     } catch (error) {
-      this.logger.error('Unexpected error fetching current statement', { accountId, error });
+      this.logger.error('Unexpected error getting current statement', { accountId, error });
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error'

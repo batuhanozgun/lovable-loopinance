@@ -14,7 +14,7 @@ export class StatementFinderService {
       console.log('Finding open statements for account:', accountId);
       
       const { data: statements, error } = await supabase
-        .from('account_statements')
+        .from('cash_account_statements')
         .select('id, start_date, end_date')
         .eq('account_id', accountId)
         .eq('status', 'OPEN')
@@ -61,7 +61,7 @@ export class StatementFinderService {
       console.log('  - end_date >=', formattedDate);
       
       const { data: statements, error } = await supabase
-        .from('account_statements')
+        .from('cash_account_statements')
         .select('*')
         .eq('account_id', accountId)
         .lte('start_date', formattedDate) // Başlangıç tarihi seçilen tarihten önce veya eşit
@@ -120,7 +120,7 @@ export class StatementFinderService {
       console.log('Fetching statement by ID:', statementId);
       
       const { data: statement, error } = await supabase
-        .from('account_statements')
+        .from('cash_account_statements')
         .select('*')
         .eq('id', statementId)
         .maybeSingle();

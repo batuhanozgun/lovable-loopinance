@@ -9,7 +9,7 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      account_statements: {
+      cash_account_statements: {
         Row: {
           account_id: string
           created_at: string
@@ -59,7 +59,7 @@ export type Database = {
           },
         ]
       }
-      account_transactions: {
+      cash_account_transactions: {
         Row: {
           account_id: string
           amount: number
@@ -121,7 +121,7 @@ export type Database = {
             foreignKeyName: "account_transactions_statement_id_fkey"
             columns: ["statement_id"]
             isOneToOne: false
-            referencedRelation: "account_statements"
+            referencedRelation: "cash_account_statements"
             referencedColumns: ["id"]
           },
           {

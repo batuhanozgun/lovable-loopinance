@@ -1,123 +1,150 @@
 
 /**
- * İşlemleri sorgulamak için servis
+ * İşlem sorgulama servisi
  */
 import { supabase } from '@/integrations/supabase/client';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
-import { AccountTransaction, TransactionListResponse, transformTransactionData } from '../../types/transaction';
+import {
+  AccountTransaction,
+  StatementTransactionListResponse,
+  TransactionQueryOptions,
+  TransactionSortField,
+  SortDirection
+} from '../../types/transaction';
 
+/**
+ * İşlem sorgulama servisi
+ */
 export class TransactionQueryService {
   private static logger = new ModuleLogger('CashAccountsNew.TransactionQueryService');
-
+  
   /**
-   * Hesap ID'sine göre işlemleri getir
+   * Ekstre ID'sine göre işlemleri getirir
    */
-  static async getTransactionsByAccountId(accountId: string): Promise<TransactionListResponse> {
+  static async getTransactionsByStatementId(
+    statementId: string,
+    options?: TransactionQueryOptions
+  ): Promise<StatementTransactionListResponse> {
     try {
-      this.logger.debug('Fetching transactions for account', { accountId });
+      this.logger.debug('Getting transactions by statement ID', { statementId, options });
       
-      const { data: transactions, error } = await supabase
-        .from('account_transactions')
-        .select('*')
-        .eq('account_id', accountId)
-        .order('transaction_date', { ascending: false })
-        .order('transaction_time', { ascending: false });
+      // Sorgu oluştur
+      let query = supabase
+        .from('cash_account_transactions')
+        .select(`
+          *,
+          categories:category_id(*),
+          subcategories:subcategory_id(*)
+        `)
+        .eq('statement_id', statementId);
+      
+      // Filtreleri uygula
+      if (options?.filters) {
+        // Tarih aralığı filtresi
+        if (options.filters.dateRange) {
+          if (options.filters.dateRange.from) {
+            query = query.gte('transaction_date', options.filters.dateRange.from);
+          }
+          if (options.filters.dateRange.to) {
+            query = query.lte('transaction_date', options.filters.dateRange.to);
+          }
+        }
+        
+        // İşlem türü filtresi
+        if (options.filters.transactionType) {
+          query = query.eq('transaction_type', options.filters.transactionType);
+        }
+        
+        // Kategori filtresi
+        if (options.filters.categoryId) {
+          query = query.eq('category_id', options.filters.categoryId);
+        }
+        
+        // Alt kategori filtresi
+        if (options.filters.subcategoryId) {
+          query = query.eq('subcategory_id', options.filters.subcategoryId);
+        }
+        
+        // Arama filtresi (açıklamada)
+        if (options.filters.search) {
+          query = query.ilike('description', `%${options.filters.search}%`);
+        }
+      }
+      
+      // Sıralama ayarlarını uygula
+      if (options?.sort) {
+        const { field = TransactionSortField.DATE, direction = SortDirection.DESC } = options.sort;
+        
+        // Tarih sıralamasında, aynı gündeki işlemler için saat de kullanılmalı
+        if (field === TransactionSortField.DATE) {
+          query = query.order('transaction_date', { ascending: direction === SortDirection.ASC })
+                       .order('transaction_time', { ascending: direction === SortDirection.ASC });
+        } else {
+          query = query.order(field, { ascending: direction === SortDirection.ASC });
+        }
+      } else {
+        // Varsayılan sıralama: en son tarih ve saat önce
+        query = query.order('transaction_date', { ascending: false })
+                     .order('transaction_time', { ascending: false });
+      }
+      
+      // Sayfalama ayarlarını uygula
+      if (options?.pagination) {
+        const { page = 1, pageSize = 10 } = options.pagination;
+        const start = (page - 1) * pageSize;
+        query = query.range(start, start + pageSize - 1);
+      }
+      
+      // Sorguyu çalıştır
+      const { data, error } = await query;
       
       if (error) {
-        this.logger.error('Failed to fetch account transactions', { accountId, error });
+        this.logger.error('Failed to get transactions', { statementId, error });
         return {
           success: false,
           error: error.message
         };
       }
       
-      // Verileri doğru enum tipine dönüştürüyoruz
-      const transformedData = transactions.map(transaction => transformTransactionData(transaction));
-      
-      this.logger.info('Account transactions fetched successfully', { accountId, count: transactions.length });
-      return {
-        success: true,
-        data: transformedData
-      };
-    } catch (error) {
-      this.logger.error('Unexpected error fetching account transactions', { accountId, error });
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
-      };
-    }
-  }
-
-  /**
-   * Ekstre ID'sine göre işlemleri getir
-   */
-  static async getTransactionsByStatementId(statementId: string): Promise<TransactionListResponse> {
-    try {
-      this.logger.debug('Fetching transactions for statement', { statementId });
-      
-      const { data: transactions, error } = await supabase
-        .from('account_transactions')
-        .select('*')
-        .eq('statement_id', statementId)
-        .order('transaction_date', { ascending: false })
-        .order('transaction_time', { ascending: false });
-      
-      if (error) {
-        this.logger.error('Failed to fetch statement transactions', { statementId, error });
-        return {
-          success: false,
-          error: error.message
+      // Veriyi dönüştür
+      const transactions = data.map(tx => {
+        // Veri dönüşümü ve temizlik
+        const result: AccountTransaction = {
+          id: tx.id,
+          account_id: tx.account_id,
+          statement_id: tx.statement_id,
+          amount: tx.amount,
+          transaction_type: tx.transaction_type,
+          transaction_date: tx.transaction_date,
+          transaction_time: tx.transaction_time,
+          description: tx.description,
+          created_at: tx.created_at,
+          updated_at: tx.updated_at
         };
-      }
+        
+        // Kategori bilgilerini ekle (varsa)
+        if (tx.category_id && tx.categories) {
+          result.category_id = tx.category_id;
+          result.category = tx.categories;
+        }
+        
+        // Alt kategori bilgilerini ekle (varsa)
+        if (tx.subcategory_id && tx.subcategories) {
+          result.subcategory_id = tx.subcategory_id;
+          result.subcategory = tx.subcategories;
+        }
+        
+        return result;
+      });
       
-      // Verileri doğru enum tipine dönüştürüyoruz
-      const transformedData = transactions.map(transaction => transformTransactionData(transaction));
+      this.logger.info(`Found ${transactions.length} transactions for statement`, { statementId });
       
-      this.logger.info('Statement transactions fetched successfully', { statementId, count: transactions.length });
       return {
         success: true,
-        data: transformedData
+        data: transactions
       };
     } catch (error) {
-      this.logger.error('Unexpected error fetching statement transactions', { statementId, error });
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
-      };
-    }
-  }
-
-  /**
-   * ID'ye göre tek işlem getir
-   */
-  static async getTransactionById(id: string): Promise<TransactionListResponse> {
-    try {
-      this.logger.debug('Fetching transaction by ID', { id });
-      
-      const { data: transaction, error } = await supabase
-        .from('account_transactions')
-        .select('*')
-        .eq('id', id)
-        .single();
-      
-      if (error) {
-        this.logger.error('Failed to fetch transaction by ID', { id, error });
-        return {
-          success: false,
-          error: error.message
-        };
-      }
-      
-      // Veriyi doğru enum tipine dönüştürüyoruz
-      const transformedData = transformTransactionData(transaction);
-      
-      this.logger.info('Transaction fetched successfully', { id });
-      return {
-        success: true,
-        data: [transformedData]
-      };
-    } catch (error) {
-      this.logger.error('Unexpected error fetching transaction by ID', { id, error });
+      this.logger.error('Unexpected error getting transactions', { statementId, error });
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error'
