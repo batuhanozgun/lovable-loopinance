@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { LandingHeader } from "@/modules/LandingPage/components/LandingHeader/index";
-import { LandingFooter } from "@/modules/LandingPage/components/LandingFooter";
+import { LandingFooter } from "@/modules/LandingPage/components/LandingFooter/index";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
