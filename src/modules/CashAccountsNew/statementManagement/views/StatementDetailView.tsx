@@ -18,10 +18,7 @@ export const StatementDetailView: React.FC = () => {
   const [refetchTransactions, setRefetchTransactions] = useState<(() => Promise<void>) | null>(null);
   
   // Statement detaylarını getirme
-  const { data: statement, isLoading, refetch } = useStatement(
-    accountId as string, 
-    statementId as string
-  );
+  const { data: statement, isLoading, refetch } = useStatement(statementId);
   
   // Statement'da yapılan değişiklikler sonrası işlemleri de yenile
   useEffect(() => {
@@ -71,6 +68,7 @@ export const StatementDetailView: React.FC = () => {
       <StatementDetails 
         statement={statement} 
         isLoading={isLoading}
+        currency={statement?.account?.currency || 'TRY'}
       />
       
       {/* İşlem Listesi */}

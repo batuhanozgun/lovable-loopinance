@@ -198,7 +198,10 @@ export const useTransactionFormSetup = (
       }
     };
     
-    loadStatement();
+    // accountId geçerli bir değer ise statement yükleme işlemini başlat
+    if (accountId) {
+      loadStatement();
+    }
     console.log('======== END INITIALIZATION LOGS ========');
   }, [accountId, statementId, date, isEditMode, t]); // Bağımlılıkları düzgün şekilde ekledik
   
