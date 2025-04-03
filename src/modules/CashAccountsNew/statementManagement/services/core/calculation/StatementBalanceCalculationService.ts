@@ -6,6 +6,7 @@
 import { supabase } from '@/integrations/supabase/client';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
 import { StatementUpdateService } from '../update/StatementUpdateService';
+import { StatementCascadeUpdateService } from '../cascade/StatementCascadeUpdateService';
 import { SingleStatementResponse } from '../../../types';
 
 export class StatementBalanceCalculationService {
@@ -15,11 +16,13 @@ export class StatementBalanceCalculationService {
    * Belirli bir ekstrenin toplam gelir, gider ve kapanış bakiyesini hesaplar ve günceller
    * @param statementId Ekstre kimliği
    * @param accountId Hesap kimliği
+   * @param performCascadeUpdate Sonraki ekstreleri de güncellesin mi
    * @returns İşlem sonucu
    */
   static async calculateAndUpdateStatementBalance(
     statementId: string,
-    accountId: string
+    accountId: string,
+    performCascadeUpdate: boolean = false
   ): Promise<SingleStatementResponse> {
     try {
       this.logger.debug('Ekstre bakiyeleri hesaplanıyor', { statementId, accountId });
@@ -90,12 +93,22 @@ export class StatementBalanceCalculationService {
         endBalance
       });
       
-      return await StatementUpdateService.updateStatementBalances(
+      const result = await StatementUpdateService.updateStatementBalances(
         statementId,
         income,
         expenses,
         endBalance
       );
+      
+      // Eğer istenirse, zincirleme güncelleme yap
+      if (performCascadeUpdate && result.success) {
+        await StatementCascadeUpdateService.updateSubsequentStatements(
+          statementId,
+          accountId
+        );
+      }
+      
+      return result;
     } catch (error) {
       this.logger.error('Ekstre bakiyeleri hesaplanırken beklenmeyen hata', {
         statementId,

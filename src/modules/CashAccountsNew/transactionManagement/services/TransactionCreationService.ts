@@ -1,4 +1,5 @@
 
+
 import { supabase } from '@/integrations/supabase/client';
 import { ModuleLogger } from '@/modules/Logging/core/ModuleLogger';
 import { StatementService } from '../../statementManagement/services/StatementService';
@@ -35,10 +36,11 @@ export class TransactionCreationService {
       
       this.logger.info('Transaction created successfully', { id: transaction.id });
       
-      // İşlem oluşturulduktan sonra ekstre bakiyelerini güncelle
+      // İşlem oluşturulduktan sonra ekstre bakiyelerini güncelle ve zincirleme güncelleme yap
       await StatementService.recalculateStatementBalance(
         data.statement_id,
-        data.account_id
+        data.account_id,
+        true // Zincirleme güncelleme için
       );
       
       return {

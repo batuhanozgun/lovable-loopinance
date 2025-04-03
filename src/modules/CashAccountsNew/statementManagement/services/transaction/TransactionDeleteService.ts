@@ -65,9 +65,11 @@ export class TransactionDeleteService {
       this.logger.info('İşlem başarıyla silindi', { id });
       
       // İşlem silindikten sonra ilgili ekstrenin bakiyelerini yeniden hesapla
+      // ve zincirleme güncelleme yap (true parametresi ile)
       await StatementService.recalculateStatementBalance(
         transactionData.statement_id,
-        transactionData.account_id
+        transactionData.account_id,
+        true
       );
       
       // Veriyi doğru enum tipine dönüştürüyoruz

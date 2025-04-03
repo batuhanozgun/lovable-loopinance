@@ -9,6 +9,7 @@ import { StatementPeriodService } from './core/period/StatementPeriodService';
 import { StatementQueryService } from './core/query/StatementQueryService';
 import { StatementUpdateService } from './core/update/StatementUpdateService';
 import { StatementBalanceCalculationService } from './core/calculation/StatementBalanceCalculationService';
+import { StatementCascadeUpdateService } from './core/cascade/StatementCascadeUpdateService';
 import { TransactionDeleteService } from './transaction/TransactionDeleteService';
 import { CashAccount } from '../../cashAccountHomepage/types';
 import { 
@@ -104,12 +105,28 @@ export class StatementService {
 
   /**
    * Belirtilen ekstrenin bakiyelerini yeniden hesaplar ve günceller
+   * @param cascadeUpdate sonraki ekstreleri de güncelle
    */
   static async recalculateStatementBalance(
     statementId: string,
-    accountId: string
+    accountId: string,
+    cascadeUpdate: boolean = true
   ): Promise<SingleStatementResponse> {
     return await StatementBalanceCalculationService.calculateAndUpdateStatementBalance(
+      statementId,
+      accountId,
+      cascadeUpdate
+    );
+  }
+
+  /**
+   * Belirtilen ekstreden sonraki tüm ekstrelerin bakiyelerini zincirleme olarak günceller
+   */
+  static async updateSubsequentStatements(
+    statementId: string,
+    accountId: string
+  ): Promise<SingleStatementResponse> {
+    return await StatementCascadeUpdateService.updateSubsequentStatements(
       statementId,
       accountId
     );

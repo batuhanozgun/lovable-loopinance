@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Transaction, TransactionType, TransactionResponse } from "../types";
 import { StatementFinderService } from "./StatementFinderService";
 import { ModuleLogger } from "@/modules/Logging/core/ModuleLogger";
-import { StatementBalanceCalculationService } from "../../statementManagement/services/core/calculation/StatementBalanceCalculationService";
+import { StatementService } from "../../statementManagement/services/StatementService";
 
 /**
  * İşlem güncelleme servisi
@@ -107,7 +107,7 @@ export class TransactionUpdateService {
 
       this.logger.debug('İşlem başarıyla güncellendi', { transactionId, updated: data });
       
-      // İşlem güncellendikten sonra etkilenen ekstre(leri) tekrar hesapla
+      // İşlem güncellendikten sonra etkilenen ekstre(leri) tekrar hesapla ve zincirleme yap
       await this.recalculateAffectedStatements(existingTransaction.account_id, oldStatementId, statementId);
       
       return {
@@ -138,16 +138,18 @@ export class TransactionUpdateService {
   ): Promise<void> {
     try {
       // Eski ekstrenin bakiyelerini yeniden hesapla
-      await StatementBalanceCalculationService.calculateAndUpdateStatementBalance(
+      await StatementService.recalculateStatementBalance(
         oldStatementId,
-        accountId
+        accountId,
+        true  // Zincirleme güncelleme yap
       );
       
       // Eğer işlem farklı bir ekstreye taşındıysa, yeni ekstrenin bakiyelerini de hesapla
       if (oldStatementId !== newStatementId) {
-        await StatementBalanceCalculationService.calculateAndUpdateStatementBalance(
+        await StatementService.recalculateStatementBalance(
           newStatementId,
-          accountId
+          accountId,
+          true  // Zincirleme güncelleme yap
         );
       }
       
@@ -167,4 +169,3 @@ export class TransactionUpdateService {
     }
   }
 }
-
