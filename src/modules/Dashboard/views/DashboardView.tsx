@@ -6,28 +6,24 @@ import { BudgetGoals } from "../sections/BudgetGoals";
 import { DashboardLogger } from "../logging";
 import { Plus, BarChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { AppHeader } from "@/modules/AppLayout/components/AppHeader";
 
 const DashboardView = () => {
   const { t } = useTranslation(["Dashboard", "common"]);
 
   DashboardLogger.debug("Dashboard view rendered");
 
-  // Header için aksiyon butonları
-  const headerActions = (
-    <Button size="sm" className="gap-1">
-      <Plus size={16} />
-      {t('common:add')}
-    </Button>
-  );
-
   return (
     <div className="flex flex-col h-full">
-      <AppHeader 
-        title={t('common:navigation.dashboard')}
-        icon={<BarChart className="h-5 w-5" />}
-        pageActions={headerActions}
-      />
+      <div className="flex justify-between items-center mb-4">
+        <div className="flex items-center gap-2">
+          <BarChart className="h-5 w-5 text-primary" />
+          <h1 className="text-xl font-semibold">{t('common:navigation.dashboard')}</h1>
+        </div>
+        <Button size="sm" className="gap-1">
+          <Plus size={16} />
+          {t('common:add')}
+        </Button>
+      </div>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
         <FinancialSummary />
