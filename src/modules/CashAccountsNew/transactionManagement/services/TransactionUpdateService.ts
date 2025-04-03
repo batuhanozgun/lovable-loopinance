@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Transaction, TransactionType, TransactionResponse } from "../types";
 import { StatementFinderService } from "./StatementFinderService";
 import { ModuleLogger } from "@/modules/Logging/core/ModuleLogger";
+import { StatementBalanceCalculationService } from "../../statementManagement/services/core/calculation/StatementBalanceCalculationService";
 
 /**
  * İşlem güncelleme servisi
@@ -42,8 +43,9 @@ export class TransactionUpdateService {
       const transactionType = transaction.transaction_type 
         || existingTransaction.transaction_type;
 
-      // Statement kontrolü yap - tarih değişmişse farklı statement'a taşınabilir
-      let statementId = existingTransaction.statement_id;
+      // Eski statement_id'yi saklayalım, değişim olup olmadığını kontrol etmek için
+      const oldStatementId = existingTransaction.statement_id;
+      let statementId = oldStatementId;
       
       // Eğer tarih değişmişse yeni statement kontrolü yap
       if (transaction.transaction_date && 
@@ -104,6 +106,10 @@ export class TransactionUpdateService {
       }
 
       this.logger.debug('İşlem başarıyla güncellendi', { transactionId, updated: data });
+      
+      // İşlem güncellendikten sonra etkilenen ekstre(leri) tekrar hesapla
+      await this.recalculateAffectedStatements(existingTransaction.account_id, oldStatementId, statementId);
+      
       return {
         success: true,
         data
@@ -118,4 +124,47 @@ export class TransactionUpdateService {
       };
     }
   }
+  
+  /**
+   * Etkilenen ekstrelerin bakiyelerini yeniden hesaplar
+   * @param accountId Hesap ID'si
+   * @param oldStatementId Eski ekstre ID'si
+   * @param newStatementId Yeni ekstre ID'si
+   */
+  private static async recalculateAffectedStatements(
+    accountId: string,
+    oldStatementId: string,
+    newStatementId: string
+  ): Promise<void> {
+    try {
+      // Eski ekstrenin bakiyelerini yeniden hesapla
+      await StatementBalanceCalculationService.calculateAndUpdateStatementBalance(
+        oldStatementId,
+        accountId
+      );
+      
+      // Eğer işlem farklı bir ekstreye taşındıysa, yeni ekstrenin bakiyelerini de hesapla
+      if (oldStatementId !== newStatementId) {
+        await StatementBalanceCalculationService.calculateAndUpdateStatementBalance(
+          newStatementId,
+          accountId
+        );
+      }
+      
+      this.logger.debug('Etkilenen ekstrelerin bakiyeleri güncellendi', {
+        accountId,
+        oldStatementId,
+        newStatementId
+      });
+    } catch (error) {
+      this.logger.error('Ekstre bakiyeleri güncellenirken hata oluştu', {
+        accountId,
+        oldStatementId,
+        newStatementId,
+        error: error instanceof Error ? error.message : String(error)
+      });
+      // Bu hata yüzünden ana işlemin başarısız olmasını istemiyoruz, bu yüzden hata fırlatmıyoruz
+    }
+  }
 }
+
