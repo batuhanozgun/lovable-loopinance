@@ -102,7 +102,7 @@ export const Navigation: React.FC = () => {
   };
 
   return (
-    <nav className={cn(
+    <div className={cn(
       SPACING.CONTAINER,
       "space-y-0.5", // azaltıldı
       CSS_CLASSES.TRANSITIONS.BASE,
@@ -169,6 +169,6 @@ export const Navigation: React.FC = () => {
           </div>
         ))}
       </TooltipProvider>
-    </nav>
+    </div>
   );
 };
