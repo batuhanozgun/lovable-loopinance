@@ -1,0 +1,59 @@
+
+{
+  "title": "Statement",
+  "period": "Period",
+  "status": {
+    "open": "Open",
+    "closed": "Closed",
+    "future": "Future"
+  },
+  "details": {
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "startBalance": "Opening Balance",
+    "endBalance": "Closing Balance",
+    "income": "Total Income",
+    "expenses": "Total Expenses",
+    "netChange": "Net Change"
+  },
+  "transactions": {
+    "title": "Transactions",
+    "empty": "No transactions in this statement yet.",
+    "add": "Add Transaction",
+    "edit": "Edit",
+    "delete": "Delete",
+    "loading": "Loading...",
+    "filter": {
+      "all": "All",
+      "income": "Income",
+      "expense": "Expenses"
+    },
+    "sort": {
+      "date": "Sort by Date",
+      "amount": "Sort by Amount"
+    },
+    "deleteConfirmation": {
+      "title": "Delete Transaction?",
+      "description": "Are you sure you want to delete this transaction? This action cannot be undone."
+    },
+    "deleteSuccess": "Transaction deleted successfully"
+  },
+  "errors": {
+    "statement": {
+      "load": {
+        "failed": "Failed to load statement information"
+      },
+      "detail": {
+        "failed": "Failed to get statement details"
+      }
+    },
+    "transaction": {
+      "load": {
+        "failed": "Failed to load transactions"
+      },
+      "delete": {
+        "failed": "An error occurred while deleting the transaction"
+      }
+    }
+  }
+}

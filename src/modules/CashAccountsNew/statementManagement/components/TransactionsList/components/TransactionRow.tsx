@@ -1,102 +1,98 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
 import { tr, enUS } from 'date-fns/locale';
-import { useTranslation } from 'react-i18next';
-import { TableRow, TableCell } from '@/components/ui/table';
 import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuTrigger 
-} from '@/components/ui/dropdown-menu';
+  Card, 
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle 
+} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { MoreHorizontal, Edit, Trash2 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import { Pencil, Trash2 } from 'lucide-react';
 import { AccountTransaction, StatementTransactionType } from '../../../types/transaction';
-import { CurrencyType } from '@/modules/CashAccountsNew/cashAccountHomepage/types';
+import { Badge } from '@/components/ui/badge';
+import { CategoryBadge } from './CategoryBadge';
+import { IconButton } from './IconButton';
 
 interface TransactionRowProps {
   transaction: AccountTransaction;
-  currency: CurrencyType;
-  onEdit: (transaction: AccountTransaction) => void;
-  onDelete: (transaction: AccountTransaction) => void;
+  formatAmount: (amount: number) => string;
+  onEdit: () => void;
+  onDelete: () => void;
+  disabled?: boolean;
 }
 
-export const TransactionRow: React.FC<TransactionRowProps> = ({
-  transaction,
-  currency,
+export const TransactionRow: React.FC<TransactionRowProps> = ({ 
+  transaction, 
+  formatAmount,
   onEdit,
-  onDelete
+  onDelete,
+  disabled = false
 }) => {
-  const { i18n, t } = useTranslation('StatementManagement');
-  const dateLocale = i18n.language === 'tr' ? tr : enUS;
+  const { i18n, t } = useTranslation(['StatementManagement', 'common']);
+  const locale = i18n.language === 'tr' ? tr : enUS;
   
-  // Tutarı formatlama
-  const formatAmount = () => {
-    const formattedAmount = new Intl.NumberFormat(i18n.language, { 
-      style: 'currency', 
-      currency: currency 
-    }).format(transaction.amount);
-    
-    return formattedAmount;
-  };
+  // Tarih formatla
+  const formattedDate = format(
+    new Date(transaction.transaction_date),
+    'PP',
+    { locale }
+  );
   
-  // Tarihi formatlama
-  const formatDate = () => {
-    const date = new Date(transaction.transaction_date);
-    return format(date, 'PPP', { locale: dateLocale });
-  };
+  // Saat formatla (HH:MM)
+  const formattedTime = transaction.transaction_time.substring(0, 5);
+  
+  // İşlem tipi
+  const isIncome = transaction.transaction_type === StatementTransactionType.INCOME;
   
   return (
-    <TableRow className="hover:bg-muted/50">
-      <TableCell className="font-medium">{formatDate()}</TableCell>
-      <TableCell>
-        {transaction.description || 
-          <span className="text-muted-foreground italic">
-            {t('common:noDescription', { ns: 'common' })}
-          </span>
-        }
-      </TableCell>
-      <TableCell>
-        <Badge variant={transaction.transaction_type === StatementTransactionType.INCOME ? 'success' : 'destructive'}>
-          {transaction.transaction_type === StatementTransactionType.INCOME 
-            ? t('statements.income') 
-            : t('statements.expenses')
-          }
-        </Badge>
-      </TableCell>
-      <TableCell className={`text-right font-medium ${
-        transaction.transaction_type === StatementTransactionType.INCOME 
-          ? 'text-green-600 dark:text-green-400' 
-          : 'text-red-600 dark:text-red-400'
-      }`}>
-        {transaction.transaction_type === StatementTransactionType.INCOME ? '+' : '-'}
-        {formatAmount()}
-      </TableCell>
-      <TableCell className="text-right">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-              <span className="sr-only">{t('common:openMenu', { ns: 'common' })}</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-background">
-            <DropdownMenuItem onClick={() => onEdit(transaction)}>
-              <Edit className="mr-2 h-4 w-4" />
-              <span>{t('transactions.edit')}</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem 
-              onClick={() => onDelete(transaction)}
-              className="text-red-600 dark:text-red-400 focus:text-red-600 dark:focus:text-red-400"
-            >
-              <Trash2 className="mr-2 h-4 w-4" />
-              <span>{t('transactions.delete')}</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </TableCell>
-    </TableRow>
+    <Card className={`overflow-hidden ${isIncome ? 'border-l-4 border-l-green-500' : 'border-l-4 border-l-red-500'}`}>
+      <div className="flex justify-between items-center p-4">
+        <div className="flex-1">
+          <div className="flex items-center space-x-2">
+            <h3 className="font-medium text-sm">
+              {formattedDate} - {formattedTime}
+            </h3>
+            
+            {transaction.category_id && (
+              <CategoryBadge categoryId={transaction.category_id} subcategoryId={transaction.subcategory_id} />
+            )}
+          </div>
+          
+          {transaction.description && (
+            <p className="text-sm text-muted-foreground mt-1">
+              {transaction.description}
+            </p>
+          )}
+        </div>
+        
+        <div className="flex items-center space-x-2">
+          <div className={`font-medium ${isIncome ? 'text-green-600' : 'text-red-600'}`}>
+            {formatAmount(Math.abs(transaction.amount))}
+          </div>
+          
+          <div className="flex">
+            <IconButton
+              icon={<Pencil className="h-4 w-4" />}
+              label={t('transactions.edit')}
+              onClick={onEdit}
+              disabled={disabled}
+            />
+            
+            <IconButton
+              icon={<Trash2 className="h-4 w-4" />}
+              label={t('transactions.delete')}
+              onClick={onDelete}
+              variant="destructive"
+              disabled={disabled}
+            />
+          </div>
+        </div>
+      </div>
+    </Card>
   );
 };

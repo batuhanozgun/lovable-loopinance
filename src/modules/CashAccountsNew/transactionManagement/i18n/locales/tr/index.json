@@ -1,0 +1,97 @@
+
+{
+  "transaction": {
+    "new": "Yeni İşlem Ekle",
+    "add": "İşlem Ekle",
+    "edit": "İşlemi Düzenle",
+    "success": {
+      "title": "İşlem Başarılı",
+      "description": "İşlem başarıyla eklendi."
+    },
+    "updateSuccess": {
+      "title": "Düzenleme Başarılı",
+      "description": "İşlem başarıyla güncellendi."
+    }
+  },
+  "form": {
+    "amount": {
+      "label": "Tutar",
+      "placeholder": "0"
+    },
+    "type": {
+      "label": "İşlem Türü",
+      "income": "Gelir",
+      "expense": "Gider"
+    },
+    "date": {
+      "label": "Tarih",
+      "placeholder": "Tarih seçin"
+    },
+    "time": {
+      "label": "Saat",
+      "hour": "Saat",
+      "minute": "Dakika"
+    },
+    "description": {
+      "label": "Açıklama (İsteğe Bağlı)",
+      "placeholder": "İşlem açıklaması girin"
+    },
+    "category": {
+      "label": "Kategori",
+      "placeholder": "Kategori seçin",
+      "noCategory": "Kategorisiz"
+    },
+    "subcategory": {
+      "label": "Alt Kategori",
+      "placeholder": "Alt kategori seçin",
+      "noSubcategory": "Alt kategori yok"
+    }
+  },
+  "statement": {
+    "title": "Ekstre Bilgisi",
+    "current": "Mevcut Ekstre:",
+    "period": "Dönem:",
+    "lockToggle": "Ekstreyi Kilitle/Aç"
+  },
+  "errors": {
+    "statement": {
+      "loadFailed": "Ekstre bilgisi yüklenemedi",
+      "notFound": "Ekstre bulunamadı"
+    },
+    "transaction": {
+      "noValidStatement": "Seçilen tarih için geçerli bir ekstre bulunamadı",
+      "amountRequired": "Tutar alanı zorunludur",
+      "invalidAmount": "Geçerli bir tutar giriniz",
+      "create": {
+        "failed": "İşlem oluşturulurken hata oluştu",
+        "unknownError": "Bilinmeyen bir hata oluştu"
+      },
+      "update": {
+        "title": "Düzenleme Başarısız",
+        "description": "İşlem güncellenirken hata oluştu",
+        "unknownError": "Bilinmeyen bir hata oluştu",
+        "statementNotFound": "Seçilen tarih için uygun ekstre bulunamadı"
+      }
+    }
+  },
+  "validation": {
+    "amount": {
+      "required": "Tutar alanı zorunludur",
+      "valid": "Geçerli bir tutar giriniz"
+    },
+    "date": {
+      "required": "Tarih alanı zorunludur",
+      "valid": "Geçerli bir tarih giriniz"
+    },
+    "time": {
+      "hour": {
+        "required": "Saat alanı zorunludur",
+        "valid": "Geçerli bir saat giriniz (00-23)"
+      },
+      "minute": {
+        "required": "Dakika alanı zorunludur",
+        "valid": "Geçerli bir dakika giriniz (00-59)"
+      }
+    }
+  }
+}

@@ -1,69 +1,50 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { CardContent } from '@/components/ui/card';
-import { Table, TableBody } from '@/components/ui/table';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { formatCurrency } from '@/utils/formatters/currencyFormatter';
 import { CurrencyType } from '@/modules/CashAccountsNew/cashAccountHomepage/types';
-import { Loader2 } from 'lucide-react';
-import { 
-  EmptyTransactionsState, 
-  TransactionsTableHeader,
-  TransactionRow
-} from './';
-import { AccountTransaction } from '../../../types/transaction';
+import { AccountTransaction, StatementTransactionType } from '../../../types/transaction';
+import { TransactionRow } from './TransactionRow';
+import { EmptyTransactions } from './EmptyTransactions';
 
 interface TransactionsContentProps {
-  isDeleting: boolean;
   transactions: AccountTransaction[];
   currency: CurrencyType;
+  isDeleting: boolean;
   onEditTransaction: (transaction: AccountTransaction) => void;
   onDeleteTransaction: (transaction: AccountTransaction) => void;
 }
 
-export const TransactionsContent: React.FC<TransactionsContentProps> = ({ 
-  isDeleting, 
+export const TransactionsContent: React.FC<TransactionsContentProps> = ({
   transactions,
   currency,
+  isDeleting,
   onEditTransaction,
   onDeleteTransaction
 }) => {
-  const { t } = useTranslation('StatementManagement');
+  const { t, i18n } = useTranslation(['StatementManagement', 'common']);
+  const locale = i18n.language === 'tr' ? 'tr-TR' : 'en-US';
 
-  if (isDeleting) {
-    return (
-      <CardContent>
-        <div className="flex items-center justify-center py-4">
-          <Loader2 className="h-6 w-6 animate-spin mr-2" /> 
-          <span>{t('transactions.deleting')}</span>
-        </div>
-      </CardContent>
-    );
-  }
-
+  // İşlemler boşsa
   if (!transactions || transactions.length === 0) {
-    return (
-      <CardContent>
-        <EmptyTransactionsState />
-      </CardContent>
-    );
+    return <EmptyTransactions />;
   }
 
   return (
-    <CardContent>
-      <Table>
-        <TransactionsTableHeader />
-        <TableBody>
-          {transactions.map((transaction) => (
-            <TransactionRow 
-              key={transaction.id}
-              transaction={transaction} 
-              currency={currency}
-              onEdit={onEditTransaction}
-              onDelete={onDeleteTransaction}
-            />
-          ))}
-        </TableBody>
-      </Table>
-    </CardContent>
+    <ScrollArea className="h-[400px] p-4">
+      <div className="space-y-2">
+        {transactions.map((transaction) => (
+          <TransactionRow
+            key={transaction.id}
+            transaction={transaction}
+            formatAmount={(amount) => formatCurrency(amount, locale, currency)}
+            onEdit={() => onEditTransaction(transaction)}
+            onDelete={() => onDeleteTransaction(transaction)}
+            disabled={isDeleting}
+          />
+        ))}
+      </div>
+    </ScrollArea>
   );
 };

@@ -1,0 +1,59 @@
+
+{
+  "title": "Ekstre",
+  "period": "Dönem",
+  "status": {
+    "open": "Açık",
+    "closed": "Kapalı",
+    "future": "Gelecek"
+  },
+  "details": {
+    "startDate": "Başlangıç Tarihi",
+    "endDate": "Bitiş Tarihi",
+    "startBalance": "Başlangıç Bakiyesi",
+    "endBalance": "Bitiş Bakiyesi",
+    "income": "Toplam Gelir",
+    "expenses": "Toplam Gider",
+    "netChange": "Net Değişim"
+  },
+  "transactions": {
+    "title": "İşlemler",
+    "empty": "Bu ekstrede henüz işlem bulunmuyor.",
+    "add": "İşlem Ekle",
+    "edit": "Düzenle",
+    "delete": "Sil",
+    "loading": "Yükleniyor...",
+    "filter": {
+      "all": "Tümü",
+      "income": "Gelirler",
+      "expense": "Giderler"
+    },
+    "sort": {
+      "date": "Tarihe Göre Sırala",
+      "amount": "Tutara Göre Sırala"
+    },
+    "deleteConfirmation": {
+      "title": "İşlemi Silmek İstiyor musunuz?",
+      "description": "Bu işlemi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz."
+    },
+    "deleteSuccess": "İşlem başarıyla silindi"
+  },
+  "errors": {
+    "statement": {
+      "load": {
+        "failed": "Ekstre bilgileri yüklenemedi"
+      },
+      "detail": {
+        "failed": "Ekstre detayları alınamadı"
+      }
+    },
+    "transaction": {
+      "load": {
+        "failed": "İşlemler yüklenemedi"
+      },
+      "delete": {
+        "failed": "İşlem silinirken bir hata oluştu"
+      }
+    }
+  }
+}

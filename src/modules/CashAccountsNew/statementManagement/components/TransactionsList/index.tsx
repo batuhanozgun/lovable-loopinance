@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { CurrencyType } from '@/modules/CashAccountsNew/cashAccountHomepage/types';
 import { useTransactionsList } from '../../hooks/useTransactionsList';
@@ -13,6 +13,8 @@ import {
   TransactionsLoadingSkeleton,
   DeleteTransactionDialog
 } from './components';
+import { TransactionEditForm } from '../../../transactionManagement/components/TransactionEditForm';
+import { Transaction, TransactionType } from '../../../transactionManagement/types';
 
 interface TransactionsListProps {
   statementId: string;
@@ -47,7 +49,7 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
     }
   }, [setRefetchCallback, refetch]);
   
-  // İşlem silme işlemleri için kancamız - artık tüm durum yönetimi burada
+  // İşlem silme işlemleri için kancamız
   const {
     selectedTransaction,
     isDeleteDialogOpen,
@@ -57,13 +59,38 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
     handleConfirmDelete
   } = useTransactionDelete(refetch);
 
+  // Düzenleme işlemi için state
+  const [isEditFormOpen, setIsEditFormOpen] = useState(false);
+  const [transactionToEdit, setTransactionToEdit] = useState<Transaction | null>(null);
+
   // Düzenleme işlemi için
   const handleEditTransaction = (transaction: AccountTransaction) => {
-    // Düzenleme modalı daha sonra uygulanacak
-    toast({
-      title: t('common:info', { ns: 'common' }),
-      description: t('common:featureComingSoon', { ns: 'common' }),
-    });
+    // AccountTransaction tipini Transaction tipine dönüştür
+    const transactionForEdit: Transaction = {
+      id: transaction.id,
+      account_id: transaction.account_id,
+      statement_id: transaction.statement_id,
+      amount: transaction.amount,
+      transaction_type: transaction.transaction_type === 'income' 
+        ? TransactionType.INCOME 
+        : TransactionType.EXPENSE,
+      transaction_date: transaction.transaction_date,
+      transaction_time: transaction.transaction_time,
+      description: transaction.description,
+      category_id: transaction.category_id,
+      subcategory_id: transaction.subcategory_id,
+      created_at: transaction.created_at,
+      updated_at: transaction.updated_at
+    };
+
+    setTransactionToEdit(transactionForEdit);
+    setIsEditFormOpen(true);
+  };
+  
+  // Düzenleme formunu kapat
+  const handleCloseEditForm = () => {
+    setIsEditFormOpen(false);
+    setTransactionToEdit(null);
   };
   
   // Yükleme durumu
@@ -95,6 +122,17 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
         setIsOpen={handleCloseDeleteDialog}
         onConfirm={handleConfirmDelete}
       />
+
+      {/* İşlem Düzenleme Formu */}
+      {transactionToEdit && (
+        <TransactionEditForm
+          transaction={transactionToEdit}
+          currency={currency}
+          isOpen={isEditFormOpen}
+          onClose={handleCloseEditForm}
+          onSuccess={refetch}
+        />
+      )}
     </Card>
   );
 };

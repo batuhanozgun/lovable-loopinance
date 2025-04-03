@@ -1,0 +1,97 @@
+
+{
+  "transaction": {
+    "new": "Add New Transaction",
+    "add": "Add Transaction",
+    "edit": "Edit Transaction",
+    "success": {
+      "title": "Transaction Success",
+      "description": "Transaction has been added successfully."
+    },
+    "updateSuccess": {
+      "title": "Update Success",
+      "description": "Transaction has been updated successfully."
+    }
+  },
+  "form": {
+    "amount": {
+      "label": "Amount",
+      "placeholder": "0"
+    },
+    "type": {
+      "label": "Transaction Type",
+      "income": "Income",
+      "expense": "Expense"
+    },
+    "date": {
+      "label": "Date",
+      "placeholder": "Select date"
+    },
+    "time": {
+      "label": "Time",
+      "hour": "Hour",
+      "minute": "Minute"
+    },
+    "description": {
+      "label": "Description (Optional)",
+      "placeholder": "Enter transaction description"
+    },
+    "category": {
+      "label": "Category",
+      "placeholder": "Select category",
+      "noCategory": "No Category"
+    },
+    "subcategory": {
+      "label": "Subcategory",
+      "placeholder": "Select subcategory",
+      "noSubcategory": "No Subcategory"
+    }
+  },
+  "statement": {
+    "title": "Statement Information",
+    "current": "Current Statement:",
+    "period": "Period:",
+    "lockToggle": "Lock/Unlock Statement"
+  },
+  "errors": {
+    "statement": {
+      "loadFailed": "Failed to load statement information",
+      "notFound": "Statement not found"
+    },
+    "transaction": {
+      "noValidStatement": "No valid statement found for the selected date",
+      "amountRequired": "Amount is required",
+      "invalidAmount": "Please enter a valid amount",
+      "create": {
+        "failed": "Error occurred while creating transaction",
+        "unknownError": "An unknown error occurred"
+      },
+      "update": {
+        "title": "Update Failed",
+        "description": "Error occurred while updating transaction",
+        "unknownError": "An unknown error occurred",
+        "statementNotFound": "No valid statement found for the selected date"
+      }
+    }
+  },
+  "validation": {
+    "amount": {
+      "required": "Amount is required",
+      "valid": "Please enter a valid amount"
+    },
+    "date": {
+      "required": "Date is required",
+      "valid": "Please enter a valid date"
+    },
+    "time": {
+      "hour": {
+        "required": "Hour is required",
+        "valid": "Please enter a valid hour (00-23)"
+      },
+      "minute": {
+        "required": "Minute is required",
+        "valid": "Please enter a valid minute (00-59)"
+      }
+    }
+  }
+}
