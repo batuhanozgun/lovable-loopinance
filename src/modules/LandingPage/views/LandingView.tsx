@@ -30,13 +30,15 @@ export const LandingView = () => {
   }, [logComponentView]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-background relative overflow-x-hidden">
       <LandingHeader />
-      <main className={`flex-1 ${isMobile ? 'pt-10' : 'pt-12'}`}>
+      <main className={`flex-1 ${isMobile ? 'pt-16' : 'pt-20'}`}>
         <HeroSection />
-        <FeatureSection />
-        <PricingSection />
-        <CtaSection />
+        <div className="relative">
+          <FeatureSection />
+          <PricingSection />
+          <CtaSection />
+        </div>
       </main>
       <LandingFooter />
     </div>
