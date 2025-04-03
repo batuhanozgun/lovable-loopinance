@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -9,32 +9,68 @@ import { useAnalyticsLogger } from "../../logging/analytics.logger";
 export const HeroSection = () => {
   const { t } = useTranslation("LandingPage");
   const { logComponentView } = useAnalyticsLogger();
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
     logComponentView('HeroSection');
+    
+    // İlk yüklemede tema durumunu kontrol et
+    const checkTheme = () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      setIsDarkMode(isDark);
+    };
+
+    // Sayfa yüklendiğinde tema durumunu kontrol et
+    checkTheme();
+
+    // Tema değişimini izle
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.attributeName === 'class' &&
+          mutation.target === document.documentElement
+        ) {
+          checkTheme();
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, { attributes: true });
+
+    // Temizlik
+    return () => observer.disconnect();
   }, [logComponentView]);
 
   return (
-    <section className="py-12 px-4 bg-gradient-to-r from-[rgba(250,250,250,1)] via-[rgba(108,154,229,1)] to-[rgba(0,140,158,1)] dark:from-[hsla(210,13%,40%,1)] dark:via-[hsla(185,94%,7%,1)] dark:to-[hsla(0,100%,4%,1)]">
-      <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 items-center">
-        <div className="space-y-4">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground">{t("hero.title")}</h1>
-          <p className="text-base text-gray-700 dark:text-gray-300 mb-6 max-w-xl">{t("hero.subtitle")}</p>
-          <div className="flex flex-col sm:flex-row gap-3">
-            <Button size="sm" asChild className="text-sm px-3 py-1 h-8">
+    <section className="py-8 px-4 bg-gradient-to-r from-[rgba(250,250,250,1)] via-[rgba(108,154,229,0.7)] to-[rgba(0,140,158,1)] dark:from-[hsla(210,13%,40%,1)] dark:via-[hsla(185,94%,7%,1)] dark:to-[hsla(0,100%,4%,1)]">
+      <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6 items-center">
+        <div className="space-y-3">
+          <h1 className="text-2xl md:text-3xl font-bold text-foreground">{t("hero.title")}</h1>
+          <p className="text-sm text-gray-700 dark:text-gray-300 mb-4 max-w-xl">{t("hero.subtitle")}</p>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <Button size="sm" asChild className="text-xs px-3 py-1 h-7 shadow-md hover:shadow-lg transition-all">
               <Link to="/signup">
                 {t("hero.cta.primary")} <ArrowRight className="ml-1 h-3 w-3" />
               </Link>
             </Button>
-            <Button variant="outline" size="sm" asChild className="text-sm px-3 py-1 h-8">
+            <Button variant="outline" size="sm" asChild className="text-xs px-3 py-1 h-7 border-border/60 backdrop-blur-sm">
               <Link to="#features">{t("hero.cta.secondary")}</Link>
             </Button>
           </div>
         </div>
-        <div className="bg-muted/80 backdrop-blur-sm rounded-lg aspect-video flex items-center justify-center shadow-md">
-          <div className="text-muted-foreground p-6 text-center">
-            <p className="text-base font-medium">{t("hero.image.alt")}</p>
-          </div>
+        <div className="bg-muted/50 backdrop-blur-md rounded-lg overflow-hidden aspect-video flex items-center justify-center shadow-lg relative">
+          {/* Light mode görseli */}
+          <img 
+            src="/lovable-uploads/51df3ccf-f69e-454f-970f-2077bdace861.png" 
+            alt={t("hero.image.alt")} 
+            className={`w-full h-full object-cover rounded-lg absolute top-0 left-0 transition-opacity duration-500 shadow-inner ${isDarkMode ? 'opacity-0' : 'opacity-100'}`}
+          />
+          {/* Dark mode görseli */}
+          <img 
+            src="/lovable-uploads/e9f8067e-6751-4920-b74e-8b5e742a2f3c.png" 
+            alt={t("hero.image.alt")} 
+            className={`w-full h-full object-cover rounded-lg absolute top-0 left-0 transition-opacity duration-500 shadow-inner ${isDarkMode ? 'opacity-100' : 'opacity-0'}`}
+          />
         </div>
       </div>
     </section>
