@@ -1,5 +1,3 @@
-
-
 import { supabase } from "@/integrations/supabase/client";
 import { Transaction, TransactionType, TransactionResponse } from "../types";
 import { StatementFinderService } from "./StatementFinderService";
@@ -111,9 +109,15 @@ export class TransactionUpdateService {
       // İşlem güncellendikten sonra etkilenen ekstre(leri) tekrar hesapla ve zincirleme yap
       await this.recalculateAffectedStatements(existingTransaction.account_id, oldStatementId, statementId);
       
+      // Supabase'den dönen string transaction_type'ı enum'a dönüştür
+      const convertedData: Transaction = {
+        ...data,
+        transaction_type: data.transaction_type as TransactionType
+      };
+      
       return {
         success: true,
-        data
+        data: convertedData
       };
     } catch (error) {
       this.logger.error('İşlem güncellemede beklenmeyen hata', { transactionId, error });
@@ -170,4 +174,3 @@ export class TransactionUpdateService {
     }
   }
 }
-

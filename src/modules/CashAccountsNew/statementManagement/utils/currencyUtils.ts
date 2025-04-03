@@ -15,7 +15,7 @@ import { CurrencyType } from '@/modules/CashAccountsNew/cashAccountHomepage/type
 export const formatCurrency = (
   amount: number,
   locale: string = 'tr-TR',
-  currency: CurrencyType = 'TRY'
+  currency: CurrencyType = CurrencyType.TRY
 ): string => {
   try {
     return new Intl.NumberFormat(locale, {
