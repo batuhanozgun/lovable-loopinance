@@ -22,7 +22,8 @@ export const StatementDetailView: React.FC = () => {
   const { t } = useTranslation(['StatementManagement', 'common']);
   const [isTransactionFormOpen, setIsTransactionFormOpen] = useState(false);
   const queryClient = useQueryClient();
-  const transactionsListRef = useRef<{ refetch?: () => Promise<void> }>({}); // İşlem listesi bileşenine referans
+  // İşlem listesi bileşenine ait refetch fonksiyonuna referans
+  const transactionsListRef = useRef<{ refetch?: () => Promise<void> }>({});
   
   const { data: account, isLoading: isAccountLoading } = useCashAccount(accountId);
   const { data: statement, isLoading: isStatementLoading, refetch: refetchStatement } = useStatement(statementId);
