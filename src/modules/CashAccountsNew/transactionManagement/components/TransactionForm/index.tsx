@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Dialog,
@@ -56,10 +56,20 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
     lockStatement,
     toggleStatementLock,
     isEditMode
-  } = useTransactionFormSetup(accountId, statementId, transaction);
+  } = useTransactionFormSetup(
+    isOpen ? accountId : '',  // İletişim kutusu açıksa accountId'yi gönder
+    isOpen ? statementId : undefined,  // İletişim kutusu açıksa statementId'yi gönder
+    isOpen ? transaction : undefined   // İletişim kutusu açıksa transaction'ı gönder
+  );
+  
+  // Dialog kapanırken form sıfırlama
+  const handleDialogClose = () => {
+    form.reset(); // Formu sıfırla
+    onClose();    // Dialog'u kapat
+  };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={handleDialogClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>
@@ -94,7 +104,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
           isSubmitting={isSubmitting}
           isDisabled={!currentStatementId}
           currency={currencyType}
-          onClose={onClose}
+          onClose={handleDialogClose}
           isEditMode={isEditMode}
         />
       </DialogContent>

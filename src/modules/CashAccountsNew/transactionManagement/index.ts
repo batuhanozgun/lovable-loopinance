@@ -4,6 +4,9 @@
 // Components
 export { TransactionForm } from './components/TransactionForm';
 
+// Component parts
+export { StatementWarning } from './components/TransactionForm/components/StatementWarning';
+
 // Hooks
 export { useTransactionForm } from './hooks/useTransactionForm';
 export { useTransactionFormSetup } from './hooks/useTransactionFormSetup';

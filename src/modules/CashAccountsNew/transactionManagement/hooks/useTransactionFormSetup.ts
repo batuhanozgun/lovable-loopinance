@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
@@ -41,13 +42,13 @@ export const useTransactionFormSetup = (
   
   // Form durumu için değişkenler
   const [date, setDate] = useState<Date>(
-    isEditMode ? new Date(transaction!.transaction_date) : now
+    isEditMode && transaction ? new Date(transaction.transaction_date) : now
   );
   
   // Saat ayarı - eğer düzenleme moduysa, işlemin zamanını al
-  const initialTime = isEditMode
+  const initialTime = isEditMode && transaction
     ? (() => {
-        const [hour, minute] = transaction!.transaction_time.substring(0, 5).split(':');
+        const [hour, minute] = transaction.transaction_time.substring(0, 5).split(':');
         return { hour, minute };
       })()
     : { hour: currentHour, minute: roundedMinute };
@@ -55,8 +56,8 @@ export const useTransactionFormSetup = (
   const [time, setTime] = useState<{hour: string, minute: string}>(initialTime);
   
   // Kategori ayarı
-  const initialCategoryId = isEditMode 
-    ? (transaction!.category_id || "no-category") 
+  const initialCategoryId = isEditMode && transaction 
+    ? (transaction.category_id || "no-category") 
     : "no-category";
   
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>(initialCategoryId);
@@ -70,15 +71,15 @@ export const useTransactionFormSetup = (
   const formSchema = createTransactionFormSchema(t);
 
   // Form varsayılan değerleri
-  const defaultValues = isEditMode
+  const defaultValues = isEditMode && transaction
     ? {
-        amount: transaction!.amount.toString(),
-        description: transaction!.description || "",
-        transactionType: transaction!.transaction_type,
+        amount: transaction.amount.toString(),
+        description: transaction.description || "",
+        transactionType: transaction.transaction_type,
         transactionDate: date,
         transactionTime: time,
         categoryId: initialCategoryId,
-        subcategoryId: transaction!.subcategory_id || "no-subcategory",
+        subcategoryId: transaction.subcategory_id || "no-subcategory",
       }
     : {
         amount: "",
@@ -164,11 +165,12 @@ export const useTransactionFormSetup = (
     console.log('initial date:', date);
     console.log('isEditMode:', isEditMode);
     
-    if (statementId) {
-      // Eğer bir statementId verilmişse, o ekstreyi yükle
-      const loadSpecificStatement = async () => {
-        try {
-          setIsLoadingStatement(true);
+    const loadStatement = async () => {
+      try {
+        setIsLoadingStatement(true);
+        
+        if (statementId) {
+          // Belirli bir statementId verilmişse, o ekstreyi yükle
           console.log('Loading specific statement with ID:', statementId);
           
           const foundStatement = await StatementFinderService.getStatementById(statementId);
@@ -177,27 +179,28 @@ export const useTransactionFormSetup = (
             console.log('Specific statement loaded:', foundStatement);
             console.log('Statement period:', foundStatement.start_date, 'to', foundStatement.end_date);
             setCurrentStatement(foundStatement);
+            setCurrentStatementId(statementId);
           } else {
             console.warn('Provided statement not found');
             setStatementError(t("TransactionManagement:errors.statement.notFound"));
             toast.error(t("TransactionManagement:errors.statement.notFound"));
           }
-        } catch (error) {
-          console.error('Error loading specific statement:', error);
-          setStatementError(t("TransactionManagement:errors.statement.loadFailed"));
-        } finally {
-          setIsLoadingStatement(false);
+        } else {
+          // StatementId verilmemişse tarihe göre ekstre ara
+          console.log('No statementId provided, searching by date:', date);
+          await updateStatementForDate(date);
         }
-      };
-      
-      loadSpecificStatement();
-    } else {
-      // Statementid verilmemişse tarihe göre ekstre ara
-      console.log('No statementId provided, searching by date:', date);
-      updateStatementForDate(date);
-    }
+      } catch (error) {
+        console.error('Error during statement initialization:', error);
+        setStatementError(t("TransactionManagement:errors.statement.loadFailed"));
+      } finally {
+        setIsLoadingStatement(false);
+      }
+    };
+    
+    loadStatement();
     console.log('======== END INITIALIZATION LOGS ========');
-  }, []); // Boş bağımlılık dizisi ile sadece bir kez çalışır
+  }, [accountId, statementId, date, isEditMode, t]); // Bağımlılıkları düzgün şekilde ekledik
   
   // Tarih değiştiğinde ekstre güncelle
   const handleDateChange = async (newDate: Date) => {
