@@ -18,6 +18,8 @@ import { CategoryField } from "../TransactionForm/components/CategoryField";
 import { SubcategoryField } from "../TransactionForm/components/SubcategoryField";
 import { CurrencyType } from "../../../cashAccountHomepage/types";
 import { FormActions } from "../TransactionForm/components/FormActions";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface TransactionEditFormProps {
   transaction: Transaction;
@@ -38,6 +40,7 @@ export const TransactionEditForm: React.FC<TransactionEditFormProps> = ({
   onSuccess
 }) => {
   const { t } = useTranslation(["TransactionManagement", "common"]);
+  const isMobile = useIsMobile();
   
   // Transaction düzenleme hook'u
   const {
@@ -69,46 +72,50 @@ export const TransactionEditForm: React.FC<TransactionEditFormProps> = ({
           </DialogTitle>
         </DialogHeader>
         
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-3">
-            {/* İşlem Tipi */}
-            <TransactionTypeField control={form.control} />
-            
-            {/* Tarih */}
-            <DateField 
-              date={date} 
-              setDate={setDate} 
-              time={time} 
-              setTime={setTime} 
-            />
-            
-            {/* Kategori */}
-            <CategoryField 
-              control={form.control} 
-              selectedCategoryId={selectedCategoryId}
-              onCategoryChange={handleCategoryChange}
-            />
-            
-            {/* Alt Kategori */}
-            <SubcategoryField 
-              control={form.control} 
-              selectedCategoryId={selectedCategoryId} 
-            />
-            
-            {/* Tutar */}
-            <AmountField control={form.control} currency={currency} />
-            
-            {/* Açıklama */}
-            <DescriptionField control={form.control} />
-            
-            {/* Form Aksiyonları */}
-            <FormActions 
-              onClose={onClose} 
-              isSubmitting={isSubmitting}
-              isDisabled={false}
-            />
-          </form>
-        </Form>
+        <ScrollArea className={isMobile ? "max-h-[calc(85vh-80px)]" : ""}>
+          <div className="pr-4">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-3">
+                {/* İşlem Tipi */}
+                <TransactionTypeField control={form.control} />
+                
+                {/* Tarih */}
+                <DateField 
+                  date={date} 
+                  setDate={setDate} 
+                  time={time} 
+                  setTime={setTime} 
+                />
+                
+                {/* Kategori */}
+                <CategoryField 
+                  control={form.control} 
+                  selectedCategoryId={selectedCategoryId}
+                  onCategoryChange={handleCategoryChange}
+                />
+                
+                {/* Alt Kategori */}
+                <SubcategoryField 
+                  control={form.control} 
+                  selectedCategoryId={selectedCategoryId} 
+                />
+                
+                {/* Tutar */}
+                <AmountField control={form.control} currency={currency} />
+                
+                {/* Açıklama */}
+                <DescriptionField control={form.control} />
+                
+                {/* Form Aksiyonları */}
+                <FormActions 
+                  onClose={onClose} 
+                  isSubmitting={isSubmitting}
+                  isDisabled={false}
+                />
+              </form>
+            </Form>
+          </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );
