@@ -23,7 +23,7 @@ export const useTransactionsList = (statementId: string | undefined) => {
   const {
     data: transactions = [],
     isLoading,
-    refetch: queryRefetch,
+    refetch,
     error
   } = useQuery({
     queryKey: ['statementTransactions', statementId],
@@ -49,15 +49,6 @@ export const useTransactionsList = (statementId: string | undefined) => {
       }
     }
   });
-
-  // TanStack Query'nin refetch fonksiyonunu Promise<void> dönen bir fonksiyona çevirelim
-  const refetch = useCallback(async (): Promise<void> => {
-    try {
-      await queryRefetch();
-    } catch (error) {
-      console.error('Error refetching transactions:', error);
-    }
-  }, [queryRefetch]);
 
   // Filtreler uygulandığında işlemleri filtrele
   useEffect(() => {
