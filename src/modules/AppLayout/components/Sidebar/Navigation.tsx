@@ -84,7 +84,7 @@ export const Navigation: React.FC = () => {
     // Normal görünüm için ek sınıflar
     return cn(
       baseClasses,
-      "flex items-center w-full gap-3 rounded-md"
+      "flex items-center w-full gap-2 rounded-md" // gap azaltıldı
     );
   };
 
@@ -93,7 +93,7 @@ export const Navigation: React.FC = () => {
     if (!title || (!isExpanded && !isMobile)) return null;
     
     return (
-      <div className="px-3 py-2">
+      <div className="px-2 py-1">
         <h3 className="text-xs font-medium text-muted-foreground">
           {t(title)}
         </h3>
@@ -104,7 +104,7 @@ export const Navigation: React.FC = () => {
   return (
     <nav className={cn(
       SPACING.CONTAINER,
-      "space-y-1",
+      "space-y-0.5", // azaltıldı
       CSS_CLASSES.TRANSITIONS.BASE,
       (!isExpanded && !isMobile) && "items-center"
     )}>
@@ -116,7 +116,7 @@ export const Navigation: React.FC = () => {
       
       <TooltipProvider delayDuration={TRANSITION.TOOLTIP_DELAY}>
         {navGroups.map((group, groupIndex) => (
-          <div key={`group-${groupIndex}`} className="mb-3">
+          <div key={`group-${groupIndex}`} className="mb-2"> {/* azaltıldı */}
             {renderGroupTitle(group.title)}
             
             {group.items.map((item) => {
@@ -137,7 +137,7 @@ export const Navigation: React.FC = () => {
                       </a>
                     </TooltipTrigger>
                     <TooltipContent side="right" className="z-50">
-                      <p>{t(item.label)}</p>
+                      <p className="text-xs">{t(item.label)}</p> {/* metin boyutu küçültüldü */}
                     </TooltipContent>
                   </Tooltip>
                 );
@@ -153,6 +153,7 @@ export const Navigation: React.FC = () => {
                 >
                   <IconComponent size={SPACING.ICON_SIZE} className="flex-shrink-0" />
                   <span className={cn(
+                    "text-sm", // metin boyutu küçültüldü
                     CSS_CLASSES.TRANSITIONS.OPACITY,
                     (!isExpanded && !isMobile) ? CSS_CLASSES.COLLAPSED.TEXT_HIDDEN : CSS_CLASSES.COLLAPSED.TEXT_VISIBLE
                   )}>
@@ -163,7 +164,7 @@ export const Navigation: React.FC = () => {
             })}
             
             {groupIndex < navGroups.length - 1 && isExpanded && (
-              <Separator className="my-2" />
+              <Separator className="my-1.5" /> {/* azaltıldı */}
             )}
           </div>
         ))}

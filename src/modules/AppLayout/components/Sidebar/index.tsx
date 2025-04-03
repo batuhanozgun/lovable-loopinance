@@ -1,3 +1,4 @@
+
 import React, { useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -58,7 +59,7 @@ export const Sidebar: React.FC = () => {
     if (isMobile) return null;
 
     return (
-      <TooltipProvider delayDuration={500}>
+      <TooltipProvider delayDuration={400}>
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
@@ -66,7 +67,7 @@ export const Sidebar: React.FC = () => {
               size="icon"
               className={cn(
                 "absolute right-0 translate-x-1/2 top-2 z-20",
-                "h-8 w-8 rounded-full p-0 flex justify-center items-center",
+                "h-6 w-6 rounded-full p-0 flex justify-center items-center",
                 "bg-background/80 backdrop-blur-sm border shadow-sm",
                 CSS_CLASSES.TRANSITIONS.BASE,
                 "hover:bg-accent/50"
@@ -78,9 +79,9 @@ export const Sidebar: React.FC = () => {
               }
             >
               {isExpanded ? (
-                <ChevronLeft size={16} className="text-sidebar-foreground" />
+                <ChevronLeft size={14} className="text-sidebar-foreground" />
               ) : (
-                <ChevronRight size={16} className="text-sidebar-foreground" />
+                <ChevronRight size={14} className="text-sidebar-foreground" />
               )}
             </Button>
           </TooltipTrigger>
@@ -133,12 +134,12 @@ export const Sidebar: React.FC = () => {
             `z-[${Z_INDEX.SIDEBAR_MOBILE}]`,
             isExpanded ? "animate-slide-in-left" : "animate-slide-out-left -translate-x-full",
             // Mobilde header altında başlamasını sağla
-            "mt-16" // header yüksekliği kadar margin-top
+            "mt-12" // Header yüksekliği kadar margin-top - küçültüldü
           )}
           style={{ 
             width: effectiveWidth, 
             // Header + Bottom Nav height
-            height: `calc(100vh - ${HEADER_HEIGHT.mobile}px - 64px)` 
+            height: `calc(100vh - ${HEADER_HEIGHT.mobile}px - 56px)` // BottomNav yüksekliği - düşürüldü
           }}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
@@ -150,7 +151,7 @@ export const Sidebar: React.FC = () => {
     );
   }
 
-  // Desktop görünüm - mouseover ve mouseout event'leri kaldırıldı
+  // Desktop görünüm
   return (
     <aside 
       className={cn(

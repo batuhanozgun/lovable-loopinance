@@ -49,8 +49,8 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
 
   return (
     <header className={cn(
-      "flex items-center pl-4 border-b bg-background/80 backdrop-blur-sm",
-      "sticky top-0 z-10 transition-all duration-200",
+      "flex items-center pl-3 border-b bg-background/90 backdrop-blur-sm",
+      "sticky top-0 z-10 transition-all duration-200 h-12", // Yükseklik küçültüldü ve sabit yapıldı
       className
     )}>
       <div className="flex w-full items-center justify-between">
@@ -76,7 +76,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
       {/* Mobil görünümde başlık için ayrı bir alan */}
       <div className="md:hidden w-full text-center absolute left-0 bottom-0 transform translate-y-full">
         {pageTitle && (
-          <span className="text-xs text-muted-foreground bg-background/80 backdrop-blur-sm px-2 py-1 rounded-b-md">
+          <span className="text-xs text-muted-foreground bg-background/90 backdrop-blur-sm px-2 py-0.5 rounded-b-md">
             {pageTitle}
           </span>
         )}

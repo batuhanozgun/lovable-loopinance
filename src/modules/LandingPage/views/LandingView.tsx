@@ -32,7 +32,7 @@ export const LandingView = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background relative overflow-x-hidden">
       <LandingHeader />
-      <main className={`flex-1 ${isMobile ? 'pt-16' : 'pt-20'}`}>
+      <main className={`flex-1 ${isMobile ? 'pt-14' : 'pt-16'}`}>
         <HeroSection />
         <div className="relative">
           <FeatureSection />

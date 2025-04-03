@@ -37,7 +37,7 @@ export const QuickActions: React.FC = () => {
                 variant="ghost" 
                 size="sm"
                 className={cn(
-                  "w-full",
+                  "w-full h-7", // yükseklik düşürüldü
                   CSS_CLASSES.COLLAPSED.ICON_ONLY,
                   CSS_CLASSES.COLORS.TEXT,
                   CSS_CLASSES.COLORS.ACCENT_HOVER
@@ -48,7 +48,7 @@ export const QuickActions: React.FC = () => {
               </Button>
             </TooltipTrigger>
             <TooltipContent side="right">
-              <p>{t('AppLayout:sidebar.quickActions')}</p>
+              <p className="text-xs">{t('AppLayout:sidebar.quickActions')}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -71,7 +71,7 @@ export const QuickActions: React.FC = () => {
         variant="ghost" 
         size="sm"
         className={cn(
-          "w-full",
+          "w-full h-7", // yükseklik düşürüldü
           CSS_CLASSES.COLORS.TEXT,
           CSS_CLASSES.COLORS.ACCENT_HOVER,
           CSS_CLASSES.TRANSITIONS.BASE,
@@ -81,7 +81,7 @@ export const QuickActions: React.FC = () => {
       >
         {showQuickActions ? <X size={SPACING.ICON_SIZE} /> : <Plus size={SPACING.ICON_SIZE} />}
         {isExpanded && (
-          <span className={CSS_CLASSES.TRANSITIONS.OPACITY}>
+          <span className={cn("text-sm", CSS_CLASSES.TRANSITIONS.OPACITY)}>
             {t('AppLayout:sidebar.quickActions')}
           </span>
         )}
@@ -89,8 +89,8 @@ export const QuickActions: React.FC = () => {
 
       {/* QuickActions menüsü gelecekte buraya eklenecek */}
       {showQuickActions && isExpanded && (
-        <div className="mt-2 p-2 bg-sidebar-accent rounded-md animate-fade-in">
-          <p className="text-sm text-sidebar-foreground">{t('AppLayout:sidebar.comingSoon')}</p>
+        <div className="mt-1.5 p-2 bg-sidebar-accent rounded-md animate-fade-in">
+          <p className="text-xs text-sidebar-foreground">{t('AppLayout:sidebar.comingSoon')}</p>
         </div>
       )}
     </div>

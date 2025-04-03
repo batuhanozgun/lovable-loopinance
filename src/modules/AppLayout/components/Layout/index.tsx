@@ -28,7 +28,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="flex flex-1 overflow-hidden">
           <Sidebar />
           <main 
-            className="flex-1 bg-background pb-16 md:pb-0 flex flex-col"
+            className="flex-1 bg-background pb-14 md:pb-0 flex flex-col"
             style={{ height: `calc(100vh - ${HEADER_HEIGHT.desktop}px)` }}
           >
             <PageContainer className="flex-1 overflow-y-auto">

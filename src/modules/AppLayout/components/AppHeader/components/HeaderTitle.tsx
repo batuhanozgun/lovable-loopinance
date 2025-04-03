@@ -40,23 +40,23 @@ export const HeaderTitle: React.FC<HeaderTitleProps> = ({
   if (!showTimestamp && !description) {
     return (
       <div className={className}>
-        <h1 className="text-xl md:text-2xl font-semibold tracking-tight">{titleText}</h1>
+        <h1 className="text-lg md:text-xl font-semibold tracking-tight">{titleText}</h1>
       </div>
     );
   }
 
   return (
-    <div className={cn('space-y-1', className)}>
-      <h1 className="text-xl md:text-2xl font-semibold tracking-tight">{titleText}</h1>
+    <div className={cn('space-y-0.5', className)}>
+      <h1 className="text-lg md:text-xl font-semibold tracking-tight">{titleText}</h1>
       {description && (
-        <p className="text-sm md:text-base text-muted-foreground">
+        <p className="text-xs md:text-sm text-muted-foreground">
           {descriptionText}
         </p>
       )}
       
       {showTimestamp && (
         <div className="flex items-center text-xs text-muted-foreground">
-          <Clock size={14} className="mr-1" />
+          <Clock size={12} className="mr-1" />
           <span>
             {t("Dashboard:lastUpdated", { time: timestampText })}
           </span>

@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, Link } from "react-router-dom";
@@ -43,20 +44,20 @@ export const BottomNav: React.FC = () => {
   };
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-background border-t border-border flex items-center justify-around z-40">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 h-14 bg-background border-t border-border flex items-center justify-around z-40">
       {navItems.map((item, index) => {
         const isActive = location.pathname === item.path;
         
         // Orta konumda FAB butonunu yerleştir
         if (index === 2) {
           return (
-            <div key="fab-container" className="relative -mt-6">
+            <div key="fab-container" className="relative -mt-5">
               <Button
                 onClick={handleNewTransactionClick}
                 size="icon"
                 variant="gradient"
                 className={cn(
-                  "h-14 w-14 rounded-full",
+                  "h-12 w-12 rounded-full",
                   "shadow-lg hover:shadow-xl",
                   "transition-all duration-300 ease-in-out",
                   "scale-100 hover:scale-105",
@@ -65,7 +66,7 @@ export const BottomNav: React.FC = () => {
                 aria-label={t("AppLayout:navigation.newTransaction")}
               >
                 <PlusCircle 
-                  size={26} 
+                  size={22} 
                   className={cn(
                     "text-slate-900 dark:text-primary-foreground", 
                     "transition-transform duration-300 group-hover:rotate-90"
@@ -91,7 +92,7 @@ export const BottomNav: React.FC = () => {
                   isActive ? "text-primary" : "text-muted-foreground"
                 )}
               >
-                <IconComponent size={24} className="mb-0.5" />
+                <IconComponent size={20} className="mb-0.5" />
                 <span className="text-xs font-medium">{item.label}</span>
               </div>
             </Link>

@@ -6,17 +6,17 @@
 
 // Animasyon ve Geçiş Süreleri
 export const TRANSITION = {
-  DURATION: 300, // ms
-  HOVER_DELAY: 150, // ms - arttırıldı tutarlılık için
-  TOOLTIP_DELAY: 500, // ms - arttırıldı hover işlemi için yeterli süre vermek için
+  DURATION: 250, // ms - hafifçe azaltıldı daha hızlı geçiş için
+  HOVER_DELAY: 100, // ms - azaltıldı daha hızlı tepki için
+  TOOLTIP_DELAY: 400, // ms - azaltıldı
   EASING: 'cubic-bezier(0.4, 0, 0.2, 1)', // ease-in-out benzeri
 } as const;
 
 // Sidebar genişlik değerleri - ekran boyutuna göre
 export const SIDEBAR_WIDTHS = {
-  EXPANDED: '16rem',   // 256px - tam genişlik
-  COLLAPSED: '4.5rem', // 72px - daraltılmış
-  MOBILE: '18rem',     // 288px - mobil (biraz daha geniş)
+  EXPANDED: '14rem',   // 224px - daha kompakt
+  COLLAPSED: '3.5rem', // 56px - daha kompakt daraltılmış mod
+  MOBILE: '16rem',     // 256px - mobil (biraz daha dar)
 } as const;
 
 // Responsive breakpoint değerleri
@@ -36,25 +36,23 @@ export const Z_INDEX = {
 
 // Spacing ve padding değerleri
 export const SPACING = {
-  CONTAINER: 'p-4',
-  NAV_ITEM: 'px-3 py-2',
-  SECTION: 'p-4',
-  ITEM_GAP: 'gap-2',
-  ICON_SIZE: 18,
+  CONTAINER: 'p-3',   // azaltıldı
+  NAV_ITEM: 'px-2 py-1.5', // azaltıldı
+  SECTION: 'p-3',     // azaltıldı
+  ITEM_GAP: 'gap-1.5', // azaltıldı
+  ICON_SIZE: 16,      // küçültüldü
 } as const;
 
 // CSS class helper fonksiyonları
 export const CSS_CLASSES = {
   // Daraltılmış mod (mobile olmayan durumlarda)
   COLLAPSED: {
-    CONTAINER: 'transition-all duration-300 flex',
+    CONTAINER: 'transition-all duration-250 flex',
     CONTENT_VISIBLE: 'opacity-100 visible translate-x-0',
-    // Transform değerini kaldırarak ikonların görünür kalmasını sağlıyoruz
-    CONTENT_HIDDEN: 'opacity-0 invisible', // -translate-x-2 kaldırıldı
+    CONTENT_HIDDEN: 'opacity-0 invisible',
     ICON_ONLY: 'justify-center',
     WITH_TEXT: 'justify-start',
-    // İkon ve metin için ayrı geçiş stillerini ekliyoruz
-    ICON: 'opacity-100', // İkonlar her zaman görünür kalacak
+    ICON: 'opacity-100',
     TEXT_VISIBLE: 'opacity-100 visible max-w-full',
     TEXT_HIDDEN: 'opacity-0 invisible max-w-0',
   },
