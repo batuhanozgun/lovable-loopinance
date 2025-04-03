@@ -49,8 +49,8 @@ export const DateField: React.FC<DateFieldProps> = ({
   };
 
   return (
-    <div className="space-y-2">
-      <FormItem className="flex flex-col">
+    <div className="flex gap-2">
+      <FormItem className="flex flex-col flex-1">
         <FormLabel className="text-xs mb-1">{t("TransactionManagement:transaction.date")}</FormLabel>
         <Popover>
           <PopoverTrigger asChild>
@@ -80,7 +80,7 @@ export const DateField: React.FC<DateFieldProps> = ({
         </Popover>
       </FormItem>
 
-      <FormItem className="flex flex-col">
+      <FormItem className="flex flex-col w-[40%]">
         <FormLabel className="text-xs mb-1">{t("TransactionManagement:transaction.time")}</FormLabel>
         <div className="flex space-x-2 items-center">
           <div className="flex-1 flex items-center">
