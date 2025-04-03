@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,8 +11,7 @@ import {
   TransactionsLoadingSkeleton,
   TransactionsTableHeader,
   TransactionRow,
-  DeleteTransactionDialog,
-  EditTransactionDialog
+  DeleteTransactionDialog
 } from './components';
 import { useTransactionsList } from '../../hooks/useTransactionsList';
 import { AccountTransaction } from '../../types/transaction';
@@ -37,19 +35,18 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
   const queryClient = useQueryClient();
   const [selectedTransaction, setSelectedTransaction] = useState<AccountTransaction | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   
   // Diyalog açıkken/kapandığında CSS sınıfını ekleyip kaldıracak useEffect hook'u
   useEffect(() => {
-    if (isDeleteDialogOpen || isEditDialogOpen) {
+    if (isDeleteDialogOpen) {
       document.body.classList.add('modal-open');
     } else {
       document.body.classList.remove('modal-open');
       // Ek önlem olarak pointer-events'i doğrudan da ayarla
       document.body.style.pointerEvents = 'auto';
     }
-  }, [isDeleteDialogOpen, isEditDialogOpen]);
+  }, [isDeleteDialogOpen]);
   
   // Veri çekme ve filtreleme işlemleri için kancamızı kullanıyoruz
   const { 
@@ -73,7 +70,11 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
   // Düzenleme işlemi için
   const handleEditTransaction = (transaction: AccountTransaction) => {
     setSelectedTransaction(transaction);
-    setIsEditDialogOpen(true);
+    // Düzenleme modalı daha sonra uygulanacak
+    toast({
+      title: t('common:info', { ns: 'common' }),
+      description: t('common:featureComingSoon', { ns: 'common' }),
+    });
   };
 
   // Silme işlemi için
@@ -192,15 +193,6 @@ export const TransactionsList: React.FC<TransactionsListProps> = ({
         isOpen={isDeleteDialogOpen}
         setIsOpen={setIsDeleteDialogOpen}
         onConfirm={handleConfirmDelete}
-      />
-      
-      {/* İşlem Düzenleme İletişim Kutusu */}
-      <EditTransactionDialog
-        transaction={selectedTransaction}
-        isOpen={isEditDialogOpen}
-        onClose={() => setIsEditDialogOpen(false)}
-        onSuccess={refreshAllData}
-        currency={currency}
       />
     </Card>
   );
