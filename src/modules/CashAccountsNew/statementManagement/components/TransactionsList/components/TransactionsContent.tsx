@@ -2,7 +2,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { formatCurrency } from '@/utils/formatters/currencyFormatter';
+import { formatCurrency } from '@/modules/CashAccountsNew/statementManagement/utils/currencyUtils';
 import { CurrencyType } from '@/modules/CashAccountsNew/cashAccountHomepage/types';
 import { AccountTransaction, StatementTransactionType } from '../../../types/transaction';
 import { TransactionRow } from './TransactionRow';
