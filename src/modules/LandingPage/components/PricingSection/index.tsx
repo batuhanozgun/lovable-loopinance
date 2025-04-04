@@ -8,7 +8,16 @@ import { Check, BadgePercent, Shield, Clock, Star } from 'lucide-react';
 import { useSubscriptionPrice } from '@/modules/Subscription/views/management/shared/hooks/useSubscriptionPrice';
 import { useSubscriptionLocale } from '@/modules/Subscription/views/management/shared/hooks/useSubscriptionLocale';
 import { formatPrice } from '@/modules/Subscription/views/management/shared/utils/formatters';
-import { Badge } from '@/components/ui/badge';
+
+import {
+  Section,
+  Container,
+  Heading,
+  Text,
+  Grid,
+  Badge,
+  IconWrapper
+} from '@/modules/LandingPage/styles';
 
 export const PricingSection = () => {
   const { t } = useTranslation('LandingPage');
@@ -29,22 +38,31 @@ export const PricingSection = () => {
   ];
   
   return (
-    <section id="pricing" className="py-12 px-4 bg-background">
-      <div className="max-w-5xl mx-auto">
+    <Section id="pricing" variant="pricing" background="none">
+      <Container size="default">
         <div className="text-center mb-10">
-          <h2 className="text-2xl font-bold mb-3">{t('pricing.title')}</h2>
-          <p className="text-base text-muted-foreground max-w-xl mx-auto">
+          <Heading level="h2" className="mb-3">
+            {t('pricing.title')}
+          </Heading>
+          
+          <Text variant="muted" className="max-w-xl mx-auto">
             {t('pricing.subtitle')}
-          </p>
+          </Text>
+          
           <div className="flex items-center justify-center gap-1.5 mt-3">
-            <Badge variant="outline" className="bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 border-blue-200 dark:border-blue-800 px-2 py-1 text-xs">
-              <Clock className="h-3 w-3 mr-1" />
+            <Badge 
+              variant="outline" 
+              className="bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300 border-blue-200 dark:border-blue-800 px-2 py-1 text-xs"
+            >
+              <IconWrapper variant="primary" size="xs" className="mr-1">
+                <Clock />
+              </IconWrapper>
               {t('pricing.trial.info')}
             </Badge>
           </div>
         </div>
         
-        <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+        <Grid cols={2} gap="md" className="max-w-3xl mx-auto">
           {/* Monthly Plan Card */}
           <Card className="border border-border flex flex-col h-full">
             <CardHeader className="pb-1 p-4">
@@ -67,8 +85,10 @@ export const PricingSection = () => {
               <div className="space-y-2">
                 {features.map((feature, index) => (
                   <div key={index} className="flex items-start">
-                    <Check className="h-3 w-3 text-green-500 mr-1.5 flex-shrink-0 mt-0.5" />
-                    <span className="text-xs">{feature}</span>
+                    <IconWrapper variant="primary" size="xs" className="mr-1.5 mt-0.5">
+                      <Check />
+                    </IconWrapper>
+                    <Text size="xs">{feature}</Text>
                   </div>
                 ))}
               </div>
@@ -91,7 +111,9 @@ export const PricingSection = () => {
             <CardHeader className="pb-1 p-4">
               <div className="flex items-center gap-1.5 mb-0.5">
                 <CardTitle className="text-lg">{t('pricing.yearly.title')}</CardTitle>
-                <BadgePercent className="h-4 w-4 text-primary" />
+                <IconWrapper variant="primary" size="xs">
+                  <BadgePercent />
+                </IconWrapper>
               </div>
               <CardDescription className="text-xs">{t('pricing.yearly.description')}</CardDescription>
             </CardHeader>
@@ -119,8 +141,10 @@ export const PricingSection = () => {
               <div className="space-y-2">
                 {features.map((feature, index) => (
                   <div key={index} className="flex items-start">
-                    <Check className="h-3 w-3 text-green-500 mr-1.5 flex-shrink-0 mt-0.5" />
-                    <span className="text-xs">{feature}</span>
+                    <IconWrapper variant="primary" size="xs" className="mr-1.5 mt-0.5">
+                      <Check />
+                    </IconWrapper>
+                    <Text size="xs">{feature}</Text>
                   </div>
                 ))}
               </div>
@@ -133,21 +157,25 @@ export const PricingSection = () => {
               </Button>
             </CardFooter>
           </Card>
-        </div>
+        </Grid>
         
         <div className="mt-8 text-center">
           <div className="flex flex-col items-center justify-center gap-2 p-3 bg-slate-50 dark:bg-slate-900 rounded-lg max-w-md mx-auto">
             <div className="flex items-center gap-1.5">
-              <Star className="h-3 w-3 text-blue-500" />
-              <p className="text-xs font-medium">{t('pricing.trial.description')}</p>
+              <IconWrapper variant="primary" size="xs">
+                <Star />
+              </IconWrapper>
+              <Text size="xs" weight="medium">{t('pricing.trial.description')}</Text>
             </div>
             <div className="flex items-center gap-1.5">
-              <Shield className="h-3 w-3 text-muted-foreground" />
-              <p className="text-xs text-muted-foreground">{t('pricing.guarantee')}</p>
+              <IconWrapper variant="muted" size="xs">
+                <Shield />
+              </IconWrapper>
+              <Text size="xs" variant="muted">{t('pricing.guarantee')}</Text>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 };

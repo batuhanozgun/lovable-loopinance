@@ -3,41 +3,96 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { useState, useEffect } from "react";
+import { 
+  Section, 
+  Container, 
+  Heading, 
+  Text,
+  IconWrapper
+} from "@/modules/LandingPage/styles";
+import { backgrounds } from "@/modules/LandingPage/constants/tokens";
 
 export const HeroSection = () => {
-  const { t } = useTranslation(["LandingPage", "common"]);
-  
+  const { t } = useTranslation("LandingPage");
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Tema durumunu izle
+  useEffect(() => {
+    // İlk yüklemede tema durumunu kontrol et
+    const checkTheme = () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      setIsDarkMode(isDark);
+    };
+
+    // Sayfa yüklendiğinde tema durumunu kontrol et
+    checkTheme();
+
+    // Tema değişimini izle
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.attributeName === 'class' &&
+          mutation.target === document.documentElement
+        ) {
+          checkTheme();
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, { attributes: true });
+
+    // Temizlik
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="px-4 py-20 md:py-32 relative overflow-hidden">
-      <div className="absolute inset-0 bg-grid-pattern bg-muted/50 opacity-30 z-0"></div>
-      <div className="max-w-5xl mx-auto relative z-10">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-[rgb(84,85,89)] via-[rgb(108,154,229)] to-[rgb(0,140,158)] bg-clip-text text-transparent">
-            {t("hero.title")}
-          </h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-            {t("hero.subtitle")}
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button size="lg" asChild>
-              <Link to="/signup">{t("hero.cta.primary")}</Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
-              <Link to="/features" className="inline-flex items-center">
-                {t("hero.cta.secondary")} <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
+    <Section variant="hero" background="hero" className="relative overflow-hidden">
+      <Container size="default">
+        <div className="grid md:grid-cols-2 gap-8 items-center">
+          <div className="space-y-4">
+            <Heading level="h1" variant="gradient" className="md:text-4xl">
+              {t("hero.title")}
+            </Heading>
+            
+            <Text variant="muted" size="base" className="max-w-xl">
+              {t("hero.subtitle")}
+            </Text>
+            
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button size="sm" asChild className="text-sm px-3 py-1 h-8">
+                <Link to="/signup">
+                  {t("hero.cta.primary")} 
+                  <IconWrapper variant="primary" size="xs">
+                    <ArrowRight />
+                  </IconWrapper>
+                </Link>
+              </Button>
+              
+              <Button variant="outline" size="sm" asChild className="text-sm px-3 py-1 h-8">
+                <Link to="/features">
+                  {t("hero.cta.secondary")}
+                </Link>
+              </Button>
+            </div>
+          </div>
+          
+          <div className="bg-muted/80 backdrop-blur-sm rounded-lg overflow-hidden aspect-video flex items-center justify-center shadow-md relative">
+            {/* Light mode görseli */}
+            <img 
+              src="/lovable-uploads/51df3ccf-f69e-454f-970f-2077bdace861.png" 
+              alt={t("hero.image.alt")} 
+              className={`w-full h-full object-cover rounded-lg absolute top-0 left-0 transition-opacity duration-500 ${isDarkMode ? 'opacity-0' : 'opacity-100'}`}
+            />
+            {/* Dark mode görseli */}
+            <img 
+              src="/lovable-uploads/e9f8067e-6751-4920-b74e-8b5e742a2f3c.png" 
+              alt={t("hero.image.alt")} 
+              className={`w-full h-full object-cover rounded-lg absolute top-0 left-0 transition-opacity duration-500 ${isDarkMode ? 'opacity-100' : 'opacity-0'}`}
+            />
           </div>
         </div>
-        
-        <div className="mt-8 shadow-xl rounded-lg overflow-hidden border">
-          <img 
-            src="/lovable-uploads/e9f8067e-6751-4920-b74e-8b5e742a2f3c.png" 
-            alt="Loopinance Dashboard" 
-            className="w-full h-auto"
-          />
-        </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 };

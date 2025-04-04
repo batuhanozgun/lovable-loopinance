@@ -1,11 +1,11 @@
 
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
+import { Container, Link } from '@/modules/LandingPage/styles';
 
 export const LandingHeader = () => {
   const { t } = useTranslation('LandingPage');
@@ -13,17 +13,19 @@ export const LandingHeader = () => {
 
   return (
     <header className="fixed top-0 left-0 w-full bg-background/80 backdrop-blur-md z-40 border-b border-border/40">
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+      <Container size="wide" className="h-16 flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <Link to="/" className="font-bold text-xl">Loopinance</Link>
+          <Link to="/" variant="inherit" className="font-bold text-xl bg-gradient-to-r from-[rgb(84,85,89)] via-[rgb(108,154,229)] to-[rgb(0,140,158)] bg-clip-text text-transparent">
+            Loopinance
+          </Link>
         </div>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
-          <Link to="/" className="text-sm font-medium hover:text-primary transition-colors">{t('nav.home')}</Link>
-          <Link to="/features" className="text-sm font-medium hover:text-primary transition-colors">{t('nav.features')}</Link>
-          <Link to="/about" className="text-sm font-medium hover:text-primary transition-colors">{t('nav.about')}</Link>
-          <Link to="/style-guide" className="text-sm font-medium hover:text-primary transition-colors">Style Guide</Link>
+          <Link to="/" variant="default" size="sm">{t('nav.home')}</Link>
+          <Link to="/features" variant="default" size="sm">{t('nav.features')}</Link>
+          <Link to="/about" variant="default" size="sm">{t('nav.about')}</Link>
+          <Link to="/style-guide" variant="default" size="sm">Style Guide</Link>
         </nav>
 
         <div className="hidden md:flex items-center space-x-4">
@@ -47,7 +49,7 @@ export const LandingHeader = () => {
             {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
-      </div>
+      </Container>
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
