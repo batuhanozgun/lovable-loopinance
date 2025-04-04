@@ -52,6 +52,36 @@ const ButtonsSection: React.FC = () => {
               Outline Icon Button
               <ArrowRight />
             </IconButton>
+            
+            <IconButton variant="secondary">
+              Secondary Button
+              <ArrowRight />
+            </IconButton>
+            
+            <IconButton variant="gradient">
+              Gradient Button
+              <ArrowRight />
+            </IconButton>
+          </div>
+        </div>
+        
+        <div>
+          <h3 className="text-sm font-medium mb-2">Özel İkon Renkleri</h3>
+          <div className="flex flex-wrap gap-4 items-center">
+            <IconButton iconVariant="primary">
+              Explicit Primary Icon
+              <ArrowRight />
+            </IconButton>
+            
+            <IconButton iconVariant="muted">
+              Explicit Muted Icon
+              <ArrowRight />
+            </IconButton>
+            
+            <IconButton variant="outline" iconVariant="gradient">
+              Gradient Icon
+              <ArrowRight />
+            </IconButton>
           </div>
         </div>
       </div>
