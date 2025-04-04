@@ -36,8 +36,16 @@ export const LandingHeader = () => {
           <Button size="sm" variant="ghost" asChild>
             <Link to="/login">{t('nav.login')}</Link>
           </Button>
-          <IconButton variant="gradient" asChild iconPosition="right" iconSize="xs">
-            <Link to="/signup">{t('nav.signup')}</Link>
+          
+          {/* Kayıt ol butonu - asChild kullanmadan doğru şekilde yapılandırılmış */}
+          <IconButton 
+            variant="gradient" 
+            iconPosition="right" 
+            iconSize="xs"
+            className="group"
+            onClick={() => window.location.href = '/signup'}
+          >
+            {t('nav.signup')}
             <ArrowRight />
           </IconButton>
         </div>
@@ -99,8 +107,19 @@ export const LandingHeader = () => {
                 <Button size="sm" variant="ghost" className="w-full" asChild>
                   <Link to="/login" onClick={() => setMobileMenuOpen(false)}>{t('nav.login')}</Link>
                 </Button>
-                <IconButton variant="gradient" className="w-full" asChild iconPosition="right" iconSize="xs">
-                  <Link to="/signup" onClick={() => setMobileMenuOpen(false)}>{t('nav.signup')}</Link>
+                
+                {/* Mobil kayıt ol butonu - asChild kullanmadan doğru şekilde yapılandırılmış */}
+                <IconButton 
+                  variant="gradient" 
+                  iconPosition="right" 
+                  iconSize="xs"
+                  className="w-full group"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    window.location.href = '/signup';
+                  }}
+                >
+                  {t('nav.signup')}
                   <ArrowRight />
                 </IconButton>
               </div>
