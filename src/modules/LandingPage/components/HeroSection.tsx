@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
+import { IconButton } from "@/modules/LandingPage/components/common/IconButton";
 
 export const HeroSection = () => {
   const { t } = useTranslation("LandingPage");
@@ -44,11 +45,12 @@ export const HeroSection = () => {
           <h1 className="text-3xl md:text-4xl font-bold text-foreground">{t("hero.title")}</h1>
           <p className="text-base text-gray-700 dark:text-gray-300 mb-6 max-w-xl">{t("hero.subtitle")}</p>
           <div className="flex flex-col sm:flex-row gap-3">
-            <Button size="sm" asChild className="text-sm px-3 py-1 h-8">
+            <IconButton asChild>
               <Link to="/signup">
-                {t("hero.cta.primary")} <ArrowRight className="ml-1 h-3 w-3" />
+                {t("hero.cta.primary")} 
+                <ArrowRight />
               </Link>
-            </Button>
+            </IconButton>
             <Button variant="outline" size="sm" asChild className="text-sm px-3 py-1 h-8">
               <Link to="/features">{t("hero.cta.secondary")}</Link>
             </Button>
