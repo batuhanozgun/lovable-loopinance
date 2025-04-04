@@ -1,0 +1,26 @@
+
+{
+  "title": "Account Settings",
+  "description": "Manage your account security settings",
+  "fields": {
+    "email": "Email",
+    "password": "Password",
+    "twoFactor": "Two-Factor Authentication",
+    "apiKeys": "API Keys",
+    "sessions": "Sessions"
+  },
+  "actions": {
+    "verify": "Verify",
+    "change": "Change",
+    "setup": "Setup",
+    "generate": "Generate",
+    "manage": "Manage"
+  },
+  "status": {
+    "active": "{{count}} active",
+    "disabled": "Disabled",
+    "none": "None",
+    "verified": "Verified",
+    "unverified": "Unverified"
+  }
+}

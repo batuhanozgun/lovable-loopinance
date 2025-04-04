@@ -1,0 +1,15 @@
+
+{
+  "title": "Profil Bilgileri",
+  "description": "Kişisel bilgilerinizi güncelleyin",
+  "fields": {
+    "firstName": "Ad",
+    "lastName": "Soyad",
+    "fullName": "Ad Soyad",
+    "createdAt": "Hesap Oluşturulma",
+    "lastUpdated": "Son Güncelleme"
+  },
+  "actions": {
+    "edit": "Düzenle"
+  }
+}

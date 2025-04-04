@@ -82,9 +82,9 @@ export const PasswordChangeDialog: React.FC<PasswordChangeDialogProps> = ({ open
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{t("Profile:dialogs.passwordChange.title")}</DialogTitle>
+          <DialogTitle>{t("Profile:PasswordChangeDialog.title")}</DialogTitle>
           <DialogDescription>
-            {t("Profile:dialogs.passwordChange.description")}
+            {t("Profile:PasswordChangeDialog.description")}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -94,7 +94,7 @@ export const PasswordChangeDialog: React.FC<PasswordChangeDialogProps> = ({ open
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("Profile:fields.newPassword")}</FormLabel>
+                  <FormLabel>{t("Profile:PasswordChangeDialog.fields.newPassword")}</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
@@ -111,7 +111,7 @@ export const PasswordChangeDialog: React.FC<PasswordChangeDialogProps> = ({ open
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("Profile:fields.confirmPassword")}</FormLabel>
+                  <FormLabel>{t("Profile:PasswordChangeDialog.fields.confirmPassword")}</FormLabel>
                   <FormControl>
                     <Input
                       type="password"

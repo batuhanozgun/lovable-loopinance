@@ -82,7 +82,7 @@ export const SubscriptionInfo: React.FC = () => {
     <Card className="shadow-sm border">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-2xl font-semibold">{t('Profile:content.subscriptionTitle', 'Abonelik')}</CardTitle>
+          <CardTitle className="text-2xl font-semibold">{t("Profile:SubscriptionInfo.title", "Abonelik")}</CardTitle>
           <Badge variant={getBadgeVariant()}>
             {getStatusText()}
           </Badge>
@@ -99,7 +99,7 @@ export const SubscriptionInfo: React.FC = () => {
       <CardFooter>
         <Button variant="outline" size="sm" className="w-full" asChild>
           <Link to="/subscription">
-            {t('Profile:content.viewSubscription', 'Abonelik Detayları')}
+            {t("Profile:SubscriptionInfo.viewDetails", "Abonelik Detayları")}
           </Link>
         </Button>
       </CardFooter>

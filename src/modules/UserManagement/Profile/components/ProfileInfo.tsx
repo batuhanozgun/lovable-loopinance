@@ -70,9 +70,9 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({ profile, onUpdateProfi
   return (
     <Card className="shadow-sm border">
       <CardHeader className="pb-4">
-        <CardTitle className="text-2xl font-semibold">{t("Profile:sections.personalInfo.title")}</CardTitle>
+        <CardTitle className="text-2xl font-semibold">{t("Profile:ProfileInfo.title")}</CardTitle>
         <CardDescription className="text-base">
-          {t("Profile:sections.personalInfo.description")}
+          {t("Profile:ProfileInfo.description")}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -94,23 +94,23 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({ profile, onUpdateProfi
             <>
               <div className="grid gap-3">
                 <label className="text-sm font-medium">
-                  {t("Profile:fields.firstName")}
+                  {t("Profile:ProfileInfo.fields.firstName")}
                 </label>
                 <Input 
                   value={firstName} 
                   onChange={(e) => setFirstName(e.target.value)} 
-                  placeholder={t("Profile:fields.firstName")}
+                  placeholder={t("Profile:ProfileInfo.fields.firstName")}
                 />
               </div>
               
               <div className="grid gap-3">
                 <label className="text-sm font-medium">
-                  {t("Profile:fields.lastName")}
+                  {t("Profile:ProfileInfo.fields.lastName")}
                 </label>
                 <Input 
                   value={lastName} 
                   onChange={(e) => setLastName(e.target.value)} 
-                  placeholder={t("Profile:fields.lastName")}
+                  placeholder={t("Profile:ProfileInfo.fields.lastName")}
                 />
               </div>
               
@@ -138,13 +138,13 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({ profile, onUpdateProfi
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">
-                      {t("Profile:fields.firstName")}
+                      {t("Profile:ProfileInfo.fields.firstName")}
                     </p>
                     <p className="mt-1 text-base">{profile.first_name || "-"}</p>
                   </div>
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">
-                      {t("Profile:fields.lastName")}
+                      {t("Profile:ProfileInfo.fields.lastName")}
                     </p>
                     <p className="mt-1 text-base">{profile.last_name || "-"}</p>
                   </div>
@@ -155,13 +155,13 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({ profile, onUpdateProfi
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">
-                      {t("Profile:fields.createdAt")}
+                      {t("Profile:ProfileInfo.fields.createdAt")}
                     </p>
                     <p className="mt-1 text-base">{formatDate(profile.created_at)}</p>
                   </div>
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">
-                      {t("Profile:fields.lastUpdated")}
+                      {t("Profile:ProfileInfo.fields.lastUpdated")}
                     </p>
                     <p className="mt-1 text-base">{formatDate(profile.updated_at)}</p>
                   </div>
@@ -175,7 +175,7 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({ profile, onUpdateProfi
                   size="sm"
                 >
                   <Pencil className="mr-2 h-4 w-4" />
-                  {t("Profile:actions.edit")}
+                  {t("Profile:ProfileInfo.actions.edit")}
                 </Button>
               </div>
             </>

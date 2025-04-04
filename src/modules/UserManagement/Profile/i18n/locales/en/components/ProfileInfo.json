@@ -1,0 +1,15 @@
+
+{
+  "title": "Profile Information",
+  "description": "Update your personal information",
+  "fields": {
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "fullName": "Full Name",
+    "createdAt": "Account Created",
+    "lastUpdated": "Last Updated"
+  },
+  "actions": {
+    "edit": "Edit"
+  }
+}

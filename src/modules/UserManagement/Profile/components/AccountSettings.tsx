@@ -27,9 +27,9 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ profile }) => 
     <>
       <Card className="shadow-sm border h-full">
         <CardHeader className="pb-4">
-          <CardTitle className="text-2xl font-semibold">{t("Profile:sections.accountSettings.title")}</CardTitle>
+          <CardTitle className="text-2xl font-semibold">{t("Profile:AccountSettings.title")}</CardTitle>
           <CardDescription className="text-base">
-            {t("Profile:sections.accountSettings.description")}
+            {t("Profile:AccountSettings.description")}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">
@@ -38,11 +38,11 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ profile }) => 
               <Mail className="h-5 w-5 text-primary" />
             </div>
             <div className="flex-1">
-              <p className="text-sm font-medium">{t("Profile:fields.email")}</p>
+              <p className="text-sm font-medium">{t("Profile:AccountSettings.fields.email")}</p>
               <p className="text-sm text-muted-foreground">user@example.com</p>
             </div>
             <Button variant="ghost" size="sm" className="h-8">
-              {t("Profile:actions.verify")}
+              {t("Profile:AccountSettings.actions.verify")}
             </Button>
           </div>
 
@@ -51,7 +51,7 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ profile }) => 
               <Lock className="h-5 w-5 text-primary" />
             </div>
             <div className="flex-1">
-              <p className="text-sm font-medium">{t("Profile:fields.password")}</p>
+              <p className="text-sm font-medium">{t("Profile:AccountSettings.fields.password")}</p>
               <p className="text-sm text-muted-foreground">********</p>
             </div>
             <Button 
@@ -60,7 +60,7 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ profile }) => 
               className="h-8"
               onClick={handlePasswordDialogOpen}
             >
-              {t("Profile:actions.change")}
+              {t("Profile:AccountSettings.actions.change")}
             </Button>
           </div>
 
@@ -69,11 +69,11 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ profile }) => 
               <Smartphone className="h-5 w-5 text-primary" />
             </div>
             <div className="flex-1">
-              <p className="text-sm font-medium">{t("Profile:fields.twoFactor")}</p>
-              <p className="text-sm text-muted-foreground">{t("Profile:status.disabled")}</p>
+              <p className="text-sm font-medium">{t("Profile:AccountSettings.fields.twoFactor")}</p>
+              <p className="text-sm text-muted-foreground">{t("Profile:AccountSettings.status.disabled")}</p>
             </div>
             <Button variant="ghost" size="sm" className="h-8">
-              {t("Profile:actions.setup")}
+              {t("Profile:AccountSettings.actions.setup")}
             </Button>
           </div>
 
@@ -82,11 +82,11 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ profile }) => 
               <Key className="h-5 w-5 text-primary" />
             </div>
             <div className="flex-1">
-              <p className="text-sm font-medium">{t("Profile:fields.apiKeys")}</p>
-              <p className="text-sm text-muted-foreground">{t("Profile:status.none")}</p>
+              <p className="text-sm font-medium">{t("Profile:AccountSettings.fields.apiKeys")}</p>
+              <p className="text-sm text-muted-foreground">{t("Profile:AccountSettings.status.none")}</p>
             </div>
             <Button variant="ghost" size="sm" className="h-8">
-              {t("Profile:actions.generate")}
+              {t("Profile:AccountSettings.actions.generate")}
             </Button>
           </div>
 
@@ -95,11 +95,11 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ profile }) => 
               <Shield className="h-5 w-5 text-primary" />
             </div>
             <div className="flex-1">
-              <p className="text-sm font-medium">{t("Profile:fields.sessions")}</p>
-              <p className="text-sm text-muted-foreground">{t("Profile:status.active", { count: 1 })}</p>
+              <p className="text-sm font-medium">{t("Profile:AccountSettings.fields.sessions")}</p>
+              <p className="text-sm text-muted-foreground">{t("Profile:AccountSettings.status.active", { count: 1 })}</p>
             </div>
             <Button variant="ghost" size="sm" className="h-8">
-              {t("Profile:actions.manage")}
+              {t("Profile:AccountSettings.actions.manage")}
             </Button>
           </div>
         </CardContent>

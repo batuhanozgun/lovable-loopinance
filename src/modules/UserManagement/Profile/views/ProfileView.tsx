@@ -113,9 +113,9 @@ export const ProfileView: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <h1 className="text-3xl font-bold">{t("Profile:title", "Profil Bilgilerim")}</h1>
+        <h1 className="text-3xl font-bold">{t("Profile:ProfileView.title")}</h1>
         <p className="text-muted-foreground text-lg">
-          {t("Profile:subtitle", "Hesap bilgilerinizi görüntüleyin ve güncelleyin")}
+          {t("Profile:ProfileView.subtitle")}
         </p>
       </div>
       

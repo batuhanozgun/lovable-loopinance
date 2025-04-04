@@ -1,0 +1,26 @@
+
+{
+  "title": "Hesap Ayarları",
+  "description": "Hesap güvenlik ayarlarınızı yönetin",
+  "fields": {
+    "email": "E-posta",
+    "password": "Şifre",
+    "twoFactor": "İki Faktörlü Doğrulama",
+    "apiKeys": "API Anahtarları",
+    "sessions": "Oturumlar"
+  },
+  "actions": {
+    "verify": "Doğrula",
+    "change": "Değiştir",
+    "setup": "Kurulum",
+    "generate": "Oluştur",
+    "manage": "Yönet"
+  },
+  "status": {
+    "active": "{{count}} aktif",
+    "disabled": "Devre dışı",
+    "none": "Yok",
+    "verified": "Doğrulandı",
+    "unverified": "Doğrulanmadı"
+  }
+}
