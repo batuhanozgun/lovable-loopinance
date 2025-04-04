@@ -46,10 +46,19 @@ export const IconButton = ({
   // Eğer özel bir iconVariant belirtilmişse, onu kullan
   const finalIconVariant = iconVariant || automaticIconVariant;
 
+  // Otomatik renk verildiğinde beyaz ikon kullanımını sağla, ama özel renk varsa beyaz rengi uygulama
+  const shouldApplyWhiteText = 
+    (variant === "default" || variant === "gradient" || variant === "destructive") && 
+    !iconVariant; // iconVariant yoksa beyaz uygula
+
   return (
     <Button className={cn("group", className)} size="sm" variant={variant} {...props}>
       {iconPosition === "left" && icons.length > 0 && (
-        <IconWrapper variant={finalIconVariant} size={iconSize} className="text-white">
+        <IconWrapper 
+          variant={finalIconVariant} 
+          size={iconSize} 
+          className={shouldApplyWhiteText ? "text-white" : ""}
+        >
           {icons}
         </IconWrapper>
       )}
@@ -62,7 +71,7 @@ export const IconButton = ({
           size={iconSize} 
           className={cn(
             "transition-transform group-hover:translate-x-0.5",
-            variant === "default" || variant === "gradient" || variant === "destructive" ? "text-white" : ""
+            shouldApplyWhiteText ? "text-white" : ""
           )}
         >
           {icons}
