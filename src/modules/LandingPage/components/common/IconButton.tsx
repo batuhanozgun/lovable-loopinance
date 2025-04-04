@@ -32,13 +32,13 @@ export const IconButton = ({
     (child) => !React.isValidElement(child) || typeof child.type === "string"
   );
 
-  // Basit tasarım kuralına göre ikon rengini belirleme:
-  // - Mavi/Default/Gradient butonlar = beyaz ikon
-  // - Outline/Ghost/Link arka plan = mavi ikon
+  // Ikon rengi belirleme kuralları:
+  // 1. Koyu arka planlı butonlarda (default, gradient, destructive): beyaz ikon kullanılır
+  // 2. Açık arka planlı butonlarda (outline, ghost, link): primary (mavi) ikon kullanılır
   let automaticIconVariant: IconWrapperVariantsProps["variant"];
   
-  if (variant === "default" || variant === "gradient") {
-    automaticIconVariant = "default"; // Beyaz ikon
+  if (variant === "default" || variant === "gradient" || variant === "destructive") {
+    automaticIconVariant = "default"; // Beyaz ikon - light modda siyah, dark modda beyaz
   } else {
     automaticIconVariant = "primary"; // Mavi ikon
   }
@@ -49,7 +49,7 @@ export const IconButton = ({
   return (
     <Button className={cn("group", className)} size="sm" variant={variant} {...props}>
       {iconPosition === "left" && icons.length > 0 && (
-        <IconWrapper variant={finalIconVariant} size={iconSize}>
+        <IconWrapper variant={finalIconVariant} size={iconSize} className="text-white">
           {icons}
         </IconWrapper>
       )}
@@ -60,7 +60,10 @@ export const IconButton = ({
         <IconWrapper 
           variant={finalIconVariant} 
           size={iconSize} 
-          className="transition-transform group-hover:translate-x-0.5"
+          className={cn(
+            "transition-transform group-hover:translate-x-0.5",
+            variant === "default" || variant === "gradient" || variant === "destructive" ? "text-white" : ""
+          )}
         >
           {icons}
         </IconWrapper>

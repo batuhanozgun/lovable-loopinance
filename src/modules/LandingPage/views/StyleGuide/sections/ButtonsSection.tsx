@@ -36,25 +36,30 @@ const ButtonsSection: React.FC = () => {
         </div>
         
         <div>
-          <h3 className="text-sm font-medium mb-2">Icon Butonlar - Standard Görünüm</h3>
+          <h3 className="text-sm font-medium mb-2">Icon Butonlar - Renk Kuralları</h3>
           <div className="flex flex-wrap gap-4 items-center">
             <IconButton>
-              Default (Beyaz İkon)
-              <ArrowRight />
-            </IconButton>
-            
-            <IconButton variant="default">
-              Default Explicit (Beyaz İkon)
+              Koyu Arka Plan → Beyaz İkon
               <ArrowRight />
             </IconButton>
             
             <IconButton variant="gradient">
-              Gradient (Beyaz İkon)
+              Gradient → Beyaz İkon
+              <ArrowRight />
+            </IconButton>
+            
+            <IconButton variant="destructive">
+              Destructive → Beyaz İkon
               <ArrowRight />
             </IconButton>
             
             <IconButton variant="outline">
-              Outline (Mavi İkon)
+              Outline → Mavi İkon
+              <ArrowRight />
+            </IconButton>
+            
+            <IconButton variant="ghost">
+              Ghost → Mavi İkon  
               <ArrowRight />
             </IconButton>
           </div>
