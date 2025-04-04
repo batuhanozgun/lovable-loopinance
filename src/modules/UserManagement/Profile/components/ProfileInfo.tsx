@@ -68,16 +68,16 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({ profile, onUpdateProfi
   };
 
   return (
-    <Card className="shadow-md">
-      <CardHeader className="pb-3">
-        <CardTitle>{t("Profile:sections.personalInfo.title")}</CardTitle>
-        <CardDescription>
+    <Card className="shadow-sm border">
+      <CardHeader className="pb-4">
+        <CardTitle className="text-2xl font-semibold">{t("Profile:sections.personalInfo.title")}</CardTitle>
+        <CardDescription className="text-base">
           {t("Profile:sections.personalInfo.description")}
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col items-center mb-4">
-          <Avatar className="w-24 h-24 mb-2">
+        <div className="flex flex-col items-center mb-6">
+          <Avatar className="w-24 h-24 mb-3">
             <AvatarImage src={profile.avatar_url || ""} alt={`${firstName} ${lastName}`} />
             <AvatarFallback className="text-xl">{getInitials()}</AvatarFallback>
           </Avatar>
@@ -89,10 +89,10 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({ profile, onUpdateProfi
           </div>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-4">
           {isEditing ? (
             <>
-              <div className="grid gap-2">
+              <div className="grid gap-3">
                 <label className="text-sm font-medium">
                   {t("Profile:fields.firstName")}
                 </label>
@@ -103,7 +103,7 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({ profile, onUpdateProfi
                 />
               </div>
               
-              <div className="grid gap-2">
+              <div className="grid gap-3">
                 <label className="text-sm font-medium">
                   {t("Profile:fields.lastName")}
                 </label>
@@ -114,7 +114,7 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({ profile, onUpdateProfi
                 />
               </div>
               
-              <div className="flex gap-2 justify-end mt-3">
+              <div className="flex gap-3 justify-end mt-4">
                 <Button 
                   variant="outline" 
                   onClick={handleCancel}
@@ -134,44 +134,45 @@ export const ProfileInfo: React.FC<ProfileInfoProps> = ({ profile, onUpdateProfi
             </>
           ) : (
             <>
-              <div className="grid gap-2">
-                <div className="grid grid-cols-2 gap-2">
+              <div className="grid gap-3">
+                <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">
                       {t("Profile:fields.firstName")}
                     </p>
-                    <p className="mt-1">{profile.first_name || "-"}</p>
+                    <p className="mt-1 text-base">{profile.first_name || "-"}</p>
                   </div>
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">
                       {t("Profile:fields.lastName")}
                     </p>
-                    <p className="mt-1">{profile.last_name || "-"}</p>
+                    <p className="mt-1 text-base">{profile.last_name || "-"}</p>
                   </div>
                 </div>
               </div>
               
-              <div className="grid gap-2 mt-4">
-                <div className="grid grid-cols-2 gap-2">
+              <div className="grid gap-3 mt-4">
+                <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">
                       {t("Profile:fields.createdAt")}
                     </p>
-                    <p className="mt-1">{formatDate(profile.created_at)}</p>
+                    <p className="mt-1 text-base">{formatDate(profile.created_at)}</p>
                   </div>
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">
                       {t("Profile:fields.lastUpdated")}
                     </p>
-                    <p className="mt-1">{formatDate(profile.updated_at)}</p>
+                    <p className="mt-1 text-base">{formatDate(profile.updated_at)}</p>
                   </div>
                 </div>
               </div>
               
-              <div className="flex justify-end mt-3">
+              <div className="flex justify-end mt-4">
                 <Button 
                   variant="outline" 
                   onClick={() => setIsEditing(true)}
+                  size="sm"
                 >
                   <Pencil className="mr-2 h-4 w-4" />
                   {t("Profile:actions.edit")}

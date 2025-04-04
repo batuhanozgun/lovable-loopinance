@@ -18,9 +18,9 @@ export const SubscriptionInfo: React.FC = () => {
   
   if (isLoading) {
     return (
-      <Card>
-        <CardHeader>
-          <Skeleton className="h-5 w-1/3 mb-2" />
+      <Card className="shadow-sm border">
+        <CardHeader className="pb-4">
+          <Skeleton className="h-6 w-1/3 mb-2" />
           <Skeleton className="h-4 w-1/2" />
         </CardHeader>
         <CardContent>
@@ -79,21 +79,21 @@ export const SubscriptionInfo: React.FC = () => {
   };
   
   return (
-    <Card>
-      <CardHeader>
+    <Card className="shadow-sm border">
+      <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle>{t('Profile:content.subscriptionTitle', 'Abonelik')}</CardTitle>
+          <CardTitle className="text-2xl font-semibold">{t('Profile:content.subscriptionTitle', 'Abonelik')}</CardTitle>
           <Badge variant={getBadgeVariant()}>
             {getStatusText()}
           </Badge>
         </div>
-        <CardDescription>
+        <CardDescription className="text-base">
           {t(`Subscription:plan.${subscription.plan}`)}
         </CardDescription>
       </CardHeader>
       
       <CardContent>
-        <p className="text-sm text-muted-foreground">{getInfoMessage()}</p>
+        <p className="text-base text-muted-foreground">{getInfoMessage()}</p>
       </CardContent>
       
       <CardFooter>

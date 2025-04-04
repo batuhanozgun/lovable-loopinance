@@ -33,15 +33,15 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ profile }) => 
   };
 
   return (
-    <Card className="shadow-md h-full">
-      <CardHeader className="pb-3">
-        <CardTitle>{t("Profile:sections.accountSettings.title")}</CardTitle>
-        <CardDescription>
+    <Card className="shadow-sm border h-full">
+      <CardHeader className="pb-4">
+        <CardTitle className="text-2xl font-semibold">{t("Profile:sections.accountSettings.title")}</CardTitle>
+        <CardDescription className="text-base">
           {t("Profile:sections.accountSettings.description")}
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="flex items-center space-x-2">
+      <CardContent className="space-y-5">
+        <div className="flex items-center space-x-3">
           <div className="bg-primary/10 p-2 rounded-full">
             <Mail className="h-5 w-5 text-primary" />
           </div>
@@ -54,7 +54,7 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ profile }) => 
           </Button>
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-3">
           <div className="bg-primary/10 p-2 rounded-full">
             <Lock className="h-5 w-5 text-primary" />
           </div>
@@ -73,7 +73,7 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ profile }) => 
           </Button>
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-3">
           <div className="bg-primary/10 p-2 rounded-full">
             <Smartphone className="h-5 w-5 text-primary" />
           </div>
@@ -86,7 +86,7 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ profile }) => 
           </Button>
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-3">
           <div className="bg-primary/10 p-2 rounded-full">
             <Key className="h-5 w-5 text-primary" />
           </div>
@@ -99,7 +99,7 @@ export const AccountSettings: React.FC<AccountSettingsProps> = ({ profile }) => 
           </Button>
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-3">
           <div className="bg-primary/10 p-2 rounded-full">
             <Shield className="h-5 w-5 text-primary" />
           </div>

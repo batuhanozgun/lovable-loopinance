@@ -111,25 +111,30 @@ export const ProfileView: React.FC = () => {
   }
 
   return (
-    <div className="grid gap-6">
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <h1 className="text-3xl font-bold">{t("Profile:title", "Profil Bilgilerim")}</h1>
+        <p className="text-muted-foreground text-lg">
+          {t("Profile:subtitle", "Hesap bilgilerinizi görüntüleyin ve güncelleyin")}
+        </p>
+      </div>
+      
       {profileData && (
-        <>
-          <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
-            <ProfileInfo
+        <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
+          <ProfileInfo
+            profile={profileData}
+            onUpdateProfile={handleProfileUpdate}
+          />
+          
+          <div className="grid gap-6">
+            <SubscriptionInfo />
+            
+            <AccountSettings
               profile={profileData}
               onUpdateProfile={handleProfileUpdate}
             />
-            
-            <div className="grid gap-4">
-              <SubscriptionInfo />
-              
-              <AccountSettings
-                profile={profileData}
-                onUpdateProfile={handleProfileUpdate}
-              />
-            </div>
           </div>
-        </>
+        </div>
       )}
     </div>
   );
