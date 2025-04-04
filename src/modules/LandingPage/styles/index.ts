@@ -186,6 +186,25 @@ export const headingVariants = cva(
 
 export type HeadingVariantsProps = VariantProps<typeof headingVariants>;
 
+export const Heading = ({
+  className,
+  variant,
+  level = "h2",
+  align,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement> & HeadingVariantsProps & {
+  level?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+}) => {
+  const Component = level as keyof JSX.IntrinsicElements;
+
+  return (
+    <Component
+      className={cn(headingVariants({ variant, level, align }), className)}
+      {...props}
+    />
+  );
+};
+
 // FeatureCard bileşeni için stil varyantları
 export const featureCardVariants = cva(
   "p-4 border border-border/40 bg-background/90 transition-all",
@@ -261,6 +280,21 @@ export const badgeVariants = cva(
 );
 
 export type BadgeVariantsProps = VariantProps<typeof badgeVariants>;
+
+export const Badge = ({
+  className,
+  variant,
+  size,
+  rounded,
+  ...props
+}: React.HTMLAttributes<HTMLSpanElement> & BadgeVariantsProps) => {
+  return (
+    <span
+      className={cn(badgeVariants({ variant, size, rounded }), className)}
+      {...props}
+    />
+  );
+};
 
 // IconWrapper bileşeni için stil varyantları
 export const iconWrapperVariants = cva(
@@ -341,6 +375,21 @@ export const linkVariants = cva(
 );
 
 export type LinkVariantsProps = VariantProps<typeof linkVariants>;
+
+export const Link = ({
+  className,
+  variant,
+  size,
+  underline,
+  ...props
+}: React.HTMLAttributes<HTMLAnchorElement> & LinkVariantsProps) => {
+  return (
+    <a
+      className={cn(linkVariants({ variant, size, underline }), className)}
+      {...props}
+    />
+  );
+};
 
 // Divider bileşeni için stil varyantları
 export const dividerVariants = cva(
