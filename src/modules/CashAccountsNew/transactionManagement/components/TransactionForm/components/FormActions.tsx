@@ -27,14 +27,14 @@ export const FormActions: React.FC<FormActionsProps> = ({
         variant="outline" 
         onClick={onClose}
         disabled={isSubmitting}
-        className="h-7 text-xs px-3"
+        size="sm"
       >
         {t("common:cancel")}
       </Button>
       <Button 
         type="submit" 
         disabled={isSubmitting || isDisabled}
-        className="h-7 text-xs px-3"
+        size="sm"
       >
         {isSubmitting ? t("common:processing") : t("TransactionManagement:transaction.add")}
       </Button>

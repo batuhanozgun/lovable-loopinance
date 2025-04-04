@@ -51,13 +51,13 @@ export const CtaSection = () => {
             
             <Button 
               size="sm" 
-              className="group shadow-sm px-3 py-1.5 h-8" 
+              className="group" 
               onClick={handleCtaClick} 
               asChild
             >
               <Link to="/signup">
                 {t("cta.button")} 
-                <ArrowRight className="ml-1 h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-0.5" />
               </Link>
             </Button>
           </div>
