@@ -2,6 +2,7 @@
 import StyleGuidePage from "@/modules/LandingPage/views/StyleGuidePage";
 import { useEffect } from "react";
 import { initLandingPageTranslations } from "@/modules/LandingPage/i18n";
+import "../i18n/config"; // Import i18n configuration directly
 
 const StyleGuide = () => {
   useEffect(() => {

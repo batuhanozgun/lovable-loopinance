@@ -13,7 +13,7 @@ export const LanguageSelector = ({ className, ...props }: LanguageSelectorProps)
   const { toast } = useToast();
 
   const toggleLanguage = () => {
-    const currentLang = i18n.language;
+    const currentLang = i18n.language || 'tr'; // Provide a fallback
     const newLang = currentLang.startsWith("tr") ? "en" : "tr";
     
     // Dil değişimini uygula
@@ -30,6 +30,10 @@ export const LanguageSelector = ({ className, ...props }: LanguageSelectorProps)
     });
   };
 
+  // Add fallbacks for the language display
+  const currentLanguage = i18n.language || 'tr';
+  const displayText = currentLanguage.startsWith("tr") ? "EN" : "TR";
+
   return (
     <Button
       variant="ghost"
@@ -38,7 +42,7 @@ export const LanguageSelector = ({ className, ...props }: LanguageSelectorProps)
       className={cn("h-8 w-8 rounded-full text-xs font-medium hover:bg-muted/60", className)}
       {...props}
     >
-      {i18n.language.startsWith("tr") ? "EN" : "TR"}
+      {displayText}
     </Button>
   );
 };
