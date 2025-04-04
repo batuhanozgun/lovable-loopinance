@@ -46,12 +46,12 @@ export const Heading = ({
 }: React.HTMLAttributes<HTMLHeadingElement> & HeadingVariantsProps & {
   level?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }) => {
-  const Component = level as keyof JSX.IntrinsicElements;
-
-  return (
-    <Component
-      className={cn(headingVariants({ variant, level, align }), className)}
-      {...props}
-    />
+  return React.createElement(
+    level,
+    {
+      className: cn(headingVariants({ variant, level, align }), className),
+      ...props
+    },
+    props.children
   );
 };
