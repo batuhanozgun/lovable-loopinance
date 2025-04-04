@@ -53,38 +53,36 @@ export interface RouterLinkWithCustomProps extends RouterLinkProps, LinkVariants
   external?: boolean;
 }
 
-export const Link: React.FC<CustomLinkProps | RouterLinkWithCustomProps> = ({
-  className,
-  variant,
-  size,
-  underline,
-  width,
-  href,
-  to,
-  external,
-  ...props
-}) => {
+type LinkProps = CustomLinkProps | RouterLinkWithCustomProps;
+
+// Type guard fonksiyonu
+function isRouterLinkProps(props: LinkProps): props is RouterLinkWithCustomProps {
+  return 'to' in props;
+}
+
+export const Link: React.FC<LinkProps> = (props) => {
+  const { className, variant, size, underline, width, external, ...rest } = props;
   const classes = cn(linkVariants({ variant, size, underline, width }), className);
   
-  // Eğer harici bir link ise veya sadece href verilmişse
-  if (external || (href && !to)) {
+  // RouterLink özelliklerine sahipse (to varsa)
+  if (isRouterLinkProps(props)) {
     return (
-      <a
+      <RouterLink
+        to={props.to}
         className={classes}
-        href={href}
-        target={external ? "_blank" : undefined}
-        rel={external ? "noopener noreferrer" : undefined}
-        {...props}
+        {...rest}
       />
     );
   }
   
-  // Uygulama içi link (react-router-dom)
+  // Harici link veya normal a etiketi için
   return (
-    <RouterLink
-      to={to || href || "/"}
+    <a
       className={classes}
-      {...props}
+      href={(props as CustomLinkProps).href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+      {...rest}
     />
   );
 };
