@@ -5,26 +5,18 @@ import { cn } from "@/lib/utils";
 
 // Container bileşeni için stil varyantları
 export const containerVariants = cva(
-  "mx-auto relative z-10",
+  "mx-auto px-4",
   {
     variants: {
       size: {
-        default: "max-w-5xl",
         narrow: "max-w-3xl",
+        default: "max-w-5xl",
         wide: "max-w-7xl",
-        full: "w-full",
-      },
-      padding: {
-        none: "",
-        xs: "px-2",
-        sm: "px-3",
-        md: "px-4",
-        lg: "px-6",
+        full: "max-w-full",
       },
     },
     defaultVariants: {
       size: "default",
-      padding: "md",
     },
   }
 );
@@ -34,12 +26,11 @@ export type ContainerVariantsProps = VariantProps<typeof containerVariants>;
 export const Container = ({
   className,
   size,
-  padding,
   ...props
 }: React.HTMLAttributes<HTMLDivElement> & ContainerVariantsProps) => {
   return (
     <div
-      className={cn(containerVariants({ size, padding }), className)}
+      className={cn(containerVariants({ size }), className)}
       {...props}
     />
   );

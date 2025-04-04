@@ -5,27 +5,22 @@ import { cn } from "@/lib/utils";
 
 // Divider bileşeni için stil varyantları
 export const dividerVariants = cva(
-  "",
+  "shrink-0",
   {
     variants: {
+      variant: {
+        default: "border-border",
+        muted: "border-border/50",
+        primary: "border-primary/60",
+      },
       direction: {
         horizontal: "w-full border-t",
         vertical: "h-full border-l",
       },
-      variant: {
-        default: "border-border",
-        muted: "border-border/40",
-      },
-      spacing: {
-        sm: "my-2",
-        md: "my-4",
-        lg: "my-6",
-      },
     },
     defaultVariants: {
-      direction: "horizontal",
       variant: "default",
-      spacing: "md",
+      direction: "horizontal",
     },
   }
 );
@@ -34,14 +29,13 @@ export type DividerVariantsProps = VariantProps<typeof dividerVariants>;
 
 export const Divider = ({
   className,
-  direction,
   variant,
-  spacing,
+  direction,
   ...props
-}: React.HTMLAttributes<HTMLHRElement> & DividerVariantsProps) => {
+}: React.HTMLAttributes<HTMLDivElement> & DividerVariantsProps) => {
   return (
-    <hr
-      className={cn(dividerVariants({ direction, variant, spacing }), className)}
+    <div
+      className={cn(dividerVariants({ variant, direction }), className)}
       {...props}
     />
   );
