@@ -2,7 +2,8 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Section, Heading, Divider } from '@/modules/LandingPage/styles';
-import { Star } from 'lucide-react';
+import { Star, ArrowRight } from 'lucide-react';
+import { IconButton } from '@/modules/LandingPage/components/common/IconButton';
 
 const ButtonsSection: React.FC = () => {
   return (
@@ -31,6 +32,26 @@ const ButtonsSection: React.FC = () => {
             <Button>Default</Button>
             <Button size="sm">Small</Button>
             <Button size="icon"><Star className="h-3 w-3" /></Button>
+          </div>
+        </div>
+        
+        <div>
+          <h3 className="text-sm font-medium mb-2">Icon Butonlar</h3>
+          <div className="flex flex-wrap gap-4 items-center">
+            <IconButton>
+              Button with Icon
+              <ArrowRight />
+            </IconButton>
+            
+            <IconButton iconPosition="left">
+              <ArrowRight />
+              Left Icon Button
+            </IconButton>
+            
+            <IconButton variant="outline">
+              Outline Icon Button
+              <ArrowRight />
+            </IconButton>
           </div>
         </div>
       </div>

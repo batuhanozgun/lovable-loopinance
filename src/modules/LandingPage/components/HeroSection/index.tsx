@@ -1,9 +1,10 @@
 
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { IconButton } from "../common/IconButton";
 import { 
   Section, 
   Container, 
@@ -11,7 +12,6 @@ import {
   Text,
   IconWrapper
 } from "@/modules/LandingPage/styles";
-import { backgrounds } from "@/modules/LandingPage/constants/tokens";
 
 export const HeroSection = () => {
   const { t } = useTranslation("LandingPage");
@@ -60,16 +60,14 @@ export const HeroSection = () => {
             </Text>
             
             <div className="flex flex-col sm:flex-row gap-3">
-              <Button size="sm" asChild className="text-sm px-3 py-1 h-8">
+              <IconButton asChild>
                 <Link to="/signup">
                   {t("hero.cta.primary")} 
-                  <IconWrapper variant="primary" size="xs">
-                    <ArrowRight />
-                  </IconWrapper>
+                  <ArrowRight />
                 </Link>
-              </Button>
+              </IconButton>
               
-              <Button variant="outline" size="sm" asChild className="text-sm px-3 py-1 h-8">
+              <Button variant="outline" size="sm" asChild>
                 <Link to="/features">
                   {t("hero.cta.secondary")}
                 </Link>
