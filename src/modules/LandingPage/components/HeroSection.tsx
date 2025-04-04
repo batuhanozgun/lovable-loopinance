@@ -45,7 +45,7 @@ export const HeroSection = () => {
           <h1 className="text-3xl md:text-4xl font-bold text-foreground">{t("hero.title")}</h1>
           <p className="text-base text-gray-700 dark:text-gray-300 mb-6 max-w-xl">{t("hero.subtitle")}</p>
           <div className="flex flex-col sm:flex-row gap-3">
-            <IconButton size="sm" asChild>
+            <IconButton asChild>
               <Link to="/signup">
                 {t("hero.cta.primary")} <ArrowRight className="h-3 w-3" />
               </Link>
