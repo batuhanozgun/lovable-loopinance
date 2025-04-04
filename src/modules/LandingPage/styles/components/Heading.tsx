@@ -11,7 +11,7 @@ export const headingVariants = cva(
       variant: {
         default: "text-foreground",
         muted: "text-muted-foreground",
-        gradient: "bg-gradient-to-r from-[rgb(84,85,89)] via-[rgb(108,154,229)] to-[rgb(0,140,158)] bg-clip-text text-transparent",
+        gradient: "bg-gradient-to-r from-[rgb(84,85,89)] via-[rgb(108,154,229)] to-[rgb(0,140,158)] bg-clip-text text-transparent dark:from-[rgb(120,130,180)] dark:via-[rgb(108,154,229)] dark:to-[rgb(0,140,158)]",
       },
       level: {
         h1: "text-3xl md:text-4xl font-bold",
