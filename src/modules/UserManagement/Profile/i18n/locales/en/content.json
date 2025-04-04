@@ -1,47 +1,61 @@
 
 {
-  "title": "Profile",
-  "description": "View and manage your profile information and account settings",
+  "title": "My Profile",
+  "subtitle": "View and update your account information",
   "sections": {
-    "personalInfo": {
-      "title": "Personal Information",
-      "description": "Update your personal details and how others see you on the platform"
+    "profileInfo": {
+      "title": "Profile Information",
+      "description": "Update your personal information"
+    },
+    "subscriptionInfo": {
+      "title": "Subscription Information",
+      "description": "View your subscription status and plan"
     },
     "accountSettings": {
       "title": "Account Settings",
-      "description": "Manage your account preferences, security, and language settings"
+      "description": "Manage your account security settings"
     }
   },
   "fields": {
     "firstName": "First Name",
     "lastName": "Last Name",
-    "email": "Email Address",
-    "createdAt": "Account Created",
-    "lastUpdated": "Last Updated",
-    "language": "Language",
-    "languageDescription": "Change the display language",
-    "theme": "Theme",
-    "themeDescription": "Choose between light and dark mode",
+    "fullName": "Full Name",
+    "email": "Email",
     "password": "Password",
-    "passwordDescription": "Change your account password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
     "twoFactor": "Two-Factor Authentication",
     "apiKeys": "API Keys",
-    "sessions": "Active Sessions"
+    "sessions": "Sessions",
+    "accountCreated": "Account Created",
+    "lastUpdated": "Last Updated"
   },
   "actions": {
-    "edit": "Edit Profile",
-    "changePassword": "Change Password",
+    "edit": "Edit",
+    "save": "Save",
+    "cancel": "Cancel",
     "change": "Change",
+    "changePassword": "Change Password",
     "verify": "Verify",
-    "setup": "Set Up",
+    "setup": "Setup",
     "generate": "Generate",
-    "manage": "Manage"
+    "manage": "Manage",
+    "view": "View",
+    "delete": "Delete"
   },
   "status": {
-    "enabled": "Enabled",
+    "active": "{{count}} active",
     "disabled": "Disabled",
-    "active": "{{count}} active session",
-    "active_plural": "{{count}} active sessions",
-    "none": "None"
+    "none": "None",
+    "verified": "Verified",
+    "unverified": "Unverified"
+  },
+  "subscriptionTitle": "Subscription",
+  "viewSubscription": "Subscription Details",
+  "dialogs": {
+    "passwordChange": {
+      "title": "Change Password",
+      "description": "Set a new password for your account."
+    }
   }
 }

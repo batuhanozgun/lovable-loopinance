@@ -4,5 +4,7 @@
   "profileNotFound": "Profil bilgileri alınamadı",
   "loadError": "Profil verisi yüklenemedi",
   "updateError": "Profil güncellenemedi",
-  "avatarUploadError": "Avatar resmi yüklenemedi"
+  "avatarUploadError": "Avatar resmi yüklenemedi",
+  "passwordChangeError": "Şifre değiştirilemedi",
+  "unexpectedError": "Beklenmeyen bir hata oluştu"
 }

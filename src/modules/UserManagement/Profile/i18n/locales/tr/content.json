@@ -1,47 +1,61 @@
 
 {
-  "title": "Profil",
-  "description": "Profil bilgilerinizi ve hesap ayarlarınızı görüntüleyin ve yönetin",
+  "title": "Profil Bilgilerim",
+  "subtitle": "Hesap bilgilerinizi görüntüleyin ve güncelleyin",
   "sections": {
-    "personalInfo": {
-      "title": "Kişisel Bilgiler",
-      "description": "Kişisel bilgilerinizi ve platformda nasıl göründüğünüzü güncelleyin"
+    "profileInfo": {
+      "title": "Profil Bilgileri",
+      "description": "Kişisel bilgilerinizi güncelleyin"
+    },
+    "subscriptionInfo": {
+      "title": "Abonelik Bilgileri",
+      "description": "Abonelik durumunuzu ve planınızı görüntüleyin"
     },
     "accountSettings": {
       "title": "Hesap Ayarları",
-      "description": "Hesap tercihlerinizi, güvenliğinizi ve dil ayarlarınızı yönetin"
+      "description": "Hesap güvenlik ayarlarınızı yönetin"
     }
   },
   "fields": {
     "firstName": "Ad",
     "lastName": "Soyad",
-    "email": "E-posta Adresi",
-    "createdAt": "Hesap Oluşturulma",
-    "lastUpdated": "Son Güncelleme",
-    "language": "Dil",
-    "languageDescription": "Görüntüleme dilini değiştirin",
-    "theme": "Tema",
-    "themeDescription": "Açık ve koyu mod arasında seçim yapın",
+    "fullName": "Ad Soyad",
+    "email": "E-posta",
     "password": "Şifre",
-    "passwordDescription": "Hesap şifrenizi değiştirin",
-    "twoFactor": "İki Faktörlü Kimlik Doğrulama",
+    "newPassword": "Yeni Şifre",
+    "confirmPassword": "Şifreyi Onaylayın",
+    "twoFactor": "İki Faktörlü Doğrulama",
     "apiKeys": "API Anahtarları",
-    "sessions": "Aktif Oturumlar"
+    "sessions": "Oturumlar",
+    "accountCreated": "Hesap Oluşturulma",
+    "lastUpdated": "Son Güncelleme"
   },
   "actions": {
-    "edit": "Profili Düzenle",
-    "changePassword": "Şifre Değiştir",
+    "edit": "Düzenle",
+    "save": "Kaydet",
+    "cancel": "İptal",
     "change": "Değiştir",
+    "changePassword": "Şifreyi Değiştir",
     "verify": "Doğrula",
-    "setup": "Kur",
+    "setup": "Kurulum",
     "generate": "Oluştur",
-    "manage": "Yönet"
+    "manage": "Yönet",
+    "view": "Görüntüle",
+    "delete": "Sil"
   },
   "status": {
-    "enabled": "Etkin",
-    "disabled": "Devre Dışı",
-    "active": "{{count}} aktif oturum",
-    "active_plural": "{{count}} aktif oturum",
-    "none": "Yok"
+    "active": "{{count}} aktif",
+    "disabled": "Devre dışı",
+    "none": "Yok",
+    "verified": "Doğrulandı",
+    "unverified": "Doğrulanmadı"
+  },
+  "subscriptionTitle": "Abonelik",
+  "viewSubscription": "Abonelik Detayları",
+  "dialogs": {
+    "passwordChange": {
+      "title": "Şifre Değiştir",
+      "description": "Hesabınız için yeni bir şifre belirleyin."
+    }
   }
 }
