@@ -29,7 +29,12 @@ export const LandingHeader = () => {
         <div className="hidden md:flex items-center space-x-4">
           <LanguageSelector />
           <ThemeToggle />
-          <Button size="sm">{t('nav.login')}</Button>
+          <Button size="sm" variant="ghost" asChild>
+            <Link to="/login">{t('nav.login')}</Link>
+          </Button>
+          <Button size="sm" asChild>
+            <Link to="/signup">{t('nav.signup')}</Link>
+          </Button>
         </div>
 
         {/* Mobile Menu Button */}
@@ -78,7 +83,14 @@ export const LandingHeader = () => {
             </Link>
             <div className="pt-2 flex items-center justify-between">
               <LanguageSelector />
-              <Button size="sm">{t('nav.login')}</Button>
+              <div className="flex space-x-2">
+                <Button size="sm" variant="ghost" className="w-full" asChild>
+                  <Link to="/login" onClick={() => setMobileMenuOpen(false)}>{t('nav.login')}</Link>
+                </Button>
+                <Button size="sm" className="w-full" asChild>
+                  <Link to="/signup" onClick={() => setMobileMenuOpen(false)}>{t('nav.signup')}</Link>
+                </Button>
+              </div>
             </div>
           </nav>
         </div>
