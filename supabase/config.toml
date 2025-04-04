@@ -1,2 +1,8 @@
 
 project_id = "rqodvnlgmjwgbedzsmoh"
+
+[functions.statement-process]
+verify_jwt = true
+
+[functions.cron-statements]
+verify_jwt = false
