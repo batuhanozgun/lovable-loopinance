@@ -39,7 +39,7 @@ export const PlanCard: React.FC<PlanCardProps> = ({
             {t('Subscription:plans.discount', { percentage: yearlyDiscount })}
           </div>
         )}
-        <CardTitle>{t(`Subscription:plan.${isYearly ? 'yearly' : 'monthly'}`)}</CardTitle>
+        <CardTitle>{t(`Subscription:plans.${isYearly ? 'yearly' : 'monthly'}`)}</CardTitle>
         <CardDescription>
           {t(`Subscription:payment.plan.${isYearly ? 'yearly' : 'monthly'}.description`)}
         </CardDescription>
