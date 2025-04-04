@@ -22,7 +22,7 @@ export const LandingFooter = () => {
             <Heading level="h4" className="mb-3">
               {t("common:brandName")}
             </Heading>
-            <Text variant="muted" size="sm">
+            <Text variant="muted" size="xs">
               {t("LandingPage:footer.tagline")}
             </Text>
           </div>
@@ -36,7 +36,7 @@ export const LandingFooter = () => {
                 <Link 
                   to="/features" 
                   variant="muted" 
-                  size="sm" 
+                  size="xs" 
                 >
                   {t("LandingPage:footer.product.features")}
                 </Link>
@@ -45,7 +45,7 @@ export const LandingFooter = () => {
                 <Link 
                   to="/pricing" 
                   variant="muted" 
-                  size="sm" 
+                  size="xs" 
                 >
                   {t("LandingPage:footer.product.pricing")}
                 </Link>
@@ -54,7 +54,7 @@ export const LandingFooter = () => {
                 <Link 
                   to="/faq" 
                   variant="muted" 
-                  size="sm" 
+                  size="xs" 
                 >
                   {t("LandingPage:footer.product.faq")}
                 </Link>
@@ -71,7 +71,7 @@ export const LandingFooter = () => {
                 <Link 
                   to="/about" 
                   variant="muted" 
-                  size="sm" 
+                  size="xs" 
                 >
                   {t("LandingPage:footer.company.about")}
                 </Link>
@@ -80,7 +80,7 @@ export const LandingFooter = () => {
                 <Link 
                   to="/team" 
                   variant="muted" 
-                  size="sm" 
+                  size="xs" 
                 >
                   {t("LandingPage:footer.company.team")}
                 </Link>
@@ -89,7 +89,7 @@ export const LandingFooter = () => {
                 <Link 
                   to="/contact" 
                   variant="muted" 
-                  size="sm" 
+                  size="xs" 
                 >
                   {t("LandingPage:footer.company.contact")}
                 </Link>
@@ -106,7 +106,7 @@ export const LandingFooter = () => {
                 <Link 
                   to="/privacy-policy" 
                   variant="muted" 
-                  size="sm" 
+                  size="xs" 
                 >
                   {t("LandingPage:footer.legal.privacy")}
                 </Link>
@@ -115,7 +115,7 @@ export const LandingFooter = () => {
                 <Link 
                   to="/terms-of-service" 
                   variant="muted" 
-                  size="sm" 
+                  size="xs" 
                 >
                   {t("LandingPage:footer.legal.terms")}
                 </Link>
@@ -126,7 +126,7 @@ export const LandingFooter = () => {
         
         <Divider className="mt-6 mb-4" />
         
-        <Text variant="muted" size="sm" align="center">
+        <Text variant="muted" size="xs" align="center">
           © {currentYear} {t("common:brandName")}. {t("LandingPage:footer.copyright")}
         </Text>
       </Container>
