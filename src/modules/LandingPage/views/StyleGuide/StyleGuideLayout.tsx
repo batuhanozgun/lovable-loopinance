@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { LandingHeader } from '@/modules/LandingPage/components/LandingHeader/index';
+import { LandingHeader } from '@/modules/LandingPage/components/LandingHeader';
 import { LandingFooter } from '@/modules/LandingPage/components/LandingFooter';
 import { Container, Heading, Text } from '@/modules/LandingPage/styles';
 
