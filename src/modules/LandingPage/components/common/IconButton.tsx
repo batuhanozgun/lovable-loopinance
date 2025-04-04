@@ -1,9 +1,8 @@
 
 import React from "react";
-import { Button, ButtonProps, buttonVariants } from "@/components/ui/button";
+import { Button, ButtonProps } from "@/components/ui/button";
 import { IconWrapper, IconWrapperVariantsProps } from "@/modules/LandingPage/styles/components/IconWrapper";
 import { cn } from "@/lib/utils";
-import { VariantProps } from "class-variance-authority";
 
 interface IconButtonProps extends Omit<ButtonProps, "size"> {
   children: React.ReactNode;
@@ -17,12 +16,11 @@ export const IconButton = ({
   children,
   iconPosition = "right",
   iconSize = "xs",
-  iconVariant,
+  iconVariant = "primary",
   className,
-  variant = "default",
   ...props
 }: IconButtonProps) => {
-  // Filter out the React children that are icons (Lucide icons)
+  // Filter out the React children that are not icons (Lucide icons)
   const icons = React.Children.toArray(children).filter(
     (child) => React.isValidElement(child) && typeof child.type !== "string"
   );
@@ -32,24 +30,10 @@ export const IconButton = ({
     (child) => !React.isValidElement(child) || typeof child.type === "string"
   );
 
-  // Basit tasarım kuralına göre ikon rengini belirleme:
-  // - Mavi/Default/Gradient butonlar = beyaz ikon
-  // - Outline/Ghost/Link arka plan = mavi ikon
-  let automaticIconVariant: IconWrapperVariantsProps["variant"];
-  
-  if (variant === "default" || variant === "gradient") {
-    automaticIconVariant = "default"; // Beyaz ikon
-  } else {
-    automaticIconVariant = "primary"; // Mavi ikon
-  }
-  
-  // Eğer özel bir iconVariant belirtilmişse, onu kullan
-  const finalIconVariant = iconVariant || automaticIconVariant;
-
   return (
-    <Button className={cn("group", className)} size="sm" variant={variant} {...props}>
+    <Button className={cn("group", className)} size="sm" {...props}>
       {iconPosition === "left" && icons.length > 0 && (
-        <IconWrapper variant={finalIconVariant} size={iconSize}>
+        <IconWrapper variant={iconVariant} size={iconSize}>
           {icons}
         </IconWrapper>
       )}
@@ -58,7 +42,7 @@ export const IconButton = ({
       
       {iconPosition === "right" && icons.length > 0 && (
         <IconWrapper 
-          variant={finalIconVariant} 
+          variant={iconVariant} 
           size={iconSize} 
           className="transition-transform group-hover:translate-x-0.5"
         >
