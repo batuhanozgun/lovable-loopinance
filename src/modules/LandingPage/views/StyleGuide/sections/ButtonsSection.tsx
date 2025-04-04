@@ -3,7 +3,6 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Section, Heading, Divider } from '@/modules/LandingPage/styles';
 import { Star, ArrowRight } from 'lucide-react';
-import { IconButton } from '@/modules/LandingPage/components/common/IconButton';
 
 const ButtonsSection: React.FC = () => {
   return (
@@ -36,67 +35,37 @@ const ButtonsSection: React.FC = () => {
         </div>
         
         <div>
-          <h3 className="text-sm font-medium mb-2">Icon Butonlar - Renk Kuralları</h3>
+          <h3 className="text-sm font-medium mb-2">İkon İle Butonlar</h3>
           <div className="flex flex-wrap gap-4 items-center">
-            <IconButton>
-              Koyu Arka Plan → Beyaz İkon
-              <ArrowRight />
-            </IconButton>
-            
-            <IconButton variant="gradient">
-              Gradient → Beyaz İkon
-              <ArrowRight />
-            </IconButton>
-            
-            <IconButton variant="destructive">
-              Destructive → Beyaz İkon
-              <ArrowRight />
-            </IconButton>
-            
-            <IconButton variant="outline">
-              Outline → Mavi İkon
-              <ArrowRight />
-            </IconButton>
-            
-            <IconButton variant="ghost">
-              Ghost → Mavi İkon  
-              <ArrowRight />
-            </IconButton>
-          </div>
-        </div>
-        
-        <div>
-          <h3 className="text-sm font-medium mb-2">İkon Konumu</h3>
-          <div className="flex flex-wrap gap-4 items-center">
-            <IconButton iconPosition="left">
-              <ArrowRight />
-              Sol İkon
-            </IconButton>
-            
-            <IconButton>
+            <Button className="group flex items-center gap-2">
               Sağ İkon
-              <ArrowRight />
-            </IconButton>
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+            </Button>
+            
+            <Button className="group flex items-center gap-2" variant="outline">
+              <ArrowRight className="w-4 h-4" />
+              Sol İkon
+            </Button>
+            
+            <Button className="group flex items-center gap-2" variant="gradient">
+              Gradient Buton
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+            </Button>
           </div>
         </div>
         
         <div>
           <h3 className="text-sm font-medium mb-2">Özel İkon Renkleri</h3>
           <div className="flex flex-wrap gap-4 items-center">
-            <IconButton iconVariant="primary">
-              Açık Mavi İkon
-              <ArrowRight />
-            </IconButton>
+            <Button className="group flex items-center gap-2" variant="outline">
+              Outline Buton
+              <ArrowRight className="w-4 h-4 text-primary" />
+            </Button>
             
-            <IconButton iconVariant="muted">
-              Gri İkon
-              <ArrowRight />
-            </IconButton>
-            
-            <IconButton variant="default" iconVariant="gradient">
-              Gradient İkon
-              <ArrowRight />
-            </IconButton>
+            <Button className="group flex items-center gap-2" variant="ghost">
+              Ghost Buton
+              <ArrowRight className="w-4 h-4 text-muted-foreground" />
+            </Button>
           </div>
         </div>
       </div>

@@ -6,7 +6,7 @@ import { useEventsLogger } from "../../logging/events.logger";
 import { useEffect } from "react";
 import { useAnalyticsLogger } from "../../logging/analytics.logger";
 import { Card } from "@/components/ui/card";
-import { IconButton } from "../common/IconButton";
+import { Button } from "@/components/ui/button";
 import {
   Section,
   Container,
@@ -49,15 +49,16 @@ export const CtaSection = () => {
               {t("cta.description")}
             </Text>
             
-            <IconButton 
+            <Button 
+              className="group flex items-center gap-2"
               onClick={handleCtaClick}
               asChild
             >
               <Link to="/signup">
                 {t("cta.button")}
-                <ArrowRight />
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
-            </IconButton>
+            </Button>
           </div>
         </Card>
       </Container>

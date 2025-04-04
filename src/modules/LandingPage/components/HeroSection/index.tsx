@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { IconButton } from "../common/IconButton";
 import { 
   Section, 
   Container, 
@@ -59,12 +58,15 @@ export const HeroSection = () => {
             </Text>
             
             <div className="flex flex-col sm:flex-row gap-3">
-              <IconButton asChild>
+              <Button 
+                className="group flex items-center gap-2"
+                asChild
+              >
                 <Link to="/signup">
-                  {t("hero.cta.primary")} 
-                  <ArrowRight />
+                  {t("hero.cta.primary")}
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
                 </Link>
-              </IconButton>
+              </Button>
               
               <Button variant="outline" size="sm" asChild>
                 <Link to="/features">

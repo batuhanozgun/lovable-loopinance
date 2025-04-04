@@ -4,7 +4,6 @@ import { Section, Heading, Divider, Container, Text, Badge, IconWrapper } from '
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ArrowRight, Sparkles } from 'lucide-react';
-import { IconButton } from '@/modules/LandingPage/components/common/IconButton';
 
 const SectionExamplesSection: React.FC = () => {
   return (
@@ -60,10 +59,10 @@ const SectionExamplesSection: React.FC = () => {
                 CTA Section örneği
               </Text>
               
-              <IconButton>
+              <Button className="group flex items-center gap-2">
                 Action Button
-                <ArrowRight />
-              </IconButton>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+              </Button>
             </div>
           </Card>
         </Container>
