@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { Button } from '@/components/ui/button';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ArrowRight } from 'lucide-react';
 import { Container, Link } from '@/modules/LandingPage/styles';
+import { IconButton } from '@/modules/LandingPage/components/common/IconButton';
 
 export const LandingHeader = () => {
   const { t } = useTranslation('LandingPage');
@@ -35,9 +36,10 @@ export const LandingHeader = () => {
           <Button size="sm" variant="ghost" asChild>
             <Link to="/login">{t('nav.login')}</Link>
           </Button>
-          <Button size="sm" asChild>
+          <IconButton size="sm" variant="gradient" asChild iconPosition="right" iconSize="xs">
             <Link to="/signup">{t('nav.signup')}</Link>
-          </Button>
+            <ArrowRight />
+          </IconButton>
         </div>
 
         {/* Mobile Menu Button */}
@@ -97,9 +99,10 @@ export const LandingHeader = () => {
                 <Button size="sm" variant="ghost" className="w-full" asChild>
                   <Link to="/login" onClick={() => setMobileMenuOpen(false)}>{t('nav.login')}</Link>
                 </Button>
-                <Button size="sm" className="w-full" asChild>
+                <IconButton size="sm" variant="gradient" className="w-full" asChild iconPosition="right" iconSize="xs">
                   <Link to="/signup" onClick={() => setMobileMenuOpen(false)}>{t('nav.signup')}</Link>
-                </Button>
+                  <ArrowRight />
+                </IconButton>
               </div>
             </div>
           </nav>
@@ -108,4 +111,3 @@ export const LandingHeader = () => {
     </header>
   );
 };
-
