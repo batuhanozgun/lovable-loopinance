@@ -3,7 +3,7 @@ import { HeroSection } from "@/modules/LandingPage/components/HeroSection";
 import { FeatureSection } from "@/modules/LandingPage/components/FeatureSection";
 import { PricingSection } from "@/modules/LandingPage/components/PricingSection";
 import { CtaSection } from "@/modules/LandingPage/components/CtaSection";
-import { LandingHeader } from "@/modules/LandingPage/components/LandingHeader";
+import { LandingHeader } from "@/modules/LandingPage/components/LandingHeader/index";
 import { LandingFooter } from "@/modules/LandingPage/components/LandingFooter";
 import { usePageAnalytics } from "../hooks/usePageAnalytics";
 import { useScrollTracking } from "../hooks/useScrollTracking";
