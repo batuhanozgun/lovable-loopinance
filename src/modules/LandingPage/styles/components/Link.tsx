@@ -35,16 +35,22 @@ export const linkVariants = cva(
 
 export type LinkVariantsProps = VariantProps<typeof linkVariants>;
 
+export interface LinkProps extends React.HTMLAttributes<HTMLAnchorElement>, LinkVariantsProps {
+  href?: string;
+}
+
 export const Link = ({
   className,
   variant,
   size,
   underline,
+  href,
   ...props
-}: React.HTMLAttributes<HTMLAnchorElement> & LinkVariantsProps) => {
+}: LinkProps) => {
   return (
     <a
       className={cn(linkVariants({ variant, size, underline }), className)}
+      href={href}
       {...props}
     />
   );
