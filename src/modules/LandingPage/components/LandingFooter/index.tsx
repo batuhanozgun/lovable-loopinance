@@ -6,7 +6,8 @@ import {
   Text, 
   Link, 
   Divider,
-  Grid
+  Grid,
+  Section
 } from "@/modules/LandingPage/styles";
 
 export const LandingFooter = () => {
@@ -14,29 +15,28 @@ export const LandingFooter = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-muted/80 py-6 px-4">
+    <Section variant="footer" background="footer">
       <Container>
         <Grid cols={4} gap="md">
           <div>
-            <Heading level="h3" className="font-bold text-sm mb-2">
+            <Heading level="h4" className="mb-3">
               {t("common:brandName")}
             </Heading>
-            <Text variant="muted" size="xs">
+            <Text variant="muted" size="sm">
               {t("LandingPage:footer.tagline")}
             </Text>
           </div>
           
           <div>
-            <Heading level="h4" className="font-semibold text-xs mb-2">
+            <Heading level="h5" className="mb-3">
               {t("LandingPage:footer.product.title")}
             </Heading>
-            <ul className="space-y-1">
+            <ul className="space-y-2">
               <li>
                 <Link 
                   to="/features" 
                   variant="muted" 
-                  size="xs" 
-                  className="text-[10px]"
+                  size="sm" 
                 >
                   {t("LandingPage:footer.product.features")}
                 </Link>
@@ -45,8 +45,7 @@ export const LandingFooter = () => {
                 <Link 
                   to="/pricing" 
                   variant="muted" 
-                  size="xs" 
-                  className="text-[10px]"
+                  size="sm" 
                 >
                   {t("LandingPage:footer.product.pricing")}
                 </Link>
@@ -55,8 +54,7 @@ export const LandingFooter = () => {
                 <Link 
                   to="/faq" 
                   variant="muted" 
-                  size="xs" 
-                  className="text-[10px]"
+                  size="sm" 
                 >
                   {t("LandingPage:footer.product.faq")}
                 </Link>
@@ -65,16 +63,15 @@ export const LandingFooter = () => {
           </div>
           
           <div>
-            <Heading level="h4" className="font-semibold text-xs mb-2">
+            <Heading level="h5" className="mb-3">
               {t("LandingPage:footer.company.title")}
             </Heading>
-            <ul className="space-y-1">
+            <ul className="space-y-2">
               <li>
                 <Link 
                   to="/about" 
                   variant="muted" 
-                  size="xs" 
-                  className="text-[10px]"
+                  size="sm" 
                 >
                   {t("LandingPage:footer.company.about")}
                 </Link>
@@ -83,8 +80,7 @@ export const LandingFooter = () => {
                 <Link 
                   to="/team" 
                   variant="muted" 
-                  size="xs" 
-                  className="text-[10px]"
+                  size="sm" 
                 >
                   {t("LandingPage:footer.company.team")}
                 </Link>
@@ -93,8 +89,7 @@ export const LandingFooter = () => {
                 <Link 
                   to="/contact" 
                   variant="muted" 
-                  size="xs" 
-                  className="text-[10px]"
+                  size="sm" 
                 >
                   {t("LandingPage:footer.company.contact")}
                 </Link>
@@ -103,16 +98,15 @@ export const LandingFooter = () => {
           </div>
           
           <div>
-            <Heading level="h4" className="font-semibold text-xs mb-2">
+            <Heading level="h5" className="mb-3">
               {t("LandingPage:footer.legal.title")}
             </Heading>
-            <ul className="space-y-1">
+            <ul className="space-y-2">
               <li>
                 <Link 
                   to="/privacy-policy" 
                   variant="muted" 
-                  size="xs" 
-                  className="text-[10px]"
+                  size="sm" 
                 >
                   {t("LandingPage:footer.legal.privacy")}
                 </Link>
@@ -121,8 +115,7 @@ export const LandingFooter = () => {
                 <Link 
                   to="/terms-of-service" 
                   variant="muted" 
-                  size="xs" 
-                  className="text-[10px]"
+                  size="sm" 
                 >
                   {t("LandingPage:footer.legal.terms")}
                 </Link>
@@ -131,12 +124,12 @@ export const LandingFooter = () => {
           </div>
         </Grid>
         
-        <Divider className="mt-4 mb-3" />
+        <Divider className="mt-6 mb-4" />
         
-        <Text variant="muted" size="xs" align="center" className="text-[10px]">
+        <Text variant="muted" size="sm" align="center">
           © {currentYear} {t("common:brandName")}. {t("LandingPage:footer.copyright")}
         </Text>
       </Container>
-    </footer>
+    </Section>
   );
 };
