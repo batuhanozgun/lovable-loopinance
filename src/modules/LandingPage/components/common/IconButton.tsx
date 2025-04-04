@@ -22,7 +22,7 @@ export const IconButton = ({
   variant = "default",
   ...props
 }: IconButtonProps) => {
-  // Filter out the React children that are not icons (Lucide icons)
+  // Filter out the React children that are icons (Lucide icons)
   const icons = React.Children.toArray(children).filter(
     (child) => React.isValidElement(child) && typeof child.type !== "string"
   );
@@ -33,11 +33,11 @@ export const IconButton = ({
   );
 
   // Basit tasarım kuralına göre ikon rengini belirleme:
-  // - Mavi/Primary/Gradient butonlar = beyaz ikon
-  // - Beyaz/Default arka plan = mavi ikon
+  // - Mavi/Default/Gradient butonlar = beyaz ikon
+  // - Outline/Ghost/Link arka plan = mavi ikon
   let automaticIconVariant: IconWrapperVariantsProps["variant"];
   
-  if (variant === "primary" || variant === "gradient") {
+  if (variant === "default" || variant === "gradient") {
     automaticIconVariant = "default"; // Beyaz ikon
   } else {
     automaticIconVariant = "primary"; // Mavi ikon
