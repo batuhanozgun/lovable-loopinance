@@ -45,12 +45,13 @@ export const HeroSection = () => {
           <h1 className="text-3xl md:text-4xl font-bold text-foreground">{t("hero.title")}</h1>
           <p className="text-base text-gray-700 dark:text-gray-300 mb-6 max-w-xl">{t("hero.subtitle")}</p>
           <div className="flex flex-col sm:flex-row gap-3">
-            <IconButton asChild>
-              <Link to="/signup">
-                {t("hero.cta.primary")} 
+            {/* Link'i IconButton içine doğrudan yerleştirmek yerine, önce Link oluşturup sonra IconButton içinde kullanıyoruz */}
+            <Link to="/signup">
+              <IconButton>
+                {t("hero.cta.primary")}
                 <ArrowRight />
-              </Link>
-            </IconButton>
+              </IconButton>
+            </Link>
             <Button variant="outline" size="sm" asChild className="text-sm px-3 py-1 h-8">
               <Link to="/features">{t("hero.cta.secondary")}</Link>
             </Button>
