@@ -41,7 +41,7 @@ export const PricingSection = () => {
     <Section id="pricing" variant="pricing" background="none">
       <Container size="default">
         <div className="text-center mb-10">
-          <Heading level="h2" className="mb-3">
+          <Heading level="h2" className="mb-3" align="center">
             {t('pricing.title')}
           </Heading>
           
