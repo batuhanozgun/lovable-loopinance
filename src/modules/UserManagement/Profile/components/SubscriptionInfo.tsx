@@ -88,7 +88,7 @@ export const SubscriptionInfo: React.FC = () => {
           </Badge>
         </div>
         <CardDescription className="text-base">
-          {t(`Subscription:plan.${subscription.plan}`)}
+          {t(`Subscription:plans.${subscription.plan}`)}
         </CardDescription>
       </CardHeader>
       

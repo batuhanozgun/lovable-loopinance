@@ -145,7 +145,7 @@ export const SubscriptionCard: React.FC<SubscriptionCardProps> = ({ onActionClic
     <Card className="w-full">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <CardTitle>{t(`Subscription:plan.${subscription.plan}`)}</CardTitle>
+          <CardTitle>{t(`Subscription:plans.${subscription.plan}`)}</CardTitle>
           <Badge variant={getBadgeVariant()}>
             {getStatusText()}
           </Badge>
