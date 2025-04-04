@@ -1,8 +1,8 @@
 
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LandingHeader } from '@/modules/LandingPage/components/LandingHeader/index';
-import { LandingFooter } from '@/modules/LandingPage/components/LandingFooter/index';
+import { LandingHeader } from '@/modules/LandingPage/components/LandingHeader';
+import { LandingFooter } from '@/modules/LandingPage/components/LandingFooter';
 import { initLandingPageTranslations } from '@/modules/LandingPage/i18n';
 import { FeatureSection } from '@/modules/LandingPage/components/FeatureSection';
 
