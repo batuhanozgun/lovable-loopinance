@@ -1,6 +1,6 @@
 
-import StyleGuidePage from "@/modules/LandingPage/views/StyleGuidePage";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
+import StyleGuidePage from "@/modules/LandingPage/views/StyleGuide";
 import { initLandingPageTranslations } from "@/modules/LandingPage/i18n";
 import "../i18n/config"; // Import i18n configuration directly
 
