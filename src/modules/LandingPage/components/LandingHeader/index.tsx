@@ -36,7 +36,7 @@ export const LandingHeader = () => {
           <Button size="sm" variant="ghost" asChild>
             <Link to="/login">{t('nav.login')}</Link>
           </Button>
-          <IconButton size="sm" variant="gradient" asChild iconPosition="right" iconSize="xs">
+          <IconButton variant="gradient" asChild iconPosition="right" iconSize="xs">
             <Link to="/signup">{t('nav.signup')}</Link>
             <ArrowRight />
           </IconButton>
@@ -99,7 +99,7 @@ export const LandingHeader = () => {
                 <Button size="sm" variant="ghost" className="w-full" asChild>
                   <Link to="/login" onClick={() => setMobileMenuOpen(false)}>{t('nav.login')}</Link>
                 </Button>
-                <IconButton size="sm" variant="gradient" className="w-full" asChild iconPosition="right" iconSize="xs">
+                <IconButton variant="gradient" className="w-full" asChild iconPosition="right" iconSize="xs">
                   <Link to="/signup" onClick={() => setMobileMenuOpen(false)}>{t('nav.signup')}</Link>
                   <ArrowRight />
                 </IconButton>
