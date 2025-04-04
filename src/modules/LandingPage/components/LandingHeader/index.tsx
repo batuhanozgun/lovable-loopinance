@@ -24,6 +24,7 @@ export const LandingHeader = () => {
         <nav className="hidden md:flex items-center space-x-6">
           <Link to="/" variant="default" size="sm">{t('nav.home')}</Link>
           <Link to="/features" variant="default" size="sm">{t('nav.features')}</Link>
+          <Link to="/pricing" variant="default" size="sm">{t('nav.pricing')}</Link>
           <Link to="/about" variant="default" size="sm">{t('nav.about')}</Link>
           <Link to="/style-guide" variant="default" size="sm">Style Guide</Link>
         </nav>
@@ -70,6 +71,13 @@ export const LandingHeader = () => {
               {t('nav.features')}
             </Link>
             <Link 
+              to="/pricing" 
+              className="px-2 py-1 rounded-md hover:bg-muted/50 transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {t('nav.pricing')}
+            </Link>
+            <Link 
               to="/about" 
               className="px-2 py-1 rounded-md hover:bg-muted/50 transition-colors"
               onClick={() => setMobileMenuOpen(false)}
@@ -100,3 +108,4 @@ export const LandingHeader = () => {
     </header>
   );
 };
+
