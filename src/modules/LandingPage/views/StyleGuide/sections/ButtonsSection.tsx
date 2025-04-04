@@ -84,17 +84,17 @@ const ButtonsSection: React.FC = () => {
           <h3 className="text-sm font-medium mb-2">Özel İkon Renkleri</h3>
           <div className="flex flex-wrap gap-4 items-center">
             <IconButton iconVariant="primary">
-              Açık Mavi İkon (iconVariant="primary")
+              Açık Mavi İkon
               <ArrowRight />
             </IconButton>
             
             <IconButton iconVariant="muted">
-              Gri İkon (iconVariant="muted")
+              Gri İkon
               <ArrowRight />
             </IconButton>
             
             <IconButton variant="default" iconVariant="gradient">
-              Gradient İkon (iconVariant="gradient")
+              Gradient İkon
               <ArrowRight />
             </IconButton>
           </div>
