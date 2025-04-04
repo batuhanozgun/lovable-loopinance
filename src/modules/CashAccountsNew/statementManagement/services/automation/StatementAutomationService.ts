@@ -65,7 +65,7 @@ export class StatementAutomationService {
 
   /**
    * Belirli bir hesap için ekstre işlemleri yapar
-   * Gelecek ekstreleri kontrol eder ve eksikse oluşturur
+   * Hem süresi dolmuş ekstreleri kapatır hem de gelecek ekstreleri kontrol eder
    */
   static async processAccountStatements(account: CashAccount): Promise<{
     success: boolean;
@@ -73,6 +73,22 @@ export class StatementAutomationService {
   }> {
     try {
       this.logger.debug('Hesap ekstreleri işleme başlatılıyor', { accountId: account.id });
+      
+      // Önce statement-process edge fonksiyonunu çağırarak süresi dolmuş ekstreleri kapat
+      const { data: processData, error: processError } = await supabase.functions.invoke('statement-process', {
+        method: 'POST',
+        body: { accountId: account.id, source: 'client' }
+      });
+      
+      if (processError) {
+        this.logger.error('Ekstre işleme fonksiyonu çağrılırken hata', { accountId: account.id, error: processError });
+        return { 
+          success: false, 
+          message: processError.message 
+        };
+      }
+      
+      this.logger.info('Hesap için ekstre işleme tamamlandı', { accountId: account.id, result: processData });
       
       // Hesabın future statement ihtiyacını kontrol et
       const result = await FutureStatementService.checkAndCreateMissingFutureStatements(account.id);
@@ -85,6 +101,21 @@ export class StatementAutomationService {
         return { 
           success: false, 
           message: result.error || i18n.t('CashAccountsNew:statements.toasts.statementCheckError')
+        };
+      }
+      
+      // Süresi dolmuş ekstre kapandı mı kontrol et
+      if (processData && processData.closed > 0) {
+        this.logger.info('Hesap için süresi dolmuş ekstreler kapatıldı', { 
+          accountId: account.id,
+          closedCount: processData.closed
+        });
+        
+        return { 
+          success: true, 
+          message: i18n.t('CashAccountsNew:statements.toasts.statementsProcessed', { 
+            count: processData.closed
+          })
         };
       }
       

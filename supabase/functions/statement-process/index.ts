@@ -27,6 +27,10 @@ serve(async (req) => {
     
     console.log('statement-process: Starting statement processing');
     
+    // Request body'yi incele
+    const requestBody = await req.json();
+    const accountId = requestBody.accountId; // Spesifik bir hesap için işlem yapılıyor mu?
+    
     // 1. Future statüsündeki ekstreleri kontrol et ve güncelle
     try {
       const { data: futureResult, error: futureError } = await supabaseClient.rpc('update_future_statements');
@@ -46,7 +50,18 @@ serve(async (req) => {
       console.log(`statement-process: Future statements updated: ${JSON.stringify(futureResult)}`);
       
       // 2. Süresi dolmuş ekstreleri kapat ve yeni ekstreler oluştur
-      const { data: expiredResult, error: expiredError } = await supabaseClient.rpc('close_expired_statements');
+      let expiredResult;
+      let expiredError;
+      
+      if (accountId) {
+        // Belirli bir hesap için süresi dolmuş ekstreleri kapat
+        console.log(`statement-process: Processing specific account ID: ${accountId}`);
+        // TODO: Bu fonksiyon parametrik bir şekilde güncellenmeli
+        ({ data: expiredResult, error: expiredError } = await supabaseClient.rpc('close_expired_statements'));
+      } else {
+        // Tüm hesaplar için süresi dolmuş ekstreleri kapat
+        ({ data: expiredResult, error: expiredError } = await supabaseClient.rpc('close_expired_statements'));
+      }
       
       if (expiredError) {
         console.error(`statement-process: Error closing expired statements: ${expiredError.message}`);
@@ -82,21 +97,33 @@ serve(async (req) => {
           message: 'Statement processing completed', 
           future: futureResult,
           expired: expiredResult,
-          accounts_needing_future: accountsNeedingFuture
+          accounts_needing_future: accountsNeedingFuture,
+          timestamp: new Date().toISOString(),
+          accountId: accountId || null // İşlem yapılan hesap ID'si varsa dön
         }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     } catch (processError) {
       console.error(`statement-process: Unexpected error in processing: ${processError.message}`);
       return new Response(
-        JSON.stringify({ success: false, message: 'Unexpected error in processing', error: processError.message }),
+        JSON.stringify({ 
+          success: false, 
+          message: 'Unexpected error in processing', 
+          error: processError.message,
+          timestamp: new Date().toISOString()
+        }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
   } catch (error) {
     console.error(`statement-process: Unexpected error: ${error.message}`);
     return new Response(
-      JSON.stringify({ success: false, message: 'Unexpected error', error: error.message }),
+      JSON.stringify({ 
+        success: false, 
+        message: 'Unexpected error', 
+        error: error.message,
+        timestamp: new Date().toISOString() 
+      }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }
