@@ -36,30 +36,40 @@ const ButtonsSection: React.FC = () => {
         </div>
         
         <div>
-          <h3 className="text-sm font-medium mb-2">Icon Butonlar</h3>
+          <h3 className="text-sm font-medium mb-2">Icon Butonlar - Standard Görünüm</h3>
           <div className="flex flex-wrap gap-4 items-center">
             <IconButton>
-              Button with Icon
+              Default (Mavi İkon)
               <ArrowRight />
             </IconButton>
             
-            <IconButton iconPosition="left">
-              <ArrowRight />
-              Left Icon Button
-            </IconButton>
-            
-            <IconButton variant="outline">
-              Outline Icon Button
-              <ArrowRight />
-            </IconButton>
-            
-            <IconButton variant="secondary">
-              Secondary Button
+            <IconButton variant="primary">
+              Primary (Beyaz İkon)
               <ArrowRight />
             </IconButton>
             
             <IconButton variant="gradient">
-              Gradient Button
+              Gradient (Beyaz İkon)
+              <ArrowRight />
+            </IconButton>
+            
+            <IconButton variant="outline">
+              Outline (Mavi İkon)
+              <ArrowRight />
+            </IconButton>
+          </div>
+        </div>
+        
+        <div>
+          <h3 className="text-sm font-medium mb-2">İkon Konumu</h3>
+          <div className="flex flex-wrap gap-4 items-center">
+            <IconButton iconPosition="left">
+              <ArrowRight />
+              Sol İkon
+            </IconButton>
+            
+            <IconButton>
+              Sağ İkon
               <ArrowRight />
             </IconButton>
           </div>
@@ -69,17 +79,17 @@ const ButtonsSection: React.FC = () => {
           <h3 className="text-sm font-medium mb-2">Özel İkon Renkleri</h3>
           <div className="flex flex-wrap gap-4 items-center">
             <IconButton iconVariant="primary">
-              Explicit Primary Icon
+              Açık Mavi İkon
               <ArrowRight />
             </IconButton>
             
             <IconButton iconVariant="muted">
-              Explicit Muted Icon
+              Gri İkon
               <ArrowRight />
             </IconButton>
             
-            <IconButton variant="outline" iconVariant="gradient">
-              Gradient Icon
+            <IconButton variant="primary" iconVariant="gradient">
+              Gradient İkon
               <ArrowRight />
             </IconButton>
           </div>

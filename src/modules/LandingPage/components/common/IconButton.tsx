@@ -32,15 +32,24 @@ export const IconButton = ({
     (child) => !React.isValidElement(child) || typeof child.type === "string"
   );
 
-  // Otomatik olarak ikonun rengini buton varyantına göre belirleme
-  // Eğer özel bir iconVariant belirtilmemişse buton varyantına göre seçiyoruz
-  const automaticIconVariant: IconWrapperVariantsProps["variant"] = 
-    iconVariant || (variant === "default" ? "muted" : "primary");
+  // Basit tasarım kuralına göre ikon rengini belirleme:
+  // - Mavi/Primary/Gradient butonlar = beyaz ikon
+  // - Beyaz/Default arka plan = mavi ikon
+  let automaticIconVariant: IconWrapperVariantsProps["variant"];
+  
+  if (variant === "primary" || variant === "gradient") {
+    automaticIconVariant = "default"; // Beyaz ikon
+  } else {
+    automaticIconVariant = "primary"; // Mavi ikon
+  }
+  
+  // Eğer özel bir iconVariant belirtilmişse, onu kullan
+  const finalIconVariant = iconVariant || automaticIconVariant;
 
   return (
     <Button className={cn("group", className)} size="sm" variant={variant} {...props}>
       {iconPosition === "left" && icons.length > 0 && (
-        <IconWrapper variant={automaticIconVariant} size={iconSize}>
+        <IconWrapper variant={finalIconVariant} size={iconSize}>
           {icons}
         </IconWrapper>
       )}
@@ -49,7 +58,7 @@ export const IconButton = ({
       
       {iconPosition === "right" && icons.length > 0 && (
         <IconWrapper 
-          variant={automaticIconVariant} 
+          variant={finalIconVariant} 
           size={iconSize} 
           className="transition-transform group-hover:translate-x-0.5"
         >
