@@ -9,8 +9,7 @@ import {
   Section, 
   Container, 
   Heading, 
-  Text,
-  IconWrapper
+  Text
 } from "@/modules/LandingPage/styles";
 
 export const HeroSection = () => {

@@ -36,20 +36,60 @@ const ButtonsSection: React.FC = () => {
         </div>
         
         <div>
-          <h3 className="text-sm font-medium mb-2">Icon Butonlar</h3>
+          <h3 className="text-sm font-medium mb-2">Icon Butonlar - Standard Görünüm</h3>
           <div className="flex flex-wrap gap-4 items-center">
             <IconButton>
-              Button with Icon
+              Default (Beyaz İkon)
               <ArrowRight />
             </IconButton>
             
-            <IconButton iconPosition="left">
+            <IconButton variant="default">
+              Default Explicit (Beyaz İkon)
               <ArrowRight />
-              Left Icon Button
+            </IconButton>
+            
+            <IconButton variant="gradient">
+              Gradient (Beyaz İkon)
+              <ArrowRight />
             </IconButton>
             
             <IconButton variant="outline">
-              Outline Icon Button
+              Outline (Mavi İkon)
+              <ArrowRight />
+            </IconButton>
+          </div>
+        </div>
+        
+        <div>
+          <h3 className="text-sm font-medium mb-2">İkon Konumu</h3>
+          <div className="flex flex-wrap gap-4 items-center">
+            <IconButton iconPosition="left">
+              <ArrowRight />
+              Sol İkon
+            </IconButton>
+            
+            <IconButton>
+              Sağ İkon
+              <ArrowRight />
+            </IconButton>
+          </div>
+        </div>
+        
+        <div>
+          <h3 className="text-sm font-medium mb-2">Özel İkon Renkleri</h3>
+          <div className="flex flex-wrap gap-4 items-center">
+            <IconButton iconVariant="primary">
+              Açık Mavi İkon
+              <ArrowRight />
+            </IconButton>
+            
+            <IconButton iconVariant="muted">
+              Gri İkon
+              <ArrowRight />
+            </IconButton>
+            
+            <IconButton variant="default" iconVariant="gradient">
+              Gradient İkon
               <ArrowRight />
             </IconButton>
           </div>

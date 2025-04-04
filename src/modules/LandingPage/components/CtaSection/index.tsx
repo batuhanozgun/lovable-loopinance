@@ -50,7 +50,7 @@ export const CtaSection = () => {
             </Text>
             
             <IconButton 
-              onClick={handleCtaClick} 
+              onClick={handleCtaClick}
               asChild
             >
               <Link to="/signup">
