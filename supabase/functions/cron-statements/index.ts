@@ -21,6 +21,8 @@ serve(async (req) => {
   }
   
   try {
+    console.log('cron-statements: Starting cron job execution at', new Date().toISOString());
+    
     // statement-process edge function'ı çağır
     const response = await fetch(
       `${Deno.env.get('SUPABASE_URL')}/functions/v1/statement-process`, 
@@ -36,27 +38,30 @@ serve(async (req) => {
     
     if (!response.ok) {
       const errorData = await response.json();
+      console.error(`cron-statements: Edge function failed with status ${response.status}: ${JSON.stringify(errorData)}`);
       throw new Error(`Edge function failed: ${JSON.stringify(errorData)}`);
     }
     
     const result = await response.json();
     
-    console.log('Cron job completed successfully');
+    console.log('cron-statements: Job completed successfully:', JSON.stringify(result));
     
     return new Response(JSON.stringify({ 
       success: true, 
       message: 'Cron job completed successfully', 
-      result 
+      result,
+      timestamp: new Date().toISOString()
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 200
     });
   } catch (error) {
-    console.error('Cron job failed:', error);
+    console.error('cron-statements: Job failed:', error);
     
     return new Response(JSON.stringify({ 
       success: false, 
-      error: error.message 
+      error: error.message,
+      timestamp: new Date().toISOString()
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 500

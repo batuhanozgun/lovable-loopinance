@@ -7,7 +7,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { FutureStatementService } from './FutureStatementService';
 import { StatementService } from '../StatementService';
 import { CashAccount } from '../../../cashAccountHomepage/types';
-import { toast } from 'sonner';
+import { toast } from '@/hooks/use-toast';
 import i18n from '@/i18n/config';
 
 /**
