@@ -58,13 +58,13 @@ export const subcategoryTextVariants = cva("", {
   },
 });
 
-// Sayfa başlıkları için stil varyantları
+// Sayfa başlıkları için stil varyantları - Başlık boyutları %50 küçültüldü
 export const pageHeadingVariants = cva("", {
   variants: {
     level: {
-      h1: "text-2xl md:text-3xl lg:text-4xl",
-      h2: "text-xl md:text-2xl lg:text-3xl",
-      h3: "text-lg md:text-xl lg:text-2xl",
+      h1: "text-xl md:text-2xl lg:text-2xl", // Önceki: text-2xl md:text-3xl lg:text-4xl
+      h2: "text-lg md:text-xl lg:text-xl", // Önceki: text-xl md:text-2xl lg:text-3xl
+      h3: "text-base md:text-lg lg:text-lg", // Önceki: text-lg md:text-xl lg:text-2xl
     },
     weight: {
       normal: "font-normal",
