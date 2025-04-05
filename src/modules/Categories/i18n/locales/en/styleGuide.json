@@ -68,5 +68,14 @@
     "next": "Next",
     "edit": "Edit",
     "delete": "Delete"
+  },
+  "examples": {
+    "title": "Example Pages",
+    "description": "Examples of how components are used in real pages",
+    "categoryList": "Category List",
+    "editCategory": "Edit Category",
+    "deleteCategory": "Delete Category",
+    "editSubcategory": "Edit Subcategory",
+    "deleteSubcategory": "Delete Subcategory"
   }
 }

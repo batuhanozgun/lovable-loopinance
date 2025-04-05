@@ -1,79 +1,21 @@
 
-// Temel kategori ve alt kategori tipleri
-export interface ICategory {
-  id: string;
-  name: string;
-  icon: string | null;
-  user_id: string;
-  sort_order: number;
-  created_at: string;
-  updated_at: string;
-  sub_categories?: ISubCategory[];
-}
+// Kategoriler modülü için tip tanımları
 
+// Alt kategori arayüzü
 export interface ISubCategory {
   id: string;
   name: string;
-  category_id: string;
-  sort_order: number;
-  created_at: string;
-  updated_at: string;
+  parent_id: string;
+  order: number;
 }
 
-// Kategori ve alt kategori oluşturma/güncelleme tipleri
-export interface ICreateCategoryData {
+// Kategori arayüzü
+export interface ICategory {
+  id: string;
   name: string;
-  icon: string | null;
-  user_id: string;
-}
-
-export interface IUpdateCategoryData {
-  name?: string;
-  icon?: string | null;
-}
-
-export interface ICategoryUpdateParams {
-  id: string;
-  data: IUpdateCategoryData;
-}
-
-export interface ICreateSubCategoryData {
-  name: string;
-  category_id: string;
-}
-
-export interface IUpdateSubCategoryData {
-  name?: string;
-  sort_order?: number;
-}
-
-export interface ISubCategoryUpdateParams {
-  id: string;
-  data: IUpdateSubCategoryData;
-}
-
-// Kategori sıralama ile ilgili tipler
-export interface ICategoryOrder {
-  id: string;
-  sort_order: number;
-}
-
-export interface ISubCategoryOrder {
-  id: string;
-  sort_order: number;
-}
-
-export interface IReorderCategoriesData {
-  categories: ICategoryOrder[];
-}
-
-export interface IReorderSubCategoriesData {
-  subCategories: ISubCategoryOrder[];
-}
-
-// Alt kategori taşıma işlemi için tip
-export interface ICategoryMoveOperation {
-  sourceId: string;
-  targetId: string;
-  subCategoryIds: string[];
+  icon?: string;
+  color?: string;
+  order: number;
+  sub_categories?: ISubCategory[];
+  created_at?: string;
 }

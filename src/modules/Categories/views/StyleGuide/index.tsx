@@ -10,6 +10,7 @@ import CardsSection from './sections/CardsSection';
 import TypographySection from './sections/TypographySection';
 import ButtonsSection from './sections/ButtonsSection';
 import PageHeadingsSection from './sections/PageHeadingsSection';
+import ExamplesSection from './examples';
 
 const CategoriesStyleGuideView: React.FC = () => {
   const { t } = useTranslation(['Categories']);
@@ -22,6 +23,7 @@ const CategoriesStyleGuideView: React.FC = () => {
       <TypographySection />
       <PageHeadingsSection />
       <ButtonsSection />
+      <ExamplesSection />
     </CategoriesStyleGuideLayout>
   );
 };

@@ -68,5 +68,14 @@
     "next": "İleri",
     "edit": "Düzenle",
     "delete": "Sil"
+  },
+  "examples": {
+    "title": "Örnek Sayfalar",
+    "description": "Bileşenlerin gerçek sayfalarda nasıl kullanıldığına dair örnekler",
+    "categoryList": "Kategori Listesi",
+    "editCategory": "Kategori Düzenle",
+    "deleteCategory": "Kategori Sil",
+    "editSubcategory": "Alt Kategori Düzenle",
+    "deleteSubcategory": "Alt Kategori Sil"
   }
 }
