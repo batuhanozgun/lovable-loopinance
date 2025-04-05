@@ -1,8 +1,10 @@
 
 import React from 'react';
 import { Container } from '@/modules/StyleGuide/components/ui/container';
-import { Heading, Text, Divider } from '@/modules/LandingPage/styles';
+import { Divider } from '@/modules/LandingPage/styles';
 import { useTranslation } from 'react-i18next';
+import { cn } from '@/lib/utils';
+import { headingVariants, textVariants } from '@/modules/Categories/styles/tokens/typography';
 
 interface CategoriesStyleGuideLayoutProps {
   children: React.ReactNode;
@@ -17,12 +19,12 @@ const CategoriesStyleGuideLayout: React.FC<CategoriesStyleGuideLayoutProps> = ({
     <div className="py-8">
       <Container>
         <div className="space-y-4 mb-8">
-          <Heading level="h2" className="text-2xl font-bold">
+          <h1 className={cn(headingVariants({ size: '2xl', weight: 'bold' }))}>
             {t('Categories:styleGuide.title', 'Kategoriler Stil Kılavuzu')}
-          </Heading>
-          <Text className="text-muted-foreground">
+          </h1>
+          <p className={cn(textVariants({ emphasis: 'low' }))}>
             {t('Categories:styleGuide.description', 'Kategori modülü için bileşenler ve stil rehberi')}
-          </Text>
+          </p>
           <Divider />
         </div>
         
