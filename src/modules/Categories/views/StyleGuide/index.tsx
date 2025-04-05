@@ -1,29 +1,27 @@
 
 import React from 'react';
 import { Container } from '@/modules/StyleGuide/components/ui/container';
-import { Heading } from '@/modules/LandingPage/styles';
+import { Heading, Text, Divider } from '@/modules/LandingPage/styles';
 import { useTranslation } from 'react-i18next';
 import CategoriesStyleGuideLayout from './CategoriesStyleGuideLayout';
-import ColorsSection from './sections/ColorsSection';
-import BadgesSection from './sections/BadgesSection';
-import CardsSection from './sections/CardsSection';
 import TypographySection from './sections/TypographySection';
-import ButtonsSection from './sections/ButtonsSection';
 import PageHeadingsSection from './sections/PageHeadingsSection';
-import ExamplesSection from './examples';
 
 const CategoriesStyleGuideView: React.FC = () => {
   const { t } = useTranslation(['Categories']);
   
   return (
     <CategoriesStyleGuideLayout>
-      <ColorsSection />
-      <BadgesSection />
-      <CardsSection />
-      <TypographySection />
-      <PageHeadingsSection />
-      <ButtonsSection />
-      <ExamplesSection />
+      <div className="space-y-12">
+        <div className="p-4 border rounded-md bg-gray-50">
+          <Text className="text-muted-foreground">
+            Kategori modülü stil rehberi sadeleştirildi. Adım adım yeni bileşenler ekleyeceğiz.
+          </Text>
+        </div>
+        
+        <TypographySection />
+        <PageHeadingsSection />
+      </div>
     </CategoriesStyleGuideLayout>
   );
 };

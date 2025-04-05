@@ -14,7 +14,7 @@ const PageHeadingsSection: React.FC = () => {
         {t('Categories:styleGuide.pageHeadings.title', 'Sayfa Başlıkları')}
       </Heading>
       <Text className="text-muted-foreground mb-4">
-        {t('Categories:styleGuide.pageHeadings.description', 'Modül sayfaları için kullanılan başlık stilleri (Yeni: %80 küçültülmüş)')}
+        {t('Categories:styleGuide.pageHeadings.description', 'Modül sayfaları için kullanılan başlık stilleri')}
       </Text>
       <Divider className="mb-6" />
       
@@ -33,91 +33,6 @@ const PageHeadingsSection: React.FC = () => {
             </div>
             <div className={cn(pageHeadingVariants({ level: 'h3', weight: 'medium' }))}>
               H3 - Başlık 3
-            </div>
-          </div>
-        </div>
-        
-        {/* Başlık Kalınlıkları */}
-        <div>
-          <Heading level="h4" className="text-lg font-medium mb-3">
-            {t('Categories:styleGuide.pageHeadings.weights', 'Başlık Kalınlıkları')}
-          </Heading>
-          <div className="p-6 border rounded-md space-y-4 bg-white">
-            <div className={cn(pageHeadingVariants({ level: 'h2', weight: 'bold' }))}>
-              Bold (Kalın) Başlık
-            </div>
-            <div className={cn(pageHeadingVariants({ level: 'h2', weight: 'semibold' }))}>
-              Semibold (Yarı Kalın) Başlık
-            </div>
-            <div className={cn(pageHeadingVariants({ level: 'h2', weight: 'medium' }))}>
-              Medium (Orta Kalın) Başlık
-            </div>
-            <div className={cn(pageHeadingVariants({ level: 'h2', weight: 'normal' }))}>
-              Normal Başlık
-            </div>
-          </div>
-        </div>
-        
-        {/* Başlık Boşlukları */}
-        <div>
-          <Heading level="h4" className="text-lg font-medium mb-3">
-            {t('Categories:styleGuide.pageHeadings.spacings', 'Başlık Boşlukları')}
-          </Heading>
-          <div className="p-6 border rounded-md space-y-0 bg-white">
-            <div className={cn(pageHeadingVariants({ level: 'h2', spacing: 'none' }))}>
-              Boşluksuz Başlık (None)
-            </div>
-            <div className="bg-gray-100 h-1 w-full"></div>
-            
-            <div className={cn(pageHeadingVariants({ level: 'h2', spacing: 'tight' }))}>
-              Dar Boşluklu Başlık (Tight)
-            </div>
-            <div className="bg-gray-100 h-1 w-full"></div>
-            
-            <div className={cn(pageHeadingVariants({ level: 'h2', spacing: 'normal' }))}>
-              Normal Boşluklu Başlık (Normal)
-            </div>
-            <div className="bg-gray-100 h-1 w-full"></div>
-            
-            <div className={cn(pageHeadingVariants({ level: 'h2', spacing: 'relaxed' }))}>
-              Geniş Boşluklu Başlık (Relaxed)
-            </div>
-            <div className="bg-gray-100 h-1 w-full"></div>
-          </div>
-        </div>
-        
-        {/* Başlık Hizalamaları */}
-        <div>
-          <Heading level="h4" className="text-lg font-medium mb-3">
-            {t('Categories:styleGuide.pageHeadings.aligns', 'Başlık Hizalamaları')}
-          </Heading>
-          <div className="p-6 border rounded-md space-y-4 bg-white">
-            <div className={cn(pageHeadingVariants({ level: 'h2', align: 'left' }))}>
-              Sola Hizalı Başlık (Left)
-            </div>
-            <div className={cn(pageHeadingVariants({ level: 'h2', align: 'center' }))}>
-              Ortaya Hizalı Başlık (Center)
-            </div>
-            <div className={cn(pageHeadingVariants({ level: 'h2', align: 'right' }))}>
-              Sağa Hizalı Başlık (Right)
-            </div>
-          </div>
-        </div>
-        
-        {/* Başlık Vurguları */}
-        <div>
-          <Heading level="h4" className="text-lg font-medium mb-3">
-            {t('Categories:styleGuide.pageHeadings.emphasis', 'Başlık Vurguları')}
-          </Heading>
-          <div className="p-6 border rounded-md space-y-4 bg-white">
-            <div className={cn(pageHeadingVariants({ level: 'h2', emphasis: 'normal' }))}>
-              Normal Vurgulu Başlık
-            </div>
-            <div className={cn(pageHeadingVariants({ level: 'h2', emphasis: 'muted' }))}>
-              Sönük Vurgulu Başlık (Muted)
-            </div>
-            <div className={cn(pageHeadingVariants({ level: 'h2', emphasis: 'primary' }))}>
-              Birincil Vurgulu Başlık (Primary)
             </div>
           </div>
         </div>
@@ -142,60 +57,6 @@ const PageHeadingsSection: React.FC = () => {
               <p className={cn(descriptionTextVariants({ emphasis: 'high', weight: 'medium', size: 'default' }))}>
                 Yüksek vurgu, orta kalınlık - Kişiselleştirilebilir kategoriler ile verilerinizi organize edin!
               </p>
-            </div>
-            <div>
-              <p className={cn(descriptionTextVariants({ emphasis: 'low', size: 'sm', spacing: 'tight' }))}>
-                Düşük vurgu, küçük boyut, dar boşluk - Yardımcı açıklama metni örneği.
-              </p>
-            </div>
-            <div>
-              <p className={cn(descriptionTextVariants({ emphasis: 'normal', size: 'lg', weight: 'semibold' }))}>
-                Normal vurgu, büyük boyut, yarı kalın - Önemli bir açıklama örneği.
-              </p>
-            </div>
-          </div>
-        </div>
-        
-        {/* Gerçek Hayat Örnekleri */}
-        <div>
-          <Heading level="h4" className="text-lg font-medium mb-3">
-            {t('Categories:styleGuide.pageHeadings.examples', 'Örnek Kullanımlar')}
-          </Heading>
-          <div className="p-6 border rounded-md space-y-10 bg-white">
-            <div className="space-y-4">
-              <div className={cn(pageHeadingVariants({ level: 'h1', weight: 'bold', emphasis: 'normal' }))}>
-                Kategoriler
-              </div>
-              <div className={cn(descriptionTextVariants({ emphasis: 'low', maxWidth: 'wide' }))}>
-                Kategorilerinizi yöneterek harcamalarınızı daha iyi organize edebilir ve finansal alışkanlıklarınızı analiz edebilirsiniz. Özelleştirilebilir yapısı ile ihtiyaçlarınıza göre düzenleyebilirsiniz.
-              </div>
-              <Divider />
-            </div>
-            
-            <div className="space-y-4">
-              <div className={cn(pageHeadingVariants({ level: 'h2', weight: 'semibold', emphasis: 'primary' }))}>
-                Kategori İstatistikleri
-              </div>
-              <div className={cn(descriptionTextVariants({ emphasis: 'normal' }))}>
-                Kategorilerinizin kullanım oranlarını ve ilişkili işlemleri görüntüleyin.
-              </div>
-              <div className="p-4 border rounded">
-                <Text>İstatistik kartları burada yer alabilir</Text>
-              </div>
-            </div>
-            
-            <div className="space-y-4">
-              <div className={cn(pageHeadingVariants({ level: 'h2', align: 'center', spacing: 'relaxed' }))}>
-                Kategori Şablonları
-              </div>
-              <div className={cn(descriptionTextVariants({ emphasis: 'low', align: 'center', maxWidth: 'full' }))}>
-                Hazır kategori şablonları ile işe başlayın veya kendi yapınızı oluşturun.
-              </div>
-              <div className="grid grid-cols-3 gap-4">
-                <div className="p-4 border rounded">Şablon 1</div>
-                <div className="p-4 border rounded">Şablon 2</div>
-                <div className="p-4 border rounded">Şablon 3</div>
-              </div>
             </div>
           </div>
         </div>
