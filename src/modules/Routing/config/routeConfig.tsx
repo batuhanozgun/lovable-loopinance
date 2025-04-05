@@ -1,5 +1,38 @@
+
 import React, { lazy, Suspense } from 'react';
 import { Navigate, RouteObject } from 'react-router-dom';
+import { ReactNode } from "react";
+
+// Rota türleri
+export type RouteType = "private" | "public" | "conditional";
+
+// Temel rota arayüzü
+interface BaseRoute {
+  path: string;
+  element: ReactNode;
+  type: RouteType;
+}
+
+// Özel rotalar için arayüz
+interface PrivateRoute extends BaseRoute {
+  type: "private";
+}
+
+// Genel rotalar için arayüz
+interface PublicRoute extends BaseRoute {
+  type: "public";
+  redirectTo?: string;
+}
+
+// Koşullu rotalar için arayüz
+interface ConditionalRoute extends BaseRoute {
+  type: "conditional";
+  privateElement: ReactNode;
+  publicElement: ReactNode;
+}
+
+// Tüm rota türlerinin birleşimi
+export type AppRoute = PrivateRoute | PublicRoute | ConditionalRoute;
 
 // Route tanımlarını içeren sabit bir nesne
 export const ROUTE_PATHS = {
@@ -35,7 +68,9 @@ const StyleGuide = lazy(() => import('@/pages/StyleGuide'));
 // Yeni StyleGuide importu
 const CategoriesStyleGuide = lazy(() => import('@/pages/CategoriesStyleGuide'));
 
-// Router için path tanımlamaları
+/**
+ * Uygulama rotaları
+ */
 export const routes: RouteObject[] = [
   {
     path: ROUTE_PATHS.HOME,
