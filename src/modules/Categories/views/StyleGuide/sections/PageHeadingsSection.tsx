@@ -14,7 +14,7 @@ const PageHeadingsSection: React.FC = () => {
         {t('Categories:styleGuide.pageHeadings.title', 'Sayfa Başlıkları')}
       </Heading>
       <Text className="text-muted-foreground mb-4">
-        {t('Categories:styleGuide.pageHeadings.description', 'Modül sayfaları için kullanılan başlık stilleri (Yeni: %50 küçültülmüş)')}
+        {t('Categories:styleGuide.pageHeadings.description', 'Modül sayfaları için kullanılan başlık stilleri (Yeni: %80 küçültülmüş)')}
       </Text>
       <Divider className="mb-6" />
       
