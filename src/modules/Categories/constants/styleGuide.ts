@@ -18,6 +18,11 @@ export const categoryStyleGuide = {
       description: 'Kategori bilgilerini görüntülemek için kullanılan kart bileşenleri',
     },
     {
+      id: 'typography',
+      title: 'Tipografi',
+      description: 'Kategori metinleri için kullanılan yazı stilleri',
+    },
+    {
       id: 'forms',
       title: 'Formlar',
       description: 'Kategori oluşturma ve düzenleme formları',

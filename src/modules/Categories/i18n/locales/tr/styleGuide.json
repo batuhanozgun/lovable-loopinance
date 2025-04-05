@@ -24,5 +24,15 @@
     "subcategoryVariants": "Alt Kategori Kartı Varyantları",
     "nestedExample": "İç İçe Kategori Örneği",
     "sizes": "Kart Boyutları"
+  },
+  "typography": {
+    "title": "Kategori Tipografisi",
+    "description": "Kategori gösterimi için kullanılan yazı stilleri",
+    "headings": "Kategori Başlıkları",
+    "text": "Kategori Metinleri",
+    "variants": "Metin Varyantları",
+    "weights": "Metin Kalınlıkları",
+    "sizes": "Metin Boyutları",
+    "examples": "Örnek Kullanımlar"
   }
 }

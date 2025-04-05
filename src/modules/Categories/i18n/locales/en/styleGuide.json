@@ -24,5 +24,15 @@
     "subcategoryVariants": "Subcategory Card Variants",
     "nestedExample": "Nested Categories Example",
     "sizes": "Card Sizes"
+  },
+  "typography": {
+    "title": "Category Typography",
+    "description": "Typography styles used for category display",
+    "headings": "Category Headings",
+    "text": "Category Texts",
+    "variants": "Text Variants",
+    "weights": "Text Weights",
+    "sizes": "Text Sizes",
+    "examples": "Usage Examples"
   }
 }
