@@ -17,7 +17,7 @@ import { subscriptionRoutes } from "../routes/subscriptionRoutes";
  * 3. Ana routeConfig.tsx dosyasında tüm rotaları birleştirdik
  */
 export { ROUTE_PATHS } from "../constants/routePaths";
-export { AppRoute } from "../types/routeTypes";
+export type { AppRoute } from "../types/routeTypes";
 export type { PrivateRoute, PublicRoute, ConditionalRoute, RouteType, BaseRoute } from "../types/routeTypes";
 
 /**
