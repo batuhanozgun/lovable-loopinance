@@ -5,6 +5,7 @@ import { Divider } from '@/modules/LandingPage/styles';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { headingVariants, textVariants } from '@/modules/Categories/styles/tokens/typography';
+import { categorySpacing } from '@/modules/Categories/styles/tokens/spacing';
 
 interface CategoriesStyleGuideLayoutProps {
   children: React.ReactNode;
@@ -16,19 +17,19 @@ const CategoriesStyleGuideLayout: React.FC<CategoriesStyleGuideLayoutProps> = ({
   const { t } = useTranslation(['Categories']);
   
   return (
-    <div className="py-8">
+    <div className="py-4">
       <Container>
-        <div className="space-y-2 mb-6">
+        <div className="mb-4">
           <h1 className={cn(headingVariants({ size: 'lg', weight: 'bold' }))}>
             {t('Categories:styleGuide.title', 'Kategoriler Stil Kılavuzu')}
           </h1>
           <p className={cn(textVariants({ emphasis: 'low', spacing: 'none' }))}>
             {t('Categories:styleGuide.description', 'Kategori modülü için bileşenler ve stil rehberi')}
           </p>
-          <Divider />
+          <Divider className="mt-2" />
         </div>
         
-        <div className="space-y-12">
+        <div className="space-y-8">
           {children}
         </div>
       </Container>

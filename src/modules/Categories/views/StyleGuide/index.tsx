@@ -10,7 +10,7 @@ const CategoriesStyleGuideView: React.FC = () => {
   
   return (
     <CategoriesStyleGuideLayout>
-      <div className="space-y-16">
+      <div className="space-y-10">
         <TypographySection />
         <ColorsSection />
       </div>

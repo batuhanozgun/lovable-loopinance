@@ -10,9 +10,9 @@ const ColorsSection: React.FC = () => {
   const { t } = useTranslation(['Categories']);
   
   return (
-    <div className="mb-12">
+    <div className="mb-8">
       {/* Section Header */}
-      <div className="mb-6">
+      <div className="mb-3">
         <h2 className={cn(headingVariants({ size: 'base', weight: 'semibold', spacing: 'tight' }))}>
           {t('Categories:styleGuide.colors.title', 'Kategori Renkleri')}
         </h2>
@@ -21,7 +21,7 @@ const ColorsSection: React.FC = () => {
         </p>
       </div>
       
-      <div className="space-y-12">
+      <div className="space-y-8">
         {/* Ana renkler */}
         <div>
           <h3 className={cn(headingVariants({ size: 'sm', weight: 'medium', spacing: 'tight' }))}>
@@ -36,7 +36,7 @@ const ColorsSection: React.FC = () => {
           </div>
         </div>
         
-        <Separator className="my-6" />
+        <Separator className="my-4" />
         
         {/* Pastel renkler */}
         <div>
@@ -52,7 +52,7 @@ const ColorsSection: React.FC = () => {
           </div>
         </div>
         
-        <Separator className="my-6" />
+        <Separator className="my-4" />
         
         {/* İşlevsel renkler */}
         <div>
@@ -68,7 +68,7 @@ const ColorsSection: React.FC = () => {
           </div>
         </div>
         
-        <Separator className="my-6" />
+        <Separator className="my-4" />
         
         {/* Nötr renkler */}
         <div>

@@ -9,9 +9,9 @@ const TypographySection: React.FC = () => {
   const { t } = useTranslation(['Categories']);
   
   return (
-    <div className="mb-12">
+    <div className="mb-8">
       {/* Section Header */}
-      <div className="mb-4">
+      <div className="mb-3">
         <h2 className={cn(headingVariants({ size: 'base', weight: 'semibold', spacing: 'tight' }))}>
           {t('Categories:styleGuide.typography.title', 'Tipografi')}
         </h2>
@@ -20,7 +20,7 @@ const TypographySection: React.FC = () => {
         </p>
       </div>
       
-      <div className="space-y-12">
+      <div className="space-y-8">
         {/* Başlıklar Bölümü */}
         <div>
           <h3 className={cn(headingVariants({ size: 'sm', weight: 'medium', spacing: 'tight' }))}>
@@ -87,7 +87,7 @@ const TypographySection: React.FC = () => {
           </div>
         </div>
         
-        <Separator className="my-6" />
+        <Separator className="my-4" />
         
         {/* Metin Bölümü */}
         <div>
