@@ -31,8 +31,8 @@ const TypographySection: React.FC = () => {
             <div>
               <p className={cn(textVariants({ emphasis: 'low', size: 'sm', spacing: 'tight' }))}>Boyutlar</p>
               <div className="space-y-4">
-                <div className={cn(headingVariants({ size: 'lg' }))}>
-                  LG Başlık - Sayfa Başlığı (Varsayılan)
+                <div className={cn(headingVariants({ size: 'lg', emphasis: 'primary' }))}>
+                  LG Başlık - H1 Sayfa Başlığı (Primary)
                 </div>
                 <div className={cn(headingVariants({ size: 'base' }))}>
                   Base Başlık - Bölüm Başlığı
@@ -74,7 +74,7 @@ const TypographySection: React.FC = () => {
               <p className={cn(textVariants({ emphasis: 'low', size: 'sm', spacing: 'tight' }))}>Vurgular</p>
               <div className="space-y-4">
                 <div className={cn(headingVariants({ emphasis: 'primary' }))}>
-                  Ana Vurgu Başlık (Primary)
+                  Ana Vurgu Başlık (Primary - H1 için standart)
                 </div>
                 <div className={cn(headingVariants({ emphasis: 'normal' }))}>
                   Normal Başlık (Varsayılan)
