@@ -1,16 +1,13 @@
 
 import React, { useEffect } from 'react';
-import CategoriesStyleGuideView from '@/modules/Categories/views/StyleGuide';
-import { loadTranslations } from '@/modules/Categories/i18n';
-import "../i18n/config"; // Import i18n configuration directly
+import { Navigate } from 'react-router-dom';
+import { AuthService } from '@/modules/UserManagement/common/services/AuthService';
+import { ROUTE_PATHS } from '@/modules/Routing';
 
+// This page is now private and accessed via /style-guides/categories
+// Redirect to login if accessed directly
 const CategoriesStyleGuide = () => {
-  useEffect(() => {
-    // Initialize Categories translations
-    loadTranslations();
-  }, []);
-  
-  return <CategoriesStyleGuideView />;
+  return <Navigate to={ROUTE_PATHS.LOGIN} />;
 };
 
 export default CategoriesStyleGuide;

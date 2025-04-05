@@ -12,6 +12,8 @@ export const ROUTE_PATHS = {
   CATEGORIES: '/categories',
   CATEGORY_TEMPLATES: '/category-templates',
   CASH_ACCOUNTS_NEW: '/cash-accounts-new',
-  STYLE_GUIDE: '/style-guide',
-  CATEGORIES_STYLE_GUIDE: '/categories-style-guide',
+  // Stil kılavuzu rotaları
+  STYLE_GUIDE: '/style-guide', // Landing page style guide
+  STYLE_GUIDES: '/style-guides', // Dashboard style guide ana sayfası
+  CATEGORIES_STYLE_GUIDE: '/style-guides/categories', // Categories style guide (özel rota)
 };

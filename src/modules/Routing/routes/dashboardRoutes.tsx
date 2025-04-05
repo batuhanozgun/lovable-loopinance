@@ -5,6 +5,7 @@ import { ProfileView } from "@/modules/UserManagement/Profile";
 import { CategoriesView } from "@/modules/Categories/views/CategoriesView";
 import CategoryTemplatesView from "@/modules/CategoryTemplates/views/CategoryTemplatesView";
 import { StyleGuideView } from "@/modules/StyleGuide";
+import CategoriesStyleGuideView from "@/modules/Categories/views/StyleGuide";
 
 /**
  * Kullanıcı paneline ait rotalar
@@ -35,5 +36,10 @@ export const dashboardRoutes: PrivateRoute[] = [
     path: "/style-guides",
     type: "private",
     element: <StyleGuideView />
+  },
+  {
+    path: "/style-guides/categories",
+    type: "private",
+    element: <CategoriesStyleGuideView />
   }
 ];

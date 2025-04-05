@@ -3,6 +3,9 @@ import React from 'react';
 import { Container } from '@/modules/StyleGuide/components/ui/container';
 import { Heading } from '@/modules/LandingPage/styles';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { ROUTE_PATHS } from '@/modules/Routing';
 
 const StyleGuideView: React.FC = () => {
   const { t } = useTranslation(['StyleGuide']);
@@ -22,18 +25,13 @@ const StyleGuideView: React.FC = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <StyleGuideCard 
-              title={t('styleGuide.modules.landingPage.title')} 
-              description={t('styleGuide.modules.landingPage.description')} 
-              href="/style-guide" 
+              title={t('styleGuide.modules.categories.title')} 
+              description={t('styleGuide.modules.categories.description')} 
+              href={ROUTE_PATHS.CATEGORIES_STYLE_GUIDE} 
               buttonText={t('styleGuide.viewButton')}
             />
             
-            <StyleGuideCard 
-              title={t('styleGuide.modules.categories.title')} 
-              description={t('styleGuide.modules.categories.description')} 
-              href="/categories-style-guide" 
-              buttonText={t('styleGuide.viewButton')}
-            />
+            {/* Additional style guide entries can be added here */}
           </div>
         </div>
       </Container>
@@ -49,19 +47,23 @@ const StyleGuideCard: React.FC<{
   buttonText: string;
 }> = ({ title, description, href, buttonText }) => {
   return (
-    <a 
-      href={href}
-      className="block p-6 bg-card hover:bg-accent/5 rounded-lg border border-border transition-colors"
-    >
-      <h3 className="text-xl font-medium mb-2">{title}</h3>
-      <p className="text-sm text-muted-foreground">{description}</p>
-      <div className="mt-4 inline-flex items-center text-sm font-medium text-primary">
-        {buttonText}
-        <svg className="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
-      </div>
-    </a>
+    <Card className="overflow-hidden">
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Link 
+          to={href}
+          className="inline-flex items-center text-sm font-medium text-primary"
+        >
+          {buttonText}
+          <svg className="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </Link>
+      </CardContent>
+    </Card>
   );
 };
 

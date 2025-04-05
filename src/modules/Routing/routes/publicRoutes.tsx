@@ -4,7 +4,6 @@ import { SignUp } from "@/modules/UserManagement/Signup/views/SignupView";
 import { Login } from "@/modules/UserManagement/Login/views/LoginView";
 import PricingPage from "@/pages/Pricing";
 import StyleGuide from "@/pages/StyleGuide";
-import CategoriesStyleGuide from "@/pages/CategoriesStyleGuide";
 
 // Landing page rotaları
 import Features from "@/pages/Features";
@@ -56,12 +55,6 @@ export const publicRoutes: PublicRoute[] = [
     path: "/style-guide", 
     type: "public",
     element: <StyleGuide />,
-    redirectTo: undefined
-  },
-  {
-    path: "/categories-style-guide", // Kategoriler stil kılavuzu rotası
-    type: "public",
-    element: <CategoriesStyleGuide />,
     redirectTo: undefined
   },
   {
