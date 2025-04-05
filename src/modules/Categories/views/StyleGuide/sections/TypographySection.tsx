@@ -12,7 +12,7 @@ const TypographySection: React.FC = () => {
     <div className="mb-12">
       {/* Section Header */}
       <div className="mb-6">
-        <h2 className={cn(headingVariants({ size: 'xl', weight: 'semibold', spacing: 'tight' }))}>
+        <h2 className={cn(headingVariants({ size: 'lg', weight: 'semibold', spacing: 'tight' }))}>
           {t('Categories:styleGuide.typography.title', 'Tipografi')}
         </h2>
         <p className={cn(textVariants({ emphasis: 'low', spacing: 'none' }))}>
@@ -31,23 +31,17 @@ const TypographySection: React.FC = () => {
             <div>
               <p className={cn(textVariants({ emphasis: 'low', size: 'sm', spacing: 'tight' }))}>Boyutlar</p>
               <div className="space-y-4">
-                <div className={cn(headingVariants({ size: '2xl' }))}>
-                  2XL Başlık
-                </div>
-                <div className={cn(headingVariants({ size: 'xl' }))}>
-                  XL Başlık
-                </div>
                 <div className={cn(headingVariants({ size: 'lg' }))}>
-                  LG Başlık (Varsayılan)
+                  LG Başlık - Sayfa Başlığı (Varsayılan)
                 </div>
                 <div className={cn(headingVariants({ size: 'base' }))}>
-                  Base Başlık
+                  Base Başlık - Bölüm Başlığı
                 </div>
                 <div className={cn(headingVariants({ size: 'sm' }))}>
-                  SM Başlık
+                  SM Başlık - Alt Bölüm Başlığı
                 </div>
                 <div className={cn(headingVariants({ size: 'xs' }))}>
-                  XS Başlık
+                  XS Başlık - Grup Başlığı
                 </div>
               </div>
             </div>

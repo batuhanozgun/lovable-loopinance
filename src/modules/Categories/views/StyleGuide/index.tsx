@@ -13,7 +13,7 @@ const CategoriesStyleGuideView: React.FC = () => {
   return (
     <CategoriesStyleGuideLayout>
       <div className="space-y-16">
-        <h1 className={cn(headingVariants({ size: '2xl', weight: 'bold', spacing: 'normal' }))}>
+        <h1 className={cn(headingVariants({ size: 'lg', weight: 'bold', spacing: 'normal' }))}>
           {t('Categories:styleGuide.title', 'Kategoriler Stil Kılavuzu')}
         </h1>
         
