@@ -2,8 +2,7 @@
 import { Route, Routes } from "react-router-dom";
 import { PrivateRoute } from "./PrivateRoute";
 import { PublicRoute } from "./PublicRoute";
-import { routes } from "../config/routeConfig";
-import { AppRoute } from "../types/routeTypes";
+import { routes, AppRoute } from "../config/routeConfig";
 import { LoggerService } from "@/modules/Logging/services/LoggerService";
 
 interface AppRoutesProps {
