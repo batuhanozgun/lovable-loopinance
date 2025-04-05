@@ -1,0 +1,12 @@
+
+{
+  "title": "Stil Kılavuzları",
+  "description": "Her modül için stil kılavuzlarını inceleyin",
+  "viewButton": "İncele",
+  "modules": {
+    "landingPage": {
+      "title": "Landing Sayfası",
+      "description": "Landing sayfası bileşenleri ve stilleri"
+    }
+  }
+}

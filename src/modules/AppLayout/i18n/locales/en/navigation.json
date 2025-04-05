@@ -10,5 +10,6 @@
   "budgets": "Budgets", 
   "categories": "Categories",
   "categoryTemplates": "Category Templates",
-  "newTransaction": "New Transaction"
+  "newTransaction": "New Transaction",
+  "styleGuides": "Style Guides"
 }

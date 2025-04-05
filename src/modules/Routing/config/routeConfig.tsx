@@ -1,4 +1,3 @@
-
 import { ReactNode } from "react";
 import { SignUp } from "@/modules/UserManagement/Signup/views/SignupView";
 import { Login } from "@/modules/UserManagement/Login/views/LoginView";
@@ -19,6 +18,7 @@ import {
   StatementsListView,
   StatementDetailView
 } from "@/modules/CashAccountsNew";
+import { StyleGuideView } from "@/modules/StyleGuide";
 import Landing from "@/pages/Landing";
 import PricingPage from "@/pages/Pricing";
 import NotFound from "@/pages/NotFound";
@@ -215,6 +215,14 @@ export const routes: AppRoute[] = [
     type: "private",
     element: <StatementDetailView />
   },
+  
+  // Stil Kılavuzu rotası
+  {
+    path: "/style-guides",
+    type: "private",
+    element: <StyleGuideView />
+  },
+  
   {
     path: "/subscription",
     type: "private",

@@ -1,0 +1,12 @@
+
+{
+  "title": "Style Guides",
+  "description": "Explore the style guides for each module",
+  "viewButton": "View",
+  "modules": {
+    "landingPage": {
+      "title": "Landing Page",
+      "description": "Components and styles for the landing page"
+    }
+  }
+}

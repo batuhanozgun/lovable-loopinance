@@ -1,4 +1,5 @@
-import { Home, BarChart3, Settings, User, CreditCard, Grid, List, Package, DollarSign, LayoutDashboard, FolderClosed, Bookmark, Banknote } from 'lucide-react';
+
+import { Home, BarChart3, Settings, User, CreditCard, Grid, List, Package, DollarSign, LayoutDashboard, FolderClosed, Bookmark, Banknote, Palette } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 
 /**
@@ -112,6 +113,11 @@ export const getNavigationItems = (): NavigationGroup[] => {
           label: 'AppLayout:navigation.profile', 
           path: '/profile', 
           icon: User
+        },
+        { 
+          label: 'AppLayout:navigation.styleGuides', 
+          path: '/style-guides', 
+          icon: Palette
         },
       ]
     }
