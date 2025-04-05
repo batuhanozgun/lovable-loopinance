@@ -3,7 +3,6 @@ import React from 'react';
 import { Container } from '@/modules/StyleGuide/components/ui/container';
 import { Heading } from '@/modules/LandingPage/styles';
 import { useTranslation } from 'react-i18next';
-import { Link } from '@/modules/LandingPage/styles';
 
 const StyleGuideView: React.FC = () => {
   const { t } = useTranslation(['StyleGuide']);
@@ -25,14 +24,14 @@ const StyleGuideView: React.FC = () => {
             <StyleGuideCard 
               title={t('styleGuide.modules.landingPage.title')} 
               description={t('styleGuide.modules.landingPage.description')} 
-              to="/style-guide" 
+              href="/style-guide" 
               buttonText={t('styleGuide.viewButton')}
             />
             
             <StyleGuideCard 
               title={t('styleGuide.modules.categories.title')} 
               description={t('styleGuide.modules.categories.description')} 
-              to="/categories-style-guide" 
+              href="/categories-style-guide" 
               buttonText={t('styleGuide.viewButton')}
             />
           </div>
@@ -42,16 +41,16 @@ const StyleGuideView: React.FC = () => {
   );
 };
 
-// Stil kılavuzu kart bileşeni - <a> etiketi yerine <Link> bileşenini kullanacak şekilde güncellendi
+// Stil kılavuzu kart bileşeni
 const StyleGuideCard: React.FC<{
   title: string;
   description: string;
-  to: string;
+  href: string;
   buttonText: string;
-}> = ({ title, description, to, buttonText }) => {
+}> = ({ title, description, href, buttonText }) => {
   return (
-    <Link 
-      to={to}
+    <a 
+      href={href}
       className="block p-6 bg-card hover:bg-accent/5 rounded-lg border border-border transition-colors"
     >
       <h3 className="text-xl font-medium mb-2">{title}</h3>
@@ -62,7 +61,7 @@ const StyleGuideCard: React.FC<{
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </div>
-    </Link>
+    </a>
   );
 };
 
