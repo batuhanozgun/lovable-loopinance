@@ -1,0 +1,40 @@
+
+// Kategori stil kılavuzu sabitleri
+export const categoryStyleGuide = {
+  sections: [
+    {
+      id: 'colors',
+      title: 'Renkler',
+      description: 'Kategoriler için kullanılan renk palette',
+    },
+    {
+      id: 'badges',
+      title: 'Rozetler',
+      description: 'Kategori ve alt kategorileri görüntülemek için kullanılan rozetler',
+    },
+    {
+      id: 'cards',
+      title: 'Kartlar',
+      description: 'Kategori bilgilerini görüntülemek için kullanılan kart bileşenleri',
+    },
+    {
+      id: 'forms',
+      title: 'Formlar',
+      description: 'Kategori oluşturma ve düzenleme formları',
+    },
+  ],
+  elements: {
+    badge: {
+      variants: ['default', 'outline', 'secondary', 'muted'],
+      sizes: ['sm', 'default', 'lg'],
+    },
+    card: {
+      variants: ['default', 'selected', 'interactive'],
+      sizes: ['sm', 'default', 'lg'],
+    },
+    subcardCard: {
+      variants: ['default', 'selected', 'nested'],
+      sizes: ['sm', 'default', 'lg'],
+    },
+  },
+};

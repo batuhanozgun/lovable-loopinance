@@ -1,0 +1,28 @@
+
+{
+  "title": "Categories Style Guide",
+  "description": "Components and style guides for the Categories module",
+  "colors": {
+    "title": "Category Colors",
+    "description": "Colors used for categories and subcategories",
+    "primary": "Primary Colors",
+    "pastel": "Pastel Colors",
+    "functional": "Functional Colors"
+  },
+  "badges": {
+    "title": "Category Badges",
+    "description": "Badges used to display categories and subcategories",
+    "variants": "Badge Variants",
+    "sizes": "Badge Sizes",
+    "withColors": "Colored Badges",
+    "examples": "Usage Examples"
+  },
+  "cards": {
+    "title": "Category Cards",
+    "description": "Cards used to display category information",
+    "categoryVariants": "Category Card Variants",
+    "subcategoryVariants": "Subcategory Card Variants",
+    "nestedExample": "Nested Categories Example",
+    "sizes": "Card Sizes"
+  }
+}

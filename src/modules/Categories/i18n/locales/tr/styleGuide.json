@@ -1,0 +1,28 @@
+
+{
+  "title": "Kategoriler Stil Kılavuzu",
+  "description": "Kategori modülü için bileşenler ve stil rehberi",
+  "colors": {
+    "title": "Kategori Renkleri",
+    "description": "Kategori ve alt kategorileri için kullanılan renkler",
+    "primary": "Ana Renkler",
+    "pastel": "Pastel Renkler",
+    "functional": "İşlevsel Renkler"
+  },
+  "badges": {
+    "title": "Kategori Rozetleri",
+    "description": "Kategori ve alt kategorileri görüntülemek için kullanılan rozetler",
+    "variants": "Rozet Varyantları",
+    "sizes": "Rozet Boyutları",
+    "withColors": "Renkli Rozetler",
+    "examples": "Örnek Kullanımlar"
+  },
+  "cards": {
+    "title": "Kategori Kartları",
+    "description": "Kategori bilgilerini görüntülemek için kullanılan kartlar",
+    "categoryVariants": "Kategori Kartı Varyantları",
+    "subcategoryVariants": "Alt Kategori Kartı Varyantları",
+    "nestedExample": "İç İçe Kategori Örneği",
+    "sizes": "Kart Boyutları"
+  }
+}

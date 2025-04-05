@@ -7,6 +7,10 @@
     "landingPage": {
       "title": "Landing Page",
       "description": "Components and styles for the landing page"
+    },
+    "categories": {
+      "title": "Categories",
+      "description": "Category management components and styles"
     }
   }
 }

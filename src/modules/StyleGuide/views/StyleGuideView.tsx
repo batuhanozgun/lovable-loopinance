@@ -28,7 +28,12 @@ const StyleGuideView: React.FC = () => {
               buttonText={t('styleGuide.viewButton')}
             />
             
-            {/* İlerleyen aşamalarda diğer modül kartları buraya eklenecek */}
+            <StyleGuideCard 
+              title={t('styleGuide.modules.categories.title')} 
+              description={t('styleGuide.modules.categories.description')} 
+              href="/categories-style-guide" 
+              buttonText={t('styleGuide.viewButton')}
+            />
           </div>
         </div>
       </Container>
