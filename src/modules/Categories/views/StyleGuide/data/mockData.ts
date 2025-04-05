@@ -1,8 +1,8 @@
 
 // Mock data for category examples
-import { ICategory, ISubCategory } from '../types';
+import { IStyleGuideCategory, IStyleGuideSubCategory } from '../types/styleGuide';
 
-export const mockCategories: ICategory[] = [
+export const mockCategories: IStyleGuideCategory[] = [
   {
     id: 'cat-1',
     name: 'Yiyecek & İçecek',
@@ -97,8 +97,8 @@ export const mockCategories: ICategory[] = [
   }
 ];
 
-export const selectedCategory: ICategory = mockCategories[0];
-export const selectedSubCategory: ISubCategory = selectedCategory.sub_categories ? selectedCategory.sub_categories[0] : { 
+export const selectedCategory: IStyleGuideCategory = mockCategories[0];
+export const selectedSubCategory: IStyleGuideSubCategory = selectedCategory.sub_categories ? selectedCategory.sub_categories[0] : { 
   id: '', 
   name: '', 
   category_id: '', 

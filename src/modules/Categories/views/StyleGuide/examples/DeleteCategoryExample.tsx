@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { selectedCategory } from '@/modules/Categories/constants/mockData';
+import { selectedCategory } from '../data/mockData';
 import { 
   AlertDialog,
   AlertDialogContent,

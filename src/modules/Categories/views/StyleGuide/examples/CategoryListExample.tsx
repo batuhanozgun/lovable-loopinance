@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { mockCategories } from '@/modules/Categories/constants/mockData';
+import { mockCategories } from '../data/mockData';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { ChevronDown, ChevronRight, Pencil, Trash2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
