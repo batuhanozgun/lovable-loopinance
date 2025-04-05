@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import CategoriesStyleGuideLayout from './CategoriesStyleGuideLayout';
 import TypographySection from './sections/TypographySection';
+import ColorsSection from './sections/ColorsSection';
 
 const CategoriesStyleGuideView: React.FC = () => {
   const { t } = useTranslation(['Categories']);
@@ -11,6 +12,7 @@ const CategoriesStyleGuideView: React.FC = () => {
     <CategoriesStyleGuideLayout>
       <div className="space-y-12">
         <TypographySection />
+        <ColorsSection />
       </div>
     </CategoriesStyleGuideLayout>
   );
