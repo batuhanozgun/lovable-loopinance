@@ -61,5 +61,7 @@ initProfileTranslations();
 initSubscriptionTranslations();
 initPaymentTranslations();
 loadCategoriesTranslations();
-initCashAccountsNewTranslations(); 
+initCashAccountsNewTranslations(); // CashAccountsNew modülü çevirilerini başlat
 initStyleGuideTranslations(); // Yeni eklenen çağrı
+
+export default i18n;
