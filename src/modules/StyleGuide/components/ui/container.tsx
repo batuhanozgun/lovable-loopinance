@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 // Container bileşeni için stil varyantları
 export const containerVariants = cva(
-  "mx-auto px-4",
+  "px-4",
   {
     variants: {
       size: {
@@ -14,9 +14,15 @@ export const containerVariants = cva(
         wide: "max-w-7xl",
         full: "max-w-full",
       },
+      align: {
+        center: "mx-auto",
+        left: "ml-0",
+        right: "mr-0 ml-auto",
+      }
     },
     defaultVariants: {
       size: "default",
+      align: "center",
     },
   }
 );
@@ -29,12 +35,13 @@ export type ContainerProps = React.HTMLAttributes<HTMLDivElement> &
 export const Container = ({
   className,
   size,
+  align,
   children,
   ...props
 }: ContainerProps) => {
   return (
     <div
-      className={cn(containerVariants({ size }), className)}
+      className={cn(containerVariants({ size, align }), className)}
       {...props}
     >
       {children}

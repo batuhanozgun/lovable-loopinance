@@ -18,7 +18,7 @@ const CategoriesStyleGuideLayout: React.FC<CategoriesStyleGuideLayoutProps> = ({
   
   return (
     <div className="py-0">
-      <Container>
+      <Container align="left">
         <div className="mb-4">
           <h1 className={cn(headingVariants({ size: 'lg', weight: 'bold', spacing: 'none' }), "mb-1")}>
             {t('Categories:styleGuide.title', 'Kategoriler Stil Kılavuzu')}
