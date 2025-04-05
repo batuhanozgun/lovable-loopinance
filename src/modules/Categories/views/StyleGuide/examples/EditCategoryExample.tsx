@@ -11,20 +11,18 @@ import {
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { categoryColors } from '@/modules/Categories/styles/tokens/colors';
 
 const EditCategoryExample: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(true);
   const [name, setName] = React.useState(selectedCategory.name);
-  const [icon, setIcon] = React.useState(selectedCategory.icon);
-  const [color, setColor] = React.useState(selectedCategory.color);
+  const [icon, setIcon] = React.useState(selectedCategory.icon || '');
   
   const handleOpen = () => setIsOpen(true);
   
   return (
     <div className="space-y-4">
       <p className="text-muted-foreground">
-        Bu örnek, kategori düzenleme diyaloğunu gösterir. 
+        Bu örnek, kategori düzenleme diyaloğunu gösterir.
         Gerçek uygulamada bu diyalog bir buton ile açılır.
       </p>
       
@@ -45,34 +43,19 @@ const EditCategoryExample: React.FC = () => {
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="icon">İkon</Label>
+              <Label htmlFor="icon">Simge</Label>
               <Input
                 id="icon"
                 value={icon}
                 onChange={(e) => setIcon(e.target.value)}
-                placeholder="Emoji 😀 veya ikon kodu girin"
+                placeholder="📝"
               />
-            </div>
-            <div className="grid gap-2">
-              <Label>Renk</Label>
-              <div className="grid grid-cols-6 gap-2">
-                {Object.values(categoryColors.primary).map((colorOption, index) => (
-                  <div 
-                    key={index} 
-                    className={`h-8 rounded-md cursor-pointer ${color === colorOption ? 'ring-2 ring-primary ring-offset-2' : ''}`}
-                    style={{ backgroundColor: colorOption }}
-                    onClick={() => setColor(colorOption)}
-                  />
-                ))}
-                {Object.values(categoryColors.pastel).map((colorOption, index) => (
-                  <div 
-                    key={`pastel-${index}`} 
-                    className={`h-8 rounded-md cursor-pointer ${color === colorOption ? 'ring-2 ring-primary ring-offset-2' : ''}`}
-                    style={{ backgroundColor: colorOption }}
-                    onClick={() => setColor(colorOption)}
-                  />
-                ))}
-              </div>
+              {icon && (
+                <div className="mt-2">
+                  <Label className="text-sm text-muted-foreground mb-1 block">Önizleme</Label>
+                  <div className="text-2xl">{icon}</div>
+                </div>
+              )}
             </div>
           </div>
           <DialogFooter>
