@@ -18,11 +18,11 @@ const CategoriesStyleGuideLayout: React.FC<CategoriesStyleGuideLayoutProps> = ({
   return (
     <div className="py-8">
       <Container>
-        <div className="space-y-4 mb-8">
+        <div className="space-y-2 mb-6">
           <h1 className={cn(headingVariants({ size: 'lg', weight: 'bold' }))}>
             {t('Categories:styleGuide.title', 'Kategoriler Stil Kılavuzu')}
           </h1>
-          <p className={cn(textVariants({ emphasis: 'low' }))}>
+          <p className={cn(textVariants({ emphasis: 'low', spacing: 'none' }))}>
             {t('Categories:styleGuide.description', 'Kategori modülü için bileşenler ve stil rehberi')}
           </p>
           <Divider />

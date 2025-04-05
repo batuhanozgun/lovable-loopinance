@@ -11,7 +11,7 @@ const TypographySection: React.FC = () => {
   return (
     <div className="mb-12">
       {/* Section Header */}
-      <div className="mb-6">
+      <div className="mb-4">
         <h2 className={cn(headingVariants({ size: 'base', weight: 'semibold', spacing: 'tight' }))}>
           {t('Categories:styleGuide.typography.title', 'Tipografi')}
         </h2>
@@ -99,13 +99,13 @@ const TypographySection: React.FC = () => {
             <div>
               <p className={cn(textVariants({ emphasis: 'low', size: 'sm', spacing: 'tight' }))}>Boyutlar</p>
               <div className="space-y-4">
-                <div className={cn(textVariants({ size: 'base' }))}>
+                <div className={cn(textVariants({ size: 'sm' }))}>
                   Base - Normal metin (Varsayılan)
                 </div>
-                <div className={cn(textVariants({ size: 'sm' }))}>
+                <div className={cn(textVariants({ size: 'xs' }))}>
                   SM - Küçük metin
                 </div>
-                <div className={cn(textVariants({ size: 'xs' }))}>
+                <div className={cn(textVariants({ size: 'xs', weight: 'light' }))}>
                   XS - Çok küçük metin
                 </div>
               </div>
@@ -117,16 +117,16 @@ const TypographySection: React.FC = () => {
             <div>
               <p className={cn(textVariants({ emphasis: 'low', size: 'sm', spacing: 'tight' }))}>Kalınlıklar</p>
               <div className="space-y-4">
-                <div className={cn(textVariants({ weight: 'bold' }))}>
+                <div className={cn(textVariants({ weight: 'bold', size: 'sm' }))}>
                   Bold - Kalın metin
                 </div>
-                <div className={cn(textVariants({ weight: 'semibold' }))}>
+                <div className={cn(textVariants({ weight: 'semibold', size: 'sm' }))}>
                   Semibold - Yarı kalın metin
                 </div>
-                <div className={cn(textVariants({ weight: 'medium' }))}>
+                <div className={cn(textVariants({ weight: 'medium', size: 'sm' }))}>
                   Medium - Orta kalın metin
                 </div>
-                <div className={cn(textVariants({ weight: 'normal' }))}>
+                <div className={cn(textVariants({ weight: 'normal', size: 'sm' }))}>
                   Normal - Normal metin (Varsayılan)
                 </div>
               </div>
@@ -138,13 +138,13 @@ const TypographySection: React.FC = () => {
             <div>
               <p className={cn(textVariants({ emphasis: 'low', size: 'sm', spacing: 'tight' }))}>Vurgular</p>
               <div className="space-y-4">
-                <div className={cn(textVariants({ emphasis: 'primary' }))}>
+                <div className={cn(textVariants({ emphasis: 'primary', size: 'sm' }))}>
                   Primary - Ana vurgu metni
                 </div>
-                <div className={cn(textVariants({ emphasis: 'normal' }))}>
+                <div className={cn(textVariants({ emphasis: 'normal', size: 'sm' }))}>
                   Normal - Normal metin (Varsayılan)
                 </div>
-                <div className={cn(textVariants({ emphasis: 'low' }))}>
+                <div className={cn(textVariants({ emphasis: 'low', size: 'sm' }))}>
                   Low - Düşük vurgu metni
                 </div>
               </div>
