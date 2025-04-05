@@ -1,70 +1,105 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { categoryColors } from '@/modules/Categories/styles/tokens/colors';
 import { cn } from '@/lib/utils';
 import { headingVariants, textVariants } from '@/modules/Categories/styles/tokens/typography';
+import { Separator } from '@/components/ui/separator';
 
 const ColorsSection: React.FC = () => {
   const { t } = useTranslation(['Categories']);
   
   return (
-    <section className="bg-card p-4 rounded-md shadow-sm">
-      <h2 className={cn(headingVariants({ size: 'base', spacing: 'none' }), "mb-1")}>
-        {t('Categories:styleGuide.colors.title', 'Kategori Renkleri')}
-      </h2>
-      <p className={cn(textVariants({ emphasis: 'low', spacing: 'none' }), "mb-4")}>
-        {t('Categories:styleGuide.colors.description', 'Kategori ve alt kategorileri için kullanılan renkler')}
-      </p>
+    <div className="mb-8">
+      {/* Section Header */}
+      <div className="mb-3">
+        <h2 className={cn(headingVariants({ size: 'base', weight: 'semibold', spacing: 'tight' }))}>
+          {t('Categories:styleGuide.colors.title', 'Kategori Renkleri')}
+        </h2>
+        <p className={cn(textVariants({ emphasis: 'low', spacing: 'none' }))}>
+          {t('Categories:styleGuide.colors.description', 'Kategori ve alt kategorileri için kullanılan renkler')}
+        </p>
+      </div>
       
-      <div className="space-y-4">
+      <div className="space-y-8">
+        {/* Ana renkler */}
         <div>
-          <h3 className={cn(headingVariants({ size: 'sm', spacing: 'none' }), "mb-1")}>
+          <h3 className={cn(headingVariants({ size: 'sm', weight: 'medium', spacing: 'tight' }))}>
             {t('Categories:styleGuide.colors.primary', 'Ana Renkler')}
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-2">
-            <ColorSwatch color="#8B5CF6" name="primary-600" />
-            <ColorSwatch color="#A78BFA" name="primary-400" />
-            <ColorSwatch color="#C4B5FD" name="primary-200" />
-            <ColorSwatch color="#EDE9FE" name="primary-100" />
+          <div className="p-6 border rounded-md space-y-6 bg-white">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {Object.entries(categoryColors.primary).map(([name, color]) => (
+                <ColorSwatch key={name} name={name} color={color} />
+              ))}
+            </div>
           </div>
         </div>
         
+        <Separator className="my-4" />
+        
+        {/* Pastel renkler */}
         <div>
-          <h3 className={cn(headingVariants({ size: 'sm', spacing: 'none' }), "mb-1")}>
+          <h3 className={cn(headingVariants({ size: 'sm', weight: 'medium', spacing: 'tight' }))}>
             {t('Categories:styleGuide.colors.pastel', 'Pastel Renkler')}
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-2">
-            <ColorSwatch color="#E5DEFF" name="pastel-purple" />
-            <ColorSwatch color="#D3E4FD" name="pastel-blue" />
-            <ColorSwatch color="#F2FCE2" name="pastel-green" />
-            <ColorSwatch color="#FEF7CD" name="pastel-yellow" />
-            <ColorSwatch color="#FFDEE2" name="pastel-pink" />
-            <ColorSwatch color="#FDE1D3" name="pastel-peach" />
+          <div className="p-6 border rounded-md space-y-6 bg-white">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+              {Object.entries(categoryColors.pastel).map(([name, color]) => (
+                <ColorSwatch key={name} name={name} color={color} />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-  );
-};
-
-interface ColorSwatchProps {
-  color: string;
-  name: string;
-}
-
-const ColorSwatch: React.FC<ColorSwatchProps> = ({ color, name }) => {
-  return (
-    <div className="flex flex-col">
-      <div
-        className="h-16 rounded-md shadow-sm"
-        style={{ backgroundColor: color }}
-      />
-      <div className="mt-1 text-xs">
-        <div className="font-medium">{name}</div>
-        <div className="text-muted-foreground">{color}</div>
+        
+        <Separator className="my-4" />
+        
+        {/* İşlevsel renkler */}
+        <div>
+          <h3 className={cn(headingVariants({ size: 'sm', weight: 'medium', spacing: 'tight' }))}>
+            {t('Categories:styleGuide.colors.functional', 'İşlevsel Renkler')}
+          </h3>
+          <div className="p-6 border rounded-md space-y-6 bg-white">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {Object.entries(categoryColors.functional).map(([name, color]) => (
+                <ColorSwatch key={name} name={name} color={color} />
+              ))}
+            </div>
+          </div>
+        </div>
+        
+        <Separator className="my-4" />
+        
+        {/* Nötr renkler */}
+        <div>
+          <h3 className={cn(headingVariants({ size: 'sm', weight: 'medium', spacing: 'tight' }))}>
+            {t('Categories:styleGuide.colors.neutral', 'Nötr Renkler')}
+          </h3>
+          <div className="p-6 border rounded-md space-y-6 bg-white">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {Object.entries(categoryColors.neutral).map(([name, color]) => (
+                <ColorSwatch key={name} name={name} color={color} />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
+
+// Renk gösterimi bileşeni - tipografi kullanımını ekliyoruz
+const ColorSwatch: React.FC<{ name: string; color: string }> = ({ name, color }) => (
+  <div className="flex flex-col">
+    <div 
+      className="h-5 rounded-md mb-1" 
+      style={{ backgroundColor: color }}
+    />
+    <div className="flex justify-between">
+      <span className={cn(textVariants({ size: 'sm', weight: 'medium' }), "capitalize")}>{name}</span>
+      <span className={cn(textVariants({ size: 'xs', emphasis: 'low' }))}>{color}</span>
+    </div>
+  </div>
+);
 
 export default ColorsSection;
