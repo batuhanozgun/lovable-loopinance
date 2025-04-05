@@ -13,10 +13,10 @@ export const categoryColors = {
   pastel: {
     blue: "#B3D1FF",
     green: "#B6E5D3", 
-    pink: "#FFCCDD",
-    purple: "#D5C5F7",
-    orange: "#FFCBA5",
     yellow: "#FFF0B3",
+    orange: "#FFCBA5",
+    purple: "#D5C5F7",
+    red: "#FFBEC9",  // Pink yerine kırmızının pasteli
   },
   
   // Nötr renkler
