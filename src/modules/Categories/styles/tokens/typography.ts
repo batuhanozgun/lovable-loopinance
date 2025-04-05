@@ -36,7 +36,7 @@ export const headingVariants = cva("", {
     },
   },
   defaultVariants: {
-    size: "lg",
+    size: "base",
     weight: "semibold",
     emphasis: "normal",
     align: "left",
@@ -82,7 +82,7 @@ export const textVariants = cva("", {
     },
   },
   defaultVariants: {
-    size: "base",
+    size: "sm",
     weight: "normal",
     emphasis: "normal",
     align: "left",

@@ -88,7 +88,7 @@ const ColorsSection: React.FC = () => {
   );
 };
 
-// Renk gösterimi bileşeni - %60 oranında küçültülmüş
+// Renk gösterimi bileşeni - tipografi kullanımını ekliyoruz
 const ColorSwatch: React.FC<{ name: string; color: string }> = ({ name, color }) => (
   <div className="flex flex-col">
     <div 

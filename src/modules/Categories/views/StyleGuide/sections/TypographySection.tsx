@@ -100,13 +100,13 @@ const TypographySection: React.FC = () => {
               <p className={cn(textVariants({ emphasis: 'low', size: 'sm', spacing: 'tight' }))}>Boyutlar</p>
               <div className="space-y-4">
                 <div className={cn(textVariants({ size: 'sm' }))}>
-                  Base - Normal metin (Varsayılan)
+                  SM - Normal metin (Varsayılan)
                 </div>
                 <div className={cn(textVariants({ size: 'xs' }))}>
-                  SM - Küçük metin
+                  XS - Küçük metin
                 </div>
                 <div className={cn(textVariants({ size: 'xs', weight: 'light' }))}>
-                  XS - Çok küçük metin
+                  XS Light - Çok küçük metin
                 </div>
               </div>
             </div>
