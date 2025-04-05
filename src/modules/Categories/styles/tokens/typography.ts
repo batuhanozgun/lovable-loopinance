@@ -97,3 +97,56 @@ export const pageHeadingVariants = cva("", {
     emphasis: "normal",
   },
 });
+
+// Sayfadaki açıklama metinleri için stil varyantları
+export const descriptionTextVariants = cva("", {
+  variants: {
+    size: {
+      xs: "text-xs",
+      sm: "text-sm",
+      default: "text-base",
+      lg: "text-lg",
+    },
+    emphasis: {
+      low: "text-muted-foreground",
+      normal: "text-foreground",
+      high: "text-primary",
+    },
+    weight: {
+      normal: "font-normal",
+      medium: "font-medium",
+      semibold: "font-semibold",
+    },
+    spacing: {
+      none: "",
+      tight: "mb-2",
+      normal: "mb-4",
+      relaxed: "mb-6",
+    },
+    align: {
+      left: "text-left",
+      center: "text-center", 
+      right: "text-right",
+    },
+    fontStyle: {
+      normal: "",
+      italic: "italic",
+    },
+    maxWidth: {
+      none: "",
+      narrow: "max-w-md",
+      default: "max-w-xl",
+      wide: "max-w-2xl",
+      full: "max-w-full",
+    }
+  },
+  defaultVariants: {
+    size: "default",
+    emphasis: "low",
+    weight: "normal",
+    spacing: "normal",
+    align: "left",
+    fontStyle: "normal",
+    maxWidth: "default",
+  },
+});

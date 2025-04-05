@@ -2,7 +2,7 @@
 import React from 'react';
 import { Heading, Text, Divider, Section } from '@/modules/LandingPage/styles';
 import { useTranslation } from 'react-i18next';
-import { pageHeadingVariants } from '@/modules/Categories/styles/tokens/typography';
+import { pageHeadingVariants, descriptionTextVariants } from '@/modules/Categories/styles/tokens/typography';
 import { cn } from '@/lib/utils';
 
 const PageHeadingsSection: React.FC = () => {
@@ -122,6 +122,40 @@ const PageHeadingsSection: React.FC = () => {
           </div>
         </div>
         
+        {/* Açıklama Metni Örnekleri */}
+        <div>
+          <Heading level="h4" className="text-lg font-medium mb-3">
+            Açıklama Metni Stilleri
+          </Heading>
+          <div className="p-6 border rounded-md space-y-4 bg-white">
+            <div>
+              <p className={cn(descriptionTextVariants({ emphasis: 'normal', size: 'default' }))}>
+                Normal vurgu, varsayılan boyut - Kategori modülü, işlemlerinizi düzenli tutmanıza yardımcı olur.
+              </p>
+            </div>
+            <div>
+              <p className={cn(descriptionTextVariants({ emphasis: 'low', size: 'default' }))}>
+                Düşük vurgu, varsayılan boyut - Kategorilerinizi gruplayarak harcamalarınızı daha iyi yönetin.
+              </p>
+            </div>
+            <div>
+              <p className={cn(descriptionTextVariants({ emphasis: 'high', weight: 'medium', size: 'default' }))}>
+                Yüksek vurgu, orta kalınlık - Kişiselleştirilebilir kategoriler ile verilerinizi organize edin!
+              </p>
+            </div>
+            <div>
+              <p className={cn(descriptionTextVariants({ emphasis: 'low', size: 'sm', spacing: 'tight' }))}>
+                Düşük vurgu, küçük boyut, dar boşluk - Yardımcı açıklama metni örneği.
+              </p>
+            </div>
+            <div>
+              <p className={cn(descriptionTextVariants({ emphasis: 'normal', size: 'lg', weight: 'semibold' }))}>
+                Normal vurgu, büyük boyut, yarı kalın - Önemli bir açıklama örneği.
+              </p>
+            </div>
+          </div>
+        </div>
+        
         {/* Gerçek Hayat Örnekleri */}
         <div>
           <Heading level="h4" className="text-lg font-medium mb-3">
@@ -132,15 +166,18 @@ const PageHeadingsSection: React.FC = () => {
               <div className={cn(pageHeadingVariants({ level: 'h1', weight: 'bold', emphasis: 'normal' }))}>
                 Kategoriler
               </div>
-              <Text className="text-muted-foreground">
-                Kategorilerinizi yönetin ve organize edin
-              </Text>
+              <div className={cn(descriptionTextVariants({ emphasis: 'low', maxWidth: 'wide' }))}>
+                Kategorilerinizi yöneterek harcamalarınızı daha iyi organize edebilir ve finansal alışkanlıklarınızı analiz edebilirsiniz. Özelleştirilebilir yapısı ile ihtiyaçlarınıza göre düzenleyebilirsiniz.
+              </div>
               <Divider />
             </div>
             
             <div className="space-y-4">
               <div className={cn(pageHeadingVariants({ level: 'h2', weight: 'semibold', emphasis: 'primary' }))}>
                 Kategori İstatistikleri
+              </div>
+              <div className={cn(descriptionTextVariants({ emphasis: 'normal' }))}>
+                Kategorilerinizin kullanım oranlarını ve ilişkili işlemleri görüntüleyin.
               </div>
               <div className="p-4 border rounded">
                 <Text>İstatistik kartları burada yer alabilir</Text>
@@ -150,6 +187,9 @@ const PageHeadingsSection: React.FC = () => {
             <div className="space-y-4">
               <div className={cn(pageHeadingVariants({ level: 'h2', align: 'center', spacing: 'relaxed' }))}>
                 Kategori Şablonları
+              </div>
+              <div className={cn(descriptionTextVariants({ emphasis: 'low', align: 'center', maxWidth: 'full' }))}>
+                Hazır kategori şablonları ile işe başlayın veya kendi yapınızı oluşturun.
               </div>
               <div className="grid grid-cols-3 gap-4">
                 <div className="p-4 border rounded">Şablon 1</div>
