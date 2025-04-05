@@ -8,6 +8,7 @@ import ColorsSection from './sections/ColorsSection';
 import BadgesSection from './sections/BadgesSection';
 import CardsSection from './sections/CardsSection';
 import TypographySection from './sections/TypographySection';
+import ButtonsSection from './sections/ButtonsSection';
 
 const CategoriesStyleGuideView: React.FC = () => {
   const { t } = useTranslation(['Categories']);
@@ -18,6 +19,7 @@ const CategoriesStyleGuideView: React.FC = () => {
       <BadgesSection />
       <CardsSection />
       <TypographySection />
+      <ButtonsSection />
     </CategoriesStyleGuideLayout>
   );
 };

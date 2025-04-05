@@ -34,5 +34,29 @@
     "weights": "Metin Kalınlıkları",
     "sizes": "Metin Boyutları",
     "examples": "Örnek Kullanımlar"
+  },
+  "buttons": {
+    "title": "Kategori Butonları",
+    "description": "Kategori yönetimi için kullanılan buton bileşenleri",
+    "variants": "Buton Varyantları",
+    "sizes": "Buton Boyutları",
+    "withIcons": "İkonlu Butonlar",
+    "actionButtons": "Eylem Butonları",
+    "iconButtonComponent": "Icon Button Bileşeni",
+    "default": "Varsayılan",
+    "secondary": "İkincil",
+    "outline": "Çerçeveli",
+    "ghost": "Hayalet",
+    "link": "Bağlantı",
+    "destructive": "Tehlike",
+    "large": "Büyük",
+    "medium": "Orta",
+    "small": "Küçük",
+    "addCategory": "Kategori Ekle",
+    "viewSubcategories": "Alt Kategorileri Gör",
+    "assignCategory": "Kategori Ata",
+    "next": "İleri",
+    "edit": "Düzenle",
+    "delete": "Sil"
   }
 }

@@ -34,5 +34,29 @@
     "weights": "Text Weights",
     "sizes": "Text Sizes",
     "examples": "Usage Examples"
+  },
+  "buttons": {
+    "title": "Category Buttons",
+    "description": "Button components used for category management",
+    "variants": "Button Variants",
+    "sizes": "Button Sizes",
+    "withIcons": "Buttons With Icons",
+    "actionButtons": "Action Buttons",
+    "iconButtonComponent": "Icon Button Component",
+    "default": "Default",
+    "secondary": "Secondary",
+    "outline": "Outline",
+    "ghost": "Ghost",
+    "link": "Link",
+    "destructive": "Destructive",
+    "large": "Large",
+    "medium": "Medium",
+    "small": "Small",
+    "addCategory": "Add Category",
+    "viewSubcategories": "View Subcategories",
+    "assignCategory": "Assign Category",
+    "next": "Next",
+    "edit": "Edit",
+    "delete": "Delete"
   }
 }

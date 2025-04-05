@@ -23,6 +23,11 @@ export const categoryStyleGuide = {
       description: 'Kategori metinleri için kullanılan yazı stilleri',
     },
     {
+      id: 'buttons',
+      title: 'Butonlar',
+      description: 'Kategori yönetimi için kullanılan butonlar',
+    },
+    {
       id: 'forms',
       title: 'Formlar',
       description: 'Kategori oluşturma ve düzenleme formları',
@@ -40,6 +45,10 @@ export const categoryStyleGuide = {
     subcardCard: {
       variants: ['default', 'selected', 'nested'],
       sizes: ['sm', 'default', 'lg'],
+    },
+    button: {
+      variants: ['default', 'secondary', 'outline', 'ghost', 'link', 'destructive'],
+      sizes: ['sm', 'default', 'lg', 'icon'],
     },
   },
 };
