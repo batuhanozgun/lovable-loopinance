@@ -3,26 +3,28 @@ import React from 'react';
 import { Heading, Text, Divider, Section } from '@/modules/LandingPage/styles';
 import { useTranslation } from 'react-i18next';
 import { categoryColors, flatCategoryColors } from '@/modules/Categories/styles/tokens/colors';
+import { cn } from '@/lib/utils';
+import { headingVariants, textVariants } from '@/modules/Categories/styles/tokens/typography';
 
 const ColorsSection: React.FC = () => {
   const { t } = useTranslation(['Categories']);
   
   return (
     <Section className="mb-10">
-      <Heading level="h3" className="text-xl font-semibold mb-2">
+      <div className={cn(headingVariants({ size: 'xl', weight: 'semibold', spacing: 'tight' }))}>
         {t('Categories:styleGuide.colors.title', 'Kategori Renkleri')}
-      </Heading>
-      <Text className="text-muted-foreground mb-4">
+      </div>
+      <div className={cn(textVariants({ emphasis: 'low', spacing: 'normal' }))}>
         {t('Categories:styleGuide.colors.description', 'Kategori ve alt kategorileri için kullanılan renkler')}
-      </Text>
+      </div>
       <Divider className="mb-6" />
       
       <div className="space-y-6">
         {/* Ana renkler */}
         <div>
-          <Heading level="h4" className="text-lg font-medium mb-3">
+          <div className={cn(headingVariants({ size: 'lg', weight: 'medium', spacing: 'tight' }))}>
             {t('Categories:styleGuide.colors.primary', 'Ana Renkler')}
-          </Heading>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {Object.entries(categoryColors.primary).map(([name, color]) => (
               <ColorSwatch key={name} name={name} color={color} />
@@ -32,9 +34,9 @@ const ColorsSection: React.FC = () => {
         
         {/* Pastel renkler */}
         <div>
-          <Heading level="h4" className="text-lg font-medium mb-3">
+          <div className={cn(headingVariants({ size: 'lg', weight: 'medium', spacing: 'tight' }))}>
             {t('Categories:styleGuide.colors.pastel', 'Pastel Renkler')}
-          </Heading>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {Object.entries(categoryColors.pastel).map(([name, color]) => (
               <ColorSwatch key={name} name={name} color={color} />
@@ -44,9 +46,9 @@ const ColorsSection: React.FC = () => {
         
         {/* İşlevsel renkler */}
         <div>
-          <Heading level="h4" className="text-lg font-medium mb-3">
+          <div className={cn(headingVariants({ size: 'lg', weight: 'medium', spacing: 'tight' }))}>
             {t('Categories:styleGuide.colors.functional', 'İşlevsel Renkler')}
-          </Heading>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {Object.entries(categoryColors.functional).map(([name, color]) => (
               <ColorSwatch key={name} name={name} color={color} />
@@ -58,16 +60,16 @@ const ColorsSection: React.FC = () => {
   );
 };
 
-// Renk gösterimi bileşeni
+// Renk gösterimi bileşeni - %80 küçültülmüş
 const ColorSwatch: React.FC<{ name: string; color: string }> = ({ name, color }) => (
   <div className="flex flex-col">
     <div 
-      className="h-16 rounded-md mb-2"
+      className="h-3 rounded-md mb-2"
       style={{ backgroundColor: color }}
     />
     <div className="flex justify-between">
-      <span className="font-medium capitalize">{name}</span>
-      <span className="text-muted-foreground">{color}</span>
+      <span className={cn(textVariants({ size: 'sm', weight: 'medium' }), "capitalize")}>{name}</span>
+      <span className={cn(textVariants({ size: 'xs', emphasis: 'low' }))}>{color}</span>
     </div>
   </div>
 );
