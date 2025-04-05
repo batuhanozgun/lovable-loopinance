@@ -1,13 +1,8 @@
 
 import React from 'react';
-import { Heading, Text, Divider, Section } from '@/modules/LandingPage/styles';
+import { Heading, Text, Section } from '@/modules/LandingPage/styles';
 import { useTranslation } from 'react-i18next';
-import { 
-  categoryTitleVariants, 
-  subcategoryTextVariants,
-  pageHeadingVariants,
-  descriptionTextVariants
-} from '@/modules/Categories/styles/tokens/typography';
+import { headingVariants, textVariants } from '@/modules/Categories/styles/tokens/typography';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 
@@ -16,83 +11,171 @@ const TypographySection: React.FC = () => {
   
   return (
     <Section className="mb-10">
-      <Heading level="h3" className="text-xl font-semibold mb-2">
-        {t('Categories:styleGuide.typography.title', 'Kategori Tipografisi')}
+      <Heading level="h2" className="text-xl font-semibold mb-4">
+        {t('Categories:styleGuide.typography.title', 'Tipografi')}
       </Heading>
-      <Text className="text-muted-foreground mb-4">
-        {t('Categories:styleGuide.typography.description', 'Kategori modülünde kullanılan yazı stilleri')}
+      <Text className="text-muted-foreground mb-6">
+        {t('Categories:styleGuide.typography.description', 'Tüm modülde kullanılan başlık ve metin stilleri')}
       </Text>
-      <Divider className="mb-6" />
       
       <div className="space-y-12">
-        {/* Sayfa Başlıkları Bölümü */}
+        {/* Başlıklar Bölümü */}
         <div>
-          <Heading level="h4" className="text-lg font-medium mb-3">
-            {t('Categories:styleGuide.pageHeadings.title', 'Sayfa Başlıkları')}
+          <Heading level="h3" className="text-lg font-medium mb-3">
+            {t('Categories:styleGuide.typography.headings', 'Başlıklar')}
           </Heading>
-          <div className="p-6 border rounded-md space-y-4 bg-white">
-            <div className={cn(pageHeadingVariants({ level: 'h1', weight: 'bold' }))}>
-              H1 - Ana Sayfa Başlığı
+          <div className="p-6 border rounded-md space-y-6 bg-white">
+            {/* Başlık Boyutları */}
+            <div>
+              <Text className="mb-3 text-muted-foreground">Boyutlar</Text>
+              <div className="space-y-3">
+                <div className={cn(headingVariants({ size: '2xl' }))}>
+                  2XL Başlık
+                </div>
+                <div className={cn(headingVariants({ size: 'xl' }))}>
+                  XL Başlık
+                </div>
+                <div className={cn(headingVariants({ size: 'lg' }))}>
+                  LG Başlık (Varsayılan)
+                </div>
+                <div className={cn(headingVariants({ size: 'base' }))}>
+                  Base Başlık
+                </div>
+                <div className={cn(headingVariants({ size: 'sm' }))}>
+                  SM Başlık
+                </div>
+                <div className={cn(headingVariants({ size: 'xs' }))}>
+                  XS Başlık
+                </div>
+              </div>
             </div>
-            <div className={cn(pageHeadingVariants({ level: 'h2', weight: 'semibold' }))}>
-              H2 - Bölüm Başlığı
+            
+            {/* Başlık Ağırlıkları */}
+            <div>
+              <Text className="mb-3 text-muted-foreground">Kalınlıklar</Text>
+              <div className="space-y-3">
+                <div className={cn(headingVariants({ weight: 'bold' }))}>
+                  Kalın Başlık (Bold)
+                </div>
+                <div className={cn(headingVariants({ weight: 'semibold' }))}>
+                  Yarı Kalın Başlık (Semibold - Varsayılan)
+                </div>
+                <div className={cn(headingVariants({ weight: 'medium' }))}>
+                  Orta Kalın Başlık (Medium)
+                </div>
+                <div className={cn(headingVariants({ weight: 'normal' }))}>
+                  Normal Başlık
+                </div>
+              </div>
             </div>
-            <div className={cn(pageHeadingVariants({ level: 'h3', weight: 'medium' }))}>
-              H3 - Alt Bölüm Başlığı
+            
+            {/* Başlık Vurguları */}
+            <div>
+              <Text className="mb-3 text-muted-foreground">Vurgular</Text>
+              <div className="space-y-3">
+                <div className={cn(headingVariants({ emphasis: 'primary' }))}>
+                  Ana Vurgu Başlık (Primary)
+                </div>
+                <div className={cn(headingVariants({ emphasis: 'normal' }))}>
+                  Normal Başlık (Varsayılan)
+                </div>
+                <div className={cn(headingVariants({ emphasis: 'low' }))}>
+                  Düşük Vurgu Başlık (Low)
+                </div>
+              </div>
             </div>
           </div>
         </div>
         
         <Separator className="my-8" />
         
-        {/* Normal Metin Bölümü */}
+        {/* Metin Bölümü */}
         <div>
-          <Heading level="h4" className="text-lg font-medium mb-3">
-            {t('Categories:styleGuide.typography.text', 'Normal Metin')}
+          <Heading level="h3" className="text-lg font-medium mb-3">
+            {t('Categories:styleGuide.typography.text', 'Metin')}
           </Heading>
-          <div className="p-6 border rounded-md space-y-4 bg-white">
+          <div className="p-6 border rounded-md space-y-6 bg-white">
+            {/* Metin Boyutları */}
             <div>
-              <p className={cn(descriptionTextVariants({ emphasis: 'high', size: 'default', weight: 'semibold' }))}>
-                Önemli metin - Kullanıcı dikkatini çekmesi gereken bilgiler
-              </p>
+              <Text className="mb-3 text-muted-foreground">Boyutlar</Text>
+              <div className="space-y-3">
+                <div className={cn(textVariants({ size: 'lg' }))}>
+                  LG - Büyük metin
+                </div>
+                <div className={cn(textVariants({ size: 'base' }))}>
+                  Base - Normal metin (Varsayılan)
+                </div>
+                <div className={cn(textVariants({ size: 'sm' }))}>
+                  SM - Küçük metin
+                </div>
+                <div className={cn(textVariants({ size: 'xs' }))}>
+                  XS - Çok küçük metin
+                </div>
+              </div>
             </div>
+            
+            {/* Metin Kalınlıkları */}
             <div>
-              <p className={cn(descriptionTextVariants({ emphasis: 'normal', size: 'default' }))}>
-                Normal metin - Genel bilgi ve açıklamalar için kullanılan standart metin stili
-              </p>
+              <Text className="mb-3 text-muted-foreground">Kalınlıklar</Text>
+              <div className="space-y-3">
+                <div className={cn(textVariants({ weight: 'bold' }))}>
+                  Bold - Kalın metin
+                </div>
+                <div className={cn(textVariants({ weight: 'semibold' }))}>
+                  Semibold - Yarı kalın metin
+                </div>
+                <div className={cn(textVariants({ weight: 'medium' }))}>
+                  Medium - Orta kalın metin
+                </div>
+                <div className={cn(textVariants({ weight: 'normal' }))}>
+                  Normal - Normal metin (Varsayılan)
+                </div>
+              </div>
             </div>
+            
+            {/* Metin Vurguları */}
             <div>
-              <p className={cn(descriptionTextVariants({ emphasis: 'low', size: 'default' }))}>
-                Düşük vurgulu metin - İkincil veya ek bilgiler için kullanılan metin stili
-              </p>
+              <Text className="mb-3 text-muted-foreground">Vurgular</Text>
+              <div className="space-y-3">
+                <div className={cn(textVariants({ emphasis: 'primary' }))}>
+                  Primary - Ana vurgu metni
+                </div>
+                <div className={cn(textVariants({ emphasis: 'normal' }))}>
+                  Normal - Normal metin (Varsayılan)
+                </div>
+                <div className={cn(textVariants({ emphasis: 'low' }))}>
+                  Low - Düşük vurgu metni
+                </div>
+              </div>
             </div>
+            
+            {/* Metin Stilleri */}
             <div>
-              <p className={cn(descriptionTextVariants({ emphasis: 'normal', size: 'sm' }))}>
-                Küçük metin - Dipnotlar veya açıklamalar için kullanılan küçük metin stili
-              </p>
+              <Text className="mb-3 text-muted-foreground">Yazı Stilleri</Text>
+              <div className="space-y-3">
+                <div className={cn(textVariants({ fontStyle: 'normal' }))}>
+                  Normal yazı stili (Varsayılan)
+                </div>
+                <div className={cn(textVariants({ fontStyle: 'italic' }))}>
+                  İtalik yazı stili
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        
-        <Separator className="my-8" />
-        
-        {/* Kategori Başlıkları Bölümü */}
-        <div>
-          <Heading level="h4" className="text-lg font-medium mb-3">
-            {t('Categories:styleGuide.typography.headings', 'Kategori Başlıkları')}
-          </Heading>
-          <div className="p-6 border rounded-md space-y-4 bg-white">
-            <div className={cn(categoryTitleVariants({ size: 'xl', weight: 'bold' }))}>
-              Büyük Kategori Başlığı (XL)
-            </div>
-            <div className={cn(categoryTitleVariants({ size: 'lg', weight: 'semibold' }))}>
-              Orta Kategori Başlığı (LG)
-            </div>
-            <div className={cn(categoryTitleVariants({ size: 'default', weight: 'medium' }))}>
-              Normal Kategori Başlığı (Default)
-            </div>
-            <div className={cn(categoryTitleVariants({ size: 'sm', weight: 'normal' }))}>
-              Küçük Kategori Başlığı (SM)
+            
+            {/* Kombinasyon Örnekleri */}
+            <div>
+              <Text className="mb-3 text-muted-foreground">Örnek Kullanımlar</Text>
+              <div className="space-y-3">
+                <div className={cn(textVariants({ emphasis: 'primary', weight: 'semibold', size: 'lg' }))}>
+                  Önemli Büyük Mesaj
+                </div>
+                <div className={cn(textVariants({ emphasis: 'normal', weight: 'medium' }))}>
+                  Normal Bilgi Metni
+                </div>
+                <div className={cn(textVariants({ emphasis: 'low', size: 'sm', fontStyle: 'italic' }))}>
+                  Ek açıklama veya dipnot
+                </div>
+              </div>
             </div>
           </div>
         </div>

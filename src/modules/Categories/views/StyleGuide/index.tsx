@@ -1,7 +1,5 @@
 
 import React from 'react';
-import { Container } from '@/modules/StyleGuide/components/ui/container';
-import { Heading, Text, Divider } from '@/modules/LandingPage/styles';
 import { useTranslation } from 'react-i18next';
 import CategoriesStyleGuideLayout from './CategoriesStyleGuideLayout';
 import TypographySection from './sections/TypographySection';
