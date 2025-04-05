@@ -12,7 +12,7 @@ const TypographySection: React.FC = () => {
     <div className="mb-12">
       {/* Section Header */}
       <div className="mb-6">
-        <h2 className={cn(headingVariants({ size: 'lg', weight: 'semibold', spacing: 'tight' }))}>
+        <h2 className={cn(headingVariants({ size: 'base', weight: 'semibold', spacing: 'tight' }))}>
           {t('Categories:styleGuide.typography.title', 'Tipografi')}
         </h2>
         <p className={cn(textVariants({ emphasis: 'low', spacing: 'none' }))}>
@@ -23,7 +23,7 @@ const TypographySection: React.FC = () => {
       <div className="space-y-12">
         {/* Başlıklar Bölümü */}
         <div>
-          <h3 className={cn(headingVariants({ size: 'lg', weight: 'medium', spacing: 'tight' }))}>
+          <h3 className={cn(headingVariants({ size: 'sm', weight: 'medium', spacing: 'tight' }))}>
             {t('Categories:styleGuide.typography.headings', 'Başlıklar')}
           </h3>
           <div className="p-6 border rounded-md space-y-6 bg-white">
@@ -84,24 +84,6 @@ const TypographySection: React.FC = () => {
                 </div>
               </div>
             </div>
-            
-            <Separator className="my-4" />
-            
-            {/* Başlık Hizalamaları */}
-            <div>
-              <p className={cn(textVariants({ emphasis: 'low', size: 'sm', spacing: 'tight' }))}>Hizalamalar</p>
-              <div className="space-y-4">
-                <div className={cn(headingVariants({ align: 'left' }))}>
-                  Sol Hizalı Başlık (Varsayılan)
-                </div>
-                <div className={cn(headingVariants({ align: 'center' }))}>
-                  Orta Hizalı Başlık
-                </div>
-                <div className={cn(headingVariants({ align: 'right' }))}>
-                  Sağ Hizalı Başlık
-                </div>
-              </div>
-            </div>
           </div>
         </div>
         
@@ -109,7 +91,7 @@ const TypographySection: React.FC = () => {
         
         {/* Metin Bölümü */}
         <div>
-          <h3 className={cn(headingVariants({ size: 'lg', weight: 'medium', spacing: 'tight' }))}>
+          <h3 className={cn(headingVariants({ size: 'sm', weight: 'medium', spacing: 'tight' }))}>
             {t('Categories:styleGuide.typography.text', 'Metin')}
           </h3>
           <div className="p-6 border rounded-md space-y-6 bg-white">
@@ -117,9 +99,6 @@ const TypographySection: React.FC = () => {
             <div>
               <p className={cn(textVariants({ emphasis: 'low', size: 'sm', spacing: 'tight' }))}>Boyutlar</p>
               <div className="space-y-4">
-                <div className={cn(textVariants({ size: 'lg' }))}>
-                  LG - Büyük metin
-                </div>
                 <div className={cn(textVariants({ size: 'base' }))}>
                   Base - Normal metin (Varsayılan)
                 </div>
@@ -167,65 +146,6 @@ const TypographySection: React.FC = () => {
                 </div>
                 <div className={cn(textVariants({ emphasis: 'low' }))}>
                   Low - Düşük vurgu metni
-                </div>
-              </div>
-            </div>
-            
-            <Separator className="my-4" />
-            
-            {/* Metin Stilleri */}
-            <div>
-              <p className={cn(textVariants({ emphasis: 'low', size: 'sm', spacing: 'tight' }))}>Yazı Stilleri</p>
-              <div className="space-y-4">
-                <div className={cn(textVariants({ fontStyle: 'normal' }))}>
-                  Normal yazı stili (Varsayılan)
-                </div>
-                <div className={cn(textVariants({ fontStyle: 'italic' }))}>
-                  İtalik yazı stili
-                </div>
-              </div>
-            </div>
-            
-            <Separator className="my-4" />
-            
-            {/* Hizalamalar */}
-            <div>
-              <p className={cn(textVariants({ emphasis: 'low', size: 'sm', spacing: 'tight' }))}>Hizalamalar</p>
-              <div className="space-y-4">
-                <div className={cn(textVariants({ align: 'left' }))}>
-                  Sol hizalı metin (Varsayılan)
-                </div>
-                <div className={cn(textVariants({ align: 'center' }))}>
-                  Orta hizalı metin
-                </div>
-                <div className={cn(textVariants({ align: 'right' }))}>
-                  Sağ hizalı metin
-                </div>
-              </div>
-            </div>
-            
-            <Separator className="my-4" />
-            
-            {/* Kombinasyon Örnekleri */}
-            <div>
-              <p className={cn(textVariants({ emphasis: 'low', size: 'sm', spacing: 'tight' }))}>Örnek Kullanımlar</p>
-              <div className="space-y-4 mt-2">
-                <div className={cn(textVariants({ emphasis: 'primary', weight: 'semibold', size: 'lg' }))}>
-                  Önemli Büyük Mesaj
-                </div>
-                <div className={cn(textVariants({ emphasis: 'normal', weight: 'medium' }))}>
-                  Normal Bilgi Metni
-                </div>
-                <div className={cn(textVariants({ emphasis: 'low', size: 'sm', fontStyle: 'italic' }))}>
-                  Ek açıklama veya dipnot
-                </div>
-                <div className="bg-slate-100 p-4 rounded-md">
-                  <p className={cn(textVariants({ weight: 'medium', size: 'sm', spacing: 'tight' }))}>
-                    Bilgilendirme Kutusu Başlığı
-                  </p>
-                  <p className={cn(textVariants({ size: 'sm', emphasis: 'low' }))}>
-                    Bu bir bilgilendirme kutusudur. Önemli bilgiler içerebilir.
-                  </p>
                 </div>
               </div>
             </div>
