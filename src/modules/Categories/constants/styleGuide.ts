@@ -23,6 +23,11 @@ export const categoryStyleGuide = {
       description: 'Kategori metinleri için kullanılan yazı stilleri',
     },
     {
+      id: 'pageHeadings',
+      title: 'Sayfa Başlıkları',
+      description: 'Modül sayfalarında kullanılan başlık stilleri',
+    },
+    {
       id: 'buttons',
       title: 'Butonlar',
       description: 'Kategori yönetimi için kullanılan butonlar',
@@ -49,6 +54,13 @@ export const categoryStyleGuide = {
     button: {
       variants: ['default', 'secondary', 'outline', 'ghost', 'link', 'destructive'],
       sizes: ['sm', 'default', 'lg', 'icon'],
+    },
+    pageHeading: {
+      levels: ['h1', 'h2', 'h3'],
+      weights: ['normal', 'medium', 'semibold', 'bold'],
+      spacings: ['none', 'tight', 'normal', 'relaxed'],
+      aligns: ['left', 'center', 'right'],
+      emphasis: ['normal', 'muted', 'primary'],
     },
   },
 };

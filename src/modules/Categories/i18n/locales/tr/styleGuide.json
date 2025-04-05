@@ -35,6 +35,16 @@
     "sizes": "Metin Boyutları",
     "examples": "Örnek Kullanımlar"
   },
+  "pageHeadings": {
+    "title": "Sayfa Başlıkları",
+    "description": "Modül sayfaları için kullanılan başlık stilleri",
+    "levels": "Başlık Seviyeleri",
+    "weights": "Başlık Kalınlıkları",
+    "spacings": "Başlık Boşlukları",
+    "aligns": "Başlık Hizalamaları",
+    "emphasis": "Başlık Vurguları",
+    "examples": "Örnek Kullanımlar"
+  },
   "buttons": {
     "title": "Kategori Butonları",
     "description": "Kategori yönetimi için kullanılan buton bileşenleri",

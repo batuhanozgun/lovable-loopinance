@@ -35,6 +35,16 @@
     "sizes": "Text Sizes",
     "examples": "Usage Examples"
   },
+  "pageHeadings": {
+    "title": "Page Headings",
+    "description": "Heading styles used for module pages",
+    "levels": "Heading Levels",
+    "weights": "Heading Weights",
+    "spacings": "Heading Spacings",
+    "aligns": "Heading Alignments",
+    "emphasis": "Heading Emphasis",
+    "examples": "Usage Examples"
+  },
   "buttons": {
     "title": "Category Buttons",
     "description": "Button components used for category management",
