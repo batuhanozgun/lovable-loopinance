@@ -12,12 +12,6 @@ const CategoriesStyleGuideView: React.FC = () => {
   return (
     <CategoriesStyleGuideLayout>
       <div className="space-y-12">
-        <div className="p-4 border rounded-md bg-gray-50">
-          <Text className="text-muted-foreground">
-            {t('Categories:styleGuide.description', 'Kategori modülü stil rehberi sadeleştirildi. Adım adım yeni bileşenler ekleyeceğiz.')}
-          </Text>
-        </div>
-        
         <TypographySection />
       </div>
     </CategoriesStyleGuideLayout>
