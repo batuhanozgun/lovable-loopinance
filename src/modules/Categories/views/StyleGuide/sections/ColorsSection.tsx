@@ -13,7 +13,7 @@ const ColorsSection: React.FC = () => {
     <div className="mb-8">
       {/* Section Header */}
       <div className="mb-3">
-        <h2 className={cn(headingVariants({ size: 'base', weight: 'semibold', spacing: 'tight' }))}>
+        <h2 className={cn(headingVariants({ size: 'base', weight: 'semibold', spacing: 'none' }), "mb-1")}>
           {t('Categories:styleGuide.colors.title', 'Kategori Renkleri')}
         </h2>
         <p className={cn(textVariants({ emphasis: 'low', spacing: 'none' }))}>
@@ -24,7 +24,7 @@ const ColorsSection: React.FC = () => {
       <div className="space-y-8">
         {/* Ana renkler */}
         <div>
-          <h3 className={cn(headingVariants({ size: 'sm', weight: 'medium', spacing: 'tight' }))}>
+          <h3 className={cn(headingVariants({ size: 'sm', weight: 'medium', spacing: 'none' }), "mb-1")}>
             {t('Categories:styleGuide.colors.primary', 'Ana Renkler')}
           </h3>
           <div className="p-6 border rounded-md space-y-6 bg-white">
@@ -40,7 +40,7 @@ const ColorsSection: React.FC = () => {
         
         {/* Pastel renkler */}
         <div>
-          <h3 className={cn(headingVariants({ size: 'sm', weight: 'medium', spacing: 'tight' }))}>
+          <h3 className={cn(headingVariants({ size: 'sm', weight: 'medium', spacing: 'none' }), "mb-1")}>
             {t('Categories:styleGuide.colors.pastel', 'Pastel Renkler')}
           </h3>
           <div className="p-6 border rounded-md space-y-6 bg-white">
@@ -56,7 +56,7 @@ const ColorsSection: React.FC = () => {
         
         {/* İşlevsel renkler */}
         <div>
-          <h3 className={cn(headingVariants({ size: 'sm', weight: 'medium', spacing: 'tight' }))}>
+          <h3 className={cn(headingVariants({ size: 'sm', weight: 'medium', spacing: 'none' }), "mb-1")}>
             {t('Categories:styleGuide.colors.functional', 'İşlevsel Renkler')}
           </h3>
           <div className="p-6 border rounded-md space-y-6 bg-white">
@@ -72,7 +72,7 @@ const ColorsSection: React.FC = () => {
         
         {/* Nötr renkler */}
         <div>
-          <h3 className={cn(headingVariants({ size: 'sm', weight: 'medium', spacing: 'tight' }))}>
+          <h3 className={cn(headingVariants({ size: 'sm', weight: 'medium', spacing: 'none' }), "mb-1")}>
             {t('Categories:styleGuide.colors.neutral', 'Nötr Renkler')}
           </h3>
           <div className="p-6 border rounded-md space-y-6 bg-white">

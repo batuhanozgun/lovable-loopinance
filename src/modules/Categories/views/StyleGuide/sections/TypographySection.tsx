@@ -12,7 +12,7 @@ const TypographySection: React.FC = () => {
     <div className="mb-8">
       {/* Section Header */}
       <div className="mb-3">
-        <h2 className={cn(headingVariants({ size: 'base', weight: 'semibold', spacing: 'tight' }))}>
+        <h2 className={cn(headingVariants({ size: 'base', weight: 'semibold', spacing: 'none' }), "mb-1")}>
           {t('Categories:styleGuide.typography.title', 'Tipografi')}
         </h2>
         <p className={cn(textVariants({ emphasis: 'low', spacing: 'none' }))}>
@@ -23,7 +23,7 @@ const TypographySection: React.FC = () => {
       <div className="space-y-8">
         {/* Başlıklar Bölümü */}
         <div>
-          <h3 className={cn(headingVariants({ size: 'sm', weight: 'medium', spacing: 'tight' }))}>
+          <h3 className={cn(headingVariants({ size: 'sm', weight: 'medium', spacing: 'none' }), "mb-1")}>
             {t('Categories:styleGuide.typography.headings', 'Başlıklar')}
           </h3>
           <div className="p-6 border rounded-md space-y-6 bg-white">
@@ -91,7 +91,7 @@ const TypographySection: React.FC = () => {
         
         {/* Metin Bölümü */}
         <div>
-          <h3 className={cn(headingVariants({ size: 'sm', weight: 'medium', spacing: 'tight' }))}>
+          <h3 className={cn(headingVariants({ size: 'sm', weight: 'medium', spacing: 'none' }), "mb-1")}>
             {t('Categories:styleGuide.typography.text', 'Metin')}
           </h3>
           <div className="p-6 border rounded-md space-y-6 bg-white">

@@ -17,10 +17,10 @@ const CategoriesStyleGuideLayout: React.FC<CategoriesStyleGuideLayoutProps> = ({
   const { t } = useTranslation(['Categories']);
   
   return (
-    <div className="py-4">
+    <div className="py-0">
       <Container>
         <div className="mb-4">
-          <h1 className={cn(headingVariants({ size: 'lg', weight: 'bold' }))}>
+          <h1 className={cn(headingVariants({ size: 'lg', weight: 'bold', spacing: 'none' }), "mb-1")}>
             {t('Categories:styleGuide.title', 'Kategoriler Stil Kılavuzu')}
           </h1>
           <p className={cn(textVariants({ emphasis: 'low', spacing: 'none' }))}>
