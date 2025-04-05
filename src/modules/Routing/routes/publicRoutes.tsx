@@ -5,6 +5,7 @@ import { Login } from "@/modules/UserManagement/Login/views/LoginView";
 import PricingPage from "@/pages/Pricing";
 import StyleGuide from "@/pages/StyleGuide";
 import CategoriesStyleGuide from "@/pages/CategoriesStyleGuide";
+import { StyleGuideView } from "@/modules/StyleGuide";
 
 // Landing page rotaları
 import Features from "@/pages/Features";
@@ -59,9 +60,15 @@ export const publicRoutes: PublicRoute[] = [
     redirectTo: undefined
   },
   {
-    path: "/categories-style-guide", // Kategoriler stil kılavuzu rotası
+    path: "/categories-style-guide", 
     type: "public",
     element: <CategoriesStyleGuide />,
+    redirectTo: undefined
+  },
+  {
+    path: "/style-guides", 
+    type: "public",
+    element: <StyleGuideView />,
     redirectTo: undefined
   },
   {

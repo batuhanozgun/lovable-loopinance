@@ -14,4 +14,5 @@ export const ROUTE_PATHS = {
   CASH_ACCOUNTS_NEW: '/cash-accounts-new',
   STYLE_GUIDE: '/style-guide',
   CATEGORIES_STYLE_GUIDE: '/categories-style-guide',
+  STYLE_GUIDES: '/style-guides',
 };
