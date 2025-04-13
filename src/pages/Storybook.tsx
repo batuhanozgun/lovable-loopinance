@@ -13,12 +13,101 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ChevronRight, Home, Settings, User, Menu, Bell, Check, X } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { 
+  ChevronRight, 
+  Home, 
+  Settings, 
+  User, 
+  Menu, 
+  Bell, 
+  Check, 
+  X,
+  Github,
+  Calendar,
+  CreditCard,
+  Heart,
+  Mail,
+  MessageSquare
+} from "lucide-react";
 
 const StorybookPage = () => {
   const [progress, setProgress] = useState(45);
   const [switchValue, setSwitchValue] = useState(false);
   const [activeTab, setActiveTab] = useState("buttons");
+
+  // Define type-safe variants
+  type ButtonVariant = "default" | "link" | "destructive" | "outline" | "secondary" | "ghost" | "gradient";
+  type ButtonSize = "default" | "sm" | "lg" | "icon";
+  type CardVariant = "default" | "glass";
+  type BadgeVariant = "default" | "destructive" | "outline" | "secondary" | "success" | "warning" | "info";
+
+  // Button props controls
+  const [buttonProps, setButtonProps] = useState({
+    variant: "default" as ButtonVariant,
+    size: "default" as ButtonSize,
+    disabled: false,
+    withIcon: false,
+    label: "Button",
+    iconPosition: "left"
+  });
+
+  // Badge props controls
+  const [badgeProps, setBadgeProps] = useState({
+    variant: "default" as BadgeVariant,
+    label: "Badge"
+  });
+
+  // Card props controls
+  const [cardProps, setCardProps] = useState({
+    variant: "default" as CardVariant,
+    withHeader: true,
+    withFooter: true,
+    title: "Card Title",
+    description: "Card Description",
+    content: "Card Content"
+  });
+
+  // Input props controls
+  const [inputProps, setInputProps] = useState({
+    type: "text",
+    placeholder: "Enter text...",
+    disabled: false
+  });
+
+  // Icon selection for button
+  const icons = {
+    User: <User size={16} />,
+    Settings: <Settings size={16} />,
+    Heart: <Heart size={16} />,
+    Bell: <Bell size={16} />,
+    Calendar: <Calendar size={16} />,
+    Mail: <Mail size={16} />,
+    MessageSquare: <MessageSquare size={16} />,
+    Github: <Github size={16} />
+  };
+  
+  const [selectedIcon, setSelectedIcon] = useState("User");
+
+  // Helper function to update button props
+  const updateButtonProps = (prop: string, value: any) => {
+    setButtonProps(prev => ({ ...prev, [prop]: value }));
+  };
+
+  // Helper function to update badge props
+  const updateBadgeProps = (prop: string, value: any) => {
+    setBadgeProps(prev => ({ ...prev, [prop]: value }));
+  };
+
+  // Helper function to update card props
+  const updateCardProps = (prop: string, value: any) => {
+    setCardProps(prev => ({ ...prev, [prop]: value }));
+  };
+
+  // Helper function to update input props
+  const updateInputProps = (prop: string, value: any) => {
+    setInputProps(prev => ({ ...prev, [prop]: value }));
+  };
 
   return (
     <div className="container mx-auto py-10 px-4">
@@ -46,8 +135,157 @@ const StorybookPage = () => {
               <CardHeader>
                 <CardTitle>Button Component</CardTitle>
                 <CardDescription>
-                  Interactive button with various styles and states
+                  Interactive button with customizable properties
                 </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {/* Preview area */}
+                  <div className="space-y-4">
+                    <h3 className="text-md font-medium">Preview</h3>
+                    <div className="flex items-center justify-center p-10 bg-muted rounded-md">
+                      <Button 
+                        variant={buttonProps.variant} 
+                        size={buttonProps.size} 
+                        disabled={buttonProps.disabled}
+                      >
+                        {buttonProps.withIcon && buttonProps.iconPosition === "left" && icons[selectedIcon]}
+                        {buttonProps.label}
+                        {buttonProps.withIcon && buttonProps.iconPosition === "right" && icons[selectedIcon]}
+                      </Button>
+                    </div>
+                    
+                    <div className="pt-4">
+                      <h3 className="text-md font-medium mb-2">Generated Code</h3>
+                      <div className="bg-muted p-4 rounded-md font-mono text-sm overflow-x-auto">
+{`<Button 
+  variant="${buttonProps.variant}"
+  size="${buttonProps.size}"${buttonProps.disabled ? `
+  disabled={true}` : ''}
+>
+  ${buttonProps.withIcon && buttonProps.iconPosition === "left" ? `<${selectedIcon} size={16} /> ` : ''}${buttonProps.label}${buttonProps.withIcon && buttonProps.iconPosition === "right" ? ` <${selectedIcon} size={16} />` : ''}
+</Button>`}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Controls area */}
+                  <div className="space-y-4 border-l pl-8">
+                    <h3 className="text-md font-medium">Controls</h3>
+                    
+                    <div className="space-y-3">
+                      <div>
+                        <Label htmlFor="button-label">Label</Label>
+                        <Input 
+                          id="button-label" 
+                          value={buttonProps.label} 
+                          onChange={(e) => updateButtonProps('label', e.target.value)} 
+                        />
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="button-variant">Variant</Label>
+                        <Select 
+                          value={buttonProps.variant} 
+                          onValueChange={(value: ButtonVariant) => updateButtonProps('variant', value)}
+                        >
+                          <SelectTrigger id="button-variant">
+                            <SelectValue placeholder="Select variant" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="default">Default</SelectItem>
+                            <SelectItem value="destructive">Destructive</SelectItem>
+                            <SelectItem value="outline">Outline</SelectItem>
+                            <SelectItem value="secondary">Secondary</SelectItem>
+                            <SelectItem value="ghost">Ghost</SelectItem>
+                            <SelectItem value="link">Link</SelectItem>
+                            <SelectItem value="gradient">Gradient</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="button-size">Size</Label>
+                        <Select 
+                          value={buttonProps.size} 
+                          onValueChange={(value: ButtonSize) => updateButtonProps('size', value)}
+                        >
+                          <SelectTrigger id="button-size">
+                            <SelectValue placeholder="Select size" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="default">Default</SelectItem>
+                            <SelectItem value="sm">Small</SelectItem>
+                            <SelectItem value="lg">Large</SelectItem>
+                            <SelectItem value="icon">Icon</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="button-disabled" 
+                          checked={buttonProps.disabled} 
+                          onCheckedChange={(checked) => updateButtonProps('disabled', checked)}
+                        />
+                        <Label htmlFor="button-disabled">Disabled</Label>
+                      </div>
+                      
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="button-with-icon" 
+                          checked={buttonProps.withIcon} 
+                          onCheckedChange={(checked) => updateButtonProps('withIcon', checked)}
+                        />
+                        <Label htmlFor="button-with-icon">With Icon</Label>
+                      </div>
+                      
+                      {buttonProps.withIcon && (
+                        <>
+                          <div>
+                            <Label htmlFor="button-icon">Icon</Label>
+                            <Select 
+                              value={selectedIcon} 
+                              onValueChange={setSelectedIcon}
+                            >
+                              <SelectTrigger id="button-icon">
+                                <SelectValue placeholder="Select icon" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {Object.keys(icons).map(icon => (
+                                  <SelectItem key={icon} value={icon}>{icon}</SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          
+                          <div>
+                            <Label htmlFor="button-icon-position">Icon Position</Label>
+                            <Select 
+                              value={buttonProps.iconPosition} 
+                              onValueChange={(value) => updateButtonProps('iconPosition', value)}
+                            >
+                              <SelectTrigger id="button-icon-position">
+                                <SelectValue placeholder="Select position" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="left">Left</SelectItem>
+                                <SelectItem value="right">Right</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Button Variants</CardTitle>
+                <CardDescription>Available button variants</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div>
@@ -72,27 +310,7 @@ const StorybookPage = () => {
                     <Button size="icon"><Bell size={16} /></Button>
                   </div>
                 </div>
-                
-                <div>
-                  <h3 className="text-md font-medium mb-2">States</h3>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Button>Enabled</Button>
-                    <Button disabled>Disabled</Button>
-                    <Button variant="outline" className="gap-2">
-                      <User size={16} />
-                      With Icon
-                    </Button>
-                  </div>
-                </div>
               </CardContent>
-              <CardFooter className="border-t pt-4 flex flex-col items-start">
-                <h3 className="text-sm font-medium mb-2">Props</h3>
-                <div className="text-xs text-muted-foreground mb-2">
-                  <p><code>variant</code>: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link" | "gradient"</p>
-                  <p><code>size</code>: "default" | "sm" | "lg" | "icon"</p>
-                  <p><code>asChild</code>: boolean - When true, component renders as children instead of button</p>
-                </div>
-              </CardFooter>
             </Card>
           </TabsContent>
           
@@ -101,7 +319,130 @@ const StorybookPage = () => {
             <Card>
               <CardHeader>
                 <CardTitle>Card Component</CardTitle>
-                <CardDescription>Container for content with multiple variants</CardDescription>
+                <CardDescription>Customizable card container</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {/* Preview area */}
+                  <div className="space-y-4">
+                    <h3 className="text-md font-medium">Preview</h3>
+                    <div className="p-4 bg-muted rounded-md">
+                      <Card variant={cardProps.variant} className="w-full">
+                        {cardProps.withHeader && (
+                          <CardHeader>
+                            <CardTitle>{cardProps.title}</CardTitle>
+                            <CardDescription>{cardProps.description}</CardDescription>
+                          </CardHeader>
+                        )}
+                        <CardContent>
+                          <p>{cardProps.content}</p>
+                        </CardContent>
+                        {cardProps.withFooter && (
+                          <CardFooter>
+                            <Button size="sm">Action</Button>
+                          </CardFooter>
+                        )}
+                      </Card>
+                    </div>
+                    
+                    <div className="pt-4">
+                      <h3 className="text-md font-medium mb-2">Generated Code</h3>
+                      <div className="bg-muted p-4 rounded-md font-mono text-sm overflow-x-auto">
+{`<Card${cardProps.variant !== "default" ? ` variant="${cardProps.variant}"` : ''}>
+  ${cardProps.withHeader ? `<CardHeader>
+    <CardTitle>${cardProps.title}</CardTitle>
+    <CardDescription>${cardProps.description}</CardDescription>
+  </CardHeader>` : ''}
+  <CardContent>
+    <p>${cardProps.content}</p>
+  </CardContent>
+  ${cardProps.withFooter ? `<CardFooter>
+    <Button size="sm">Action</Button>
+  </CardFooter>` : ''}
+</Card>`}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Controls area */}
+                  <div className="space-y-4 border-l pl-8">
+                    <h3 className="text-md font-medium">Controls</h3>
+                    
+                    <div className="space-y-3">
+                      <div>
+                        <Label htmlFor="card-variant">Variant</Label>
+                        <Select 
+                          value={cardProps.variant} 
+                          onValueChange={(value: CardVariant) => updateCardProps('variant', value)}
+                        >
+                          <SelectTrigger id="card-variant">
+                            <SelectValue placeholder="Select variant" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="default">Default</SelectItem>
+                            <SelectItem value="glass">Glass</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="card-with-header" 
+                          checked={cardProps.withHeader} 
+                          onCheckedChange={(checked) => updateCardProps('withHeader', checked)}
+                        />
+                        <Label htmlFor="card-with-header">With Header</Label>
+                      </div>
+                      
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="card-with-footer" 
+                          checked={cardProps.withFooter} 
+                          onCheckedChange={(checked) => updateCardProps('withFooter', checked)}
+                        />
+                        <Label htmlFor="card-with-footer">With Footer</Label>
+                      </div>
+                      
+                      {cardProps.withHeader && (
+                        <>
+                          <div>
+                            <Label htmlFor="card-title">Title</Label>
+                            <Input 
+                              id="card-title" 
+                              value={cardProps.title} 
+                              onChange={(e) => updateCardProps('title', e.target.value)} 
+                            />
+                          </div>
+                          
+                          <div>
+                            <Label htmlFor="card-description">Description</Label>
+                            <Input 
+                              id="card-description" 
+                              value={cardProps.description} 
+                              onChange={(e) => updateCardProps('description', e.target.value)} 
+                            />
+                          </div>
+                        </>
+                      )}
+                      
+                      <div>
+                        <Label htmlFor="card-content">Content</Label>
+                        <Textarea 
+                          id="card-content" 
+                          value={cardProps.content} 
+                          onChange={(e) => updateCardProps('content', e.target.value)} 
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Card Variants</CardTitle>
+                <CardDescription>Available card styles</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -132,18 +473,94 @@ const StorybookPage = () => {
                   </Card>
                 </div>
               </CardContent>
-              <CardFooter className="border-t pt-4 flex flex-col items-start">
-                <h3 className="text-sm font-medium mb-2">Structure & Props</h3>
-                <div className="text-xs text-muted-foreground mb-2">
-                  <p>Card components: <code>Card</code>, <code>CardHeader</code>, <code>CardTitle</code>, <code>CardDescription</code>, <code>CardContent</code>, <code>CardFooter</code></p>
-                  <p><code>variant</code>: "default" | "glass"</p>
-                </div>
-              </CardFooter>
             </Card>
           </TabsContent>
           
           {/* INPUTS SECTION */}
           <TabsContent value="inputs" className="space-y-8 mt-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Input Component</CardTitle>
+                <CardDescription>Customizable text input field</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {/* Preview area */}
+                  <div className="space-y-4">
+                    <h3 className="text-md font-medium">Preview</h3>
+                    <div className="p-10 bg-muted rounded-md flex justify-center">
+                      <div className="w-full max-w-xs">
+                        <Label htmlFor="preview-input" className="mb-2 block">Input</Label>
+                        <Input 
+                          id="preview-input"
+                          type={inputProps.type}
+                          placeholder={inputProps.placeholder}
+                          disabled={inputProps.disabled}
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="pt-4">
+                      <h3 className="text-md font-medium mb-2">Generated Code</h3>
+                      <div className="bg-muted p-4 rounded-md font-mono text-sm overflow-x-auto">
+{`<Input 
+  type="${inputProps.type}"
+  placeholder="${inputProps.placeholder}"${inputProps.disabled ? `
+  disabled={true}` : ''}
+/>`}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Controls area */}
+                  <div className="space-y-4 border-l pl-8">
+                    <h3 className="text-md font-medium">Controls</h3>
+                    
+                    <div className="space-y-3">
+                      <div>
+                        <Label htmlFor="input-type">Input Type</Label>
+                        <Select 
+                          value={inputProps.type} 
+                          onValueChange={(value) => updateInputProps('type', value)}
+                        >
+                          <SelectTrigger id="input-type">
+                            <SelectValue placeholder="Select type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="text">Text</SelectItem>
+                            <SelectItem value="email">Email</SelectItem>
+                            <SelectItem value="password">Password</SelectItem>
+                            <SelectItem value="number">Number</SelectItem>
+                            <SelectItem value="tel">Telephone</SelectItem>
+                            <SelectItem value="url">URL</SelectItem>
+                            <SelectItem value="date">Date</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="input-placeholder">Placeholder</Label>
+                        <Input 
+                          id="input-placeholder" 
+                          value={inputProps.placeholder} 
+                          onChange={(e) => updateInputProps('placeholder', e.target.value)} 
+                        />
+                      </div>
+                      
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="input-disabled" 
+                          checked={inputProps.disabled} 
+                          onCheckedChange={(checked) => updateInputProps('disabled', checked)}
+                        />
+                        <Label htmlFor="input-disabled">Disabled</Label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
             <Card>
               <CardHeader>
                 <CardTitle>Input Components</CardTitle>
@@ -186,21 +603,74 @@ const StorybookPage = () => {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="border-t pt-4 flex flex-col items-start">
-                <h3 className="text-sm font-medium mb-2">Available Input Components</h3>
-                <div className="text-xs text-muted-foreground">
-                  <p><code>Input</code> - Text input field</p>
-                  <p><code>Textarea</code> - Multi-line text input</p>
-                  <p><code>Checkbox</code> - Binary selection</p>
-                  <p><code>Switch</code> - Toggle control</p>
-                  <p><code>Label</code> - Label for form elements</p>
-                </div>
-              </CardFooter>
             </Card>
           </TabsContent>
           
           {/* DATA DISPLAY SECTION */}
           <TabsContent value="data" className="space-y-8 mt-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Badge Component</CardTitle>
+                <CardDescription>Customizable status indicator</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {/* Preview area */}
+                  <div className="space-y-4">
+                    <h3 className="text-md font-medium">Preview</h3>
+                    <div className="p-10 bg-muted rounded-md flex justify-center">
+                      <Badge variant={badgeProps.variant}>
+                        {badgeProps.label}
+                      </Badge>
+                    </div>
+                    
+                    <div className="pt-4">
+                      <h3 className="text-md font-medium mb-2">Generated Code</h3>
+                      <div className="bg-muted p-4 rounded-md font-mono text-sm overflow-x-auto">
+{`<Badge${badgeProps.variant !== "default" ? ` variant="${badgeProps.variant}"` : ''}>
+  ${badgeProps.label}
+</Badge>`}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Controls area */}
+                  <div className="space-y-4 border-l pl-8">
+                    <h3 className="text-md font-medium">Controls</h3>
+                    
+                    <div className="space-y-3">
+                      <div>
+                        <Label htmlFor="badge-variant">Variant</Label>
+                        <Select 
+                          value={badgeProps.variant} 
+                          onValueChange={(value: BadgeVariant) => updateBadgeProps('variant', value)}
+                        >
+                          <SelectTrigger id="badge-variant">
+                            <SelectValue placeholder="Select variant" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="default">Default</SelectItem>
+                            <SelectItem value="secondary">Secondary</SelectItem>
+                            <SelectItem value="outline">Outline</SelectItem>
+                            <SelectItem value="destructive">Destructive</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="badge-label">Label</Label>
+                        <Input 
+                          id="badge-label" 
+                          value={badgeProps.label} 
+                          onChange={(e) => updateBadgeProps('label', e.target.value)} 
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
             <Card>
               <CardHeader>
                 <CardTitle>Data Display Components</CardTitle>
@@ -249,15 +719,6 @@ const StorybookPage = () => {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="border-t pt-4 flex flex-col items-start">
-                <h3 className="text-sm font-medium mb-2">Available Components</h3>
-                <div className="text-xs text-muted-foreground">
-                  <p><code>Avatar</code> - User or entity representation</p>
-                  <p><code>Badge</code> - Short status descriptor</p>
-                  <p><code>Progress</code> - Visual indicator of progress</p>
-                  <p><code>Separator</code> - Visual divider between content</p>
-                </div>
-              </CardFooter>
             </Card>
           </TabsContent>
           
@@ -307,14 +768,6 @@ const StorybookPage = () => {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="border-t pt-4 flex flex-col items-start">
-                <h3 className="text-sm font-medium mb-2">Usage Examples</h3>
-                <div className="text-xs text-muted-foreground">
-                  <p>Skeletons can be used for content loading states</p>
-                  <p>Use status indicators to show process state</p>
-                  <p>Combine with other components like Badge for rich feedback</p>
-                </div>
-              </CardFooter>
             </Card>
           </TabsContent>
           
@@ -349,14 +802,6 @@ const StorybookPage = () => {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="border-t pt-4 flex flex-col items-start">
-                <h3 className="text-sm font-medium mb-2">Layout Techniques</h3>
-                <div className="text-xs text-muted-foreground">
-                  <p>Use container classes for consistent width</p>
-                  <p>Responsive designs with Tailwind breakpoints</p>
-                  <p>Grid and flexbox layouts for content organization</p>
-                </div>
-              </CardFooter>
             </Card>
           </TabsContent>
         </Tabs>
@@ -364,73 +809,28 @@ const StorybookPage = () => {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Usage Documentation</CardTitle>
+              <CardTitle>Interactive UI Library</CardTitle>
               <CardDescription>
-                How to use components in your application
+                This UI component library allows you to:
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="text-lg font-medium">Component Import</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Import components directly from their location:
-                  </p>
-                  <div className="bg-muted p-2 rounded-md mt-2 font-mono text-sm">
-                    import {'{'} Button {'}'} from "@/components/ui/button";
-                  </div>
-                </div>
-                
-                <div>
-                  <h3 className="text-lg font-medium">Basic Component Usage</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Example usage of a button component:
-                  </p>
-                  <div className="bg-muted p-2 rounded-md mt-2 font-mono text-sm overflow-x-auto">
-{`<Button 
-  variant="default"
-  size="default"
-  onClick={() => console.log('Button clicked')}
->
-  Click Me
-</Button>`}
-                  </div>
-                </div>
-                
-                <div>
-                  <h3 className="text-lg font-medium">Component Customization</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Components can be customized using className prop:
-                  </p>
-                  <div className="bg-muted p-2 rounded-md mt-2 font-mono text-sm overflow-x-auto">
-{`<Button 
-  className="bg-gradient-to-r from-purple-400 to-pink-500 hover:from-pink-500 hover:to-purple-400"
->
-  Custom Gradient
-</Button>`}
-                  </div>
-                </div>
-                
-                <div>
-                  <h3 className="text-lg font-medium">Component Composition</h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    Components can be combined together:
-                  </p>
-                  <div className="bg-muted p-2 rounded-md mt-2 font-mono text-sm overflow-x-auto">
-{`<Card>
-  <CardHeader>
-    <CardTitle>Example Card</CardTitle>
-    <CardDescription>Card with a button</CardDescription>
-  </CardHeader>
-  <CardContent>
-    <p>This card contains a button component</p>
-  </CardContent>
-  <CardFooter>
-    <Button>Action</Button>
-  </CardFooter>
-</Card>`}
-                  </div>
-                </div>
+              <ul className="space-y-2 list-disc pl-5">
+                <li>View and interact with UI components</li>
+                <li>Customize component properties in real-time</li>
+                <li>See the generated code for your customized components</li>
+                <li>Explore different variants and configurations</li>
+                <li>Copy and paste the generated code into your project</li>
+              </ul>
+              
+              <div className="mt-6 p-4 bg-muted rounded-md border border-muted-foreground/20">
+                <h3 className="text-lg font-medium">How to use this library</h3>
+                <ol className="space-y-2 list-decimal pl-5 mt-2">
+                  <li>Select a component category from the tabs above</li>
+                  <li>Use the controls to customize the component's properties</li>
+                  <li>See the changes reflected in real-time in the preview area</li>
+                  <li>Copy the generated code for use in your application</li>
+                </ol>
               </div>
             </CardContent>
           </Card>
