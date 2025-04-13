@@ -23,6 +23,7 @@ import Landing from "@/pages/Landing";
 import PricingPage from "@/pages/Pricing";
 import NotFound from "@/pages/NotFound";
 import StyleGuide from "@/pages/StyleGuide";
+import StorybookPage from "@/pages/Storybook";
 
 // Landing page routes
 import Features from "@/pages/Features";
@@ -114,6 +115,12 @@ export const routes: AppRoute[] = [
     path: "/style-guide", // Style Guide rotasını ekliyoruz
     type: "public",
     element: <StyleGuide />,
+    redirectTo: undefined
+  },
+  {
+    path: "/storybook",
+    type: "public",
+    element: <StorybookPage />,
     redirectTo: undefined
   },
   {

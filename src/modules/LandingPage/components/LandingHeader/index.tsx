@@ -28,6 +28,7 @@ export const LandingHeader = () => {
           <Link to="/pricing" variant="default" size="sm">{t('nav.pricing')}</Link>
           <Link to="/about" variant="default" size="sm">{t('nav.about')}</Link>
           <Link to="/style-guide" variant="default" size="sm">Style Guide</Link>
+          <Link to="/storybook" variant="default" size="sm">Storybook</Link>
         </nav>
 
         <div className="hidden md:flex items-center space-x-4">
@@ -100,6 +101,13 @@ export const LandingHeader = () => {
               onClick={() => setMobileMenuOpen(false)}
             >
               Style Guide
+            </Link>
+            <Link 
+              to="/storybook" 
+              className="px-2 py-1 rounded-md hover:bg-muted/50 transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Storybook
             </Link>
             <div className="pt-2 flex items-center justify-between">
               <LanguageSelector />
