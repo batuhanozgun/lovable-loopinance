@@ -3,7 +3,7 @@ Loopinance Dokümantasyonun Dokümantasyonu
 1.1. Amaç
 Bu doküman, Loopinance kişisel finans yönetimi uygulamasının geliştirme süreci için gerekli tüm dokümantasyon yapısını tanımlamayı amaçlar. Her dokümanın amacı, kapsamı, hedef kitlesi ve diğer dokümanlarla ilişkisi açıklanarak, paydaşların projenin dokümantasyon ihtiyaçlarını anlaması sağlanır. Modüler bir yaklaşımla, dokümanların hazırlanma sırası ve güncelleme süreci tanımlanır.
 1.2. Kapsam
-Doküman, Loopinance’ın vizyonundan teslimine kadar tüm geliştirme sürecini destekleyen dokümanları kapsar. Odak, bireysel kullanıcıların ihtiyaçlarına yönelik ilk sürüm özelliklerdir (çoklu döviz desteği, ekstre bazlı hesap yönetimi, bütçe ve gerçekleşen veri entegrasyonu). KOBİ odaklı özellikler bu aşamada kapsam dışıdır.
+Doküman, Loopinance’ın vizyonundan teslimine kadar tüm geliştirme sürecini destekleyen dokümanları kapsar. Odak, bireysel kullanıcıların ihtiyaçlarına yönelik ilk sürüm özelliklerdir (çoklu döviz desteği, ekstre bazlı hesap yönetimi, bütçe ve gerçekleşen veri entegrasyonu, kategori/alt kategori yönetimi, modüler hesap yönetimi). KOBİ odaklı özellikler bu aşamada kapsam dışıdır.
 1.3. Hedef Kitle
 
 Ürün Sahibi (PO): Dokümanların önceliklendirilmesi ve onaylanması.
@@ -18,13 +18,13 @@ Dokümanlar, GitHub Wiki üzerinden Markdown formatında, https://github.com/bat
 Her değişiklik, tarih ve sorumlu ile kayıt altına alınır.
 Sprint başında Ürün Sahibi tarafından gözden geçirilir.
 
-Son Güncelleme: 19 Nisan 2025, Sorumlu: [Kullanıcı Adı]
+Son Güncelleme: 19 Nisan 2025, Sorumlu: batuhanozgun
 2. Dokümantasyon Yapısı
 Loopinance’ın geliştirme süreci için aşağıdaki dokümanlar tanımlanmıştır. Her dokümanın amacı, kapsamı ve diğer dokümanlarla ilişkisi açıklanmıştır. Modüler bir yaklaşımla, dokümanlar bağımsız ancak birbiriyle bağlantılıdır. Dosya isimleri, yönetim kolaylığı için numaralandırılmıştır.
 2.1. Vizyon ve Kapsam Dokümanı (01-vizyon-ve-kapsam-dokumani.md)
 
 Amaç: Projenin vizyonunu, misyonunu ve temel hedeflerini tanımlamak; paydaşlar için ortak bir referans oluşturmak.
-Kapsam: Uygulamanın çözdüğü problemler, ilk sürüm özellikleri, kapsam dışı unsurlar, başarı kriterleri.
+Kapsam: Uygulamanın çözdüğü problemler, ilk sürüm özellikleri (çoklu döviz, ekstre yönetimi, bütçe entegrasyonu, kategori yönetimi, modüler hesap yönetimi), kapsam dışı unsurlar, başarı kriterleri.
 Hedef Kitle: Tüm paydaşlar.
 İlişkiler: Tüm dokümanlar için temel referans.
 Durum: Tamamlandı.
@@ -32,18 +32,18 @@ Durum: Tamamlandı.
 2.2. Proje Yönetim Planı (02-proje-yonetim-plani.md)
 
 Amaç: Geliştirme sürecinin aşamalarını, kilometre taşlarını ve görev sıralarını tanımlamak; adım adım ilerlemeyi sağlamak.
-Kapsam: Proje aşamaları, kilometre taşları, görev dağılımları, risk analizi.
+Kapsam: Proje aşamaları, kilometre taşları, görev dağılımları, risk analizi, sprintlerin genel çerçevesi.
 Hedef Kitle: PO, proje yöneticisi, geliştiriciler.
 İlişkiler: Vizyon dokümanına dayanır, diğer dokümanların hazırlanmasını koordine eder.
-Durum: Henüz hazırlanmadı; fonksiyonel gereksinimlerle paralel geliştirilebilir.
+Durum: Tamamlandı.
 
 2.3. Risk Yönetim Planı (03-risk-yonetim-plani.md)
 
 Amaç: Projedeki potansiyel riskleri tanımlamak ve azaltma stratejileri geliştirmek.
-Kapsam: Risk tanımları, olasılık ve etki analizleri, azaltma planları, acil durum senaryoları (örneğin, banka API entegrasyon sorunları).
+Kapsam: Risk tanımları, olasılık ve etki analizleri, azaltma planları, acil durum senaryoları (örneğin, modüler yapının karmaşıklaşması, Lovable.dev’in yanlış dosyalarda değişiklik yapması).
 Hedef Kitle: PO, proje yöneticisi, geliştiriciler.
 İlişkiler: Proje yönetim planına dayanır, vizyon dokümanındaki hedefleri destekler.
-Durum: Henüz hazırlanmadı; proje yönetim planından sonra önerilir.
+Durum: Henüz hazırlanmadı; proje yönetim planından sonra hazırlanması önerilir.
 
 2.4. Fonksiyonel Gereksinimler Dokümanı (04-fonksiyonel-gereksinimler-dokumani.md)
 
@@ -64,7 +64,7 @@ Durum: Henüz hazırlanmadı; fonksiyonel gereksinimlerden sonra önerilir.
 2.6. UX/UI Tasarım Dokümanı (06-ux-ui-tasarim-dokumani.md)
 
 Amaç: Kullanıcı arayüzü ve deneyimini tanımlamak; tasarımcılar ve geliştiriciler için rehber sağlamak.
-Kapsam: Wireframe’ler, mockup’lar, kullanıcı akışları, tasarım ilkeleri.
+Kapsam: Wireframe’ler, mockup’lar, kullanıcı akışları, tasarım ilkeleri, ön yüzde obje yönetimi (örneğin, komponent kütüphanesi veya playground).
 Hedef Kitle: UX/UI tasarımcıları, geliştiriciler, PO.
 İlişkiler: Fonksiyonel gereksinimlere dayanır, teknik tasarımla uyumlu olmalıdır.
 Durum: Henüz hazırlanmadı; fonksiyonel gereksinimlerle paralel geliştirilebilir.
@@ -72,7 +72,7 @@ Durum: Henüz hazırlanmadı; fonksiyonel gereksinimlerle paralel geliştirilebi
 2.7. Teknik Tasarım Dokümanı (07-teknik-tasarim-dokumani.md)
 
 Amaç: Uygulamanın teknik uygulamasını tanımlamak; geliştirme ekibi için rehber sağlamak.
-Kapsam: Sistem mimarisi, API entegrasyonları, veri akışları, güvenlik protokolleri.
+Kapsam: Sistem mimarisi, API entegrasyonları, veri akışları, güvenlik protokolleri, modüler hesap yönetimi yapısı (örneğin, account/{accountId}/).
 Hedef Kitle: Yazılım mimarı, geliştiriciler, QA.
 İlişkiler: Fonksiyonel gereksinimlere, UX/UI’ye ve veri gizliliği politikasına dayanır.
 Durum: Henüz hazırlanmadı; fonksiyonel gereksinimler ve veri gizliliği tamamlandıktan sonra önerilir.
@@ -93,7 +93,15 @@ Hedef Kitle: QA ekibi, geliştiriciler, PO.
 İlişkiler: Fonksiyonel gereksinimlere, teknik tasarıma ve performans planına dayanır.
 Durum: Henüz hazırlanmadı; teknik tasarım ve performans planı tamamlandıktan sonra hazırlanır.
 
-2.10. Kullanıcı Kılavuzu (10-kullanici-kilavuzu.md)
+2.10. Sprint Planı Dokümanı (11-sprint-plani-dokumani.md)
+
+Amaç: Geliştirme sürecinde iki haftalık sprintlerin içeriklerini (backlog, görevler, öncelikler) ve planlama sürecini tanımlamak; Lovable.dev gibi araçlarla çalışırken net görev yönlendirmeleri sağlamak, tüm dokümanların tamamlanmasından sonra geliştirme için kılavuz oluşturmak.
+Kapsam: Sprint backlog’u, kullanıcı hikayelerinin sprintlere atanması, sprint planlama toplantılarının yapısı, görevlerin fonksiyonel gereksinimlere, teknik tasarıma ve UX/UI’ye bağlantıları, risk azaltma stratejilerinin sprintlere entegrasyonu.
+Hedef Kitle: PO, proje yöneticisi, geliştiriciler, yazılım mimarı.
+İlişkiler: Proje yönetim planındaki sprint çerçevesine, fonksiyonel gereksinimlere (04), teknik tasarıma (07), UX/UI’ye (06) ve risk yönetim planına (03) dayanır.
+Durum: Henüz hazırlanmadı; tüm dokümanlar tamamlandıktan sonra hazırlanması önerilir.
+
+2.11. Kullanıcı Kılavuzu (12-kullanici-kilavuzu.md)
 
 Amaç: Son kullanıcıların uygulamayı nasıl kullanacağını açıklamak.
 Kapsam: Özelliklerin kullanımı, sıkça sorulan sorular, sorun giderme rehberi.
@@ -114,6 +122,7 @@ UX/UI Tasarım Dokümanı: Kullanıcı deneyimini şekillendirir, fonksiyonel ge
 Teknik Tasarım Dokümanı: Sistem uygulamasını detaylandırır, fonksiyonel gereksinimlere, UX/UI’ye ve güvenlik politikasına dayanır.
 Performans ve Ölçeklenebilirlik Planı: Performans ve ölçeklenebilirlik ihtiyaçlarını tanımlar, teknik tasarımdan sonra gelir.
 Test Planı Dokümanı: Gereksinimleri ve tasarımı doğrular, diğer dokümanlar tamamlandıktan sonra hazırlanır.
+Sprint Planı Dokümanı: Tüm dokümanların tamamlanmasından sonra, geliştirme sürecindeki sprintlerin içeriklerini ve planlama sürecini tanımlar, geliştirme için kılavuz oluşturur.
 Kullanıcı Kılavuzu: Son kullanıcıya yöneliktir, uygulama teslimine yakın hazırlanır.
 
 3.2. Güncelleme ve Versiyon Kontrolü
@@ -132,12 +141,15 @@ Modüler yapı, dokümanların yönetilmesini ve paydaşlar tarafından anlaşı
 
 Öneri 1: Proje yönetim planı ve risk yönetim planı, fonksiyonel gereksinimlerle paralel hazırlanarak erken aşamada riskler ve süreç koordine edilmelidir.
 Öneri 2: Veri gizliliği ve güvenlik politikası, fonksiyonel gereksinimlerden hemen sonra tamamlanarak teknik tasarım için sağlam bir temel oluşturulmalıdır.
-Öneri 3: Dokümanlar, docs klasöründe numaralandırılmış isimlerle (örneğin, 01-vizyon-ve-kapsam-dokumani.md) düzenlenmelidir.
+Öneri 3: Sprint planlama dokümanı, tüm dokümanlar tamamlandıktan sonra hazırlanarak tüm gereksinimler, tasarımlar ve riskler netleştikten sonra geliştirme sürecini yönlendirmelidir.
+Öneri 4: Dokümanlar, docs klasöründe numaralandırılmış isimlerle (örneğin, 01-vizyon-ve-kapsam-dokumani.md) düzenlenmelidir.
 
 5. Sonraki Adımlar
 
-Bu Dokümanın Onayı: Ürün Sahibi’nin yorumları ve onayı bekleniyor. Onay alındıktan sonra fonksiyonel gereksinimler dokümanına devam edilecek.
-Fonksiyonel Gereksinimler Dokümanı: Kullanıcı hikayeleri taslağı (19 Nisan 2025) hazır, bu doküman finalize edildikten sonra geri bildirim alınacak.
+Bu Dokümanın Onayı: Ürün Sahibi’nin yorumları ve onayı bekleniyor.
+Risk Yönetim Planı: Bir sonraki doküman olarak hazırlanacak (03-risk-yonetim-plani.md).
+Fonksiyonel Gereksinimler Dokümanı: Kullanıcı hikayeleri taslağı (19 Nisan 2025) hazır, geri bildirim alındıktan sonra finalize edilecek.
+Sprint Planı Dokümanı: Tüm dokümanlar tamamlandıktan sonra hazırlanacak (11-sprint-plani-dokumani.md), geliştirme için kılavuz olacak.
 GitHub Yükleme: Dokümanlar, Ürün Sahibi tarafından https://github.com/batuhanozgun/lovable-loopinance/tree/main/docs adresine numaralandırılmış isimlerle yüklenecek.
 
-Son Güncelleme: 19 Nisan 2025, Sorumlu: [Kullanıcı Adı]
+Son Güncelleme: 19 Nisan 2025, Sorumlu: batuhanozgun
