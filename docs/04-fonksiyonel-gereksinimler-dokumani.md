@@ -3,7 +3,7 @@ Loopinance Fonksiyonel Gereksinimler Dokümanı
 1.1. Amaç
 Bu doküman, Loopinance kişisel finans yönetimi uygulamasının kullanıcı odaklı işlevlerini tanımlamayı amaçlar. Kullanıcıların uygulamayla nasıl etkileşime gireceğini, hangi özellikleri kullanacağını ve bu özelliklerin kabul kriterlerini belirtir. Teknik detaylara girmeden, bireysel kullanıcıların ihtiyaçlarına odaklanır.
 1.2. Kapsam
-İlk sürüm, bireysel kullanıcılar için kişisel finans yönetimi özelliklerini kapsar: hesap yönetimi, kategori/alt kategori yönetimi, işlem girişi, bütçe planlama, ekstre yönetimi, çoklu döviz desteği ve analiz/raporlama. KOBİ odaklı özellikler ve banka API entegrasyonları kapsam dışıdır. Uygulama, 6 aylık deneme süresi sunar; deneme sonrası temel fonksiyonlar kilitlenir, kullanıcılar aylık/yıllık ödeme planı seçer.
+İlk sürüm, bireysel kullanıcılar için kişisel finans yönetimi özelliklerini kapsar: hesap yönetimi, kategori/alt kategori yönetimi, işlem girişi, bütçe planlama, ekstre yönetimi, çoklu döviz desteği ve analiz/raporlama. KOBİ odaklı özellikler ve banka API entegrasyonları kapsam dışıdır. Uygulama, 6 aylık deneme süresi sunar; deneme sonrası temel fonksiyonlar kilitlenir, kullanıcılar aylık/yıllık ödeme planı seçer. Bütçe ve gerçek işlemlerin entegrasyonu, bir yıllık finansal öngörüyle uygulamanın temel değer önerilerinden biridir.
 1.3. Hedef Kitle
 
 Ürün Sahibi (PO): Gereksinimleri onaylar.
@@ -98,14 +98,21 @@ Bağlantılar: Teknik Tasarım Dokümanı (07) için modüler yapı, UX/UI Tasar
 
 3.5.2. Ekstre Oluşumu
 
-Kullanıcı Hikayesi: Bireysel kullanıcı olarak, nakit hesap oluşturduğumda, kesim gününe bağlı olarak mevcut dönem ekstresi ve gelecek 11 dönem ekstreleri otomatik oluşmalı ki finanslarımı takip edebileyim.
+Kullanıcı Hikayesi: Bireysel kullanıcı olarak, nakit hesap oluşturduğumda, kesim gününe bağlı olarak mevcut dönem ekstresi ve gelecek 11 dönem ekstreleri otomatik oluşmalı ki bir yıllık finansal öngörüyle bütçemi takip edebileyim.
 Kabul Kriterleri:
-Hesap oluşturulduğunda, veri tabanına kaydedilir ve ekstreler otomatik oluşur:
+Hesap oluşturulduğunda, Supabase veri tabanına kaydedilir ve ekstreler otomatik oluşur:
 Mevcut dönem ekstresi, seçilen kesim gününe göre belirlenir.
-Gelecek 11 dönem ekstresi, kesim gününe bağlı olarak oluşturulur (örneğin, ayın son iş günü).
+Gelecek 11 dönem ekstresi, kesim gününe bağlı olarak oluşturulur (bir yıllık planlama).
 
 
-Kullanıcı, oluşum sırasında bir modal loading ekranı görür; ekran, daktilo efektiyle şu mesajları gösterir:
+Ekstre statüsü (açık, kapalı, gelecek), kesim gününe göre otomatik yönetilir:
+Kesim günü geçtiğinde, mevcut ekstre kapanır, bir gelecek ekstre açılır.
+Yeni bir gelecek ekstre (11’inci) eklenir, toplam 11 gelecek dönem korunur.
+Kullanıcı, kapalı ekstreyi yeniden açabilir, bakiyeler ve sonraki ekstreler güncellenir (detaylar hikâyede).
+Günlük batch işlemi (her gece), her hesabın kesim gününe özgü ekstre statülerini günceller.
+
+
+Kullanıcı, oluşum sırasında bir modal loading ekranı görür; ekran, daktilo efektiyle (her mesaj 0.3 saniye) şu mesajları gösterir:
 “Hesabınız yaratılıyor”
 “Mevcut dönem ekstreniz yaratılıyor”
 “Gelecek dönem ekstreler yaratılıyor”
@@ -113,35 +120,69 @@ Kullanıcı, oluşum sırasında bir modal loading ekranı görür; ekran, dakti
 
 Loading ekranı tamamlandığında (<2 saniye), kullanıcı otomatik olarak hesaplar sayfasına yönlendirilir.
 Ekstre oluşumu <1 saniye sürer, nakit hesap modülüne özgü ve bağımsız çalışır.
+Batch işlemi performansı <1 saniye/hesap hedeflenir, kullanıcı/ekstre sayısına bağlı detaylar Teknik Tasarım Dokümanı’nda (07) netleşecek.
+Veri tabanı yapısı, Teknik Tasarım Dokümanı’nda (07) tanımlanacak.
 
 
-Bağlantılar: Teknik Tasarım Dokümanı (07) için veri tabanı ve ekstre mantığı, UX/UI Tasarım Dokümanı (06) için loading ekranı tasarımı, Risk Yönetim Planı (03) için performans riskleri.
+Bağlantılar: Teknik Tasarım Dokümanı (07) için veri tabanı ve ekstre mantığı, UX/UI Tasarım Dokümanı (06) için loading ekranı tasarımı, Risk Yönetim Planı (03) için performans riskleri ve Lovable.dev’in geçmiş CRUD sorunları.
 
 3.5.3. Ekstre Görüntüleme
 
-Kullanıcı Hikayesi: Bireysel kullanıcı olarak, nakit hesabımın ekstrelerini listeleyip detaylarını görebilmeliyim ki finansal durumumu net bir şekilde takip edebileyim.
+Kullanıcı Hikayesi: Bireysel kullanıcı olarak, nakit hesabımın ekstrelerini listeleyip detaylarını görebilmeliyim ki gerçekleşen ve bütçelenen finansal durumumu net bir şekilde takip edebileyim.
 Kabul Kriterleri:
 Hesaplar Sayfası:
-Hesap, bir kart olarak gösterilir; kartta hesap adı, bakiye, açık ekstre kesim tarihi, düzenle/sil ikonları, “İşlem Gir” ve “Ekstreler” CTA tuşları bulunur.
+Hesap, bir kart olarak gösterilir; kartta hesap adı, kapanış bakiyesi, açık ekstre kesim tarihi, düzenle/sil ikonları, “İşlem Gir” ve “Ekstreler” CTA tuşları bulunur.
 Kart, mobil ve masaüstünde kullanıcı dostu, yüklenme <1 saniye.
 
 
 Ekstreler Sayfası:
 “Güncel Dönem”, “Gelecek Dönem”, “Geçmiş Dönem” başlıkları altında ekstre kartları listelenir.
 Her ekstre kartında: dönem başlangıcı, dönem kapanışı, gerçek açılış/kapanış bakiyeleri, bütçelenen açılış/kapanış bakiyeleri, detay ikonu.
+Geçmiş ekstreler kalıcıdır, silinemez, 5 yılı dolduranlar arşivlenir.
 Liste, mobil ve masaüstünde kullanıcı dostu, yüklenme <1 saniye.
 
 
 Ekstre Detay Sayfası:
-Ekstre bilgileri: hesap adı, dönem, açılış bakiyesi, kapanış bakiyesi, bütçelenen açılış/kapanış bakiyeleri, toplam gider, toplam gelir, ekstre statüsü (açık, kapalı, gelecek).
-İşlemler listesi: Her işlem satırında tarih, saat, kategori, alt kategori, tutar (giderler kırmızı, gelirler yeşil), açıklama (tıklanabilir), düzenle/sil ikonları.
+Ekstre bilgileri: hesap adı, dönem, açılış bakiyesi, kapanış bakiyesi, bütçelenen açılış/kapanış bakiyeleri, toplam gelir (gerçekleşen ve bütçelenen), toplam gider (gerçekleşen ve bütçelenen), ekstre statüsü (açık, kapalı, gelecek).
+Kapalı ekstre, kullanıcı tarafından yeniden açılabilir, işlem eklendiğinde bakiyeler ve sonraki ekstreler güncellenir (detaylar hikâyede).
+Bakiye türleri:
+Açılış Bakiyesi: İlk hesapta başlangıç bakiyesi, sonraki ekstrelerde önceki kapanış bakiyesi.
+Kapanış Bakiyesi: Açılış bakiyesi + işlemler (gelir/gider), dönem kapanana kadar dinamik, sonra sabit (kullanıcı yeniden açarsa değişebilir).
+Bütçelenen Açılış/Kapanış Bakiyeleri: Gerçekleşen + bütçelenen işlemlerin toplamı (detaylar hikâyenin bütçe kısmında).
+Gerçekleşen Gelir/Gider: İşlemlerden gelen gelir/gider.
+Bütçelenen Gelir/Gider: Gerçekleşen + bütçelenen gelir/gider.
+
+
+İşlemler listesi: Her işlem satırında tarih, saat, kategori, alt kategori, tutar (giderler kırmızı, gelirler yeşil), açıklama (akordiyonla açılır, sınırsız, sınır hikâyede netleşecek), düzenle/sil ikonları.
 Sayfa, mobil ve masaüstünde kullanıcı dostu, yüklenme <1 saniye.
 
 
 Ekstre görüntüleme, nakit hesap modülüne özgü ve bağımsız çalışır.
+Veri tabanı yapısı, Teknik Tasarım Dokümanı’nda (07) tanımlanacak.
 
 
-Bağlantılar: Teknik Tasarım Dokümanı (07) için veri tabanı ve ekstre mantığı, UX/UI Tasarım Dokümanı (06) için kart ve liste tasarımı, Risk Yönetim Planı (03) için performans riskleri.
+Bağlantılar: Teknik Tasarım Dokümanı (07) için veri tabanı ve ekstre mantığı, UX/UI Tasarım Dokümanı (06) için kart, liste ve akordiyon tasarımı, Risk Yönetim Planı (03) için performans riskleri.
+
+3.5.4. Hesap Düzenleme ve Silme
+
+Kullanıcı Hikayesi: Bireysel kullanıcı olarak, nakit hesabımı düzenleyebilmeli veya silebilmeliyim ki ihtiyaçlarıma göre güncel tutabileyim.
+Kabul Kriterleri:
+Düzenleme:
+İşlem yoksa: 3 adımlı formun tüm alanları (hesap adı, para birimi, başlangıç bakiyesi, açıklama, kesim günü) değiştirilebilir.
+İşlem varsa: Hesap adı, açıklama, başlangıç bakiyesi değiştirilebilir; kesim günü değişimi, mevcut dönemden itibaren geçerli olur, geçmiş ekstreler etkilenmez.
+Başlangıç bakiyesi veya kesim günü değişirse, ekstreler yeniden hesaplanır (mevcut ve gelecek ekstreler güncellenir, geçmiş ekstreler sabit).
+Düzenleme formu, mobil ve masaüstünde kullanıcı dostu, yüklenme <1 saniye.
+
+
+Silme:
+Hesap, işlemler ve bağlantılı bütçeler silinir, kullanıcıya onay modal’i gösterilir.
+Silme işlemi, nakit hesap modülüne özgü ve bağımsız çalışır.
+
+
+İşlemler, nakit hesap modülüne özgü ve bağımsız çalışır.
+
+
+Bağlantılar: Teknik Tasarım Dokümanı (07) için modüler yapı ve ekstre hesaplama mantığı, UX/UI Tasarım Dokümanı (06) için form ve modal tasarımı, Risk Yönetim Planı (03) için performans riskleri.
 
 4. Kısıtlamalar
 
@@ -152,15 +193,28 @@ Banka API entegrasyonları ilk sürümde yer almaz.
 5. İlişkiler
 
 Vizyon ve Kapsam Dokümanı (01): Uygulamanın genel hedefleri ve kapsamı.
-Risk Yönetim Planı (03): Performans riskleri (örneğin, işlem süreleri), modülerlik riskleri (örneğin, Lovable.dev’in yanlış dosya değişiklikleri).
+Risk Yönetim Planı (03): Performans riskleri (örneğin, ekstre hesaplama süreleri), modülerlik riskleri (örneğin, Lovable.dev’in yanlış dosya değişiklikleri), geçmiş CRUD sorunları.
 Veri Gizliliği ve Güvenlik Politikası (05): Kullanıcı kaydı/giriş için güvenlik gereksinimleri.
-UX/UI Tasarım Dokümanı (06): Ana sayfa, wizard, formlar, modal, kart ve liste tasarımları.
+UX/UI Tasarım Dokümanı (06): Ana sayfa, wizard, formlar, modal, kart, liste ve akordiyon tasarımları.
 Teknik Tasarım Dokümanı (07): Modüler yapı, veri tabanı tasarımı, Supabase entegrasyonu.
 
 6. Sonraki Adımlar
 
-Kullanıcı Hikâyesi Devamı: İşlem girme, bütçe oluşturma, çoklu döviz desteği, diğer hesap türleri (Banka, Kredi Kartı, vb.), raporlama gibi süreçler anlatılacak.
-Doküman Onayı: Ürün Sahibi’nin yorumları ve onayı alındı.
+Kullanıcı Hikâyesi Devamı: İşlem girme, ekstre kapanışı, bütçe oluşturma, çoklu döviz desteği, Banka Hesabı Yönetimi, Kredi Kartı Yönetimi, raporlama gibi süreçler anlatılacak.
+Doküman Onayı: Ürün Sahibi’nin yorumları ve onayı bekleniyor.
 GitHub Yükleme: Doküman, https://github.com/batuhanozgun/lovable-loopinance/tree/main/docs adresine yüklenecek.
 
 Son Güncelleme: 19 Nisan 2025, Sorumlu: batuhanozgun
+
+Güncelleme Notları:
+
+Düzeltilen Hata: Hesap Oluşturma (3.5.1) ve Hesap Düzenleme/Silme (3.5.4) bölümleri, önceki taslaklardan eksiksiz geri eklendi.
+Yeni Eklemeler:
+Ekstre Görüntüleme: Geçmiş ekstreler için 5 yıllık arşivleme, akordiyon için sınırsız açıklama (sınır hikâyede netleşecek).
+Ekstre Oluşumu: Batch performansı için kullanıcı/ekstre sayısı notu, Teknik Tasarım Dokümanı’na yönlendirme.
+Sonraki Adımlar: İşlem girme, ekstre kapanışı, bütçe sıralaması eklendi.
+
+
+Modülerlik: Nakit hesap modülü bağımsız, Banka/Kredi Kartı için hazır yapı (12 Nisan 2025, Lovable.dev riskleri).
+Performans: Ekstre oluşumu <1 saniye, loading <2 saniye, batch <1 saniye/hesap, sayfa yüklenmeleri <1 saniye (19 Nisan 2025, 30 saniyelik ekstre sorunu).
+
