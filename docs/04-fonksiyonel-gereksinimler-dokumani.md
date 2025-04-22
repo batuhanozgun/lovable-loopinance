@@ -18,6 +18,7 @@ QA Ekibi: Gereksinimlere göre testleri yürütür.
 Doküman, GitHub Wiki üzerinden Markdown formatında, https://github.com/batuhanozgun/lovable-loopinance/tree/main/docs adresinde versiyon kontrollü yönetilir.
 Her değişiklik, tarih ve sorumlu ile kayıt altına alınır.
 Sprint başında PO tarafından gözden geçirilir.
+Her güncelleme sonrası tam doküman paylaşılır.
 
 Son Güncelleme: 19 Nisan 2025, Sorumlu: batuhanozgun
 2. Kullanıcı Rolleri
@@ -138,7 +139,7 @@ Kart, mobil ve masaüstünde kullanıcı dostu, yüklenme <1 saniye.
 Ekstreler Sayfası:
 “Güncel Dönem”, “Gelecek Dönem”, “Geçmiş Dönem” başlıkları altında ekstre kartları listelenir.
 Her ekstre kartında: dönem başlangıcı, dönem kapanışı, gerçek açılış/kapanış bakiyeleri, bütçelenen açılış/kapanış bakiyeleri, detay ikonu.
-Geçmiş ekstreler kalıcıdır, silinemez, 5 yılı dolduranlar arşivlenir.
+Geçmiş ekstreler kalıcıdır, silinemez, 5 yılı dolduranlar arşivlenir ve kullanıcılar tarafından erişilebilir.
 Liste, mobil ve masaüstünde kullanıcı dostu, yüklenme <1 saniye.
 
 
@@ -184,6 +185,34 @@ Silme işlemi, nakit hesap modülüne özgü ve bağımsız çalışır.
 
 Bağlantılar: Teknik Tasarım Dokümanı (07) için modüler yapı ve ekstre hesaplama mantığı, UX/UI Tasarım Dokümanı (06) için form ve modal tasarımı, Risk Yönetim Planı (03) için performans riskleri.
 
+3.5.5. İşlem Girme
+
+Kullanıcı Hikayesi: Bireysel kullanıcı olarak, nakit hesabıma gelir veya gider işlemi girebilmeliyim ki finansal hareketlerimi kolayca takip edebileyim.
+Kabul Kriterleri:
+Kullanıcı, Hesaplar Sayfası’ndaki hesap kartında yer alan “İşlem Gir” CTA tuşuyla işlem girişine başlar.
+İşlem giriş formu, modal olarak açılır; mobil ekranlarda kaydırma (scroll) UX/UI açısından değerlendirilir.
+Form Alanları:
+Hesap Seçimi: Kullanıcı, hesap kartından geldiğinde alan inaktif ve ilgili hesap otomatik seçilidir.
+Tarih: Varsayılan olarak bugünün tarihi gelir, kullanıcı açık ekstre dönemi içindeki tarihlerden birini seçebilir (örneğin, 1-30 Nisan 2025).
+Gelir/Gider: Mobil dostu seçim formatı (örneğin, toggle veya radio buton) ile gelir veya gider seçilir.
+Kategori/Alt Kategori: Kullanıcı kategoriyi seçer, seçilen kategoriye bağlı alt kategoriler otomatik yüklenir.
+Tutar: Tam sayı ve küsurat girişine uygun (örneğin, 15,50 TL), virgülden sonra 2 hane desteklenir.
+Açıklama: 400 karaktere kadar serbest metin.
+Kaydet: “İşlemi Kaydet” tuşuyla işlem Supabase’e kaydedilir.
+
+
+İşlem kaydedildiğinde:
+Açık ekstredeki kapanış bakiyesi, gerçekleşen gelir/gider ve bütçelenen bakiyeler güncellenir.
+Gelecek ekstreler zincirleme güncellenir (açılış/kapanış bakiyeleri, bütçelenen bakiyeler).
+Kullanıcı, Ekstreler Sayfası’ndan açık ekstreyi açtığında işlemi detaylarda görür (tarih, saat, kategori, alt kategori, tutar, açıklama, düzenle/sil ikonları).
+
+
+Form yüklenmesi ve işlem kaydı <1 saniye, zincirleme güncellemeler <1 saniye/hesap hedeflenir.
+İşlem girme, nakit hesap modülüne özgü ve bağımsız çalışır.
+
+
+Bağlantılar: Kategori ve Alt Kategori Yönetimi (3.4), Ekstre Görüntüleme (3.5.3), Teknik Tasarım Dokümanı (07) için veri tabanı yapısı, UX/UI Tasarım Dokümanı (06) için modal ve form tasarımı, Risk Yönetim Planı (03) için performans riskleri.
+
 4. Kısıtlamalar
 
 İlk sürümde sadece bireysel kullanıcılar desteklenir, KOBİ özellikleri kapsam dışı.
@@ -200,7 +229,7 @@ Teknik Tasarım Dokümanı (07): Modüler yapı, veri tabanı tasarımı, Supaba
 
 6. Sonraki Adımlar
 
-Kullanıcı Hikâyesi Devamı: İşlem girme, ekstre kapanışı, bütçe oluşturma, çoklu döviz desteği, Banka Hesabı Yönetimi, Kredi Kartı Yönetimi, raporlama gibi süreçler anlatılacak.
+Kullanıcı Hikâyesi Devamı: Ekstre kapanışı, bütçe oluşturma, çoklu döviz desteği, Banka Hesabı Yönetimi, Kredi Kartı Yönetimi, raporlama gibi süreçler anlatılacak.
 Doküman Onayı: Ürün Sahibi’nin yorumları ve onayı bekleniyor.
 GitHub Yükleme: Doküman, https://github.com/batuhanozgun/lovable-loopinance/tree/main/docs adresine yüklenecek.
 
@@ -210,11 +239,14 @@ Güncelleme Notları:
 
 Düzeltilen Hata: Hesap Oluşturma (3.5.1) ve Hesap Düzenleme/Silme (3.5.4) bölümleri, önceki taslaklardan eksiksiz geri eklendi.
 Yeni Eklemeler:
-Ekstre Görüntüleme: Geçmiş ekstreler için 5 yıllık arşivleme, akordiyon için sınırsız açıklama (sınır hikâyede netleşecek).
+İşlem Girme (3.5.5): Yeni kullanıcı hikayesi eklendi (modal form, hesap seçimi, tarih, gelir/gider, kategori/alt kategori, tutar, 400 karakter açıklama, zincirleme güncelleme).
+Ekstre Görüntüleme: Geçmiş ekstreler için 5 yıllık arşivleme, kullanıcılar tarafından erişilebilir.
+Ekstre Görüntüleme: Akordiyon için sınırsız açıklama, form için 400 karakter sınırı hikâyede netleşti.
 Ekstre Oluşumu: Batch performansı için kullanıcı/ekstre sayısı notu, Teknik Tasarım Dokümanı’na yönlendirme.
-Sonraki Adımlar: İşlem girme, ekstre kapanışı, bütçe sıralaması eklendi.
+Güncelleme Süreci: “Her güncelleme sonrası tam doküman paylaşılır” eklendi.
+Sonraki Adımlar: İşlem girme eklendi, ekstre kapanışı ve bütçe sıralaması korundu.
 
 
 Modülerlik: Nakit hesap modülü bağımsız, Banka/Kredi Kartı için hazır yapı (12 Nisan 2025, Lovable.dev riskleri).
-Performans: Ekstre oluşumu <1 saniye, loading <2 saniye, batch <1 saniye/hesap, sayfa yüklenmeleri <1 saniye (19 Nisan 2025, 30 saniyelik ekstre sorunu).
+Performans: Ekstre oluşumu, işlem kaydı, zincirleme güncellemeler <1 saniye, loading <2 saniye, sayfa yüklenmeleri <1 saniye (19 Nisan 2025, 30 saniyelik ekstre sorunu).
 
