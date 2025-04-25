@@ -23,7 +23,7 @@ Her güncelleme sonrası tam doküman paylaşılır.
 Son Güncelleme: 19 Nisan 2025, Sorumlu: batuhanozgun
 2. Kullanıcı Rolleri
 
-Bireysel Kullanıcı: Finanslarını takip etmek isteyen bireyler. Hesap oluşturur, işlem girer, bütçe planlar, kategori yönetir, ekstre ve raporları görüntüler.
+Bireysel Kullanıcı: Finanslarını takip etmek isteyen bireyler. Hesap oluşturur, işlem girer, düzenler/siler, bütçe planlar, kategori yönetir, ekstre ve raporları görüntüler.
 Admin: Kategori şablonlarını veri tabanında yönetir (ekler, siler, düzenler).
 
 3. Fonksiyonel Gereksinimler
@@ -110,7 +110,7 @@ Gelecek 11 dönem ekstresi, kesim gününe bağlı olarak oluşturulur (bir yıl
 Ekstre statüsü (açık, kapalı, gelecek), kesim gününe göre otomatik yönetilir:
 Kesim günü geçtiğinde, mevcut ekstre kapanır, bir gelecek ekstre açılır.
 Yeni bir gelecek ekstre (11’inci) eklenir, toplam 11 gelecek dönem korunur.
-Kullanıcı, kapalı ekstreyi yeniden açabilir, bakiyeler ve sonraki ekstreler güncellenir (detaylar ekstre kapanışı hikayesinden sonra).
+Kullanıcı, kapalı ekstreyi yeniden açabilir, bakiyeler ve sonraki ekstreler güncellenir (detaylar Kapalı Ekstre Açma hikâyesinde).
 Günlük batch işlemi (her gece), her hesabın kesim gününe özgü ekstre statülerini günceller.
 
 
@@ -139,14 +139,14 @@ Kart, mobil ve masaüstünde kullanıcı dostu, yüklenme <1 saniye.
 
 Ekstreler Sayfası:
 “Güncel Dönem”, “Gelecek Dönem”, “Geçmiş Dönem” başlıkları altında ekstre kartları listelenir.
-Her ekstre kartında: dönem başlangıcı, dönem kapanışı, gerçek açılış/kapanış bakiyeleri, bütçelenen açılış/kapanış bakiyeleri, detay ikonu, “İşlem Gir” CTA’sı.
+Her ekstre kartında: dönem başlangıcı, dönem kapanışı, gerçek açılış/kapanış bakiyeleri, bütçelenen açılış/kapanış bakiyeleri, detay ikonu, “İşlem Gir” CTA’sı, kapalı ekstrelerde “kilitli asma kilit” ikonu.
 Geçmiş ekstreler kalıcıdır, silinemez, 5 yılı dolduranlar arşivlenir ve kullanıcılar tarafından erişilebilir.
 Liste, mobil ve masaüstünde kullanıcı dostu, yüklenme <1 saniye.
 
 
 Ekstre Detay Sayfası:
 Ekstre bilgileri: hesap adı, dönem, açılış bakiyesi, kapanış bakiyesi, bütçelenen açılış/kapanış bakiyeleri, toplam gelir (gerçekleşen ve bütçelenen), toplam gider (gerçekleşen ve bütçelenen), ekstre statüsü (açık, kapalı, gelecek).
-Kapalı ekstre, kullanıcı tarafından yeniden açılabilir, işlem eklendiğinde bakiyeler ve sonraki ekstreler güncellenir (detaylar ekstre kapanışı hikayesinden sonra).
+Kapalı ekstrede işlemler görüntülenebilir, ancak düzenleme/silme için ekstre açılmalıdır (detaylar Kapalı Ekstre Açma hikâyesinde).
 Bakiye türleri:
 Açılış Bakiyesi: İlk hesapta başlangıç bakiyesi, sonraki ekstrelerde önceki kapanış bakiyesi.
 Kapanış Bakiyesi: Açılış bakiyesi + işlemler (gelir/gider), dönem kapanana kadar dinamik, sonra sabit (kullanıcı yeniden açarsa değişebilir).
@@ -203,6 +203,7 @@ Açıklama: 400 karaktere kadar serbest metin.
 Kaydet: “İşlemi Kaydet” tuşuyla işlem Supabase’e kaydedilir.
 
 
+İşlem kaydedilmeden önce nakit hesabın bakiyesi kontrol edilir; eksi bakiyeye düşecekse hata mesajı gösterilir (örneğin, “Yetersiz bakiye, işlem kaydedilemez”).
 İşlem kaydedildiğinde:
 Açık ekstredeki kapanış bakiyesi, gerçekleşen gelir/gider ve bütçelenen bakiyeler güncellenir.
 Gelecek ekstreler zincirleme güncellenir (açılış/kapanış bakiyeleri, bütçelenen bakiyeler).
@@ -215,10 +216,84 @@ Form yüklenmesi ve işlem kaydı <1 saniye, zincirleme güncellemeler <1 saniye
 
 Bağlantılar: Kategori ve Alt Kategori Yönetimi (3.4), Ekstre Görüntüleme (3.5.3), Teknik Tasarım Dokümanı (07) için veri tabanı yapısı, UX/UI Tasarım Dokümanı (06) için modal ve form tasarımı, Risk Yönetim Planı (03) için performans riskleri.
 
+3.5.6. İşlem Düzenleme ve Silme
+
+Kullanıcı Hikayesi: Bireysel kullanıcı olarak, nakit hesabımdaki bir işlemi düzenleyebilmeli veya silebilmeliyim ki finansal hareketlerimi güncel tutabileyim.
+Kabul Kriterleri:
+Düzenleme:
+Ekstre Detay Sayfası’nda işlem satırında düzenle ikonu görünür.
+Düzenle ikonuna tıklayınca, işlem giriş formu modal olarak açılır; mevcut bilgiler (hesap, tarih, gelir/gider, kategori/alt kategori, tutar, açıklama) dolu gelir.
+Kullanıcı bilgileri değiştirip kaydeder; nakit hesabın bakiyesi kontrol edilir, eksi bakiyeye düşecekse hata mesajı gösterilir (örneğin, “Yetersiz bakiye, işlem kaydedilemez”).
+Değişiklik sonrası açık ekstredeki kapanış bakiyesi, gerçekleşen gelir/gider, bütçelenen bakiyeler ve gelecek ekstreler zincirleme güncellenir.
+
+
+Silme:
+Ekstre Detay Sayfası’nda işlem satırında sil ikonu görünür.
+Sil ikonuna tıklayınca onay modal’i açılır; onaylanırsa işlem silinir.
+Silme sonrası nakit hesabın bakiyesi kontrol edilir, eksi bakiyeye düşecekse hata mesajı gösterilir (örneğin, “Yetersiz bakiye, işlem silinemez”).
+Silme sonrası açık ekstre ve gelecek ekstreler zincirleme güncellenir.
+
+
+Kapalı ekstrede düzenleme/silme için ekstre açılmalıdır (detaylar Kapalı Ekstre Açma hikâyesinde).
+Düzenleme/silme ve zincirleme güncellemeler <1 saniye hedeflenir.
+İşlem düzenleme/silme, nakit hesap modülüne özgü ve bağımsız çalışır.
+
+
+Bağlantılar: İşlem Girme (3.5.5), Ekstre Görüntüleme (3.5.3), Kapalı Ekstre Açma (3.5.8), Teknik Tasarım Dokümanı (07) için veri tabanı yapısı, UX/UI Tasarım Dokümanı (06) için modal tasarımı, Risk Yönetim Planı (03) için performans riskleri.
+
+3.5.7. Ekstre Kapanışı
+
+Kullanıcı Hikayesi: Bireysel kullanıcı olarak, ekstremin kapanış sürecinde bilgilendirilmeli ve yeni dönem ekstresine geçiş yapabilmeliyim ki finansal takibimi kesintisiz sürdüreyim.
+Kabul Kriterleri:
+Bildirimler:
+Kapanıştan 1 hafta önce: Uygulama içi bildirim (zil ikonunda kırmızı nokta) ve mail gönderilir, “Ekstreniz 7 gün sonra kapanacak” uyarısı.
+Kapanış günü: Gün içinde bildirim ve mail, “Ekstreniz bu gece kapanacak, işlemleri girin” uyarısı.
+Kapanış sonrası: Bildirim ve mail, “Ekstreniz kapandı, yeni dönem [tarih aralığı] açıldı” mesajı.
+Bildirimler bölümü: Zil ikonunda son 5 bildirim görünür, “Hepsini Gör” ile bildirim sayfasına yönlendirme (detaylar sonraki hikayelerde).
+
+
+Kapanış Süreci:
+Kapanış gecesi, mevcut ekstre kapanır, yeni dönem ekstresi açılır.
+Gelecek ekstre sayısı 10’a düşer, yeni bir gelecek ekstre eklenir (1+11 yapı korunur).
+Yeni işlem girişleri, açık ekstreye yapılır.
+
+
+Kapanış ve yeni ekstre oluşturma <1 saniye/hesap hedeflenir.
+Ekstre kapanışı, nakit hesap modülüne özgü ve bağımsız çalışır.
+
+
+Bağlantılar: Ekstre Oluşumu (3.5.2), Kapalı Ekstre Açma (3.5.8), Teknik Tasarım Dokümanı (07) için veri tabanı yapısı, UX/UI Tasarım Dokümanı (06) için bildirim tasarımı, Risk Yönetim Planı (03) için performans riskleri.
+
+3.5.8. Kapalı Ekstre Açma
+
+Kullanıcı Hikayesi: Bireysel kullanıcı olarak, kapalı bir ekstreyi yeniden açabilmeliyim ki geçmiş işlemleri düzenleyebileyim veya yeni işlem girebileyim.
+Kabul Kriterleri:
+Erişim:
+Ekstreler Sayfası’nda kapalı ekstre kartında “kilitli asma kilit” ikonu görünür.
+Kilit ikonuna tıklayınca diyalog açılır: “Ekstreyi işlem girmeye açmak mı istiyorsunuz?” Evet seçilirse ekstre açılır, ikon “açık asma kilit” olur.
+Açık ekstrede “İşlem Gir” CTA’sı aktif olur, işlem giriş formu açılır.
+
+
+Kapalı Ekstre Kısıtlaması:
+Kapalı ekstrede “İşlem Gir”, düzenle veya sil tıklanırsa uyarı diyalogu çıkar: “Kapalı ekstreye işlem eklemek için ekstreyi açmalısınız.” Diyalogda “Aç” butonuyla ekstre açılır.
+Ekstre Detay Sayfası’nda işlemler görüntülenebilir, ancak düzenleme/silme için aynı uyarı diyalogu çıkar.
+
+
+Çift Açık Ekstre Kontrolü:
+Aynı hesapta iki açık ekstre varsa, uygulama günlük bildirim gönderir: “Hesapta fazladan açık ekstre var, lütfen eski ekstreyi kapatın.” Bildirim, Ekstreler Sayfası’na yönlendirir.
+
+
+Ekstre açma ve bildirim işlemleri <1 saniye hedeflenir.
+Kapalı ekstre açma, nakit hesap modülüne özgü ve bağımsız çalışır.
+
+
+Bağlantılar: İşlem Girme (3.5.5), İşlem Düzenleme/Silme (3.5.6), Ekstre Görüntüleme (3.5.3), Ekstre Kapanışı (3.5.7), Teknik Tasarım Dokümanı (07) için veri tabanı yapısı, UX/UI Tasarım Dokümanı (06) için diyalog tasarımı, Risk Yönetim Planı (03) için performans riskleri.
+
 4. Kısıtlamalar
 
 İlk sürümde sadece bireysel kullanıcılar desteklenir, KOBİ özellikleri kapsam dışı.
 Banka API entegrasyonları ilk sürümde yer almaz.
+Nakit hesaplar eksi bakiyeye düşemez, işlem girme ve düzenleme/silme sırasında kontrol edilir.
 6 ay deneme süresi sonrası temel fonksiyonlar (işlem girme, hesap yaratma, bütçe planlama, ekstre, raporlar) kilitlenir, detaylar sonraki hikayelerde netleşir.
 
 5. İlişkiler
@@ -226,12 +301,12 @@ Banka API entegrasyonları ilk sürümde yer almaz.
 Vizyon ve Kapsam Dokümanı (01): Uygulamanın genel hedefleri ve kapsamı.
 Risk Yönetim Planı (03): Performans riskleri (örneğin, ekstre hesaplama süreleri), modülerlik riskleri (örneğin, Lovable.dev’in yanlış dosya değişiklikleri), geçmiş CRUD sorunları.
 Veri Gizliliği ve Güvenlik Politikası (05): Kullanıcı kaydı/giriş için güvenlik gereksinimleri.
-UX/UI Tasarım Dokümanı (06): Ana sayfa, wizard, formlar, modal, kart, liste ve akordiyon tasarımları.
+UX/UI Tasarım Dokümanı (06): Ana sayfa, wizard, formlar, modal, kart, liste, akordiyon, bildirim ve diyalog tasarımları.
 Teknik Tasarım Dokümanı (07): Modüler yapı, veri tabanı tasarımı, Supabase entegrasyonu.
 
 6. Sonraki Adımlar
 
-Kullanıcı Hikâyesi Devamı: İşlem düzenleme/silme, ekstre kapanışı, kapalı ekstre açma, bütçe oluşturma, çoklu döviz desteği, Banka Hesabı Yönetimi, Kredi Kartı Yönetimi, raporlama gibi süreçler anlatılacak.
+Kullanıcı Hikâyesi Devamı: Bütçe oluşturma, çoklu döviz desteği, Banka Hesabı Yönetimi, Kredi Kartı Yönetimi, bildirim sayfası detayları, raporlama gibi süreçler anlatılacak.
 Doküman Onayı: Ürün Sahibi tarafından onaylandı, hikâye devam ediyor.
 GitHub Yükleme: Doküman, https://github.com/batuhanozgun/lovable-loopinance/tree/main/docs adresine yüklenecek.
 
@@ -241,15 +316,16 @@ Güncelleme Notları:
 
 Düzeltilen Hata: Hesap Oluşturma (3.5.1) ve Hesap Düzenleme/Silme (3.5.4) bölümleri, önceki taslaklardan eksiksiz geri eklendi.
 Yeni Eklemeler:
-İşlem Girme (3.5.5): Ana Sayfadan, Hesaplar Sayfası’ndan, ekstre kartlarından ve Ekstre Detay Sayfası’ndan erişim eklendi.
-Ekstre Görüntüleme (3.5.3): Akordiyon sadece açıklama içerir, ekstre kartları ve detay sayfasına “İşlem Gir” CTA’sı eklendi.
-Ekstre Oluşumu (3.5.2): Batch performansı için tahmini 5.000 kullanıcı hedefi eklendi.
-Ana Sayfada Karşılama (3.1): Hızlı işlem girme CTA’sı eklendi.
-Güncelleme Süreci: “Her güncelleme sonrası tam doküman paylaşılır” korundu.
-Sonraki Adımlar: İşlem düzenleme/silme, ekstre kapanışı, kapalı ekstre açma sıralaması eklendi.
+İşlem Düzenleme/Silme (3.5.6): Yeni hikâye eklendi (düzenle/sil ikonları, eksi bakiye kontrolü, zincirleme güncelleme).
+Ekstre Kapanışı (3.5.7): Yeni hikâye eklendi (bildirimler, kapanış süreci, 1+11 yapı).
+Kapalı Ekstre Açma (3.5.8): Yeni hikâye eklendi (kilit ikonu, diyalog, çift ekstre kontrolü).
+İşlem Girme (3.5.5): Eksi bakiye kontrolü eklendi.
+Ekstre Görüntüleme (3.5.3): Kilitli asma kilit ikonu ve işlem CTA kısıtlaması eklendi.
+Kısıtlamalar: Nakit hesapların eksi bakiyeye düşememesi eklendi.
+Sonraki Adımlar: Bütçe, çoklu döviz, bildirim sayfası detayları eklendi.
 
 
 Modülerlik: Nakit hesap modülü bağımsız, Banka/Kredi Kartı için hazır yapı (12 Nisan 2025, Lovable.dev riskleri).
-Performans: Ekstre oluşumu, işlem kaydı, zincirleme güncellemeler <1 saniye, loading <2 saniye, sayfa yüklenmeleri <1 saniye (19 Nisan 2025, 30 saniyelik ekstre sorunu).
+Performans: Ekstre oluşumu, işlem kaydı, düzenleme/silme, kapanış, açma ve zincirleme güncellemeler <1 saniye, loading <2 saniye, sayfa yüklenmeleri <1 saniye (19 Nisan 2025, 30 saniyelik ekstre sorunu).
 Onay: Ürün Sahibi tarafından onaylandı, hikâye devam ediyor.
 
