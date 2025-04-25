@@ -35,10 +35,11 @@ Ana sayfada deneme süresi (6 ay) bir section olarak gösterilir.
 “Nasıl kullanılır” rehberi, ikonlarla bir section olarak sunulur.
 Header’da detaylı “nasıl kullanılır” sayfasına bağlantı bulunur.
 Kayıt/giriş seçenekleri (mail, Google, Apple) öne çıkar.
+Hızlı işlem girme CTA’sı bulunur, kullanıcıyı işlem giriş formuna yönlendirir.
 Ana sayfa, mobil ve masaüstünde kullanıcı dostu, yüklenme <1 saniye.
 
 
-Bağlantılar: UX/UI Tasarım Dokümanı (06) için tasarım detayları.
+Bağlantılar: UX/UI Tasarım Dokümanı (06) için tasarım detayları, İşlem Girme (3.5.5) için hızlı işlem CTA’sı.
 
 3.2. Kullanıcı Kaydı ve Giriş
 
@@ -72,10 +73,10 @@ Kabul Kriterleri:
 Kullanıcı, import sırasında kategori/alt kategori isimlerini, sıralarını, yapısını düzenleyebilir, silebilir, ekleyebilir, sınırsız özelleştirme.
 Her kullanıcının kategori yapısı bağımsız, sadece kendisi görür.
 Import işlemi <2 saniye, özelleştirme arayüzü mobil dostu.
-Kategoriler, gelir/gider işlemleri ve bütçe planlamasıyla bağlantılıdır (detaylar sonraki hikayelerde).
+Kategoriler, gelir/gider işlemleri ve bütçe planlamasıyla bağlantılıdır (detaylar İşlem Girme ve sonraki hikayelerde).
 
 
-Bağlantılar: Teknik Tasarım Dokümanı (07) için veri tabanı yapısı.
+Bağlantılar: Teknik Tasarım Dokümanı (07) için veri tabanı yapısı, İşlem Girme (3.5.5) için kategori/alt kategori entegrasyonu.
 
 3.5. Nakit Hesap Yönetimi
 3.5.1. Hesap Oluşturma
@@ -109,7 +110,7 @@ Gelecek 11 dönem ekstresi, kesim gününe bağlı olarak oluşturulur (bir yıl
 Ekstre statüsü (açık, kapalı, gelecek), kesim gününe göre otomatik yönetilir:
 Kesim günü geçtiğinde, mevcut ekstre kapanır, bir gelecek ekstre açılır.
 Yeni bir gelecek ekstre (11’inci) eklenir, toplam 11 gelecek dönem korunur.
-Kullanıcı, kapalı ekstreyi yeniden açabilir, bakiyeler ve sonraki ekstreler güncellenir (detaylar hikâyede).
+Kullanıcı, kapalı ekstreyi yeniden açabilir, bakiyeler ve sonraki ekstreler güncellenir (detaylar ekstre kapanışı hikayesinden sonra).
 Günlük batch işlemi (her gece), her hesabın kesim gününe özgü ekstre statülerini günceller.
 
 
@@ -121,7 +122,7 @@ Kullanıcı, oluşum sırasında bir modal loading ekranı görür; ekran, dakti
 
 Loading ekranı tamamlandığında (<2 saniye), kullanıcı otomatik olarak hesaplar sayfasına yönlendirilir.
 Ekstre oluşumu <1 saniye sürer, nakit hesap modülüne özgü ve bağımsız çalışır.
-Batch işlemi performansı <1 saniye/hesap hedeflenir, kullanıcı/ekstre sayısına bağlı detaylar Teknik Tasarım Dokümanı’nda (07) netleşecek.
+Batch performansı, tahmini 5.000 kullanıcıya göre hedeflenir, detaylar Teknik Tasarım Dokümanı’nda (07) netleşecek.
 Veri tabanı yapısı, Teknik Tasarım Dokümanı’nda (07) tanımlanacak.
 
 
@@ -138,14 +139,14 @@ Kart, mobil ve masaüstünde kullanıcı dostu, yüklenme <1 saniye.
 
 Ekstreler Sayfası:
 “Güncel Dönem”, “Gelecek Dönem”, “Geçmiş Dönem” başlıkları altında ekstre kartları listelenir.
-Her ekstre kartında: dönem başlangıcı, dönem kapanışı, gerçek açılış/kapanış bakiyeleri, bütçelenen açılış/kapanış bakiyeleri, detay ikonu.
+Her ekstre kartında: dönem başlangıcı, dönem kapanışı, gerçek açılış/kapanış bakiyeleri, bütçelenen açılış/kapanış bakiyeleri, detay ikonu, “İşlem Gir” CTA’sı.
 Geçmiş ekstreler kalıcıdır, silinemez, 5 yılı dolduranlar arşivlenir ve kullanıcılar tarafından erişilebilir.
 Liste, mobil ve masaüstünde kullanıcı dostu, yüklenme <1 saniye.
 
 
 Ekstre Detay Sayfası:
 Ekstre bilgileri: hesap adı, dönem, açılış bakiyesi, kapanış bakiyesi, bütçelenen açılış/kapanış bakiyeleri, toplam gelir (gerçekleşen ve bütçelenen), toplam gider (gerçekleşen ve bütçelenen), ekstre statüsü (açık, kapalı, gelecek).
-Kapalı ekstre, kullanıcı tarafından yeniden açılabilir, işlem eklendiğinde bakiyeler ve sonraki ekstreler güncellenir (detaylar hikâyede).
+Kapalı ekstre, kullanıcı tarafından yeniden açılabilir, işlem eklendiğinde bakiyeler ve sonraki ekstreler güncellenir (detaylar ekstre kapanışı hikayesinden sonra).
 Bakiye türleri:
 Açılış Bakiyesi: İlk hesapta başlangıç bakiyesi, sonraki ekstrelerde önceki kapanış bakiyesi.
 Kapanış Bakiyesi: Açılış bakiyesi + işlemler (gelir/gider), dönem kapanana kadar dinamik, sonra sabit (kullanıcı yeniden açarsa değişebilir).
@@ -154,7 +155,8 @@ Gerçekleşen Gelir/Gider: İşlemlerden gelen gelir/gider.
 Bütçelenen Gelir/Gider: Gerçekleşen + bütçelenen gelir/gider.
 
 
-İşlemler listesi: Her işlem satırında tarih, saat, kategori, alt kategori, tutar (giderler kırmızı, gelirler yeşil), açıklama (akordiyonla açılır, sınırsız, sınır hikâyede netleşecek), düzenle/sil ikonları.
+İşlemler listesi: Her işlem satırında tarih, saat, kategori, alt kategori, tutar (giderler kırmızı, gelirler yeşil), açıklama (akordiyonla açılır, sadece açıklama içerir, başka detay yok), düzenle/sil ikonları.
+“İşlem Gir” CTA’sı, kullanıcıyı işlem giriş formuna yönlendirir.
 Sayfa, mobil ve masaüstünde kullanıcı dostu, yüklenme <1 saniye.
 
 
@@ -162,7 +164,7 @@ Ekstre görüntüleme, nakit hesap modülüne özgü ve bağımsız çalışır.
 Veri tabanı yapısı, Teknik Tasarım Dokümanı’nda (07) tanımlanacak.
 
 
-Bağlantılar: Teknik Tasarım Dokümanı (07) için veri tabanı ve ekstre mantığı, UX/UI Tasarım Dokümanı (06) için kart, liste ve akordiyon tasarımı, Risk Yönetim Planı (03) için performans riskleri.
+Bağlantılar: Teknik Tasarım Dokümanı (07) için veri tabanı ve ekstre mantığı, UX/UI Tasarım Dokümanı (06) için kart, liste ve akordiyon tasarımı, Risk Yönetim Planı (03) için performans riskleri, İşlem Girme (3.5.5) için CTA entegrasyonu.
 
 3.5.4. Hesap Düzenleme ve Silme
 
@@ -189,10 +191,10 @@ Bağlantılar: Teknik Tasarım Dokümanı (07) için modüler yapı ve ekstre he
 
 Kullanıcı Hikayesi: Bireysel kullanıcı olarak, nakit hesabıma gelir veya gider işlemi girebilmeliyim ki finansal hareketlerimi kolayca takip edebileyim.
 Kabul Kriterleri:
-Kullanıcı, Hesaplar Sayfası’ndaki hesap kartında yer alan “İşlem Gir” CTA tuşuyla işlem girişine başlar.
+Kullanıcı, Ana Sayfadan, Hesaplar Sayfası’ndaki kartlardan, ekstre kartlarından veya Ekstre Detay Sayfası’ndan işlem girişine başlayabilir.
 İşlem giriş formu, modal olarak açılır; mobil ekranlarda kaydırma (scroll) UX/UI açısından değerlendirilir.
 Form Alanları:
-Hesap Seçimi: Kullanıcı, hesap kartından geldiğinde alan inaktif ve ilgili hesap otomatik seçilidir.
+Hesap Seçimi: Kullanıcı, hesap kartından veya ekstre kartından geldiğinde alan inaktif ve ilgili hesap otomatik seçilidir; diğer durumlarda kullanıcı hesabı seçer.
 Tarih: Varsayılan olarak bugünün tarihi gelir, kullanıcı açık ekstre dönemi içindeki tarihlerden birini seçebilir (örneğin, 1-30 Nisan 2025).
 Gelir/Gider: Mobil dostu seçim formatı (örneğin, toggle veya radio buton) ile gelir veya gider seçilir.
 Kategori/Alt Kategori: Kullanıcı kategoriyi seçer, seçilen kategoriye bağlı alt kategoriler otomatik yüklenir.
@@ -229,8 +231,8 @@ Teknik Tasarım Dokümanı (07): Modüler yapı, veri tabanı tasarımı, Supaba
 
 6. Sonraki Adımlar
 
-Kullanıcı Hikâyesi Devamı: Ekstre kapanışı, bütçe oluşturma, çoklu döviz desteği, Banka Hesabı Yönetimi, Kredi Kartı Yönetimi, raporlama gibi süreçler anlatılacak.
-Doküman Onayı: Ürün Sahibi’nin yorumları ve onayı bekleniyor.
+Kullanıcı Hikâyesi Devamı: İşlem düzenleme/silme, ekstre kapanışı, kapalı ekstre açma, bütçe oluşturma, çoklu döviz desteği, Banka Hesabı Yönetimi, Kredi Kartı Yönetimi, raporlama gibi süreçler anlatılacak.
+Doküman Onayı: Ürün Sahibi tarafından onaylandı, hikâye devam ediyor.
 GitHub Yükleme: Doküman, https://github.com/batuhanozgun/lovable-loopinance/tree/main/docs adresine yüklenecek.
 
 Son Güncelleme: 19 Nisan 2025, Sorumlu: batuhanozgun
@@ -239,14 +241,15 @@ Güncelleme Notları:
 
 Düzeltilen Hata: Hesap Oluşturma (3.5.1) ve Hesap Düzenleme/Silme (3.5.4) bölümleri, önceki taslaklardan eksiksiz geri eklendi.
 Yeni Eklemeler:
-İşlem Girme (3.5.5): Yeni kullanıcı hikayesi eklendi (modal form, hesap seçimi, tarih, gelir/gider, kategori/alt kategori, tutar, 400 karakter açıklama, zincirleme güncelleme).
-Ekstre Görüntüleme: Geçmiş ekstreler için 5 yıllık arşivleme, kullanıcılar tarafından erişilebilir.
-Ekstre Görüntüleme: Akordiyon için sınırsız açıklama, form için 400 karakter sınırı hikâyede netleşti.
-Ekstre Oluşumu: Batch performansı için kullanıcı/ekstre sayısı notu, Teknik Tasarım Dokümanı’na yönlendirme.
-Güncelleme Süreci: “Her güncelleme sonrası tam doküman paylaşılır” eklendi.
-Sonraki Adımlar: İşlem girme eklendi, ekstre kapanışı ve bütçe sıralaması korundu.
+İşlem Girme (3.5.5): Ana Sayfadan, Hesaplar Sayfası’ndan, ekstre kartlarından ve Ekstre Detay Sayfası’ndan erişim eklendi.
+Ekstre Görüntüleme (3.5.3): Akordiyon sadece açıklama içerir, ekstre kartları ve detay sayfasına “İşlem Gir” CTA’sı eklendi.
+Ekstre Oluşumu (3.5.2): Batch performansı için tahmini 5.000 kullanıcı hedefi eklendi.
+Ana Sayfada Karşılama (3.1): Hızlı işlem girme CTA’sı eklendi.
+Güncelleme Süreci: “Her güncelleme sonrası tam doküman paylaşılır” korundu.
+Sonraki Adımlar: İşlem düzenleme/silme, ekstre kapanışı, kapalı ekstre açma sıralaması eklendi.
 
 
 Modülerlik: Nakit hesap modülü bağımsız, Banka/Kredi Kartı için hazır yapı (12 Nisan 2025, Lovable.dev riskleri).
 Performans: Ekstre oluşumu, işlem kaydı, zincirleme güncellemeler <1 saniye, loading <2 saniye, sayfa yüklenmeleri <1 saniye (19 Nisan 2025, 30 saniyelik ekstre sorunu).
+Onay: Ürün Sahibi tarafından onaylandı, hikâye devam ediyor.
 
