@@ -1,18 +1,19 @@
-
-import React from 'react';
+import React, { useState } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { formatCurrency } from '@/modules/CashAccountsNew/cashAccountHomepage/utils/currencyUtils';
-import { AccountStatement } from '../../types';
-import { CurrencyType } from '@/modules/CashAccountsNew/cashAccountHomepage/types';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Eye } from 'lucide-react';
-import { format } from 'date-fns';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/hooks/use-toast';
+import { useCashAccount } from '../../cashAccountHomepage/hooks/useCashAccount';
+import { useStatements } from '../hooks/useStatements';
+import { CurrencyType } from '../../cashAccountHomepage/types';
+import { StatementsRefreshButton } from './components/StatementsRefreshButton';
+import { format } from 'date-fns';
 import { tr, enUS } from 'date-fns/locale';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
 
 interface StatementsListProps {
   statements: AccountStatement[];
@@ -25,8 +26,11 @@ interface StatementsListProps {
  */
 export const StatementsList: React.FC<StatementsListProps> = ({ statements, isLoading, currency }) => {
   const { t, i18n } = useTranslation(['StatementManagement', 'common']);
+  const { accountId } = useParams<{ accountId: string }>();
   const dateLocale = i18n.language === 'tr' ? tr : enUS;
-
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  
   if (isLoading) {
     return (
       <div className="space-y-3">
@@ -61,46 +65,61 @@ export const StatementsList: React.FC<StatementsListProps> = ({ statements, isLo
   };
 
   return (
-    <Card>
-      <CardHeader className="px-4 py-3">
-        <CardTitle className="text-base">{t('statements.title')}</CardTitle>
-        <CardDescription className="text-xs">{t('statements.period')}</CardDescription>
-      </CardHeader>
-      <CardContent className="p-0">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="text-xs">{t('statements.period')}</TableHead>
-              <TableHead className="text-xs">{t('statements.endBalance')}</TableHead>
-              <TableHead className="text-xs">{t('statements.status.title')}</TableHead>
-              <TableHead className="text-right text-xs">{t('statements.viewDetails')}</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {statements.map((statement) => (
-              <TableRow key={statement.id}>
-                <TableCell className="py-2 text-xs">
-                  {format(new Date(statement.start_date), 'PP', { locale: dateLocale })} - {format(new Date(statement.end_date), 'PP', { locale: dateLocale })}
-                </TableCell>
-                <TableCell className="py-2 text-xs">{formatCurrency(statement.end_balance, currency)}</TableCell>
-                <TableCell className="py-2">
-                  <Badge variant={getStatusBadgeVariant(statement.status)} className="text-xs py-0.5 h-5">
-                    {t(`statements.status.${statement.status.toLowerCase()}`)}
-                  </Badge>
-                </TableCell>
-                <TableCell className="text-right py-2">
-                  <Button size="sm" variant="ghost" asChild className="h-7 text-xs">
-                    <Link to={`/nakit-hesaplar/${statement.account_id}/statements/${statement.id}`}>
-                      <Eye className="mr-1.5 h-3 w-3" />
-                      {t('statements.viewDetails')}
-                    </Link>
-                  </Button>
-                </TableCell>
+    <div className="container py-4">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-medium">{t('statements.title')}</h2>
+        
+        <div className="flex gap-2">
+          {accountId && (
+            <StatementsRefreshButton 
+              accountId={accountId}
+              onSuccess={refetchStatements}
+            />
+          )}
+        </div>
+      </div>
+      
+      <Card>
+        <CardHeader className="px-4 py-3">
+          <CardTitle className="text-base">{t('statements.title')}</CardTitle>
+          <CardDescription className="text-xs">{t('statements.period')}</CardDescription>
+        </CardHeader>
+        <CardContent className="p-0">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="text-xs">{t('statements.period')}</TableHead>
+                <TableHead className="text-xs">{t('statements.endBalance')}</TableHead>
+                <TableHead className="text-xs">{t('statements.status.title')}</TableHead>
+                <TableHead className="text-right text-xs">{t('statements.viewDetails')}</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
+            </TableHeader>
+            <TableBody>
+              {statements.map((statement) => (
+                <TableRow key={statement.id}>
+                  <TableCell className="py-2 text-xs">
+                    {format(new Date(statement.start_date), 'PP', { locale: dateLocale })} - {format(new Date(statement.end_date), 'PP', { locale: dateLocale })}
+                  </TableCell>
+                  <TableCell className="py-2 text-xs">{formatCurrency(statement.end_balance, currency)}</TableCell>
+                  <TableCell className="py-2">
+                    <Badge variant={getStatusBadgeVariant(statement.status)} className="text-xs py-0.5 h-5">
+                      {t(`statements.status.${statement.status.toLowerCase()}`)}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="text-right py-2">
+                    <Button size="sm" variant="ghost" asChild className="h-7 text-xs">
+                      <Link to={`/nakit-hesaplar/${statement.account_id}/statements/${statement.id}`}>
+                        <Eye className="mr-1.5 h-3 w-3" />
+                        {t('statements.viewDetails')}
+                      </Link>
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+    </div>
   );
 };

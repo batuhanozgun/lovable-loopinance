@@ -1,6 +1,5 @@
 
-// Bu dosya periodically future statement'ları check edip güncelleyecek
-
+// Statement processing edge function
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
@@ -10,13 +9,11 @@ const corsHeaders = {
 }
 
 serve(async (req) => {
-  // CORS için OPTIONS request
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders })
   }
 
   try {
-    // Supabase client oluştur
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_ANON_KEY') ?? '',
@@ -27,13 +24,18 @@ serve(async (req) => {
     
     console.log('statement-process: Starting statement processing');
     
-    // Request body'yi incele
     const requestBody = await req.json();
-    const accountId = requestBody.accountId; // Spesifik bir hesap için işlem yapılıyor mu?
+    const accountId = requestBody.accountId;
+    const source = requestBody.source || 'manual'; // 'manual', 'cron', 'client'
     
-    // 1. Future statüsündeki ekstreleri kontrol et ve güncelle
+    console.log(`statement-process: Processing account ${accountId || 'all'} from source ${source}`);
+    
+    // 1. Update future statements to open if their start date has arrived
     try {
-      const { data: futureResult, error: futureError } = await supabaseClient.rpc('update_future_statements');
+      const { data: futureResult, error: futureError } = await supabaseClient.rpc(
+        'update_future_statements',
+        accountId ? { p_account_id: accountId } : {}
+      );
       
       if (futureError) {
         console.error(`statement-process: Error updating future statements: ${futureError.message}`);
@@ -47,21 +49,13 @@ serve(async (req) => {
         );
       }
       
-      console.log(`statement-process: Future statements updated: ${JSON.stringify(futureResult)}`);
+      console.log(`statement-process: Future statements updated:`, futureResult);
       
-      // 2. Süresi dolmuş ekstreleri kapat ve yeni ekstreler oluştur
-      let expiredResult;
-      let expiredError;
-      
-      if (accountId) {
-        // Belirli bir hesap için süresi dolmuş ekstreleri kapat
-        console.log(`statement-process: Processing specific account ID: ${accountId}`);
-        // TODO: Bu fonksiyon parametrik bir şekilde güncellenmeli
-        ({ data: expiredResult, error: expiredError } = await supabaseClient.rpc('close_expired_statements'));
-      } else {
-        // Tüm hesaplar için süresi dolmuş ekstreleri kapat
-        ({ data: expiredResult, error: expiredError } = await supabaseClient.rpc('close_expired_statements'));
-      }
+      // 2. Close expired statements and create new ones
+      const { data: expiredResult, error: expiredError } = await supabaseClient.rpc(
+        'close_expired_statements',
+        accountId ? { p_account_id: accountId } : {}
+      );
       
       if (expiredError) {
         console.error(`statement-process: Error closing expired statements: ${expiredError.message}`);
@@ -76,33 +70,33 @@ serve(async (req) => {
         );
       }
       
-      console.log(`statement-process: Expired statements closed: ${JSON.stringify(expiredResult)}`);
+      console.log(`statement-process: Expired statements processed:`, expiredResult);
       
-      // 3. Hesaplar için eksik gelecek ekstreler varsa işlem sonucuna ekle
-      let accountsNeedingFuture = [];
+      // 3. Determine accounts needing future statements
+      const accountsNeedingFuture = [];
       
-      // Future statements güncellenirken hesaplar için future statement ihtiyacı kontrol edildi mi?
-      if (futureResult && futureResult.accounts_needing_statements) {
-        accountsNeedingFuture = accountsNeedingFuture.concat(futureResult.accounts_needing_statements);
+      if (futureResult?.accounts_needing_statements) {
+        accountsNeedingFuture.push(...futureResult.accounts_needing_statements);
       }
       
-      // Kapatılan statementların hesapları için future statement ihtiyacı var mı?
-      if (expiredResult && expiredResult.accounts_needing_future) {
-        accountsNeedingFuture = accountsNeedingFuture.concat(expiredResult.accounts_needing_future);
+      if (expiredResult?.accounts_needing_future) {
+        accountsNeedingFuture.push(...expiredResult.accounts_needing_future);
       }
       
       return new Response(
         JSON.stringify({ 
           success: true, 
-          message: 'Statement processing completed', 
+          message: 'Statement processing completed successfully', 
           future: futureResult,
           expired: expiredResult,
           accounts_needing_future: accountsNeedingFuture,
+          source,
           timestamp: new Date().toISOString(),
-          accountId: accountId || null // İşlem yapılan hesap ID'si varsa dön
+          accountId: accountId || null
         }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
+      
     } catch (processError) {
       console.error(`statement-process: Unexpected error in processing: ${processError.message}`);
       return new Response(
