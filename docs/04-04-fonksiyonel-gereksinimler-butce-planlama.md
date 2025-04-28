@@ -1,15 +1,16 @@
+04-04-fonksiyonel-gereksinimler-butce-planlama.md
 Loopinance Fonksiyonel Gereksinimler: Bütçe Planlama
 Bu doküman, Loopinance uygulamasının bütçe planlama modülüne ait fonksiyonel gereksinimleri tanımlar. Genel bilgiler için bkz. 04-fonksiyonel-gereksinimler-genel.md.
-1. Genel Bakış
+0. Genel Bakış
 Bütçe planlama modülü, kullanıcıların finansal hedeflerini planlamalarına olanak tanır. Kullanıcılar, nakit hesaplarına bağlı bütçe planları oluşturabilir, gelir/gider kalemleri ekleyebilir ve işlemlerini bütçe kalemleriyle eşleştirebilir. Modül, nakit hesap modülünden bağımsız çalışır, ancak ekstre yansımaları için entegre olur (04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md).
-2. Kapsam
+1. Kapsam
 Bu doküman, bütçe planı oluşturma, kalem ekleme ve işlem eşleştirme süreçlerini kapsar. UX/UI detayları 06-ux-ui-tasarim-dokumani.md, teknik detaylar 07-teknik-tasarim-dokumani.md, performans riskleri 03-risk-yonetim-plani.md adreslenir.
-3. Fonksiyonel Gereksinimler
+2. Fonksiyonel Gereksinimler
 3.6. Bütçe Planlama
-3.6.1. Bütçe Planı Yaratma
-
+3.6.1 Bütçe Planı Yaratma
 Kullanıcı Hikayesi: Bireysel kullanıcı olarak, sınırsız süreli veya belirli bir dönem için bütçe planı yaratabilmeliyim ki finansal hedeflerimi planlayabileyim.
 Kabul Kriterleri:
+
 Kullanıcı, Bütçeler Sayfası’nda “Yeni Bütçe Planı Yarat” tuşuyla formu açar.
 Form Alanları:
 Bütçe Planı Adı: 40 karaktere kadar serbest metin, zorunlu.
@@ -70,16 +71,26 @@ Sadece yürürlükte olan planın kalemleri ekstre ve raporlara yansır.
 Plan statüleri: “Pasif” (kalemler çalışmaz), “Yürürlükte” (ekstre/raporlara yansır), “Yürürlükte Değil” (yansımaz, ama düzenlenebilir).
 
 
+Performans:
 Form yüklenmesi, plan oluşturma, silme, düzenleme, versiyonlama, statü değişimi <1 saniye hedeflenir.
+
+
+Modülerlik:
 Bütçe planlama, nakit hesap modülünden bağımsız bir modül olarak çalışır.
 
 
-Bağlantılar: 04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.3 Ekstre Görüntüleme için bütçe yansımaları, 07-teknik-tasarim-dokumani.md için veri tabanı yapısı, 06-ux-ui-tasarim-dokumani.md için form, kart, modal ve hiyerarşi tasarımı, 03-risk-yonetim-plani.md için performans riskleri.
 
-3.6.2. Bütçe Kalemi Ekleme
+Bağlantılar:
 
+04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.3 Ekstre Görüntüleme için bütçe yansımaları
+07-teknik-tasarim-dokumani.md için veri tabanı yapısı
+06-ux-ui-tasarim-dokumani.md için form, kart, modal ve hiyerarşi tasarımı
+03-risk-yonetim-plani.md için performans riskleri
+
+3.6.2 Bütçe Kalemi Ekleme
 Kullanıcı Hikayesi: Bireysel kullanıcı olarak, nakit hesabıma bağlı bir bütçe planına gelir veya gider kalemi ekleyebilmeliyim ki finansal hedeflerimi detaylı bir şekilde planlayabileyim ve ekstrede hem gerçekleşen hem de bütçelenen durumu takip edebileyim.
 Kabul Kriterleri:
+
 Kullanıcı, Bütçeler Sayfası’nda bütçe planı kartındaki “Kalem Ekle” CTA’sı veya “Kalemleri Görüntüle” sayfasındaki “Yeni Kalem Ekle” tuşuyla formu açar.
 Form Alanları:
 İşlem Tipi: Gelir veya gider, toggle veya radio buton ile seçilir, zorunlu.
@@ -88,21 +99,16 @@ Alt Kategori: Seçilen kategoriye bağlı alt kategoriler, dropdown ile otomatik
 Hesap: Nakit hesap listesinden dropdown ile seçilir, zorunlu (04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.1 Hesap Oluşturma).
 Tutar: Tam sayı ve küsurat girişine uygun (örneğin, 15,50 TL), virgülden sonra 2 hane, pozitif sayı, zorunlu.
 Tekrarlanma Durumu: “Var” veya “Yok”, toggle veya radio buton ile seçilir, zorunlu.
-Yoksa:
+Tekrarlanma “Yok”sa:
 Tarih: Tarih seçici ile açık ekstre dönemi içindeki bir tarih seçilir (örneğin, 1-30 Nisan 2025), zorunlu.
 Kalem, seçilen tarihe göre ilgili ekstrede bütçelenen gelir/gider olarak yansır.
 
 
-Varsa:
+Tekrarlanma “Var”sa:
 Tekrarlanma Sıklığı: Dropdown ile seçilir, seçenekler: günlük, haftalık, aylık, ayın ilk günü, ayın son günü, ayın ilk iş günü, ayın son iş günü, iki haftada bir, üç haftada bir, 3 ayda bir, 6 ayda bir; zorunlu.
-Tarih Aralığı: İki seçenek: “Bütçe planı aktif olduğu sürece” veya “Belirli bir tarih aralığı”.
-“Belirli bir tarih aralığı” seçilirse, başlangıç/bitiş tarihi seçici ile girilir (örneğin, 1 Ocak 2025 - 31 Aralık 2025), zorunlu.
-“Bütçe planı aktif olduğu sürece” seçilirse, kalem plan pasif yapıldığında veya silindiğinde otomatik durur.
-Tekrarlanma, mevcut ekstre sayısıyla sınırlıdır (1 açık + 11 gelecek ekstre, toplam 12 dönem). Yeni ekstre oluşturulduğunda, tekrarlanan kalemler otomatik yansıtılır (04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.2 Ekstre Oluşumu).
-
-
-
-
+Tarih Aralığı: İki seçenek: “Bütçe planı aktif olduğu sürece” veya “Belirli bir tarih aralığı”. “Belirli bir tarih aralığı” seçilirse, başlangıç/bitiş tarihi seçici ile girilir (örneğin, 1 Ocak 2025 - 31 Aralık 2025), zorunlu. “Bütçe planı aktif olduğu sürece” seçilirse, kalem plan pasif yapıldığında veya silindiğinde otomatik durur.
+Tekrarlanma, mevcut ekstre sayısıyla sınırlıdır (1 açık + 11 gelecek ekstre, toplam 12 dönem).
+Yeni ekstre oluşturulduğunda, tekrarlanan kalemler otomatik yansıtılır (04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.2 Ekstre Oluşumu).
 
 
 Açıklama: 400 karaktere kadar serbest metin, isteğe bağlı.
@@ -150,12 +156,9 @@ Modülerlik:
 Bütçe kalemi ekleme, nakit hesap modülüne özgü ve bağımsız çalışır.
 Kod, nakit hesaplar için ayrı bir klasörde (örneğin, /budget/cash-account) yazılmalı, diğer hesap türlerinden (kredi kartı, banka hesabı) bağımsız olmalı.
 Form mantığı, arka planda nakit hesaba özgü çalışırken, ön yüzde tek bir form arayüzü kullanılır.
-Lovable.dev talimatları:
-Kod, mimari yoruma izin vermeden yazılmalı; sadece tanımlı form mantığını uygulamalı.
+Lovable.dev talimatları: Kod, mimari yoruma izin vermeden yazılmalı; sadece tanımlı form mantığını uygulamalı.
 Dosya yapısı: /budget/cash-account/add-budget-item.ts gibi net bir yol izlenmeli.
 Hata mesajları, spesifik ve net olmalı (örneğin, “Geçersiz tarih” yerine “Tarih, açık ekstre dönemi içinde olmalı”).
-
-
 
 
 Tasarım Tutarlılığı:
@@ -167,21 +170,19 @@ Form yüklenmesi, kalem kaydı, silme, düzenleme ve ekstre güncellemeleri <1 s
 Tekrarlanma sıklığına bağlı yansımalar, 5.000 kullanıcı için optimize edilmeli (03-risk-yonetim-plani.md).
 
 
+
 Bağlantılar:
-04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.3 Ekstre Görüntüleme için yansımalar.
-04-02-fonksiyonel-gereksinimler-kategori-yonetimi.md, 3.4 için kategori/alt kategori.
-07-teknik-tasarim-dokumani.md için veri tabanı yapısı.
-06-ux-ui-tasarim-dokumani.md için form ve modal tasarımı.
-03-risk-yonetim-plani.md için performans ve Lovable.dev riskleri.
 
+04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.3 Ekstre Görüntüleme için yansımalar
+04-02-fonksiyonel-gereksinimler-kategori-yonetimi.md, 3.4 için kategori/alt kategori
+07-teknik-tasarim-dokumani.md için veri tabanı yapısı
+06-ux-ui-tasarim-dokumani.md için form ve modal tasarımı
+03-risk-yonetim-plani.md için performans ve Lovable.dev riskleri
 
-
-
-
-3.6.3. Harcama/Gelir İşlemlerinin Bütçe Kalemleriyle Eşleştirilmesi
-
+3.6.3 Harcama/Gelir İşlemlerinin Bütçe Kalemleriyle Eşleştirilmesi
 Kullanıcı Hikayesi: Bireysel kullanıcı olarak, nakit hesabıma bağlı gelir veya gider işlemlerini bütçe kalemleriyle eşleştirebilmeliyim ki planlanan ve gerçekleşen harcamalarımı karşılaştırabileyim ve bütçe yönetimimi iyileştirebileyim.
 Kabul Kriterleri:
+
 Eşleştirme, iki senaryoda gerçekleşir:
 İşlem girişi sırasında: Kullanıcı, gelir/gider girerken işlemi bir bütçe kalemiyle bağlar (04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.4 İşlem Girişi).
 Sonradan eşleştirme: Kullanıcı, ekstredeki mevcut bir işlemi bütçe kalemiyle bağlar (04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.3 Ekstre Görüntüleme).
@@ -198,19 +199,25 @@ Sistem, işlemdeki kategori, alt kategori, hesap ve tarihle eşleşen bütçe ka
 Tek bir kalem eşleşirse: “Bu işlem, [Kategori/Alt Kategori] bütçesiyle eşleşiyor (Tutar: X TL, Tekrarlanma: Y)” mesajı gösterilir.
 Birden fazla kalem eşleşmesi mümkün değildir; aynı kategori, alt kategori, hesap, işlem tipi ve tekrarlanma durumu için yalnızca bir bütçe kalemi olabilir (3.6.2 Bütçe Kalemi Ekleme).
 Eşleşen kalem yoksa: Kullanıcıya “Bütçe kalemi bulunamadı. Yeni bütçe oluşturmak ister misiniz?” mesajı gösterilir, iki seçenek sunulur:
-“Bütçe Oluştur”: Kullanıcıyı bütçe kalemi ekleme formuna yönlendirir (3.6.2 Bütçe Kalemi Ekleme).
+“Bütçe Oluştur”: Kullanıcıyı bütçe kalemi ekleme formuna yönlendirir (3.6.2).
 “Bütçesiz Devam Et”: İşlem, bütçesiz olarak kaydedilir.
 
 
 
 
-Manuel Seçim: Kullanıcı, önerilen kalemi reddedebilir ve tüm bütçe kalemlerinden birini manuel seçebilir (dropdown veya liste).
-Onay: Eşleştirme kaydedildiğinde, toast mesajı: “İşlem, [Kategori/Alt Kategori] bütçesine eşleştirildi.”
+Manuel Seçim:
+Kullanıcı, önerilen kalemi reddedebilir ve tüm bütçe kalemlerinden birini manuel seçebilir (dropdown veya liste).
+
+
+Onay:
+Eşleştirme kaydedildiğinde, toast mesajı: “İşlem, [Kategori/Alt Kategori] bütçesine eşleştirildi.”
+
+
 
 
 İşlem Girişi Sırasında Eşleştirme:
 İşlem giriş formunda (04-03, 3.5.4), kategori, alt kategori ve hesap seçildikten sonra bütçe eşleştirme adımı gösterilir.
-Sistem, eşleşen bütçe kalemlerini önerir (yukarıdaki otomatik öneri mantığı).
+Sistem, eşleşen bütçe kalemlerini önerir (otomatik öneri mantığı).
 Kullanıcı, öneriyi onaylar, manuel seçer veya bütçesiz devam eder.
 Bütçe aşımı kontrolü: İşlem tutarı, eşleşen bütçe kaleminin tutarını aşarsa, uyarı gösterilir: “Bu işlem, bütçeyi X TL aşıyor. Devam etmek istiyor musunuz?”
 
@@ -240,12 +247,9 @@ Geçersiz seçim (örneğin, farklı hesaba bağlı kalem): “Seçilen bütçe 
 Modülerlik:
 Eşleştirme mantığı, nakit hesap modülüne özgü ve bağımsız çalışır.
 Kod, nakit hesaplar için ayrı bir klasörde (örneğin, /budget/cash-account/match-transaction) yazılmalı, diğer hesap türlerinden bağımsız olmalı.
-Lovable.dev talimatları:
-Kod, mimari yoruma izin vermeden yazılmalı; sadece tanımlı eşleştirme mantığını uygulamalı.
+Lovable.dev talimatları: Kod, mimari yoruma izin vermeden yazılmalı; sadece tanımlı eşleştirme mantığını uygulamalı.
 Dosya yapısı: /budget/cash-account/match-transaction.ts gibi net bir yol izlenmeli.
-Hata mesajları, spesifik ve net olmalı (örneğin, “ Passing budget” yerine “Seçilen bütçe kalemi, işlem hesabıyla uyuşmuyor”).
-
-
+Hata mesajları, spesifik ve net olmalı (örneğin, “Passing budget” yerine “Seçilen bütçe kalemi, işlem hesabıyla uyuşmuyor”).
 
 
 Tasarım Tutarlılığı:
@@ -257,25 +261,127 @@ Performans:
 Öneri algoritması, 5.000 kullanıcı için optimize edilmeli (03-risk-yonetim-plani.md).
 
 
+
 Bağlantılar:
-04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.4 İşlem Girişi için işlem girişi akışı.
-04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.3 Ekstre Görüntüleme için ekstre gösterimi ve gruplama.
-04-02-fonksiyonel-gereksinimler-kategori-yonetimi.md, 3.4 için kategori/alt kategori.
-07-teknik-tasarim-dokumani.md için veri tabanı yapısı.
-06-ux-ui-tasarim-dokumani.md için form ve CTA tasarımı.
-03-risk-yonetim-plani.md için performans ve Lovable.dev riskleri.
+
+04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.4 İşlem Girişi için işlem girişi akışı
+04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.3 Ekstre Görüntüleme için ekstre gösterimi ve gruplama
+04-02-fonksiyonel-gereksinimler-kategori-yonetimi.md, 3.4 için kategori/alt kategori
+07-teknik-tasarim-dokumani.md için veri tabanı yapısı
+06-ux-ui-tasarim-dokumani.md için form ve CTA tasarımı
+03-risk-yonetim-plani.md için performans ve Lovable.dev riskleri
+
+3.6.4 Bütçe Kalemi Özellikleri
+
+Tanım: Bütçe kalemleri, tekrarlanma (günlük, haftalık, aylık vb.) ve otomatik kayıt özelliklerini destekler.
+Detaylar:
+Tekrarlanma seçenekleri ve tarih aralığı, 3.6.2’de tanımlı.
+Otomatik kayıt, yeni ekstre oluşturulduğunda tekrarlanan kalemlerin yansıtılmasını sağlar (04-03, 3.5.2 Ekstre Oluşumu).
+
+
+Bağlantılar:
+04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.2 Ekstre Oluşumu
+06-ux-ui-tasarim-dokumani.md için form tasarımı
 
 
 
+3.6.5 Bütçe Kalemi Girme UX/UI Kolaylığı
+Kullanıcı Hikayesi: Bireysel kullanıcı olarak, bütçe planıma birden fazla gelir veya gider kalemini hızlı ve kolay bir şekilde ekleyebilmeliyim ki finansal hedeflerimi planlarken zaman kaybetmeyeyim ve tekrarlayan girişlerden kaçınayım.
+Kabul Kriterleri:
 
+Kullanıcı, Bütçeler Sayfası’nda bütçe planı kartındaki “Kalem Ekle” CTA’sına basar.
+Modal açılır:
+“Tek kalem ekle” (3.6.2 formuna yönlendirir).
+“Çoklu giriş yap” (hiyerarşik akordeon arayüzüne yönlendirir).
+
+
+Çoklu giriş ekranı, kategori modülünden (04-02, 3.4) alınan kullanıcının tanımlı kategori ve alt kategori yapısıyla önceden doldurulmuş olarak açılır.
+Arayüz Yapısı:
+Kategori Akordeonları: Her kategori (örneğin, “Market”, “Ev”), bir üst seviye akordeon başlığıdır. Varsayılan olarak tüm kategoriler katlanmış, kullanıcı birini açar.
+Alt Kategori Akordeonları: Kategori akordeonu açıldığında, ilgili alt kategoriler (örneğin, “Gıda”, “Faturalar”) alt seviye akordeonlar olarak görünür.
+Bütçe Kalemi Formu: Alt kategori akordeonu açıldığında, “Bütçe Ekle” butonu görünür. Butona basıldığında, 3.6.2’deki form alanları açılır:
+İşlem Tipi: Toggle (Gelir/Gider), zorunlu.
+Hesap: Dropdown, nakit hesap listesinden seçilir, zorunlu (04-03, 3.5.1).
+Tutar: Input, tam sayı ve küsurat (örneğin, 15,50 TL), virgülden sonra 2 hane, pozitif, zorunlu.
+Tekrarlanma Durumu: Toggle (Var/Yok), zorunlu.
+Tekrarlanma “Yok”sa: Tarih seçici, açık ekstre dönemi içinde bir tarih (örneğin, 1-30 Nisan 2025), zorunlu.
+Tekrarlanma “Var”sa:
+Tekrarlanma Sıklığı: Dropdown (günlük, haftalık, aylık, ayın ilk günü, ayın son günü, ayın ilk iş günü, ayın son iş günü, iki haftada bir, üç haftada bir, 3 ayda bir, 6 ayda bir), zorunlu.
+Tarih Aralığı: Dropdown (“Bütçe planı aktif olduğu sürece” veya belirli bir tarih aralığı). Belirli aralık seçilirse, başlangıç/bitiş tarihi seçici ile girilir (örneğin, 1 Ocak 2025 - 31 Aralık 2025), zorunlu.
+
+
+Açıklama: Input, 400 karaktere kadar, isteğe bağlı.
+
+
+Her alt kategoriye birden fazla kalem eklenebilir. Eklenen kalemler, alt kategori akordeonunda liste olarak görünür (örneğin, “Gıda: Kalem 1, Kalem 2”).
+Her kalemde “Sil” ikonu, kalemi kaldırır.
+
+
+Anlık Doğrulama:
+Hesap, Tekrarlanma Durumu ve diğer zorunlu alanlar doldurulduğunda, çakışma kontrolü alt kategori bazında yapılır.
+Çakışan kalem formunda uyarı görünür (detaylar 06-ux-ui-tasarim-dokumani.md’de tanımlanacak).
+Hatalı girişler (negatif tutar, eksik alan) için anlık uyarı: “Tutar pozitif bir sayı olmalı” veya “Hesap seçimi zorunlu.”
+
+
+Kaydetme:
+“Tüm Kalemleri Kaydet” butonu, tüm geçerli kalemleri Supabase’e toplu kaydeder (<1 saniye/hesap).
+Kaydetme sonrası özet: “X kalem eklendi, Y kalem çakıştı (örneğin, Market/Gıda, Ev/Faturalar).”
+Çakışan kalemler için düzenleme seçeneği sunulur.
+
+
+Hata Senaryoları:
+Geçersiz tutar: “Market/Gıda, Kalem X: Tutar pozitif bir sayı olmalı.”
+Eksik alan: “Market/Gıda, Kalem X: Hesap, Tekrarlanma zorunlu.”
+Geçersiz tarih: “Market/Gıda, Kalem X: Tarih, açık ekstre dönemi içinde olmalı.”
+Çakışma: Anlık uyarı + toplu özet.
+
+
+Boş Kategori Durumu:
+Kullanıcıda tanımlı kategori/alt kategori yoksa, ekran “Kategori ekle” CTA’sıyla açılır ve kullanıcıyı kategori oluşturma akışına (04-02, 3.4) yönlendirir.
+
+
+Ekstre Yansımaları:
+Kaydedilen kalemler, 3.6.2’deki gibi ekstrelerde yansır (tekrarlanma varsa sıklık/tarih aralığına göre, yoksa seçilen tarihe göre).
+Güncellemeler zincirleme yapılır (<1 saniye/hesap).
+
+
+Mobil Uyumluluk:
+Hiyerarşik akordeon, mobilde tek sütun, sade açılıp kapanma animasyonları.
+Dropdown’lar ve input’lar, mobil klavyeyle uyumlu.
+Varsayılan olarak sadece bir kategori akordeonu açık, diğerleri katlanmış.
+
+
+Performans:
+Form yüklenmesi, anlık doğrulama, kaydetme <1 saniye/hesap.
+50 kaleme kadar optimize edilir (03-risk-yonetim-plani.md).
+Anlık çakışma kontrolü, istemci tarafında (JavaScript) yapılır; toplu kaydetme, batch API ile optimize edilir.
+
+
+Modülerlik:
+Kod, nakit hesaplar için ayrı bir klasörde (örneğin, /budget/cash-account/bulk-add) yazılır, diğer hesap türlerinden bağımsız.
+Lovable.dev talimatları: Kod, mimari yoruma izin vermeden yazılır, tanımlı mantığı uygular.
+Dosya yapısı: /budget/cash-account/bulk-add.ts.
+
+
+Tasarım Tutarlılığı:
+Form elemanları (butonlar, dropdown, toggle, input), merkezi tasarım sisteminden çekilir (06-ux-ui-tasarim-dokumani.md).
+Çakışma uyarıları, UX/UI dokümanında tanımlı renk paleti ve stil rehberine uyar.
+
+
+
+Bağlantılar:
+
+04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md (3.5.3 Ekstre Yansımaları, 3.5.2 Ekstre Oluşumu)
+04-02-fonksiyonel-gereksinimler-kategori-yonetimi.md (3.4 Kategori/Alt Kategori)
+06-ux-ui-tasarim-dokumani.md (form, modal, akordeon, uyarı tasarımı)
+07-teknik-tasarim-dokumani.md (veri tabanı, API)
+03-risk-yonetim-plani.md (performans riskleri)
 
 Planlanan Bölümler
 Aşağıdaki bölümler, bütçe planlama modülünün devamı için planlanmıştır:
 
-3.6.4 Bütçe Kalemi Özellikleri: Tekrarlanma (günlük, haftalık, aylık vb.) ve otomatik kayıtlar.
-3.6.5 Bütçe Kalemi Girme UX/UI Kolaylığı: Toplu bütçe girişi için kullanıcı dostu yöntemler; aynı işlem tipi, kategori, alt kategori, hesap ve tekrarlanma durumu için birden fazla kalem yaratılmasının engellenmesi.
 3.6.6 Bütçe Planı Detay Sayfası ve Görselleştirme: Loading bar ile gerçekleşen/bütçelenen karşılaştırması.
 3.6.7 Ek Bütçe Ekleme (Opsiyonel): Tek seferlik ek bütçe ekleme, mevcut yapıyı bozmadan.
 3.6.8 Bütçe Kalemi ve Gerçekleşen İşlem Analizi: Eşleşme ve analiz süreçleri.
 
-Son Güncelleme: 28 Nisan 2025, Sorumlu: batuhanozgun
+Son Güncelleme: 29 Nisan 2025, Sorumlu: batuhanozgun
