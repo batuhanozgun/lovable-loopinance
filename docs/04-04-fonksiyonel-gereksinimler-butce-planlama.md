@@ -74,7 +74,7 @@ Bağlantılar: 04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.3 Ekstre G
 
 3.6.2. Bütçe Kalemi Ekleme
 
-Kullanıcı Hikayesi: Bireysel kullanıcı olarak, nakit hesabıma bağlı bir bütçe planına gelir veya gider kalemi ekleyebilmeliyim ki finansal hedeflerimi detaylı bir şekilde planlayabileyim.
+Kullanıcı Hikayesi: Bireysel kullanıcı olarak, nakit hesabıma bağlı bir bütçe planına gelir veya gider kalemi ekleyebilmeliyim ki finansal hedeflerimi detaylı bir şekilde planlayabileyim ve ekstrede hem gerçekleşen hem de bütçelenen durumu takip edebileyim.
 Kabul Kriterleri:
 Kullanıcı, Bütçeler Sayfası’nda bütçe planı kartındaki “Kalem Ekle” CTA’sı veya “Kalemleri Görüntüle” sayfasındaki “Yeni Kalem Ekle” tuşuyla formu açar.
 Form Alanları:
@@ -94,6 +94,7 @@ Tekrarlanma Sıklığı: Dropdown ile seçilir, seçenekler: günlük, haftalık
 Tarih Aralığı: İki seçenek: “Bütçe planı aktif olduğu sürece” veya “Belirli bir tarih aralığı”.
 “Belirli bir tarih aralığı” seçilirse, başlangıç/bitiş tarihi seçici ile girilir (örneğin, 1 Ocak 2025 - 31 Aralık 2025), zorunlu.
 “Bütçe planı aktif olduğu sürece” seçilirse, kalem plan pasif yapıldığında veya silindiğinde otomatik durur.
+Tekrarlanma, mevcut ekstre sayısıyla sınırlıdır (1 açık + 11 gelecek ekstre, toplam 12 dönem). Yeni ekstre oluşturulduğunda, tekrarlanan kalemler otomatik yansıtılır (04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.2 Ekstre Oluşumu).
 
 
 
@@ -114,13 +115,18 @@ Tarih, açık ekstre dönemi dışındaysa: Toast mesajı, “Tarih, açık ekst
 
 
 Ekstre Yansımaları:
-Kalem kaydedildiğinde, bütçelenen gelir/gider olarak ilgili ekstrelerde yansır:
+Kalem kaydedildiğinde, bütçelenen gelir/gider olarak ilgili ekstrelerin işlem listesinde yansır:
 Tekrarlanma “Yok” ise, seçilen tarihe göre tek bir ekstrede yansır.
 Tekrarlanma “Var” ise, sıklık ve tarih aralığına göre ilgili ekstrelerde yansır (örneğin, aylık 100 TL gider, her ayın 1’inde ilgili ekstreye yansır).
 
 
+İşlem listesi, varsayılan olarak tarihe göre sıralanır (en yeniden eskiye).
+Kullanıcı, işlem listesini şu seçeneklerle sıralayabilir: tutar (büyükten küçüğe), kategori (alfabetik), açıklama (alfabetik); sıralama arayüzü detayları 06-ux-ui-tasarim-dokumani.md.
+Opsiyonel: Kullanıcı, işlem listesinde sadece bütçelenen kalemleri veya sadece gerçekleşen işlemleri filtreleyebilir; filtreleme arayüzü detayları 06-ux-ui-tasarim-dokumani.md.
+Bütçelenen kalemler, ekstre işlem listesinde gerçekleşen işlemlerden görsel olarak ayrılır; görsel ayrım detayları 06-ux-ui-tasarim-dokumani.md.
 Bütçelenen bakiyeler, gerçekleşen bakiyeleri değiştirmez; sadece bütçelenen gelir/gider ve bütçelenen açılış/kapanış bakiyelerini etkiler (04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.3 Ekstre Görüntüleme).
-Yansımalar, ekstre detay sayfasında görünür (kategori, alt kategori, tutar, açıklama).
+Yeni ekstre oluşturulduğunda, tekrarlanan kalemler otomatik yansıtılır; bu, ekstre oluşturmanın bir parçasıdır (04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.2 Ekstre Oluşumu).
+Bildirimler, ekstre kapanış sürecinde genel bir bilgilendirme olarak sağlanır (örneğin, “Ekstre kapandı, yeni ekstre açıldı, gelecek dönem için 11. ekstre yaratıldı”), detaylar 04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.7 Ekstre Kapanışı.
 
 
 Silme:
@@ -148,9 +154,7 @@ Hata mesajları, spesifik ve net olmalı (örneğin, “Geçersiz tarih” yerin
 
 
 Tasarım Tutarlılığı:
-Form elemanları (butonlar, dropdown, toggle, input) merkezi bir UI kitinden çekilmeli (örneğin, /design-system/components).
-Tasarım objeleri, tüm modüllerde tutarlı olmalı; Lovable.dev’in tutarsız obje üretimi önlenmeli.
-UI kiti, 06-ux-ui-tasarim-dokumani.md tanımlanacak.
+Form elemanları (butonlar, dropdown, toggle, input), merkezi bir tasarım sisteminden çekilmeli; detaylar 06-ux-ui-tasarim-dokumani.md.
 
 
 Performans:
@@ -158,11 +162,11 @@ Form yüklenmesi, kalem kaydı, silme, düzenleme ve ekstre güncellemeleri <1 s
 Tekrarlanma sıklığına bağlı yansımalar, 5.000 kullanıcı için optimize edilmeli (03-risk-yonetim-plani.md).
 
 
-Bağlantılar: 
+Bağlantılar:
 04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.3 Ekstre Görüntüleme için yansımalar.
 04-02-fonksiyonel-gereksinimler-kategori-yonetimi.md, 3.4 için kategori/alt kategori.
 07-teknik-tasarim-dokumani.md için veri tabanı yapısı.
-06-ux-ui-tasarim-dokumani.md için form ve modal tasarımı.
+06-ux-ui-tasarim-dokumani.md için form, modal ve sıralama/filtreleme arayüzü tasarımı.
 03-risk-yonetim-plani.md için performans ve Lovable.dev riskleri.
 
 
