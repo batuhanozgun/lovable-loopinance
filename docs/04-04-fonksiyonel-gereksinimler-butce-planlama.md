@@ -1,5 +1,9 @@
 Loopinance Fonksiyonel Gereksinimler: Bütçe Planlama
 Bu doküman, Loopinance uygulamasının bütçe planlama modülüne ait fonksiyonel gereksinimleri tanımlar. Genel bilgiler için bkz. 04-fonksiyonel-gereksinimler-genel.md.
+1. Genel Bakış
+Bütçe planlama modülü, kullanıcıların finansal hedeflerini planlamalarına olanak tanır. Kullanıcılar, nakit hesaplarına bağlı bütçe planları oluşturabilir, gelir/gider kalemleri ekleyebilir ve işlemlerini bütçe kalemleriyle eşleştirebilir. Modül, nakit hesap modülünden bağımsız çalışır, ancak ekstre yansımaları için entegre olur (04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md).
+2. Kapsam
+Bu doküman, bütçe planı oluşturma, kalem ekleme ve işlem eşleştirme süreçlerini kapsar. UX/UI detayları 06-ux-ui-tasarim-dokumani.md, teknik detaylar 07-teknik-tasarim-dokumani.md, performans riskleri 03-risk-yonetim-plani.md adreslenir.
 3. Fonksiyonel Gereksinimler
 3.6. Bütçe Planlama
 3.6.1. Bütçe Planı Yaratma
@@ -112,6 +116,7 @@ Hesap seçilmezse: Toast mesajı, “Bir nakit hesap seçilmeli.”
 Tekrarlanma “Yok” seçiliyken tarih seçilmezse: Toast mesajı, “Bir tarih seçilmeli.”
 Tekrarlanma “Var” seçiliyken sıklık veya tarih aralığı seçilmezse: Toast mesajı, “Tekrarlanma sıklığı ve tarih aralığı seçilmeli.”
 Tarih, açık ekstre dönemi dışındaysa: Toast mesajı, “Tarih, açık ekstre dönemi içinde olmalı.”
+Aynı işlem tipi, kategori, alt kategori, hesap ve tekrarlanma durumu (var/yok ve sıklık) için zaten bir bütçe kalemi varsa: Toast mesajı, “Bu özelliklere sahip bir bütçe kalemi zaten mevcut. Mevcut kalemi düzenlemek ister misiniz?” ve kullanıcı mevcut kaleme yönlendirilir.
 
 
 Ekstre Yansımaları:
@@ -166,7 +171,98 @@ Bağlantılar:
 04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.3 Ekstre Görüntüleme için yansımalar.
 04-02-fonksiyonel-gereksinimler-kategori-yonetimi.md, 3.4 için kategori/alt kategori.
 07-teknik-tasarim-dokumani.md için veri tabanı yapısı.
-06-ux-ui-tasarim-dokumani.md için form, modal ve sıralama/filtreleme arayüzü tasarımı.
+06-ux-ui-tasarim-dokumani.md için form ve modal tasarımı.
+03-risk-yonetim-plani.md için performans ve Lovable.dev riskleri.
+
+
+
+
+
+3.6.3. Harcama/Gelir İşlemlerinin Bütçe Kalemleriyle Eşleştirilmesi
+
+Kullanıcı Hikayesi: Bireysel kullanıcı olarak, nakit hesabıma bağlı gelir veya gider işlemlerini bütçe kalemleriyle eşleştirebilmeliyim ki planlanan ve gerçekleşen harcamalarımı karşılaştırabileyim ve bütçe yönetimimi iyileştirebileyim.
+Kabul Kriterleri:
+Eşleştirme, iki senaryoda gerçekleşir:
+İşlem girişi sırasında: Kullanıcı, gelir/gider girerken işlemi bir bütçe kalemiyle bağlar (04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.4 İşlem Girişi).
+Sonradan eşleştirme: Kullanıcı, ekstredeki mevcut bir işlemi bütçe kalemiyle bağlar (04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.3 Ekstre Görüntüleme).
+
+
+Eşleştirme Süreci:
+Anahtar Alanlar:
+Zorunlu: Kategori, alt kategori, hesap (işlemle aynı hesaba bağlı bütçe kalemleri).
+Destekleyici: Tarih (işlem tarihi, bütçe kaleminin tarih aralığı veya tekrarlanma sıklığıyla eşleşir).
+
+
+Otomatik Öneri:
+Sistem, işlemdeki kategori, alt kategori, hesap ve tarihle eşleşen bütçe kalemlerini önerir.
+Tek bir kalem eşleşirse: “Bu işlem, [Kategori/Alt Kategori] bütçesiyle eşleşiyor (Tutar: X TL, Tekrarlanma: Y)” mesajı gösterilir.
+Birden fazla kalem eşleşmesi mümkün değildir; aynı kategori, alt kategori, hesap, işlem tipi ve tekrarlanma durumu için yalnızca bir bütçe kalemi olabilir (3.6.2 Bütçe Kalemi Ekleme).
+Eşleşen kalem yoksa: Kullanıcıya “Bütçe kalemi bulunamadı. Yeni bütçe oluşturmak ister misiniz?” mesajı gösterilir, iki seçenek sunulur:
+“Bütçe Oluştur”: Kullanıcıyı bütçe kalemi ekleme formuna yönlendirir (3.6.2 Bütçe Kalemi Ekleme).
+“Bütçesiz Devam Et”: İşlem, bütçesiz olarak kaydedilir.
+
+
+
+
+Manuel Seçim: Kullanıcı, önerilen kalemi reddedebilir ve tüm bütçe kalemlerinden birini manuel seçebilir (dropdown veya liste).
+Onay: Eşleştirme kaydedildiğinde, toast mesajı: “İşlem, [Kategori/Alt Kategori] bütçesine eşleştirildi.”
+
+
+İşlem Girişi Sırasında Eşleştirme:
+İşlem giriş formunda (04-03, 3.5.4), kategori, alt kategori ve hesap seçildikten sonra bütçe eşleştirme adımı gösterilir.
+Sistem, eşleşen bütçe kalemlerini önerir (yukarıdaki otomatik öneri mantığı).
+Kullanıcı, öneriyi onaylar, manuel seçer veya bütçesiz devam eder.
+Bütçe aşımı kontrolü: İşlem tutarı, eşleşen bütçe kaleminin tutarını aşarsa, uyarı gösterilir: “Bu işlem, bütçeyi X TL aşıyor. Devam etmek istiyor musunuz?”
+
+
+Sonradan Eşleştirme:
+Ekstrede (04-03, 3.5.3), her işlem satırında “Bütçeye Eşle” CTA’sı bulunur.
+CTA tıklandığında, kategori, alt kategori, hesap ve tarihle eşleşen bütçe kalemleri önerilir.
+Kullanıcı, önerilen kalemi seçer veya manuel bağlar.
+Eşleştirme kaydedildiğinde, ekstre güncellenir (<1 saniye/hesap).
+İşlem zaten eşleştirilmişse, “Bütçeye Eşle” yerine “Bütçeyi Düzenle” CTA’sı görünür; kullanıcı mevcut eşleştirmeyi değiştirebilir.
+
+
+Ekstre Gösterimi:
+Eşleştirilen işlemler, ekstrede “Bütçesi var” etiketiyle gösterilir.
+Eşleştirilmemiş işlemler, “Bütçesi yok” etiketiyle gösterilir.
+Harcama yapılmamış bütçe kalemleri, ekstrede bir satır olarak görünür.
+Bütçeden harcama yapıldıysa, kalan bütçe miktarı gösterilir (çift sayımı önlemek için).
+Opsiyonel: İşlemler, bütçe kalemi bazında gruplanabilir (bütçelenmiş ve bütçelenmemiş kalemler ayrı gösterilir); detaylar 04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.3 Ekstre Görüntüleme.
+
+
+Hata Senaryoları:
+Kategori/alt kategori/hesap için eşleşen bütçe kalemi yoksa: “Bütçe kalemi bulunamadı. Yeni bütçe oluşturmak ister misiniz?”
+İşlem tarihi, bütçe kaleminin tarih aralığı dışındaysa: “Bu işlem, seçilen bütçe kaleminin tarih aralığıyla uyuşmuyor. Başka bir kalem seçin veya bütçesiz devam edin.”
+Geçersiz seçim (örneğin, farklı hesaba bağlı kalem): “Seçilen bütçe kalemi, işlem hesabıyla uyuşmuyor.”
+
+
+Modülerlik:
+Eşleştirme mantığı, nakit hesap modülüne özgü ve bağımsız çalışır.
+Kod, nakit hesaplar için ayrı bir klasörde (örneğin, /budget/cash-account/match-transaction) yazılmalı, diğer hesap türlerinden bağımsız olmalı.
+Lovable.dev talimatları:
+Kod, mimari yoruma izin vermeden yazılmalı; sadece tanımlı eşleştirme mantığını uygulamalı.
+Dosya yapısı: /budget/cash-account/match-transaction.ts gibi net bir yol izlenmeli.
+Hata mesajları, spesifik ve net olmalı (örneğin, “ Passing budget” yerine “Seçilen bütçe kalemi, işlem hesabıyla uyuşmuyor”).
+
+
+
+
+Tasarım Tutarlılığı:
+Eşleştirme formu ve CTA’lar, merkezi bir tasarım sisteminden çekilmeli; detaylar 06-ux-ui-tasarim-dokumani.md.
+
+
+Performans:
+Öneri yüklenmesi, eşleştirme kaydı ve ekstre güncellemeleri <1 saniye/hesap hedeflenir.
+Öneri algoritması, 5.000 kullanıcı için optimize edilmeli (03-risk-yonetim-plani.md).
+
+
+Bağlantılar:
+04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.4 İşlem Girişi için işlem girişi akışı.
+04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.3 Ekstre Görüntüleme için ekstre gösterimi ve gruplama.
+04-02-fonksiyonel-gereksinimler-kategori-yonetimi.md, 3.4 için kategori/alt kategori.
+07-teknik-tasarim-dokumani.md için veri tabanı yapısı.
+06-ux-ui-tasarim-dokumani.md için form ve CTA tasarımı.
 03-risk-yonetim-plani.md için performans ve Lovable.dev riskleri.
 
 
@@ -176,11 +272,10 @@ Bağlantılar:
 Planlanan Bölümler
 Aşağıdaki bölümler, bütçe planlama modülünün devamı için planlanmıştır:
 
-3.6.3 Harcama/Gelir İşlemlerinin Bütçe Kalemleriyle Eşleştirilmesi: İşlem girerken bütçe kalemleriyle otomatik eşleşme.
 3.6.4 Bütçe Kalemi Özellikleri: Tekrarlanma (günlük, haftalık, aylık vb.) ve otomatik kayıtlar.
-3.6.5 Bütçe Kalemi Girme UX/UI Kolaylığı: Toplu bütçe girişi için kullanıcı dostu yöntemler.
+3.6.5 Bütçe Kalemi Girme UX/UI Kolaylığı: Toplu bütçe girişi için kullanıcı dostu yöntemler; aynı işlem tipi, kategori, alt kategori, hesap ve tekrarlanma durumu için birden fazla kalem yaratılmasının engellenmesi.
 3.6.6 Bütçe Planı Detay Sayfası ve Görselleştirme: Loading bar ile gerçekleşen/bütçelenen karşılaştırması.
 3.6.7 Ek Bütçe Ekleme (Opsiyonel): Tek seferlik ek bütçe ekleme, mevcut yapıyı bozmadan.
 3.6.8 Bütçe Kalemi ve Gerçekleşen İşlem Analizi: Eşleşme ve analiz süreçleri.
 
-Son Güncelleme: 27 Nisan 2025, Sorumlu: batuhanozgun
+Son Güncelleme: 28 Nisan 2025, Sorumlu: batuhanozgun
