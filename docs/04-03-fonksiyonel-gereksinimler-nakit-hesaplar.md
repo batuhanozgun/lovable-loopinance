@@ -68,26 +68,78 @@ Liste, mobil ve masaüstünde kullanıcı dostu, yüklenme <1 saniye.
 
 
 Ekstre Detay Sayfası:
-Ekstre bilgileri: hesap adı, dönem, açılış bakiyesi, kapanış bakiyesi, bütçelenen açılış/kapanış bakiyeleri, toplam gelir (gerçekleşen ve bütçelenen), toplam gider (gerçekleşen ve bütçelenen), ekstre statüsü (açık, kapalı, gelecek).
-Kapalı ekstrede işlemler görüntülenebilir, ancak düzenleme/silme için ekstre açılmalıdır (detaylar 3.5.8 Kapalı Ekstre Açma).
-Bakiye türleri:
+Ekstre Bilgileri: Hesap adı, dönem, açılış bakiyesi, kapanış bakiyesi, bütçelenen açılış/kapanış bakiyeleri, toplam gelir (gerçekleşen ve bütçelenen), toplam gider (gerçekleşen ve bütçelenen), ekstre statüsü (açık, kapalı, gelecek).
+Bütçe Entegrasyonu (04-04-fonksiyonel-gereksinimler-butce-planlama.md, 3.6.3):
+Eşleştirilen işlemler, işlem satırında “Bütçesi var” etiketiyle gösterilir.
+Eşleştirilmemiş işlemler, “Bütçesi yok” etiketiyle gösterilir.
+Harcama yapılmamış bütçe kalemleri, işlem listesinde bir satır olarak görünür (örneğin, “Market/Gıda, Bütçe: 100 TL, Harcama: 0 TL”).
+Bütçeden harcama yapıldıysa, kalan bütçe miktarı gösterilir (örneğin, “Market/Gıda, Bütçe: 100 TL, Kalan: 40 TL”).
+Çift sayımı önlemek için, bütçe kalemi satırında yalnızca kalan bütçe miktarı gösterilir; harcanan kısım, eşleştirilen işlemlerle işlem satırlarında yansır.
+
+
+İşlemler Listesi:
+Her işlem satırında: tarih, saat, kategori, alt kategori, tutar (giderler kırmızı, gelirler yeşil), açıklama (akordiyonla açılır, sadece açıklama içerir), bütçe etiketi (“Bütçesi var/yok”), düzenle/sil ikonları.
+Bütçe kalemi satırlarında: kategori, alt kategori, bütçe tutarı, kalan tutar, açıklama (varsa, akordiyonla açılır).
+Varsayılan sıralama: Tarihe göre (en yeniden eskiye).
+Kullanıcı, listeyi şu seçeneklerle sıralayabilir: tutar (büyükten küçüğe), kategori (alfabetik), açıklama (alfabetik).
+Opsiyonel: Kullanıcı, sadece bütçelenen kalemleri veya sadece gerçekleşen işlemleri filtreleyebilir; filtreleme arayüzü detayları 06-ux-ui-tasarim-dokumani.md.
+
+
+Gruplama (Opsiyonel):
+Kullanıcı, “Bütçeye göre grupla” CTA butonuyla gruplamayı etkinleştirebilir.
+Gruplama etkinleştirildiğinde, işlemler iki ana grupta gösterilir:
+Bütçelenmiş İşlemler: “Bütçesi var” etiketli işlemler ve ilgili bütçe kalemleri, kategori bazında alt gruplara ayrılır (örneğin, “Market/Gıda”, “Ev/Faturalar”).
+Bütçelenmemiş İşlemler: “Bütçesi yok” etiketli işlemler, kategori bazında alt gruplara ayrılır.
+
+
+Grup içi sıralama: Varsayılan olarak tarihe göre (en yeniden eskiye); kullanıcı, tutar (büyükten küçüğe), kategori (alfabetik) veya açıklama (alfabetik) bazında sıralayabilir.
+Gruplama kapatıldığında, işlemler varsayılan olarak tarihe göre (en yeniden eskiye) sıralı listelenir; kullanıcı sıralamayı tutar, kategori veya açıklama bazında değiştirebilir.
+Gruplama arayüzü (buton, grup başlıkları) detayları [06-ux-ui-tasarim-dokumani.md](#].
+
+
+“İşlem Gir” CTA’sı, kullanıcıyı işlem giriş formuna yönlendirir (3.5.5 İşlem Girme).
+Kapalı ekstrede işlemler görüntülenebilir, ancak düzenleme/silme için ekstre açılmalıdır (3.5.8 Kapalı Ekstre Açma).
+Sayfa, mobil ve masaüstünde kullanıcı dostu, yüklenme <1 saniye.
+
+
+Bakiye Türleri:
 Açılış Bakiyesi: İlk hesapta başlangıç bakiyesi, sonraki ekstrelerde önceki kapanış bakiyesi.
 Kapanış Bakiyesi: Açılış bakiyesi + işlemler (gelir/gider), dönem kapanana kadar dinamik, sonra sabit (kullanıcı yeniden açarsa değişebilir).
-Bütçelenen Açılış/Kapanış Bakiyeleri: Gerçekleşen + bütçelenen işlemlerin toplamı (detaylar 04-04-fonksiyonel-gereksinimler-butce-planlama.md).
+Bütçelenen Açılış/Kapanış Bakiyeleri: Gerçekleşen + bütçelenen işlemlerin toplamı (04-04-fonksiyonel-gereksinimler-butce-planlama.md, 3.6.3).
 Gerçekleşen Gelir/Gider: İşlemlerden gelen gelir/gider.
 Bütçelenen Gelir/Gider: Gerçekleşen + bütçelenen gelir/gider.
 
 
-İşlemler listesi: Her işlem satırında tarih, saat, kategori, alt kategori, tutar (giderler kırmızı, gelirler yeşil), açıklama (akordiyonla açılır, sadece açıklama içerir, başka detay yok), düzenle/sil ikonları.
-“İşlem Gir” CTA’sı, kullanıcıyı işlem giriş formuna yönlendirir.
-Sayfa, mobil ve masaüstünde kullanıcı dostu, yüklenme <1 saniye.
-
-
 Ekstre görüntüleme, nakit hesap modülüne özgü ve bağımsız çalışır.
-Veri tabanı yapısı, 07-teknik-tasarim-dokumani.md tanımlanacak.
+Modülerlik:
+Kod, nakit hesaplar için ayrı bir klasörde (örneğin, /cash-account/statement-view) yazılmalı, diğer hesap türlerinden bağımsız olmalı.
+Lovable.dev talimatları:
+Kod, mimari yoruma izin vermeden yazılmalı; sadece tanımlı görüntüleme mantığını uygulamalı.
+Dosya yapısı: /cash-account/statement-view.ts gibi net bir yol izlenmeli.
+Hata mesajları, spesifik ve net olmalı (örneğin, “Geçersiz veri” yerine “Ekstre yüklenemedi, lütfen tekrar deneyin”).
 
 
-Bağlantılar: 07-teknik-tasarim-dokumani.md için veri tabanı ve ekstre mantığı, 06-ux-ui-tasarim-dokumani.md için kart, liste ve akordiyon tasarımı, 03-risk-yonetim-plani.md için performans riskleri, 04-02-fonksiyonel-gereksinimler-kategori-yonetimi.md, 3.4, 04-04-fonksiyonel-gereksinimler-butce-planlama.md, 3.6.1 için CTA entegrasyonu.
+
+
+Tasarım Tutarlılığı:
+Kartlar, liste, etiketler ve CTA’lar, merkezi bir tasarım sisteminden çekilmeli; detaylar 06-ux-ui-tasarim-dokumani.md.
+
+
+Performans:
+Ekstre yüklenmesi ve gruplama işlemleri <1 saniye/hesap hedeflenir.
+Performans, 5.000 kullanıcı için optimize edilmeli (03-risk-yonetim-plani.md).
+
+
+Bağlantılar:
+07-teknik-tasarim-dokumani.md için veri tabanı ve ekstre mantığı.
+06-ux-ui-tasarim-dokumani.md için kart, liste, akordiyon ve gruplama arayüzü tasarımı.
+03-risk-yonetim-plani.md için performans riskleri.
+04-02-fonksiyonel-gereksinimler-kategori-yonetimi.md, 3.4 için kategori/alt kategori.
+04-04-fonksiyonel-gereksinimler-butce-planlama.md, 3.6.3 için bütçe entegrasyonu.
+
+
+
+
 
 3.5.4. Hesap Düzenleme ve Silme
 
@@ -123,21 +175,68 @@ Gelir/Gider: Mobil dostu seçim formatı (örneğin, toggle veya radio buton) il
 Kategori/Alt Kategori: Kullanıcı kategoriyi seçer, seçilen kategoriye bağlı alt kategoriler otomatik yüklenir.
 Tutar: Tam sayı ve küsurat girişine uygun (örneğin, 15,50 TL), virgülden sonra 2 hane desteklenir.
 Açıklama: 400 karaktere kadar serbest metin.
-Kaydet: “İşlemi Kaydet” tuşuyla işlem Supabase’e kaydedilir.
 
 
+Bütçe Eşleştirme (04-04-fonksiyonel-gereksinimler-butce-planlama.md, 3.6.3):
+Kategori, alt kategori ve hesap seçildikten sonra, sistem eşleşen bütçe kalemlerini önerir.
+Otomatik Öneri:
+Tek bir kalem eşleşirse: “Bu işlem, [Kategori/Alt Kategori] bütçesiyle eşleşiyor (Tutar: X TL, Tekrarlanma: Y)” mesajı gösterilir.
+Eşleşen kalem yoksa: “Bütçe kalemi bulunamadı. Yeni bütçe oluşturmak ister misiniz?” mesajıyla iki seçenek sunulur:
+“Bütçe Oluştur”: Kullanıcıyı bütçe kalemi ekleme formuna yönlendirir (04-04, 3.6.2 Bütçe Kalemi Ekleme).
+“Bütçesiz Devam Et”: İşlem, bütçesiz olarak kaydedilir.
+
+
+
+
+Manuel Seçim: Kullanıcı, önerilen kalemi reddedebilir ve tüm bütçe kalemlerinden birini manuel seçebilir (dropdown veya liste).
+Bütçe Aşımı Kontrolü: İşlem tutarı, eşleşen bütçe kaleminin tutarını aşarsa, uyarı gösterilir: “Bu işlem, bütçeyi X TL aşıyor. Devam etmek istiyor musunuz?”
+Onay: Eşleştirme kaydedildiğinde, toast mesajı: “İşlem, [Kategori/Alt Kategori] bütçesine eşleştirildi.”
+
+
+Hata Senaryoları:
 İşlem kaydedilmeden önce nakit hesabın bakiyesi kontrol edilir; eksi bakiyeye düşecekse hata mesajı gösterilir (örneğin, “Yetersiz bakiye, işlem kaydedilemez”).
+Kategori/alt kategori seçilmezse: Toast mesajı, “Kategori ve alt kategori seçimi zorunlu.”
+Hesap seçilmezse: Toast mesajı, “Bir nakit hesap seçilmeli.”
+Geçersiz tutar (negatif veya sıfır): Toast mesajı, “Tutar pozitif bir sayı olmalı.”
+Tarih, açık ekstre dönemi dışındaysa: Toast mesajı, “Tarih, açık ekstre dönemi içinde olmalı.”
+İşlem tarihi, bütçe kaleminin tarih aralığı dışındaysa: “Bu işlem, seçilen bütçe kaleminin tarih aralığıyla uyuşmuyor. Başka bir kalem seçin veya bütçesiz devam edin.”
+Geçersiz bütçe seçimi (örneğin, farklı hesaba bağlı kalem): “Seçilen bütçe kalemi, işlem hesabıyla uyuşmuyor.”
+
+
+Kaydetme:
+“İşlemi Kaydet” tuşuyla işlem Supabase’e kaydedilir.
 İşlem kaydedildiğinde:
 Açık ekstredeki kapanış bakiyesi, gerçekleşen gelir/gider ve bütçelenen bakiyeler güncellenir.
 Gelecek ekstreler zincirleme güncellenir (açılış/kapanış bakiyeleri, bütçelenen bakiyeler).
-Kullanıcı, Ekstreler Sayfası’ndan açık ekstreyi açtığında işlemi detaylarda görür (tarih, saat, kategori, alt kategori, tutar, açıklama, düzenle/sil ikonları).
+Kullanıcı, Ekstreler Sayfası’ndan açık ekstreyi açtığında işlemi detaylarda görür (tarih, saat, kategori, alt kategori, tutar, açıklama, bütçe etiketi, düzenle/sil ikonları).
+
+
 
 
 Form yüklenmesi ve işlem kaydı <1 saniye, zincirleme güncellemeler <1 saniye/hesap hedeflenir.
 İşlem girme, nakit hesap modülüne özgü ve bağımsız çalışır.
+Modülerlik:
+Kod, nakit hesaplar için ayrı bir klasörde (örneğin, /cash-account/transaction-entry) yazılmalı, diğer hesap türlerinden bağımsız olmalı.
+Lovable.dev talimatları:
+Kod, mimari yoruma izin vermeden yazılmalı; sadece tanımlı form mantığını uygulamalı.
+Dosya yapısı: /cash-account/transaction-entry.ts gibi net bir yol izlenmeli.
+Hata mesajları, spesifik ve net olmalı (örneğin, “Geçersiz veri” yerine “Kategori ve alt kategori seçimi zorunlu”).
 
 
-Bağlantılar: 04-02-fonksiyonel-gereksinimler-kategori-yonetimi.md, 3.4, 3.5.3 Ekstre Görüntüleme, 07-teknik-tasarim-dokumani.md için veri tabanı yapısı, 06-ux-ui-tasarim-dokumani.md için modal ve form tasarımı, 03-risk-yonetim-plani.md için performans riskleri.
+
+
+Tasarım Tutarlılığı:
+Form elemanları (butonlar, dropdown, toggle, input) ve bütçe eşleştirme arayüzü, merkezi bir tasarım sisteminden çekilmeli; detaylar 06-ux-ui-tasarim-dokumani.md.
+
+
+Performans:
+Bütçe öneri yüklenmesi ve eşleştirme kaydı <1 saniye/hesap hedeflenir.
+Performans, 5.000 kullanıcı için optimize edilmeli (03-risk-yonetim-plani.md).
+
+
+
+
+Bağlantılar: 04-02-fonksiyonel-gereksinimler-kategori-yonetimi.md, 3.4, 04-04-fonksiyonel-gereksinimler-butce-planlama.md, 3.6.3, 3.5.3 Ekstre Görüntüleme, 07-teknik-tasarim-dokumani.md için veri tabanı yapısı, 06-ux-ui-tasarim-dokumani.md için modal ve form tasarımı, 03-risk-yonetim-plani.md için performans riskleri.
 
 3.5.6. İşlem Düzenleme ve Silme
 
@@ -145,7 +244,7 @@ Kullanıcı Hikayesi: Bireysel kullanıcı olarak, nakit hesabımdaki bir işlem
 Kabul Kriterleri:
 Düzenleme:
 Ekstre Detay Sayfası’nda işlem satırında düzenle ikonu görünür.
-Düzenle ikonuna tıklayınca, işlem giriş formu modal olarak açılır; mevcut bilgiler (hesap, tarih, gelir/gider, kategori/alt kategori, tutar, açıklama) dolu gelir.
+Düzenle ikonuna tıklayınca, işlem giriş formu modal olarak açılır; mevcut bilgiler (hesap, tarih, gelir/gider, kategori/alt kategori, tutar, açıklama, bütçe eşleştirmesi) dolu gelir.
 Kullanıcı bilgileri değiştirip kaydeder; nakit hesabın bakiyesi kontrol edilir, eksi bakiyeye düşecekse hata mesajı gösterilir (örneğin, “Yetersiz bakiye, işlem kaydedilemez”).
 Değişiklik sonrası açık ekstredeki kapanış bakiyesi, gerçekleşen gelir/gider, bütçelenen bakiyeler ve gelecek ekstreler zincirleme güncellenir.
 
@@ -157,7 +256,7 @@ Silme sonrası nakit hesabın bakiyesi kontrol edilir, eksi bakiyeye düşecekse
 Silme sonrası açık ekstre ve gelecek ekstreler zincirleme güncellenir.
 
 
-Kapalı ekstrede düzenleme/silme için ekstre açılmalıdır (detaylar 3.5.8 Kapalı Ekstre Açma).
+Kapalı ekstrede düzenleme/silme için ekstre açılmalıdır (3.5.8 Kapalı Ekstre Açma).
 Düzenleme/silme ve zincirleme güncellemeler <1 saniye hedeflenir.
 İşlem düzenleme/silme, nakit hesap modülüne özgü ve bağımsız çalışır.
 
@@ -212,4 +311,4 @@ Kapalı ekstre açma, nakit hesap modülüne özgü ve bağımsız çalışır.
 
 Bağlantılar: 3.5.5 İşlem Girme, 3.5.6 İşlem Düzenleme/Silme, 3.5.3 Ekstre Görüntüleme, 3.5.7 Ekstre Kapanışı, 07-teknik-tasarim-dokumani.md için veri tabanı yapısı, 06-ux-ui-tasarim-dokumani.md için diyalog tasarımı, 03-risk-yonetim-plani.md için performans riskleri.
 
-Son Güncelleme: 26 Nisan 2025, Sorumlu: batuhanozgun
+Son Güncelleme: 28 Nisan 2025, Sorumlu: batuhanozgun
