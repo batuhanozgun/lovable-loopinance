@@ -4,7 +4,7 @@ Bu doküman, Loopinance uygulamasının bütçe planlama modülüne ait fonksiyo
 0. Genel Bakış
 Bütçe planlama modülü, kullanıcıların finansal hedeflerini planlamalarına olanak tanır. Kullanıcılar, nakit hesaplarına bağlı bütçe planları oluşturabilir, gelir/gider kalemleri ekleyebilir ve işlemlerini bütçe kalemleriyle eşleştirebilir. Modül, nakit hesap modülünden bağımsız çalışır, ancak ekstre yansımaları için entegre olur (04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md).
 1. Kapsam
-Bu doküman, bütçe planı oluşturma, kalem ekleme ve işlem eşleştirme süreçlerini kapsar. UX/UI detayları 06-ux-ui-tasarim-dokumani.md, teknik detaylar 07-teknik-tasarim-dokumani.md, performans riskleri 03-risk-yonetim-plani.md adreslenir.
+Bu doküman, bütçe planı oluşturma, kalem ekleme, işlem eşleştirme ve analiz süreçlerini kapsar. UX/UI detayları 06-ux-ui-tasarim-dokumani.md, teknik detaylar 07-teknik-tasarim-dokumani.md, performans riskleri 03-risk-yonetim-plani.md adreslenir.
 2. Fonksiyonel Gereksinimler
 3.6. Bütçe Planlama
 3.6.1 Bütçe Planı Yaratma
@@ -268,7 +268,7 @@ Bağlantılar:
 04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.3 Ekstre Görüntüleme için ekstre gösterimi ve gruplama
 04-02-fonksiyonel-gereksinimler-kategori-yonetimi.md, 3.4 için kategori/alt kategori
 07-teknik-tasarim-dokumani.md için veri tabanı yapısı
-06-ux-ui-tasarim-dokumani.md için form ve CTA tasarımı
+06-ux-ui-tasarim-dokлара için form ve CTA tasarımı
 03-risk-yonetim-plani.md için performans ve Lovable.dev riskleri
 
 3.6.4 Bütçe Kalemi Özellikleri
@@ -377,11 +377,113 @@ Bağlantılar:
 07-teknik-tasarim-dokumani.md (veri tabanı, API)
 03-risk-yonetim-plani.md (performans riskleri)
 
-Planlanan Bölümler
-Aşağıdaki bölümler, bütçe planlama modülünün devamı için planlanmıştır:
+3.6.6 Bütçe Planı Detay Sayfası ve Görselleştirme
+Kullanıcı Hikayesi: Bireysel kullanıcı olarak, bütçe planımın kategori, alt kategori ve zaman bazında detaylı analizini görselleştirilmiş bir şekilde inceleyebilmeliyim, gerçekleşen işlemlerle bütçelenen kalemlerimi karşılaştırabilmeliyim ki finansal hedeflerime ne kadar ulaştığımı anlayayım ve planımı optimize edeyim.
+Kabul Kriterleri:
 
-3.6.6 Bütçe Planı Detay Sayfası ve Görselleştirme: Loading bar ile gerçekleşen/bütçelenen karşılaştırması.
-3.6.7 Ek Bütçe Ekleme (Opsiyonel): Tek seferlik ek bütçe ekleme, mevcut yapıyı bozmadan.
-3.6.8 Bütçe Kalemi ve Gerçekleşen İşlem Analizi: Eşleşme ve analiz süreçleri.
+Kullanıcı, Bütçeler Sayfası’nda bütçe planı kartındaki “Kalemleri Görüntüle” CTA’sına basarak veya plan detay sayfasına yönlendirilerek bu alana ulaşır.
+Sayfa Yapısı:
+Başlık ve Genel Bilgiler: Bütçe planı adı, süresi (belirli dönemse başlangıç/bitiş tarihleri), açıklama, statü (yürürlükte/pasif) ve bağlı hesaplar gösterilir.
+Özet Kartları: Sayfanın üstünde, 4 kart:
+Toplam bütçelenen tutar (gelir/gider ayrı).
+Toplam gerçekleşen tutar.
+Aşım/tasarruf oranı (örneğin, “%10 aşım, 300 TL fazla”).
+Harcama olmayan kategoriler/alt kategoriler (örneğin, “Ulaşım: 300 TL bütçelenen”).
+
+
+Görselleştirme Alanı: Üç tür görselleştirme içerir:
+Loading Bar: Her alt kategori için ayrı, bütçelenen tutara karşı gerçekleşen harcamayı gösterir (örneğin, “Gıda: 500 TL bütçelenen, 400 TL gerçekleşen, %80”).
+Pasta Grafiği: Kategori ve alt kategori bazında bütçe dağılımı (örneğin, “Market %40, Ev %50”).
+Zaman Grafiği: Tekrarlanan kalemlerin zaman içindeki trendleri (örneğin, “Market: Nisan 400 TL, Mart 350 TL”).
+
+
+Tablo: Bütçe kalemlerinin detaylı listesi:
+Kolonlar: Kategori, alt kategori, işlem tipi, hesap, bütçelenen tutar, gerçekleşen tutar, kalan bütçe, tekrarlanma, tarih.
+Her satırda “Düzenle” ve “Sil” ikonları, doğrudan 3.6.2 akışına yönlendirir.
+
+
+Filtreleme ve Sıralama:
+Filtreler:
+Kategori/alt kategori: Dropdown.
+İşlem tipi: Toggle (Gelir/Gider).
+Tarih aralığı: Dropdown (örneğin, “Bu ay”, “Son 3 ay”, “Tüm süre”).
+Hesap: Dropdown.
+
+
+Sıralama:
+Tutar (büyükten küçüğe).
+Kategori/alt kategori (alfabetik).
+Aşım/tasarruf oranı (en çok aşan önce).
+Tarih (en yeni önce).
+
+
+
+
+Etkileşim:
+Loading bar, pasta grafiği veya zaman grafiği üzerine tıklayınca, tablo ilgili kategori/alt kategori/aya filtrelenir.
+Tablo satırları tıklanabilir, detay modal’i açılır (düzenle/sil CTA’ları).
+
+
+
+
+Analiz Özellikleri:
+Bütçe Durumu:
+Gerçekleşen > Bütçelenen: Kırmızı uyarı (örneğin, “Temizlik: %20 aşım, 40 TL fazla”).
+Gerçekleşen < Bütçelenen: Yeşil işaret (örneğin, “Faturalar: %40 tasarruf, 400 TL”).
+Harcama yok: Gri işaret (örneğin, “Ulaşım: Henüz harcama yok”).
+
+
+Zaman Trendi: Tekrarlanan kalemlerin ekstre yansımaları analiz edilir, eksik yansımalar için uyarı: “Gıda kalemi, Nisan için ekstrede yansımadı.”
+Hesap Bazlı Analiz: Her hesap için bütçelenen/gerçekleşen özet (örneğin, “Cüzdan: 2.000 TL bütçelenen, 1.800 TL gerçekleşen”).
+
+
+Ek Özellikler:
+Uyarılar: Bütçe aşımı veya harcama olmayan kalemler için toast mesajları (örneğin, “Gıda’da %20 aşım!”).
+İhracat: Tabloyu CSV formatında dışa aktarma butonu.
+
+
+Mobil Uyumluluk:
+Görselleştirmeler, tek sütun ve kaydırılabilir:
+Loading bar’lar, alt kategori bazında kompakt.
+Pasta grafiği, dokunmatik dostu.
+Zaman grafiği, son 3 ayı özetler, kaydırılabilir.
+
+
+Tablo, kompakt (kategori, alt kategori, bütçe/gerçekleşen, durum kolonları).
+Filtreleme, açılır menüyle uygulanır.
+Animasyonlar sade (loading bar dolumu 0.5 saniye, grafik geçişi 0.3 saniye).
+
+
+Performans:
+Sayfa yüklenmesi, filtreleme, sıralama, görselleştirme güncellemeleri <1 saniye/hesap.
+50 kaleme kadar optimize edilir (03-risk-yonetim-plani.md).
+Veriler, istemci tarafında önbelleğe alınır; batch API kullanılır.
+
+
+Modülerlik:
+Kod, nakit hesaplar için ayrı bir klasörde (örneğin, /budget/cash-account/plan-details) yazılır, diğer hesap türlerinden bağımsız.
+Lovable.dev talimatları: Kod, mimari yoruma izin vermeden yazılır.
+Dosya yapısı: /budget/cash-account/plan-details.ts.
+
+
+Tasarım Tutarlılığı:
+Görselleştirmeler, filtreleme elemanları ve tablo, merkezi tasarım sisteminden çekilir (06-ux-ui-tasarim-dokumani.md).
+Renk paleti: Aşım (kırmızı), tasarruf (yeşil), nötr (gri), kategori (mavi/yeşil tonlar).
+
+
+Hata Senaryoları:
+Boş veri: “Bu bütçe planında kalem yok. Kalem eklemek ister misiniz?” + “Kalem Ekle” CTA’sı.
+Filtre sonucu boş: “Seçilen kriterlere uygun kalem bulunamadı.”
+Geçersiz veri: “Bütçe kalemi verileri yüklenemedi, lütfen tekrar deneyin.”
+
+
+
+Bağlantılar:
+
+04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md (3.5.3 Ekstre Yansımaları, 3.5.4 İşlem Girişi)
+04-02-fonksiyonel-gereksinimler-kategori-yonetimi.md (3.4 Kategori/Alt Kategori)
+06-ux-ui-tasarim-dokumani.md (görselleştirme, filtreleme, tablo tasarımı)
+07-teknik-tasarim-dokumani.md (veri tabanı, API)
+03-risk-yonetim-plani.md (performans riskleri)
 
 Son Güncelleme: 29 Nisan 2025, Sorumlu: batuhanozgun
