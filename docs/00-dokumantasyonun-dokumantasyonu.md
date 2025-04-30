@@ -6,7 +6,7 @@ Bu doküman, Loopinance kişisel finans yönetimi uygulamasının geliştirme s�
 Doküman, Loopinance’ın vizyonundan teslimine kadar tüm geliştirme sürecini destekleyen dokümanları kapsar. Odak, bireysel kullanıcıların ihtiyaçlarına yönelik ilk sürüm özelliklerdir (çoklu döviz desteği, ekstre bazlı hesap yönetimi, bütçe ve gerçekleşen veri entegrasyonu, kategori/alt kategori yönetimi, modüler hesap yönetimi). KOBİ odaklı özellikler bu aşamada kapsam dışıdır.
 1.3. Hedef Kitle
 
-Ürün Sahibi (PO): Dokümanların önceliklendirilmesi ve onaylanması.
+Ürün Sahibi (PO): Dokümanların önceliklendirilmesi ve onaylanması...
 Yazılım Mimarı: Teknik tasarım ve mimari kararlar.
 Geliştiriciler: Kod geliştirme ve uygulama.
 UX/UI Tasarımcıları: Kullanıcı arayüzü ve deneyimi tasarımı.
