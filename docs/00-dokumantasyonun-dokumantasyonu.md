@@ -1,9 +1,15 @@
 Loopinance Dokümantasyonun Dokümantasyonu
+
 1. Giriş
+
 1.1. Amaç
+
 Bu doküman, Loopinance kişisel finans yönetimi uygulamasının geliştirme süreci için gerekli tüm dokümantasyon yapısını tanımlamayı amaçlar. Her dokümanın amacı, kapsamı, hedef kitlesi ve diğer dokümanlarla ilişkisi açıklanarak, paydaşların projenin dokümantasyon ihtiyaçlarını anlaması sağlanır. Modüler bir yaklaşımla, dokümanların hazırlanma sırası ve güncelleme süreci tanımlanır.
+
 1.2. Kapsam
+
 Doküman, Loopinance’ın vizyonundan teslimine kadar tüm geliştirme sürecini destekleyen dokümanları kapsar. Odak, bireysel kullanıcıların ihtiyaçlarına yönelik ilk sürüm özelliklerdir: çoklu döviz desteği (TRY, USD, EUR), ekstre bazlı hesap yönetimi, bütçe ve gerçekleşen veri entegrasyonu, kategori/alt kategori yönetimi, modüler hesap yönetimi (nakit, kredi kartı, yatırım). KOBİ odaklı özellikler kapsam dışıdır.
+
 1.3. Hedef Kitle
 
 Ürün Sahibi (PO): Dokümanların önceliklendirilmesi ve onaylanması.
