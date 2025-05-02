@@ -1,4 +1,3 @@
-04-02-fonksiyonel-gereksinimler-kategori-yonetimi.md
 Loopinance Fonksiyonel Gereksinimler: Kategori Yönetimi
 Bu doküman, Loopinance uygulamasının kategori ve alt kategori yönetimi işlevlerine ait fonksiyonel gereksinimleri tanımlar. Genel bilgiler için bkz. 04-fonksiyonel-gereksinimler-genel.md.
 0. Genel Bakış
@@ -19,12 +18,15 @@ Alt Kategori Adı: 40 karaktere kadar serbest metin, zorunlu (örneğin, “Gıd
 
 
 Açıklama: 400 karaktere kadar serbest metin, isteğe bağlı.
-Kaydet: “Kategoriyi Kaydet” butonuyla Supabase’e kaydedilir.
+
+
+Kaydetme:
+“Kategoriyi Kaydet” butonuyla Supabase’e kaydedilir.
+Çakışma kontrolü: Aynı isimde kategori varsa, “Bu isimde bir kategori zaten var. Farklı bir isim kullanın.” toast mesajı.
+Alt kategorilerde çakışma kontrolü: Aynı kategoride aynı isimde alt kategori varsa, “Bu isimde bir alt kategori zaten var. Farklı bir isim kullanın.” toast mesajı.
 
 
 Kategori, kullanıcının kategori listesinde en üst seviyede görünür.
-Çakışma kontrolü: Aynı isimde kategori varsa, “Bu isimde bir kategori zaten var. Farklı bir isim kullanın.” toast mesajı.
-Alt kategorilerde çakışma kontrolü: Aynı kategoride aynı isimde alt kategori varsa, “Bu isimde bir alt kategori zaten var. Farklı bir isim kullanın.” toast mesajı.
 
 
 Kategori Kütüphanesi:
@@ -37,12 +39,12 @@ Akordeon tarzında alt kategoriler (örneğin, “Market” için “Gıda”, �
 Kartın üstünde “İçe Aktar” CTA’sı.
 
 
+
+
 Örnek kategoriler (admin tarafından tanımlı):
 “Market”: Gıda, Temizlik, Kişisel Bakım.
 “Ev”: Faturalar, Kira, Dekorasyon.
 “Ulaşım”: Toplu Taşıma, Yakıt.
-
-
 
 
 İçe Aktarma Süreci:
@@ -109,6 +111,8 @@ Bütçe kalemi formunda, kategori ve alt kategori dropdown’ları aynı mantık
 Kategoriler ve alt kategoriler, pasta grafiğinde ve loading bar’larda ayrı ayrı analiz edilir.
 
 
+Not: Kategori ve alt kategori seçimi, işlem girişi (04-03) ve bütçe kalemi eklemede (04-04) zorunludur.
+Not: Aynı kategori/alt kategori, birden fazla bütçe kalemi için kullanılabilir; eşleşmeler tarih aralığına göre belirlenir (04-04, 3.6.2).
 
 
 Hata Senaryoları:
@@ -144,7 +148,7 @@ Renk paleti: Kategoriler için mavi/yeşil tonlar, hatalar için kırmızı, nö
 
 
 
-Bağlantılar:
+Bağlantılar
 
 04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md, 3.5.5 İşlem Girişi için kategori seçimi
 04-04-fonksiyonel-gereksinimler-butce-planlama.md, 3.6.2 Bütçe Kalemi Ekleme ve 3.6.6 Görselleştirme için kategori entegrasyonu
