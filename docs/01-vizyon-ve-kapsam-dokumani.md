@@ -1,6 +1,8 @@
 Loopinance Vizyon ve Kapsam Dokümanı
+
 1. Giriş ve Amaç
 Bu doküman, Loopinance kişisel finans yönetimi uygulamasının tüm paydaşları için ortak bir referans oluşturarak proje kapsamını, hedeflerini ve başarı kriterlerini netleştirmeyi amaçlar.
+
 1.1. Dokümanın Amacı
 
 Projenin vizyonunu ve misyonunu tanımlamak.
@@ -44,8 +46,11 @@ Sprint başında PO tarafından gözden geçirilir.
 Son Güncelleme: 19 Nisan 2025, Sorumlu: batuhanozgun
 
 2. Vizyon ve Misyon
+
 2.1. Vizyon
+
 Loopinance, kullanıcıların tüm finansal hesaplarını şeffaf ve entegre bir platformda yöneterek uzun vadeli refahlarını proaktif şekilde planlamalarını sağlar.
+
 2.2. Misyon
 
 Gelir ve giderleri tek bir çatı altında toplamak.
