@@ -78,14 +78,62 @@ Süre: <1 saniye, zincirleme güncellemeler dahil.
 
 
 
-3.1.3 Modülerlik
+3.1.3 Modülerlik ve Merkezi Tasarım Sistemi Entegrasyonu
 
+Modülerlik:
 Kod, /cash-account klasöründe yazılır, diğer modüllerden bağımsız.
 Lovable.dev talimatları: Kod, mimari yoruma izin vermeden yazılır.
 Dosya yapısı:
 /cash-account/create-account.ts
 /cash-account/generate-statements.ts
 /cash-account/transactions.ts
+
+
+
+
+Merkezi Tasarım Sistemi Entegrasyonu:
+UI bileşenleri, Tailwind CSS ile merkezi bir tasarım sisteminden türetilir (06-ux-ui-tasarim-dokumani.md, 3.0).
+Merkezi bileşen kütüphanesi: /shared/components klasöründe tanımlı.
+Örnek: Card.tsx:import React from 'react';
+
+const Card = ({ children }) => (
+  <div className="w-[280px] h-[60px] md:w-[320px] md:h-[70px] border border-gray-300 rounded-md p-2">
+    {children}
+  </div>
+);
+export default Card;
+
+
+Kullanım: Hesap kartı /cash-account/components/AccountCard.tsx:import React from 'react';
+import Card from '../../shared/components/Card';
+
+const AccountCard = ({ name, balance, statementDate }) => (
+  <Card>
+    <p className="text-sm font-bold text-blue-500">{name}</p>
+    <p className={balance >= 0 ? "text-sm text-green-500" : "text-sm text-red-500"}>{balance} TL</p>
+    <p className="text-xs text-gray-500">{statementDate}</p>
+  </Card>
+);
+export default AccountCard;
+
+
+
+
+Tailwind yapılandırması: tailwind.config.js içinde 06’da tanımlı renk paleti ve stiller uygulanır:module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        green: { 500: '#34C759' },
+        red: { 500: '#FF3B30' },
+        blue: { 500: '#007AFF' },
+        gray: { 300: '#D1D1D6', 500: '#8E8E93' },
+        yellow: { 500: '#FF9500' },
+      },
+    },
+  },
+};
+
+
 
 
 
@@ -101,7 +149,7 @@ Bağlantılar
 04-02-fonksiyonel-gereksinimler-kategori-yonetimi.md, 3.4 Kategori Yönetimi
 04-04-fonksiyonel-gereksinimler-butce-planlama.md, 3.6.2 Bütçe Kalemleri
 05-veri-gizliligi-ve-guvenlik-politikasi.md için güvenlik
-07-teknik-tasarim-dokumani.md için diğer modüller (gelecek)
+06-ux-ui-tasarim-dokumani.md için merkezi tasarım sistemi
 03-risk-yonetim-plani.md için performans riskleri
 
 Son Güncelleme: 2 Mayıs 2025, Sorumlu: batuhanozgun
