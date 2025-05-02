@@ -51,8 +51,13 @@ Amaç: Uygulamanın kullanıcı odaklı işlevlerini tanımlamak; geliştirme ve
 Kapsam: Kullanıcı rolleri (bireysel kullanıcılar), kullanıcı hikayeleri, fonksiyonel gereksinimler, kullanım senaryoları, kısıtlamalar. Teknik detaylar hariç.
 Hedef Kitle: PO, geliştiriciler, UX/UI tasarımcıları, QA.
 İlişkiler: Vizyon dokümanına dayanır, teknik tasarım ve UX/UI için temel oluşturur.
-Durum: İlk taslak (kullanıcı hikayeleri) hazırlandı, geri bildirim bekleniyor.
+Durum: Ana doküman finalize edildi, tüm alt modüller tamamlandı veya planlandı.
 Alt Modüller:
+Ana Sayfa ve Kayıt (04-01-fonksiyonel-gereksinimler-ana-sayfa-ve-kayit.md):
+Amaç: Giriş öncesi ve sonrası ana sayfa işlevlerini, kayıt ve giriş süreçlerini tanımlamak.
+Durum: Tamamlandı, GitHub’a yüklendi.
+
+
 Kategori Yönetimi (04-02-fonksiyonel-gereksinimler-kategori-yonetimi.md):
 Amaç: Kategori ve alt kategori işlevlerini tanımlamak.
 Durum: Tamamlandı, GitHub’a yüklendi.
@@ -60,7 +65,7 @@ Durum: Tamamlandı, GitHub’a yüklendi.
 
 Nakit Hesaplar (04-03-fonksiyonel-gereksinimler-nakit-hesaplar.md):
 Amaç: Nakit hesap yönetimi işlevlerini tanımlamak (hesap oluşturma, ekstre yönetimi, işlem girişi).
-Durum: Bütçe eşleştirme (3.5.5) hariç finalize olmaya hazır; revizyon bekleniyor.
+Durum: Tamamlandı, GitHub’a yüklendi.
 
 
 Bütçe Planlama (04-04-fonksiyonel-gereksinimler-butce-planlama.md):
@@ -68,17 +73,32 @@ Amaç: Bütçe planlama ve takip işlevlerini tanımlamak.
 Durum: Tamamlandı, GitHub’a yüklendi.
 
 
-Bildirimler (04-05-fonksiyonel-gereksinimler-bildirimler.md):
-Amaç: Bildirim işlevlerini tanımlamak (ekstre kapanışı, hatırlatmalar).
-Durum: Henüz hazırlanmadı, planlanıyor.
+Profil Yönetimi (04-05-fonksiyonel-gereksinimler-profil-yonetimi.md):
+Amaç: Kullanıcı profili işlevlerini (bilgi düzenleme, özelleştirme) tanımlamak.
+Durum: Tamamlandı, GitHub’a yüklendi.
 
 
-Kredi Kartı Hesapları (04-06-fonksiyonel-gereksinimler-kredi-karti-hesaplari.md):
+Ayarlar (04-06-fonksiyonel-gereksinimler-ayarlar.md):
+Amaç: Uygulama ayarlarını (dil, para birimi, veri gizliliği) tanımlamak.
+Durum: Tamamlandı, GitHub’a yüklendi.
+
+
+Analiz ve Raporlama (04-07-fonksiyonel-gereksinimler-analiz-raporlama.md):
+Amaç: Finansal analiz ve raporlama işlevlerini tanımlamak.
+Durum: Tamamlandı, GitHub’a yüklendi.
+
+
+Bildirimler (04-08-fonksiyonel-gereksinimler-bildirimler.md):
+Amaç: Bildirim işlevlerini tanımlamak (ekstre kapanışı, bütçe aşımı).
+Durum: Tamamlandı, GitHub’a yüklendi.
+
+
+Kredi Kartı Hesapları (04-09-fonksiyonel-gereksinimler-kredi-karti-hesaplari.md):
 Amaç: Kredi kartı hesabı işlevlerini tanımlamak.
 Durum: Henüz hazırlanmadı, planlanıyor.
 
 
-Yatırım Hesapları (04-07-fonksiyonel-gereksinimler-yatirim-hesaplari.md):
+Yatırım Hesapları (04-10-fonksiyonel-gereksinimler-yatirim-hesaplari.md):
 Amaç: Yatırım hesabı işlevlerini tanımlamak.
 Durum: Henüz hazırlanmadı, planlanıyor.
 
@@ -97,10 +117,10 @@ Durum: Henüz hazırlanmadı; fonksiyonel gereksinimlerden sonra önerilir.
 2.6. UX/UI Tasarım Dokümanı (06-ux-ui-tasarim-dokumani.md)
 
 Amaç: Kullanıcı arayüzü ve deneyimini tanımlamak; tasarımcılar ve geliştiriciler için rehber sağlamak.
-Kapsam: Wireframe’ler, mockup’lar, kullanıcı akışları, tasarım ilkeleri, ön yüzde obje yönetimi (örneğin, komponent kütüphanesi).
+Kapsam: Wireframe’ler, mockup’lar, kullanıcı akışları, tasarım ilkeleri, ön yüzde merkezi obje yönetimi (örneğin, Tailwind CSS ile komponent kütüphanesi).
 Hedef Kitle: UX/UI tasarımcıları, geliştiriciler, PO.
 İlişkiler: Fonksiyonel gereksinimlere dayanır, teknik tasarımla uyumlu olmalıdır.
-Durum: Henüz hazırlanmadı; fonksiyonel gereksinimlerle paralel geliştirilebilir.
+Durum: Nakit hesaplar için tamamlandı, diğer modüller için alt bölümler eklenebilir.
 
 2.7. Teknik Tasarım Dokümanı (07-teknik-tasarim-dokumani.md)
 
@@ -108,7 +128,7 @@ Amaç: Uygulamanın teknik uygulamasını tanımlamak; geliştirme ekibi için r
 Kapsam: Sistem mimarisi, API entegrasyonları, veri akışları, güvenlik protokolleri, modüler hesap yönetimi yapısı (örneğin, account/{accountId}/).
 Hedef Kitle: Yazılım mimarı, geliştiriciler, QA.
 İlişkiler: Fonksiyonel gereksinimlere, UX/UI’ye ve veri gizliliği politikasına dayanır.
-Durum: Henüz hazırlanmadı; fonksiyonel gereksinimler ve veri gizliliği tamamlandıktan sonra önerilir.
+Durum: Nakit hesaplar için tamamlandı, diğer modüller için alt bölümler eklenebilir.
 
 2.8. Performans ve Ölçeklenebilirlik Planı (08-performans-ve-olceklenebilirlik-plani.md)
 
@@ -150,8 +170,8 @@ Vizyon ve Kapsam Dokümanı: Tamamlandı, tüm kararlar için temel.
 Proje Yönetim Planı: Tamamlandı, süreci koordine eder.
 Risk Yönetim Planı: Erken risk tanımları için bir sonraki adım.
 Fonksiyonel Gereksinimler Dokümanı:
-Ana doküman: İlk taslak hazır, geri bildirimle finalize edilecek.
-Alt modüller: Kategori (04-02) ve bütçe (04-04) tamamlandı; nakit hesaplar (04-03) bütçe eşleştirme netleştirmesi bekliyor; bildirimler (04-05), kredi kartı (04-06), yatırım hesapları (04-07) planlanıyor.
+Ana doküman: Tamamlandı.
+Alt modüller: 04-01 (Ana Sayfa ve Kayıt), 04-02 (Kategori Yönetimi), 04-03 (Nakit Hesaplar), 04-04 (Bütçe Planlama), 04-05 (Profil Yönetimi), 04-06 (Ayarlar), 04-07 (Analiz ve Raporlama), 04-08 (Bildirimler) tamamlandı; 04-09 (Kredi Kartı Hesapları) ve 04-10 (Yatırım Hesapları) planlanıyor.
 
 
 Veri Gizliliği ve Güvenlik Politikası: Fonksiyonel gereksinimlerden sonra.
@@ -171,52 +191,42 @@ Sprint başında Ürün Sahibi, dokümanların güncelliğini kontrol eder.
 3.3. Modüler Yaklaşım
 
 Her doküman, belirli bir amaca odaklanır ve bağımsızdır, ancak birbiriyle bağlantılıdır.
-Fonksiyonel gereksinimler, alt modüllere (04-02, 04-03, vb.) ayrılarak yönetilir.
+Fonksiyonel gereksinimler, alt modüllere (04-01, 04-02, vb.) ayrılarak yönetilir.
 Teknik detaylar, fonksiyonel gereksinimlerden ayrı bir teknik tasarım dokümanında (07) ele alınır.
 
 4. Öneriler
+4.1. Risk Yönetim Planını Hemen Başlat
 
-Risk Yönetim Planını Hemen Başlat:
-Erken risk tanımları, fonksiyonel gereksinimlerin finalize edilmesini ve teknik tasarımı destekler.
-Örnek riskler: Modüler yapının karmaşıklaşması, performans sorunları, bütçe eşleştirme mantık hataları.
+Erken risk tanımları, fonksiyonel gereksinimlerin uygulanmasını ve teknik tasarımı destekler.
+Örnek riskler: Modüler yapının karmaşıklaşması, performans sorunları, Lovable.dev’in yanlış dosyalarda değişiklik yapması.
 
+4.2. Diğer Hesap Türlerini Hazırla
 
-Fonksiyonel Gereksinimleri Finalize Et:
-04 ana dokümanı geri bildirimlerle tamamlanmalı.
-04-03’teki bütçe eşleştirme netleştirilmeli.
-04-05 (bildirimler) taslağı bir sonraki adım olarak önerilir.
+Kredi Kartı (04-09) ve Yatırım Hesapları (04-10) için taslaklar hazırlanmalı.
+Nakit hesaplar (04-03) pilot modül olarak tamamlandı; bu yapı, diğer hesap türleri için temel oluşturabilir.
 
+4.3. Veri Gizliliği ve Güvenlik Politikasını Başlat
 
-UX/UI Tasarımına Paralel Başla:
-04-02, 04-03, 04-04’teki formlar, kartlar ve görselleştirmeler için wireframe’ler geliştirme öncesi netlik sağlar.
+Fonksiyonel gereksinimler tamamlandı; 05-veri-gizliligi-ve-guvenlik-politikasi.md bir sonraki adım olarak hazırlanabilir.
 
+4.4. UX/UI ve Teknik Tasarımı Diğer Modüllere Genişlet
 
-Diğer Hesap Türlerini Planla:
-Kredi kartı (04-06) ve yatırım hesapları (04-07) için öncelik sırası belirlenmeli.
-
-
+06 ve 07, nakit hesaplar için tamamlandı; diğer modüller (04-04, 04-07, vb.) için alt bölümler eklenebilir.
 
 5. Sonraki Adımlar
+5.1. Kısa Vadeli (Mayıs 2025)
 
-Kısa Vadeli (Mayıs 2025):
-Bu dokümanın onayı: Ürün Sahibi’nin yorumları ve onayı.
 03-risk-yonetim-plani.md: Taslak hazırlanacak.
-04-fonksiyonel-gereksinimler-dokumani.md: Geri bildirimlerle finalize edilecek.
-04-03: Bütçe eşleştirme netleştirilip GitHub’a yüklenecek.
-04-05: Bildirim modülü taslağı başlatılabilir (isteğe bağlı).
+04-09 (Kredi Kartı Hesapları): Taslak hazırlanacak.
+04-10 (Yatırım Hesapları): Taslak hazırlanacak.
 
+5.2. Orta Vadeli (Haziran 2025)
 
-Orta Vadeli (Haziran 2025):
 05-veri-gizliligi-ve-guvenlik-politikasi.md: Veri koruma tanımları.
-06-ux-ui-tasarim-dokumani.md: Wireframe ve mockup’lar.
-04-06, 04-07: Kredi kartı ve yatırım hesapları taslakları.
+06 ve 07 için diğer modüller: Bütçe planlama, analiz/raporlama gibi modüller için alt bölümler.
 
+5.3. Uzun Vadeli (Temmuz 2025 ve sonrası)
 
-Uzun Vadeli (Temmuz 2025 ve sonrası):
-07-teknik-tasarim-dokumani.md: Sistem mimarisi ve API’ler.
 08, 09, 11, 12: Bağımlılıklar tamamlandıkça hazırlanacak.
 
-
-
-GitHub Yükleme: Dokümanlar, Ürün Sahibi tarafından https://github.com/batuhanozgun/lovable-loopinance/tree/main/docs adresine numaralandırılmış isimlerle yüklenecek.
-Son Güncelleme: 2 Mayıs 2025, Sorumlu: batuhanozgun
+GitHub Yükleme: Dokümanlar, Ürün Sahibi tarafından https://github.com/batuhanozgun/lovable-loopinance/tree/main/docs adresine numaralandırılmış isimlerle yüklenecek.Son Güncelleme: 2 Mayıs 2025, Sorumlu: batuhanozgun
