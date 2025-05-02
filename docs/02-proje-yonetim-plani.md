@@ -1,7 +1,10 @@
 Loopinance Proje Yönetim Planı
+
 1. Giriş
+
 1.1. Amaç
 Bu doküman, Loopinance kişisel finans yönetimi uygulamasının geliştirme sürecini koordine etmek için bir proje yönetim planı sunar. Proje aşamaları, kilometre taşları, görev dağılımları ve risk analizi tanımlanarak, vizyon dokümanındaki hedeflere ulaşmak için metodolojik bir çerçeve sağlanır.
+
 1.2. Kapsam
 Doküman, Loopinance’ın ilk sürümünün geliştirilmesini kapsar. Odak, bireysel kullanıcıların ihtiyaçlarına yönelik özelliklerdir:
 
@@ -27,7 +30,9 @@ Değişiklikler, tarih ve sorumlu ile kayıt altına alınır.
 Sprint başında Ürün Sahibi tarafından gözden geçirilir.
 
 Son Güncelleme: 19 Nisan 2025, Sorumlu: batuhanozgun
+
 2. Proje Genel Bakış
+
 2.1. Proje Hedefleri
 Vizyon dokümanına dayalı olarak:
 
@@ -42,6 +47,7 @@ Her hesabın bağımsız modül olarak sorunsuz çalışması.
 Kullanıcı geri bildirimlerine göre %80 memnuniyet oranı.
 
 3. Proje Aşamaları
+
 3.1. Analiz Aşaması
 
 Amaç: Proje kapsamını netleştirmek, gereksinimleri tanımlamak.
