@@ -22,6 +22,7 @@ Yazılım Mimarı: Teknik mimariyi yönetir.
 Geliştiriciler: Teknik görevleri uygular.
 UX/UI Tasarımcıları: Kullanıcı deneyimi tasarlar.
 QA Ekibi: Kalite kontrolünü gerçekleştirir.
+Teknik Destek ve Lansman Ekibi: Lansman sürecini ve kullanıcı desteğini koordine eder.
 
 1.4. Güncelleme Süreci
 
@@ -48,7 +49,7 @@ Kullanıcı geri bildirimlerine göre %80 memnuniyet oranı.
 
 Amaç: Proje kapsamını netleştirmek, gereksinimleri tanımlamak.
 Görevler:
-Vizyon dokümanını paydaşlarla gözden geçirme.
+Vizyon dokümanını paydaşlarla gözden geçirme (01-vizyon-ve-kapsam-dokumani.md).
 Fonksiyonel gereksinimler dokümanını hazırlama (04-fonksiyonel-gereksinimler-dokumani.md).
 Modüler hesap yönetiminin sınırlarını tanımlama.
 Risk yönetim planını taslak olarak oluşturma (03-risk-yonetim-plani.md).
@@ -78,11 +79,11 @@ Görevler:
 Ekstre bazlı hesap yönetimi modülünü kodlama.
 Bütçe entegrasyonu özelliğini uygulama.
 Kategori/alt kategori yönetimi geliştirme.
-Ön yüzde komponent kütüphanesi veya playground geliştirme.
+Ön yüzde komponent kütüphanesi geliştirme.
 Performans ve ölçeklenebilirlik planını taslak olarak oluşturma (08-performans-ve-olceklenebilirlik-plani.md).
 
 
-Sorumlular: Geliştiriciler, yazılım mimarı.
+Sorumlular: Geliştiriciler (Lovable.dev), yazılım mimarı.
 Çıktılar: Çalışan MVP, komponent kütüphanesi, performans planı taslağı.
 
 3.4. Test Aşaması
@@ -106,32 +107,54 @@ Uygulamayı üretim ortamına dağıtma.
 Kullanıcı geri bildirimlerini toplama ve analiz etme.
 
 
-Sorumlular: PO, geliştiriciler, QA.
+Sorumlular: PO, geliştiriciler, QA, teknik destek ve lansman ekibi.
 Çıktılar: Canlı uygulama, kullanıcı kılavuzu, geri bildirim raporu.
 
 4. Kilometre Taşları
 
-Kilometre Taşı 1: Analiz tamamlandı, fonksiyonel gereksinimler taslağı, modül sınırları taslağı ve risk yönetim planı taslağı onaylandı.
-Kilometre Taşı 2: Tasarım tamamlandı, UX/UI wireframe’leri, komponent kütüphanesi taslağı ve teknik tasarım taslağı onaylandı.
+Kilometre Taşı 1: Analiz tamamlandı, fonksiyonel gereksinimler taslağı, modül sınırları taslağı ve risk yönetim planı taslağı onaylandı (Tamamlandı).
+Kilometre Taşı 2: Tasarım tamamlandı, UX/UI wireframe’leri, komponent kütüphanesi taslağı ve teknik tasarım taslağı onaylandı (Tamamlandı).
 Kilometre Taşı 3: MVP geliştirildi, temel özellikler ve komponent kütüphanesi çalışır durumda.
 Kilometre Taşı 4: Testler tamamlandı, MVP kullanıcı kabul testlerini geçti.
 Kilometre Taşı 5: Uygulama lansmanı yapıldı, geri bildirim toplama başladı.
 
 5. Görev Dağılımları
 
-Ürün Sahibi: Vizyonun uygulanmasını denetler, gereksinimleri önceliklendirir.
-Proje Yöneticisi: Sprintleri koordine eder, ilerlemeyi izler.
-Yazılım Mimarı: Teknik tasarımı yönlendirir, modüler yapıyı denetler.
-Geliştiriciler: Kod geliştirir, hata düzeltmeleri yapar.
-UX/UI Tasarımcıları: Kullanıcı arayüzü ve akışları hazırlar.
-QA Ekibi: Test senaryolarını hazırlar, kalite kontrolünü gerçekleştirir.
+Ürün Sahibi: Vizyonun uygulanmasını denetler, gereksinimleri önceliklendirir, kullanıcı geri bildirimlerini değerlendirir.
+Kim Olacak?: batuhanozgun (proje sahibi).
+
+
+Proje Yöneticisi: Sprintleri koordine eder, ilerlemeyi izler, paydaşlar arası iletişimi sağlar, lansman sürecini yönetir.
+Kim Olacak?: batuhanozgun veya atanacak bir ekip lideri.
+
+
+Yazılım Mimarı: Teknik tasarımı yönlendirir, modüler yapıyı ve komponent kütüphanesini denetler, Supabase entegrasyonunu yönetir.
+Kim Olacak?: Lovable.dev’in teknik lideri veya deneyimli bir geliştirici.
+
+
+Geliştiriciler: Kod geliştirir, hata düzeltmeleri yapar, komponent kütüphanesini uygular.
+Kim Olacak?: Lovable.dev (yapay zeka geliştirme aracı).
+
+
+UX/UI Tasarımcıları: Kullanıcı arayüzü, akışlar ve playground tasarımlarını hazırlar, kullanıcı deneyimini değerlendirir.
+Kim Olacak?: Lovable.dev’in UI/UX yetenekleri veya bir freelance tasarımcı.
+
+
+QA Ekibi: Test senaryolarını hazırlar, kalite kontrolünü gerçekleştirir, kullanıcı kabul testlerini yürütür.
+Kim Olacak?: Lovable.dev’in test yetenekleri veya bir freelance QA uzmanı.
+
+
+Teknik Destek ve Lansman Ekibi: Kullanıcı kılavuzunu hazırlar, uygulamayı üretim ortamına dağıtır, kullanıcı sorularını yanıtlar.
+Kim Olacak?: Proje yöneticisi veya bir müşteri destek uzmanı.
+
+
 
 6. Risk Analizi
 
 Risk 1: Modüler Yapının Karmaşıklaşması
 Olasılık: Orta
 Etkisi: Yüksek
-Azaltma: Modül sınırlarının analiz aşamasında net tanımlanması (07-teknik-tasarim-dokumani.md).
+Azaltma: Modül sınırlarının net tanımlanması (07-teknik-tasarim-dokumani.md).
 
 
 Risk 2: Ön Yüzde Obje Yönetimi Zorlukları
@@ -149,7 +172,7 @@ Azaltma: Veri gizliliği ve güvenlik politikasını erken tanımlama (05-veri-g
 Risk 4: Geliştirme Gecikmeleri
 Olasılık: Orta
 Etkisi: Orta
-Azaltma: Agile sprintlerle sık ilerleme kontrolü.
+Azaltma: Agile sprintlerle sık ilerleme kontrolü (11-sprint-plani-dokumani.md).
 
 
 
@@ -163,14 +186,14 @@ Geri Bildirim Kanalı: PO ve paydaşlar için Slack veya e-posta üzerinden aç�
 
 Öneri 1: Analiz aşamasında, modül sınırlarını netleştirmek için bir modül haritası hazırlanmalı (07-teknik-tasarim-dokumani.md).
 Öneri 2: Tasarım aşamasında, komponent kütüphanesi için bir prototip (örneğin, Storybook) geliştirilmeli (06-ux-ui-tasarim-dokumani.md).
-Öneri 3: Geliştirme aşamasında, her modülün bağımsız çalıştığını doğrulamak için birim testleri önceliklendirilmeli.
+Öneri 3: Geliştirme aşamasında, her modülün bağımsız çalıştığını doğrulamak için birim testleri önceliklendirilmeli (09-test-plani-dokumani.md).
 Öneri 4: Risk analizi, risk yönetim planı dokümanıyla detaylandırılmalı (03-risk-yonetim-plani.md).
 
 9. Sonraki Adımlar
 
-Bu Dokümanın Onayı: Ürün Sahibi’nin yorumları ve onayı bekleniyor.
-Risk Yönetim Planı: Bir sonraki doküman olarak hazırlanacak (03-risk-yonetim-plani.md).
-Sprint Planlama: Dokümantasyon tamamlandıktan sonra, sprint içerikleri bir sprint backlog’unda (örneğin, sprint-backlog.md veya GitHub Issues) hazırlanacak ve sprint planlama toplantılarıyla yönetilecek.
-GitHub Yükleme: Doküman, Ürün Sahibi tarafından https://github.com/batuhanozgun/lovable-loopinance/tree/main/docs adresine yüklenecek.
+Bu Dokümanın Onayı: Ürün Sahibi’nin yorumları ve onayı alındı.
+Risk Yönetim Planı: Hazırlandı (03-risk-yonetim-plani.md).
+Sprint Planlama: Dokümantasyon tamamlandıktan sonra, sprint içerikleri bir sprint backlog’unda (11-sprint-plani-dokumani.md) hazırlanacak ve sprint planlama toplantılarıyla yönetilecek.
+GitHub Yükleme: Doküman, Ürün Sahibi tarafından https://github.com/batuhanozgun/lovable-loopinance/tree/main/docs adresine yüklendi.
 
 Son Güncelleme: 2 Mayıs 2025, Sorumlu: batuhanozgun
