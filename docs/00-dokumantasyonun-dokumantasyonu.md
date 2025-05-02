@@ -25,8 +25,10 @@ Her değişiklik, tarih ve sorumlu ile kayıt altına alınır.
 Sprint başında Ürün Sahibi tarafından gözden geçirilir.
 
 Son Güncelleme: 2 Mayıs 2025, Sorumlu: batuhanozgun
+
 2. Dokümantasyon Yapısı
 Loopinance’ın geliştirme süreci için aşağıdaki dokümanlar tanımlanmıştır. Her dokümanın amacı, kapsamı, durumu ve diğer dokümanlarla ilişkisi açıklanmıştır. Modüler bir yaklaşımla, dokümanlar bağımsız ancak birbiriyle bağlantılıdır. Dosya isimleri, yönetim kolaylığı için numaralandırılmıştır.
+
 2.1. Vizyon ve Kapsam Dokümanı (01-vizyon-ve-kapsam-dokumani.md)
 
 Amaç: Projenin vizyonunu, misyonunu ve temel hedeflerini tanımlamak; paydaşlar için ortak bir referans oluşturmak.
