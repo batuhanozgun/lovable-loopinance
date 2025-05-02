@@ -1,14 +1,15 @@
 Loopinance Risk Yönetim Planı
+Bu doküman, Loopinance kişisel finans yönetimi uygulamasının geliştirme sürecinde karşılaşılabilecek riskleri tanımlar, değerlendirir ve bu risklere karşı stratejiler sunar. Risk yönetimi, projenin başarısını tehdit edebilecek sorunları önceden belirlemek ve minimize etmek için kritik bir adımdır.
 1. Giriş
 1.1. Amaç
-Bu doküman, Loopinance kişisel finans yönetimi uygulamasının geliştirme sürecindeki potansiyel riskleri tanımlamayı, analiz etmeyi ve azaltma stratejileri geliştirmeyi amaçlar. Risklerin erken tanımlanması ve yönetilmesi, projenin vizyon dokümanındaki hedeflere ulaşmasını destekler ve geliştirme sürecini metodolojik bir şekilde yönlendirir.
+Bu doküman, Loopinance projesinde ortaya çıkabilecek riskleri tanımlamak, olasılık ve etkilerini analiz etmek, azaltma stratejileri geliştirmek ve risklerin izlenmesini sağlamak için hazırlanmıştır. Risk yönetimi, projenin vizyon dokümanındaki hedeflere ulaşmasını destekler ve geliştirme sürecini metodolojik bir şekilde yönlendirir.
 1.2. Kapsam
-Doküman, Loopinance’ın ilk sürümünün geliştirilmesi sırasında ortaya çıkabilecek riskleri kapsar. Odak, bireysel kullanıcıların ihtiyaçlarına yönelik özelliklerdir (çoklu döviz desteği, ekstre bazlı hesap yönetimi, bütçe entegrasyonu, kategori/alt kategori yönetimi, modüler hesap yönetimi). Ayrıca, Lovable.dev gibi araçlarla çalışırken ortaya çıkabilecek riskler (örneğin, dosya karmaşası, yanlış dosyalarda değişiklik, performans sorunları) ele alınır. KOBİ odaklı özellikler ve banka API entegrasyonları bu aşamada kapsam dışıdır.
+Risk yönetim planı, Loopinance’ın ilk sürümünün geliştirme aşamalarını kapsar: fonksiyonel gereksinimler, teknik tasarım, UX/UI tasarımı, geliştirme, test ve teslim. Odak, bireysel kullanıcıların ihtiyaçlarına yönelik özelliklerdir (çoklu döviz desteği, ekstre bazlı hesap yönetimi, bütçe entegrasyonu, kategori/alt kategori yönetimi, modüler hesap yönetimi). KOBİ odaklı özellikler ve banka API entegrasyonları bu aşamada kapsam dışıdır. Ayrıca, Lovable.dev gibi araçlarla çalışırken ortaya çıkabilecek riskler (örneğin, dosya karmaşası, yanlış dosyalarda değişiklik) ele alınır.
 1.3. Hedef Kitle
 
 Ürün Sahibi (PO): Risk önceliklerini ve azaltma stratejilerini onaylar.
 Proje Yöneticisi: Risk izleme ve raporlamayı koordine eder.
-Yazılım Mimarı: Teknik risklerin azaltılmasında liderlik eder.
+Yazılım Mimarı: Teknik risklerin değerlendirilmesi ve azaltılmasında liderlik eder.
 Geliştiriciler: Risk azaltma stratejilerini uygular.
 QA Ekibi: Risklerin test süreçlerine etkisini değerlendirir.
 
@@ -18,149 +19,226 @@ Doküman, GitHub Wiki üzerinden Markdown formatında, https://github.com/batuha
 Her değişiklik, tarih ve sorumlu ile kayıt altına alınır.
 Sprint başında Ürün Sahibi tarafından gözden geçirilir.
 
-Son Güncelleme: 19 Nisan 2025, Sorumlu: batuhanozgun
+Son Güncelleme: 2 Mayıs 2025, Sorumlu: batuhanozgun
 2. Risk Yönetim Süreci
-2.1. Risk Tanımlama
-Riskler, paydaşlarla yapılan görüşmeler, Proje Yönetim Planı’ndaki risk analizi (02-proje-yonetim-plani.md, Bölüm 6), Lovable.dev ile çalışırken karşılaşılan sorunlar (modüler mimari eksikliği, dosya karmaşası, obje yönetimi zorlukları, performans sorunları) ve kullanıcı deneyimi geri bildirimleri dikkate alınarak tanımlanır.
-2.2. Risk Analizi
-Her risk, aşağıdaki kriterlere göre değerlendirilir:
+Risk yönetim süreci, aşağıdaki adımlardan oluşur:
 
-Olasılık: Düşük (<%30), Orta (%30-%60), Yüksek (>%60).
-Etki: Düşük (minimum gecikme, düşük maliyet), Orta (kısmi özellik kaybı, orta maliyet), Yüksek (önemli gecikme, yüksek maliyet), Çok Yüksek (proje başarısızlığı, kritik veri kaybı).
-
-2.3. Azaltma Stratejileri
-Her risk için önleyici önlemler ve acil durum senaryoları tanımlanır. Stratejiler, sprint planlama dokümanına (11-sprint-plani-dokumani.md) entegre edilerek geliştirme sürecinde uygulanır.
-2.4. İzleme ve Raporlama
-
-Riskler, sprint toplantılarında gözden geçirilir.
-Proje yöneticisi, haftalık durum raporlarında risk durumlarını günceller.
-Kritik riskler için PO’ya anında bildirim yapılır.
+Risk Tanımlama: Paydaş görüşmeleri, proje yönetim planı analizi ve Lovable.dev ile çalışırken karşılaşılan sorunlar dikkate alınarak riskler belirlenir.
+Risk Değerlendirme: Her riskin olasılığı (Düşük: <%30, Orta: %30-%60, Yüksek: >%60) ve etkisi (Düşük, Orta, Yüksek, Çok Yüksek) analiz edilir.
+Azaltma Stratejileri: Riskleri önlemek veya etkisini azaltmak için önlemler tanımlanır ve sprint planlarına entegre edilir.
+Acil Durum Planları: Risk gerçekleşirse uygulanacak adımlar belirlenir.
+Risk İzleme: Riskler düzenli takip edilir ve doküman güncellenir.
 
 3. Risk Kataloğu
-3.1. Modüler Yapının Karmaşıklaşması
-
-Açıklama: Her hesabın bağımsız modül olarak organize edilmesi (account/{accountId}/) planlanıyor, ancak modül sınırlarının net tanımlanmaması veya Lovable.dev’in modüler yapıyı yanlış anlaması, kod karmaşasına ve bağımlılık sorunlarına yol açabilir (örneğin, ortak ekstre yapısının diğer hesapları bozması).
-Olasılık: Orta (%40).
-Etki: Yüksek (fonksiyonellik kaybı, kapsamlı hata düzeltme ihtiyacı).
-Azaltma Stratejileri:
-Analiz aşamasında modül sınırlarını netleştiren bir modül haritası hazırlanacak (07-teknik-tasarim-dokumani.md).
-Her modül için ayrı birim testleri önceliklendirilecek.
-Lovable.dev’e görev verirken, modül sınırlarını açıkça tanımlayan bir dosya yapısı rehberi sağlanacak.
+Aşağıda, Loopinance projesi için tanımlanan riskler, olasılıkları, etkileri ve öncelikleri listelenmiştir.
 
 
-Acil Durum Senaryosu: Modül karmaşası tespit edilirse, etkilenen modüller izole edilerek yeniden yapılandırılacak.
-İzleme: Yazılım mimarı, sprintlerde modül bağımlılıklarını kontrol edecek; QA ekibi, entegrasyon testlerinde modül bağımsızlığını doğrulayacak.
 
-3.2. Ön Yüzde Obje Yönetimi Zorlukları
-
-Açıklama: Ön yüzde komponent kütüphanesi veya playground eksikliği, obje yönetimini (komponentler, stiller) zorlaştırabilir, bu da Lovable.dev’in tutarsız UI değişiklikleri yapmasına veya kod tekrarına yol açabilir.
-Olasılık: Orta (%50).
-Etki: Orta (UI tutarsızlıkları, ek geliştirme süresi).
-Azaltma Stratejileri:
-Tasarım aşamasında bir komponent kütüphanesi (örneğin, Storybook) prototipi geliştirilecek (06-ux-ui-tasarim-dokumani.md).
-Lovable.dev’e UI görevleri verirken, wireframe’ler ve komponent kütüphanesi referans alınacak.
-Kullanılabilirlik testleri, sprint sonlarında yapılarak obje yönetimi sorunları erken tespit edilecek.
+Risk No
+Risk Tanımı
+Olasılık
+Etkisi
+Öncelik
 
 
-Acil Durum Senaryosu: Tutarsız UI tespit edilirse, merkezi bir komponent kütüphanesi hızla uygulanacak.
-İzleme: UX/UI tasarımcıları, sprintlerde komponent kullanımını denetleyecek; QA ekibi, UI tutarlılığını test edecek.
 
-3.3. Kullanıcı Verilerinin Güvenliği
-
-Açıklama: Kullanıcı verilerinin (hesap bilgileri, bütçe verileri) güvenliği ihlal edilirse, yasal uyumluluk sorunları (örneğin, GDPR) ve kullanıcı güven kaybı yaşanabilir.
-Olasılık: Düşük (%20).
-Etki: Çok Yüksek (proje başarısızlığı, yasal cezalar).
-Azaltma Stratejileri:
-Veri gizliliği ve güvenlik politikası erken tanımlanacak (05-veri-gizliligi-ve-guvenlik-politikasi.md).
-Tüm veri akışları şifrelenecek, erişim kontrolleri uygulanacak.
-Güvenlik denetimleri, test aşamasında önceliklendirilecek.
+1
+Modüler Yapının Karmaşıklaşması
+Orta
+Yüksek
+Yüksek
 
 
-Acil Durum Senaryosu: Güvenlik ihlali tespit edilirse, sistem çevrimdışı alınarak sorun giderilecek, kullanıcılara şeffaf bildirim yapılacak.
-İzleme: Yazılım mimarı, güvenlik protokollerini denetleyecek; QA ekibi, güvenlik testlerini yürütecek.
-
-3.4. Geliştirme Gecikmeleri
-
-Açıklama: Yanlış görev önceliklendirmesi, Lovable.dev’in verimsiz çalışması veya beklenmedik teknik sorunlar, sprint teslimlerini geciktirebilir.
-Olasılık: Orta (%50).
-Etki: Orta (kısmi gecikmeler, ek maliyet).
-Azaltma Stratejileri:
-Sprint planlama dokümanında (11-sprint-plani-dokumani.md) görevler net bir şekilde önceliklendirilecek.
-Lovable.dev’e görevler, fonksiyonel gereksinimler (04) ve teknik tasarım (07) referanslarıyla açıkça iletilecek.
-Haftalık ilerleme toplantıları, gecikmeleri erken tespit edecek.
+2
+Performans Sorunları
+Düşük
+Yüksek
+Orta
 
 
-Acil Durum Senaryosu: Gecikmeler tespit edilirse, öncelikli özelliklere odaklanılarak kapsam daraltılacak.
-İzleme: Proje yöneticisi, sprint ilerlemelerini izleyecek; PO, gecikme raporlarını gözden geçirecek.
-
-3.5. Lovable.dev’in Yanlış Dosyalarda Değişiklik Yapması
-
-Açıklama: Lovable.dev’in modüler dosya yapısını anlamaması veya net bir rehber olmadan çalışması, yanlış dosyalarda değişiklik yapmasına ve kod karmaşasına yol açabilir.
-Olasılık: Orta (%40).
-Etki: Orta (ek hata düzeltme süresi, kod tutarsızlığı).
-Azaltma Stratejileri:
-Teknik tasarım dokümanında (07-teknik-tasarim-dokumani.md) net bir dosya yapısı rehberi tanımlanacak (örneğin, account/{accountId}/ için modül sınırları).
-Sprint backlog’unda (11-sprint-plani-dokumani.md) her görev için ilgili dosya yolları açıkça belirtilecek.
-Kod incelemeleri, her sprintte zorunlu olacak.
+3
+Bütçe Eşleştirme Mantık Hataları
+Orta
+Orta
+Orta
 
 
-Acil Durum Senaryosu: Yanlış değişiklikler tespit edilirse, etkilenen dosyalar geri alınarak doğru modüllere yönlendirilecek.
-İzleme: Yazılım mimarı, kod incelemelerinde dosya değişikliklerini denetleyecek; QA ekibi, entegrasyon testlerinde tutarsızlıkları kontrol edecek.
-
-3.6. Dosya Yapısı Karmaşası
-
-Açıklama: Net bir dosya yapısı rehberi olmadan, Lovable.dev veya geliştiriciler kod organizasyonunu bozabilir, bu da bakım ve ölçeklendirme sorunlarına yol açabilir.
-Olasılık: Orta (%40).
-Etki: Orta (bakım zorluğu, ek düzenleme süresi).
-Azaltma Stratejileri:
-Teknik tasarım dokümanında (07-teknik-tasarim-dokumani.md) dosya yapısı açıkça tanımlanacak (örneğin, modüller, komponentler, testler için ayrı klasörler).
-Lovable.dev’e görev verirken, dosya yapısı rehberi ve sprint backlog’u referans alınacak.
-Otomatik linter ve formatlama araçları kullanılarak kod düzeni standartlaştırılacak.
+4
+Lovable.dev’in Yanlış Dosyalarda Değişiklik Yapması
+Yüksek
+Yüksek
+Çok Yüksek
 
 
-Acil Durum Senaryosu: Dosya karmaşası tespit edilirse, kod tabanı yeniden organize edilerek modüler yapı restore edilecek.
-İzleme: Yazılım mimarı, dosya yapısını sprintlerde denetleyecek; proje yöneticisi, kod organizasyon raporlarını gözden geçirecek.
-
-3.7. Fonksiyonel Özelliklerin Verimsiz Teknik Uygulaması
-
-Açıklama: Fonksiyonel özelliklerin (örneğin, zincirleme ekstre hesaplamaları) doğru çalışmasına rağmen, verimsiz teknik uygulamalar (örneğin, her işlemde tüm ekstrelerin yeniden hesaplanması) performans düşüklüğüne ve kullanıcı deneyimi sorunlarına yol açabilir. Örneğin, bir işlem girişinde 30 saniyelik bekleme süresi, kullanıcı memnuniyetini olumsuz etkileyebilir.
-Olasılık: Orta (%50).
-Etki: Yüksek (kullanıcı deneyimi bozulması, ek optimizasyon ihtiyacı).
-Azaltma Stratejileri:
-Teknik tasarım dokümanında (07-teknik-tasarim-dokumani.md), performans odaklı teknik çözümler tanımlanacak (örneğin, artımlı hesaplama, önbellekleme, yalnızca etkilenen ekstrelerin güncellenmesi).
-Performans ve ölçeklenebilirlik planında (08-performans-ve-olceklenebilirlik-plani.md), işlem süreleri için hedefler belirlenecek (örneğin, işlem girişi <1 saniye).
-Prototip testleri, tasarım aşamasında yapılacak ve performans sorunları erken tespit edilecek (06-ux-ui-tasarim-dokumani.md ve 07-teknik-tasarim-dokumani.md).
-Lovable.dev’e görev verirken, performans gereksinimleri açıkça belirtilecek (örneğin, “Zincirleme ekstre hesaplamaları artımlı olmalı”).
+5
+Veri Gizliliği ve Güvenlik Sorunları
+Düşük
+Çok Yüksek
+Yüksek
 
 
-Acil Durum Senaryosu: Performans sorunu tespit edilirse, verimsiz algoritmalar optimize edilecek (örneğin, tam hesaplama yerine artımlı güncelleme) ve önbellekleme uygulanacak.
-İzleme: Yazılım mimarı, teknik tasarımın performans hedeflerine uygunluğunu denetleyecek; QA ekibi, işlem sürelerini test edecek; UX/UI tasarımcıları, kullanıcı deneyimi geri bildirimlerini izleyecek.
+6
+Kullanıcı Deneyimi Tutarsızlıkları
+Orta
+Orta
+Orta
+
+
+7
+Entegrasyon Sorunları (Örneğin, Nakit Hesaplar ve Bütçe Planlama Arasında)
+Orta
+Yüksek
+Yüksek
+
+
+8
+Teknoloji Bağımlılığı (Örneğin, Supabase Entegrasyonu)
+Düşük
+Yüksek
+Orta
+
+
+9
+Sprintlerde Görevlerin Yanlış Anlaşılması
+Yüksek
+Orta
+Orta
+
+
+10
+Kullanıcı Kabul Testlerinde Beklenmedik Hatalar
+Orta
+Yüksek
+Yüksek
+
+
+11
+Dosya Yapısı Karmaşası
+Orta
+Orta
+Orta
+
+
+12
+Fonksiyonel Özelliklerin Verimsiz Teknik Uygulaması
+Orta
+Yüksek
+Yüksek
+
+
+3.1. Risk Detayları
+Risk 1: Modüler Yapının Karmaşıklaşması
+
+Tanım: Nakit, kredi kartı, yatırım gibi hesap türlerinin modüler yapısı (account/{accountId}/), entegrasyon ve bakım zorluklarına yol açabilir.
+Olasılık: Orta (%40)
+Etkisi: Yüksek (kod karmaşıklığı, fonksiyonellik kaybı)
+Azaltma Stratejisi: Analiz aşamasında modül sınırlarını netleştiren bir modül haritası hazırlanacak (07-teknik-tasarim-dokumani.md); Tailwind entegrasyonu ile tutarlılık sağlanacak; birim ve entegrasyon testleri önceliklendirilecek.
+Acil Durum Planı: Modüller arası bağımlılıkları minimize etmek için API’ler yeniden yapılandırılacak.
+
+Risk 2: Performans Sorunları
+
+Tanım: 5.000 kullanıcı hedefi için sistem performansının yetersiz kalması.
+Olasılık: Düşük (%20)
+Etkisi: Yüksek (kullanıcı memnuniyetsizliği)
+Azaltma Stratejisi: Performans ve ölçeklenebilirlik planı hazırlanacak (08-performans-ve-olceklenebilirlik-plani.md); yük testleri gerçekleştirilecek.
+Acil Durum Planı: Altyapı anında ölçeklendirilecek (örneğin, Supabase kapasite artışı).
+
+Risk 3: Bütçe Eşleştirme Mantık Hataları
+
+Tanım: İşlem girişinde bütçe kalemi önerilerinin yanlış veya tutarsız olması.
+Olasılık: Orta (%50)
+Etkisi: Orta (kullanıcı deneyimi bozulması)
+Azaltma Stratejisi: Fonksiyonel gereksinimlerde netleştirme yapılacak (04-fonksiyonel-gereksinimler-dokumani.md); entegrasyon testleri uygulanacak.
+Acil Durum Planı: Manuel eşleştirme seçeneği güçlendirilecek.
+
+Risk 4: Lovable.dev’in Yanlış Dosyalarda Değişiklik Yapması
+
+Tanım: Lovable.dev’in modüler dosya yapısını anlamaması veya rehber eksikliği nedeniyle yanlış dosyalarda değişiklik yapması.
+Olasılık: Yüksek (%60)
+Etkisi: Yüksek (kod tutarsızlığı)
+Azaltma Stratejisi: Net bir dosya yapısı rehberi tanımlanacak (07-teknik-tasarim-dokumani.md); sprint backlog’unda görevler dosya yollarıyla belirtilecek (11-sprint-plani-dokumani.md); kod incelemeleri zorunlu olacak.
+Acil Durum Planı: Yanlış değişiklikler geri alınacak ve doğru modüllere yönlendirme yapılacak.
+
+Risk 5: Veri Gizliliği ve Güvenlik Sorunları
+
+Tanım: Kullanıcı verilerinin korunmasında eksiklikler olması (örneğin, GDPR uyumsuzluğu).
+Olasılık: Düşük (%20)
+Etkisi: Çok Yüksek (yasal sorunlar, güven kaybı)
+Azaltma Stratejisi: Veri gizliliği ve güvenlik politikası hazırlanacak (05-veri-gizliligi-ve-guvenlik-politikasi.md); Supabase güvenlik protokolleri uygulanacak; veri akışları şifrelenecek.
+Acil Durum Planı: Sistem çevrimdışı alınacak, güvenlik yamaları uygulanacak, kullanıcılara bildirim yapılacak.
+
+Risk 6: Kullanıcı Deneyimi Tutarsızlıkları
+
+Tanım: Merkezi tasarım sistemine rağmen modüller arası UX/UI tutarsızlıkları.
+Olasılık: Orta (%50)
+Etkisi: Orta (kullanıcı kafa karışıklığı)
+Azaltma Stratejisi: Düzenli UX/UI incelemeleri yapılacak; Storybook benzeri bir bileşen kütüphanesi kullanılacak (06-ux-ui-tasarim-dokumani.md).
+Acil Durum Planı: Hızlı tasarım güncellemeleri ve kullanıcı geri bildirimleri alınacak.
+
+Risk 7: Entegrasyon Sorunları
+
+Tanım: Nakit hesaplar ve bütçe planlama gibi modüller arası entegrasyonlarda hatalar.
+Olasılık: Orta (%40)
+Etkisi: Yüksek (fonksiyonel hatalar)
+Azaltma Stratejisi: Entegrasyon testleri yapılacak; API dokümantasyonu hazırlanacak (07-teknik-tasarim-dokumani.md).
+Acil Durum Planı: Modüller arası geçici manuel eşleştirmeler uygulanacak.
+
+Risk 8: Teknoloji Bağımlılığı
+
+Tanım: Supabase veya Tailwind gibi dış teknolojilerde yaşanan sorunlar.
+Olasılık: Düşük (%20)
+Etkisi: Yüksek (projeyi geciktirme)
+Azaltma Stratejisi: Alternatif teknolojiler araştırılacak; yedek planlar hazırlanacak.
+Acil Durum Planı: Teknoloji geçişi için hızlı adaptasyon uygulanacak.
+
+Risk 9: Sprintlerde Görevlerin Yanlış Anlaşılması
+
+Tanım: Geliştirme ekibinin görevleri yanlış anlaması.
+Olasılık: Yüksek (%60)
+Etkisi: Orta (zaman kaybı)
+Azaltma Stratejisi: Detaylı görev tanımları ve sprint planlama toplantıları yapılacak (11-sprint-plani-dokumani.md).
+Acil Durum Planı: Ek eğitimler ve dokümantasyon incelemeleri düzenlenecek.
+
+Risk 10: Kullanıcı Kabul Testlerinde Beklenmedik Hatalar
+
+Tanım: Kullanıcı testlerinde beklenmedik hataların ortaya çıkması.
+Olasılık: Orta (%40)
+Etkisi: Yüksek (teslimat gecikmesi)
+Azaltma Stratejisi: Kapsamlı test planı hazırlanacak; erken kullanıcı testleri yapılacak.
+Acil Durum Planı: Hızlı hata düzeltme ve ek test döngüleri uygulanacak.
+
+Risk 11: Dosya Yapısı Karmaşası
+
+Tanım: Net bir dosya yapısı rehberi olmadan kod organizasyonunun bozulması.
+Olasılık: Orta (%40)
+Etkisi: Orta (bakım zorluğu)
+Azaltma Stratejisi: Dosya yapısı açıkça tanımlanacak (07-teknik-tasarim-dokumani.md); otomatik linter ve formatlama araçları kullanılacak.
+Acil Durum Planı: Kod tabanı yeniden organize edilecek.
+
+Risk 12: Fonksiyonel Özelliklerin Verimsiz Teknik Uygulaması
+
+Tanım: Zincirleme ekstre hesaplamaları gibi özelliklerin verimsiz uygulanması (örneğin, her işlemde tam hesaplama).
+Olasılık: Orta (%50)
+Etkisi: Yüksek (performans düşüklüğü, kullanıcı deneyimi bozulması)
+Azaltma Stratejisi: Performans odaklı çözümler tanımlanacak (örneğin, artımlı hesaplama, önbellekleme); prototip testleri yapılacak (07-teknik-tasarim-dokumani.md).
+Acil Durum Planı: Verimsiz algoritmalar optimize edilecek; önbellekleme uygulanacak.
 
 4. Risk İzleme ve Raporlama
 
-Sprint Toplantıları: Her sprintte riskler gözden geçirilecek, yeni riskler tanımlanacak.
+Sprint Toplantıları: Her sprint başında riskler gözden geçirilecek, yeni riskler eklenecek.
 Haftalık Durum Raporları: Proje yöneticisi, risk durumlarını GitHub Wiki’ye yükleyecek.
-Kritik Risk Bildirimi: Yüksek olasılıklı veya yüksek etkili riskler için PO’ya anında bildirim yapılacak.
+Kritik Risk Bildirimi: Yüksek olasılıklı veya etkili riskler için PO’ya anında bildirim yapılacak.
 Sorumlular:
-Proje Yöneticisi: Risk izleme ve raporlamadan sorumlu.
-Yazılım Mimarı: Teknik risklerin izlenmesini denetler.
-PO: Risk azaltma stratejilerini onaylar.
+Proje Yöneticisi: Risk izleme ve raporlama.
+Yazılım Mimarı: Teknik risklerin denetimi.
+PO: Strateji onayı.
 
 
 
 5. Öneriler
 
-Öneri 1: Modüler yapının karmaşıklaşmasını önlemek için, analiz aşamasında bir modül haritası hazırlanmalı (07-teknik-tasarim-dokumani.md).
-Öneri 2: Ön yüzde obje yönetimi risklerini azaltmak için, tasarım aşamasında komponent kütüphanesi prototipi test edilmeli (06-ux-ui-tasarim-dokumani.md).
-Öneri 3: Lovable.dev’in yanlış dosyalarda değişiklik yapmasını önlemek için, sprint backlog’unda görevler dosya yollarıyla açıkça tanımlanmalı (11-sprint-plani-dokumani.md).
-Öneri 4: Dosya yapısı karmaşasını önlemek için, otomatik linter ve formatlama araçları erken entegre edilmeli.
-Öneri 5: Fonksiyonel özelliklerin verimsiz teknik uygulamasını önlemek için, teknik tasarım aşamasında performans odaklı prototipler geliştirilmeli ve performans hedefleri erken tanımlanmalı (07-teknik-tasarim-dokumani.md, 08-performans-ve-olceklenebilirlik-plani.md).
+Modül haritası ve komponent kütüphanesi prototipleri erken geliştirilmeli (07-teknik-tasarim-dokumani.md, 06-ux-ui-tasarim-dokumani.md).
+Lovable.dev için net dosya yapısı rehberi ve görev tanımları sağlanmalı (11-sprint-plani-dokumani.md).
+Performans hedefleri erken belirlenmeli ve test edilmeli (08-performans-ve-olceklenebilirlik-plani.md).
 
-6. Sonraki Adımlar
-
-Bu Dokümanın Onayı: Ürün Sahibi’nin yorumları ve onayı bekleniyor.
-Fonksiyonel Gereksinimler Dokümanı: Kullanıcı hikayeleri taslağı finalize edilecek (04-fonksiyonel-gereksinimler-dokumani.md).
-GitHub Yükleme: Doküman, Ürün Sahibi tarafından https://github.com/batuhanozgun/lovable-loopinance/tree/main/docs adresine yüklenecek.
-
-Son Güncelleme: 19 Nisan 2025, Sorumlu: batuhanozgun
-
+Son Güncelleme: 2 Mayıs 2025, Sorumlu: batuhanozgun
