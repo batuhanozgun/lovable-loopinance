@@ -1,4 +1,4 @@
-Loopinance Dokümantasyonun Dokümantasyonu ile birlikte bir çok farklı 
+Loopinance Dokümantasyonun Dokümantasyonu
 
 1. Giriş
 
