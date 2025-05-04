@@ -1,4 +1,4 @@
-Loopinance Dokümantasyonun Dokümantasyonu (Batu) BAŞLIĞA EKLEME YAPTIMMMMMMMM - DEĞİŞİKLİK YAPTIM BEN - BATUUUUU- - DENEMEMEMEM - tamam abi teşekkür ediyorum hayırlı 
+Loopinance Dokümantasyonun Dokümantasyonu
 
 1. Giriş
 
