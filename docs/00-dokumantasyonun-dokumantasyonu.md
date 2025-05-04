@@ -1,4 +1,4 @@
-Loopinance Dokümantasyonun Dokümantasyonu DEBENE
+Loopinance Dokümantasyonun Dokümantasyonu ile birlikte bir çok farklı 
 
 1. Giriş
 
