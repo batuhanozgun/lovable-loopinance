@@ -1,4 +1,4 @@
-Loopinance Dokümantasyonun Dokümantasyonu
+Loopinance Dokümantasyonun Dokümantasyonu nasıl olur ve 
 
 1. Giriş
 
