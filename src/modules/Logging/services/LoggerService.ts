@@ -3,22 +3,26 @@ import { ConsoleLoggerService } from "./ConsoleLoggerService";
 import { ILogger } from "../interfaces/ILogger";
 
 export class LoggerService implements ILogger {
-  private static instance: LoggerService;
+  /**
+   * Separate logger instances are kept per context to avoid
+   * accidentally overriding the context value when multiple modules
+   * request a logger. Each context returns the same instance on
+   * subsequent calls.
+   */
+  private static instances: Map<string, LoggerService> = new Map();
   private loggers: ILogger[] = [];
-  private context: string = '';
+  private context: string;
 
-  private constructor() {
+  private constructor(context = '') {
+    this.context = context;
     this.loggers.push(new ConsoleLoggerService());
   }
 
-  static getInstance(context?: string): LoggerService {
-    if (!LoggerService.instance) {
-      LoggerService.instance = new LoggerService();
+  static getInstance(context = ''): LoggerService {
+    if (!LoggerService.instances.has(context)) {
+      LoggerService.instances.set(context, new LoggerService(context));
     }
-    if (context) {
-      LoggerService.instance.setContext(context);
-    }
-    return LoggerService.instance;
+    return LoggerService.instances.get(context)!;
   }
 
   setContext(context: string): void {
