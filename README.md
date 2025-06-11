@@ -40,6 +40,12 @@ cp .env.example .env
 npm run dev
 ```
 
+## Running tests
+
+```sh
+npm test
+```
+
 **Edit a file directly in GitHub**
 
 - Navigate to the desired file(s).
