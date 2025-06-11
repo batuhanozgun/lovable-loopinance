@@ -60,9 +60,9 @@ serve(async (req) => {
       if (expiredError) {
         console.error(`statement-process: Error closing expired statements: ${expiredError.message}`);
         return new Response(
-          JSON.stringify({ 
-            success: true, 
-            message: 'Future statements updated but error closing expired statements', 
+          JSON.stringify({
+            success: false,
+            message: 'Future statements updated, but failed to close expired statements',
             future: futureResult,
             expired: { error: expiredError.message }
           }),
