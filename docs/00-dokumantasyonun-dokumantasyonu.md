@@ -1,10 +1,10 @@
-Loopinance Dokümantasyonun Dokümantasyonu ghjghgjgjhgjhgjhg
+Loopinance Dokümantasyonun Dokümantasyonu
 
 1. Giriş
 
 1.1. Amaç
 
-Bu doküman, Loopinance kişisel finans yönetimi uygulamasının geliştirme süreci için gerekli tüm dokümantasyon yapısını tanımlamayı amaçlar. Her dokümanın amacı, kapsamı, hedef kitlesi ve diğer dokümanlarla ilişkisi açıklanarak, paydaşların projenin dokümantasyon ihtiyaçlarını anlaması sağlanır. Modüler bir yaklaşımla, dokümanların hazırlanma sırası ve güncelleme süreci tanımlanır.
+Bu doküman, Loopinance kişisel finans yönetimi uygulamasının geliştirilmesi için gereken dokümantasyon yapısını tanımlar. Her dokümanın amacı, kapsamı, hedef kitlesi ve diğer dokümanlarla ilişkisi açıklanarak paydaşların proje ihtiyaçlarını kolayca görmesi sağlanır. Modüler bir yaklaşım benimsendiğinden, dokümanların hazırlık ve güncelleme süreçleri ayrı ayrı belirlenmiştir.
 
 1.2. Kapsam
 
@@ -237,4 +237,5 @@ Fonksiyonel gereksinimler tamamlandı; 05-veri-gizliligi-ve-guvenlik-politikasi.
 
 08, 09, 11, 12: Bağımlılıklar tamamlandıkça hazırlanacak.
 
-GitHub Yükleme: Dokümanlar, Ürün Sahibi tarafından https://github.com/batuhanozgun/lovable-loopinance/tree/main/docs adresine numaralandırılmış isimlerle yüklenecek.Son Güncelleme: 2 Mayıs 2025, Sorumlu: batuhanozgun
+GitHub Yükleme: Dokümanlar, Ürün Sahibi tarafından https://github.com/batuhanozgun/lovable-loopinance/tree/main/docs adresine numaralandırılmış isimlerle yüklenecek.
+Son Güncelleme: 2 Mayıs 2025, Sorumlu: batuhanozgun
