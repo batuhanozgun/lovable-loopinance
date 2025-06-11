@@ -1,15 +1,28 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, Link } from "react-router-dom";
 import { Home, Wallet, Grid, List, PlusCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { bottomNavLogger } from "../../logging";
 import { Button } from "@/components/ui/button";
+import { useCashAccounts } from "@/modules/CashAccountsNew/cashAccountHomepage/hooks";
+import { CashAccount, CurrencyType } from "@/modules/CashAccountsNew/cashAccountHomepage/types";
+import { useToast } from "@/hooks/use-toast";
+import { TransactionForm } from "@/modules/CashAccountsNew/transactionManagement";
+import { StatementFinderService } from "@/modules/CashAccountsNew/transactionManagement/services/StatementFinderService";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const BottomNav: React.FC = () => {
   const { t } = useTranslation(["AppLayout", "common"]);
   const location = useLocation();
+  const { data: accounts } = useCashAccounts();
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  const [isTransactionFormOpen, setIsTransactionFormOpen] = useState(false);
+  const [selectedAccount, setSelectedAccount] = useState<CashAccount | null>(null);
+  const [activeStatementId, setActiveStatementId] = useState<string | undefined>(undefined);
 
   bottomNavLogger.debug("BottomNav rendered", { currentPath: location.pathname });
 
@@ -37,16 +50,65 @@ export const BottomNav: React.FC = () => {
     },
   ];
 
-  const handleNewTransactionClick = () => {
+  const handleNewTransactionClick = async () => {
     bottomNavLogger.debug("New transaction FAB clicked");
-    // TODO: Yeni işlem ekleme modalı veya sayfası açılacak
-    alert("Yeni işlem ekleme özelliği henüz implementasyonu yapılmadı");
+
+    if (!accounts || accounts.length === 0) {
+      toast({
+        variant: "destructive",
+        title: t("CashAccountsNew:errors.account.notFound"),
+      });
+      return;
+    }
+
+    const account = accounts[0];
+    setSelectedAccount(account);
+
+    try {
+      const statements = await StatementFinderService.findOpenStatements(account.id);
+
+      if (statements && statements.length > 0) {
+        setActiveStatementId(statements[0].id);
+        setIsTransactionFormOpen(true);
+      } else {
+        toast({
+          variant: "destructive",
+          title: t("CashAccountsNew:errors.statement.notFound"),
+          description: t("CashAccountsNew:errors.statement.createFirst"),
+        });
+      }
+    } catch (error) {
+      bottomNavLogger.error("Failed to open transaction form", error);
+      toast({
+        variant: "destructive",
+        title: t("common:error"),
+        description: t("CashAccountsNew:errors.statement.loadFailed"),
+      });
+    }
+  };
+
+  const handleCloseTransactionForm = async () => {
+    setIsTransactionFormOpen(false);
+    setSelectedAccount(null);
+
+    if (activeStatementId) {
+      await queryClient.refetchQueries({ queryKey: ["cashAccountStatementNew", activeStatementId], exact: true });
+      await queryClient.refetchQueries({ queryKey: ["statementTransactions", activeStatementId], exact: true });
+    }
+
+    if (selectedAccount) {
+      await queryClient.refetchQueries({ queryKey: ["accountStatements", selectedAccount.id], exact: true });
+    }
+
+    await queryClient.refetchQueries({ queryKey: ["cashAccountsNew"] });
+    setActiveStatementId(undefined);
   };
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 h-14 bg-background border-t border-border flex items-center justify-around z-30">
-      {navItems.map((item, index) => {
-        const isActive = location.pathname === item.path;
+    <>
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 h-14 bg-background border-t border-border flex items-center justify-around z-30">
+        {navItems.map((item, index) => {
+          const isActive = location.pathname === item.path;
         
         // Orta konumda FAB butonunu yerleştir
         if (index === 2) {
@@ -101,6 +163,17 @@ export const BottomNav: React.FC = () => {
 
         return null;
       })}
-    </nav>
+      </nav>
+
+      {selectedAccount && (
+        <TransactionForm
+          isOpen={isTransactionFormOpen}
+          onClose={handleCloseTransactionForm}
+          accountId={selectedAccount.id}
+          statementId={activeStatementId}
+          currency={selectedAccount.currency as CurrencyType}
+        />
+      )}
+    </>
   );
 };
