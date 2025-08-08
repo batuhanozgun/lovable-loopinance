@@ -33,6 +33,7 @@ import Team from "@/pages/Team";
 import Contact from "@/pages/Contact";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TermsOfService from "@/pages/TermsOfService";
+import { OAuthCallbackView } from "@/modules/UserManagement/OAuth/views/OAuthCallbackView";
 
 // Rota türleri
 export type RouteType = "private" | "public" | "conditional";
@@ -96,6 +97,12 @@ export const routes: AppRoute[] = [
     type: "public",
     element: <Login />,
     redirectTo: "/dashboard"
+  },
+  {
+    path: "/auth/callback",
+    type: "public",
+    element: <OAuthCallbackView />,
+    redirectTo: undefined
   },
   
   // Landing page rotaları

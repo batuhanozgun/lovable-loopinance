@@ -28,20 +28,17 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const checkInitialSession = async () => {
+    setIsLoading(true);
+
+    const subscription = SessionService.onAuthStateChange((authState) => {
+      setIsAuthenticated(authState);
+      setIsLoading(false);
+    });
+
+    const init = async () => {
       try {
-        setIsLoading(true);
-        
-        const timeoutId = setTimeout(() => {
-          console.log("Session kontrolü zaman aşımına uğradı, varsayılan olarak oturum açılmamış kabul ediliyor");
-          setIsAuthenticated(false);
-          setIsLoading(false);
-        }, 5000);
-        
         const sessionResponse = await SessionService.getCurrentSession();
-        
-        clearTimeout(timeoutId);
-        
+
         if (!sessionResponse.success) {
           console.error("Session kontrolü sırasında bir hata oluştu:", sessionResponse.error);
           toast({
@@ -60,14 +57,9 @@ const App = () => {
         setIsLoading(false);
       }
     };
-    
-    checkInitialSession();
-    
-    const subscription = SessionService.onAuthStateChange((authState) => {
-      setIsAuthenticated(authState);
-      setIsLoading(false);
-    });
-    
+
+    init();
+
     return () => {
       subscription.data?.subscription.unsubscribe();
     };
