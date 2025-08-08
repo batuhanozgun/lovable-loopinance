@@ -1,11 +1,10 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { RefreshCw } from 'lucide-react';
+import { RefreshCw, Loader2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useToast } from '@/hooks/use-toast';
 import { StatementAutomationService } from '../../../services/automation/StatementAutomationService';
-import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { CashAccount } from '@/modules/CashAccountsNew/cashAccountHomepage/types';
 
 interface StatementsRefreshButtonProps {
   accountId: string;
@@ -24,9 +23,24 @@ export const StatementsRefreshButton: React.FC<StatementsRefreshButtonProps> = (
     try {
       setIsProcessing(true);
 
-      const result = await StatementAutomationService.processAccountStatements({
-        id: accountId
-      });
+      // Create a minimal CashAccount object for the service call
+      const accountData: CashAccount = {
+        id: accountId,
+        name: '',
+        currency: 'TRY',
+        initial_balance: 0,
+        description: '',
+        closing_day_type: 'lastDay',
+        closing_day_value: 1,
+        user_id: '',
+        account_type: 'CASH',
+        is_active: true,
+        sort_order: 0,
+        created_at: '',
+        updated_at: ''
+      };
+
+      const result = await StatementAutomationService.processAccountStatements(accountData);
 
       if (result.success) {
         toast({
@@ -66,7 +80,7 @@ export const StatementsRefreshButton: React.FC<StatementsRefreshButtonProps> = (
       className="h-7 text-xs flex items-center gap-1.5"
     >
       {isProcessing ? (
-        <LoadingSpinner className="h-3 w-3" />
+        <Loader2 className="h-3 w-3 animate-spin" />
       ) : (
         <RefreshCw className="h-3 w-3" />
       )}

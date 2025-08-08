@@ -3,17 +3,19 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
-import { useCashAccount } from '../../cashAccountHomepage/hooks/useCashAccount';
-import { useStatements } from '../hooks/useStatements';
-import { CurrencyType } from '../../cashAccountHomepage/types';
+import { useCashAccount } from '@/modules/CashAccountsNew/cashAccountHomepage/hooks/useCashAccount';
+import { useStatements } from '@/modules/CashAccountsNew/statementManagement/hooks/useStatements';
+import { CurrencyType } from '@/modules/CashAccountsNew/cashAccountHomepage/types';
+import { AccountStatement } from '@/modules/CashAccountsNew/statementManagement/types';
 import { StatementsRefreshButton } from './components/StatementsRefreshButton';
 import { format } from 'date-fns';
 import { tr, enUS } from 'date-fns/locale';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { formatCurrency } from '@/modules/CashAccountsNew/statementManagement/utils/currencyUtils';
 
 interface StatementsListProps {
   statements: AccountStatement[];
@@ -30,6 +32,7 @@ export const StatementsList: React.FC<StatementsListProps> = ({ statements, isLo
   const dateLocale = i18n.language === 'tr' ? tr : enUS;
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { refetch: refetchStatements } = useStatements(accountId);
   
   if (isLoading) {
     return (
@@ -73,7 +76,9 @@ export const StatementsList: React.FC<StatementsListProps> = ({ statements, isLo
           {accountId && (
             <StatementsRefreshButton 
               accountId={accountId}
-              onSuccess={refetchStatements}
+              onSuccess={async () => {
+                await refetchStatements();
+              }}
             />
           )}
         </div>
@@ -100,7 +105,7 @@ export const StatementsList: React.FC<StatementsListProps> = ({ statements, isLo
                   <TableCell className="py-2 text-xs">
                     {format(new Date(statement.start_date), 'PP', { locale: dateLocale })} - {format(new Date(statement.end_date), 'PP', { locale: dateLocale })}
                   </TableCell>
-                  <TableCell className="py-2 text-xs">{formatCurrency(statement.end_balance, currency)}</TableCell>
+                  <TableCell className="py-2 text-xs">{formatCurrency(statement.end_balance, 'tr-TR', currency)}</TableCell>
                   <TableCell className="py-2">
                     <Badge variant={getStatusBadgeVariant(statement.status)} className="text-xs py-0.5 h-5">
                       {t(`statements.status.${statement.status.toLowerCase()}`)}
