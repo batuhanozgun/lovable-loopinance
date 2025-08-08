@@ -105,7 +105,7 @@ export const StatementsList: React.FC<StatementsListProps> = ({ statements, isLo
                   <TableCell className="py-2 text-xs">
                     {format(new Date(statement.start_date), 'PP', { locale: dateLocale })} - {format(new Date(statement.end_date), 'PP', { locale: dateLocale })}
                   </TableCell>
-                  <TableCell className="py-2 text-xs">{formatCurrency(statement.end_balance, 'tr-TR', currency)}</TableCell>
+                  <TableCell className="py-2 text-xs">{formatCurrency(statement.end_balance, currency)}</TableCell>
                   <TableCell className="py-2">
                     <Badge variant={getStatusBadgeVariant(statement.status)} className="text-xs py-0.5 h-5">
                       {t(`statements.status.${statement.status.toLowerCase()}`)}

@@ -23,24 +23,7 @@ export const StatementsRefreshButton: React.FC<StatementsRefreshButtonProps> = (
     try {
       setIsProcessing(true);
 
-      // Create a minimal CashAccount object for the service call
-      const accountData: CashAccount = {
-        id: accountId,
-        name: '',
-        currency: 'TRY',
-        initial_balance: 0,
-        description: '',
-        closing_day_type: 'lastDay',
-        closing_day_value: 1,
-        user_id: '',
-        account_type: 'CASH',
-        is_active: true,
-        sort_order: 0,
-        created_at: '',
-        updated_at: ''
-      };
-
-      const result = await StatementAutomationService.processAccountStatements(accountData);
+      const result = await StatementAutomationService.checkAccountStatements(accountId);
 
       if (result.success) {
         toast({
